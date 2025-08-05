@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvfdyku4p0lq5"]
+
+[ext_resource type="Script" uid="uid://xtjc3iasxrd3" path="res://interface/target_highlight.gd" id="1_3wp2p"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_3wp2p")

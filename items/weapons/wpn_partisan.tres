@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=2 format=3 uid="uid://ctakbv0ee6tq0"]
+
+[ext_resource type="Script" uid="uid://djeyifuagvkr6" path="res://items/weapon_res.gd" id="2_g3c2d"]
+
+[resource]
+script = ExtResource("2_g3c2d")
+dice_number = 1
+damage_die = 10
+melee_range = 3
+damage_bonus = 0
+throw_increment = 10
+brawn_req_1h = 8
+brawn_req_2h = 4
+attack_type = [1, 2, 4]
+name = "Partisan"
+description = ""
+icon = ""
+weight = 1.0
+value = 10
+conditions = []
+metadata/_custom_type_script = "uid://djeyifuagvkr6"

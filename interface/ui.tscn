@@ -1,0 +1,409 @@
+[gd_scene load_steps=6 format=3 uid="uid://cwvyyn40aylxe"]
+
+[ext_resource type="Script" uid="uid://cqrxcc7cn32yf" path="res://interface/ui.gd" id="1_nt7q6"]
+[ext_resource type="ButtonGroup" uid="uid://d0bbndwtryk01" path="res://interface/weapon_set_group.tres" id="2_fqd3i"]
+[ext_resource type="ButtonGroup" uid="uid://cc15kyd6pbbhr" path="res://interface/left_attack_types_group.tres" id="3_bgvwv"]
+[ext_resource type="ButtonGroup" uid="uid://bfjhokdkiavcm" path="res://interface/right_attack_types_group.tres" id="4_h0o3h"]
+[ext_resource type="Texture2D" uid="uid://dfjuxxnpyahvy" path="res://art/interface/base/empty_pip.png" id="5_h0o3h"]
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_nt7q6")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.95
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="PanelContainer"]
+layout_mode = 2
+color = Color(0, 0, 0, 0.392157)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="TopMargin" type="Control" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LeftMargin" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+
+[node name="TextEdit" type="TextEdit" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_readonly_color = Color(0.691357, 0.691357, 0.691357, 1)
+theme_override_constants/line_spacing = -1
+theme_override_font_sizes/font_size = 14
+text = "Welcome to Andimarium."
+editable = false
+wrap_mode = 1
+
+[node name="WeaponSetsContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CheckButton" type="CheckButton" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer"]
+layout_mode = 2
+tooltip_text = "Click to change your active weapon set."
+focus_mode = 0
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer"]
+layout_mode = 2
+theme_override_constants/line_spacing = -6
+text = "W
+e
+a
+p
+o
+n
+s"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Weapon1Container" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Weapon1" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container"]
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+keep_pressed_outside = true
+button_group = ExtResource("2_fqd3i")
+text = "None"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container"]
+layout_mode = 2
+
+[node name="W1_AttackType1" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container"]
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+keep_pressed_outside = true
+button_group = ExtResource("3_bgvwv")
+text = "Slash"
+
+[node name="W1_AttackType2" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container"]
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+keep_pressed_outside = true
+button_group = ExtResource("3_bgvwv")
+text = "Pierce"
+
+[node name="W1_AttackType3" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container"]
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+keep_pressed_outside = true
+button_group = ExtResource("3_bgvwv")
+text = "Crush"
+
+[node name="W1_AttackType4" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container"]
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+keep_pressed_outside = true
+button_group = ExtResource("3_bgvwv")
+text = "Throw"
+
+[node name="Weapon2Container" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Weapon2" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container"]
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+keep_pressed_outside = true
+button_group = ExtResource("2_fqd3i")
+text = "None
+"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container"]
+layout_mode = 2
+
+[node name="W2_AttackType1" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container"]
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+keep_pressed_outside = true
+button_group = ExtResource("4_h0o3h")
+text = "Slash"
+
+[node name="W2_AttackType2" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container"]
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+keep_pressed_outside = true
+button_group = ExtResource("4_h0o3h")
+text = "Pierce"
+
+[node name="W2_AttackType3" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container"]
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+keep_pressed_outside = true
+button_group = ExtResource("4_h0o3h")
+text = "Crush"
+
+[node name="W2_AttackType4" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container"]
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+keep_pressed_outside = true
+button_group = ExtResource("4_h0o3h")
+text = "Throw
+"
+
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="CharInfoVBox1" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
+layout_mode = 2
+mouse_filter = 0
+text = "Name:"
+
+[node name="HP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
+layout_mode = 2
+tooltip_text = "Your health points."
+mouse_filter = 0
+text = "HP:"
+
+[node name="PP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
+layout_mode = 2
+tooltip_text = "Your power points (for casting spells and the like)."
+mouse_filter = 0
+text = "PP:"
+
+[node name="EP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
+layout_mode = 2
+tooltip_text = "Your energy points (for replenishing both health and power)."
+mouse_filter = 0
+text = "EP:"
+
+[node name="Vigour" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
+layout_mode = 2
+tooltip_text = "Your current vigour level, which influences almost all activities you can undertake."
+mouse_filter = 0
+text = "Vigour:"
+
+[node name="MP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
+layout_mode = 2
+tooltip_text = "Your currently available movement points."
+mouse_filter = 0
+text = "MP:"
+
+[node name="Margin" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+
+[node name="CharInfoVBox2" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2"]
+layout_mode = 2
+mouse_filter = 0
+
+[node name="HP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2"]
+layout_mode = 2
+tooltip_text = "Your health points."
+mouse_filter = 0
+
+[node name="PP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2"]
+layout_mode = 2
+tooltip_text = "Your power points (for casting spells and the like)."
+mouse_filter = 0
+
+[node name="EP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2"]
+layout_mode = 2
+tooltip_text = "Your energy points (for replenishing both health and power)."
+mouse_filter = 0
+
+[node name="Vigour" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2"]
+layout_mode = 2
+tooltip_text = "Your current vigour level, which influences almost all activities you can undertake."
+mouse_filter = 0
+
+[node name="MP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2"]
+layout_mode = 2
+tooltip_text = "Your currently available movement points."
+mouse_filter = 0
+
+[node name="VSeparator2" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="ActivitiesContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="ActivitiesLine1" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer"]
+layout_mode = 2
+
+[node name="Activity1" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+focus_mode = 0
+
+[node name="Activity2" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+focus_mode = 0
+
+[node name="Activity3" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+focus_mode = 0
+
+[node name="Activity4" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+focus_mode = 0
+
+[node name="Activity5" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+focus_mode = 0
+
+[node name="Activity6" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+focus_mode = 0
+
+[node name="Activity7" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+focus_mode = 0
+
+[node name="Activity8" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+focus_mode = 0
+
+[node name="Activity9" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+focus_mode = 0
+
+[node name="Activity10" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+focus_mode = 0
+
+[node name="ActivitiesLine2" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer"]
+layout_mode = 2
+
+[node name="VSeparator3" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SpellList" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VSeparator4" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="CrisisModeButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+tooltip_text = "Click here to start or end 'crisis mode' (turn by turn)."
+focus_mode = 0
+theme_override_font_sizes/font_size = 18
+toggle_mode = true
+text = "Crisis Mode"
+
+[node name="EndTurnButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(120, 80)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_font_sizes/font_size = 30
+disabled = true
+text = "End
+Turn"
+icon_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+visible = false
+layout_mode = 2
+
+[node name="ActionPointsLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Actions Points:"
+
+[node name="ActionPoints" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="ActionPip1" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("5_h0o3h")
+
+[node name="ActionPip2" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("5_h0o3h")
+
+[node name="ActionPip3" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("5_h0o3h")
+
+[node name="ActionPip4" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints"]
+visible = false
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("5_h0o3h")
+
+[node name="ActionPip5" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints"]
+visible = false
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("5_h0o3h")
+
+[node name="RightMargin" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+
+[node name="BottomMargin" type="Control" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2

@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="ImmediateActivity" load_steps=5 format=3 uid="uid://byg73m6eybd5w"]
+
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/definitions/activities/immediate_activity.gd" id="1_0x8ga"]
+[ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://activities/definitions/effects/damaging_effect.gd" id="2_7kr7q"]
+[ext_resource type="Resource" uid="uid://bg3og04iyjehy" path="res://activities/filters/not_player_controlled.tres" id="4_cum8e"]
+
+[sub_resource type="Resource" id="Resource_7kr7q"]
+script = ExtResource("2_7kr7q")
+dice_number = 6
+damage_die = 6
+damage_bonus = 0
+resistance = ""
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[resource]
+script = ExtResource("1_0x8ga")
+name = "placeholder"
+description = "This is a placeholder description."
+icon = "res://art/interface/activities/placeholder1.png"
+AP_cost = 1
+EP_cost = 0
+PP_cost = 0
+requires_concentration = false
+attacking_aptitude = "will"
+defending_aptitude = "will"
+range = 0
+reach = 5
+filters = [ExtResource("4_cum8e"), null, null, null]
+effects = [SubResource("Resource_7kr7q")]
+affected_type = 0
+affected_shape = 0
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"

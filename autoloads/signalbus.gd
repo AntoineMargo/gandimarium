@@ -1,0 +1,40 @@
+extends Node
+
+#Dialog
+signal dialog_show_message(text)
+signal dialog_damage_taken(name, damage)
+signal dialog_healing_taken(name, healing)
+signal dialog_not_strong_enough()
+signal dialog_no_line_of_sight()
+signal dialog_out_of_range()
+signal dialog_attack_type_selected(attack_type)
+signal dialog_selectable_targets(number)
+signal dialog_hostile_activity(user, target, user_stat, target_stat, user_roll, target_roll, degree_of_success)
+
+signal dialog_start_crisis_mode()
+signal dialog_end_crisis_mode()
+signal dialog_end_turn()
+
+#Crisis
+signal toggle_crisis_mode()
+signal start_crisis_mode()
+signal end_crisis_mode()
+signal end_crisis_turn()
+signal turn_ends()
+signal toggle_end_turn_button()
+signal toggle_crisis_button()
+signal weapon_attack(target)
+
+#UI
+signal open_inventory()
+signal update_inventory()
+signal drop_item_on_tile(selected_char, last_dragged_item)
+signal update_ui_for_char()
+
+#World
+signal world_select(tile_coords)
+signal world_interact(tile_coords)
+signal refresh_reachable_tiles()
+
+#Cursors
+signal change_cursor(name)

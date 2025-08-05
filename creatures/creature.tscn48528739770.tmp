@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://di24o35dhla3y"]
+
+[ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://creatures/creature_instance.gd" id="1_ss4pg"]
+[ext_resource type="Texture2D" uid="uid://bj3njhvxguwji" path="res://art/characters/crusader.png" id="2_5ju2y"]
+[ext_resource type="Script" uid="uid://dyp8klyosnw2y" path="res://creatures/character_res.gd" id="2_g0uk5"]
+
+[sub_resource type="Resource" id="Resource_reykp"]
+script = ExtResource("2_g0uk5")
+name = ""
+level = 1
+sprite = "res://art/characters/swordwraith1.png"
+is_player = false
+acuity = 5
+brawn = 5
+dexterity = 5
+will = 5
+base_size = "medium"
+final_size = "medium"
+talents = Array[String]([])
+activities = Array[String]([])
+spells = Array[String]([])
+reactions = Array[String]([])
+conditions = Array[String]([])
+equipment = Array[String]([])
+map_id = ""
+map_layer_id = 0
+tile_x = 0
+tile_y = 0
+metadata/_custom_type_script = "uid://dyp8klyosnw2y"
+
+[node name="Creature" type="Node2D"]
+script = ExtResource("1_ss4pg")
+char_data = SubResource("Resource_reykp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_5ju2y")

@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://jdrx7l27rmi"]
+
+[ext_resource type="Script" uid="uid://bug5my3svh70n" path="res://interface/concentration_slot.gd" id="1_dxkeb"]
+[ext_resource type="Texture2D" uid="uid://br7p7bae278jp" path="res://art/interface/activities/placeholder1.png" id="2_dxkeb"]
+
+[node name="ConcentrationSlot" type="Button"]
+custom_minimum_size = Vector2(120, 40)
+offset_right = 8.0
+offset_bottom = 8.0
+focus_mode = 0
+script = ExtResource("1_dxkeb")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("2_dxkeb")
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+vertical_alignment = 1

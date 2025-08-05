@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=2 format=3 uid="uid://dn0dgle71dpay"]
+
+[ext_resource type="Script" uid="uid://djeyifuagvkr6" path="res://items/weapon_res.gd" id="3_bt3df"]
+
+[resource]
+script = ExtResource("3_bt3df")
+dice_number = 1
+damage_die = 10
+melee_range = 1
+damage_bonus = 0
+throw_increment = 10
+brawn_req_1h = 2
+brawn_req_2h = 1
+attack_type = [2, 4]
+name = "Shortsword"
+description = ""
+icon = ""
+weight = 1.0
+value = 10
+conditions = []
+metadata/_custom_type_script = "uid://djeyifuagvkr6"

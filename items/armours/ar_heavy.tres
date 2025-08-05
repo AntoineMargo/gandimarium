@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Armour" load_steps=2 format=3 uid="uid://c6mu3dgw62s8"]
+
+[ext_resource type="Script" uid="uid://d3sdrg6ues8pm" path="res://items/armour_res.gd" id="1_fmw27"]
+
+[resource]
+script = ExtResource("1_fmw27")
+vigour = -2
+melee_defence = 2
+ranged_defence = 2
+physical_resist = 0
+heat_resist = 0
+cold_resist = 0
+electricity_resist = 0
+corrosion_resist = 0
+poison_resist = 0
+psychic_resist = 0
+name = "Heavy Armour"
+description = "A complete set of bulky plate armour."
+icon = ""
+weight = 10.0
+value = 1000
+conditions = []
+metadata/_custom_type_script = "uid://d3sdrg6ues8pm"
