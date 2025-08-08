@@ -29,7 +29,7 @@ func setup_layers():
 			var item_visual = {};
 			astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
 			astar.region = Rect2i(0, 0, width, height)
-			astar.cell_size = Vector2(40, 40)
+			astar.cell_size = Vector2(Global.TILE_SIZE, Global.TILE_SIZE)
 			astar.update()
 			for x in range(width):
 				for y in range(height):
@@ -323,7 +323,7 @@ func _interact_move(t_coords):
 			var point_coords = Vector2i(point[0], point[1])
 			flash_tile_overlay(point_coords)
 
-func calculate_path_cost_3D(path: Array[Vector3i], tile_size: int = 40) -> float:
+func calculate_path_cost_3D(path: Array[Vector3i], tile_size: int = Global.TILE_SIZE) -> float:
 	if path.size() <= 1:
 		return 0.0
 	
@@ -586,7 +586,7 @@ func spawn_test_character():
 	#my_char.add_ready_spell(firebolt_spell)
 	#my_char.add_ready_spell(firebolt_spell)
 
-	var char_scene = preload("res://creatures/creature.tscn")
+	var char_scene = preload("res://entities/creature.tscn")
 	var char_instance = char_scene.instantiate()
 	char_instance.char_data = my_char
 

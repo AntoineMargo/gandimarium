@@ -1,6 +1,7 @@
 extends Node
 
-const TILE_SIZE = 40
+#const TILE_SIZE = 40
+const TILE_SIZE = 16
 
 var ui_manager = UIManager.new()
 var dialog_manager = DialogManager.new()

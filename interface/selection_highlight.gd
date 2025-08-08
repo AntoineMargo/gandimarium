@@ -7,7 +7,7 @@ var highlight_color: Color = Color.GREEN
 
 func _draw():
 	var rect = Rect2(Vector2.ZERO, Vector2(Global.TILE_SIZE, Global.TILE_SIZE))
-	draw_rect(rect, highlight_color, false, 2)
+	draw_rect(rect, highlight_color, false, 1)
 
 func set_tile_position(tile_coords: Vector2i):
 	position = tile_coords * Global.TILE_SIZE

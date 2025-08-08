@@ -3,8 +3,8 @@ extends Node2D
 @export var id: String = "testlocation"
 @onready var current_tile_map_layer = $level0
 @onready var level0 = $level0
-#@onready var level1 = $level1
-@onready var layers: Array[TileMapLayer] = [$level0]
+@onready var level1 = $level1
+@onready var layers: Array[TileMapLayer] = [$level0, $level1]
 
 var creatures: Array = []
 

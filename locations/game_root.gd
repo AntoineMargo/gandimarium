@@ -2,7 +2,7 @@ extends Node
 
 func _ready():
 	Global.game_root = self
-	load_map("res://locations/test_location/region.tscn")
+	load_map("res://locations/test_location_2/region.tscn")
 	Global.current_camera = $Camera2D
 	if not is_instance_valid(Global.world_manager.selection_highlight):
 		Global.world_manager.selection_highlight = preload("res://interface/selection_highlight.tscn").instantiate()

@@ -281,7 +281,6 @@ func _on_weapon_attack(target):
 		"resistance": "physical_resistance"
 	}
 	activity.execute(Global.selected_char, context)
-	#target.health_bar_instance.update_hp_bar()
 	SignalBus.update_ui_for_char.emit()
 
 func _ready() -> void:

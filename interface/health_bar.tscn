@@ -19,26 +19,13 @@ bg_color = Color(0, 0.901961, 0.2, 1)
 [node name="HealthBar" type="Node2D"]
 script = ExtResource("1_mihmv")
 
-[node name="Control" type="Control" parent="."]
-custom_minimum_size = Vector2(40, 2)
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="NegativeHP" type="ProgressBar" parent="."]
+layout_direction = 3
+anchors_preset = -1
 offset_left = -20.0
 offset_top = 21.0
-offset_right = 20.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-
-[node name="NegativeHP" type="ProgressBar" parent="Control"]
-layout_direction = 3
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-offset_bottom = 3.0
+offset_right = -19.0
+offset_bottom = 22.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_styles/background = SubResource("StyleBoxFlat_xa7fj")
@@ -47,12 +34,13 @@ fill_mode = 1
 show_percentage = false
 script = ExtResource("2_ieers")
 
-[node name="PositiveHP" type="ProgressBar" parent="Control"]
+[node name="PositiveHP" type="ProgressBar" parent="."]
 layout_direction = 3
-layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.0
-offset_bottom = 3.0
+offset_left = -21.0
+offset_top = 21.0
+offset_right = -20.0
+offset_bottom = 22.0
 grow_horizontal = 0
 size_flags_horizontal = 3
 size_flags_vertical = 1
