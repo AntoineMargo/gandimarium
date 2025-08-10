@@ -21,7 +21,6 @@ script = ExtResource("1_mihmv")
 
 [node name="NegativeHP" type="ProgressBar" parent="."]
 layout_direction = 3
-anchors_preset = -1
 offset_left = -20.0
 offset_top = 21.0
 offset_right = -19.0
@@ -36,7 +35,6 @@ script = ExtResource("2_ieers")
 
 [node name="PositiveHP" type="ProgressBar" parent="."]
 layout_direction = 3
-anchors_preset = -1
 offset_left = -21.0
 offset_top = 21.0
 offset_right = -20.0
