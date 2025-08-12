@@ -7,8 +7,8 @@ var zoomTarget : Vector2
 var panTarget : Vector2
 
 func _ready() -> void:
-	zoomTarget = zoom
-	pass
+	#zoomTarget = zoom
+	zoomTarget = Vector2(2, 2)
 
 func _process(delta: float) -> void:
 	Zoom(delta)

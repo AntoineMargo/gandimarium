@@ -1,19 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://b8mjvbp1pkl76"]
+[gd_scene load_steps=2 format=3 uid="uid://b8mjvbp1pkl76"]
 
-[ext_resource type="FontFile" uid="uid://du1ojw75qufi0" path="res://art/fonts/FiraMono-Bold.ttf" id="1_ihfvf"]
 [ext_resource type="Script" uid="uid://cakgffxv28h7m" path="res://interface/spell_button.gd" id="1_ov7jt"]
 
-[node name="SpellButton" type="Button"]
-custom_minimum_size = Vector2(0, 20)
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-focus_mode = 0
-theme_override_fonts/font = ExtResource("1_ihfvf")
-button_mask = 3
-alignment = 0
+[node name="SpellRow" type="HBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
 script = ExtResource("1_ov7jt")
+
+[node name="IconRect" type="TextureRect" parent="."]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="."]
+layout_mode = 2
+
+[node name="ActionsLabel" type="Label" parent="."]
+layout_mode = 2
