@@ -360,7 +360,7 @@ func update_spell_list():
 	separator.visible = true
 	slider.visible = true
 	
-	char.current_spell_rank = slider.value
+	slider.value = char.current_spell_rank
 	for spell in char.spells_ready:
 		var spell_button = load("res://interface/spell_button.tscn").instantiate()
 		spell_button.spell = spell

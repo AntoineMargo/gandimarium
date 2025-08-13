@@ -38,3 +38,11 @@ health_bar_scene = ExtResource("3_g0uk5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("4_4w7f4")
+
+[node name="AIController" type="Node" parent="."]
+
+[node name="OvermapAI" type="Node" parent="AIController"]
+
+[node name="LocalAI" type="Node" parent="AIController"]
+
+[node name="CrisisAI" type="Node" parent="AIController"]
