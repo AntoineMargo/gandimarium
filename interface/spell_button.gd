@@ -14,7 +14,7 @@ func _ready():
 		#$IconRect.texture = load(spell.icon)
 		$NameLabel.text = spell.name
 		var spell_actions = spell.activities[spell.current_index].AP_cost
-		$ActionsLabel.text = "[%dAP]" % [spell_actions]
+		$ActionsLabel.text = "%dAP" % [spell_actions]
 
 func _gui_input(event):
 	if event is InputEventMouseButton:

@@ -49,6 +49,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 focus_mode = 0
+mouse_force_pass_scroll_events = false
 theme_override_colors/font_readonly_color = Color(0.691357, 0.691357, 0.691357, 1)
 theme_override_constants/line_spacing = -1
 theme_override_font_sizes/font_size = 14
@@ -317,6 +318,16 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
+[node name="SpellRankSlider" type="VSlider" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+focus_mode = 0
+mouse_force_pass_scroll_events = false
+min_value = 1.0
+max_value = 12.0
+value = 1.0
+rounded = true
+
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 visible = false
 custom_minimum_size = Vector2(220, 0)
@@ -329,13 +340,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="VSeparator4" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="VSeparator5" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
 [node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/h_separation = 4
 theme_override_constants/v_separation = 4
-columns = 3
+columns = 2
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2

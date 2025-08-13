@@ -17,21 +17,23 @@ func set_ui_node(node: Node):
 	
 	var crisis_mode = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/CrisisModeButton")
 	var end_turn = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/EndTurnButton")
-	
+
 	var set_toggler = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer/CheckButton")
-	
+
 	var w1 = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1")
 	var w2 = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2")
-	
+
 	var w1_slash = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType1")
 	var w1_pierce = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType2")
 	var w1_crush = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType3")
 	var w1_throw = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType4")
-	
+
 	var w2_slash = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType1")
 	var w2_pierce = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType2")
 	var w2_crush = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType3")
 	var w2_throw = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType4")
+
+	var slider = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/SpellRankSlider")
 
 	var activity_button_container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1")
 	for i in activity_button_container.get_child_count():
@@ -68,6 +70,9 @@ func set_ui_node(node: Node):
 		w2_throw.connect("toggled", Callable(self, "on_attack2_button_toggled").bind(4))
 	else:
 		push_error("Could not connect right hand attack button signals.")
+	
+	if slider:
+		slider.value_changed.connect(_on_slider_value_changed)
 
 func on_crisis_mode_toggled(button_pressed: bool) -> void:
 	SignalBus.toggle_crisis_mode.emit()
@@ -335,10 +340,11 @@ func update_activity_buttons():
 			button.set_meta("activity", activity)
 
 func update_spell_list():
+	var char = Global.selected_char.char_data
 	var spell_list = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/SpellList")
 	var scroll_container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer")
 	var separator = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/VSeparator3")
-	var char = Global.selected_char.char_data
+	var slider = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/SpellRankSlider")
 
 	for child in spell_list.get_children():
 		child.queue_free()
@@ -347,10 +353,14 @@ func update_spell_list():
 		spell_list.visible = false
 		scroll_container.visible = false
 		separator.visible = false
+		slider.visible = false
 		return
 	spell_list.visible = true
 	scroll_container.visible = true
 	separator.visible = true
+	slider.visible = true
+	
+	char.current_spell_rank = slider.value
 	for spell in char.spells_ready:
 		var spell_button = load("res://interface/spell_button.tscn").instantiate()
 		spell_button.spell = spell
@@ -400,6 +410,13 @@ func _on_toggle_crisis_button():
 		crisis_button.button_pressed = false
 	else:
 		crisis_button.button_pressed = true
+
+func _on_slider_value_changed(value):
+	var char = Global.selected_char.char_data
+	var slider = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/SpellRankSlider")
+	char.current_spell_rank = value
+	slider.tooltip_text = "Spell rank selected: %d" % char.current_spell_rank
+	#print("value changed to ", char.current_spell_rank)
 
 func update_char_info():
 	var char = Global.selected_char.char_data

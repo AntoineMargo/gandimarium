@@ -502,7 +502,7 @@ func spawn_test_character():
 	my_char.acuity = 7
 	my_char.brawn = 6
 	my_char.dexterity = 7
-	my_char.will = 12
+	my_char.will = 6
 	#my_char.tile_x = 10
 	#my_char.tile_y = 10
 	my_char.map_id = current_world.id
