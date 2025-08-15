@@ -25,6 +25,7 @@ var pause_menu_active: bool = false
 #var activity_mode: bool = false
 #var activity_mode = null
 
+var focus_char: Creature
 var selected_char: Creature
 
 func _process(_delta: float) -> void:

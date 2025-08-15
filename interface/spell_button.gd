@@ -51,7 +51,7 @@ func _handle_left_click():
 	var cm = Global.crisis_manager
 	print("Left click on spell:", spell.name)
 	cm.try_perform_activity(spell.activities[spell.current_index])
-	#spell.activities[spell.current_index].execute(Global.selected_char, {})
+	#spell.activities[spell.current_index].execute(Global.focus_char, {})
 
 func _handle_right_click():
 	var um = Global.ui_manager
@@ -67,4 +67,4 @@ func _handle_right_click():
 			#_handle_right_click()
 
 #func _pressed():
-	#spell.activities[spell.current_index].execute(Global.selected_char, {})
+	#spell.activities[spell.current_index].execute(Global.focus_char, {})

@@ -67,20 +67,20 @@ func BasicControls():
 	if Input.is_action_just_pressed("Y"):
 		for concentration in Global.selected_char.char_data.concentrations:
 			print("	%s" % concentration.source.name)
-		#if Global.selected_char:
-			#print("Selected character melee defence: ", Global.selected_char.char_data.melee_defence)
+		#if Global.focus_char:
+			#print("Selected character melee defence: ", Global.focus_char.char_data.melee_defence)
 		#if not Global.current_world:
 			#return
-		#if not Global.selected_char:
+		#if not Global.focus_char:
 			#return
 		#print("Active hand: ", Global.selected_chayyyyr.char_data.active_hand)
-		#print("Active attack 1: ", Global.selected_char.char_data.active_attack1)
-		#print("Active attack 2: ", Global.selected_char.char_data.active_attack2)
-		#print("Selected character: %s" % Global.selected_char.char_data.name)
-		#print("Melee defence: %s" % Global.selected_char.char_data.melee_defence)
-		#print("Ranged defence: %s" % Global.selected_char.char_data.ranged_defence)
+		#print("Active attack 1: ", Global.focus_char.char_data.active_attack1)
+		#print("Active attack 2: ", Global.focus_char.char_data.active_attack2)
+		#print("Selected character: %s" % Global.focus_char.char_data.name)
+		#print("Melee defence: %s" % Global.focus_char.char_data.melee_defence)
+		#print("Ranged defence: %s" % Global.focus_char.char_data.ranged_defence)
 		#print("Conditions: ")
-		#for condition in Global.selected_char.char_data.conditions:
+		#for condition in Global.focus_char.char_data.conditions:
 			#print("	%s" % condition.name)
 
 		#print("Current world: %s" % Global.current_world)
@@ -111,10 +111,10 @@ func BasicControls():
 		print("Toggling inventory.")
 
 	#if Input.is_action_just_pressed("O"):
-		#if not Global.selected_char:
+		#if not Global.focus_char:
 			#return
 #
-		#var char_coords = Global.get_char_coords(Global.selected_char)
+		#var char_coords = Global.get_char_coords(Global.focus_char)
 #
 		#var reachable_tiles = Global.get_reachable_tiles_with_diagonals(Global.layers[Global.current_level]["path_map"], char_coords, 10)
 		#if reachable_tiles:
@@ -168,7 +168,7 @@ func BasicControls():
 		SignalBus.end_crisis_turn.emit()
 
 #func CharControls():
-	#if not Global.selected_char:
+	#if not Global.focus_char:
 		#return
 #
 	#if Input.is_action_just_pressed("Z"):

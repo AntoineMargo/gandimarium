@@ -13,7 +13,7 @@ func set_tile_position(tile_coords: Vector2i):
 	position = tile_coords * Global.TILE_SIZE
 
 func update_selection_highlight():
-	target = Global.selected_char
+	target = Global.focus_char
 	var wm = Global.world_manager
 	
 	var tile_pos: Vector2i

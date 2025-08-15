@@ -14,7 +14,7 @@ func _drop_data(position, item):
 	if not (item is Item):
 		return
 
-	var char = Global.selected_char.char_data
+	var char = Global.focus_char.char_data
 	
 	char.equip_item(slot_name, item)
 
@@ -38,7 +38,7 @@ func _drop_data(position, item):
 
 func _get_drag_data(at_position):
 	var um = Global.ui_manager
-	var item = Global.selected_char.char_data.get(slot_name)
+	var item = Global.focus_char.char_data.get(slot_name)
 	if item == null:
 		return
 
@@ -50,8 +50,8 @@ func _get_drag_data(at_position):
 	preview.text = item.name
 	preview.z_index = 3000
 	set_drag_preview(preview)
-	Global.selected_char.char_data.unequip_slot(slot_name)
+	Global.focus_char.char_data.unequip_slot(slot_name)
 	#if slot_name in ["set1_left_hand", "set1_right_hand", "set2_left_hand", "set2_right_hand"]:
-		#Global.selected_char.char_data.equip_item(slot_name, Global.fist)
+		#Global.focus_char.char_data.equip_item(slot_name, Global.fist)
 	SignalBus.update_inventory.emit()
 	return item

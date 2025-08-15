@@ -201,9 +201,9 @@ func clear_reachable_tiles():
 		node.queue_free()
 
 func build_reachable_tiles():
-	if not Global.selected_char:
+	if not Global.focus_char:
 		return
-	var char = Global.selected_char
+	var char = Global.focus_char
 	var size = char.char_data.movement_points_left
 	var coords = get_char_coords(char)
 	#char.char_data.reachable_tiles = get_reachable_tiles_with_diagonals(layers[coords.vec3.z]["path_map"], coords.vec2, size)
@@ -256,6 +256,7 @@ func _on_world_select():
 		for element in layers[current_level]["contents"][coords.vec2]:
 			if element is Creature:
 				Global.selected_char = element
+				Global.focus_char = element
 				selection_highlight.update_selection_highlight()
 				SignalBus.update_inventory.emit()
 				SignalBus.update_ui_for_char.emit()
@@ -283,7 +284,7 @@ func _interact_attack(coords):
 	SignalBus.weapon_attack.emit(target)
 
 func _interact_move(t_coords):
-	var char = Global.selected_char
+	var char = Global.focus_char
 	var o_coords = get_char_coords(char)
 	var path = null
 	var cost: float = 0
@@ -354,9 +355,9 @@ func calculate_path_cost_3D(path: Array[Vector3i], tile_size: int = Global.TILE_
 	return total_cost
 
 func _try_move_char_abs(target):
-	if not Global.selected_char:
+	if not Global.focus_char:
 		return
-	var char = Global.selected_char
+	var char = Global.focus_char
 	var origin = get_char_coords(char)
 
 	layers[origin.vec3.z]["occupied"][origin.vec2] = false
@@ -366,8 +367,6 @@ func _try_move_char_abs(target):
 	char.char_data.tile_x = target.vec3.x
 	char.char_data.tile_y = target.vec3.y
 	char.char_data.map_layer_id = target.vec3.z
-	#char.position = Global.current_tile_map_layer.map_to_local(target_2d)
-	#Global.selected_char.position = Global.current_tile_map_layer.map_to_local(target_2d)
 	char.position = layers[target.vec3.z]["tile_map"].map_to_local(target.vec2)
 
 	layers[target.vec3.z]["occupied"][target.vec2] = true
@@ -606,7 +605,7 @@ func spawn_test_character():
 	layers[current_level]["path_map"].set_point_solid(tile_coords.vec2, true)
 	selection_highlight.update_selection_highlight()
 	my_char.make_active_set(1)
-	#selected_char = char_instance
+	#focus_char = char_instance
 
 #func is_tile_walkable(tilemap: TileMap, world_pos: Vector2) -> bool:
 	#var coords = tilemap.local_to_map(world_pos)

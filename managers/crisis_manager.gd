@@ -16,13 +16,13 @@ func try_perform_activity(activity):
 	if not crisis_mode:
 		SignalBus.dialog_show_message.emit("You are not in crisis mode!")
 		return
-	if not Global.selected_char:
+	if not Global.focus_char:
 		return
 		
 	if not enough_action_points_for_activity(activity):
 		return
 
-	var char = Global.selected_char
+	var char = Global.focus_char
 	var context = {}
 	activity.execute(char, context)
 	SignalBus.update_ui_for_char.emit()
@@ -248,7 +248,7 @@ func roll_hostile_activity(user: Creature, user_stat: String, target: Creature, 
 	return degree_of_success
 func enough_action_points_for_activity(activity):
 	var cost = activity.AP_cost
-	var char = Global.selected_char
+	var char = Global.focus_char
 
 	if char.char_data.current_actions < cost:
 		print("Not enough action points.")
@@ -258,7 +258,7 @@ func enough_action_points_for_activity(activity):
 	return true
 
 func enough_action_points(cost):
-	var char = Global.selected_char
+	var char = Global.focus_char
 
 	if char.char_data.current_actions < cost:
 		print("Not enough action points.")
@@ -280,7 +280,7 @@ func _on_weapon_attack(target):
 		"target_stat": "melee_defence",
 		"resistance": "physical_resistance"
 	}
-	activity.execute(Global.selected_char, context)
+	activity.execute(Global.focus_char, context)
 	SignalBus.update_ui_for_char.emit()
 
 func _ready() -> void:
