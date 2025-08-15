@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Personality" load_steps=2 format=3 uid="uid://dcv5d2emo4p2b"]
+
+[ext_resource type="Script" uid="uid://bwpyc87wtxb7o" path="res://entities/personality.gd" id="1_cpgfl"]
+
+[resource]
+script = ExtResource("1_cpgfl")
+aggression = 50
+loyalty = 50
+empathy = 50
+ambition = 50
+intelligence = 50
+charisma = 50
+morale = 50
+metadata/_custom_type_script = "uid://bwpyc87wtxb7o"
