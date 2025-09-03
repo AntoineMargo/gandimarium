@@ -113,9 +113,9 @@ func determine_damage(dice_number: int, damage_die: int, damage_bonus: int, degr
 	return (total_damage)
 
 func meets_brawn_requirements(user: Node, weapon: Weapon, other: Weapon) -> bool:
-	if weapon.brawn_req_1h >= 0 and user.char_data.brawn >= weapon.brawn_req_1h:
+	if weapon.brawn_req_1h >= 0 and user.data.brawn >= weapon.brawn_req_1h:
 		return true
-	if user.char_data.brawn >= weapon.brawn_req_2h and other == null:
+	if user.data.brawn >= weapon.brawn_req_2h and other == null:
 		return true
 	return false
 
@@ -127,8 +127,8 @@ func shape_burst(target_entities, user, range):
 			target_entities.append(creature)
 
 func is_in_range(user: Node, target: Node, range: int) -> bool:
-	var user_coords = Vector2i(user.char_data.tile_x, user.char_data.tile_y)
-	var target_coords = Vector2i(target.char_data.tile_x, target.char_data.tile_y)
+	var user_coords = Vector2i(user.data.tile_x, user.data.tile_y)
+	var target_coords = Vector2i(target.data.tile_x, target.data.tile_y)
 
 	var dx = abs(user_coords.x - target_coords.x)
 	var dy = abs(user_coords.y - target_coords.y)
@@ -237,9 +237,9 @@ func line_of_sight_exists(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int) 
 
 func roll_hostile_activity(user: Creature, user_stat: String, target: Creature, target_stat: String):
 	var user_roll = randi_range(1, 12) 
-	var user_score = user_roll + user.char_data.get(user_stat)
+	var user_score = user_roll + user.data.get(user_stat)
 	var target_roll = randi_range(1, 12)
-	var target_score = target_roll + target.char_data.get(target_stat)
+	var target_score = target_roll + target.data.get(target_stat)
 	var contest_result = user_score - target_score
 	var degree_of_success = determine_degree_success(contest_result)
 
@@ -250,21 +250,21 @@ func enough_action_points_for_activity(activity):
 	var cost = activity.AP_cost
 	var char = Global.focus_char
 
-	if char.char_data.current_actions < cost:
+	if char.data.current_actions < cost:
 		print("Not enough action points.")
 		SignalBus.dialog_show_message.emit("You don't have enough action points!")
 		return false
-	char.char_data.current_actions -= cost
+	char.data.current_actions -= cost
 	return true
 
 func enough_action_points(cost):
 	var char = Global.focus_char
 
-	if char.char_data.current_actions < cost:
+	if char.data.current_actions < cost:
 		print("Not enough action points.")
 		SignalBus.dialog_show_message.emit("You don't have enough action points!")
 		return false
-	char.char_data.current_actions -= cost
+	char.data.current_actions -= cost
 	return true
 
 func _on_weapon_attack(target):

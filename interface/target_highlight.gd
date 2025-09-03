@@ -18,10 +18,10 @@ func update_selection_highlight():
 	var tile_pos: Vector2i
 	
 	if target is Creature:
-		if target.char_data.map_layer_id != wm.current_level:
+		if target.data.map_layer_id != wm.current_level:
 			self.visible = false
 			return
-		tile_pos = Vector2i(target.char_data.tile_x, target.char_data.tile_y)
+		tile_pos = Vector2i(target.data.tile_x, target.data.tile_y)
 	elif target is Vector3i:
 		if target.z != wm.current_level:
 			self.visible = false

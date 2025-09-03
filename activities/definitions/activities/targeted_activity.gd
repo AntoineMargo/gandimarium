@@ -18,7 +18,7 @@ func cancel_activity():
 	SignalBus.dialog_show_message.emit("Canceling activity.")
 	var cm = Global.crisis_manager
 	var wm = Global.world_manager
-	user.char_data.current_actions += self.AP_cost
+	user.data.current_actions += self.AP_cost
 	for hl in wm.target_highlights:
 		hl.queue_free()
 	wm.target_highlights.clear()

@@ -84,36 +84,36 @@ func on_attack1_button_toggled(button_pressed: bool, attack_type: int) -> void:
 	if not button_pressed:
 		return
 	if Global.selected_char:
-		Global.selected_char.char_data.active_attack1 = attack_type
+		Global.selected_char.data.active_attack1 = attack_type
 		print("Active attack type changed.")
 
 func on_attack2_button_toggled(button_pressed: bool, attack_type: int) -> void:
 	if not button_pressed:
 		return
 	if Global.selected_char:
-		Global.selected_char.char_data.active_attack2 = attack_type
+		Global.selected_char.data.active_attack2 = attack_type
 		print("Active attack type changed.")
 
 func on_weapon_button_toggled(button_pressed: bool, hand: int) -> void:
 	if not button_pressed:
 		return
 	if Global.selected_char:
-		Global.selected_char.char_data.active_hand = hand
+		Global.selected_char.data.active_hand = hand
 		print("Active hand changed.")
 
 func on_weapon_set_toggled(button_pressed: bool) -> void:
 	if Global.selected_char:
-		if Global.selected_char.char_data.active_set == 1:
-			Global.selected_char.char_data.active_set = 2
+		if Global.selected_char.data.active_set == 1:
+			Global.selected_char.data.active_set = 2
 		else:
-			Global.selected_char.char_data.active_set = 1
+			Global.selected_char.data.active_set = 1
 		update_weapon_buttons()
 
 func update_active_attack_buttons():
 	if ui_node == null or Global.selected_char == null:
 		return
 	
-	var char = Global.selected_char.char_data
+	var char = Global.selected_char.data
 	if char == null:
 		return
 
@@ -172,7 +172,7 @@ func update_active_hand_buttons():
 	if ui_node == null or Global.selected_char == null:
 		return
 	
-	var char = Global.selected_char.char_data
+	var char = Global.selected_char.data
 	if char == null:
 		return
 
@@ -188,7 +188,7 @@ func update_weapon_buttons():
 		print("UI node not set!")
 		return
 
-	var char = Global.selected_char.char_data
+	var char = Global.selected_char.data
 	if !char:
 		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = "None"
 		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "None"
@@ -227,7 +227,7 @@ func _on_update_inventory() -> void:
 	if Global.selected_char == null:
 		print("No character selected.")
 		return
-	var items = character.char_data.inventory
+	var items = character.data.inventory
 	for item in items:
 		var element = preload("res://interface/inventory_element.tscn").instantiate()
 		element.item = item
@@ -253,7 +253,7 @@ func _on_update_inventory() -> void:
 		var path = equipment_label_paths[slot_name]
 		var label_node = Global.inventory_window.get_node(path)
 		if label_node and label_node is Label:
-			var item = character.char_data.get(slot_name)
+			var item = character.data.get(slot_name)
 			if item:
 				label_node.text = item.name
 			else:
@@ -287,7 +287,7 @@ func drag_fail_restore():
 				SignalBus.drop_item_on_tile.emit(Global.selected_char, last_dragged_item)
 			else:
 				print("Drag failed — restoring item.")
-				Global.selected_char.char_data.inventory.append(last_dragged_item)
+				Global.selected_char.data.inventory.append(last_dragged_item)
 				SignalBus.update_inventory.emit()
 
 		drag_in_progress = false
@@ -297,7 +297,7 @@ func drag_fail_restore():
 func update_action_pips():
 	if Global.selected_char == null:
 		return
-	var char = Global.selected_char.char_data
+	var char = Global.selected_char.data
 	var max = char.max_actions
 	var current = char.current_actions
 	var container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints")
@@ -317,8 +317,8 @@ func update_action_pips():
 			pip.modulate = Color(0.5, 0.5, 0.5, 0.7)
 
 func update_activity_buttons():
-	var char = Global.selected_char.char_data
-	var activities = Global.selected_char.char_data.activities
+	var char = Global.selected_char.data
+	var activities = Global.selected_char.data.activities
 	var button_container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1")
 	#var activity1 = ui_node.get_node_or_null("$PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1/Activity1")
 	#var activity2 = ui_node.get_node_or_null("$PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1/Activity2")
@@ -340,7 +340,7 @@ func update_activity_buttons():
 			button.set_meta("activity", activity)
 
 func update_spell_list():
-	var char = Global.selected_char.char_data
+	var char = Global.selected_char.data
 	var spell_list = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/SpellList")
 	var scroll_container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer")
 	var separator = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/VSeparator3")
@@ -369,7 +369,7 @@ func update_spell_list():
 		#spell_button.pressed.connect(update_concentration_slots.bind(spell))
 
 func update_concentration_slots():
-	var char = Global.selected_char.char_data
+	var char = Global.selected_char.data
 	var container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/GridContainer")
 	for child in container.get_children():
 		child.queue_free()
@@ -412,14 +412,14 @@ func _on_toggle_crisis_button():
 		crisis_button.button_pressed = true
 
 func _on_slider_value_changed(value):
-	var char = Global.selected_char.char_data
+	var char = Global.selected_char.data
 	var slider = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/SpellRankSlider")
 	char.current_spell_rank = value
 	slider.tooltip_text = "Spell rank selected: %d" % char.current_spell_rank
 	#print("value changed to ", char.current_spell_rank)
 
 func update_char_info():
-	var char = Global.selected_char.char_data
+	var char = Global.selected_char.data
 	var name = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/Name")
 	var hp = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/HP")
 	var pp = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/PP")

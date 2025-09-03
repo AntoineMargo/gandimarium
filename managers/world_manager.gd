@@ -181,7 +181,7 @@ func is_tile_occupied(coords):
 func show_reachable_tiles():
 	if not Global.selected_char:
 		return
-	var char = Global.selected_char.char_data
+	var char = Global.selected_char.data
 	for coords in char.reachable_tiles:
 		if coords.z != current_level:
 			continue
@@ -204,10 +204,10 @@ func build_reachable_tiles():
 	if not Global.focus_char:
 		return
 	var char = Global.focus_char
-	var size = char.char_data.movement_points_left
+	var size = char.data.movement_points_left
 	var coords = get_char_coords(char)
-	#char.char_data.reachable_tiles = get_reachable_tiles_with_diagonals(layers[coords.vec3.z]["path_map"], coords.vec2, size)
-	char.char_data.reachable_tiles = get_reachable_tiles_3D_with_diagonals(coords.vec3, size)
+	#char.data.reachable_tiles = get_reachable_tiles_with_diagonals(layers[coords.vec3.z]["path_map"], coords.vec2, size)
+	char.data.reachable_tiles = get_reachable_tiles_3D_with_diagonals(coords.vec3, size)
 
 func _on_refresh_reachable_tiles():
 	clear_reachable_tiles()
@@ -261,7 +261,7 @@ func _on_world_select():
 				SignalBus.update_inventory.emit()
 				SignalBus.update_ui_for_char.emit()
 				SignalBus.refresh_reachable_tiles.emit()
-				print("Selected character: ", element.char_data.name)
+				print("Selected character: ", element.data.name)
 				return
 
 func _on_world_interact():
@@ -303,11 +303,11 @@ func _interact_move(t_coords):
 	print("Path length: ", path.size() - 1, " steps.")
 	print("Path cost: ", cost)
 	if Global.crisis_manager.crisis_mode:
-		if cost > char.char_data.movement_points_left:
+		if cost > char.data.movement_points_left:
 			SignalBus.dialog_show_message.emit("You do not have enough movements points.")
 			return
 		else:
-			char.char_data.movement_points_left -= cost
+			char.data.movement_points_left -= cost
 	_try_move_char_abs(t_coords)
 	update_creatures_visibility()
 	clear_reachable_tiles()
@@ -364,9 +364,9 @@ func _try_move_char_abs(target):
 	layers[origin.vec3.z]["path_map"].set_point_solid(origin.vec2, false)
 	remove_from_tile(char, origin)
 	
-	char.char_data.tile_x = target.vec3.x
-	char.char_data.tile_y = target.vec3.y
-	char.char_data.map_layer_id = target.vec3.z
+	char.data.tile_x = target.vec3.x
+	char.data.tile_y = target.vec3.y
+	char.data.map_layer_id = target.vec3.z
 	char.position = layers[target.vec3.z]["tile_map"].map_to_local(target.vec2)
 
 	layers[target.vec3.z]["occupied"][target.vec2] = true
@@ -442,9 +442,9 @@ func get_tile_coords() -> Dictionary:
 
 func get_char_coords(character) -> Dictionary:
 	var pos_3d = Vector3i(
-	character.char_data.tile_x,
-	character.char_data.tile_y,
-	character.char_data.map_layer_id)
+	character.data.tile_x,
+	character.data.tile_y,
+	character.data.map_layer_id)
 	return {
 		"vec3": pos_3d,
 		"vec2": Vector2i(pos_3d.x, pos_3d.y)
@@ -489,7 +489,7 @@ func flash_tile_overlay(tile_pos: Vector2i) -> void:
 func update_creatures_visibility():
 	if current_world:
 		for creature in current_world.creatures:
-			creature.visible = (creature.char_data.map_layer_id == current_level)
+			creature.visible = (creature.data.map_layer_id == current_level)
 
 func spawn_test_character():
 	if current_world == null:
@@ -587,7 +587,7 @@ func spawn_test_character():
 
 	var char_scene = preload("res://entities/creature.tscn")
 	var char_instance = char_scene.instantiate()
-	char_instance.char_data = my_char
+	char_instance.data = my_char
 
 	var tile_coords = get_tile_coords()
 	var tile_data = current_tile_map_layer.get_cell_tile_data(tile_coords.vec2)

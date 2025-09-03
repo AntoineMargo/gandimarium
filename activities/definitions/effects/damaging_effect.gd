@@ -10,7 +10,7 @@ class_name SpellDamagingEffect
 func apply(source, target, degree: int) -> void:
 	var user = source.user
 	var result = degree
-	dice_number *= source.user.char_data.current_spell_rank
+	dice_number *= source.user.data.current_spell_rank
 	var total_damage = Global.crisis_manager.determine_damage(dice_number, damage_die, damage_bonus, result)
-	if target and target.char_data.has_method("take_damage"):
-		target.char_data.take_damage(total_damage, resistance)
+	if target and target.data.has_method("take_damage"):
+		target.data.take_damage(total_damage, resistance)

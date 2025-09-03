@@ -3,8 +3,8 @@ extends Node2D
 var parent: Node
 
 func update_hp_bar():
-	var current_hp = parent.char_data.current_hp
-	var max_hp = parent.char_data.max_hp
+	var current_hp = parent.data.current_hp
+	var max_hp = parent.data.max_hp
 
 	$PositiveHP.min_value = 0
 	$PositiveHP.max_value = max_hp

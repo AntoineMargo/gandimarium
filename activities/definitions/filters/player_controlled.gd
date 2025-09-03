@@ -8,8 +8,8 @@ func is_satisfied(target, activity):
 	if not target:
 		return false
 
-	var char_data = target.char_data
+	var data = target.data
 	if reverse:
-		return not char_data.player_controlled
+		return not data.player_controlled
 	else:
-		return char_data.player_controlled
+		return data.player_controlled

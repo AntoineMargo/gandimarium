@@ -27,7 +27,7 @@ func execute(user: Node, context: Dictionary) -> void:
 			effect.apply(self, target, degree)
 	if requires_concentration:
 		if concentration.has_connections("ended"):
-			user.char_data.add_concentration(concentration)
+			user.data.add_concentration(concentration)
 		else:
 			concentration.cancel()
 	

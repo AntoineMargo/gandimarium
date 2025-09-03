@@ -12,20 +12,20 @@ func execute(user: Node, context: Dictionary) -> void:
 	var resistance = context.get("resistance")
 	var weapon : Weapon = null
 	var other : Weapon = null
-	if user.char_data.active_set == 1:
-		if user.char_data.active_hand == 1:
-			weapon = user.char_data.set1_left_hand
-			other = user.char_data.set1_right_hand
-		elif user.char_data.active_hand == 2:
-			weapon = user.char_data.set1_right_hand
-			other = user.char_data.set1_left_hand
-	elif user.char_data.active_set == 2:
-		if user.char_data.active_hand == 1:
-			weapon = user.char_data.set2_left_hand
-			other = user.char_data.set2_right_hand
-		elif user.char_data.active_hand == 2:
-			weapon = user.char_data.set2_right_hand
-			other = user.char_data.set2_left_hand
+	if user.data.active_set == 1:
+		if user.data.active_hand == 1:
+			weapon = user.data.set1_left_hand
+			other = user.data.set1_right_hand
+		elif user.data.active_hand == 2:
+			weapon = user.data.set1_right_hand
+			other = user.data.set1_left_hand
+	elif user.data.active_set == 2:
+		if user.data.active_hand == 1:
+			weapon = user.data.set2_left_hand
+			other = user.data.set2_right_hand
+		elif user.data.active_hand == 2:
+			weapon = user.data.set2_right_hand
+			other = user.data.set2_left_hand
 	if weapon == null:
 		var fist = preload("res://items/weapons/wpn_fist.tres")
 		weapon = fist
@@ -37,11 +37,11 @@ func execute(user: Node, context: Dictionary) -> void:
 	var dice_number = weapon.dice_number
 	var damage_die = weapon.damage_die
 	var damage_bonus = weapon.damage_bonus
-	damage_bonus += user.char_data.strength_bonus
-	if user.char_data.active_hand == 1:
-		attack_type = user.char_data.active_attack1
+	damage_bonus += user.data.strength_bonus
+	if user.data.active_hand == 1:
+		attack_type = user.data.active_attack1
 	else:
-		attack_type = user.char_data.active_attack2
+		attack_type = user.data.active_attack2
 
 	if attack_type == 0:
 		attack_type = weapon.attack_type[0]
@@ -57,8 +57,8 @@ func execute(user: Node, context: Dictionary) -> void:
 			var target_stat = context.get("target_stat")
 			var result = cm.roll_hostile_activity(user, user_stat, target, target_stat)
 			var total_damage = cm.determine_damage_wpn(dice_number, damage_die, damage_bonus, result, attack_type)
-			if target and target.char_data.has_method("take_damage"):
-				target.char_data.take_damage(total_damage, resistance)
+			if target and target.data.has_method("take_damage"):
+				target.data.take_damage(total_damage, resistance)
 		else:
 			SignalBus.dialog_out_of_range.emit()
 			return

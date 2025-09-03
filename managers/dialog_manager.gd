@@ -19,8 +19,8 @@ func _on_show_message(text):
 
 func _on_hostile_activity(user, target, user_stat, target_stat, user_roll, target_roll, degree_of_success):
 	var message := "%s (%d + %d) vs %s (%d + %d)" % [
-		user.char_data.name, user_roll, user.char_data.get(user_stat),
-		target.char_data.name, target_roll, target.char_data.get(target_stat)]
+		user.data.name, user_roll, user.data.get(user_stat),
+		target.data.name, target_roll, target.data.get(target_stat)]
 	match degree_of_success:
 		0:
 			message += "\nCritical failure!"

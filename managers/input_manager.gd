@@ -29,14 +29,14 @@ func BasicControls():
 		wm.change_level(1)
 		if wm.current_world:
 			for creature in wm.current_world.creatures:
-				print("Creature: %s" % [creature.char_data.name])
-				creature.visible = (creature.char_data.map_layer_id == wm.current_level)
+				print("Creature: %s" % [creature.data.name])
+				creature.visible = (creature.data.map_layer_id == wm.current_level)
 		
 	if Input.is_action_just_pressed("PageDown"):
 		wm.change_level(-1)
 		if wm.current_world:
 			for creature in wm.current_world.creatures:
-				creature.visible = (creature.char_data.map_layer_id == wm.current_level)
+				creature.visible = (creature.data.map_layer_id == wm.current_level)
 
 	if Input.is_action_just_pressed("F"):
 		var coords = wm.get_tile_coords()
@@ -65,22 +65,22 @@ func BasicControls():
 		wm.spawn_test_character()
 		
 	if Input.is_action_just_pressed("Y"):
-		for concentration in Global.selected_char.char_data.concentrations:
+		for concentration in Global.selected_char.data.concentrations:
 			print("	%s" % concentration.source.name)
 		#if Global.focus_char:
-			#print("Selected character melee defence: ", Global.focus_char.char_data.melee_defence)
+			#print("Selected character melee defence: ", Global.focus_char.data.melee_defence)
 		#if not Global.current_world:
 			#return
 		#if not Global.focus_char:
 			#return
-		#print("Active hand: ", Global.selected_chayyyyr.char_data.active_hand)
-		#print("Active attack 1: ", Global.focus_char.char_data.active_attack1)
-		#print("Active attack 2: ", Global.focus_char.char_data.active_attack2)
-		#print("Selected character: %s" % Global.focus_char.char_data.name)
-		#print("Melee defence: %s" % Global.focus_char.char_data.melee_defence)
-		#print("Ranged defence: %s" % Global.focus_char.char_data.ranged_defence)
+		#print("Active hand: ", Global.selected_chayyyyr.data.active_hand)
+		#print("Active attack 1: ", Global.focus_char.data.active_attack1)
+		#print("Active attack 2: ", Global.focus_char.data.active_attack2)
+		#print("Selected character: %s" % Global.focus_char.data.name)
+		#print("Melee defence: %s" % Global.focus_char.data.melee_defence)
+		#print("Ranged defence: %s" % Global.focus_char.data.ranged_defence)
 		#print("Conditions: ")
-		#for condition in Global.focus_char.char_data.conditions:
+		#for condition in Global.focus_char.data.conditions:
 			#print("	%s" % condition.name)
 
 		#print("Current world: %s" % Global.current_world)
@@ -101,7 +101,7 @@ func BasicControls():
 				if element is Item:
 					print("	%s" % element.name)
 				if element is Node:
-					print("	%s" % element.char_data.name)
+					print("	%s" % element.data.name)
 
 	if Input.is_action_just_pressed("I"):
 		if not Global.selected_char:
@@ -131,7 +131,7 @@ func BasicControls():
 			for element in contents_copy:
 				if element is Item:
 					wm.remove_from_tile(element, coords)
-					Global.selected_char.char_data.inventory.append(element)
+					Global.selected_char.data.inventory.append(element)
 					SignalBus.update_inventory.emit()
 					Global.ui_log.text += "\nPicked up %s." % element.name
 					Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()
@@ -140,7 +140,7 @@ func BasicControls():
 		if not Global.selected_char:
 			return
 		print("Inventory:")
-		for element in Global.selected_char.char_data.inventory:
+		for element in Global.selected_char.data.inventory:
 			print("	", element)
 
 	if Input.is_action_just_pressed("H"):
@@ -157,7 +157,7 @@ func BasicControls():
 		print("Tree ", get_tree())
 
 	if Input.is_action_just_pressed("E"):
-		Global.ui_log.text += "\nActivity n°1 on character: %s" % Global.selected_char.char_data.activities[0].name
+		Global.ui_log.text += "\nActivity n°1 on character: %s" % Global.selected_char.data.activities[0].name
 		Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()
 
 	if Input.is_action_just_pressed("Backspace"):

@@ -12,5 +12,5 @@ func apply(source, target, degree: int) -> void:
 			continue
 		var instance = condition.duplicate()
 		instance.concentration = source.concentration
-		if target.char_data.has_method("add_condition"):
-			target.char_data.add_condition(instance)
+		if target.data.has_method("add_condition"):
+			target.data.add_condition(instance)

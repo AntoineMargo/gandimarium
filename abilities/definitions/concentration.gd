@@ -14,5 +14,5 @@ func register_condition(condition: Condition):
 func cancel():
 	emit_signal("ended")
 	linked_conditions.clear()
-	if source and source.user and source.user.char_data.concentrations.has(self):
-		source.user.char_data.remove_concentration(self)
+	if source and source.user and source.user.data.concentrations.has(self):
+		source.user.data.remove_concentration(self)
