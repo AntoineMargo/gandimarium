@@ -1,6 +1,6 @@
 extends Resource
 
-class_name Character
+class_name CreatureData
 
 @export var name: String
 @export var level: int = 1
@@ -94,7 +94,7 @@ var corrosion_resist: int = 0
 var poison_resist: int = 0
 var psychic_resist: int = 0
 
-var owner: Creature
+var creature: Creature
 var reachable_tiles = []
 
 @export var map_id: String = ""
@@ -270,7 +270,7 @@ func take_damage(damage: int, resistance: String = ""):
 	current_hp -= final_damage
 	if current_hp <= -max_hp:
 		current_hp = -max_hp
-	owner.health_bar_instance.update_hp_bar()
+	creature.health_bar_instance.update_hp_bar()
 	#SignalBus.dialog_damage_taken.emit(name, final_damage)
 
 func take_healing(healing: int):
@@ -278,7 +278,7 @@ func take_healing(healing: int):
 	current_hp += healing
 	if current_hp >= max_hp:
 		current_hp = max_hp
-	owner.health_bar_instance.update_hp_bar()
+	creature.health_bar_instance.update_hp_bar()
 	SignalBus.dialog_healing_taken.emit(name, healing)
 
 func initialise():

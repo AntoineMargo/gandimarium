@@ -2,7 +2,7 @@ extends Node2D
 
 class_name Creature
 
-@export var char_data: Character
+@export var char_data: CreatureData
 @export var health_bar_scene: PackedScene
 
 @onready var sprite_node = $Sprite2D
@@ -15,7 +15,7 @@ func update_world_position():
 		position = Global.current_tile_map_layer.map_to_local(tile_pos)
 
 func _ready():
-	char_data.owner = self
+	char_data.creature = self
 	if not health_bar_scene:
 		print("Health bar scene not set!")
 		return

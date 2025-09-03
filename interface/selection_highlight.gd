@@ -36,17 +36,5 @@ func update_selection_highlight():
 	self.visible = true
 	self.queue_redraw()
 
-#func update_selection_highlight(character):
-	#var wm = Global.world_manager
-	#if character and character.char_data.map_layer_id == wm.current_level:
-		#self.set_tile_position(Vector2i(
-			#character.char_data.tile_x,
-			#character.char_data.tile_y
-		#))
-		#self.visible = true
-		#self.queue_redraw()
-	#else:
-		#self.visible = false
-
 func _ready():
 	z_index = 1000

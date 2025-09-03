@@ -495,7 +495,7 @@ func spawn_test_character():
 	if current_world == null:
 		print("No current world.")
 		return
-	var my_char = Character.new()
+	var my_char = CreatureData.new()
 	my_char.name = "Andimar"
 	my_char.level = 12
 	my_char.acuity = 7

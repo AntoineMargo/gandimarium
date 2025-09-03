@@ -1,9 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://di24o35dhla3y"]
+[gd_scene load_steps=10 format=3 uid="uid://di24o35dhla3y"]
 
-[ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creature_instance.gd" id="1_ss4pg"]
-[ext_resource type="Script" uid="uid://dyp8klyosnw2y" path="res://entities/character_res.gd" id="2_g0uk5"]
+[ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creature.gd" id="1_ss4pg"]
+[ext_resource type="Script" uid="uid://dyp8klyosnw2y" path="res://entities/creature_data.gd" id="2_g0uk5"]
 [ext_resource type="PackedScene" uid="uid://wqxs6c21eg4g" path="res://interface/health_bar.tscn" id="3_g0uk5"]
 [ext_resource type="Texture2D" uid="uid://bcjmxhgemswtr" path="res://art/characters/hooded_char.png" id="4_4w7f4"]
+[ext_resource type="Script" uid="uid://b52a57vjokam7" path="res://entities/AI/ai_controller.gd" id="5_ud2rd"]
+[ext_resource type="Script" uid="uid://d34g8yxog7bux" path="res://entities/AI/overmap_ai.gd" id="6_jjh6p"]
+[ext_resource type="Script" uid="uid://c322dqhnn6or0" path="res://entities/AI/local_ai.gd" id="7_dlu0d"]
+[ext_resource type="Script" uid="uid://0c01n60cxt6k" path="res://entities/AI/crisis_ai.gd" id="8_7mdsa"]
 
 [sub_resource type="Resource" id="Resource_reykp"]
 script = ExtResource("2_g0uk5")
@@ -40,9 +44,13 @@ health_bar_scene = ExtResource("3_g0uk5")
 texture = ExtResource("4_4w7f4")
 
 [node name="AIController" type="Node" parent="."]
+script = ExtResource("5_ud2rd")
 
 [node name="OvermapAI" type="Node" parent="AIController"]
+script = ExtResource("6_jjh6p")
 
 [node name="LocalAI" type="Node" parent="AIController"]
+script = ExtResource("7_dlu0d")
 
 [node name="CrisisAI" type="Node" parent="AIController"]
+script = ExtResource("8_7mdsa")
