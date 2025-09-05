@@ -16,9 +16,9 @@ signal dialog_end_crisis_mode()
 signal dialog_end_turn()
 
 #Crisis
-signal toggle_crisis_mode()
-signal start_crisis_mode()
-signal end_crisis_mode()
+signal toggle_crisis_mode(creature)
+signal start_crisis_mode(creature)
+signal end_crisis_mode(creature)
 signal end_crisis_turn()
 signal turn_ends()
 signal toggle_end_turn_button()
@@ -35,6 +35,7 @@ signal update_ui_for_char()
 signal world_select(tile_coords)
 signal world_interact(tile_coords)
 signal refresh_reachable_tiles()
+signal local_turn_passed()
 
 #Cursors
 signal change_cursor(name)

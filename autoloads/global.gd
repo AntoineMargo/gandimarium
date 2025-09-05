@@ -22,8 +22,6 @@ var items_list: VBoxContainer = null
 var current_camera: Camera2D = null
 
 var pause_menu_active: bool = false
-#var activity_mode: bool = false
-#var activity_mode = null
 
 var focus_char: Creature
 var selected_char: Creature

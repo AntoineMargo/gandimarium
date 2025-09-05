@@ -75,7 +75,7 @@ func set_ui_node(node: Node):
 		slider.value_changed.connect(_on_slider_value_changed)
 
 func on_crisis_mode_toggled(button_pressed: bool) -> void:
-	SignalBus.toggle_crisis_mode.emit()
+	SignalBus.toggle_crisis_mode.emit(Global.selected_char)
 
 func on_end_turn_pressed() -> void:
 	SignalBus.end_crisis_turn.emit()

@@ -8,7 +8,7 @@ var all_sequences = []
 var best_sequence = null
 var best_score: int = 0
 
-func plan_turn(creature):
+func plan_turn():
 	activities = get_all_activities(creature)
 	all_sequences = generate_all_action_sequences(activities, creature)
 

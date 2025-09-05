@@ -39,23 +39,24 @@ func end_turn():
 		SignalBus.update_ui_for_char.emit()
 		SignalBus.refresh_reachable_tiles.emit()
 
-func toggle_crisis():
+func toggle_crisis(creature):
 	if crisis_mode == false:
-		start_crisis()
+		start_crisis(creature)
 	else:
 		SignalBus.turn_ends.emit()
 		SignalBus.update_ui_for_char.emit()
 		SignalBus.refresh_reachable_tiles.emit()
-		end_crisis()
+		end_crisis(creature)
 
-func start_crisis():
+func start_crisis(creature):
 	if crisis_mode == false:
+		print("Creature triggering crisis: ", creature.data.name)
 		crisis_mode = true
 		crisis_turn = 0
 		SignalBus.toggle_end_turn_button.emit()
 		SignalBus.dialog_start_crisis_mode.emit()
 
-func end_crisis():
+func end_crisis(creature):
 	if crisis_mode == true:
 		crisis_mode = false
 		crisis_turn = 0

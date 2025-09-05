@@ -162,7 +162,6 @@ func BasicControls():
 
 	if Input.is_action_just_pressed("Backspace"):
 		SignalBus.toggle_crisis_button.emit()
-		#SignalBus.toggle_crisis_mode.emit()
 
 	if Input.is_action_just_pressed("Enter"):
 		SignalBus.end_crisis_turn.emit()

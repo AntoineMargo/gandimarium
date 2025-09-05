@@ -5,13 +5,13 @@ class_name WorldManager
 var layers: Dictionary = {}
 var layer_links: Dictionary = {}
 var current_tile_map_layer: TileMapLayer = null
-var current_level : int = 0
+var current_level: int = 0
 var current_world: Node = null
+var local_timer: Timer = Timer.new() 
 
 var target_highlights = []
 
 @onready var selection_highlight = load("res://interface/selection_highlight.tscn").instantiate()
-
 
 func setup_layers():
 	layers.clear()
@@ -612,8 +612,23 @@ func spawn_test_character():
 	#var data = tilemap.get_cell_tile_data(0, coords)
 	#return data != null and data.get_custom_data("walkable") == true
 
+func _on_local_timeout():
+	SignalBus.local_turn_passed.emit()
+
+func _on_crisis_mode_started():
+	local_timer.paused = true
+
+func _on_crisis_mode_ended():
+	local_timer.paused = false
+
 func _ready() -> void:
 	selection_highlight.update_selection_highlight()
 	SignalBus.world_select.connect(_on_world_select)
 	SignalBus.world_interact.connect(_on_world_interact)
 	SignalBus.refresh_reachable_tiles.connect(_on_refresh_reachable_tiles)
+	SignalBus.start_crisis_mode.connect(_on_crisis_mode_started)
+	SignalBus.end_crisis_turn.connect(_on_crisis_mode_started)
+	local_timer.wait_time = 6.0
+	local_timer.autostart = true
+	#local_timer.start()
+	local_timer.timeout.connect(_on_local_timeout)
