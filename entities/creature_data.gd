@@ -52,8 +52,8 @@ var melee_defence: int = 0
 var ranged_defence: int = 0
 
 var strength_bonus: int = 0
-var movement_points: int = 0
-var movement_points_left: float = 0
+var max_mp: int = 0
+var current_mp: float = 0
 
 var max_hp: int = 0
 var current_hp: int = 0
@@ -65,8 +65,8 @@ var current_pp: int = 0
 var max_ep: int = 0
 var current_ep: int = 0
 
-var max_actions: int = 3
-var current_actions: int = 3
+var max_ap: int = 3
+var current_ap: int = 3
 
 var max_reactions: int = 1
 var current_reactions: int = 1
@@ -103,8 +103,8 @@ var reachable_tiles = []
 @export var tile_y: int = 0
 
 func _on_end_turn():
-	current_actions = max_actions
-	movement_points_left = 0
+	current_ap = max_ap
+	current_mp = 0
 
 func add_activity(activity: Activity):
 	if activity not in activities:
@@ -292,8 +292,8 @@ func initialise():
 	ranged_defence = dexterity + level_mod
 
 	strength_bonus = brawn
-	movement_points = dexterity
-	movement_points_left = 0.0
+	max_mp = dexterity
+	current_mp = 0.0
 	
 	max_hp = (brawn * 12) + (brawn * level_mod)
 	current_hp = max_hp
@@ -302,7 +302,7 @@ func initialise():
 	max_ep = (brawn * 12) + (brawn * level_mod)
 	current_ep = max_ep
 
-	current_actions = max_actions
+	current_ap = max_ap
 	current_reactions = max_reactions
 	
 	active_hand = 1

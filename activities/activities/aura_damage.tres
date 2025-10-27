@@ -9,24 +9,11 @@ script = ExtResource("2_7kr7q")
 dice_number = 6
 damage_die = 6
 damage_bonus = 0
-resistance = ""
 metadata/_custom_type_script = "uid://otrxaros8gk8"
 
 [resource]
 script = ExtResource("1_0x8ga")
-name = "placeholder"
-description = "This is a placeholder description."
-icon = "res://art/interface/activities/placeholder1.png"
-AP_cost = 1
-EP_cost = 0
-PP_cost = 0
-requires_concentration = false
-attacking_aptitude = "will"
-defending_aptitude = "will"
-range = 0
 reach = 5
 filters = [ExtResource("4_cum8e"), null, null, null]
 effects = [SubResource("Resource_7kr7q")]
-affected_type = 0
-affected_shape = 0
 metadata/_custom_type_script = "uid://beq2nm7ovc2lf"

@@ -1,18 +1,10 @@
-[gd_resource type="Resource" script_class="WeaponMeleeAttack" load_steps=2 format=3 uid="uid://c0b7y8w1xi8kh"]
+[gd_resource type="Resource" script_class="WeaponAttack" load_steps=2 format=3 uid="uid://c0b7y8w1xi8kh"]
 
 [ext_resource type="Script" uid="uid://bjlqxgklbvfvr" path="res://activities/definitions/activities/wpn_attack.gd" id="1_dive4"]
 
 [resource]
 script = ExtResource("1_dive4")
-dice_number = 0
-damage_die = 0
-damage_bonus = 0
-resistance = ""
 name = ""
 description = ""
 icon = ""
-action_cost = 1
-energy_cost = 0
-power_cost = 0
-activity_range = 0
 metadata/_custom_type_script = "uid://bjlqxgklbvfvr"

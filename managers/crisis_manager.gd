@@ -251,21 +251,21 @@ func enough_action_points_for_activity(activity):
 	var cost = activity.AP_cost
 	var char = Global.focus_char
 
-	if char.data.current_actions < cost:
+	if char.data.current_ap < cost:
 		print("Not enough action points.")
 		SignalBus.dialog_show_message.emit("You don't have enough action points!")
 		return false
-	char.data.current_actions -= cost
+	char.data.current_ap -= cost
 	return true
 
 func enough_action_points(cost):
 	var char = Global.focus_char
 
-	if char.data.current_actions < cost:
+	if char.data.current_ap < cost:
 		print("Not enough action points.")
 		SignalBus.dialog_show_message.emit("You don't have enough action points!")
 		return false
-	char.data.current_actions -= cost
+	char.data.current_ap -= cost
 	return true
 
 func _on_weapon_attack(target):

@@ -12,11 +12,5 @@ metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
 [resource]
 script = ExtResource("3_80tq4")
-name = "placeholder"
-description = "This is a placeholder description."
-icon = ""
-filters = []
 effects = [SubResource("Resource_ns0ch")]
-supplanted = []
-duration = -1
 metadata/_custom_type_script = "uid://ci7mep1f0lce0"

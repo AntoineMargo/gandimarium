@@ -298,8 +298,8 @@ func update_action_pips():
 	if Global.selected_char == null:
 		return
 	var char = Global.selected_char.data
-	var max = char.max_actions
-	var current = char.current_actions
+	var max = char.max_ap
+	var current = char.current_ap
 	var container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints")
 	
 	for i in container.get_child_count():
@@ -432,7 +432,7 @@ func update_char_info():
 	pp.text = "%d/%d" % [char.current_pp, char.max_pp]
 	ep.text = "%d/%d" % [char.current_ep, char.max_ep]
 	vigour.text = "%d" % char.vigour
-	mp.text = "%.1f" % char.movement_points_left
+	mp.text = "%.1f" % char.current_mp
 
 func update_ui_for_char():
 	if Global.selected_char == null:

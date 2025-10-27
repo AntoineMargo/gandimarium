@@ -7,26 +7,13 @@
 script = ExtResource("2_twomy")
 dice_number = 4
 damage_die = 6
-damage_bonus = 0
-resistance = ""
 metadata/_custom_type_script = "uid://bwfaipulxr7tq"
 
 [resource]
 script = ExtResource("3_lwdho")
-number_of_targets = 1
 name = "Firebolt"
-description = "This is a placeholder description."
-icon = "res://art/interface/activities/placeholder1.png"
-AP_cost = 1
-EP_cost = 0
-PP_cost = 0
-requires_concentration = false
 attacking_aptitude = "resolve"
 defending_aptitude = "ranged_defence"
 range = 10
-reach = 0
-filters = []
 effects = [SubResource("Resource_lwdho")]
-affected_type = 0
-affected_shape = 0
 metadata/_custom_type_script = "uid://bxau8hir6ormb"

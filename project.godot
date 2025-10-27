@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Gandimarium"
 run/main_scene="uid://2cn14re3de4a"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://art/icon.svg"
 
 [autoload]

@@ -4,5 +4,5 @@ class_name Move
 
 func execute(user: Node, context: Dictionary) -> void:
 	var char = user.data
-	char.movement_points_left += char.movement_points
+	char.current_mp += char.max_mp
 	SignalBus.refresh_reachable_tiles.emit()

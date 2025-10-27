@@ -204,7 +204,7 @@ func build_reachable_tiles():
 	if not Global.focus_char:
 		return
 	var char = Global.focus_char
-	var size = char.data.movement_points_left
+	var size = char.data.current_mp
 	var coords = get_char_coords(char)
 	#char.data.reachable_tiles = get_reachable_tiles_with_diagonals(layers[coords.vec3.z]["path_map"], coords.vec2, size)
 	char.data.reachable_tiles = get_reachable_tiles_3D_with_diagonals(coords.vec3, size)
@@ -303,11 +303,11 @@ func _interact_move(t_coords):
 	print("Path length: ", path.size() - 1, " steps.")
 	print("Path cost: ", cost)
 	if Global.crisis_manager.crisis_mode:
-		if cost > char.data.movement_points_left:
+		if cost > char.data.current_mp:
 			SignalBus.dialog_show_message.emit("You do not have enough movements points.")
 			return
 		else:
-			char.data.movement_points_left -= cost
+			char.data.current_mp -= cost
 	_try_move_char_abs(t_coords)
 	update_creatures_visibility()
 	clear_reachable_tiles()
