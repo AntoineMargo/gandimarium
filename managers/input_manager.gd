@@ -62,35 +62,12 @@ func BasicControls():
 	if Input.is_action_just_pressed("T"):
 		if not wm.current_world:
 			return
-		wm.spawn_test_character()
+		wm.spawn_player()
 		
 	if Input.is_action_just_pressed("Y"):
-		for concentration in Global.selected_char.data.concentrations:
-			print("	%s" % concentration.source.name)
-		#if Global.focus_char:
-			#print("Selected character melee defence: ", Global.focus_char.data.melee_defence)
-		#if not Global.current_world:
-			#return
-		#if not Global.focus_char:
-			#return
-		#print("Active hand: ", Global.selected_chayyyyr.data.active_hand)
-		#print("Active attack 1: ", Global.focus_char.data.active_attack1)
-		#print("Active attack 2: ", Global.focus_char.data.active_attack2)
-		#print("Selected character: %s" % Global.focus_char.data.name)
-		#print("Melee defence: %s" % Global.focus_char.data.melee_defence)
-		#print("Ranged defence: %s" % Global.focus_char.data.ranged_defence)
-		#print("Conditions: ")
-		#for condition in Global.focus_char.data.conditions:
-			#print("	%s" % condition.name)
-
-		#print("Current world: %s" % Global.current_world)
-		#print("Current world ID: %s" % Global.current_world.id)
-		#print("Current layer: %s" % Global.current_tile_map_layer)
-		#print("Current layer ID: %d" % Global.current_tile_map_layer.id)
-		#print("Current level: %s" % Global.current_level)
-		#print("Drag in process: %s" % Global.drag_in_progress)
-		#print("Drag was dropped: %s" % Global.drag_was_dropped)
-		#print("Last dragged item: %s" % Global.last_dragged_item)
+		if not wm.current_world:
+			return
+		wm.spawn_enemy()
 
 	if Input.is_action_just_pressed("U"):
 		var coords = wm.get_tile_coords()
@@ -152,9 +129,8 @@ func BasicControls():
 		#print_tree_pretty()
 		
 	if Input.is_action_just_pressed("M"):
-		print("Parent: ", get_parent())
-		print("Path ", get_path())
-		print("Tree ", get_tree())
+		for creature in wm.current_world.creatures:
+			print(creature.data.name)
 
 	if Input.is_action_just_pressed("E"):
 		Global.ui_log.text += "\nActivity n°1 on character: %s" % Global.selected_char.data.activities[0].name

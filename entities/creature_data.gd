@@ -5,7 +5,6 @@ class_name CreatureData
 @export var name: String
 @export var level: int = 1
 @export var sprite: String = "res://art/characters/swordwraith1.png"
-@export var is_player: bool = false
 
 @export var acuity: int = 5
 @export var brawn: int = 5
@@ -94,13 +93,25 @@ var corrosion_resist: int = 0
 var poison_resist: int = 0
 var psychic_resist: int = 0
 
+# Meta utility 
 var creature: Creature
 var reachable_tiles = []
 
+# Tactical information
 @export var map_id: String = ""
 @export var map_layer_id: int = 0
 @export var tile_x: int = 0
 @export var tile_y: int = 0
+
+@export var is_player: bool = false
+
+@export var protective = []
+@export var cooperative = []
+@export var suspicious = []
+@export var fearful = []
+@export var hostile = []
+
+var crisis_ai_active: bool = false
 
 func _on_end_turn():
 	current_ap = max_ap
@@ -137,15 +148,15 @@ func remove_talent(talent: Condition):
 		if existing_talent.name == talent.name:
 			talents.erase(existing_talent)
 
-func has_talent_named(name: String) -> bool:
+func has_talent_named(talent_name: String) -> bool:
 	for talent in talents:
-		if talent.name == name:
+		if talent.name == talent_name:
 			return true
 	return false
 
-func has_condition_named(name: String) -> bool:
+func has_condition_named(condition_name: String) -> bool:
 	for condition in conditions:
-		if condition.name == name:
+		if condition.name == condition_name:
 			return true
 	return false
 
@@ -274,7 +285,6 @@ func take_damage(damage: int, resistance: String = ""):
 	#SignalBus.dialog_damage_taken.emit(name, final_damage)
 
 func take_healing(healing: int):
-	var resistance_value: int = 0
 	current_hp += healing
 	if current_hp >= max_hp:
 		current_hp = max_hp

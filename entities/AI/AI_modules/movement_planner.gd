@@ -4,10 +4,11 @@ var wm = Global.world_manager
 
 var creature: Creature = null
 
-var all_sequences = []
 
-func movement_planner():
-	pass
+func movement_planner(sequences):
+	reach_target_sequences(creature, target)
+#	future other submodules adding their own sequences
+	return sequences
 
 func create_sequence(sequence_length):
 	var sequence = []

@@ -8,6 +8,7 @@ var current_tile_map_layer: TileMapLayer = null
 var current_level: int = 0
 var current_world: Node = null
 var local_timer: Timer = Timer.new() 
+var spawner: Spawner
 
 var target_highlights = []
 
@@ -209,11 +210,6 @@ func build_reachable_tiles():
 	#char.data.reachable_tiles = get_reachable_tiles_with_diagonals(layers[coords.vec3.z]["path_map"], coords.vec2, size)
 	char.data.reachable_tiles = get_reachable_tiles_3D_with_diagonals(coords.vec3, size)
 
-func _on_refresh_reachable_tiles():
-	clear_reachable_tiles()
-	build_reachable_tiles()
-	show_reachable_tiles()
-
 func add_item_visual(coords):
 	if not layers[current_level]["item_visual"].has(coords.vec2):
 		var visual_scene = preload("res://items/item_on_tile.tscn")
@@ -249,6 +245,200 @@ func change_level(direction: int):
 	SignalBus.refresh_reachable_tiles.emit()
 	print("Now showing layer %d" % current_level)
 
+
+func calculate_path_cost_3D(path: Array[Vector3i], tile_size: int = Global.TILE_SIZE) -> float:
+	if path.size() <= 1:
+		return 0.0
+	
+	var total_cost = 0.0
+
+	for i in range(1, path.size()):
+		var prev = path[i - 1]
+		var curr = path[i]
+
+		# Normalize to tile-space
+		var prev_tile = Vector2i(prev.x / tile_size, prev.y / tile_size)
+		var curr_tile = Vector2i(curr.x / tile_size, curr.y / tile_size)
+		var delta = curr_tile - prev_tile
+
+		var step_cost = 1.0
+		var is_diagonal = abs(delta.x) == 1 and abs(delta.y) == 1 and prev.z == curr.z
+		if is_diagonal:
+			step_cost = 1.5
+
+		# Optional: adjust cost for vertical movement
+		elif prev.z != curr.z:
+			step_cost = 1.0  # Or set to 2.0 if stairs are "harder"
+
+		print("Step ", i, ": ", prev, " → ", curr, " | delta: ", delta, " | diagonal: ", is_diagonal, " | cost: ", step_cost)
+
+		total_cost += step_cost
+	
+	return total_cost
+
+func path_to_target_adjacency(creature, target):
+	var origin = get_char_coords(target)
+	var goal = get_char_coords(creature)
+	var path = get_multi_level_path(origin.vec3, goal.vec3)
+	
+	if path.size() < 2 and path[-1] != target:
+		return
+	path.reverse()
+	path.pop_back()
+
+	return path
+
+func get_multi_level_path(start: Vector3i, goal: Vector3i) -> Array[Vector3i]:
+	var path_array = []
+	var visited: Dictionary = {}
+	var success = _find_recursive_path(start, goal, path_array, visited)
+	if not success:
+		return []
+
+	# Flatten the path segments into a single array
+	var full_path: Array[Vector3i] = []
+	for segment in path_array:
+		full_path.append_array(segment)
+	return full_path
+
+func get_tile_coords() -> Dictionary:
+	var screen_mouse_pos = get_viewport().get_mouse_position()
+	var canvas_transform = get_viewport().get_canvas_transform()
+	var world_mouse_pos = canvas_transform.affine_inverse() * screen_mouse_pos
+	var coords_2d = Vector2i(current_tile_map_layer.local_to_map(world_mouse_pos))
+	var coords_3d = Vector3i(coords_2d[0], coords_2d[1], current_level)
+	return {
+		"vec3": coords_3d,
+		"vec2": coords_2d
+	}
+
+func get_char_coords(character) -> Dictionary:
+	var pos_3d = Vector3i(
+	character.data.tile_x,
+	character.data.tile_y,
+	character.data.map_layer_id)
+	return {
+		"vec3": pos_3d,
+		"vec2": Vector2i(pos_3d.x, pos_3d.y)
+	}
+
+func add_to_tile(element, coords):
+	var layers = layers
+	if not layers[coords.vec3.z]["contents"].has(coords.vec2):
+		layers[coords.vec3.z]["contents"][coords.vec2] = []
+	layers[coords.vec3.z]["contents"][coords.vec2].append(element)
+
+func remove_from_tile(element, coords):
+	if layers[coords.vec3.z]["contents"].has(coords.vec2):
+		var contents = layers[coords.vec3.z]["contents"][coords.vec2]
+		if element in contents:
+			contents.erase(element)
+			
+			var still_has_items := false
+			for other in contents:
+				if other is Item:
+					still_has_items = true
+			if not still_has_items and layers[coords.vec3.z]["item_visual"].has(coords.vec2):
+				remove_item_visual(coords)
+
+func remove_item_visual(coords):
+	var visual = layers[coords.vec3.z]["item_visual"].get(coords.vec2)
+	if visual:
+		visual.queue_free()
+		layers[coords.vec3.z]["item_visual"].erase(coords.vec2)
+
+func flash_tile_overlay(tile_pos: Vector2i) -> void:
+	var flash_scene = preload("res://interface/flash_tile_effect.tscn")
+	var flash_instance = flash_scene.instantiate()
+	
+	var tilemap = layers[current_level]["tile_map"]
+	var world_pos = tilemap.map_to_local(tile_pos)
+	flash_instance.position = world_pos
+	
+	tilemap.add_child(flash_instance)
+	flash_instance.get_node("AnimationPlayer").play("flash")
+	
+func update_creatures_visibility():
+	if current_world:
+		for creature in current_world.creatures:
+			creature.visible = (creature.data.map_layer_id == current_level)
+
+func spawn_player():
+	spawner.spawn_character_player()
+	
+func spawn_enemy():
+	spawner.spawn_character_enemy()
+
+#func is_tile_walkable(tilemap: TileMap, world_pos: Vector2) -> bool:
+	#var coords = tilemap.local_to_map(world_pos)
+	#var data = tilemap.get_cell_tile_data(0, coords)
+	#return data != null and data.get_custom_data("walkable") == true
+
+func _on_refresh_reachable_tiles():
+	clear_reachable_tiles()
+	build_reachable_tiles()
+	show_reachable_tiles()
+
+func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, visited: Dictionary) -> bool:
+	var key = str(start)
+	if visited.has(key):
+		return false
+	visited[key] = true
+
+	if start.z == goal.z:
+		var path2D: PackedVector2Array = layers[start.z]["path_map"].get_point_path(Vector2i(start.x, start.y), Vector2i(goal.x, goal.y))
+		if path2D.is_empty():
+			return false
+		var path_3d: Array[Vector3i] = []
+		for p in path2D:
+			path_3d.append(Vector3i(p.x, p.y, start.z))
+		path_array.append(path_3d)
+		return true
+
+	# Look for ramps on this level
+	if not layer_links.has(start.z):
+		return false
+
+	for ramp_xy in layer_links[start.z].keys():
+		var path2ramp: PackedVector2Array = layers[start.z]["path_map"].get_point_path(Vector2i(start.x, start.y), ramp_xy)
+		if path2ramp.is_empty():
+			continue
+		var path_3d: Array[Vector3i] = []
+		for p in path2ramp:
+			path_3d.append(Vector3i(p.x, p.y, start.z))
+		path_array.append(path_3d)
+
+		for link in layer_links[start.z][ramp_xy]:
+			var next_z: int = link[0]
+			var next_pos: Vector2i = link[1]
+			var new_start = Vector3i(next_pos.x, next_pos.y, next_z)
+
+			if _find_recursive_path(new_start, goal, path_array, visited):
+				return true
+
+		# Backtrack if this ramp path didn't work out
+		path_array.pop_back()
+
+	return false
+
+func _try_move_char_abs(target):
+	if not Global.focus_char:
+		return
+	var char = Global.focus_char
+	var origin = get_char_coords(char)
+
+	layers[origin.vec3.z]["occupied"][origin.vec2] = false
+	layers[origin.vec3.z]["path_map"].set_point_solid(origin.vec2, false)
+	remove_from_tile(char, origin)
+	
+	char.data.tile_x = target.vec3.x
+	char.data.tile_y = target.vec3.y
+	char.data.map_layer_id = target.vec3.z
+	char.position = layers[target.vec3.z]["tile_map"].map_to_local(target.vec2)
+
+	layers[target.vec3.z]["occupied"][target.vec2] = true
+	add_to_tile(char, target)
+	layers[target.vec3.z]["path_map"].set_point_solid(target.vec2, true)
 
 func _on_world_select():
 	var coords = get_tile_coords()
@@ -324,306 +514,6 @@ func _interact_move(t_coords):
 			var point_coords = Vector2i(point[0], point[1])
 			flash_tile_overlay(point_coords)
 
-func calculate_path_cost_3D(path: Array[Vector3i], tile_size: int = Global.TILE_SIZE) -> float:
-	if path.size() <= 1:
-		return 0.0
-	
-	var total_cost = 0.0
-
-	for i in range(1, path.size()):
-		var prev = path[i - 1]
-		var curr = path[i]
-
-		# Normalize to tile-space
-		var prev_tile = Vector2i(prev.x / tile_size, prev.y / tile_size)
-		var curr_tile = Vector2i(curr.x / tile_size, curr.y / tile_size)
-		var delta = curr_tile - prev_tile
-
-		var step_cost = 1.0
-		var is_diagonal = abs(delta.x) == 1 and abs(delta.y) == 1 and prev.z == curr.z
-		if is_diagonal:
-			step_cost = 1.5
-
-		# Optional: adjust cost for vertical movement
-		elif prev.z != curr.z:
-			step_cost = 1.0  # Or set to 2.0 if stairs are "harder"
-
-		print("Step ", i, ": ", prev, " → ", curr, " | delta: ", delta, " | diagonal: ", is_diagonal, " | cost: ", step_cost)
-
-		total_cost += step_cost
-	
-	return total_cost
-
-func path_to_target_adjacency(creature, target):
-	var origin = get_char_coords(target)
-	var goal = get_char_coords(creature)
-	var path = get_multi_level_path(origin.vec3, goal.vec3)
-	
-	if path.size() < 2 and path[-1] != target:
-		return
-	path.reverse()
-	path.pop_back()
-
-	return path
-
-func _try_move_char_abs(target):
-	if not Global.focus_char:
-		return
-	var char = Global.focus_char
-	var origin = get_char_coords(char)
-
-	layers[origin.vec3.z]["occupied"][origin.vec2] = false
-	layers[origin.vec3.z]["path_map"].set_point_solid(origin.vec2, false)
-	remove_from_tile(char, origin)
-	
-	char.data.tile_x = target.vec3.x
-	char.data.tile_y = target.vec3.y
-	char.data.map_layer_id = target.vec3.z
-	char.position = layers[target.vec3.z]["tile_map"].map_to_local(target.vec2)
-
-	layers[target.vec3.z]["occupied"][target.vec2] = true
-	add_to_tile(char, target)
-	layers[target.vec3.z]["path_map"].set_point_solid(target.vec2, true)
-
-func get_multi_level_path(start: Vector3i, goal: Vector3i) -> Array[Vector3i]:
-	var path_array = []
-	var visited: Dictionary = {}
-	var success = _find_recursive_path(start, goal, path_array, visited)
-	if not success:
-		return []
-
-	# Flatten the path segments into a single array
-	var full_path: Array[Vector3i] = []
-	for segment in path_array:
-		full_path.append_array(segment)
-	return full_path
-
-func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, visited: Dictionary) -> bool:
-	var key = str(start)
-	if visited.has(key):
-		return false
-	visited[key] = true
-
-	if start.z == goal.z:
-		var path2D: PackedVector2Array = layers[start.z]["path_map"].get_point_path(Vector2i(start.x, start.y), Vector2i(goal.x, goal.y))
-		if path2D.is_empty():
-			return false
-		var path_3d: Array[Vector3i] = []
-		for p in path2D:
-			path_3d.append(Vector3i(p.x, p.y, start.z))
-		path_array.append(path_3d)
-		return true
-
-	# Look for ramps on this level
-	if not layer_links.has(start.z):
-		return false
-
-	for ramp_xy in layer_links[start.z].keys():
-		var path2ramp: PackedVector2Array = layers[start.z]["path_map"].get_point_path(Vector2i(start.x, start.y), ramp_xy)
-		if path2ramp.is_empty():
-			continue
-		var path_3d: Array[Vector3i] = []
-		for p in path2ramp:
-			path_3d.append(Vector3i(p.x, p.y, start.z))
-		path_array.append(path_3d)
-
-		for link in layer_links[start.z][ramp_xy]:
-			var next_z: int = link[0]
-			var next_pos: Vector2i = link[1]
-			var new_start = Vector3i(next_pos.x, next_pos.y, next_z)
-
-			if _find_recursive_path(new_start, goal, path_array, visited):
-				return true
-
-		# Backtrack if this ramp path didn't work out
-		path_array.pop_back()
-
-	return false
-
-
-func get_tile_coords() -> Dictionary:
-	var screen_mouse_pos = get_viewport().get_mouse_position()
-	var canvas_transform = get_viewport().get_canvas_transform()
-	var world_mouse_pos = canvas_transform.affine_inverse() * screen_mouse_pos
-	var coords_2d = Vector2i(current_tile_map_layer.local_to_map(world_mouse_pos))
-	var coords_3d = Vector3i(coords_2d[0], coords_2d[1], current_level)
-	return {
-		"vec3": coords_3d,
-		"vec2": coords_2d
-	}
-
-func get_char_coords(character) -> Dictionary:
-	var pos_3d = Vector3i(
-	character.data.tile_x,
-	character.data.tile_y,
-	character.data.map_layer_id)
-	return {
-		"vec3": pos_3d,
-		"vec2": Vector2i(pos_3d.x, pos_3d.y)
-	}
-
-func add_to_tile(element, coords):
-	var layers = layers
-	if not layers[coords.vec3.z]["contents"].has(coords.vec2):
-		layers[coords.vec3.z]["contents"][coords.vec2] = []
-	layers[coords.vec3.z]["contents"][coords.vec2].append(element)
-
-func remove_from_tile(element, coords):
-	if layers[coords.vec3.z]["contents"].has(coords.vec2):
-		var contents = layers[coords.vec3.z]["contents"][coords.vec2]
-		if element in contents:
-			contents.erase(element)
-			
-			var still_has_items := false
-			for other in contents:
-				if other is Item:
-					still_has_items = true
-			if not still_has_items and layers[coords.vec3.z]["item_visual"].has(coords.vec2):
-				remove_item_visual(coords)
-
-func remove_item_visual(coords):
-	var visual = layers[coords.vec3.z]["item_visual"].get(coords.vec2)
-	if visual:
-		visual.queue_free()
-		layers[coords.vec3.z]["item_visual"].erase(coords.vec2)
-
-func flash_tile_overlay(tile_pos: Vector2i) -> void:
-	var flash_scene = preload("res://interface/flash_tile_effect.tscn")
-	var flash_instance = flash_scene.instantiate()
-	
-	var tilemap = layers[current_level]["tile_map"]
-	var world_pos = tilemap.map_to_local(tile_pos)
-	flash_instance.position = world_pos
-	
-	tilemap.add_child(flash_instance)
-	flash_instance.get_node("AnimationPlayer").play("flash")
-	
-func update_creatures_visibility():
-	if current_world:
-		for creature in current_world.creatures:
-			creature.visible = (creature.data.map_layer_id == current_level)
-
-func spawn_test_character():
-	if current_world == null:
-		print("No current world.")
-		return
-	var my_char = CreatureData.new()
-	my_char.name = "Andimar"
-	my_char.level = 12
-	my_char.acuity = 7
-	my_char.brawn = 6
-	my_char.dexterity = 7
-	my_char.will = 6
-	#my_char.tile_x = 10
-	#my_char.tile_y = 10
-	my_char.map_id = current_world.id
-	my_char.map_layer_id = current_level
-	
-	my_char.initialise()
-	
-	var longsword := preload("res://items/weapons/wpn_longsword.tres")
-	my_char.inventory.append(longsword)
-	var longspear := preload("res://items/weapons/wpn_longspear.tres")
-	my_char.inventory.append(longspear)
-	var med_shield := preload("res://items/weapons/wpn_medium_shield.tres")
-	my_char.inventory.append(med_shield)
-	var light_armour := preload("res://items/armours/ar_light.tres")
-	my_char.inventory.append(light_armour)
-	var heavy_armour := preload("res://items/armours/ar_heavy.tres")
-	my_char.inventory.append(heavy_armour)
-	var light_shield := preload("res://items/weapons/wpn_light_shield.tres")
-	my_char.inventory.append(light_shield)
-	var heavy_shield := preload("res://items/weapons/wpn_large_shield.tres")
-	my_char.inventory.append(heavy_shield)
-	var mace := preload("res://items/weapons/wpn_mace.tres")
-	my_char.inventory.append(mace)
-	var poleaxe := preload("res://items/weapons/wpn_poleaxe.tres")
-	my_char.inventory.append(poleaxe)
-	var warhammer := preload("res://items/weapons/wpn_warhammer.tres")
-	my_char.inventory.append(warhammer)
-	var partisan := preload("res://items/weapons/wpn_partisan.tres")
-	my_char.inventory.append(partisan)
-	var battleaxe := preload("res://items/weapons/wpn_battle_axe.tres")
-	my_char.inventory.append(battleaxe)
-	var dagger := preload("res://items/weapons/wpn_dagger.tres")
-	my_char.inventory.append(dagger)
-	var falchion := preload("res://items/weapons/wpn_falchion.tres")
-	my_char.inventory.append(falchion)
-	var shortsword := preload("res://items/weapons/wpn_shortsword.tres")
-	my_char.inventory.append(shortsword)
-	var quarterstaff := preload("res://items/weapons/wpn_quarterstaff.tres")
-	my_char.inventory.append(quarterstaff)
-	var greatsword := preload("res://items/weapons/wpn_greatsword.tres")
-	my_char.inventory.append(greatsword)
-	var great_axe := preload("res://items/weapons/wpn_great_axe.tres")
-	my_char.inventory.append(great_axe)
-	var saber := preload("res://items/weapons/wpn_saber.tres")
-	my_char.inventory.append(saber)
-	var bow := preload("res://items/weapons/wpn_bow.tres")
-	my_char.inventory.append(bow)
-	#var placeholder := preload()
-	#my_char.inventory.append(placeholder)
-
-	var move = preload("res://activities/activities/move.tres")
-	var aura_damage = preload("res://activities/activities/aura_damage.tres")
-	var firebolt = preload("res://activities/activities/firebolt.tres")
-	var firebolts = preload("res://activities/activities/firebolts.tres")
-	my_char.add_activity(move)
-	my_char.add_activity(aura_damage)
-	my_char.add_activity(firebolt)
-	my_char.add_activity(firebolts)
-
-	var firebolt_spell = preload("res://abilities/spells/firebolt.tres")
-	my_char.add_ready_spell(firebolt_spell)
-	
-	var degrade_defences_spell = preload("res://abilities/spells/degrade_defences.tres")
-	my_char.add_ready_spell(degrade_defences_spell)
-	
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-
-	var char_scene = preload("res://entities/creature.tscn")
-	var char_instance = char_scene.instantiate()
-	char_instance.data = my_char
-
-	var tile_coords = get_tile_coords()
-	var tile_data = current_tile_map_layer.get_cell_tile_data(tile_coords.vec2)
-	if not tile_data.get_custom_data("walkable") or layers[current_level]["occupied"].get(tile_coords.vec2, false):
-		print("Cannot spawn character on this tile!")
-		return
-	my_char.tile_x = tile_coords.vec2.x
-	my_char.tile_y = tile_coords.vec2.y
-	char_instance.position = layers[tile_coords.vec3.z]["tile_map"].map_to_local(tile_coords.vec2)
-	current_world.add_child(char_instance)
-	current_world.register_creature(char_instance)
-	layers[current_level]["occupied"][tile_coords.vec2] = true
-	my_char.map_id = "world"
-	add_to_tile(char_instance, tile_coords)
-	layers[current_level]["path_map"].set_point_solid(tile_coords.vec2, true)
-	selection_highlight.update_selection_highlight()
-	my_char.make_active_set(1)
-	#focus_char = char_instance
-
-#func is_tile_walkable(tilemap: TileMap, world_pos: Vector2) -> bool:
-	#var coords = tilemap.local_to_map(world_pos)
-	#var data = tilemap.get_cell_tile_data(0, coords)
-	#return data != null and data.get_custom_data("walkable") == true
-
 func _on_local_timeout():
 	SignalBus.local_turn_passed.emit()
 
@@ -635,6 +525,8 @@ func _on_crisis_mode_ended():
 
 func _ready() -> void:
 	selection_highlight.update_selection_highlight()
+	spawner = Spawner.new()
+	spawner.wm = self
 	SignalBus.world_select.connect(_on_world_select)
 	SignalBus.world_interact.connect(_on_world_interact)
 	SignalBus.refresh_reachable_tiles.connect(_on_refresh_reachable_tiles)
