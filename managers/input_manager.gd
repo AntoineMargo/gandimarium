@@ -40,7 +40,7 @@ func BasicControls():
 
 	if Input.is_action_just_pressed("F"):
 		var coords = wm.get_tile_coords()
-		var longspear := preload("res://items/weapons/wpn_longsword.tres")
+		var longspear = Library.get_item("wpn_longspear")
 		#var longspear_instance = longspear.duplicate()
 		wm.add_to_tile(longspear, coords)
 		wm.add_item_visual(coords)

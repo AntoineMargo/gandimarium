@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Spell" load_steps=3 format=3 uid="uid://1bq4k4ctiqvj"]
 
-[ext_resource type="Resource" uid="uid://dynq0aw55vrns" path="res://activities/activities/firebolt.tres" id="2_5q848"]
+[ext_resource type="Resource" uid="uid://dynq0aw55vrns" path="res://activities/firebolt.tres" id="2_5q848"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/definitions/spell.gd" id="3_h4ffx"]
 
 [resource]

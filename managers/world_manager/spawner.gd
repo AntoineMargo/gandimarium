@@ -5,7 +5,7 @@ class_name Spawner
 var wm = null
 
 func spawn_character_player():
-	if not guardian():
+	if not _guardian():
 		return
 
 	var my_char = CreatureData.new()
@@ -24,92 +24,26 @@ func spawn_character_player():
 	
 	my_char.initialise()
 	
-	var longsword := load("res://items/weapons/wpn_longsword.tres")
-	#my_char.inventory.append(longsword)
-	var longspear := load("res://items/weapons/wpn_longspear.tres")
-	my_char.inventory.append(longspear)
-	var med_shield := load("res://items/weapons/wpn_medium_shield.tres")
-	my_char.inventory.append(med_shield)
-	var light_armour := load("res://items/armours/ar_light.tres")
-	my_char.inventory.append(light_armour)
-	var heavy_armour := load("res://items/armours/ar_heavy.tres")
-	my_char.inventory.append(heavy_armour)
-	var light_shield := load("res://items/weapons/wpn_light_shield.tres")
-	my_char.inventory.append(light_shield)
-	var medium_shield := load("res://items/weapons/wpn_medium_shield.tres")
-	#my_char.inventory.append(medium_shield)
-	var heavy_shield := load("res://items/weapons/wpn_large_shield.tres")
-	my_char.inventory.append(heavy_shield)
-	var mace := load("res://items/weapons/wpn_mace.tres")
-	my_char.inventory.append(mace)
-	var poleaxe := load("res://items/weapons/wpn_poleaxe.tres")
-	#my_char.inventory.append(poleaxe)
-	var warhammer := load("res://items/weapons/wpn_warhammer.tres")
-	my_char.inventory.append(warhammer)
-	var partisan := load("res://items/weapons/wpn_partisan.tres")
-	my_char.inventory.append(partisan)
-	var battleaxe := load("res://items/weapons/wpn_battle_axe.tres")
-	my_char.inventory.append(battleaxe)
-	var dagger := load("res://items/weapons/wpn_dagger.tres")
-	my_char.inventory.append(dagger)
-	var falchion := load("res://items/weapons/wpn_falchion.tres")
-	my_char.inventory.append(falchion)
-	var shortsword := load("res://items/weapons/wpn_shortsword.tres")
-	my_char.inventory.append(shortsword)
-	var quarterstaff := load("res://items/weapons/wpn_quarterstaff.tres")
-	my_char.inventory.append(quarterstaff)
-	var greatsword := load("res://items/weapons/wpn_greatsword.tres")
-	my_char.inventory.append(greatsword)
-	var great_axe := load("res://items/weapons/wpn_great_axe.tres")
-	my_char.inventory.append(great_axe)
-	var saber := load("res://items/weapons/wpn_saber.tres")
-	my_char.inventory.append(saber)
-	var bow := load("res://items/weapons/wpn_bow.tres")
-	my_char.inventory.append(bow)
+	var items = ["wpn_saber", "wpn_longspear", "wpn_great_axe", "ar_light",
+	"ar_heavy", "wpn_light_shield", "wpn_bow", "wpn_large_shield",
+	"wpn_mace", "wpn_poleaxe", "wpn_warhammer", "wpn_partisan",
+	"wpn_battle_axe", "wpn_dagger", "wpn_falchion", "wpn_shortsword",
+	"wpn_quarterstaff", "wpn_greatsword"]
+	
+	var activities = ["move", "aura_damage", "firebolt", "firebolts"]
+	
+	var abilities = ["firebolt", "degrade_defences"]
 
-	my_char.set1_left_hand = poleaxe
+	my_char.set1_left_hand = Library.get_item("wpn_poleaxe")
 	my_char.set1_right_hand = null
 
-	my_char.set2_left_hand = longsword
-	my_char.set2_right_hand = medium_shield
+	my_char.set2_left_hand = Library.get_item("wpn_longsword")
+	my_char.set2_right_hand = Library.get_item("wpn_medium_shield")
 
-	var move = load("res://activities/activities/move.tres")
-	var aura_damage = load("res://activities/activities/aura_damage.tres")
-	var firebolt = load("res://activities/activities/firebolt.tres")
-	var firebolts = load("res://activities/activities/firebolts.tres")
-	my_char.add_activity(move)
-	my_char.add_activity(aura_damage)
-	my_char.add_activity(firebolt)
-	my_char.add_activity(firebolts)
-
-	var firebolt_spell = load("res://abilities/spells/firebolt.tres")
-	my_char.add_ready_spell(firebolt_spell)
-	
-	var degrade_defences_spell = load("res://abilities/spells/degrade_defences.tres")
-	my_char.add_ready_spell(degrade_defences_spell)
-	
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-	#my_char.add_ready_spell(firebolt_spell)
-
-	_spawn_character_helper(my_char)
+	_spawn_character_helper(items, activities, abilities, my_char)
 
 func spawn_character_enemy():
-	if not guardian():
+	if not _guardian():
 		return
 	var my_char = CreatureData.new()
 	my_char.name = "Bandit"
@@ -127,22 +61,24 @@ func spawn_character_enemy():
 	
 	my_char.initialise()
 	
-	var longsword := load("res://items/weapons/wpn_longsword.tres")
-	var medium_shield := load("res://items/weapons/wpn_medium_shield.tres")
+	var items = []
+	
+	var activities = ["move"]
+	
+	var abilities = []
+
+	var longsword := Library.get_item("wpn_longsword")
+	var medium_shield := Library.get_item("wpn_medium_shield")
 	
 	my_char.set1_left_hand = longsword
 	my_char.set1_right_hand = medium_shield
-	
-	var move = load("res://activities/activities/move.tres")
 
-	my_char.add_activity(move)
-
-	var char_instance = _spawn_character_helper(my_char)
+	var char_instance = _spawn_character_helper(items, activities, abilities, my_char)
 	
 	var texture = load("res://art/characters/hooded_char_blue.png")
 	char_instance.sprite_node.texture = texture
 
-func guardian():
+func _guardian():
 	if wm.current_world == null:
 		print("No current world.")
 		return false
@@ -153,7 +89,23 @@ func guardian():
 		return false
 	return true
 
-func _spawn_character_helper(my_char):
+func _spawn_character_helper(items, activities, abilities, my_char):
+	
+	for item_ref in items:
+		var item = Library.get_item(item_ref)
+		if item:
+			my_char.inventory.append(item)
+	
+	for activity_ref in activities:
+		var activity = Library.get_activity(activity_ref)
+		if activity:
+			my_char.add_activity(activity)
+	
+	for ability_ref in abilities:
+		var ability = Library.get_ability(ability_ref)
+		if ability:
+			my_char.add_ready_spell(ability)
+	
 	var char_scene = load("res://entities/creature.tscn")
 	var char_instance = char_scene.instantiate()
 	char_instance.data = my_char

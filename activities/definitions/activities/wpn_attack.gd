@@ -27,7 +27,7 @@ func execute(user: Node, context: Dictionary) -> void:
 			weapon = user.data.set2_right_hand
 			other = user.data.set2_left_hand
 	if weapon == null:
-		var fist = preload("res://items/weapons/wpn_fist.tres")
+		var fist = Library.get_item("wpn_fist")
 		weapon = fist
 	
 	if weapon is RangedWeapon:
