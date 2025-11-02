@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creature.gd" id="1_ss4pg"]
 [ext_resource type="PackedScene" uid="uid://wqxs6c21eg4g" path="res://interface/health_bar.tscn" id="3_g0uk5"]
 [ext_resource type="Texture2D" uid="uid://bcjmxhgemswtr" path="res://art/characters/hooded_char.png" id="4_4w7f4"]
-[ext_resource type="Script" uid="uid://b52a57vjokam7" path="res://entities/AI/ai_controller.gd" id="5_ud2rd"]
-[ext_resource type="Script" uid="uid://d34g8yxog7bux" path="res://entities/AI/overmap_ai.gd" id="6_jjh6p"]
-[ext_resource type="Script" uid="uid://c322dqhnn6or0" path="res://entities/AI/local_ai.gd" id="7_dlu0d"]
-[ext_resource type="Script" uid="uid://0c01n60cxt6k" path="res://entities/AI/crisis_ai.gd" id="8_7mdsa"]
+[ext_resource type="Script" uid="uid://b52a57vjokam7" path="res://AI/ai_controller.gd" id="5_ud2rd"]
+[ext_resource type="Script" uid="uid://d34g8yxog7bux" path="res://AI/overmap_ai.gd" id="6_jjh6p"]
+[ext_resource type="Script" uid="uid://c322dqhnn6or0" path="res://AI/local_ai.gd" id="7_dlu0d"]
+[ext_resource type="Script" uid="uid://0c01n60cxt6k" path="res://AI/crisis_ai.gd" id="8_7mdsa"]
 
 [node name="Creature" type="Node2D"]
 script = ExtResource("1_ss4pg")
