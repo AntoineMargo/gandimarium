@@ -273,7 +273,7 @@ func _on_weapon_attack(target):
 		SignalBus.dialog_show_message.emit("You are not in crisis mode!")
 		return
 
-	var activity = Library.get_activity("wpn_attack")
+	var activity = Library.get_activity("weapon_attack")
 
 	var context = {
 		"target": target,
