@@ -291,6 +291,12 @@ func take_healing(healing: int):
 	creature.health_bar_instance.update_hp_bar()
 	SignalBus.dialog_healing_taken.emit(name, healing)
 
+func perceive_level():
+	return level
+
+func perceive_health():
+	return (current_hp + current_extra_hp)
+
 func initialise():
 	level_mod = level / 2
 	agility = dexterity + level_mod

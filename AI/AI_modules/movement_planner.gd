@@ -2,25 +2,13 @@ extends Node
 
 var wm = Global.world_manager
 
-var creature: Creature = null
+#var creature: Creature = null
 
-func find_closest_enemy(creature) -> Creature:
-	var closest_enemy: Creature = null
-	var best_cost: float = INF
-	for enemy in creature.data.hostile:
-		var path = wm.path_to_target_adjacency(creature, enemy)
-		if path:
-			var cost = wm.calculate_path_cost_3D(path)
-			if best_cost > cost:
-				best_cost = cost
-				closest_enemy = enemy
-	return closest_enemy
-
-func movement_planner():
-	var closest_enemy = find_closest_enemy(creature)
-	var sequences = sequences_to_reach_target(creature, closest_enemy)
-#	future other submodules adding their own sequences
-	return sequences
+func movement_planner(creature, report):
+	var closest_sequences = sequences_to_reach_target(creature, report["closest_enemy"])
+	#var strongest_sequences = sequences_to_reach_target(creature, report["strongest_enemy"])
+	#var frailest_sequences = sequences_to_reach_target(creature, report["frailest_enemy"])
+	return closest_sequences
 
 func create_sequence(sequence_length):
 	var sequence = []
@@ -48,97 +36,46 @@ func sequences_to_reach_target(creature: Creature, target: Creature):
 		sequences.append(sequence)
 		return sequences
 
-	elif mp_needed == sequence_length:
-		var sequence = create_sequence(sequence_length)
-		var move_activity = Library.get_activity("move")
-		for i in range(sequence_length):
-			sequence[i].activity = move_activity
-			sequence[i].target_creature = target
-			sequence[i].utility = 50
-		sequences.append(sequence)
-		return sequences
-
 	else: # creature needs to move towards target
-		var sequence = create_sequence(sequence_length)
-		var move_activity = Library.get_activity("move")
-		for i in range(sequence_length):
-			sequence[i].activity = move_activity
-			sequence[i].target_creature = target
-			if i == mp_needed - 1: # we ARE reaching the target with this activity
-				sequence[i].utility = 66
-				if i + 1 < sequence.size():
-					sequence[i + 1].start_position = path[-1]
-			else: # we are NOT reaching with this activity
-				sequence[i].utility = 33
-				if i + 1 < sequence.size():
-					sequence[i+1].start_position = path[i*creature.data.current_mp]
-		if mp_needed < sequence_length:
-			for i in range(mp_needed, sequence_length):
-				sequence[i].hints.append("hostidle_melee")
-		sequences.append(sequence)
-		return sequences
+		var array = []
+		array.resize(sequence_length)
+		array.fill(0)
+		combinatorial(sequences, array, 0, mp_needed)
+		for sequence in sequences:
+			var number_of_moves = 0
+			for i in range(sequence.size()):
+				var act = PlannedAct.new()
+				
+				if sequence[i] == 1: # Movement
+					number_of_moves += 1
+					act.activity = Library.get_activity("move")
+					if number_of_moves == mp_needed:
+						act.utility = 66 
+						act.start_position = path[-1]
+					else:
+						act.utility = 33
+						var step_index = min(max(0, (number_of_moves - 1) * creature.data.current_mp), path.size() - 1)
+						act.start_position = path[step_index]
+				else: # Free slot
+					act.hints.append("free")
+					if number_of_moves == mp_needed:
+						act.hints.append("hostile_melee")
+						act.start_position = path[-1]
+					else:
+						var step_index = min(max(0, (number_of_moves) * creature.data.current_mp), path.size() - 1)
+						act.start_position = path[step_index]
 
-func move_permute(sequences, current, indice: int, moves_needed: int):
-	if moves_needed == 0:
+				sequence[i] = act
+
+func combinatorial(sequences, current, indice: int, changes_needed: int):
+	if changes_needed == 0:
 		sequences.append(current.duplicate())
 		return 
 	if indice == current.size():
 		sequences.append(current.duplicate())
 		return
 	
-	move_permute(sequences, current, indice + 1, moves_needed)
+	combinatorial(sequences, current, indice + 1, changes_needed)
 	var new_current = current.duplicate()
 	new_current[indice] = 1;
-	move_permute(sequences, new_current, indice + 1, moves_needed - 1)
-	
-
-
-
-#func sequences_to_reach_target(creature: Creature, target: Creature):
-	#var sequence_length = creature.data.current_ap
-	#var sequences = []
-	#var mp_needed = 0
-	#var cost = 0
-	#var path = wm.path_to_target_adjacency(creature, target)
-	#if not path:
-		#return sequences
-#
-	#cost = wm.calculate_path_cost_3D(path)
-	#mp_needed = ceil(cost/creature.data.current_mp)
-#
-	#if mp_needed == 0: # creature is already right next to target
-		#var sequence = create_sequence(sequence_length)
-		#for i in range(sequence_length):
-			#sequence[i].hints.append("hostile_melee")
-		#sequences.append(sequence)
-		#return sequences
-#
-	#elif mp_needed == sequence_length:
-		#var sequence = create_sequence(sequence_length)
-		#var move_activity = Library.get_activity("move")
-		#for i in range(sequence_length):
-			#sequence[i].activity = move_activity
-			#sequence[i].target_creature = target
-			#sequence[i].utility = 50
-		#sequences.append(sequence)
-		#return sequences
-#
-	#else: # creature needs to move towards target
-		#var sequence = create_sequence(sequence_length)
-		#var move_activity = Library.get_activity("move")
-		#for i in range(sequence_length):
-			#sequence[i].activity = move_activity
-			#sequence[i].target_creature = target
-			#if i == mp_needed - 1: # we ARE reaching the target with this activity
-				#sequence[i].utility = 66
-				#if i + 1 < sequence.size():
-					#sequence[i + 1].start_position = path[-1]
-			#else: # we are NOT reaching with this activity
-				#sequence[i].utility = 33
-				#if i + 1 < sequence.size():
-					#sequence[i+1].start_position = path[i*creature.data.current_mp]
-		#if mp_needed < sequence_length:
-			#for i in range(mp_needed, sequence_length):
-				#sequence[i].hints.append("hostile_melee")
-		#sequences.append(sequence)
-		#return sequences
+	combinatorial(sequences, new_current, indice + 1, changes_needed - 1)
