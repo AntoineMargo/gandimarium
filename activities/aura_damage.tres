@@ -1,19 +1,14 @@
-[gd_resource type="Resource" script_class="ImmediateActivity" load_steps=5 format=3 uid="uid://byg73m6eybd5w"]
+[gd_resource type="Resource" script_class="ImmediateActivity" load_steps=4 format=3 uid="uid://byg73m6eybd5w"]
 
-[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/definitions/activities/immediate_activity.gd" id="1_0x8ga"]
-[ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://activities/definitions/effects/damaging_effect.gd" id="2_7kr7q"]
-[ext_resource type="Resource" uid="uid://bg3og04iyjehy" path="res://activities/filters/not_player_controlled.tres" id="4_cum8e"]
-
-[sub_resource type="Resource" id="Resource_7kr7q"]
-script = ExtResource("2_7kr7q")
-dice_number = 6
-damage_die = 6
-damage_bonus = 0
-metadata/_custom_type_script = "uid://otrxaros8gk8"
+[ext_resource type="Resource" uid="uid://chf3lvy2ei3y3" path="res://effects/damage.tres" id="1_flmnc"]
+[ext_resource type="Resource" uid="uid://bob0w86sso68y" path="res://filters/player_controlled.tres" id="2_78wvh"]
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/definitions/immediate_activity.gd" id="3_3t44i"]
 
 [resource]
-script = ExtResource("1_0x8ga")
+script = ExtResource("3_3t44i")
+attacking_aptitude = "resolve"
+defending_aptitude = "resolve"
 reach = 5
-filters = [ExtResource("4_cum8e"), null, null, null]
-effects = [SubResource("Resource_7kr7q")]
+filters = [ExtResource("2_78wvh")]
+effects = [ExtResource("1_flmnc")]
 metadata/_custom_type_script = "uid://beq2nm7ovc2lf"

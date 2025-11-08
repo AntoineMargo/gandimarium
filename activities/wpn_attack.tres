@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="WeaponAttack" load_steps=2 format=3 uid="uid://c0b7y8w1xi8kh"]
 
-[ext_resource type="Script" uid="uid://bjlqxgklbvfvr" path="res://activities/definitions/activities/wpn_attack.gd" id="1_dive4"]
+[ext_resource type="Script" uid="uid://bjlqxgklbvfvr" path="res://activities/definitions/wpn_attack.gd" id="1_dive4"]
 
 [resource]
 script = ExtResource("1_dive4")

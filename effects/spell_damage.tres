@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="SpellDamagingEffect" load_steps=2 format=3 uid="uid://cy2vw55kyxuxe"]
 
-[ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://activities/definitions/effects/damaging_effect.gd" id="1_alsf5"]
+[ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/definitions/spell_damaging_effect.gd" id="1_alsf5"]
 
 [resource]
 script = ExtResource("1_alsf5")

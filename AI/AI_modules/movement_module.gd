@@ -1,14 +1,16 @@
 extends Node
 
-var wm = Global.world_manager
+class_name MovementModule
 
-#var creature: Creature = null
+var wm = null
+var creature: Creature = null
+var crisis_ai: CrisisAI = null
 
-func movement_planner(creature, report):
-	var closest_sequences = sequences_to_reach_target(creature, report["closest_enemy"])
-	#var strongest_sequences = sequences_to_reach_target(creature, report["strongest_enemy"])
-	#var frailest_sequences = sequences_to_reach_target(creature, report["frailest_enemy"])
-	return closest_sequences
+func movement_planner(sequences, report):
+	sequences_to_reach_target(sequences, report["closest_enemy"])
+	#var strongest_sequences = sequences_to_reach_target(sequences, report["strongest_enemy"])
+	#var frailest_sequences = sequences_to_reach_target(sequences, report["frailest_enemy"])
+	return sequences
 
 func create_sequence(sequence_length):
 	var sequence = []
@@ -17,9 +19,8 @@ func create_sequence(sequence_length):
 		sequence.append(plannedact)
 	return sequence
 
-func sequences_to_reach_target(creature: Creature, target: Creature):
+func sequences_to_reach_target(sequences, target: Creature):
 	var sequence_length = creature.data.current_ap
-	var sequences = []
 	var mp_needed = 0
 	var cost = 0
 	var path = wm.path_to_target_adjacency(creature, target)
@@ -79,3 +80,11 @@ func combinatorial(sequences, current, indice: int, changes_needed: int):
 	var new_current = current.duplicate()
 	new_current[indice] = 1;
 	combinatorial(sequences, new_current, indice + 1, changes_needed - 1)
+
+func setup(world_manager, owner_creature: Creature, ai_controller: Node):
+	wm = world_manager
+	creature = owner_creature
+	crisis_ai = ai_controller
+
+func _ready() -> void:
+	pass

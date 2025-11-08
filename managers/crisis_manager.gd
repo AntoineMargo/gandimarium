@@ -242,7 +242,9 @@ func roll_hostile_activity(user: Creature, user_stat: String, target: Creature, 
 	var target_roll = randi_range(1, 12)
 	var target_score = target_roll + target.data.get(target_stat)
 	var contest_result = user_score - target_score
+	print("contest_result: ", contest_result)
 	var degree_of_success = determine_degree_success(contest_result)
+	print("degree of success: ", degree_of_success)
 
 	#SignalBus.call_deferred("emit_signal", "dialog_hostile_activity", user, target, user_stat, target_stat, user_roll, target_roll, degree_of_success)
 	#SignalBus.dialog_hostile_activity.emit(user, target, user_stat, target_stat, user_roll, target_roll, degree_of_success)

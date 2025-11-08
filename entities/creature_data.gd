@@ -42,6 +42,7 @@ class_name CreatureData
 
 # Derived values
 var level_mod: int = 0
+
 var agility: int = 0
 var resolve: int = 0
 var sense: int = 0
@@ -75,7 +76,7 @@ var vigour: int = 0
 var current_spell_rank: int = 0
 var max_spell_rank: int = 0
 
-var player_controlled: bool = true
+var player_controlled: bool = false
 
 var active_set: int = 1
 var active_hand: int = 1
@@ -102,8 +103,6 @@ var reachable_tiles = []
 @export var map_layer_id: int = 0
 @export var tile_x: int = 0
 @export var tile_y: int = 0
-
-@export var is_player: bool = false
 
 @export var protective = []
 @export var cooperative = []

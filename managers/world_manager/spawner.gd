@@ -19,7 +19,7 @@ func spawn_character_player():
 	my_char.map_id = wm.current_world.id
 	my_char.map_layer_id = wm.current_level
 	
-	my_char.is_player = true
+	my_char.player_controlled = true
 	my_char.crisis_ai_active = false
 	
 	my_char.initialise()
@@ -56,7 +56,6 @@ func spawn_character_enemy():
 	my_char.map_id = wm.current_world.id
 	my_char.map_layer_id = wm.current_level
 	
-	my_char.is_player = false
 	my_char.crisis_ai_active = true
 	
 	my_char.initialise()
@@ -125,7 +124,7 @@ func _spawn_character_helper(items, activities, abilities, my_char):
 	#focus_char = char_instance
 	
 	for creature in wm.current_world.creatures:
-		if creature.data.is_player:
+		if creature.data.player_controlled:
 			my_char.hostile.append(creature)
 	
 	return char_instance

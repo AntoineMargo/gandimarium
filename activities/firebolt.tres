@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="TargetedActivity" load_steps=4 format=3 uid="uid://dynq0aw55vrns"]
 
-[ext_resource type="Script" uid="uid://bwfaipulxr7tq" path="res://activities/definitions/effects/spell_damaging_effect.gd" id="2_twomy"]
-[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/definitions/activities/targeted_activity.gd" id="3_lwdho"]
+[ext_resource type="Script" uid="uid://bwfaipulxr7tq" path="res://effects/definitions/damaging_effect.gd" id="2_twomy"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/definitions/targeted_activity.gd" id="3_lwdho"]
 
 [sub_resource type="Resource" id="Resource_lwdho"]
 script = ExtResource("2_twomy")

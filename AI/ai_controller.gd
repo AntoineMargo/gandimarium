@@ -2,6 +2,7 @@ extends Node
 
 class_name AIController
 
+var wm = null
 var creature: Creature = null
 
 var current_state = null
@@ -16,3 +17,8 @@ func _ready() -> void:
 	localai = $LocalAI
 	crisisai = $CrisisAI
 	current_state = localai
+	
+	wm = Global.world_manager
+	for child in get_children():
+		if child.has_method("setup"):
+			child.setup(wm, creature)

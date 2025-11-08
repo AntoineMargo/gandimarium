@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ConditionEffect" load_steps=3 format=3 uid="uid://c3t42med2uyfe"]
 
 [ext_resource type="Resource" uid="uid://doepjn57ch0xy" path="res://conditions/degraded_defence.tres" id="1_45jni"]
-[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://activities/definitions/effects/condition_effect.gd" id="2_3gp4s"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/definitions/condition_effect.gd" id="2_3gp4s"]
 
 [resource]
 script = ExtResource("2_3gp4s")

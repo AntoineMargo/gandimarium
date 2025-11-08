@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="PlayerControlledFilter" load_steps=2 format=3 uid="uid://bg3og04iyjehy"]
-
-[ext_resource type="Script" uid="uid://7wr7rbo7kwhw" path="res://activities/definitions/filters/player_controlled.gd" id="1_5rtml"]
-
-[resource]
-script = ExtResource("1_5rtml")
-reverse = true
-metadata/_custom_type_script = "uid://7wr7rbo7kwhw"
