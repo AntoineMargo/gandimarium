@@ -127,10 +127,19 @@ func BasicControls():
 	if Input.is_action_just_pressed("L"):
 		Global.inventory_window.print_tree_pretty()
 		#print_tree_pretty()
-		
+
 	if Input.is_action_just_pressed("M"):
 		for creature in wm.current_world.creatures:
 			print(creature.data.name)
+		for creature_a in wm.current_world.creatures:
+			if creature_a.data.name == "Bandit":
+				for creature_b in wm.current_world.creatures:
+					if creature_b.data.player_controlled:
+						creature_a.data.hostile.append(creature_b)
+			elif creature_a.data.player_controlled:
+				for creature_b in wm.current_world.creatures:
+					if creature_b.data.name == "Bandit":
+						creature_a.data.hostile.append(creature_b)
 
 	if Input.is_action_just_pressed("E"):
 		Global.ui_log.text += "\nActivity n°1 on character: %s" % Global.selected_char.data.activities[0].name

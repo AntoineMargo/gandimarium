@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="HostileFilter" load_steps=2 format=3 uid="uid://dsu02etf7ho4g"]
+
+[ext_resource type="Script" uid="uid://gw4qei4qm275" path="res://filters/definitions/hostile_filter.gd" id="1_kcw4j"]
+
+[resource]
+script = ExtResource("1_kcw4j")
+metadata/_custom_type_script = "uid://gw4qei4qm275"

@@ -41,7 +41,7 @@ func spawn_character_player():
 	my_char.set2_right_hand = Library.get_item("wpn_medium_shield")
 
 	_spawn_character_helper(items, activities, abilities, my_char)
-
+	
 func spawn_character_enemy():
 	if not _guardian():
 		return
@@ -76,7 +76,7 @@ func spawn_character_enemy():
 	
 	var texture = load("res://art/characters/hooded_char_blue.png")
 	char_instance.sprite_node.texture = texture
-
+	
 func _guardian():
 	if wm.current_world == null:
 		print("No current world.")
@@ -122,10 +122,6 @@ func _spawn_character_helper(items, activities, abilities, my_char):
 	wm.selection_highlight.update_selection_highlight()
 	my_char.make_active_set(1)
 	#focus_char = char_instance
-	
-	for creature in wm.current_world.creatures:
-		if creature.data.player_controlled:
-			my_char.hostile.append(creature)
 	
 	return char_instance
 
