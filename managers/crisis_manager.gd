@@ -22,9 +22,7 @@ func try_perform_activity(activity):
 	if not enough_action_points_for_activity(activity):
 		return
 
-	var char = Global.focus_char
-	var context = {}
-	activity.execute(char, context)
+	activity.execute(Global.focus_char)
 	SignalBus.update_ui_for_char.emit()
 
 func forward_unhandled_input(event: InputEvent) -> void:
@@ -246,9 +244,8 @@ func roll_hostile_activity(user: Creature, user_stat: String, target: Creature, 
 	var degree_of_success = determine_degree_success(contest_result)
 	print("degree of success: ", degree_of_success)
 
-	#SignalBus.call_deferred("emit_signal", "dialog_hostile_activity", user, target, user_stat, target_stat, user_roll, target_roll, degree_of_success)
-	#SignalBus.dialog_hostile_activity.emit(user, target, user_stat, target_stat, user_roll, target_roll, degree_of_success)
 	return degree_of_success
+
 func enough_action_points_for_activity(activity):
 	var cost = activity.AP_cost
 	var char = Global.focus_char
@@ -275,15 +272,21 @@ func _on_weapon_attack(target):
 		SignalBus.dialog_show_message.emit("You are not in crisis mode!")
 		return
 
+	var ad = ActivityData.new(Global.focus_char, target, true)
+	ad.user_stat = "offence"
+	ad.target_stat = "melee_defence"
+	ad.resistance = "physical_resistance"
 	var activity = Library.get_activity("weapon_attack")
+	activity.attach_data(ad)
 
-	var context = {
-		"target": target,
-		"user_stat": "offence",
-		"target_stat": "melee_defence",
-		"resistance": "physical_resistance"
-	}
-	activity.execute(Global.focus_char, context)
+	#var context = {
+		#"target": target,
+		#"user_stat": "offence",
+		#"target_stat": "melee_defence",
+		#"resistance": "physical_resistance"
+	#}
+
+	activity.execute(Global.focus_char)
 	SignalBus.update_ui_for_char.emit()
 
 func _ready() -> void:

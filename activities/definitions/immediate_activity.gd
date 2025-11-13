@@ -2,7 +2,7 @@ extends Activity
 
 class_name ImmediateActivity
 
-func execute(user: Node, context: Dictionary) -> void:
+func execute(user: Node) -> void:
 	self.user = user
 	if requires_concentration:
 		concentration = Concentration.new()

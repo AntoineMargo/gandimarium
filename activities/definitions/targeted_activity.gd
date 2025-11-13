@@ -53,11 +53,11 @@ func select_entity_target():
 						for hl in wm.target_highlights:
 							hl.queue_free()
 						wm.target_highlights.clear()
-						follow_up(user, {})
+						follow_up(user)
 				else:
 					SignalBus.dialog_show_message.emit("Invalid target.")
 
-func execute(user, context: Dictionary) -> void:
+func execute(user) -> void:
 	SignalBus.dialog_show_message.emit("Waiting for target(s) of activity...")
 	var cm = Global.crisis_manager
 	cm.activity_mode = self
@@ -68,7 +68,7 @@ func execute(user, context: Dictionary) -> void:
 	target_points.clear()
 	SignalBus.change_cursor.emit("select2")
 
-func follow_up(user, context: Dictionary) -> void:
+func follow_up(user) -> void:
 	var cm = Global.crisis_manager
 	for target in target_entities:
 		for filter in filters:

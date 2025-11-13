@@ -25,6 +25,8 @@ signal toggle_end_turn_button()
 signal toggle_crisis_button()
 signal weapon_attack(target)
 
+#signal resolve_damage(name, damage)
+
 #UI
 signal open_inventory()
 signal update_inventory()

@@ -226,6 +226,34 @@ func apply_conditions_from_active_set():
 	#add_item_conditions(body)
 	# all other slots...
 
+func get_active_weapons():
+	var weapon : Weapon = null
+	var other : Weapon = null
+	if self.active_set == 1:
+		if self.active_hand == 1:
+			weapon = self.set1_left_hand
+			other = self.set1_right_hand
+		elif self.active_hand == 2:
+			weapon = self.set1_right_hand
+			other = self.set1_left_hand
+	elif self.active_set == 2:
+		if self.active_hand == 1:
+			weapon = self.set2_left_hand
+			other = self.set2_right_hand
+		elif self.active_hand == 2:
+			weapon = self.set2_right_hand
+			other = self.set2_left_hand
+	if weapon == null:
+		var fist = Library.get_item("wpn_fist")
+		weapon = fist
+	return [weapon, other]
+
+func get_active_attack_type():
+	if active_hand == 1:
+		return active_attack1
+	else:
+		return active_attack2
+
 func make_active_set(number):
 	if number not in [1, 2]:
 		return

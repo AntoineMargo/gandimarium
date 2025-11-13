@@ -1,4 +1,4 @@
-@icon("res://art/interface/activities/placeholder2.png")
+#@icon("res://art/interface/activities/placeholder2.png")
 
 extends Resource
 
@@ -42,5 +42,15 @@ var concentration = null
 var target_points = []
 var target_entities = []
 
-func execute(user: Node, context: Dictionary) -> void:
+var data: ActivityData = null
+#var last_failure_reason: String = ""
+
+func execute(user: Node) -> void:
 	pass
+
+func can_execute(user: Node) -> bool:
+	return true
+
+
+func attach_data(activity_data: ActivityData) -> void:
+	data = activity_data
