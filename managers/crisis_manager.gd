@@ -126,6 +126,8 @@ func shape_burst(target_entities, user, range):
 			target_entities.append(creature)
 
 func is_in_range(user: Node, target: Node, range: int) -> bool:
+	#print("Func is_in_range")
+	#print("	Allowed range: ", range)
 	var user_coords = Vector2i(user.data.tile_x, user.data.tile_y)
 	var target_coords = Vector2i(target.data.tile_x, target.data.tile_y)
 
@@ -279,14 +281,10 @@ func _on_weapon_attack(target):
 	var activity = Library.get_activity("weapon_attack")
 	activity.attach_data(ad)
 
-	#var context = {
-		#"target": target,
-		#"user_stat": "offence",
-		#"target_stat": "melee_defence",
-		#"resistance": "physical_resistance"
-	#}
-
-	activity.execute(Global.focus_char)
+	if activity is not WeaponAttack:
+		return
+	if activity.can_execute(Global.focus_char):
+		activity.execute(Global.focus_char)
 	SignalBus.update_ui_for_char.emit()
 
 func _ready() -> void:

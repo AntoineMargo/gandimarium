@@ -17,15 +17,15 @@ func execute(user: Node) -> void:
 
 func can_execute(user: Node) -> bool:
 	var cm = Global.crisis_manager
+	if not cm.enough_action_points(self.AP_cost):
+		return false
 	if not cm.meets_brawn_requirements(user, data.weapon, data.offhand):
 		SignalBus.dialog_not_strong_enough.emit()
 		return false
-	if cm.is_in_range(user, data.target, data.attack_range):
+	if not cm.is_in_range(user, data.target, data.attack_range):
 		SignalBus.dialog_out_of_range.emit()
 		return false
 	if not cm.has_line_of_sight(user, data.target):
 		SignalBus.dialog_no_line_of_sight.emit()
-		return false
-	if not cm.enough_action_points(self.AP_cost):
 		return false
 	return true

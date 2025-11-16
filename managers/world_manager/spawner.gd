@@ -34,11 +34,11 @@ func spawn_character_player():
 	
 	var abilities = ["firebolt", "degrade_defences"]
 
-	my_char.set1_left_hand = Library.get_item("wpn_poleaxe")
-	my_char.set1_right_hand = null
-
-	my_char.set2_left_hand = Library.get_item("wpn_longsword")
-	my_char.set2_right_hand = Library.get_item("wpn_medium_shield")
+	my_char.equip_item("set1_left_hand", Library.get_item("wpn_poleaxe"))
+	my_char.equip_item("set1_right_hand", null)
+	
+	my_char.equip_item("set2_left_hand", Library.get_item("wpn_longsword"))
+	my_char.equip_item("set2_right_hand", Library.get_item("wpn_medium_shield"))
 
 	_spawn_character_helper(items, activities, abilities, my_char)
 	
@@ -65,15 +65,12 @@ func spawn_character_enemy():
 	var activities = ["move"]
 	
 	var abilities = []
-
-	var longsword := Library.get_item("wpn_longsword")
-	var medium_shield := Library.get_item("wpn_medium_shield")
 	
-	my_char.set1_left_hand = longsword
-	my_char.set1_right_hand = medium_shield
+	my_char.equip_item("set1_left_hand", Library.get_item("wpn_longsword"))
+	my_char.equip_item("set1_right_hand", Library.get_item("wpn_medium_shield"))
 
 	var char_instance = _spawn_character_helper(items, activities, abilities, my_char)
-	
+
 	var texture = load("res://art/characters/hooded_char_blue.png")
 	char_instance.sprite_node.texture = texture
 	
@@ -120,7 +117,7 @@ func _spawn_character_helper(items, activities, abilities, my_char):
 	wm.add_to_tile(char_instance, tile_coords)
 	wm.layers[wm.current_level]["path_map"].set_point_solid(tile_coords.vec2, true)
 	wm.selection_highlight.update_selection_highlight()
-	my_char.make_active_set(1)
+	my_char.make_active_set(0)
 	#focus_char = char_instance
 	
 	return char_instance

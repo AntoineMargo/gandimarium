@@ -35,10 +35,24 @@ class_name CreatureData
 @export var head_item: Item
 @export var left_ring: Item
 @export var right_ring: Item
-@export var set1_left_hand: Item
-@export var set1_right_hand: Item
-@export var set2_left_hand: Item
-@export var set2_right_hand: Item
+#@export var set1_left_hand: Item
+#@export var set1_right_hand: Item
+#@export var set2_left_hand: Item
+#@export var set2_right_hand: Item
+@export var weapon_sets := [
+	[null, null],
+	[null, null]
+]
+
+#var active_attack1: int = 0
+#var active_attack2: int = 0
+@export var attack_types := [
+	[0, 0],
+	[0, 0]
+]
+
+var active_set: int = 0
+var active_hand: int = 0
 
 # Derived values
 var level_mod: int = 0
@@ -77,11 +91,6 @@ var current_spell_rank: int = 0
 var max_spell_rank: int = 0
 
 var player_controlled: bool = false
-
-var active_set: int = 1
-var active_hand: int = 1
-var active_attack1: int = 0
-var active_attack2: int = 0
 
 var active_right_click: Activity
 
@@ -208,92 +217,83 @@ func remove_item_conditions(item):
 			if cond.name == item_condition.name:
 				remove_condition(cond)
 
-func remove_conditions_from_active_set():
-	if active_set == 1:
-		remove_item_conditions(set1_left_hand)
-		remove_item_conditions(set1_right_hand)
-	elif active_set == 2:
-		remove_item_conditions(set2_left_hand)
-		remove_item_conditions(set2_right_hand)
+func get_active_weapon():
+	return weapon_sets[active_set][active_hand]
 
-func apply_conditions_from_active_set():
-	if active_set == 1:
-		add_item_conditions(set1_left_hand)
-		add_item_conditions(set1_right_hand)
-	elif active_set == 2:
-		add_item_conditions(set2_left_hand)
-		add_item_conditions(set2_right_hand)
+func get_active_attack_type():
+	return attack_types[active_set][active_hand]
+
+func remove_conditions_from_equipment():
+	for weapon in weapon_sets[active_set]:
+			remove_item_conditions(weapon)
+
+func apply_conditions_from_equipment():
+	for weapon in weapon_sets[active_set]:
+			add_item_conditions(weapon)
 	#add_item_conditions(body)
 	# all other slots...
 
-func get_active_weapons():
-	var weapon : Weapon = null
-	var other : Weapon = null
-	if self.active_set == 1:
-		if self.active_hand == 1:
-			weapon = self.set1_left_hand
-			other = self.set1_right_hand
-		elif self.active_hand == 2:
-			weapon = self.set1_right_hand
-			other = self.set1_left_hand
-	elif self.active_set == 2:
-		if self.active_hand == 1:
-			weapon = self.set2_left_hand
-			other = self.set2_right_hand
-		elif self.active_hand == 2:
-			weapon = self.set2_right_hand
-			other = self.set2_left_hand
-	if weapon == null:
-		var fist = Library.get_item("wpn_fist")
-		weapon = fist
-	return [weapon, other]
-
-func get_active_attack_type():
-	if active_hand == 1:
-		return active_attack1
-	else:
-		return active_attack2
-
 func make_active_set(number):
-	if number not in [1, 2]:
+	if number not in [0, 1]:
 		return
-	remove_conditions_from_active_set()
+	remove_conditions_from_equipment()
 	active_set = number
-	apply_conditions_from_active_set()
+	apply_conditions_from_equipment()
 
 func make_active_hand(number):
-	if number not in [1, 2]:
+	if number not in [0, 1]:
 		return
 	active_hand = number
 
-func unequip_slot(slot):
-	if slot == "body":
-		physical_resist -= body.physical_resist
-		body = null
-	if slot == "set1_left_hand" or slot == "set1_right_hand" or slot == "set2_left_hand" or slot == "set2_right_hand":
-		print("slot identified as weapon slot.")
-		remove_conditions_from_active_set()
-		set(slot, null)
-		apply_conditions_from_active_set()
+func add_to_inventory(item):
+	inventory.append(item)
+
+func remove_from_inventory(item):
+	inventory.erase(item)
+
+
+const SLOT_MAP = {
+	"set1_left_hand":  Vector2i(0, 0),
+	"set1_right_hand": Vector2i(0, 1),
+	"set2_left_hand":  Vector2i(1, 0),
+	"set2_right_hand": Vector2i(1, 1),
+}
+
+func get_weapon_slot(slot):
+	var pos = SLOT_MAP.get(slot)
+	return weapon_sets[pos.x][pos.y]
+
+func set_weapon_slot(slot, item):
+	var pos = SLOT_MAP.get(slot)
+	weapon_sets[pos.x][pos.y] = item
 
 func equip_item(slot, item):
+	remove_conditions_from_equipment()
+	if slot == "body":
+		_remove_item_from_slot(slot)
+		body = item
+
+	else:
+		if get_weapon_slot(slot):
+			_remove_item_from_slot(slot)
+		set_weapon_slot(slot, item)
+
+	apply_conditions_from_equipment()
+	SignalBus.update_inventory.emit()
+
+func unequip_slot(slot):
+	remove_conditions_from_equipment()
+	_remove_item_from_slot(slot)
+	apply_conditions_from_equipment()
+	
+func _remove_item_from_slot(slot):
 	if slot == "body":
 		if body:
-			inventory.append(body)
-			unequip_slot("body")
-		body = item
-		physical_resist += item.physical_resist
-
-	elif slot == "set1_left_hand" or slot == "set1_right_hand" or slot == "set2_left_hand" or slot == "set2_right_hand":
-		remove_conditions_from_active_set()
-		if get(slot):
-			inventory.append(get(slot))
-			unequip_slot(slot)
-		print("Equipped weapon in corresponding slot.")
-		set(slot, item)
-
-	apply_conditions_from_active_set()
-	SignalBus.update_inventory.emit()
+			add_to_inventory(slot)
+			body = null
+	else:
+		add_to_inventory(get_weapon_slot(slot))
+		set_weapon_slot(slot, null)
 
 func take_damage(damage: int, resistance: String = ""):
 	var resistance_value: int = 0

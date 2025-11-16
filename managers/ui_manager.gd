@@ -117,56 +117,31 @@ func update_active_attack_buttons():
 	if char == null:
 		return
 
-	var w1_slash = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType1")
-	var w1_pierce = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType2")
-	var w1_crush = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType3")
-	var w1_throw = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType4")
-	
-	var w2_slash = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType1")
-	var w2_pierce = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType2")
-	var w2_crush = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType3")
-	var w2_throw = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType4")
+	var attack_buttons := [
+		[], # left
+		[]  # right
+	]
 
-	if w1_slash and w1_pierce and w1_crush and w1_throw:
-		w1_slash.button_pressed = char.active_attack1 == 1
-		w1_pierce.button_pressed = char.active_attack1 == 2
-		w1_crush.button_pressed = char.active_attack1 == 3
-		w1_throw.button_pressed = char.active_attack1 == 4
-	else:
-		print("Attack 1 buttons failed.")
+	for hand_index in range(2):
+		for atk_index in range(4):
+			var path = "PanelContainer/VBoxContainer/HBoxContainer/Weapon%dContainer/W%d_AttackType%d" % [hand_index+1, hand_index+1, atk_index+1]
+			attack_buttons[hand_index].append(ui_node.get_node_or_null(path))
 
-	if w2_slash and w2_pierce and w2_crush and w2_throw:
-		w2_slash.button_pressed = char.active_attack2 == 1
-		w2_pierce.button_pressed = char.active_attack2 == 2
-		w2_crush.button_pressed = char.active_attack2 == 3
-		w2_throw.button_pressed = char.active_attack2 == 4
-	else:
-		print("Attack 2 buttons failed.")
+	for hand_index in range(2):
+		for atk_index in range(4):
+			var btn = attack_buttons[hand_index][atk_index]
+			if btn:
+				btn.button_pressed = char.attack_types[char.active_set][hand_index] == atk_index + 1
 
-	var left_weapon: Weapon = null
-	var right_weapon: Weapon = null
-	
-	if char.active_set == 1:
-		left_weapon = char.set1_left_hand
-		right_weapon = char.set1_right_hand
-	else:
-		left_weapon = char.set2_left_hand
-		right_weapon = char.set2_right_hand
+	var left_weapon = char.weapon_sets[char.active_set][0]
+	var right_weapon = char.weapon_sets[char.active_set][1]
 
-	var attack_type_buttons = {
-		1: [w1_slash, w2_slash],
-		2: [w1_pierce, w2_pierce],
-		3: [w1_crush, w2_crush],
-		4: [w1_throw, w2_throw]}
-
-	for attack_type in attack_type_buttons.keys():
-		var w1_btn = attack_type_buttons[attack_type][0]
-		var w2_btn = attack_type_buttons[attack_type][1]
-
-		if w1_btn:
-			w1_btn.disabled = not (left_weapon and attack_type in left_weapon.attack_type)
-		if w2_btn:
-			w2_btn.disabled = not (right_weapon and attack_type in right_weapon.attack_type)
+	for hand_index in range(2):
+		var weapon = left_weapon if hand_index == 0 else right_weapon
+		for atk_index in range(4):
+			var btn = attack_buttons[hand_index][atk_index]
+			if btn:
+				btn.disabled = not (weapon and (atk_index + 1) in weapon.attack_type)
 
 func update_active_hand_buttons():
 	if ui_node == null or Global.selected_char == null:
@@ -187,6 +162,8 @@ func update_weapon_buttons():
 	if ui_node == null:
 		print("UI node not set!")
 		return
+	
+	var item = null
 
 	var char = Global.selected_char.data
 	if !char:
@@ -194,22 +171,26 @@ func update_weapon_buttons():
 		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "None"
 		return
 
-	if char.active_set == 1:
-		if char.set1_left_hand:
-			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = char.set1_left_hand.name
+	if char.active_set == 0:
+		item = char.get_weapon_slot("set1_left_hand")
+		if item:
+			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = item.name
 		else:
 			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = "Fist"
-		if char.set1_right_hand:
-			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = char.set1_right_hand.name
+		item = char.get_weapon_slot("set1_right_hand")
+		if item:
+			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = item.name
 		else:
 			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "Fist"
-	elif char.active_set == 2:
-		if char.set2_left_hand:
-			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = char.set2_left_hand.name
+	elif char.active_set == 1:
+		item = char.get_weapon_slot("set2_left_hand")
+		if item:
+			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = item.name
 		else:
 			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = "Fist"
-		if char.set2_right_hand:
-			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = char.set2_right_hand.name
+		item = char.get_weapon_slot("set2_right_hand")
+		if item:
+			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = item.name
 		else:
 			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "Fist"
 	
