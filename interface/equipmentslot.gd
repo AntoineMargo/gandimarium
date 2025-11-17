@@ -18,17 +18,17 @@ func _drop_data(position, item):
 	
 	char.equip_item(slot_name, item)
 
-	if item is Weapon:
-		if char.active_set == 1 and slot_name in ["set1_left_hand", "set1_right_hand"]:
-			if char.set1_left_hand:
-				char.active_attack1 = char.set1_left_hand.attack_type[0]
-			if char.set1_right_hand:
-				char.active_attack2 = char.set1_right_hand.attack_type[0]
-		elif char.active_set == 2 and slot_name in ["set2_left_hand", "set2_right_hand"]:
-			if char.set2_left_hand:
-				char.active_attack1 = char.set2_left_hand.attack_type[0]
-			if char.set2_right_hand:
-				char.active_attack2 = char.set2_right_hand.attack_type[0]
+	#if item is Weapon:
+		#if char.active_set == 0 and slot_name in ["set1_left_hand", "set1_right_hand"]:
+			#if char.set1_left_hand:
+				#char.active_attack1 = char.set1_left_hand.attack_type[0]
+			#if char.set1_right_hand:
+				#char.active_attack2 = char.set1_right_hand.attack_type[0]
+		#elif char.active_set == 1 and slot_name in ["set2_left_hand", "set2_right_hand"]:
+			#if char.set2_left_hand:
+				#char.active_attack1 = char.set2_left_hand.attack_type[0]
+			#if char.set2_right_hand:
+				#char.active_attack2 = char.set2_right_hand.attack_type[0]
 
 	Global.ui_manager.drag_in_progress = false
 	Global.ui_manager.drag_was_dropped = true
@@ -38,7 +38,12 @@ func _drop_data(position, item):
 
 func _get_drag_data(at_position):
 	var um = Global.ui_manager
-	var item = Global.focus_char.data.get(slot_name)
+	var item = null;
+	if self.slot_name in ["set1_left_hand", "set1_right_hand", "set2_left_hand", "set2_right_hand"]:
+		item = Global.focus_char.data.get_weapon_slot(slot_name)
+		print("Equipment slot weapon name: ", item.name)
+	else:
+		item = Global.focus_char.data.get(slot_name)
 	if item == null:
 		return
 
@@ -51,7 +56,5 @@ func _get_drag_data(at_position):
 	preview.z_index = 3000
 	set_drag_preview(preview)
 	Global.focus_char.data.unequip_slot(slot_name)
-	#if slot_name in ["set1_left_hand", "set1_right_hand", "set2_left_hand", "set2_right_hand"]:
-		#Global.focus_char.data.equip_item(slot_name, Global.fist)
 	SignalBus.update_inventory.emit()
 	return item

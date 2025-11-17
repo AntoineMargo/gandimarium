@@ -220,6 +220,9 @@ func remove_item_conditions(item):
 func get_active_weapon():
 	return weapon_sets[active_set][active_hand]
 
+func get_active_weapons():
+	return [weapon_sets[active_set][active_hand], weapon_sets[active_set][1 - active_hand]]
+
 func get_active_attack_type():
 	return attack_types[active_set][active_hand]
 
@@ -259,13 +262,16 @@ const SLOT_MAP = {
 	"set2_right_hand": Vector2i(1, 1),
 }
 
+func get_inventory():
+	return inventory
+
 func get_weapon_slot(slot):
 	var pos = SLOT_MAP.get(slot)
-	return weapon_sets[pos.x][pos.y]
+	return weapon_sets[pos.y][pos.x]
 
 func set_weapon_slot(slot, item):
 	var pos = SLOT_MAP.get(slot)
-	weapon_sets[pos.x][pos.y] = item
+	weapon_sets[pos.y][pos.x] = item
 
 func equip_item(slot, item):
 	remove_conditions_from_equipment()
@@ -285,14 +291,13 @@ func unequip_slot(slot):
 	remove_conditions_from_equipment()
 	_remove_item_from_slot(slot)
 	apply_conditions_from_equipment()
-	
+	SignalBus.update_inventory.emit()
+
 func _remove_item_from_slot(slot):
 	if slot == "body":
 		if body:
-			add_to_inventory(slot)
 			body = null
 	else:
-		add_to_inventory(get_weapon_slot(slot))
 		set_weapon_slot(slot, null)
 
 func take_damage(damage: int, resistance: String = ""):

@@ -24,19 +24,24 @@ func _init(u: Node, t: Node, use_weapon := false) -> void:
 
 func _populate_weapon_data() -> void:
 	var weapons = user.data.get_active_weapons()
-	if weapons.is_empty():
+	if not weapons[0]:
 		weapon = Library.get_item("wpn_fist")
-	weapon = weapons[0]
-	offhand = weapons[1]
+	else:
+		weapon = weapons[0]
+	if not weapons[1]:
+		offhand = Library.get_item("wpn_fist")
+	else:
+		offhand = weapons[1]
 	
-	if weapon:
-		dice_number = weapon.dice_number
-		damage_die = weapon.damage_die
-		damage_bonus = weapon.damage_bonus + user.data.strength_bonus
+	#print("weapon: ", weapon.name)
+	#print("offhand: ", offhand.name)
+	
+	dice_number = weapon.dice_number
+	damage_die = weapon.damage_die
+	damage_bonus = weapon.damage_bonus + user.data.strength_bonus
 
-		attack_range = weapon.melee_range
-		attack_type = user.data.get_active_attack_type()
-	
-		if attack_type == 0:
-			attack_type = weapon.attack_type[0]
-		
+	attack_range = weapon.melee_range
+	attack_type = user.data.get_active_attack_type()
+
+	if attack_type == 0:
+		attack_type = weapon.attack_type[0]

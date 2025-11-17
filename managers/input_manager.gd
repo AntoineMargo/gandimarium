@@ -142,8 +142,15 @@ func BasicControls():
 						creature_a.data.hostile.append(creature_b)
 
 	if Input.is_action_just_pressed("E"):
-		Global.ui_log.text += "\nActivity n°1 on character: %s" % Global.selected_char.data.activities[0].name
-		Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()
+		if not Global.selected_char:
+			return
+		var weapon = Global.selected_char.data.get_active_weapon()
+		#var offhand = Global.selected_char.data.get_active_weapon()
+		if weapon:
+			print("weapon: ", weapon.name)
+		else:
+			print("No weapon")
+		#print("offhand: ", Global.selected_char.data.get_active_weapon())
 
 	if Input.is_action_just_pressed("Backspace"):
 		SignalBus.toggle_crisis_button.emit()

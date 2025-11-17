@@ -35,7 +35,7 @@ func spawn_character_player():
 	var abilities = ["firebolt", "degrade_defences"]
 
 	my_char.equip_item("set1_left_hand", Library.get_item("wpn_poleaxe"))
-	my_char.equip_item("set1_right_hand", null)
+	my_char.equip_item("set1_right_hand", Library.get_item("wpn_poleaxe"))
 	
 	my_char.equip_item("set2_left_hand", Library.get_item("wpn_longsword"))
 	my_char.equip_item("set2_right_hand", Library.get_item("wpn_medium_shield"))
