@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://di24o35dhla3y"]
+[gd_scene load_steps=11 format=3 uid="uid://di24o35dhla3y"]
 
 [ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creature.gd" id="1_ss4pg"]
 [ext_resource type="PackedScene" uid="uid://wqxs6c21eg4g" path="res://interface/health_bar.tscn" id="3_g0uk5"]
@@ -10,7 +10,6 @@
 [ext_resource type="Script" uid="uid://dbqssotspewok" path="res://AI/AI_modules/situation_module.gd" id="8_dlu0d"]
 [ext_resource type="Script" uid="uid://ck1ya5qrk4hik" path="res://AI/AI_modules/movement_module.gd" id="9_7mdsa"]
 [ext_resource type="Script" uid="uid://b0vouykjkbbkv" path="res://AI/AI_modules/evaluator_module.gd" id="10_dlu0d"]
-[ext_resource type="Script" uid="uid://vrmy5nlp64av" path="res://entities/debugging.gd" id="11_7mdsa"]
 
 [node name="Creature" type="Node2D"]
 script = ExtResource("1_ss4pg")
@@ -39,6 +38,3 @@ script = ExtResource("9_7mdsa")
 
 [node name="EvaluatorModule" type="Node" parent="AIController/CrisisAI"]
 script = ExtResource("10_dlu0d")
-
-[node name="Debugging" type="Node" parent="."]
-script = ExtResource("11_7mdsa")
