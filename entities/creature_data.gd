@@ -221,6 +221,11 @@ func get_active_weapon():
 	return weapon_sets[active_set][active_hand]
 
 func get_active_weapons():
+	print("get_active_weapons function")
+	print("Active set: ", active_set)
+	print("Active hand: ", active_hand)
+	print("First: ", weapon_sets[active_set][active_hand])
+	print("Second: ", weapon_sets[active_set][1 - active_hand])
 	return [weapon_sets[active_set][active_hand], weapon_sets[active_set][1 - active_hand]]
 
 func get_active_attack_type():
@@ -353,7 +358,7 @@ func initialise():
 	current_ap = max_ap
 	current_reactions = max_reactions
 	
-	active_hand = 1
+	active_hand = 0
 	
 	SignalBus.turn_ends.connect(_on_end_turn)
 	print("character file ready.")

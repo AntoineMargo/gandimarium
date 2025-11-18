@@ -50,8 +50,8 @@ func set_ui_node(node: Node):
 		set_toggler.connect("toggled", Callable(self, "on_weapon_set_toggled"))
 
 	if w1 and w2:
-		w1.connect("toggled", Callable(self, "on_weapon_button_toggled").bind(1))
-		w2.connect("toggled", Callable(self, "on_weapon_button_toggled").bind(2))
+		w1.connect("toggled", Callable(self, "on_weapon_button_toggled").bind(0))
+		w2.connect("toggled", Callable(self, "on_weapon_button_toggled").bind(1))
 	else:
 		push_error("Could not connect weapon button signals.")
 
@@ -138,7 +138,7 @@ func update_active_attack_buttons():
 		w1_crush.button_pressed = char.attack_types[char.active_set][0] == 3
 		w1_throw.button_pressed = char.attack_types[char.active_set][0] == 4
 	else:
-		print("Attack 1 buttons failed.")
+		print("Attack 0 buttons failed.")
 
 	if w2_slash and w2_pierce and w2_crush and w2_throw:
 		w2_slash.button_pressed = char.attack_types[char.active_set][1] == 1
@@ -146,7 +146,7 @@ func update_active_attack_buttons():
 		w2_crush.button_pressed = char.attack_types[char.active_set][1] == 3
 		w2_throw.button_pressed = char.attack_types[char.active_set][1] == 4
 	else:
-		print("Attack 2 buttons failed.")
+		print("Attack 1 buttons failed.")
 
 	var left_weapon: Weapon = null
 	var right_weapon: Weapon = null
@@ -265,12 +265,15 @@ func _on_update_inventory() -> void:
 		var path = equipment_label_paths[slot_name]
 		var label_node = Global.inventory_window.get_node(path)
 		if label_node and label_node is Label:
-			var item = character.data.get(slot_name)
+			var item = null
+			if slot_name in ["set1_left_hand", "set1_right_hand", "set2_left_hand", "set2_right_hand"]:
+				item = Global.focus_char.data.get_weapon_slot(slot_name)
+			else:
+				item = character.data.get(slot_name)
 			if item:
 				label_node.text = item.name
 			else:
 				label_node.text = "Empty"
-				#print("Path found for location: ", slot_name)
 		else:
 			print("Label node not found at:", path)
 

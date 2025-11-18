@@ -41,7 +41,8 @@ func _get_drag_data(at_position):
 	var item = null;
 	if self.slot_name in ["set1_left_hand", "set1_right_hand", "set2_left_hand", "set2_right_hand"]:
 		item = Global.focus_char.data.get_weapon_slot(slot_name)
-		print("Equipment slot weapon name: ", item.name)
+		if item:
+			print("Equipment slot weapon name: ", item.name)
 	else:
 		item = Global.focus_char.data.get(slot_name)
 	if item == null:
@@ -57,4 +58,5 @@ func _get_drag_data(at_position):
 	set_drag_preview(preview)
 	Global.focus_char.data.unequip_slot(slot_name)
 	SignalBus.update_inventory.emit()
+	SignalBus.update_ui_for_char.emit()
 	return item

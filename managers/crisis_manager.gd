@@ -48,7 +48,7 @@ func toggle_crisis(creature):
 
 func start_crisis(creature):
 	if crisis_mode == false:
-		print("Creature triggering crisis: ", creature.data.name)
+		#print("Creature triggering crisis: ", creature.data.name)
 		crisis_mode = true
 		crisis_turn = 0
 		SignalBus.toggle_end_turn_button.emit()

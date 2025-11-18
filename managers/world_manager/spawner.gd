@@ -39,6 +39,8 @@ func spawn_character_player():
 	
 	my_char.equip_item("set2_left_hand", Library.get_item("wpn_longsword"))
 	my_char.equip_item("set2_right_hand", Library.get_item("wpn_medium_shield"))
+	
+	my_char.equip_item("body", Library.get_item("ar_heavy"))
 
 	_spawn_character_helper(items, activities, abilities, my_char)
 	

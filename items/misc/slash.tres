@@ -1,0 +1,5 @@
+[gd_resource type="DamagePattern" format=3]
+
+[resource]
+name = "Unnamed"
+pattern = [0, 1, 2, 3]

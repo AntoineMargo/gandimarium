@@ -7,6 +7,7 @@ var _maps = {
 var _items = {
 	"ar_heavy": "res://items/armours/ar_heavy.tres",
 	"ar_light": "res://items/armours/ar_light.tres",
+	
 	"wpn_battle_axe": "res://items/weapons/wpn_battle_axe.tres",
 	"wpn_bow": "res://items/weapons/wpn_bow.tres",
 	"wpn_dagger": "res://items/weapons/wpn_dagger.tres",
