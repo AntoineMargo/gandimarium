@@ -8,7 +8,6 @@ var drag_in_progress := false
 var drag_was_dropped := true
 var last_dragged_item : Item = null
 
-
 var full_pip = preload("res://art/interface/base/pip.png")
 var empty_pip = preload("res://art/interface/base/empty_pip.png")
 
@@ -87,7 +86,7 @@ func on_attack1_button_toggled(button_pressed: bool, attack_type: int) -> void:
 	if not Global.selected_char:
 		return
 	var c = Global.selected_char
-	c.data.attack_types[c.data.active_set][0] = attack_type
+	c.data.equipment.attack_types[c.data.equipment.active_set][0] = attack_type
 	print("Active attack type changed.")
 
 func on_attack2_button_toggled(button_pressed: bool, attack_type: int) -> void:
@@ -96,7 +95,7 @@ func on_attack2_button_toggled(button_pressed: bool, attack_type: int) -> void:
 	if not Global.selected_char:
 		return
 	var c = Global.selected_char
-	c.data.attack_types[c.data.active_set][1] = attack_type
+	c.data.equipment.attack_types[c.data.equipment.active_set][1] = attack_type
 	print("Active attack type changed.")
 
 func on_weapon_button_toggled(button_pressed: bool, hand: int) -> void:
@@ -112,9 +111,10 @@ func on_weapon_set_toggled(button_pressed: bool) -> void:
 			Global.selected_char.data.set_active_set(1)
 		else:
 			Global.selected_char.data.set_active_set(0)
-		update_weapon_buttons()
+		update_ui_for_char()
 
 func update_active_attack_buttons():
+	print("update_active_attack_buttons called")
 	if ui_node == null or Global.selected_char == null:
 		return
 	
@@ -158,21 +158,33 @@ func update_active_attack_buttons():
 		left_weapon = char.equipment.weapon_sets[1][0]
 		right_weapon = char.equipment.weapon_sets[1][1]
 
-	var attack_type_buttons = {
-		1: [w1_slash, w2_slash],
-		2: [w1_pierce, w2_pierce],
-		3: [w1_crush, w2_crush],
-		4: [w1_throw, w2_throw]}
+	# This is where we disable the attack buttons if they're not available for the weapon
 
-	for attack_type in attack_type_buttons.keys():
-		var w1_btn = attack_type_buttons[attack_type][0]
-		var w2_btn = attack_type_buttons[attack_type][1]
+	# ----- Left weapon buttons -----
+	if left_weapon:
+		w1_slash.disabled  = not (1 in left_weapon.attack_type)
+		w1_pierce.disabled = not (2 in left_weapon.attack_type)
+		w1_crush.disabled  = not (3 in left_weapon.attack_type)
+		w1_throw.disabled  = not (4 in left_weapon.attack_type)
+	else:
+		# No left weapon = disable all buttons
+		w1_slash.disabled  = true
+		w1_pierce.disabled = true
+		w1_crush.disabled  = true
+		w1_throw.disabled  = true
 
-		if w1_btn:
-			w1_btn.disabled = not (left_weapon and attack_type in left_weapon.attack_type)
-		if w2_btn:
-			w2_btn.disabled = not (right_weapon and attack_type in right_weapon.attack_type)
-
+	# ----- Right weapon buttons -----
+	if right_weapon:
+		w2_slash.disabled  = not (1 in right_weapon.attack_type)
+		w2_pierce.disabled = not (2 in right_weapon.attack_type)
+		w2_crush.disabled  = not (3 in right_weapon.attack_type)
+		w2_throw.disabled  = not (4 in right_weapon.attack_type)
+	else:
+		# No right weapon = disable all buttons
+		w2_slash.disabled  = true
+		w2_pierce.disabled = true
+		w2_crush.disabled  = true
+		w2_throw.disabled  = true
 
 func update_active_hand_buttons():
 	if ui_node == null or Global.selected_char == null:
@@ -226,8 +238,8 @@ func update_weapon_buttons():
 			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "Fist"
 	
 	#attack_button.disabled = true
-	update_active_hand_buttons()
-	update_active_attack_buttons()
+	#update_active_hand_buttons()
+	#update_active_attack_buttons()
 
 func _on_update_inventory() -> void:
 	var character = Global.selected_char
@@ -261,7 +273,6 @@ func _on_update_inventory() -> void:
 		"set2_left_hand": "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2/WeaponSet2Space/WeaponSet2SpaceItemLeft",
 		"set2_right_hand": "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2/WeaponSet2Space/WeaponSet2SpaceItemRight"
 	}
-	print("_on_update_inventory slots verification.")
 	for slot_name in equipment_label_paths.keys():
 		var path = equipment_label_paths[slot_name]
 		var label_node = Global.inventory_window.get_node(path)
@@ -272,10 +283,8 @@ func _on_update_inventory() -> void:
 			else:
 				item = character.data.get_slot(slot_name)
 			if item:
-				print("slot: " + slot_name + ", item: " + item.name)
 				label_node.text = item.name
 			else:
-				print("slot: " + slot_name + ", item: none")
 				label_node.text = "Empty"
 		else:
 			print("Label node not found at:", path)
@@ -453,6 +462,7 @@ func update_char_info():
 	mp.text = "%.1f" % char.current_mp
 
 func update_ui_for_char():
+	print("===update_ui_for_char called===")
 	if Global.selected_char == null:
 		return
 	update_char_info()

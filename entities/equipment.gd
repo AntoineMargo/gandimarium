@@ -51,11 +51,11 @@ func get_active_attack_type():
 
 func get_weapon_slot(slot):
 	var pos = SLOT_MAP.get(slot)
-	return weapon_sets[pos.y][pos.x]
+	return weapon_sets[pos.x][pos.y]
 
 func set_weapon_slot(slot, item):
 	var pos = SLOT_MAP.get(slot)
-	weapon_sets[pos.y][pos.x] = item
+	weapon_sets[pos.x][pos.y] = item
 
 func get_all_equipped_items():
 	var collection = []
@@ -67,8 +67,6 @@ func get_all_equipped_items():
 	# Others...
 
 func remove_item_from_slot(slot):
-	print("_remove_item_from_slot")
-	print("	slot: ", slot)
 	var item: Item = null
 	if slot == "body":
 		if body:

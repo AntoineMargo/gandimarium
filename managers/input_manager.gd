@@ -145,12 +145,12 @@ func BasicControls():
 		if not Global.selected_char:
 			return
 		var c = Global.selected_char
-		print("active set: ", c.data.active_set)
-		print("active hand: ", c.data.active_hand)
-		print("Set 1 left attack: ", c.data.attack_types[0][0])
-		print("Set 1 right attack: ", c.data.attack_types[0][1])
-		print("Set 2 left attack: ", c.data.attack_types[1][0])
-		print("Set 2 right attack: ", c.data.attack_types[1][1])
+		print("active set: ", c.data.get_active_set())
+		print("active hand: ", c.data.get_active_hand())
+		print("Set 1 left attack: ", c.data.equipment.attack_types[0][0])
+		print("Set 1 right attack: ", c.data.equipment.attack_types[0][1])
+		print("Set 2 left attack: ", c.data.equipment.attack_types[1][0])
+		print("Set 2 right attack: ", c.data.equipment.attack_types[1][1])
 
 	if Input.is_action_just_pressed("B"):
 		if not Global.selected_char:
