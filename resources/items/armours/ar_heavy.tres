@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Armour" load_steps=3 format=3 uid="uid://c6mu3dgw62s8"]
+
+[ext_resource type="Script" uid="uid://d3sdrg6ues8pm" path="res://items/armour_res.gd" id="1_fmw27"]
+[ext_resource type="Resource" uid="uid://dq8birnet4lbp" path="res://resources/conditions/heavily_armoured.tres" id="1_k45yp"]
+
+[resource]
+script = ExtResource("1_fmw27")
+vigour = -2
+name = "Heavy Armour"
+description = "A complete set of bulky plate armour."
+weight = 10.0
+value = 1000
+conditions = [ExtResource("1_k45yp")]
+metadata/_custom_type_script = "uid://d3sdrg6ues8pm"

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SpellDamagingEffect" load_steps=2 format=3 uid="uid://cy2vw55kyxuxe"]
+
+[ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damaging_effect.gd" id="1_alsf5"]
+
+[resource]
+script = ExtResource("1_alsf5")
+dice_number = 1
+damage_die = 8
+damage_bonus = 0
+resistance = ""
+metadata/_custom_type_script = "uid://otrxaros8gk8"

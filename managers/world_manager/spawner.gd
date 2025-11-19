@@ -92,7 +92,7 @@ func _spawn_character_helper(items, activities, abilities, my_char):
 	for item_ref in items:
 		var item = Library.get_item(item_ref)
 		if item:
-			my_char.inventory.append(item)
+			my_char.add_to_inventory(item)
 	
 	for activity_ref in activities:
 		var activity = Library.get_activity(activity_ref)

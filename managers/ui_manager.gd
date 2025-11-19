@@ -103,7 +103,7 @@ func on_weapon_button_toggled(button_pressed: bool, hand: int) -> void:
 	if not button_pressed:
 		return
 	if Global.selected_char:
-		Global.selected_char.data.active_hand = hand
+		Global.selected_char.data.set_active_hand(hand)
 		print("Active hand changed.")
 
 func on_weapon_set_toggled(button_pressed: bool) -> void:
@@ -133,30 +133,30 @@ func update_active_attack_buttons():
 	var w2_throw = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType4")
 
 	if w1_slash and w1_pierce and w1_crush and w1_throw:
-		w1_slash.button_pressed = char.attack_types[char.active_set][0] == 1
-		w1_pierce.button_pressed = char.attack_types[char.active_set][0] == 2
-		w1_crush.button_pressed = char.attack_types[char.active_set][0] == 3
-		w1_throw.button_pressed = char.attack_types[char.active_set][0] == 4
+		w1_slash.button_pressed = char.equipment.attack_types[char.get_active_set()][0] == 1
+		w1_pierce.button_pressed = char.equipment.attack_types[char.get_active_set()][0] == 2
+		w1_crush.button_pressed = char.equipment.attack_types[char.get_active_set()][0] == 3
+		w1_throw.button_pressed = char.equipment.attack_types[char.get_active_set()][0] == 4
 	else:
 		print("Attack 0 buttons failed.")
 
 	if w2_slash and w2_pierce and w2_crush and w2_throw:
-		w2_slash.button_pressed = char.attack_types[char.active_set][1] == 1
-		w2_pierce.button_pressed = char.attack_types[char.active_set][1] == 2
-		w2_crush.button_pressed = char.attack_types[char.active_set][1] == 3
-		w2_throw.button_pressed = char.attack_types[char.active_set][1] == 4
+		w2_slash.button_pressed = char.equipment.attack_types[char.get_active_set()][1] == 1
+		w2_pierce.button_pressed = char.equipment.attack_types[char.get_active_set()][1] == 2
+		w2_crush.button_pressed = char.equipment.attack_types[char.get_active_set()][1] == 3
+		w2_throw.button_pressed = char.equipment.attack_types[char.get_active_set()][1] == 4
 	else:
 		print("Attack 1 buttons failed.")
 
 	var left_weapon: Weapon = null
 	var right_weapon: Weapon = null
 	
-	if char.active_set == 0:
-		left_weapon = char.weapon_sets[0][0]
-		right_weapon = char.weapon_sets[0][1]
+	if char.get_active_set() == 0:
+		left_weapon = char.equipment.weapon_sets[0][0]
+		right_weapon = char.equipment.weapon_sets[0][1]
 	else:
-		left_weapon = char.weapon_sets[1][0]
-		right_weapon = char.weapon_sets[1][1]
+		left_weapon = char.equipment.weapon_sets[1][0]
+		right_weapon = char.equipment.weapon_sets[1][1]
 
 	var attack_type_buttons = {
 		1: [w1_slash, w2_slash],
@@ -186,8 +186,8 @@ func update_active_hand_buttons():
 	var w2 = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2")
 
 	if w1 and w2:
-		w1.button_pressed = char.active_hand == 0
-		w2.button_pressed = char.active_hand == 1
+		w1.button_pressed = char.get_active_hand() == 0
+		w2.button_pressed = char.get_active_hand() == 1
 
 func update_weapon_buttons():
 	if ui_node == null:
@@ -202,7 +202,7 @@ func update_weapon_buttons():
 		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "None"
 		return
 
-	if char.active_set == 0:
+	if char.get_active_set() == 0:
 		item = char.get_weapon_slot("set1_left_hand")
 		if item:
 			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = item.name
@@ -213,7 +213,7 @@ func update_weapon_buttons():
 			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = item.name
 		else:
 			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "Fist"
-	elif char.active_set == 1:
+	elif char.get_active_set() == 1:
 		item = char.get_weapon_slot("set2_left_hand")
 		if item:
 			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = item.name

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="DamagePattern" load_steps=2 format=3 uid="uid://b00bl2cl8sjx4"]
+
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://combat/damage_pattern.gd" id="1_phspl"]
+
+[resource]
+script = ExtResource("1_phspl")
+name = "throw"
+pattern = [0, 0, 2, 4]
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"

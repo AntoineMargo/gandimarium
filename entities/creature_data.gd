@@ -21,38 +21,10 @@ class_name CreatureData
 @export var reactions: Array = []
 @export var conditions: Array = []
 @export var concentrations: Array = []
-@export var inventory: Array = []
-
-@export var head: Item
-@export var shoulders: Item
-@export var neck: Item
-@export var body: Item
-@export var belt: Item
-@export var gauntlets: Item
-@export var boots: Item
-@export var left_wrist: Item
-@export var right_wrist: Item
-@export var head_item: Item
-@export var left_ring: Item
-@export var right_ring: Item
-#@export var set1_left_hand: Item
-#@export var set1_right_hand: Item
-#@export var set2_left_hand: Item
-#@export var set2_right_hand: Item
-@export var weapon_sets := [
-	[null, null],
-	[null, null]
-]
-
-#var active_attack1: int = 0
-#var active_attack2: int = 0
-@export var attack_types := [
-	[0, 0],
-	[0, 0]
-]
-
-var active_set: int = 0
-var active_hand: int = 0
+#@export var inventory: Array = []
+@export var inventory = Inventory.new()
+@export var equipment = Equipment.new()
+@export var resistances = Resistances.new()
 
 # Derived values
 var level_mod: int = 0
@@ -94,15 +66,6 @@ var player_controlled: bool = false
 
 var active_right_click: Activity
 
-# Resistances
-var physical_resist: int = 0
-var heat_resist: int = 0
-var cold_resist: int = 0
-var electricity_resist: int = 0
-var corrosion_resist: int = 0
-var poison_resist: int = 0
-var psychic_resist: int = 0
-
 # Meta utility 
 var creature: Creature
 var reachable_tiles = []
@@ -113,11 +76,6 @@ var reachable_tiles = []
 @export var tile_x: int = 0
 @export var tile_y: int = 0
 
-@export var protective = []
-@export var cooperative = []
-@export var suspicious = []
-@export var fearful = []
-@export var hostile = []
 
 var crisis_ai_active: bool = false
 
@@ -217,93 +175,73 @@ func remove_item_conditions(item):
 			if cond.name == item_condition.name:
 				remove_condition(cond)
 
-func get_active_weapon():
-	return weapon_sets[active_set][active_hand]
-
-func get_active_weapons():
-	print("get_active_weapons function")
-	print("Active set: ", active_set)
-	print("Active hand: ", active_hand)
-	print("First: ", weapon_sets[active_set][active_hand])
-	print("Second: ", weapon_sets[active_set][1 - active_hand])
-	return [weapon_sets[active_set][active_hand], weapon_sets[active_set][1 - active_hand]]
-
-func get_active_attack_type():
-	return attack_types[active_set][active_hand]
-
 func remove_conditions_from_equipment():
-	for weapon in weapon_sets[active_set]:
-			remove_item_conditions(weapon)
+	var collection = equipment.get_all_equipped_items()
+	if collection:
+		for item in collection:
+			remove_item_conditions(item)
 
 func apply_conditions_from_equipment():
-	for weapon in weapon_sets[active_set]:
-			add_item_conditions(weapon)
-	#add_item_conditions(body)
-	# all other slots...
+	var collection = equipment.get_all_equipped_items()
+	if collection:
+		for item in collection:
+			add_item_conditions(item)
 
 func make_active_set(number):
 	if number not in [0, 1]:
 		return
 	remove_conditions_from_equipment()
-	active_set = number
+	equipment.active_set = number
 	apply_conditions_from_equipment()
 
-func make_active_hand(number):
-	if number not in [0, 1]:
-		return
-	active_hand = number
-
 func add_to_inventory(item):
-	inventory.append(item)
+	inventory.add_to_inventory(item)
 
 func remove_from_inventory(item):
-	inventory.erase(item)
-
-
-const SLOT_MAP = {
-	"set1_left_hand":  Vector2i(0, 0),
-	"set1_right_hand": Vector2i(0, 1),
-	"set2_left_hand":  Vector2i(1, 0),
-	"set2_right_hand": Vector2i(1, 1),
-}
+	inventory.remove_from_inventory(item)
 
 func get_inventory():
-	return inventory
+	return inventory.get_inventory()
+	
+func get_active_weapons():
+	return equipment.get_active_weapons()
+
+func get_active_set():
+	return equipment.active_set
+
+func get_active_hand():
+	return equipment.active_hand
+
+func set_active_set(number: int):
+	if number == 0 or number == 1:
+		equipment.active_set = number
+
+func set_active_hand(number: int):
+	if number == 0 or number == 1:
+		equipment.active_hand = number
 
 func get_weapon_slot(slot):
-	var pos = SLOT_MAP.get(slot)
-	return weapon_sets[pos.y][pos.x]
-
-func set_weapon_slot(slot, item):
-	var pos = SLOT_MAP.get(slot)
-	weapon_sets[pos.y][pos.x] = item
+	equipment.get_weapon_slot(slot)
 
 func equip_item(slot, item):
 	remove_conditions_from_equipment()
 	if slot == "body":
-		_remove_item_from_slot(slot)
-		body = item
+		equipment._remove_item_from_slot(slot)
+		equipment.body = item
 
 	else:
-		if get_weapon_slot(slot):
-			_remove_item_from_slot(slot)
-		set_weapon_slot(slot, item)
+		if equipment.get_weapon_slot(slot):
+			equipment._remove_item_from_slot(slot)
+		equipment.set_weapon_slot(slot, item)
 
 	apply_conditions_from_equipment()
 	SignalBus.update_inventory.emit()
 
 func unequip_slot(slot):
 	remove_conditions_from_equipment()
-	_remove_item_from_slot(slot)
+	equipment._remove_item_from_slot(slot)
 	apply_conditions_from_equipment()
 	SignalBus.update_inventory.emit()
-
-func _remove_item_from_slot(slot):
-	if slot == "body":
-		if body:
-			body = null
-	else:
-		set_weapon_slot(slot, null)
 
 func take_damage(damage: int, resistance: String = ""):
 	var resistance_value: int = 0
@@ -334,6 +272,19 @@ func perceive_level():
 func perceive_health():
 	return (current_hp + current_extra_hp)
 
+func get_current_ap():
+	return current_ap
+
+func meets_brawn_requirements() -> bool:
+	var weapons = get_active_weapons()
+	var main_hand = weapons[0]
+	var off_hand = weapons[1]
+	if brawn >= main_hand.brawn_req_1h >= 0 :
+		return true
+	if brawn >= main_hand.brawn_req_2h and off_hand == null:
+		return true
+	return false
+
 func initialise():
 	level_mod = level / 2
 	agility = dexterity + level_mod
@@ -358,7 +309,42 @@ func initialise():
 	current_ap = max_ap
 	current_reactions = max_reactions
 	
-	active_hand = 0
-	
 	SignalBus.turn_ends.connect(_on_end_turn)
 	print("character file ready.")
+
+#@export var head: Item
+#@export var shoulders: Item
+#@export var neck: Item
+#@export var body: Item
+#@export var belt: Item
+#@export var gauntlets: Item
+#@export var boots: Item
+#@export var left_wrist: Item
+#@export var right_wrist: Item
+#@export var head_item: Item
+#@export var left_ring: Item
+#@export var right_ring: Item
+#@export var weapon_sets := [
+	#[null, null],
+	#[null, null]
+#]
+#
+#@export var attack_types := [
+	#[0, 0],
+	#[0, 0]
+#]
+
+#@export var protective = []
+#@export var cooperative = []
+#@export var suspicious = []
+#@export var fearful = []
+#@export var hostile = []
+
+# Resistances
+#var physical_resist: int = 0
+#var heat_resist: int = 0
+#var cold_resist: int = 0
+#var electricity_resist: int = 0
+#var corrosion_resist: int = 0
+#var poison_resist: int = 0
+#var psychic_resist: int = 0

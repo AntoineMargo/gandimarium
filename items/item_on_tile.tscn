@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://sp13v64rtnhb" path="res://items/item_on_tile.gd" id="1_jt51q"]
 [ext_resource type="Texture2D" uid="uid://nrc0my4a3rpp" path="res://art/map_objects/generic_item_sprite.png" id="2_4j6hu"]
-[ext_resource type="Resource" uid="uid://b6m17tur61egw" path="res://items/weapons/wpn_longsword.tres" id="2_ohl2k"]
+[ext_resource type="Resource" uid="uid://b6m17tur61egw" path="res://resources/items/weapons/wpn_longsword.tres" id="2_ohl2k"]
 
 [node name="ItemOnTile" type="Node2D"]
 script = ExtResource("1_jt51q")

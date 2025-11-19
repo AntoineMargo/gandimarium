@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Move" load_steps=2 format=3 uid="uid://bdi3ai1alxwrn"]
+
+[ext_resource type="Script" uid="uid://cfsxuwoytabsi" path="res://activities/move.gd" id="1_cniym"]
+
+[resource]
+script = ExtResource("1_cniym")
+name = "Move"
+description = "Spend an Action to move up to your speed."
+icon = "res://art/interface/activities/move_activity2.png"
+AP_cost = 1
+EP_cost = 0
+PP_cost = 0
+requires_opposed_roll = false
+attacking_aptitude = "will"
+defending_aptitude = "will"
+range = 0
+reach = 0
+filters = []
+effects = []
+affected_type = 0
+affected_shape = 0
+metadata/_custom_type_script = "uid://cfsxuwoytabsi"

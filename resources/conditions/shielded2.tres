@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Condition" load_steps=6 format=3 uid="uid://dk6prteydbd7p"]
+
+[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/modifier_effect.gd" id="2_0iqqa"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="3_mw4s4"]
+[ext_resource type="Resource" uid="uid://hct0622s1i7r" path="res://resources/conditions/crossguarded.tres" id="5_mblmo"]
+[ext_resource type="Resource" uid="uid://c2b3pnf7kl01v" path="res://resources/conditions/shielded1.tres" id="6_lb7tj"]
+
+[sub_resource type="Resource" id="Resource_d2g6g"]
+script = ExtResource("2_0iqqa")
+modifiers = {
+"melee_defence": 2,
+"ranged_defence": 2
+}
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[resource]
+script = ExtResource("3_mw4s4")
+effects = [SubResource("Resource_d2g6g")]
+supplanted = [ExtResource("5_mblmo"), ExtResource("6_lb7tj")]

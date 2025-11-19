@@ -108,7 +108,7 @@ func BasicControls():
 			for element in contents_copy:
 				if element is Item:
 					wm.remove_from_tile(element, coords)
-					Global.selected_char.data.inventory.append(element)
+					Global.selected_char.data.get_inventory().append(element)
 					SignalBus.update_inventory.emit()
 					Global.ui_log.text += "\nPicked up %s." % element.name
 					Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()

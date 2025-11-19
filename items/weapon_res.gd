@@ -10,3 +10,5 @@ class_name Weapon
 @export var brawn_req_1h : int = 4
 @export var brawn_req_2h : int = 2
 @export var attack_type : Array = []
+
+@export var attack_types : Array[DamagePattern] = []

@@ -61,63 +61,6 @@ func end_crisis(creature):
 		SignalBus.toggle_end_turn_button.emit()
 		SignalBus.dialog_end_crisis_mode.emit()
 
-var slash = [0, 1, 2, 3]
-var pierce = [0, 0, 2, 4]
-var crush = [0, 0, 3, 3]
-var throw = [0, 0, 2, 4]
-
-func determine_degree_success(number: int):
-	if number >= CRITICAL_SUCCESS_THRESHOLD:
-		return 3  # Critical success
-	elif number >= SUCCESS_THRESHOLD:
-		return 2  # Normal success
-	elif number >= FAILURE_THRESHOLD:
-		return 1  # Failure
-	else:
-		return 0  # Critical failure
-
-func determine_damage_wpn(dice_number: int, damage_die: int, damage_bonus: int, degree_success: int, attack_type: int) -> int:
-	#var type_array: Array = get(attack_type)
-	SignalBus.dialog_attack_type_selected.emit(attack_type)
-	var multiplier: int = 0
-	match attack_type:
-		1: multiplier = slash[degree_success]
-		2: multiplier = pierce[degree_success]
-		3: multiplier = crush[degree_success]
-		4: multiplier = throw[degree_success]
-	if multiplier == 0:
-		return 0
-
-	dice_number *= multiplier
-
-	var total_damage := 0
-	for i in range(dice_number):
-		total_damage += randi_range(1, damage_die)
-	print("Degree of success: ", degree_success)
-	print("Dice number: ", dice_number)
-	print("Damage die: ", damage_die)
-	print("Damage rolled: ", total_damage)
-
-	total_damage += damage_bonus
-	return total_damage
-
-func determine_damage(dice_number: int, damage_die: int, damage_bonus: int, degree_success: int) -> int:
-	var total_damage: int = 0
-	if degree_success == 0:
-		return (0)
-	dice_number *= degree_success
-	for die in range(dice_number):
-		total_damage += randi_range(1, damage_die)
-	total_damage += damage_bonus
-	return (total_damage)
-
-func meets_brawn_requirements(user: Node, weapon: Weapon, other: Weapon) -> bool:
-	if weapon.brawn_req_1h >= 0 and user.data.brawn >= weapon.brawn_req_1h:
-		return true
-	if user.data.brawn >= weapon.brawn_req_2h and other == null:
-		return true
-	return false
-
 func shape_burst(target_entities, user, range):
 	for creature in Global.world_manager.current_world.creatures:
 		var distance_ok = is_in_range(user, creature, range)
@@ -236,30 +179,8 @@ func line_of_sight_exists(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int) 
 
 	return true
 
-func roll_hostile_activity(user: Creature, user_stat: String, target: Creature, target_stat: String):
-	var user_roll = randi_range(1, 12) 
-	var user_score = user_roll + user.data.get(user_stat)
-	var target_roll = randi_range(1, 12)
-	var target_score = target_roll + target.data.get(target_stat)
-	var contest_result = user_score - target_score
-	print("contest_result: ", contest_result)
-	var degree_of_success = determine_degree_success(contest_result)
-	print("degree of success: ", degree_of_success)
-
-	return degree_of_success
-
 func enough_action_points_for_activity(activity):
 	var cost = activity.AP_cost
-	var char = Global.focus_char
-
-	if char.data.current_ap < cost:
-		print("Not enough action points.")
-		SignalBus.dialog_show_message.emit("You don't have enough action points!")
-		return false
-	char.data.current_ap -= cost
-	return true
-
-func enough_action_points(cost):
 	var char = Global.focus_char
 
 	if char.data.current_ap < cost:
@@ -293,3 +214,82 @@ func _ready() -> void:
 	SignalBus.end_crisis_turn.connect(end_turn)
 	SignalBus.toggle_crisis_mode.connect(toggle_crisis)
 	SignalBus.weapon_attack.connect(_on_weapon_attack)
+
+#func meets_brawn_requirements(user: Node, weapon: Weapon, other: Weapon) -> bool:
+	#if user.data.brawn >= weapon.brawn_req_1h and weapon.brawn_req_1h >= 0 :
+		#return true
+	#if user.data.brawn >= weapon.brawn_req_2h and other == null:
+		#return true
+	#return false
+
+#var slash = [0, 1, 2, 3]
+#var pierce = [0, 0, 2, 4]
+#var crush = [0, 0, 3, 3]
+#var throw = [0, 0, 2, 4]
+#
+#func determine_degree_success(number: int):
+	#if number >= CRITICAL_SUCCESS_THRESHOLD:
+		#return 3  # Critical success
+	#elif number >= SUCCESS_THRESHOLD:
+		#return 2  # Normal success
+	#elif number >= FAILURE_THRESHOLD:
+		#return 1  # Failure
+	#else:
+		#return 0  # Critical failure
+
+#func determine_damage_wpn(dice_number: int, damage_die: int, damage_bonus: int, degree_success: int, attack_type: int) -> int:
+	##var type_array: Array = get(attack_type)
+	#SignalBus.dialog_attack_type_selected.emit(attack_type)
+	#var multiplier: int = 0
+	#match attack_type:
+		#1: multiplier = slash[degree_success]
+		#2: multiplier = pierce[degree_success]
+		#3: multiplier = crush[degree_success]
+		#4: multiplier = throw[degree_success]
+	#if multiplier == 0:
+		#return 0
+#
+	#dice_number *= multiplier
+#
+	#var total_damage := 0
+	#for i in range(dice_number):
+		#total_damage += randi_range(1, damage_die)
+	#print("Degree of success: ", degree_success)
+	#print("Dice number: ", dice_number)
+	#print("Damage die: ", damage_die)
+	#print("Damage rolled: ", total_damage)
+#
+	#total_damage += damage_bonus
+	#return total_damage
+
+#func determine_damage(dice_number: int, damage_die: int, damage_bonus: int, degree_success: int) -> int:
+	#var total_damage: int = 0
+	#if degree_success == 0:
+		#return (0)
+	#dice_number *= degree_success
+	#for die in range(dice_number):
+		#total_damage += randi_range(1, damage_die)
+	#total_damage += damage_bonus
+	#return (total_damage)
+
+#func roll_hostile_activity(user: Creature, user_stat: String, target: Creature, target_stat: String):
+	#var user_roll = randi_range(1, 12) 
+	#var user_score = user_roll + user.data.get(user_stat)
+	#var target_roll = randi_range(1, 12)
+	#var target_score = target_roll + target.data.get(target_stat)
+	#var contest_result = user_score - target_score
+	#print("contest_result: ", contest_result)
+	#var degree_of_success = determine_degree_success(contest_result)
+	#print("degree of success: ", degree_of_success)
+#
+	#return degree_of_success
+
+#func enough_action_points(cost):
+	#var char = Global.focus_char
+#
+	#if char.data.current_ap < cost:
+		#print("Not enough action points.")
+		#SignalBus.dialog_show_message.emit("You don't have enough action points!")
+		#return false
+	#char.data.current_ap -= cost
+	#return true

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=6 format=3 uid="uid://cttibyudwhxhf"]
+
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://combat/damage_pattern.gd" id="1_kifq2"]
+[ext_resource type="Resource" uid="uid://hct0622s1i7r" path="res://resources/conditions/crossguarded.tres" id="2_hoo22"]
+[ext_resource type="Resource" uid="uid://b6lwaevovr35s" path="res://resources/damage_patterns/pierce.tres" id="2_r8jd4"]
+[ext_resource type="Resource" uid="uid://b00bl2cl8sjx4" path="res://resources/damage_patterns/throw.tres" id="3_o8djx"]
+[ext_resource type="Script" uid="uid://djeyifuagvkr6" path="res://items/weapon_res.gd" id="3_y1xnb"]
+
+[resource]
+script = ExtResource("3_y1xnb")
+dice_number = 1
+damage_die = 10
+melee_range = 2
+attack_type = [2, 4]
+attack_types = Array[ExtResource("1_kifq2")]([ExtResource("2_r8jd4"), ExtResource("3_o8djx")])
+name = "Estoc"
+conditions = [ExtResource("2_hoo22")]
+metadata/_custom_type_script = "uid://djeyifuagvkr6"
