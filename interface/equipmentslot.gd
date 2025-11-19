@@ -44,7 +44,7 @@ func _get_drag_data(at_position):
 		if item:
 			print("Equipment slot weapon name: ", item.name)
 	else:
-		item = Global.focus_char.data.get(slot_name)
+		item = Global.focus_char.data.get_slot(slot_name)
 	if item == null:
 		return
 

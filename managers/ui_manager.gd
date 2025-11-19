@@ -108,10 +108,10 @@ func on_weapon_button_toggled(button_pressed: bool, hand: int) -> void:
 
 func on_weapon_set_toggled(button_pressed: bool) -> void:
 	if Global.selected_char:
-		if Global.selected_char.data.active_set == 0:
-			Global.selected_char.data.active_set = 1
+		if Global.selected_char.data.get_active_set() == 0:
+			Global.selected_char.data.set_active_set(1)
 		else:
-			Global.selected_char.data.active_set = 0
+			Global.selected_char.data.set_active_set(0)
 		update_weapon_buttons()
 
 func update_active_attack_buttons():
@@ -261,18 +261,21 @@ func _on_update_inventory() -> void:
 		"set2_left_hand": "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2/WeaponSet2Space/WeaponSet2SpaceItemLeft",
 		"set2_right_hand": "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2/WeaponSet2Space/WeaponSet2SpaceItemRight"
 	}
+	print("_on_update_inventory slots verification.")
 	for slot_name in equipment_label_paths.keys():
 		var path = equipment_label_paths[slot_name]
 		var label_node = Global.inventory_window.get_node(path)
 		if label_node and label_node is Label:
 			var item = null
 			if slot_name in ["set1_left_hand", "set1_right_hand", "set2_left_hand", "set2_right_hand"]:
-				item = Global.focus_char.data.get_weapon_slot(slot_name)
+				item = character.data.get_weapon_slot(slot_name)
 			else:
-				item = character.data.get(slot_name)
+				item = character.data.get_slot(slot_name)
 			if item:
+				print("slot: " + slot_name + ", item: " + item.name)
 				label_node.text = item.name
 			else:
+				print("slot: " + slot_name + ", item: none")
 				label_node.text = "Empty"
 		else:
 			print("Label node not found at:", path)
@@ -302,7 +305,7 @@ func drag_fail_restore():
 				SignalBus.drop_item_on_tile.emit(Global.selected_char, last_dragged_item)
 			else:
 				print("Drag failed — restoring item.")
-				Global.selected_char.data.inventory.append(last_dragged_item)
+				Global.selected_char.data.inventory.add_to_inventory(last_dragged_item)
 				SignalBus.update_inventory.emit()
 
 		drag_in_progress = false

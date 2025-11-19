@@ -220,18 +220,23 @@ func set_active_hand(number: int):
 	if number == 0 or number == 1:
 		equipment.active_hand = number
 
+func get_slot(slot):
+	return equipment.get(slot)
+
 func get_weapon_slot(slot):
-	equipment.get_weapon_slot(slot)
+	return equipment.get_weapon_slot(slot)
 
 func equip_item(slot, item):
+	print("equip_item")
+	print("	item: ", item.name)
 	remove_conditions_from_equipment()
 	if slot == "body":
-		equipment._remove_item_from_slot(slot)
+		remove_item_from_slot(slot)
 		equipment.body = item
 
 	else:
 		if equipment.get_weapon_slot(slot):
-			equipment._remove_item_from_slot(slot)
+			remove_item_from_slot(slot)
 		equipment.set_weapon_slot(slot, item)
 
 	apply_conditions_from_equipment()
@@ -239,9 +244,13 @@ func equip_item(slot, item):
 
 func unequip_slot(slot):
 	remove_conditions_from_equipment()
-	equipment._remove_item_from_slot(slot)
+	remove_item_from_slot(slot)
 	apply_conditions_from_equipment()
 	SignalBus.update_inventory.emit()
+
+func remove_item_from_slot(slot):
+	var item = equipment.remove_item_from_slot(slot)
+	add_to_inventory(item)
 
 func take_damage(damage: int, resistance: String = ""):
 	var resistance_value: int = 0

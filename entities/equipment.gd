@@ -66,9 +66,15 @@ func get_all_equipped_items():
 		collection.append(body)
 	# Others...
 
-func _remove_item_from_slot(slot):
+func remove_item_from_slot(slot):
+	print("_remove_item_from_slot")
+	print("	slot: ", slot)
+	var item: Item = null
 	if slot == "body":
 		if body:
+			item = body
 			body = null
 	else:
+		item = get_weapon_slot(slot)
 		set_weapon_slot(slot, null)
+	return (item)

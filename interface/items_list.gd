@@ -20,10 +20,10 @@ func _drop_data(position, data):
 				break
 
 		# Clamp target index to valid range
-		target_index = clamp(target_index, 0, char.inventory.size())
+		target_index = clamp(target_index, 0, char.get_inventory().size())
 
 		# Insert it
-		char.inventory.insert(target_index, data)
+		char.get_inventory().insert(target_index, data)
 		
 		print("drag considered successful.")
 		um.drag_in_progress = false
