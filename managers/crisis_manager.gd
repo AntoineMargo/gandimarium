@@ -190,30 +190,30 @@ func enough_action_points_for_activity(activity):
 	char.data.current_ap -= cost
 	return true
 
-func _on_weapon_attack(target):
-	if not crisis_mode:
-		SignalBus.dialog_show_message.emit("You are not in crisis mode!")
-		return
-
-	var ad = ActivityData.new(Global.focus_char, target, true)
-	ad.user_stat = "offence"
-	ad.target_stat = "melee_defence"
-	ad.resistance = "physical_resistance"
-	var activity = Library.get_activity("weapon_attack")
-	activity.attach_data(ad)
-
-	if activity is not WeaponAttack:
-		return
-	if activity.can_execute(Global.focus_char):
-		activity.execute(Global.focus_char)
-	SignalBus.update_ui_for_char.emit()
+#func _on_weapon_attack(target):
+	#if not crisis_mode:
+		#SignalBus.dialog_show_message.emit("You are not in crisis mode!")
+		#return
+#
+	#var ad = ActivityData.new(Global.focus_char, target, true)
+	#ad.user_stat = "offence"
+	#ad.target_stat = "melee_defence"
+	#ad.resistance = "physical_resistance"
+	#var activity = Library.get_activity("weapon_attack")
+	#activity.attach_data(ad)
+#
+	#if activity is not WeaponAttack:
+		#return
+	#if activity.can_execute(Global.focus_char):
+		#activity.execute(Global.focus_char)
+	#SignalBus.update_ui_for_char.emit()
 
 func _ready() -> void:
 	SignalBus.start_crisis_mode.connect(start_crisis)
 	SignalBus.end_crisis_mode.connect(end_crisis)
 	SignalBus.end_crisis_turn.connect(end_turn)
 	SignalBus.toggle_crisis_mode.connect(toggle_crisis)
-	SignalBus.weapon_attack.connect(_on_weapon_attack)
+	#SignalBus.weapon_attack.connect(_on_weapon_attack)
 
 #func meets_brawn_requirements(user: Node, weapon: Weapon, other: Weapon) -> bool:
 	#if user.data.brawn >= weapon.brawn_req_1h and weapon.brawn_req_1h >= 0 :

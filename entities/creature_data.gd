@@ -20,8 +20,8 @@ class_name CreatureData
 @export var spells_available: Array = []
 @export var reactions: Array = []
 @export var conditions: Array = []
+@export var activity_modifiers: Array = []
 @export var concentrations: Array = []
-#@export var inventory: Array = []
 @export var inventory = Inventory.new()
 @export var equipment = Equipment.new()
 @export var resistances = Resistances.new()
@@ -206,6 +206,9 @@ func get_inventory():
 func get_active_weapons():
 	return equipment.get_active_weapons()
 
+func get_active_attack_type():
+	return equipment.get_active_attack_type()
+
 func get_active_set():
 	return equipment.active_set
 
@@ -284,6 +287,11 @@ func perceive_health():
 func get_current_ap():
 	return current_ap
 
+func consume_ap(number):
+	current_ap -= number
+	if current_ap < 0:
+		current_ap = 0
+
 func meets_brawn_requirements() -> bool:
 	var weapons = get_active_weapons()
 	var main_hand = weapons[0]
@@ -293,6 +301,27 @@ func meets_brawn_requirements() -> bool:
 	if brawn >= main_hand.brawn_req_2h and off_hand == null:
 		return true
 	return false
+
+func get_modified_activity(base_activity: Activity) -> Activity:
+	var result = base_activity.duplicate(true)
+
+	for modifier in activity_modifiers:
+		result = modifier.modify_activity(result)
+
+	return result
+
+func perform_activity(activity: Activity, target: Node = null):
+	var final = get_modified_activity(activity)
+	if target:
+		final.target_entities.append(target)
+	final.execute(creature)
+
+func _perform_attack_activity(target):
+	var weapons = get_active_weapons()
+	if weapons[0]:
+		var attack_activity = weapons[0].attack
+		attack_activity.weapon = weapons[0]
+		perform_activity(attack_activity, target)
 
 func initialise():
 	level_mod = level / 2
@@ -319,41 +348,5 @@ func initialise():
 	current_reactions = max_reactions
 	
 	SignalBus.turn_ends.connect(_on_end_turn)
+	SignalBus.weapon_attack.connect(_perform_attack_activity)
 	print("character file ready.")
-
-#@export var head: Item
-#@export var shoulders: Item
-#@export var neck: Item
-#@export var body: Item
-#@export var belt: Item
-#@export var gauntlets: Item
-#@export var boots: Item
-#@export var left_wrist: Item
-#@export var right_wrist: Item
-#@export var head_item: Item
-#@export var left_ring: Item
-#@export var right_ring: Item
-#@export var weapon_sets := [
-	#[null, null],
-	#[null, null]
-#]
-#
-#@export var attack_types := [
-	#[0, 0],
-	#[0, 0]
-#]
-
-#@export var protective = []
-#@export var cooperative = []
-#@export var suspicious = []
-#@export var fearful = []
-#@export var hostile = []
-
-# Resistances
-#var physical_resist: int = 0
-#var heat_resist: int = 0
-#var cold_resist: int = 0
-#var electricity_resist: int = 0
-#var corrosion_resist: int = 0
-#var poison_resist: int = 0
-#var psychic_resist: int = 0
