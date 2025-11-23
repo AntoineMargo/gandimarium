@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="WeaponDamagingEffect" load_steps=2 format=3 uid="uid://cfgha4p4y8dnp"]
+
+[ext_resource type="Script" uid="uid://b6tgad3sth82c" path="res://effects/weapon_damage.gd" id="1_lyqmn"]
+
+[resource]
+script = ExtResource("1_lyqmn")
+resistance = "physical_resist"
+metadata/_custom_type_script = "uid://b6tgad3sth82c"

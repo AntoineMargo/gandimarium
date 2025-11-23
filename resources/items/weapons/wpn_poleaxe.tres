@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=7 format=3 uid="uid://cngw3i2m4xinc"]
+[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3 uid="uid://cngw3i2m4xinc"]
 
+[ext_resource type="Resource" uid="uid://c0b7y8w1xi8kh" path="res://resources/activities/wpn_attack.tres" id="1_3rkga"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://combat/damage_pattern.gd" id="1_4tfku"]
 [ext_resource type="Resource" uid="uid://lowvjn23gb1u" path="res://resources/damage_patterns/slash.tres" id="2_3rkga"]
 [ext_resource type="Script" uid="uid://djeyifuagvkr6" path="res://items/weapon_res.gd" id="2_eqn0f"]
@@ -17,4 +18,5 @@ brawn_req_2h = 4
 attack_type = [1, 2, 3, 4]
 attack_types = Array[ExtResource("1_4tfku")]([ExtResource("2_3rkga"), ExtResource("3_fpbap"), ExtResource("4_wngi6"), ExtResource("5_duvek")])
 name = "Poleaxe"
+attack = ExtResource("1_3rkga")
 metadata/_custom_type_script = "uid://djeyifuagvkr6"

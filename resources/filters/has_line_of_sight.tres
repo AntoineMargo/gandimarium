@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="LineOfSightFilter" load_steps=2 format=3 uid="uid://bmm1u1eqs40jm"]
+
+[ext_resource type="Script" uid="uid://dswjr33abygln" path="res://filters/line_of_sight.gd" id="1_jc5rb"]
+
+[resource]
+script = ExtResource("1_jc5rb")
+metadata/_custom_type_script = "uid://dswjr33abygln"

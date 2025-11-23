@@ -3,7 +3,9 @@ extends Filter
 class_name BrawnToUseWeaponFilter
 
 func is_satisfied(target, activity):
-	if not target:
-		return false
+	var satisfied: bool = target.data.meets_brawn_requirements()
 
-	return target.meets_brawn_requirements()
+	if not satisfied:
+		SignalBus.not_enough_brawn.emit()
+
+	return satisfied

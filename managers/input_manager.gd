@@ -151,6 +151,15 @@ func BasicControls():
 		print("Set 1 right attack: ", c.data.equipment.attack_types[0][1])
 		print("Set 2 left attack: ", c.data.equipment.attack_types[1][0])
 		print("Set 2 right attack: ", c.data.equipment.attack_types[1][1])
+		var weapons = c.data.get_active_weapons()
+		if weapons[0]:
+			print("Main weapon: ",  weapons[0].name)
+		else:
+			print("Main weapon: Empty")
+		if weapons[1]:
+			print("Offhand weapon: ",  weapons[1].name)
+		else:
+			print("Offhand weapon: Empty")
 
 	if Input.is_action_just_pressed("B"):
 		if not Global.selected_char:

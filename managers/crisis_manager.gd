@@ -213,7 +213,6 @@ func _ready() -> void:
 	SignalBus.end_crisis_mode.connect(end_crisis)
 	SignalBus.end_crisis_turn.connect(end_turn)
 	SignalBus.toggle_crisis_mode.connect(toggle_crisis)
-	#SignalBus.weapon_attack.connect(_on_weapon_attack)
 
 #func meets_brawn_requirements(user: Node, weapon: Weapon, other: Weapon) -> bool:
 	#if user.data.brawn >= weapon.brawn_req_1h and weapon.brawn_req_1h >= 0 :

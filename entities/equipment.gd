@@ -39,11 +39,11 @@ func get_active_weapon():
 	return weapon_sets[active_set][active_hand]
 
 func get_active_weapons():
-	print("get_active_weapons function")
-	print("Active set: ", active_set)
-	print("Active hand: ", active_hand)
-	print("First: ", weapon_sets[active_set][active_hand])
-	print("Second: ", weapon_sets[active_set][1 - active_hand])
+	#print("get_active_weapons function")
+	#print("Active set: ", active_set)
+	#print("Active hand: ", active_hand)
+	#print("First: ", weapon_sets[active_set][active_hand])
+	#print("Second: ", weapon_sets[active_set][1 - active_hand])
 	return [weapon_sets[active_set][active_hand], weapon_sets[active_set][1 - active_hand]]
 
 func get_active_attack_type():

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="BrawnToUseWeaponFilter" load_steps=2 format=3 uid="uid://b4wcicn6nxx3e"]
+
+[ext_resource type="Script" uid="uid://ba0laem1chg82" path="res://filters/brawn_to_use_weapon.gd" id="1_n8gnv"]
+
+[resource]
+script = ExtResource("1_n8gnv")
+metadata/_custom_type_script = "uid://ba0laem1chg82"

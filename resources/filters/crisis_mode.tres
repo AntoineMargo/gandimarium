@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="CrisisModeFilter" load_steps=2 format=3 uid="uid://rsyurje8uegc"]
+
+[ext_resource type="Script" uid="uid://bkpdgukx86gex" path="res://filters/crisis_mode_active.gd" id="1_xhh25"]
+
+[resource]
+script = ExtResource("1_xhh25")
+metadata/_custom_type_script = "uid://bkpdgukx86gex"

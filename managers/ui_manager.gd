@@ -249,7 +249,7 @@ func _on_update_inventory() -> void:
 		print("ItemsList node not found!")
 		return
 	if Global.selected_char == null:
-		print("No character selected.")
+		#print("No character selected.")
 		return
 	var items = character.data.get_inventory()
 	for item in items:

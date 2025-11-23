@@ -470,8 +470,8 @@ func _interact_attack(coords):
 			break
 	if not target:
 		return
-
-	SignalBus.weapon_attack.emit(target)
+	print("===calling perform attak===")
+	Global.focus_char.data.perform_attack(target)
 
 func _interact_move(t_coords):
 	var char = Global.focus_char

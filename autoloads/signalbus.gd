@@ -11,6 +11,10 @@ signal dialog_attack_type_selected(attack_type)
 signal dialog_selectable_targets(number)
 signal dialog_hostile_activity(user, target, user_stat, target_stat, user_roll, target_roll, degree_of_success)
 
+signal crisis_mode_not_active()
+signal not_enough_brawn()
+signal not_enough_ap()
+
 signal dialog_start_crisis_mode()
 signal dialog_end_crisis_mode()
 signal dialog_end_turn()

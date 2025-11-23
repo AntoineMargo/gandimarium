@@ -1,7 +1,6 @@
 #@icon("res://art/interface/activities/placeholder2.png")
 
 extends Resource
-
 class_name Activity
 
 enum AffectedType {
@@ -21,8 +20,8 @@ enum AffectedShape {
 @export var description: String = "This is a placeholder description."
 @export var icon: String = "res://art/interface/activities/placeholder1.png"
 @export var AP_cost: int = 1
-@export var EP_cost: int = 0
 @export var PP_cost: int = 0
+@export var EP_cost: int = 0
 @export var requires_concentration: bool = false
 #@export var requires_opposed_roll: bool = false
 @export var attacking_aptitude: String = "will"
@@ -33,8 +32,8 @@ enum AffectedShape {
 @export var self_filters: Array[Filter] = []
 @export var self_effects: Array[Effect] = []
 
-@export var filters: Array[Filter] = []
-@export var effects: Array[Effect] = []
+@export var target_filters: Array[Filter] = []
+@export var target_effects: Array[Effect] = []
 @export_enum("ENTITIES", "TERRAIN", "ENTITIES_OR_TERRAIN", "ENTITIES_AND_TERRAIN")
 var affected_type: int = 0
 @export_enum("BURST", "LINE", "CONE")
@@ -49,10 +48,10 @@ var target_entities = []
 var data: ActivityData = null
 #var last_failure_reason: String = ""
 
-func execute(user: Node) -> void:
+func execute() -> void:
 	pass
 
-func can_execute(user: Node) -> bool:
+func can_execute() -> bool:
 	for filter in self_filters:
 		if filter is Filter:
 			if not filter.is_satisfied(user, self):

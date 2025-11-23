@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="RangeFilter" load_steps=2 format=3 uid="uid://bq8ogrlvcj3dh"]
+
+[ext_resource type="Script" uid="uid://sq4vydhc5s2u" path="res://filters/range.gd" id="1_ylc42"]
+
+[resource]
+script = ExtResource("1_ylc42")
+metadata/_custom_type_script = "uid://sq4vydhc5s2u"

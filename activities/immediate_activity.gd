@@ -2,7 +2,7 @@ extends Activity
 
 class_name ImmediateActivity
 
-func execute(user: Node) -> void:
+func execute() -> void:
 	self.user = user
 	if requires_concentration:
 		concentration = Concentration.new()
@@ -18,7 +18,7 @@ func execute(user: Node) -> void:
 
 	for target in target_entities:
 		var passes_all_filters = true
-		for filter in filters:
+		for filter in target_filters:
 			if filter is Filter:
 				if not filter.is_satisfied(target, self):
 					passes_all_filters = false
@@ -28,7 +28,7 @@ func execute(user: Node) -> void:
 
 		var degree = cm.roll_hostile_activity(user, attacking_aptitude, target, defending_aptitude)
 		print("degree: ", degree)
-		for effect in effects:
+		for effect in target_effects:
 			if effect is Effect:
 				effect.apply(self, target, degree)
 	if requires_concentration:

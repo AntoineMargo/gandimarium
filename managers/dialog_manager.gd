@@ -73,9 +73,18 @@ func _on_turn_ending():
 func _on_selectable_targets(number):
 	Global.ui_log.text += "\nTarget(s) to be selected: %d" % [number]
 	Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()
+	
+func _crisis_mode_not_active():
+	Global.ui_log.text += "\nCrisis mode is not active!"
+	Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()
 
-#func _on_attack_happened(attacker: String, target: String, damage: int):
-	#print("%s hits %s for %d damage!" % [attacker, target, damage])
+func _not_enough_brawn():
+	Global.ui_log.text += "\nYou don't have enough brawn to use this weapon!"
+	Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()
+	
+func _not_enough_ap():
+	Global.ui_log.text += "\nYou don't have enough AP for this activity!"
+	Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()
 
 func _ready() -> void:
 	SignalBus.dialog_show_message.connect(_on_show_message)
@@ -95,3 +104,7 @@ func _ready() -> void:
 	SignalBus.dialog_start_crisis_mode.connect(_on_crisis_mode_starting)
 	SignalBus.dialog_end_crisis_mode.connect(_on_crisis_mode_ending)
 	SignalBus.dialog_end_turn.connect(_on_turn_ending)
+	
+	SignalBus.crisis_mode_not_active.connect(_crisis_mode_not_active)
+	SignalBus.not_enough_brawn.connect(_not_enough_brawn)
+	SignalBus.not_enough_ap.connect(_not_enough_ap)

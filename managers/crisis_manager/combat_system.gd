@@ -17,7 +17,7 @@ var throw = [0, 0, 2, 4]
 	#var degree = _roll_hostile_activity(user, activity.attacking_aptitude, target, activity.defending_aptitude)
 #
 	## Apply effects in one place
-	#for effect in activity.effects:
+	#for effect in activity.target_effects:
 		#effect.apply(activity, target, degree)
 #
 	#result.succeed(0, "Activity resolved successfully.") # optional damage value

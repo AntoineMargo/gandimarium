@@ -27,7 +27,7 @@ func cancel_activity():
 	SignalBus.change_cursor.emit("default")
 
 func is_valid_target(element) -> bool:
-	for filter in filters:
+	for filter in target_filters:
 		if not filter.is_satisfied(element, self):
 			return false
 	return true
@@ -53,11 +53,11 @@ func select_entity_target():
 						for hl in wm.target_highlights:
 							hl.queue_free()
 						wm.target_highlights.clear()
-						follow_up(user)
+						follow_up()
 				else:
 					SignalBus.dialog_show_message.emit("Invalid target.")
 
-func execute(user) -> void:
+func execute() -> void:
 	SignalBus.dialog_show_message.emit("Waiting for target(s) of activity...")
 	var cm = Global.crisis_manager
 	cm.activity_mode = self
@@ -68,16 +68,16 @@ func execute(user) -> void:
 	target_points.clear()
 	SignalBus.change_cursor.emit("select2")
 
-func follow_up(user) -> void:
+func follow_up() -> void:
 	var cm = Global.crisis_manager
 	for target in target_entities:
-		for filter in filters:
+		for filter in target_filters:
 			if not filter.is_satisfied(target, self):
 				continue
 
 		var degree = cm.roll_hostile_activity(user, attacking_aptitude, target, defending_aptitude)
 
-		for effect in effects:
+		for effect in target_effects:
 			effect.apply(self, target, degree)
 	
 	SignalBus.dialog_show_message.emit("Activity effects released.")
