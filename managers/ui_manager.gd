@@ -249,13 +249,15 @@ func _on_update_inventory() -> void:
 		print("ItemsList node not found!")
 		return
 	if Global.selected_char == null:
-		#print("No character selected.")
+		print("No character selected.")
 		return
 	var items = character.data.get_inventory()
-	for item in items:
+	for i in range(items.size()):
 		var element = preload("res://interface/inventory_element.tscn").instantiate()
-		element.item = item
+		element.index = i
+		element.item = items[i]
 		Global.items_list.add_child(element)
+
 	var equipment_label_paths := {
 		"head": "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/HeadSpaceItem",
 		"shoulders": "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/ShouldersSpaceItem",

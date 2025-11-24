@@ -45,7 +45,6 @@ var concentration = null
 var target_points = []
 var target_entities = []
 
-var data: ActivityData = null
 #var last_failure_reason: String = ""
 
 func execute() -> void:
@@ -57,6 +56,3 @@ func can_execute() -> bool:
 			if not filter.is_satisfied(user, self):
 				return false
 	return true
-
-func attach_data(activity_data: ActivityData) -> void:
-	data = activity_data

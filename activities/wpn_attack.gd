@@ -55,16 +55,3 @@ func execute() -> void:
 		for effect in target_effects:
 			if effect is Effect:
 				effect.apply(self, target, degree)
-
-
-		#var dice_number = weapon.dice_number
-		#var damage_die = weapon.damage_die
-		#var damage_bonus = weapon.damage_bonus
-		#var damage_pattern = weapon.attack_types[attack_type]
-		#
-		#var total_damage = CombatMath.determine_damage(
-			#dice_number, damage_die,
-			#damage_bonus, degree,
-			#damage_pattern)
-		#if data.target and data.target.data.has_method("take_damage"):
-			#data.target.data.take_damage(total_damage, data.resistance)

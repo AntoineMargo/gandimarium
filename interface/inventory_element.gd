@@ -1,11 +1,14 @@
 extends Panel
 
+var index: int = -1
 var item: Item:
 	set(value):
 		item = value
 		$Label.text = item.name if item else "Empty"
 
 func _get_drag_data(at_position):
+	print("index of item: ", index)
+	
 	var preview = Label.new()
 	preview.text = item.name
 	preview.custom_minimum_size = Vector2(100, 20)  # Adjust size as needed
@@ -13,8 +16,7 @@ func _get_drag_data(at_position):
 	preview.modulate = Color(1, 1, 1, 1)
 	preview.z_index = 3000
 	set_drag_preview(preview)
-	
-	var index = Global.focus_char.data.get_inventory().find(item)
+
 	if index != -1:
 		Global.focus_char.data.get_inventory().remove_at(index)
 	
