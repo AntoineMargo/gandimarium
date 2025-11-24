@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3 uid="uid://cngw3i2m4xinc"]
 
 [ext_resource type="Resource" uid="uid://c0b7y8w1xi8kh" path="res://resources/activities/wpn_attack.tres" id="1_3rkga"]
-[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://combat/damage_pattern.gd" id="1_4tfku"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://modules/damage_pattern.gd" id="1_4tfku"]
 [ext_resource type="Resource" uid="uid://lowvjn23gb1u" path="res://resources/damage_patterns/slash.tres" id="2_3rkga"]
 [ext_resource type="Script" uid="uid://djeyifuagvkr6" path="res://items/weapon_res.gd" id="2_eqn0f"]
 [ext_resource type="Resource" uid="uid://b6lwaevovr35s" path="res://resources/damage_patterns/pierce.tres" id="3_fpbap"]

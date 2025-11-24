@@ -418,9 +418,7 @@ func _on_activity_button_pressed(button: TextureButton):
 	var activity = button.get_meta("activity")
 	
 	if activity and activity.has_method("execute"):
-		#var context = {}
-		Global.crisis_manager.try_perform_activity(activity)
-		#activity.execute(Global.selected_char, context)
+		Global.focus_char.data.perform_activity(activity)
 	else:
 		print("Invalid or missing activity.")
 

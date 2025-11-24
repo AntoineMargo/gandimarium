@@ -6,10 +6,14 @@ class_name DamagingEffect
 @export var damage_die: int = 10
 @export var damage_bonus: int = 0
 @export var resistance: String = ""
+@export var damage_pattern: DamagePattern = null
 
 func apply(source, target, degree: int) -> void:
-	var user = source.user
-	var result = degree
-	var total_damage = Global.crisis_manager.determine_damage(dice_number, damage_die, damage_bonus, result)
+	if damage_pattern == null:
+		damage_pattern = Library.get_dmg_pattern("default")
+	var total_damage = CombatMath.determine_damage(
+		dice_number, damage_die,
+		damage_bonus, degree,
+		damage_pattern)
 	if target and target.data.has_method("take_damage"):
 		target.data.take_damage(total_damage, resistance)

@@ -26,10 +26,13 @@ func cancel_activity():
 	SignalBus.update_ui_for_char.emit()
 	SignalBus.change_cursor.emit("default")
 
-func is_valid_target(element) -> bool:
-	for filter in target_filters:
-		if not filter.is_satisfied(element, self):
-			return false
+func is_valid_target(target) -> bool:
+	if not WorldMath.is_in_range(user, target, range):
+		SignalBus.dialog_out_of_range.emit()
+		return false
+	if not WorldMath.has_line_of_sight(user, target):
+		SignalBus.dialog_no_line_of_sight.emit()
+		return false
 	return true
 
 func select_entity_target():
@@ -75,12 +78,29 @@ func follow_up() -> void:
 			if not filter.is_satisfied(target, self):
 				continue
 
-		var degree = cm.roll_hostile_activity(user, attacking_aptitude, target, defending_aptitude)
-
+		var user_stat = user.data.get(attacking_aptitude)
+		var target_stat = user.data.get(defending_aptitude)
+		
+		var user_roll = CombatMath.standard_roll()
+		var target_roll = CombatMath.standard_roll()
+		var result = CombatMath.make_opposed_check(
+			user_stat, user_roll,
+			target_stat, target_roll)
+		var degree = CombatMath.determine_degree_success(result)
+		
 		for effect in target_effects:
-			effect.apply(self, target, degree)
+			if effect is Effect:
+				effect.apply(self, target, degree)
+
+		for effect in self_effects:
+			if effect is Effect:
+				effect.apply(self, user, degree)
+
+		user.data.consume_ap(AP_cost)
 	
 	SignalBus.dialog_show_message.emit("Activity effects released.")
 	SignalBus.change_cursor.emit("default")
 
 	cm.activity_mode = null
+	
+	SignalBus.update_ui_for_char.emit()

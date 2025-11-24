@@ -314,7 +314,8 @@ func get_modified_activity(base_activity: Activity) -> Activity:
 func perform_activity(activity: Activity, target: Node = null):
 	var final = get_modified_activity(activity)
 	final.user = creature
-	final.weapon = activity.weapon   # copy per-use weapon assignment
+	if final is WeaponAttack:
+		final.weapon = activity.weapon
 	if target:
 		final.target_entities.append(target)
 	final.execute()
@@ -323,29 +324,10 @@ func perform_attack(target):
 	print("_perform_attack_activity called.")
 	var weapons = get_active_weapons()
 	if weapons[0]:
-		# Duplicate template first
 		var attack_activity = weapons[0].attack.duplicate(true)
-		# Assign per-use fields AFTER duplication
 		attack_activity.weapon = weapons[0]
 		perform_activity(attack_activity, target)
 
-#func perform_activity(activity: Activity, target: Node = null, weapon: Weapon = null):
-	#var final = get_modified_activity(activity)
-	#final.user = creature
-	#if target:
-		#final.target_entities.append(target)
-	#if weapon:
-		#final.weapon = weapon
-	#final.execute()
-#
-#func perform_attack(target):
-	#print("_perform_attack_activity called.")
-	#var weapons = get_active_weapons()
-	#if weapons[0]:
-		#var attack_activity = weapons[0].attack
-		#attack_activity.weapon = weapons[0]
-		#perform_activity(attack_activity, target)
- 
 func initialise():
 	level_mod = level / 2
 	agility = dexterity + level_mod

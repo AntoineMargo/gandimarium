@@ -1,14 +1,38 @@
-[gd_resource type="Resource" script_class="ImmediateActivity" load_steps=4 format=3 uid="uid://byg73m6eybd5w"]
+[gd_resource type="Resource" script_class="ImmediateActivity" load_steps=12 format=3 uid="uid://byg73m6eybd5w"]
 
-[ext_resource type="Resource" uid="uid://chf3lvy2ei3y3" path="res://resources/effects/damage.tres" id="1_flmnc"]
-[ext_resource type="Resource" uid="uid://dsu02etf7ho4g" path="res://resources/filters/hostile.tres" id="2_flmnc"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="2_t7fke"]
 [ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="3_3t44i"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="3_q3tw7"]
+[ext_resource type="Script" uid="uid://bkpdgukx86gex" path="res://filters/crisis_mode_active.gd" id="4_tdoh8"]
+[ext_resource type="Script" uid="uid://bmyfmkog6abuh" path="res://filters/actions_points.gd" id="5_05pwy"]
+[ext_resource type="Script" uid="uid://bwfaipulxr7tq" path="res://effects/damaging_effect.gd" id="6_l6f20"]
+[ext_resource type="Script" uid="uid://7wr7rbo7kwhw" path="res://filters/player_controlled.gd" id="7_p5m0l"]
+
+[sub_resource type="Resource" id="Resource_7mq25"]
+script = ExtResource("4_tdoh8")
+metadata/_custom_type_script = "uid://bkpdgukx86gex"
+
+[sub_resource type="Resource" id="Resource_pq43k"]
+script = ExtResource("5_05pwy")
+metadata/_custom_type_script = "uid://bmyfmkog6abuh"
+
+[sub_resource type="Resource" id="Resource_35p6u"]
+script = ExtResource("6_l6f20")
+dice_number = 10
+metadata/_custom_type_script = "uid://bwfaipulxr7tq"
+
+[sub_resource type="Resource" id="Resource_4g8u5"]
+script = ExtResource("7_p5m0l")
+reverse = true
+metadata/_custom_type_script = "uid://7wr7rbo7kwhw"
 
 [resource]
 script = ExtResource("3_3t44i")
+AP_cost = 2
 attacking_aptitude = "resolve"
 defending_aptitude = "resolve"
 reach = 5
-filters = [ExtResource("2_flmnc")]
-effects = [ExtResource("1_flmnc")]
+self_filters = Array[ExtResource("3_q3tw7")]([SubResource("Resource_7mq25"), SubResource("Resource_pq43k")])
+target_filters = Array[ExtResource("3_q3tw7")]([SubResource("Resource_4g8u5")])
+target_effects = Array[ExtResource("2_t7fke")]([SubResource("Resource_35p6u")])
 metadata/_custom_type_script = "uid://beq2nm7ovc2lf"

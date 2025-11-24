@@ -22,17 +22,15 @@ func execute() -> void:
 			if not filter.is_satisfied(user, self):
 				return
 
-	print("activity self: ", self)
-	print("activity user: ", user)
-	print("activity self user: ", self.user)
-	if user:
-		print("activity user name: ", user.data.name)
-	else:
-		print("activity user name: None!")
-
 	if target_entities.is_empty():
 		return
 	for target in target_entities:
+		if not WorldMath.is_in_range(user, target, range):
+			SignalBus.dialog_out_of_range.emit()
+			return
+		if not WorldMath.has_line_of_sight(user, target):
+			SignalBus.dialog_no_line_of_sight.emit()
+			return
 		var passes_all_filters = true
 		for filter in target_filters:
 			if filter is Filter:
@@ -55,3 +53,10 @@ func execute() -> void:
 		for effect in target_effects:
 			if effect is Effect:
 				effect.apply(self, target, degree)
+
+		for effect in self_effects:
+			if effect is Effect:
+				effect.apply(self, user, degree)
+
+		user.data.consume_ap(AP_cost)
+		SignalBus.update_ui_for_char.emit()
