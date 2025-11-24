@@ -21,6 +21,7 @@ func plan_turn():
 
 func get_all_activities():
 #	maybe add weapon_attack manually & directly at the start of the array
+	
 	for activity in creature.data.activities:
 		activities.append(activity)
 	for spell in creature.data.spells_ready:

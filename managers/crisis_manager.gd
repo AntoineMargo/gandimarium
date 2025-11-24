@@ -73,24 +73,6 @@ func enough_action_points_for_activity(activity):
 	char.data.current_ap -= cost
 	return true
 
-#func get_tile_data(x: int, y: int, z: int):
-	#WorldMath.get_tile_data(x, y, z)
-
-#func shape_burst(target_entities, user, range):
-	#WorldMath.shape_burst(target_entities, user, range)
-
-#func is_in_range(user: Node, target: Node, range: int):
-	#WorldMath.is_in_range(user, target, range)
-
-#func bresenham_line_3d(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int):
-	#WorldMath.bresenham_line_3d(x1, y1, z1, x2, y2, z2)
-
-#func line_of_sight_exists(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int):
-	#WorldMath.line_of_sight_exists(x1, y1, z1, x2, y2, z2)
-	
-#func has_line_of_sight(origin_char, target_char):
-	#WorldMath.has_line_of_sight(origin_char, target_char)
-
 func _ready() -> void:
 	SignalBus.start_crisis_mode.connect(start_crisis)
 	SignalBus.end_crisis_mode.connect(end_crisis)

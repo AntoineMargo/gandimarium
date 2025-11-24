@@ -45,6 +45,20 @@ var concentration = null
 var target_points = []
 var target_entities = []
 
+#var ai_info : Dictionary = {
+	#"category": "melee",
+	#"spell": false,
+	#"dmg_per_spell_rank": 9,
+	#"damage": 30,
+	#"resist": "fire",
+	#"aoe_shape": null,
+	#"reliability": 5, # from 1 to 10, based mostly on damage pattern
+	#"traits": ["finisher", "debuff", "disabling", "missing_hp_scaling"],
+	#"range": 1,
+	#"ap_cost": 2,
+#}
+
+
 #var last_failure_reason: String = ""
 
 func execute() -> void:

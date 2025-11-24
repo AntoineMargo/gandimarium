@@ -245,7 +245,6 @@ func change_level(direction: int):
 	SignalBus.refresh_reachable_tiles.emit()
 	print("Now showing layer %d" % current_level)
 
-
 func calculate_path_cost_3D(path: Array[Vector3i], tile_size: int = Global.TILE_SIZE) -> float:
 	if path.size() <= 1:
 		return 0.0

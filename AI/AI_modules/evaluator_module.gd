@@ -1,5 +1,4 @@
 extends Node
-
 class_name EvaluatorModule
 
 var wm = null
