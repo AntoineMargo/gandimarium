@@ -5,9 +5,8 @@ var wm = null
 var creature: Creature = null
 var crisis_ai: CrisisAI = null
 
-func activity_selector(sequences, report):
+func activity_selector(sequences, report, entries):
 	pass
-
 
 func setup(world_manager, owner_creature: Creature, ai_controller: Node):
 	wm = world_manager

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="AIHint" load_steps=2 format=3 uid="uid://qyv1onsr8c16"]
+
+[ext_resource type="Script" uid="uid://lrec85jjq4ih" path="res://AIHints/AI_hint.gd" id="1_11v4i"]
+
+[resource]
+script = ExtResource("1_11v4i")
+metadata/_custom_type_script = "uid://lrec85jjq4ih"

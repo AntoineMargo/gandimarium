@@ -12,26 +12,53 @@ var evaluator: EvaluatorModule = null
 var activities = []
 
 func plan_turn():
-	activities = get_all_activities()
+	var entries = get_all_activity_entries()
 	var sequences = []
 	var report = situation.produce_report()
 	movement.movement_planner(sequences, report)
-	evaluator.activity_selector(sequences, report)
+	evaluator.activity_selector(sequences, report, entries)
 	#execute(best_sequence)
 
-func get_all_activities():
-#	maybe add weapon_attack manually & directly at the start of the array
-	
+func get_all_activity_entries():
+	var entries = []
+
+	add_weapon_entries(entries)
+	add_default_entries(entries)
+
 	for activity in creature.data.activities:
-		activities.append(activity)
+		var entry = ActivityEntry.new()
+		entry.activity = creature.data.get_modified_activity(activity)
+		entry.hint = entry.activity.ai_hint
+		entries.append(entry)
+		
 	for spell in creature.data.spells_ready:
 		for activity in spell.activities:
-			activities.append(activity)
-	return activities
+			var entry = ActivityEntry.new()
+			entry.activity = creature.data.get_modified_activity(activity)
+			entry.hint = entry.activity.ai_hint
+			entries.append(entry)
 
-#func score_sequence(sequence):
-	#var total_score = 0
-	#pass
+	return entries
+
+func add_weapon_entries(entries):
+	var weapons = creature.data.get_active_weapons()
+
+	var main_attack = ActivityEntry.new()
+	main_attack.activity = creature.data.get_modified_activity(weapons[0].attack)
+	main_attack.hint = main_attack.activity.ai_hint
+	main_attack.hint.reach = main_attack.activity.weapon.melee_range
+	main_attack.hint.damage = main_attack.activity.weapon.dice_number * main_attack.activity.weapon.damage_die
+	entries.append(main_attack)
+
+	var offhand_attack = ActivityEntry.new()
+	offhand_attack.activity = creature.data.get_modified_activity(weapons[1].attack)
+	offhand_attack.hint = offhand_attack.activity.ai_hint
+	offhand_attack.hint.reach = offhand_attack.activity.weapon.melee_range
+	offhand_attack.hint.damage = offhand_attack.activity.weapon.dice_number * offhand_attack.activity.weapon.damage_die
+	entries.append(offhand_attack)
+
+func add_default_entries(entries):
+	return entries
 
 func setup(world_manager, owner_creature: Creature):
 	wm = world_manager

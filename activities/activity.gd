@@ -10,10 +10,11 @@ enum AffectedType {
 	ENTITIES_AND_TERRAIN
 }
 
-enum AffectedShape {
-	BURST,
-	LINE,
+enum ShapeType {
+	CIRCLE,
 	CONE,
+	LINE,
+	CUSTOM
 }
 
 @export var name: String = "placeholder"
@@ -26,40 +27,23 @@ enum AffectedShape {
 #@export var requires_opposed_roll: bool = false
 @export var attacking_aptitude: String = "will"
 @export var defending_aptitude: String = "will"
-@export var range: int = 0
 @export var reach: int = 0
+@export var spread: int = 0
 
 @export var self_filters: Array[Filter] = []
 @export var self_effects: Array[Effect] = []
 
 @export var target_filters: Array[Filter] = []
 @export var target_effects: Array[Effect] = []
-@export_enum("ENTITIES", "TERRAIN", "ENTITIES_OR_TERRAIN", "ENTITIES_AND_TERRAIN")
-var affected_type: int = 0
-@export_enum("BURST", "LINE", "CONE")
-var affected_shape: int = 0
-
+@export var affected_type: AffectedType = AffectedType.ENTITIES
+@export var shape: ShapeType = ShapeType.CIRCLE
+@export var ai_hint: AIHint
+ 
 var user = null
 var origin: Vector2i
 var concentration = null
 var target_points = []
 var target_entities = []
-
-#var ai_info : Dictionary = {
-	#"category": "melee",
-	#"spell": false,
-	#"dmg_per_spell_rank": 9,
-	#"damage": 30,
-	#"resist": "fire",
-	#"aoe_shape": null,
-	#"reliability": 5, # from 1 to 10, based mostly on damage pattern
-	#"traits": ["finisher", "debuff", "disabling", "missing_hp_scaling"],
-	#"range": 1,
-	#"ap_cost": 2,
-#}
-
-
-#var last_failure_reason: String = ""
 
 func execute() -> void:
 	pass

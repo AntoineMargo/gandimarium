@@ -15,7 +15,7 @@ func execute() -> void:
 			defending_aptitude = "ranged_defence"
 
 	print("weapon: ", weapon)
-	range = weapon.melee_range
+	reach = weapon.melee_range
 
 	for filter in self_filters:
 		if filter is Filter:
@@ -25,7 +25,7 @@ func execute() -> void:
 	if target_entities.is_empty():
 		return
 	for target in target_entities:
-		if not WorldMath.is_in_range(user, target, range):
+		if not WorldMath.is_in_range(user, target, reach):
 			SignalBus.dialog_out_of_range.emit()
 			return
 		if not WorldMath.has_line_of_sight(user, target):

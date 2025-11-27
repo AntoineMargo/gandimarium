@@ -2,7 +2,7 @@ extends Effect
 
 class_name WeaponDamagingEffect
 
-@export var resistance: String = "physical_resist"
+@export var resistance: String = "physical"
 
 func apply(source, target, degree: int) -> void:
 	var user = source.user
