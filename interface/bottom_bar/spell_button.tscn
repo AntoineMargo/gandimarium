@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b8mjvbp1pkl76"]
 
-[ext_resource type="Script" uid="uid://cakgffxv28h7m" path="res://interface/spell_button.gd" id="1_ov7jt"]
+[ext_resource type="Script" uid="uid://cakgffxv28h7m" path="res://interface/bottom_bar/spell_button.gd" id="1_ov7jt"]
 
 [node name="SpellRow" type="HBoxContainer"]
 offset_right = 40.0

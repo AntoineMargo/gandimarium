@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://duwkl0yu52kj1"]
 
-[ext_resource type="Script" uid="uid://c3u2vf0arfj13" path="res://interface/inventory_UI.gd" id="1_sc5wg"]
-[ext_resource type="Script" uid="uid://dbcqmy76hs28h" path="res://interface/items_list.gd" id="2_dn0yy"]
-[ext_resource type="Script" uid="uid://kqor18rqe4vo" path="res://interface/equipmentslot.gd" id="3_lf0vd"]
+[ext_resource type="Script" uid="uid://c3u2vf0arfj13" path="res://interface/inventory/inventory_UI.gd" id="1_sc5wg"]
+[ext_resource type="Script" uid="uid://dbcqmy76hs28h" path="res://interface/inventory/items_list.gd" id="2_dn0yy"]
+[ext_resource type="Script" uid="uid://kqor18rqe4vo" path="res://interface/inventory/equipmentslot.gd" id="3_lf0vd"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 layer = 2

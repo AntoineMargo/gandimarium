@@ -27,27 +27,43 @@ const SLOT_MAP = {
 	[null, null]
 ]
 
+# for strikes only, throw and shoot don't need it
 @export var attack_types := [
 	[0, 0],
 	[0, 0]
 ]
 
+var shoot_type := 0  # usually irrelevant
+var throw_type := 0  # usually irrelevant
+
+#var category_memory := {
+	#"strike": [
+		#[0, 0],
+		#[0, 0]
+	#],
+	#"shoot": null,
+	#"throw": null
+#}
+
 var active_set: int = 0
 var active_hand: int = 0
+var active_category: int = 0
 
 func get_active_weapon():
 	return weapon_sets[active_set][active_hand]
 
 func get_active_weapons():
-	#print("get_active_weapons function")
-	#print("Active set: ", active_set)
-	#print("Active hand: ", active_hand)
-	#print("First: ", weapon_sets[active_set][active_hand])
-	#print("Second: ", weapon_sets[active_set][1 - active_hand])
 	return [weapon_sets[active_set][active_hand], weapon_sets[active_set][1 - active_hand]]
 
 func get_active_attack_type():
 	return attack_types[active_set][active_hand]
+
+func get_active_attack_category():
+	return active_category
+
+func set_active_attack_category(number):
+	if number >= 0 and number <= 2:
+		active_category = number
 
 func get_weapon_slot(slot):
 	var pos = SLOT_MAP.get(slot)

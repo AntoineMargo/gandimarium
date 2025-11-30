@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="WeaponDamageEffect" load_steps=2 format=3 uid="uid://c4rkjny8oacwm"]
+
+[ext_resource type="Script" uid="uid://jtk6vp2fcxdf" path="res://effects/wpn_damage.gd" id="1_1tw3h"]
+
+[resource]
+script = ExtResource("1_1tw3h")
+damage_die = 4
+metadata/_custom_type_script = "uid://jtk6vp2fcxdf"

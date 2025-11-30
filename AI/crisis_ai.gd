@@ -46,14 +46,14 @@ func add_weapon_entries(entries):
 	var main_attack = ActivityEntry.new()
 	main_attack.activity = creature.data.get_modified_activity(weapons[0].attack)
 	main_attack.hint = main_attack.activity.ai_hint
-	main_attack.hint.reach = main_attack.activity.weapon.melee_range
+	main_attack.hint.reach = main_attack.activity.weapon.strike_reach
 	main_attack.hint.damage = main_attack.activity.weapon.dice_number * main_attack.activity.weapon.damage_die
 	entries.append(main_attack)
 
 	var offhand_attack = ActivityEntry.new()
 	offhand_attack.activity = creature.data.get_modified_activity(weapons[1].attack)
 	offhand_attack.hint = offhand_attack.activity.ai_hint
-	offhand_attack.hint.reach = offhand_attack.activity.weapon.melee_range
+	offhand_attack.hint.reach = offhand_attack.activity.weapon.strike_reach
 	offhand_attack.hint.damage = offhand_attack.activity.weapon.dice_number * offhand_attack.activity.weapon.damage_die
 	entries.append(offhand_attack)
 

@@ -314,7 +314,7 @@ func get_modified_activity(base_activity: Activity) -> Activity:
 func perform_activity(activity: Activity, target: Node = null):
 	var final = get_modified_activity(activity)
 	final.user = creature
-	if final is WeaponAttack:
+	if final is WeaponActivity:
 		final.weapon = activity.weapon
 	if target:
 		final.target_entities.append(target)

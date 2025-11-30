@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://jdrx7l27rmi"]
 
-[ext_resource type="Script" uid="uid://bug5my3svh70n" path="res://interface/concentration_slot.gd" id="1_dxkeb"]
+[ext_resource type="Script" uid="uid://bug5my3svh70n" path="res://interface/bottom_bar/concentration_slot.gd" id="1_dxkeb"]
 [ext_resource type="Texture2D" uid="uid://br7p7bae278jp" path="res://art/interface/activities/placeholder1.png" id="2_dxkeb"]
 
 [node name="ConcentrationSlot" type="Button"]

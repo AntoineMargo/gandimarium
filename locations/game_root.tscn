@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b04adad7twhtm"]
 
 [ext_resource type="Script" uid="uid://cq7n5wq4jlsfr" path="res://locations/game_root.gd" id="1_kcw43"]
-[ext_resource type="PackedScene" uid="uid://cwvyyn40aylxe" path="res://interface/ui.tscn" id="1_uwb0s"]
+[ext_resource type="PackedScene" uid="uid://cwvyyn40aylxe" path="res://interface/bottom_bar/ui.tscn" id="1_uwb0s"]
 [ext_resource type="Script" uid="uid://drbbq6qwb16mo" path="res://interface/camera_controller.gd" id="2_ry4tc"]
 
 [node name="GameRoot" type="Node"]

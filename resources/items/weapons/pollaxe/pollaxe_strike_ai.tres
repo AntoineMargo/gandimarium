@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="AIHint" load_steps=2 format=3 uid="uid://1dlg3tu4w25y"]
+
+[ext_resource type="Script" uid="uid://lrec85jjq4ih" path="res://AIHints/AI_hint.gd" id="1_pe5d3"]
+
+[resource]
+script = ExtResource("1_pe5d3")
+power = {
+&"buff": 0,
+&"control": 0,
+&"damage": 50,
+&"debuff": 0,
+&"heal": 0,
+&"impediment": 0,
+&"movement": 0,
+&"summon": 0,
+&"utility": 0
+}
+uses_melee_weapon = true
+metadata/_custom_type_script = "uid://lrec85jjq4ih"

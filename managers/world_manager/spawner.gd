@@ -24,21 +24,23 @@ func spawn_character_player():
 	
 	my_char.initialise()
 	
-	var items = ["wpn_saber", "wpn_longspear", "wpn_great_axe", "ar_light",
-	"ar_heavy", "wpn_light_shield", "wpn_bow", "wpn_large_shield",
-	"wpn_mace", "wpn_poleaxe", "wpn_warhammer", "wpn_partisan",
-	"wpn_battle_axe", "wpn_dagger", "wpn_falchion", "wpn_shortsword",
-	"wpn_quarterstaff", "wpn_greatsword"]
+	#var items = ["wpn_saber", "wpn_longspear", "wpn_great_axe", "ar_light",
+	#"ar_heavy", "wpn_light_shield", "wpn_bow", "wpn_large_shield",
+	#"wpn_mace", "wpn_poleaxe", "wpn_warhammer", "wpn_partisan",
+	#"wpn_battle_axe", "wpn_dagger", "wpn_falchion", "wpn_shortsword",
+	#"wpn_quarterstaff", "wpn_greatsword"]
+	
+	var items = []
 	
 	var activities = ["move", "aura_damage", "firebolt", "firebolts"]
 	
 	var abilities = ["firebolt", "degrade_defences"]
 
-	my_char.equip_item("set1_left_hand", Library.get_item("wpn_poleaxe"))
-	#my_char.equip_item("set1_right_hand", Library.get_item("wpn_poleaxe"))
+	my_char.equip_item("set1_left_hand", Library.get_item("wpn_pollaxe"))
+	#my_char.equip_item("set1_right_hand", Library.get_item("wpn_pollaxe"))
 	
-	my_char.equip_item("set2_left_hand", Library.get_item("wpn_longsword"))
-	my_char.equip_item("set2_right_hand", Library.get_item("wpn_medium_shield"))
+	#my_char.equip_item("set2_left_hand", Library.get_item("wpn_longsword"))
+	#my_char.equip_item("set2_right_hand", Library.get_item("wpn_medium_shield"))
 	
 	my_char.equip_item("body", Library.get_item("ar_heavy"))
 
@@ -68,8 +70,8 @@ func spawn_character_enemy():
 	
 	var abilities = []
 	
-	my_char.equip_item("set1_left_hand", Library.get_item("wpn_longsword"))
-	my_char.equip_item("set1_right_hand", Library.get_item("wpn_medium_shield"))
+	#my_char.equip_item("set1_left_hand", Library.get_item("wpn_longsword"))
+	#my_char.equip_item("set1_right_hand", Library.get_item("wpn_medium_shield"))
 
 	var char_instance = _spawn_character_helper(items, activities, abilities, my_char)
 

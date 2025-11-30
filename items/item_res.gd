@@ -9,4 +9,10 @@ class_name Item
 @export var value: int = 10
 @export var activities = []
 @export var conditions = []
-@export var attack: Activity = null
+
+@export var brawn_req_1h : int = 4
+@export var brawn_req_2h : int = 2
+
+@export var strike: Activity = null
+@export var shoot: Activity = null
+@export var throw: Activity = null

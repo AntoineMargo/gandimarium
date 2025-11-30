@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3 uid="uid://dglbdcuhxwnx0"]
+
+[ext_resource type="Script" uid="uid://djeyifuagvkr6" path="res://items/weapon_res.gd" id="1_iltvp"]
+[ext_resource type="Resource" uid="uid://s55aqyl4etow" path="res://resources/items/weapons/fist/fist_strike.tres" id="2_001xe"]
+
+[resource]
+script = ExtResource("1_iltvp")
+name = "Fist"
+brawn_req_1h = 0
+brawn_req_2h = 0
+strike = ExtResource("2_001xe")
+metadata/_custom_type_script = "uid://djeyifuagvkr6"

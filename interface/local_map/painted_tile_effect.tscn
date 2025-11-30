@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bet2syw62ryy6"]
 
-[ext_resource type="Script" uid="uid://dhqkuywtvdykn" path="res://interface/painted_tile_effect.gd" id="1_7pneg"]
+[ext_resource type="Script" uid="uid://dhqkuywtvdykn" path="res://interface/local_map/painted_tile_effect.gd" id="1_7pneg"]
 
 [node name="PaintedTileEffect" type="ColorRect"]
 custom_minimum_size = Vector2(40, 40)

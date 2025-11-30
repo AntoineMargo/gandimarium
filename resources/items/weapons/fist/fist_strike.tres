@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="WeaponStrike" load_steps=12 format=3 uid="uid://s55aqyl4etow"]
+
+[ext_resource type="Resource" uid="uid://dayhp0iufoj40" path="res://resources/items/weapons/fist/fist_strike_ai.tres" id="1_18eoe"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://activities/damage_pattern.gd" id="2_g7g36"]
+[ext_resource type="Resource" uid="uid://lowvjn23gb1u" path="res://resources/damage_patterns/slash.tres" id="3_4x0c2"]
+[ext_resource type="Resource" uid="uid://b6lwaevovr35s" path="res://resources/damage_patterns/pierce.tres" id="4_wx827"]
+[ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="5_dqov2"]
+[ext_resource type="Script" uid="uid://slgpne4ixmcv" path="res://activities/wpn_strike.gd" id="6_4o2pa"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="7_s0q6p"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="8_uedhv"]
+[ext_resource type="Resource" uid="uid://rsyurje8uegc" path="res://resources/filters/crisis_mode.tres" id="9_o7ttv"]
+[ext_resource type="Resource" uid="uid://bhdp23fjgy1bl" path="res://resources/filters/enough_ap.tres" id="10_l8hte"]
+[ext_resource type="Resource" uid="uid://wxt3cossoeyh" path="res://resources/effects/weapon_damage/damage_2d6.tres" id="11_m88jq"]
+
+[resource]
+script = ExtResource("6_4o2pa")
+attack_types = Array[ExtResource("2_g7g36")]([ExtResource("3_4x0c2"), ExtResource("4_wx827"), ExtResource("5_dqov2")])
+name = "wpn_strike"
+attacking_aptitude = "offence"
+defending_aptitude = "melee_defence"
+reach = 1
+self_filters = Array[ExtResource("8_uedhv")]([ExtResource("9_o7ttv"), ExtResource("10_l8hte")])
+target_effects = Array[ExtResource("7_s0q6p")]([ExtResource("11_m88jq")])
+ai_hint = ExtResource("1_18eoe")
+metadata/_custom_type_script = "uid://slgpne4ixmcv"

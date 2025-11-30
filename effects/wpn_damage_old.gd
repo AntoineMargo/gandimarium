@@ -5,7 +5,7 @@ class_name WeaponDamagingEffect
 @export var resistance: String = "physical"
 
 func apply(source, target, degree: int) -> void:
-	var user = source.user
+	#var user = source.user
 	var weapon = source.weapon
 	var dice_number = weapon.dice_number
 	var damage_die = weapon.damage_die

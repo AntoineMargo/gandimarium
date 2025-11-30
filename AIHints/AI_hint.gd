@@ -23,20 +23,19 @@ enum OriginType { SELF, FAMILIAR, SUMMON, ALLY, ENEMY, LOCATION }
 @export var targeting_type: TargetingType = TargetingType.CREATURE # "creature" or "location"
 @export var targeting_number: int = 1
 @export var shape: ShapeType = ShapeType.CIRCLE
-@export var reach: int = 1
-@export var spread: int = 0
-@export var delay: int = 0
 @export var requires_line_of_sight: bool = true
 @export var uses_melee_weapon: bool = false
 @export var uses_ranged_weapon: bool = false
 @export var spell_variable_rank: bool = false
 @export var friendy_fire: bool = true
 @export var provokes_aoo: bool = false
-@export var damage: int = 0
 @export var damage_type: Array[DamageType] = [DamageType.PHYSICAL]
 @export var damage_variance: int = 5 # 1 to 10
 @export var damage_certainty: int = 5 # 1 to 10
-@export var ap_cost: int = 1
-@export var pp_cost: int = 0 # if spell then disregarded since variable
-@export var ep_cost: int = 0
-@export var charges_remaining: int = 1
+
+var AP_cost: int = 1
+var PP_cost: int = 0 # if spell then disregarded since variable
+var EP_cost: int = 0
+var reach: int = 1
+var spread: int = 0
+var delay: int = 0

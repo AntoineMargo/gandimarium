@@ -32,6 +32,10 @@ func set_ui_node(node: Node):
 	var w2_crush = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType3")
 	var w2_throw = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType4")
 
+	var c1 = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer/Strike")
+	var c2 = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer/Shoot")
+	var c3 = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer/Throw")
+
 	var slider = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/SpellRankSlider")
 
 	var activity_button_container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1")
@@ -48,25 +52,28 @@ func set_ui_node(node: Node):
 	if set_toggler:
 		set_toggler.connect("toggled", Callable(self, "on_weapon_set_toggled"))
 
+	if c1 and c2 and c3:
+		c1.connect("toggled", Callable(self, "on_category_button_toggled").bind(0))
+		c2.connect("toggled", Callable(self, "on_category_button_toggled").bind(1))
+		c3.connect("toggled", Callable(self, "on_category_button_toggled").bind(2))
+
 	if w1 and w2:
 		w1.connect("toggled", Callable(self, "on_weapon_button_toggled").bind(0))
 		w2.connect("toggled", Callable(self, "on_weapon_button_toggled").bind(1))
 	else:
 		push_error("Could not connect weapon button signals.")
 
-	if w1_slash and w1_pierce and w1_crush and w1_throw:
+	if w1_slash and w1_pierce and w1_crush:
 		w1_slash.connect("toggled", Callable(self, "on_attack1_button_toggled").bind(1))
 		w1_pierce.connect("toggled", Callable(self, "on_attack1_button_toggled").bind(2))
 		w1_crush.connect("toggled", Callable(self, "on_attack1_button_toggled").bind(3))
-		w1_throw.connect("toggled", Callable(self, "on_attack1_button_toggled").bind(4))
 	else:
 		push_error("Could not connect left hand attack button signals.")
 
-	if w2_slash and w2_pierce and w2_crush and w2_throw:
+	if w2_slash and w2_pierce and w2_crush:
 		w2_slash.connect("toggled", Callable(self, "on_attack2_button_toggled").bind(1))
 		w2_pierce.connect("toggled", Callable(self, "on_attack2_button_toggled").bind(2))
 		w2_crush.connect("toggled", Callable(self, "on_attack2_button_toggled").bind(3))
-		w2_throw.connect("toggled", Callable(self, "on_attack2_button_toggled").bind(4))
 	else:
 		push_error("Could not connect right hand attack button signals.")
 	
@@ -98,6 +105,14 @@ func on_attack2_button_toggled(button_pressed: bool, attack_type: int) -> void:
 	c.data.equipment.attack_types[c.data.equipment.active_set][1] = attack_type
 	print("Active attack type changed.")
 
+func on_category_button_toggled(button_pressed: bool, category) -> void:
+	if not button_pressed:
+		return
+	if Global.selected_char:
+		Global.selected_char.data.equipment.set_active_attack_category(category)
+		print("Active category changed.")
+		update_ui_for_char()
+
 func on_weapon_button_toggled(button_pressed: bool, hand: int) -> void:
 	if not button_pressed:
 		return
@@ -125,28 +140,28 @@ func update_active_attack_buttons():
 	var w1_slash = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType1")
 	var w1_pierce = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType2")
 	var w1_crush = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType3")
-	var w1_throw = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType4")
 	
 	var w2_slash = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType1")
 	var w2_pierce = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType2")
 	var w2_crush = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType3")
-	var w2_throw = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType4")
 
-	if w1_slash and w1_pierce and w1_crush and w1_throw:
-		w1_slash.button_pressed = char.equipment.attack_types[char.get_active_set()][0] == 1
-		w1_pierce.button_pressed = char.equipment.attack_types[char.get_active_set()][0] == 2
-		w1_crush.button_pressed = char.equipment.attack_types[char.get_active_set()][0] == 3
-		w1_throw.button_pressed = char.equipment.attack_types[char.get_active_set()][0] == 4
-	else:
-		print("Attack 0 buttons failed.")
+	var category = char.equipment.get_active_attack_category()
 
-	if w2_slash and w2_pierce and w2_crush and w2_throw:
-		w2_slash.button_pressed = char.equipment.attack_types[char.get_active_set()][1] == 1
-		w2_pierce.button_pressed = char.equipment.attack_types[char.get_active_set()][1] == 2
-		w2_crush.button_pressed = char.equipment.attack_types[char.get_active_set()][1] == 3
-		w2_throw.button_pressed = char.equipment.attack_types[char.get_active_set()][1] == 4
-	else:
-		print("Attack 1 buttons failed.")
+	if category == 0:
+		if w1_slash and w1_pierce and w1_crush:
+				w1_slash.button_pressed = char.equipment.attack_types[char.get_active_set()][0] == 1
+				w1_pierce.button_pressed = char.equipment.attack_types[char.get_active_set()][0] == 2
+				w1_crush.button_pressed = char.equipment.attack_types[char.get_active_set()][0] == 3
+		else:
+			print("Attack 0 buttons failed.")
+
+		if w2_slash and w2_pierce and w2_crush:
+				w2_slash.button_pressed = char.equipment.attack_types[char.get_active_set()][1] == 1
+				w2_pierce.button_pressed = char.equipment.attack_types[char.get_active_set()][1] == 2
+				w2_crush.button_pressed = char.equipment.attack_types[char.get_active_set()][1] == 3
+		else:
+			print("Attack 1 buttons failed.")
+
 
 	var left_weapon: Weapon = null
 	var right_weapon: Weapon = null
@@ -162,31 +177,82 @@ func update_active_attack_buttons():
 
 	# ----- Left weapon buttons -----
 	if left_weapon:
-		w1_slash.disabled  = not (1 in left_weapon.attack_type)
-		w1_pierce.disabled = not (2 in left_weapon.attack_type)
-		w1_crush.disabled  = not (3 in left_weapon.attack_type)
-		w1_throw.disabled  = not (4 in left_weapon.attack_type)
+		var attack_types = null
+		if category == 0:
+			if left_weapon.strike:
+				attack_types = left_weapon.strike.pattern_ids
+			else:
+				attack_types = []
+		elif category == 1:
+			if left_weapon.shoot:
+				attack_types = left_weapon.shoot.pattern_ids
+			else:
+				attack_types = []
+		elif category == 2:
+			if left_weapon.throw:
+				attack_types = left_weapon.throw.pattern_ids
+			else:
+				attack_types = []
+
+		w1_slash.disabled  = not (0 in attack_types)
+		w1_pierce.disabled = not (1 in attack_types)
+		w1_crush.disabled  = not (2 in attack_types)
+
 	else:
 		# No left weapon = disable all buttons
 		w1_slash.disabled  = true
 		w1_pierce.disabled = true
 		w1_crush.disabled  = true
-		w1_throw.disabled  = true
 
 	# ----- Right weapon buttons -----
 	if right_weapon:
-		w2_slash.disabled  = not (1 in right_weapon.attack_type)
-		w2_pierce.disabled = not (2 in right_weapon.attack_type)
-		w2_crush.disabled  = not (3 in right_weapon.attack_type)
-		w2_throw.disabled  = not (4 in right_weapon.attack_type)
+		var attack_types = null
+		if category == 0:
+			if right_weapon.strike:
+				attack_types = right_weapon.strike.pattern_ids
+			else:
+				attack_types = []
+		elif category == 1:
+			if right_weapon.shoot:
+				attack_types = right_weapon.shoot.pattern_ids
+			else:
+				attack_types = []
+		elif category == 2:
+			if right_weapon.throw:
+				attack_types = right_weapon.throw.pattern_ids
+			else:
+				attack_types = []
+
+		w2_slash.disabled  = not (0 in attack_types)
+		w2_pierce.disabled = not (1 in attack_types)
+		w2_crush.disabled  = not (2 in attack_types)
+
 	else:
 		# No right weapon = disable all buttons
 		w2_slash.disabled  = true
 		w2_pierce.disabled = true
 		w2_crush.disabled  = true
-		w2_throw.disabled  = true
 
-func update_active_hand_buttons():
+func update_active_category_buttons():
+	if ui_node == null or Global.selected_char == null:
+		return
+	
+	var char = Global.selected_char.data
+	if char == null:
+		return
+
+	var c1 = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer/Strike")
+	var c2 = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer/Shoot")
+	var c3 = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer/Throw")
+
+	var active_category = char.equipment.get_active_attack_category()
+
+	if c1 and c2 and c3:
+		c1.button_pressed = active_category == 0
+		c2.button_pressed = active_category == 1
+		c3.button_pressed = active_category == 2
+
+func update_weapon_buttons():
 	if ui_node == null or Global.selected_char == null:
 		return
 	
@@ -201,7 +267,7 @@ func update_active_hand_buttons():
 		w1.button_pressed = char.get_active_hand() == 0
 		w2.button_pressed = char.get_active_hand() == 1
 
-func update_weapon_buttons():
+func update_weapon_buttons_text():
 	if ui_node == null:
 		print("UI node not set!")
 		return
@@ -236,10 +302,6 @@ func update_weapon_buttons():
 			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = item.name
 		else:
 			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "Fist"
-	
-	#attack_button.disabled = true
-	#update_active_hand_buttons()
-	#update_active_attack_buttons()
 
 func _on_update_inventory() -> void:
 	var character = Global.selected_char
@@ -253,7 +315,7 @@ func _on_update_inventory() -> void:
 		return
 	var items = character.data.get_inventory()
 	for i in range(items.size()):
-		var element = preload("res://interface/inventory_element.tscn").instantiate()
+		var element = preload("res://interface/inventory/inventory_element.tscn").instantiate()
 		element.index = i
 		element.item = items[i]
 		Global.items_list.add_child(element)
@@ -391,7 +453,7 @@ func update_spell_list():
 	
 	slider.value = char.current_spell_rank
 	for spell in char.spells_ready:
-		var spell_button = load("res://interface/spell_button.tscn").instantiate()
+		var spell_button = load("res://interface/bottom_bar/spell_button.tscn").instantiate()
 		spell_button.spell = spell
 		spell_list.add_child(spell_button)
 		#spell_button.connect("pressed", Callable(self, "_on_spell_button_pressed").bind(spell_button))
@@ -404,13 +466,45 @@ func update_concentration_slots():
 		child.queue_free()
 
 	for i in range(char.will):
-		var slot = preload("res://interface/concentration_slot.tscn").instantiate()
+		var slot = preload("res://interface/bottom_bar/concentration_slot.tscn").instantiate()
 		if i < char.concentrations.size():
 			var concentration = char.concentrations[i]
 			slot.setup(concentration)
 		else:
 			slot.setup(null) # Empty slot
 		container.add_child(slot)
+
+func update_char_info():
+	var char = Global.selected_char.data
+	var name = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/Name")
+	var hp = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/HP")
+	var pp = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/PP")
+	var ep = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/EP")
+	var vigour = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/Vigour")
+	var mp = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/MP")
+
+	name.text = char.name
+	hp.text = "%d/%d" % [char.current_hp, char.max_hp]
+	pp.text = "%d/%d" % [char.current_pp, char.max_pp]
+	ep.text = "%d/%d" % [char.current_ep, char.max_ep]
+	vigour.text = "%d" % char.vigour
+	mp.text = "%.1f" % char.current_mp
+
+func update_ui_for_char():
+	print("===update_ui_for_char called===")
+	if Global.selected_char == null:
+		return
+	update_char_info()
+	update_weapon_buttons()
+	update_weapon_buttons_text()
+	update_active_category_buttons()
+	update_active_attack_buttons()
+	update_activity_buttons()
+	update_action_pips()
+	update_spell_list()
+	update_concentration_slots()
+	await get_tree().process_frame
+	Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()
 
 func _on_activity_button_pressed(button: TextureButton):
 	if not button.has_meta("activity"):
@@ -444,37 +538,6 @@ func _on_slider_value_changed(value):
 	char.current_spell_rank = value
 	slider.tooltip_text = "Spell rank selected: %d" % char.current_spell_rank
 	#print("value changed to ", char.current_spell_rank)
-
-func update_char_info():
-	var char = Global.selected_char.data
-	var name = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/Name")
-	var hp = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/HP")
-	var pp = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/PP")
-	var ep = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/EP")
-	var vigour = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/Vigour")
-	var mp = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/MP")
-
-	name.text = char.name
-	hp.text = "%d/%d" % [char.current_hp, char.max_hp]
-	pp.text = "%d/%d" % [char.current_pp, char.max_pp]
-	ep.text = "%d/%d" % [char.current_ep, char.max_ep]
-	vigour.text = "%d" % char.vigour
-	mp.text = "%.1f" % char.current_mp
-
-func update_ui_for_char():
-	print("===update_ui_for_char called===")
-	if Global.selected_char == null:
-		return
-	update_char_info()
-	update_weapon_buttons()
-	update_active_hand_buttons()
-	update_active_attack_buttons()
-	update_activity_buttons()
-	update_action_pips()
-	update_spell_list()
-	update_concentration_slots()
-	await get_tree().process_frame
-	Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()
 
 func _ready() -> void:
 	SignalBus.update_inventory.connect(_on_update_inventory)

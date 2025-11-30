@@ -13,7 +13,7 @@ var cursor_manager = CursorManager.new()
 var game_root = null
 
 @onready var menu_scene = preload("res://interface/pause_menu.tscn")
-@onready var inventory_window := preload("res://interface/inventory.tscn").instantiate()
+@onready var inventory_window := preload("res://interface/inventory/inventory.tscn").instantiate()
 
 var ui_log: TextEdit = null
 var menu_instance: Node = null

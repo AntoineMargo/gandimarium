@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://di24o35dhla3y"]
 
 [ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creature.gd" id="1_ss4pg"]
-[ext_resource type="PackedScene" uid="uid://wqxs6c21eg4g" path="res://interface/health_bar.tscn" id="3_g0uk5"]
+[ext_resource type="PackedScene" uid="uid://wqxs6c21eg4g" path="res://interface/local_map/health_bar.tscn" id="3_g0uk5"]
 [ext_resource type="Texture2D" uid="uid://bcjmxhgemswtr" path="res://art/characters/hooded_char.png" id="4_4w7f4"]
 [ext_resource type="Script" uid="uid://b52a57vjokam7" path="res://AI/ai_controller.gd" id="5_ud2rd"]
 [ext_resource type="Script" uid="uid://d34g8yxog7bux" path="res://AI/overmap_ai.gd" id="6_jjh6p"]

@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://cwvyyn40aylxe"]
+[gd_scene load_steps=7 format=3 uid="uid://cwvyyn40aylxe"]
 
-[ext_resource type="Script" uid="uid://cqrxcc7cn32yf" path="res://interface/ui.gd" id="1_nt7q6"]
-[ext_resource type="ButtonGroup" uid="uid://d0bbndwtryk01" path="res://interface/weapon_set_group.tres" id="2_fqd3i"]
-[ext_resource type="ButtonGroup" uid="uid://cc15kyd6pbbhr" path="res://interface/left_attack_types_group.tres" id="3_bgvwv"]
-[ext_resource type="ButtonGroup" uid="uid://bfjhokdkiavcm" path="res://interface/right_attack_types_group.tres" id="4_h0o3h"]
+[ext_resource type="Script" uid="uid://cqrxcc7cn32yf" path="res://interface/bottom_bar/ui.gd" id="1_nt7q6"]
+[ext_resource type="ButtonGroup" uid="uid://d0bbndwtryk01" path="res://interface/bottom_bar/weapon_set_group.tres" id="2_fqd3i"]
+[ext_resource type="ButtonGroup" uid="uid://g8we23oik7v2" path="res://interface/bottom_bar/attack_categories_group.tres" id="2_wgjoc"]
+[ext_resource type="ButtonGroup" uid="uid://cc15kyd6pbbhr" path="res://interface/bottom_bar/left_attack_types_group.tres" id="3_bgvwv"]
+[ext_resource type="ButtonGroup" uid="uid://bfjhokdkiavcm" path="res://interface/bottom_bar/right_attack_types_group.tres" id="4_h0o3h"]
 [ext_resource type="Texture2D" uid="uid://dfjuxxnpyahvy" path="res://art/interface/base/empty_pip.png" id="5_h0o3h"]
 
 [node name="UI" type="Control"]
@@ -62,22 +63,38 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="CheckButton" type="CheckButton" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer"]
+custom_minimum_size = Vector2(0, 31)
 layout_mode = 2
 tooltip_text = "Click to change your active weapon set."
 focus_mode = 0
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer"]
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer"]
 layout_mode = 2
-theme_override_constants/line_spacing = -6
-text = "W
-e
-a
-p
-o
-n
-s"
-horizontal_alignment = 1
-vertical_alignment = 1
+
+[node name="Strike" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer"]
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+keep_pressed_outside = true
+button_group = ExtResource("2_wgjoc")
+text = "Strike
+"
+
+[node name="Shoot" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer"]
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+keep_pressed_outside = true
+button_group = ExtResource("2_wgjoc")
+text = "Shoot"
+
+[node name="Throw" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer"]
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+keep_pressed_outside = true
+button_group = ExtResource("2_wgjoc")
+text = "Throw"
 
 [node name="Weapon1Container" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -117,14 +134,6 @@ keep_pressed_outside = true
 button_group = ExtResource("3_bgvwv")
 text = "Crush"
 
-[node name="W1_AttackType4" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container"]
-layout_mode = 2
-focus_mode = 0
-toggle_mode = true
-keep_pressed_outside = true
-button_group = ExtResource("3_bgvwv")
-text = "Throw"
-
 [node name="Weapon2Container" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
@@ -163,15 +172,6 @@ toggle_mode = true
 keep_pressed_outside = true
 button_group = ExtResource("4_h0o3h")
 text = "Crush"
-
-[node name="W2_AttackType4" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container"]
-layout_mode = 2
-focus_mode = 0
-toggle_mode = true
-keep_pressed_outside = true
-button_group = ExtResource("4_h0o3h")
-text = "Throw
-"
 
 [node name="VSeparator" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)

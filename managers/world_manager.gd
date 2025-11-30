@@ -12,7 +12,7 @@ var spawner: Spawner
 
 var target_highlights = []
 
-@onready var selection_highlight = load("res://interface/selection_highlight.tscn").instantiate()
+@onready var selection_highlight = load("res://interface/local_map/selection_highlight.tscn").instantiate()
 
 func setup_layers():
 	layers.clear()
@@ -187,7 +187,7 @@ func show_reachable_tiles():
 		if coords.z != current_level:
 			continue
 		var coords_2d = Vector2i(coords[0], coords[1])
-		var painted_scene = preload("res://interface/painted_tile_effect.tscn")
+		var painted_scene = preload("res://interface/local_map/painted_tile_effect.tscn")
 		var painted_instance = painted_scene.instantiate()
 		painted_instance.add_to_group("reachable_overlay")
 		
@@ -347,7 +347,7 @@ func remove_item_visual(coords):
 		layers[coords.vec3.z]["item_visual"].erase(coords.vec2)
 
 func flash_tile_overlay(tile_pos: Vector2i) -> void:
-	var flash_scene = preload("res://interface/flash_tile_effect.tscn")
+	var flash_scene = preload("res://interface/local_map/flash_tile_effect.tscn")
 	var flash_instance = flash_scene.instantiate()
 	
 	var tilemap = layers[current_level]["tile_map"]

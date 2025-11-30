@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://e28m8ov8vbh"]
 
-[ext_resource type="Script" uid="uid://oiap372n7vy4" path="res://interface/flash_tile_effect.gd" id="1_4sb4s"]
+[ext_resource type="Script" uid="uid://oiap372n7vy4" path="res://interface/local_map/flash_tile_effect.gd" id="1_4sb4s"]
 
 [sub_resource type="Animation" id="Animation_yvg12"]
 length = 0.001

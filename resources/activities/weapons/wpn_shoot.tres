@@ -1,0 +1,45 @@
+[gd_resource type="Resource" script_class="WeaponShoot" load_steps=15 format=3 uid="uid://bcg3lhgoc5dey"]
+
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://activities/damage_pattern.gd" id="1_0lonk"]
+[ext_resource type="Script" uid="uid://lrec85jjq4ih" path="res://AIHints/AI_hint.gd" id="1_30nif"]
+[ext_resource type="Script" uid="uid://cjlqcvlpx5tn0" path="res://activities/wpn_shoot.gd" id="2_bydrk"]
+[ext_resource type="Resource" uid="uid://lowvjn23gb1u" path="res://resources/damage_patterns/slash.tres" id="2_jhh7f"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="3_m5oha"]
+[ext_resource type="Resource" uid="uid://b6lwaevovr35s" path="res://resources/damage_patterns/pierce.tres" id="3_vywdf"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_jhh7f"]
+[ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="4_n62ix"]
+[ext_resource type="Resource" uid="uid://rsyurje8uegc" path="res://resources/filters/crisis_mode.tres" id="9_vcu01"]
+[ext_resource type="Resource" uid="uid://bhdp23fjgy1bl" path="res://resources/filters/enough_ap.tres" id="10_x7wes"]
+[ext_resource type="Resource" uid="uid://b4wcicn6nxx3e" path="res://resources/filters/enough_brawn.tres" id="11_ev1pt"]
+[ext_resource type="Script" uid="uid://jtk6vp2fcxdf" path="res://effects/wpn_damage.gd" id="12_a1akh"]
+
+[sub_resource type="Resource" id="Resource_30nif"]
+script = ExtResource("1_30nif")
+power = {
+&"buff": 0,
+&"control": 0,
+&"damage": 50,
+&"debuff": 0,
+&"heal": 0,
+&"impediment": 0,
+&"movement": 0,
+&"summon": 0,
+&"utility": 0
+}
+metadata/_custom_type_script = "uid://lrec85jjq4ih"
+
+[sub_resource type="Resource" id="Resource_a1akh"]
+script = ExtResource("12_a1akh")
+metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
+
+[resource]
+script = ExtResource("2_bydrk")
+attack_types = Array[ExtResource("1_0lonk")]([ExtResource("2_jhh7f"), ExtResource("3_vywdf"), ExtResource("4_n62ix")])
+name = "wpn_shoot"
+attacking_aptitude = "offence"
+defending_aptitude = "ranged_defence"
+reach = 20
+self_filters = Array[ExtResource("4_jhh7f")]([ExtResource("9_vcu01"), ExtResource("10_x7wes"), ExtResource("11_ev1pt")])
+target_effects = Array[ExtResource("3_m5oha")]([SubResource("Resource_a1akh")])
+ai_hint = SubResource("Resource_30nif")
+metadata/_custom_type_script = "uid://cjlqcvlpx5tn0"

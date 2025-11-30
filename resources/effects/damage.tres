@@ -6,4 +6,5 @@
 script = ExtResource("1_8abn3")
 dice_number = 10
 damage_bonus = 10
+resistance = "physical"
 metadata/_custom_type_script = "uid://otrxaros8gk8"

@@ -4,8 +4,6 @@
 
 [resource]
 script = ExtResource("1_alsf5")
-dice_number = 1
-damage_die = 8
 damage_bonus = 0
-resistance = ""
+resistance = "physical"
 metadata/_custom_type_script = "uid://otrxaros8gk8"

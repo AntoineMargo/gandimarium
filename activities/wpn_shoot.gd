@@ -1,21 +1,8 @@
-extends Activity
-class_name WeaponAttack
-
-var weapon: Weapon = null
-var attack_type: int = 0
+extends WeaponActivity
+class_name WeaponShoot
 
 func execute() -> void:
-	if attacking_aptitude == "default":
-		attacking_aptitude = "offence"
-	if defending_aptitude == "default":
-		defending_aptitude = "melee_defence"
-	attack_type = user.data.get_active_attack_type()
-	if defending_aptitude == "default":
-		if weapon is RangedWeapon or attack_type == 4:
-			defending_aptitude = "ranged_defence"
-
-	print("weapon: ", weapon)
-	reach = weapon.melee_range
+	reach = weapon.shoot_reach
 
 	for filter in self_filters:
 		if filter is Filter:
