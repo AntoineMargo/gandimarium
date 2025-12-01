@@ -1,9 +1,7 @@
-[gd_resource type="Resource" script_class="WeaponStrike" load_steps=12 format=3 uid="uid://s55aqyl4etow"]
+[gd_resource type="Resource" script_class="WeaponStrike" load_steps=10 format=3 uid="uid://s55aqyl4etow"]
 
 [ext_resource type="Resource" uid="uid://dayhp0iufoj40" path="res://resources/items/weapons/fist/fist_strike_ai.tres" id="1_18eoe"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://activities/damage_pattern.gd" id="2_g7g36"]
-[ext_resource type="Resource" uid="uid://lowvjn23gb1u" path="res://resources/damage_patterns/slash.tres" id="3_4x0c2"]
-[ext_resource type="Resource" uid="uid://b6lwaevovr35s" path="res://resources/damage_patterns/pierce.tres" id="4_wx827"]
 [ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="5_dqov2"]
 [ext_resource type="Script" uid="uid://slgpne4ixmcv" path="res://activities/wpn_strike.gd" id="6_4o2pa"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="7_s0q6p"]
@@ -14,7 +12,8 @@
 
 [resource]
 script = ExtResource("6_4o2pa")
-attack_types = Array[ExtResource("2_g7g36")]([ExtResource("3_4x0c2"), ExtResource("4_wx827"), ExtResource("5_dqov2")])
+attack_types = Array[ExtResource("2_g7g36")]([ExtResource("5_dqov2")])
+pattern_ids = Array[int]([2])
 name = "wpn_strike"
 attacking_aptitude = "offence"
 defending_aptitude = "melee_defence"

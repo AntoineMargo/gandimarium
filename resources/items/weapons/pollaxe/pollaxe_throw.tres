@@ -1,9 +1,9 @@
-[gd_resource type="Resource" script_class="WeaponStrike" load_steps=11 format=3 uid="uid://c8uws3pgn48f8"]
+[gd_resource type="Resource" script_class="WeaponThrow" load_steps=11 format=3 uid="uid://c8uws3pgn48f8"]
 
 [ext_resource type="Resource" uid="uid://orrfy6m63wyr" path="res://resources/items/weapons/pollaxe/pollaxe_throw_ai.tres" id="1_23wxu"]
+[ext_resource type="Script" uid="uid://bkxicxp8ud7lk" path="res://activities/wpn_throw.gd" id="2_b5lty"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://activities/damage_pattern.gd" id="2_bldbt"]
 [ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="5_fcm7j"]
-[ext_resource type="Script" uid="uid://slgpne4ixmcv" path="res://activities/wpn_strike.gd" id="6_g64x7"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="7_3nj5e"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="8_saf20"]
 [ext_resource type="Resource" uid="uid://rsyurje8uegc" path="res://resources/filters/crisis_mode.tres" id="9_gap5k"]
@@ -12,14 +12,12 @@
 [ext_resource type="Resource" uid="uid://bsg7n0m5e01di" path="res://resources/effects/weapon_damage/damage_2d10.tres" id="12_k3s6l"]
 
 [resource]
-script = ExtResource("6_g64x7")
-pattern_ids = Array[int]([2])
+script = ExtResource("2_b5lty")
 attack_types = Array[ExtResource("2_bldbt")]([ExtResource("5_fcm7j")])
 name = "wpn_throw"
 attacking_aptitude = "offence"
-defending_aptitude = "melee_defence"
-reach = 2
-self_filters = Array[ExtResource("8_saf20")]([ExtResource("9_gap5k"), ExtResource("10_rho50"), ExtResource("11_hcw60")])
+defending_aptitude = "ranged_defence"
+self_filters = Array[ExtResource("8_saf20")]([ExtResource("9_gap5k"), ExtResource("11_hcw60"), ExtResource("10_rho50")])
 target_effects = Array[ExtResource("7_3nj5e")]([ExtResource("12_k3s6l")])
 ai_hint = ExtResource("1_23wxu")
-metadata/_custom_type_script = "uid://slgpne4ixmcv"
+metadata/_custom_type_script = "uid://bkxicxp8ud7lk"

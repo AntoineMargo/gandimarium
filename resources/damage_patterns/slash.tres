@@ -4,6 +4,5 @@
 
 [resource]
 script = ExtResource("1_y86nx")
-id = 1
 name = "slash"
 metadata/_custom_type_script = "uid://rltw2jbxjfsu"

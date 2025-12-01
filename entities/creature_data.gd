@@ -206,8 +206,8 @@ func get_inventory():
 func get_active_weapons():
 	return equipment.get_active_weapons()
 
-func get_active_attack_type():
-	return equipment.get_active_attack_type()
+func get_active_strike_type():
+	return equipment.get_active_strike_type()
 
 func get_active_set():
 	return equipment.active_set
@@ -321,10 +321,20 @@ func perform_activity(activity: Activity, target: Node = null):
 func perform_attack(target):
 	print("_perform_attack_activity called.")
 	var weapons = get_active_weapons()
+	var category = equipment.get_active_attack_category()
 	if weapons[0]:
-		var attack_activity = weapons[0].attack.duplicate(true)
-		attack_activity.weapon = weapons[0]
-		perform_activity(attack_activity, target)
+		if category == 0 and weapons[0].strike:
+			var attack_activity = weapons[0].strike.duplicate(true)
+			attack_activity.weapon = weapons[0]
+			perform_activity(attack_activity, target)
+		elif category == 1 and weapons[0].shoot:
+			var attack_activity = weapons[0].shoot.duplicate(true)
+			attack_activity.weapon = weapons[0]
+			perform_activity(attack_activity, target)
+		elif category == 2 and weapons[0].throw:
+			var attack_activity = weapons[0].throw.duplicate(true)
+			attack_activity.weapon = weapons[0]
+			perform_activity(attack_activity, target)
 
 func initialise():
 	level_mod = level / 2

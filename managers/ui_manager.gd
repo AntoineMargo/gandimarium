@@ -199,62 +199,68 @@ func update_active_attack_buttons():
 	# This is where we disable the attack buttons if they're not available for the weapon
 
 	# ----- Left weapon buttons -----
+
+	w1_slash.disabled = true
+	w1_pierce.disabled = true
+	w1_crush.disabled = true
+	
 	if left_weapon:
 		var attack_types = null
 		if category == 0:
 			if left_weapon.strike:
-				attack_types = left_weapon.strike.pattern_ids
+				attack_types = left_weapon.strike.attack_types
 			else:
 				attack_types = []
 		elif category == 1:
 			if left_weapon.shoot:
-				attack_types = left_weapon.shoot.pattern_ids
+				attack_types = left_weapon.shoot.attack_types
 			else:
 				attack_types = []
 		elif category == 2:
 			if left_weapon.throw:
-				attack_types = left_weapon.throw.pattern_ids
+				attack_types = left_weapon.throw.attack_types
 			else:
 				attack_types = []
 
-		w1_slash.disabled  = not (0 in attack_types)
-		w1_pierce.disabled = not (1 in attack_types)
-		w1_crush.disabled  = not (2 in attack_types)
-
-	else:
-		# No left weapon = disable all buttons
-		w1_slash.disabled  = true
-		w1_pierce.disabled = true
-		w1_crush.disabled  = true
+		for type in attack_types:
+			if type.id == 0:
+				w1_slash.disabled  = false
+			elif type.id == 1:
+				w1_pierce.disabled  = false
+			elif type.id == 2:
+				w1_crush.disabled  = false
 
 	# ----- Right weapon buttons -----
+	
+	w2_slash.disabled = true
+	w2_pierce.disabled = true
+	w2_crush.disabled = true
+	
 	if right_weapon:
 		var attack_types = null
 		if category == 0:
 			if right_weapon.strike:
-				attack_types = right_weapon.strike.pattern_ids
+				attack_types = right_weapon.strike.attack_types
 			else:
 				attack_types = []
 		elif category == 1:
 			if right_weapon.shoot:
-				attack_types = right_weapon.shoot.pattern_ids
+				attack_types = right_weapon.shoot.attack_types
 			else:
 				attack_types = []
 		elif category == 2:
 			if right_weapon.throw:
-				attack_types = right_weapon.throw.pattern_ids
+				attack_types = right_weapon.throw.attack_types
 			else:
 				attack_types = []
 
-		w2_slash.disabled  = not (0 in attack_types)
-		w2_pierce.disabled = not (1 in attack_types)
-		w2_crush.disabled  = not (2 in attack_types)
-
-	else:
-		# No right weapon = disable all buttons
-		w2_slash.disabled  = true
-		w2_pierce.disabled = true
-		w2_crush.disabled  = true
+		for type in attack_types:
+			if type.id == 0:
+				w2_slash.disabled  = false
+			elif type.id == 1:
+				w2_pierce.disabled  = false
+			elif type.id == 2:
+				w2_crush.disabled  = false
 
 func update_active_category_buttons():
 	if ui_node == null or Global.selected_char == null:

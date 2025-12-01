@@ -2,7 +2,6 @@ extends WeaponActivity
 class_name WeaponShoot
 
 func execute() -> void:
-	reach = weapon.shoot_reach
 
 	for filter in self_filters:
 		if filter is Filter:

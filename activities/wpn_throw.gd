@@ -4,9 +4,8 @@ class_name WeaponThrow
 @export var reach_mult: int = 1
 
 func execute() -> void:
-	#reach = weapon.throw_reach
-	reach = user.brawn * reach_mult
-
+	print("§§§ WeaponThrow called §§§")
+	reach = user.data.brawn * reach_mult
 	for filter in self_filters:
 		if filter is Filter:
 			if not filter.is_satisfied(user, self):

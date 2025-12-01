@@ -145,6 +145,7 @@ func BasicControls():
 		if not Global.selected_char:
 			return
 		var c = Global.selected_char
+		print("active category: ", c.data.equipment.get_active_attack_category())
 		print("active set: ", c.data.get_active_set())
 		print("active hand: ", c.data.get_active_hand())
 		print("Set 1 left strike: ", c.data.equipment.strike_types[0][0])

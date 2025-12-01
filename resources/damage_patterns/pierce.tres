@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_acnl7")
-id = 2
+id = 1
 name = "pierce"
 pattern = [0, 0, 2, 4]
 metadata/_custom_type_script = "uid://rltw2jbxjfsu"

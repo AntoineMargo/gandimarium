@@ -1,6 +1,10 @@
-[gd_resource type="Resource" script_class="WeaponStrike" load_steps=9 format=3 uid="uid://xemlo603d7ki"]
+[gd_resource type="Resource" script_class="WeaponStrike" load_steps=13 format=3 uid="uid://xemlo603d7ki"]
 
 [ext_resource type="Resource" uid="uid://1dlg3tu4w25y" path="res://resources/items/weapons/pollaxe/pollaxe_strike_ai.tres" id="1_c00ss"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://activities/damage_pattern.gd" id="2_c00ss"]
+[ext_resource type="Resource" uid="uid://lowvjn23gb1u" path="res://resources/damage_patterns/slash.tres" id="3_1t5px"]
+[ext_resource type="Resource" uid="uid://b6lwaevovr35s" path="res://resources/damage_patterns/pierce.tres" id="4_ouq61"]
+[ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="5_mxovm"]
 [ext_resource type="Script" uid="uid://slgpne4ixmcv" path="res://activities/wpn_strike.gd" id="6_1l81a"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="7_qyfvj"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="8_gq1ah"]
@@ -11,12 +15,12 @@
 
 [resource]
 script = ExtResource("6_1l81a")
-pattern_ids = Array[int]([0, 1, 2])
+attack_types = Array[ExtResource("2_c00ss")]([ExtResource("3_1t5px"), ExtResource("4_ouq61"), ExtResource("5_mxovm")])
 name = "wpn_strike"
 attacking_aptitude = "offence"
 defending_aptitude = "melee_defence"
 reach = 2
-self_filters = Array[ExtResource("8_gq1ah")]([ExtResource("9_6dehc"), ExtResource("10_2sjpx"), ExtResource("11_0kllt")])
+self_filters = Array[ExtResource("8_gq1ah")]([ExtResource("9_6dehc"), ExtResource("11_0kllt"), ExtResource("10_2sjpx")])
 target_effects = Array[ExtResource("7_qyfvj")]([ExtResource("12_1t5px")])
 ai_hint = ExtResource("1_c00ss")
 metadata/_custom_type_script = "uid://slgpne4ixmcv"
