@@ -2,11 +2,13 @@
 
 [ext_resource type="Script" uid="uid://sp13v64rtnhb" path="res://items/item_on_tile.gd" id="1_jt51q"]
 [ext_resource type="Texture2D" uid="uid://nrc0my4a3rpp" path="res://art/map_objects/generic_item_sprite.png" id="2_4j6hu"]
-[ext_resource type="Resource" uid="uid://b6m17tur61egw" path="res://resources/items/weapons/longsword/wpn_longsword.tres" id="2_ohl2k"]
+
+[sub_resource type="Resource" id="Resource_jt51q"]
+metadata/__load_path__ = "res://resources/items/weapons/longsword/wpn_longsword.tres"
 
 [node name="ItemOnTile" type="Node2D"]
 script = ExtResource("1_jt51q")
-item = ExtResource("2_ohl2k")
+item = SubResource("Resource_jt51q")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_4j6hu")

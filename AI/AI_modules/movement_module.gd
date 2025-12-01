@@ -6,7 +6,7 @@ var creature: Creature = null
 var crisis_ai: CrisisAI = null
 
 func movement_planner(sequences, report):
-	sequences_to_reach_target(sequences, report["closest_enemy"])
+	sequences_to_reach_target(sequences, report)
 	#var strongest_sequences = sequences_to_reach_target(sequences, report["strongest_enemy"])
 	#var frailest_sequences = sequences_to_reach_target(sequences, report["frailest_enemy"])
 	return sequences
@@ -18,11 +18,13 @@ func create_sequence(sequence_length):
 		sequence.append(plannedact)
 	return sequence
 
-func sequences_to_reach_target(sequences, target: Creature):
+func sequences_to_reach_target(sequences, report):
 	var sequence_length = creature.data.current_ap
 	var mp_needed = 0
 	var cost = 0
-	var path = wm.path_to_target_adjacency(creature, target)
+	var target = report["closest_enemy"]
+	var distance = report["favored_melee_weapon"].reach
+	var path = wm.path_to_target_adjacency(creature, target, distance)
 	if not path:
 		return sequences
 
@@ -50,10 +52,10 @@ func sequences_to_reach_target(sequences, target: Creature):
 					number_of_moves += 1
 					act.activity = Library.get_activity("move")
 					if number_of_moves == mp_needed:
-						act.utility = 66 
+						act.utility = 40 
 						act.start_position = path[-1]
 					else:
-						act.utility = 33
+						act.utility = 5
 						var step_index = min(max(0, (number_of_moves - 1) * creature.data.current_mp), path.size() - 1)
 						act.start_position = path[step_index]
 				else: # Free slot

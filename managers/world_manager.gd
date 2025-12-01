@@ -275,7 +275,7 @@ func calculate_path_cost_3D(path: Array[Vector3i], tile_size: int = Global.TILE_
 	
 	return total_cost
 
-func path_to_target_adjacency(creature, target):
+func path_to_target_adjacency(creature, target, distance):
 	var origin = get_char_coords(target)
 	var goal = get_char_coords(creature)
 	var path = get_multi_level_path(origin.vec3, goal.vec3)
@@ -283,7 +283,8 @@ func path_to_target_adjacency(creature, target):
 	if path.size() < 2 and path[-1] != target:
 		return
 	path.reverse()
-	path.pop_back()
+	for i in range(distance):
+		path.pop_back()
 
 	return path
 

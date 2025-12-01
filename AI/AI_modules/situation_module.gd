@@ -5,16 +5,20 @@ var wm = null
 var creature: Creature = null
 var crisis_ai: CrisisAI = null
 
-func produce_report() -> Dictionary:
+func produce_report(entries) -> Dictionary:
 	var report = {}
 
 	var closest_enemy = find_closest_enemy()
 	var strongest_enemy = find_strongest_enemy()
 	var frailest_enemy = find_frailest_enemy()
+	var favored_melee_weapon = find_best_melee_weapon(entries)
+	var favored_ranged_weapon = find_best_ranged_weapon(entries)
 
 	report["closest_enemy"] = closest_enemy
 	report["strongest_enemy"] = strongest_enemy
 	report["frailest_enemy"] = frailest_enemy
+	report["favored_melee_weapon"] = favored_melee_weapon
+	report["favored_ranged_weapon"] = favored_ranged_weapon
 	
 	report["enemy_positions"] = {}
 	for enemy in creature.data.hostile:
@@ -22,6 +26,32 @@ func produce_report() -> Dictionary:
 		report["enemy_positions"][enemy] = Vector3i(data.tile_x, data.tile_y, data.map_layer_id)
 
 	return report
+
+func find_best_ranged_weapon(entries):
+	var favored_ranged_weapon: Weapon = null
+	var highest_brawn_requirement: int = 0
+	
+	for i in range(2):
+		if entries[i].activity is WeaponShoot:
+			if entries[i].activity.source.brawn_req_2h > highest_brawn_requirement:
+				favored_ranged_weapon = entries[i].activity.source
+				highest_brawn_requirement = entries[i].activity.source.brawn_req_2h
+		else:
+			break
+	return favored_ranged_weapon
+
+func find_best_melee_weapon(entries):
+	var favored_melee_weapon: Weapon = null
+	var highest_brawn_requirement: int = 0
+	
+	for i in range(2):
+		if entries[i].activity is WeaponStrike:
+			if entries[i].activity.source.brawn_req_2h > highest_brawn_requirement:
+				favored_melee_weapon = entries[i].activity.source
+				highest_brawn_requirement = entries[i].activity.source.brawn_req_2h
+		else:
+			break
+	return favored_melee_weapon
 
 func find_closest_enemy() -> Creature:
 	var closest_enemy: Creature = null
