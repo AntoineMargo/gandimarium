@@ -35,6 +35,9 @@ func spawn_character_player():
 	var activities = ["move", "aura_damage", "firebolt", "firebolts"]
 	
 	var abilities = ["firebolt", "degrade_defences"]
+	
+	my_char.equipment.default_weapon = Library.get_item("wpn_fist")
+	#my_char.equipment.default_weapon = Library.get_item("wpn_pollaxe")
 
 	my_char.equip_item("set1_left_hand", Library.get_item("wpn_pollaxe"))
 	#my_char.equip_item("set1_right_hand", Library.get_item("wpn_pollaxe"))

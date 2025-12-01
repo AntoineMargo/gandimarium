@@ -23,6 +23,8 @@ func apply(source, target, degree: int) -> void:
 			if pattern.id == chosen_attack_type:
 				damage_pattern = pattern
 				break
+	if damage_pattern == null:
+		damage_pattern = Library.get_dmg_pattern("default")
 	var total_damage = CombatMath.determine_damage(
 		dice_number, damage_die,
 		damage_bonus, degree,

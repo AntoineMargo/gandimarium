@@ -44,8 +44,28 @@ var active_category: int = 0
 func get_active_weapon():
 	return weapon_sets[active_set][active_hand]
 
+func get_active_set_weapons():
+	var left_weapon = null
+	var right_weapon = null
+	if active_set == 0:
+		left_weapon = weapon_sets[0][0]
+		right_weapon = weapon_sets[0][1]
+	else:
+		left_weapon = weapon_sets[1][0]
+		right_weapon = weapon_sets[1][1]
+	if not left_weapon:
+		left_weapon = default_weapon
+	if not right_weapon:
+		right_weapon = default_weapon
+	return [left_weapon, right_weapon]
+
 func get_active_weapons():
-	return [weapon_sets[active_set][active_hand], weapon_sets[active_set][1 - active_hand]]
+	var weapons = [weapon_sets[active_set][active_hand], weapon_sets[active_set][1 - active_hand]]
+	if not weapons[0]:
+		weapons[0] = default_weapon
+	if not weapons[1]:
+		weapons[1] = default_weapon
+	return weapons
 
 func get_active_strike_type():
 	return strike_types[active_set][active_hand]
@@ -65,19 +85,24 @@ func set_active_attack_category(number):
 
 func get_weapon_slot(slot):
 	var pos = SLOT_MAP.get(slot)
-	return weapon_sets[pos.x][pos.y]
+	var item = weapon_sets[pos.x][pos.y]
+	if item:
+		return item
+	else:
+		return default_weapon
 
 func set_weapon_slot(slot, item):
 	var pos = SLOT_MAP.get(slot)
 	weapon_sets[pos.x][pos.y] = item
-	if item.strike:
-		if item.strike.attack_types.size() > 0:
-			strike_types[pos.x][pos.y] = item.strike.attack_types[0].id
-	if active_set == pos.x:
-		if item.shoot:
-			shoot_types[pos.y] = item.shoot.attack_types[0].id
-		if item.throw:
-			throw_types[pos.y] = item.throw.attack_types[0].id
+	if item:
+		if item.strike:
+			if item.strike.attack_types.size() > 0:
+				strike_types[pos.x][pos.y] = item.strike.attack_types[0].id
+		if active_set == pos.x:
+			if item.shoot:
+				shoot_types[pos.y] = item.shoot.attack_types[0].id
+			if item.throw:
+				throw_types[pos.y] = item.throw.attack_types[0].id
 
 func get_all_equipped_items():
 	var collection = []
@@ -96,6 +121,17 @@ func remove_item_from_slot(slot):
 			body = null
 	else:
 		item = get_weapon_slot(slot)
-		var fist = Library.get_item("wpn_fist")
-		set_weapon_slot(slot, fist)
+		set_weapon_slot(slot, null)
 	return (item)
+
+#func remove_item_from_slot(slot):
+	#var item: Item = null
+	#if slot == "body":
+		#if body:
+			#item = body
+			#body = null
+	#else:
+		#item = get_weapon_slot(slot)
+		#var fist = Library.get_item("wpn_fist")
+		#set_weapon_slot(slot, fist)
+	#return (item)

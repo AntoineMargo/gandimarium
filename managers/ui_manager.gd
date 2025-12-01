@@ -186,15 +186,12 @@ func update_active_attack_buttons():
 		print("Attack buttons failed.")
 
 
-	var left_weapon: Weapon = null
-	var right_weapon: Weapon = null
-	
-	if char.get_active_set() == 0:
-		left_weapon = char.equipment.weapon_sets[0][0]
-		right_weapon = char.equipment.weapon_sets[0][1]
-	else:
-		left_weapon = char.equipment.weapon_sets[1][0]
-		right_weapon = char.equipment.weapon_sets[1][1]
+	#var left_weapon: Weapon = null
+	#var right_weapon: Weapon = null
+
+	var weapons = char.equipment.get_active_set_weapons()
+	var left_weapon = weapons[0]
+	var right_weapon = weapons[1]
 
 	# This is where we disable the attack buttons if they're not available for the weapon
 
@@ -314,23 +311,23 @@ func update_weapon_buttons_text():
 		if item:
 			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = item.name
 		else:
-			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = "Fist"
+			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = "Empty"
 		item = char.get_weapon_slot("set1_right_hand")
 		if item:
 			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = item.name
 		else:
-			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "Fist"
+			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "Empty"
 	elif char.get_active_set() == 1:
 		item = char.get_weapon_slot("set2_left_hand")
 		if item:
 			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = item.name
 		else:
-			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = "Fist"
+			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = "Empty"
 		item = char.get_weapon_slot("set2_right_hand")
 		if item:
 			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = item.name
 		else:
-			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "Fist"
+			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "Empty"
 
 func _on_update_inventory() -> void:
 	var character = Global.selected_char
@@ -373,6 +370,10 @@ func _on_update_inventory() -> void:
 			var item = null
 			if slot_name in ["set1_left_hand", "set1_right_hand", "set2_left_hand", "set2_right_hand"]:
 				item = character.data.get_weapon_slot(slot_name)
+				var default = Global.focus_char.data.equipment.default_weapon
+				if item and default:
+					if item.name == default.name:
+						item = null
 			else:
 				item = character.data.get_slot(slot_name)
 			if item:
