@@ -230,8 +230,6 @@ func get_weapon_slot(slot):
 	return equipment.get_weapon_slot(slot)
 
 func equip_item(slot, item):
-	#print("equip_item")
-	#print("	item: ", item.name)
 	remove_conditions_from_equipment()
 	if slot == "body":
 		remove_item_from_slot(slot)

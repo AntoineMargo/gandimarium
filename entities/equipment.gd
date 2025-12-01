@@ -22,19 +22,31 @@ const SLOT_MAP = {
 @export var left_ring: Item
 @export var right_ring: Item
 
+@export var default_weapon: Item
+
 @export var weapon_sets := [
 	[null, null],
 	[null, null]
 ]
 
-# for strikes only, throw and shoot don't need it
-@export var attack_types := [
+@export var strike_types := [
 	[0, 0],
 	[0, 0]
 ]
 
-var shoot_type := 0  # usually irrelevant
-var throw_type := 0  # usually irrelevant
+var shoot_types := [0, 0]  # usually irrelevant
+var throw_types := [0, 0]  # usually irrelevant
+
+#@export var shoot_types := [
+	#[0, 0],
+	#[0, 0]
+#]
+#
+#@export var throw_types := [
+	#[0, 0],
+	#[0, 0]
+#]
+
 
 #var category_memory := {
 	#"strike": [
@@ -56,7 +68,7 @@ func get_active_weapons():
 	return [weapon_sets[active_set][active_hand], weapon_sets[active_set][1 - active_hand]]
 
 func get_active_attack_type():
-	return attack_types[active_set][active_hand]
+	return strike_types[active_set][active_hand]
 
 func get_active_attack_category():
 	return active_category
@@ -72,6 +84,14 @@ func get_weapon_slot(slot):
 func set_weapon_slot(slot, item):
 	var pos = SLOT_MAP.get(slot)
 	weapon_sets[pos.x][pos.y] = item
+	if item.strike:
+		if item.strike.pattern_ids.size() > 0:
+			strike_types[pos.x][pos.y] = item.strike.pattern_ids[0]
+	if active_set == pos.x:
+		if item.shoot:
+			shoot_types[pos.y] = item.shoot.pattern_ids[0]
+		if item.throw:
+			throw_types[pos.y] = item.throw.pattern_ids[0]
 
 func get_all_equipped_items():
 	var collection = []
@@ -90,5 +110,6 @@ func remove_item_from_slot(slot):
 			body = null
 	else:
 		item = get_weapon_slot(slot)
-		set_weapon_slot(slot, null)
+		var fist = Library.get_item("wpn_fist")
+		set_weapon_slot(slot, fist)
 	return (item)

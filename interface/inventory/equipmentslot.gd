@@ -17,7 +17,7 @@ func _drop_data(position, item):
 	var char = Global.focus_char.data
 
 	var old_item = get_item_from_slot()
-	if old_item:
+	if old_item and old_item.name != "Fist":
 		char.add_to_inventory(old_item)
 	char.equip_item(slot_name, item)
 

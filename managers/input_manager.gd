@@ -147,10 +147,12 @@ func BasicControls():
 		var c = Global.selected_char
 		print("active set: ", c.data.get_active_set())
 		print("active hand: ", c.data.get_active_hand())
-		print("Set 1 left attack: ", c.data.equipment.attack_types[0][0])
-		print("Set 1 right attack: ", c.data.equipment.attack_types[0][1])
-		print("Set 2 left attack: ", c.data.equipment.attack_types[1][0])
-		print("Set 2 right attack: ", c.data.equipment.attack_types[1][1])
+		print("Set 1 left strike: ", c.data.equipment.strike_types[0][0])
+		print("Set 1 right strike: ", c.data.equipment.strike_types[0][1])
+		print("Set 2 left strike: ", c.data.equipment.strike_types[1][0])
+		print("Set 2 right strike: ", c.data.equipment.strike_types[1][1])
+		print("Current set left throw: ", c.data.equipment.throw_types[0])
+		print("Current set right throw: ", c.data.equipment.throw_types[1])
 		var weapons = c.data.get_active_weapons()
 		if weapons[0]:
 			print("Main weapon: ",  weapons[0].name)

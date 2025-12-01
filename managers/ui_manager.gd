@@ -25,12 +25,10 @@ func set_ui_node(node: Node):
 	var w1_slash = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType1")
 	var w1_pierce = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType2")
 	var w1_crush = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType3")
-	var w1_throw = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType4")
 
 	var w2_slash = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType1")
 	var w2_pierce = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType2")
 	var w2_crush = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType3")
-	var w2_throw = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType4")
 
 	var c1 = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer/Strike")
 	var c2 = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer/Shoot")
@@ -64,16 +62,16 @@ func set_ui_node(node: Node):
 		push_error("Could not connect weapon button signals.")
 
 	if w1_slash and w1_pierce and w1_crush:
-		w1_slash.connect("toggled", Callable(self, "on_attack1_button_toggled").bind(1))
-		w1_pierce.connect("toggled", Callable(self, "on_attack1_button_toggled").bind(2))
-		w1_crush.connect("toggled", Callable(self, "on_attack1_button_toggled").bind(3))
+		w1_slash.connect("toggled", Callable(self, "on_attack1_button_toggled").bind(0))
+		w1_pierce.connect("toggled", Callable(self, "on_attack1_button_toggled").bind(1))
+		w1_crush.connect("toggled", Callable(self, "on_attack1_button_toggled").bind(2))
 	else:
 		push_error("Could not connect left hand attack button signals.")
 
 	if w2_slash and w2_pierce and w2_crush:
-		w2_slash.connect("toggled", Callable(self, "on_attack2_button_toggled").bind(1))
-		w2_pierce.connect("toggled", Callable(self, "on_attack2_button_toggled").bind(2))
-		w2_crush.connect("toggled", Callable(self, "on_attack2_button_toggled").bind(3))
+		w2_slash.connect("toggled", Callable(self, "on_attack2_button_toggled").bind(0))
+		w2_pierce.connect("toggled", Callable(self, "on_attack2_button_toggled").bind(1))
+		w2_crush.connect("toggled", Callable(self, "on_attack2_button_toggled").bind(2))
 	else:
 		push_error("Could not connect right hand attack button signals.")
 	
@@ -93,7 +91,13 @@ func on_attack1_button_toggled(button_pressed: bool, attack_type: int) -> void:
 	if not Global.selected_char:
 		return
 	var c = Global.selected_char
-	c.data.equipment.attack_types[c.data.equipment.active_set][0] = attack_type
+	var category = c.data.equipment.get_active_attack_category()
+	if category == 0:
+		c.data.equipment.strike_types[c.data.equipment.active_set][0] = attack_type
+	elif category == 1:
+		c.data.equipment.shoot_types[0] = attack_type
+	elif category == 2:
+		c.data.equipment.throw_types[0] = attack_type
 	print("Active attack type changed.")
 
 func on_attack2_button_toggled(button_pressed: bool, attack_type: int) -> void:
@@ -102,7 +106,13 @@ func on_attack2_button_toggled(button_pressed: bool, attack_type: int) -> void:
 	if not Global.selected_char:
 		return
 	var c = Global.selected_char
-	c.data.equipment.attack_types[c.data.equipment.active_set][1] = attack_type
+	var category = c.data.equipment.get_active_attack_category()
+	if category == 0:
+		c.data.equipment.strike_types[c.data.equipment.active_set][1] = attack_type
+	elif category == 1:
+		c.data.equipment.shoot_types[1] = attack_type
+	elif category == 2:
+		c.data.equipment.throw_types[1] = attack_type
 	print("Active attack type changed.")
 
 func on_category_button_toggled(button_pressed: bool, category) -> void:
@@ -147,20 +157,33 @@ func update_active_attack_buttons():
 
 	var category = char.equipment.get_active_attack_category()
 
-	if category == 0:
-		if w1_slash and w1_pierce and w1_crush:
-				w1_slash.button_pressed = char.equipment.attack_types[char.get_active_set()][0] == 1
-				w1_pierce.button_pressed = char.equipment.attack_types[char.get_active_set()][0] == 2
-				w1_crush.button_pressed = char.equipment.attack_types[char.get_active_set()][0] == 3
-		else:
-			print("Attack 0 buttons failed.")
+	if w1_slash and w1_pierce and w1_crush and w2_slash and w2_pierce and w2_crush:
+		if category == 0:
+					w1_slash.button_pressed = char.equipment.strike_types[char.get_active_set()][0] == 0
+					w1_pierce.button_pressed = char.equipment.strike_types[char.get_active_set()][0] == 1
+					w1_crush.button_pressed = char.equipment.strike_types[char.get_active_set()][0] == 2
 
-		if w2_slash and w2_pierce and w2_crush:
-				w2_slash.button_pressed = char.equipment.attack_types[char.get_active_set()][1] == 1
-				w2_pierce.button_pressed = char.equipment.attack_types[char.get_active_set()][1] == 2
-				w2_crush.button_pressed = char.equipment.attack_types[char.get_active_set()][1] == 3
-		else:
-			print("Attack 1 buttons failed.")
+					w2_slash.button_pressed = char.equipment.strike_types[char.get_active_set()][1] == 0
+					w2_pierce.button_pressed = char.equipment.strike_types[char.get_active_set()][1] == 1
+					w2_crush.button_pressed = char.equipment.strike_types[char.get_active_set()][1] == 2
+		elif category == 1:
+					w1_slash.button_pressed = char.equipment.shoot_types[0] == 0
+					w1_pierce.button_pressed = char.equipment.shoot_types[0] == 1
+					w1_crush.button_pressed = char.equipment.shoot_types[0] == 2
+
+					w2_slash.button_pressed = char.equipment.shoot_types[1] == 0
+					w2_pierce.button_pressed = char.equipment.shoot_types[1] == 1
+					w2_crush.button_pressed = char.equipment.shoot_types[1] == 2
+		elif category == 2:
+					w1_slash.button_pressed = char.equipment.throw_types[0] == 0
+					w1_pierce.button_pressed = char.equipment.throw_types[0] == 1
+					w1_crush.button_pressed = char.equipment.throw_types[0] == 2
+
+					w2_slash.button_pressed = char.equipment.throw_types[1] == 0
+					w2_pierce.button_pressed = char.equipment.throw_types[1] == 1
+					w2_crush.button_pressed = char.equipment.throw_types[1] == 2
+	else:
+		print("Attack buttons failed.")
 
 
 	var left_weapon: Weapon = null
