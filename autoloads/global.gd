@@ -15,7 +15,7 @@ var game_root = null
 @onready var menu_scene = preload("res://interface/pause_menu.tscn")
 @onready var inventory_window := preload("res://interface/inventory/inventory.tscn").instantiate()
 
-var ui_log: TextEdit = null
+var ui_log: RichTextLabel = null
 var menu_instance: Node = null
 var items_list: VBoxContainer = null
 
@@ -65,3 +65,4 @@ func _ready() -> void:
 	items_list = inventory_window.get_node("Inventory/MainVBox/SeparHBox/Scroller/ItemsList")
 	await get_tree().create_timer(0.1).timeout
 	SignalBus.change_cursor.emit("default")
+	#ui_log = $PanelContainer/VBoxContainer/HBoxContainer/Log

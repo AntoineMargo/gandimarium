@@ -534,7 +534,7 @@ func update_ui_for_char():
 	update_spell_list()
 	update_concentration_slots()
 	await get_tree().process_frame
-	Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()
+	#Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()
 
 func _on_activity_button_pressed(button: TextureButton):
 	if not button.has_meta("activity"):

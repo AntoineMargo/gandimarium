@@ -27,15 +27,31 @@ func execute() -> void:
 			continue
 
 		var user_stat = user.data.get(attacking_aptitude)
-		var target_stat = user.data.get(defending_aptitude)
+		var target_stat = target.data.get(defending_aptitude)
 		
 		var user_roll = CombatMath.standard_roll()
 		var target_roll = CombatMath.standard_roll()
+
 		var result = CombatMath.make_opposed_check(
 			user_stat, user_roll,
 			target_stat, target_roll)
 		var degree = CombatMath.determine_degree_success(result)
-		
+
+		var degree_string: String
+		match degree:
+			0:
+				degree_string = "critical failure"
+			1:
+				degree_string = "failure"
+			2:
+				degree_string = "success"
+			3:
+				degree_string = "critical success"
+
+		SignalBus.dialog_show_message.emit(
+			"%s rolled %d against %s's %d: %s!" % 
+			[user.data.name, user_stat+user_roll, target.data.name, target_stat+target_roll, degree_string])
+
 		for effect in target_effects:
 			if effect is Effect:
 				effect.apply(self, target, degree)

@@ -16,7 +16,7 @@ func _ready() -> void:
 	overmapai = $OvermapAI
 	localai = $LocalAI
 	crisisai = $CrisisAI
-	current_state = localai
+	current_state = crisisai
 	
 	wm = Global.world_manager
 	for child in get_children():

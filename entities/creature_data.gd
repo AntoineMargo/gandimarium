@@ -251,7 +251,6 @@ func unequip_slot(slot):
 
 func remove_item_from_slot(slot):
 	var item = equipment.remove_item_from_slot(slot)
-	#add_to_inventory(item)
 	return item
 
 func take_damage(damage: int, resistance: String = ""):
@@ -268,7 +267,7 @@ func take_damage(damage: int, resistance: String = ""):
 	if current_hp <= -max_hp:
 		current_hp = -max_hp
 	creature.health_bar_instance.update_hp_bar()
-	#SignalBus.dialog_damage_taken.emit(name, final_damage)
+	SignalBus.dialog_damage_taken.emit(name, final_damage)
 
 func take_healing(healing: int):
 	current_hp += healing
@@ -297,7 +296,7 @@ func meets_brawn_requirements() -> bool:
 	var off_hand = weapons[1]
 	if brawn >= main_hand.brawn_req_1h:
 		return true
-	if brawn >= main_hand.brawn_req_2h and off_hand == null:
+	if brawn >= main_hand.brawn_req_2h and off_hand == equipment.default_weapon:
 		return true
 	return false
 

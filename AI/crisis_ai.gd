@@ -10,16 +10,16 @@ var movement: MovementModule = null
 var evaluator: EvaluatorModule = null
 var executor: ExecutorModule = null
 
-var activities = []
+var planned_sequence = [] # final chosen planned sequence of activities
 
 func plan_turn():
-	var entries = get_all_activity_entries()
-	var sequences = []
+	var entries = get_all_activity_entries() # series of Activity / AiHint tuples
+	var sequences = [] # series of PlannedAct arrays based on available AP
 	var report = situation.produce_report(entries)
 	movement.movement_planner(sequences, report)
 	evaluator.activity_selector(sequences, report, entries)
-	var activities = evaluator.sequence_assessor(sequences, report, entries)
-	executor.execute(activities)
+	planned_sequence = evaluator.sequence_assessor(sequences, report, entries)
+	executor.execute(planned_sequence)
 
 func get_all_activity_entries():
 	var entries = []

@@ -1,12 +1,10 @@
 extends Effect
-
 class_name WeaponDamageEffect
 
 @export var dice_number: int = 2
 @export var damage_die: int = 10
 @export var damage_bonus: int = 0
 @export var resistance: String = "physical"
-@export var damage_pattern: DamagePattern = null
 
 func apply(source, target, degree: int) -> void:
 	var category = source.user.data.equipment.get_active_attack_category()
@@ -18,13 +16,15 @@ func apply(source, target, degree: int) -> void:
 	elif category == 2:
 		chosen_attack_type = source.user.data.equipment.get_active_throw_type()
 	
-	if damage_pattern == null:
-		for pattern in source.attack_types:
-			if pattern.id == chosen_attack_type:
-				damage_pattern = pattern
-				break
+	var damage_pattern: DamagePattern = null
+	
+	for pattern in source.attack_types:
+		if pattern.id == chosen_attack_type:
+			damage_pattern = pattern
+			break
 	if damage_pattern == null:
 		damage_pattern = Library.get_dmg_pattern("default")
+	
 	var total_damage = CombatMath.determine_damage(
 		dice_number, damage_die,
 		damage_bonus, degree,
