@@ -1,9 +1,8 @@
 extends Node
 class_name EvaluatorModule
 
-var wm = null
+var wm: WorldManager = null
 var creature: Creature = null
-var crisis_ai: CrisisAI = null
 
 func activity_selector(sequences, report, entries):
 	for sequence in sequences:
@@ -29,10 +28,7 @@ func sequence_assessor(sequences, report, entries):
 	
 	return best_sequence
 
-func setup(world_manager, owner_creature: Creature, ai_controller: Node):
-	wm = world_manager
-	creature = owner_creature
-	crisis_ai = ai_controller
-
 func _ready() -> void:
-	pass
+	creature = $"../../.."
+	await get_tree().process_frame
+	wm = Global.world_manager

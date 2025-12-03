@@ -6,6 +6,7 @@ class_name Creature
 @export var health_bar_scene: PackedScene
 
 @onready var sprite_node = $Sprite2D
+@onready var ai_controller = $AIController
 
 var health_bar_instance: Node
 

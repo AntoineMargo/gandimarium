@@ -11,14 +11,21 @@ var overmapai: OvermapAI
 var localai: LocalAI
 var crisisai: CrisisAI
 
+func switch_state(new_state):
+	#if current_state != null:
+		#current_state.set_process(false)
+		#current_state.set_physics_process(false)
+		#current_state.on_exit()
+
+	current_state = new_state
+	
+	#current_state.on_enter()
+	#current_state.set_process(true)
+	#current_state.set_physics_process(true)
+
 func _ready() -> void:
-	creature = get_parent()
+	creature = $".."
 	overmapai = $OvermapAI
 	localai = $LocalAI
 	crisisai = $CrisisAI
 	current_state = crisisai
-	
-	wm = Global.world_manager
-	for child in get_children():
-		if child.has_method("setup"):
-			child.setup(wm, creature)

@@ -32,11 +32,11 @@ func forward_unhandled_input(event: InputEvent) -> void:
 
 func end_turn():
 	if crisis_mode == true:
-		crisis_turn += 1
 		SignalBus.dialog_end_turn.emit()
 		SignalBus.turn_ends.emit()
 		SignalBus.update_ui_for_char.emit()
 		SignalBus.refresh_reachable_tiles.emit()
+		crisis_turn += 1
 
 func toggle_crisis(creature):
 	if crisis_mode == false:

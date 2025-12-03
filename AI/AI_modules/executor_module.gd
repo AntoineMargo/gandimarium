@@ -1,9 +1,8 @@
 extends Node
 class_name ExecutorModule
 
-var wm = null
+var wm: WorldManager = null
 var creature: Creature = null
-var crisis_ai: CrisisAI = null
 
 func execute(planned_sequence):
 	for planned_act in planned_sequence:
@@ -15,7 +14,7 @@ func execute(planned_sequence):
 		else:
 			creature.data.perform_activity(planned_act.activity)
 
-func setup(world_manager, owner_creature: Creature, ai_controller: Node):
-	wm = world_manager
-	creature = owner_creature
-	crisis_ai = ai_controller
+func _ready() -> void:
+	creature = $"../../.."
+	await get_tree().process_frame
+	wm = Global.world_manager

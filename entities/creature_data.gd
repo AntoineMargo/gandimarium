@@ -25,6 +25,7 @@ class_name CreatureData
 @export var inventory = Inventory.new()
 @export var equipment = Equipment.new()
 @export var resistances = Resistances.new()
+@export var relationships = Relationships.new()
 
 # Derived values
 var level_mod: int = 0
@@ -82,6 +83,8 @@ var crisis_ai_active: bool = false
 func _on_end_turn():
 	current_ap = max_ap
 	current_mp = 0
+	if not player_controlled:
+		creature.ai_controller.crisisai.plan_turn() 
 
 func add_activity(activity: Activity):
 	if activity not in activities:

@@ -1,9 +1,8 @@
 extends Node
 class_name MovementModule
 
-var wm = null
+var wm: WorldManager = null
 var creature: Creature = null
-var crisis_ai: CrisisAI = null
 
 func movement_planner(sequences, report):
 	sequences_to_reach_target(sequences, report)
@@ -82,10 +81,7 @@ func combinatorial(sequences, current, indice: int, changes_needed: int):
 	new_current[indice] = 1;
 	combinatorial(sequences, new_current, indice + 1, changes_needed - 1)
 
-func setup(world_manager, owner_creature: Creature, ai_controller: Node):
-	wm = world_manager
-	creature = owner_creature
-	crisis_ai = ai_controller
-
 func _ready() -> void:
-	pass
+	creature = $"../../.."
+	await get_tree().process_frame
+	wm = Global.world_manager

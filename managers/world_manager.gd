@@ -280,6 +280,9 @@ func path_to_target_adjacency(creature, target, distance):
 	var goal = get_char_coords(creature)
 	var path = get_multi_level_path(origin.vec3, goal.vec3)
 	
+	print("path: ", path)
+	for step in path:
+		print("	step: ", step)
 	if path.size() < 2 and path[-1] != target:
 		return
 	path.reverse()
@@ -299,6 +302,9 @@ func get_multi_level_path(start: Vector3i, goal: Vector3i) -> Array[Vector3i]:
 	var full_path: Array[Vector3i] = []
 	for segment in path_array:
 		full_path.append_array(segment)
+	print("get_multi_level_path full path: ")
+	for step in full_path:
+		print("step: %d/%d" % [step.x, step.y])
 	return full_path
 
 func get_tile_coords() -> Dictionary:

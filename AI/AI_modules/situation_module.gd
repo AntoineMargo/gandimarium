@@ -1,9 +1,8 @@
 extends Node
 class_name SituationModule
 
-var wm = null
+var wm: WorldManager = null
 var creature: Creature = null
-var crisis_ai: CrisisAI = null
 
 func produce_report(entries) -> Dictionary:
 	var report = {}
@@ -21,7 +20,7 @@ func produce_report(entries) -> Dictionary:
 	report["favored_ranged_weapon"] = favored_ranged_weapon
 	
 	report["enemy_positions"] = {}
-	for enemy in creature.data.hostile:
+	for enemy in creature.data.relationships.hostile:
 		var data = enemy.data
 		report["enemy_positions"][enemy] = Vector3i(data.tile_x, data.tile_y, data.map_layer_id)
 
@@ -56,8 +55,8 @@ func find_best_melee_weapon(entries):
 func find_closest_enemy() -> Creature:
 	var closest_enemy: Creature = null
 	var best_cost: float = INF
-	for enemy in creature.data.hostile:
-		var path = wm.path_to_target_adjacency(creature, enemy)
+	for enemy in creature.data.relationships.hostile:
+		var path = wm.path_to_target_adjacency(creature, enemy, 1)
 		if path:
 			var cost = wm.calculate_path_cost_3D(path)
 			if best_cost > cost:
@@ -70,7 +69,7 @@ func find_strongest_enemy() -> Creature:
 	var lowest_level: int = 100
 	var level_difference: int = 0
 
-	for enemy in creature.data.hostile:
+	for enemy in creature.data.relationships.hostile:
 		if strongest_enemy == null or enemy.data.level > strongest_enemy.data.perceive_level():
 			strongest_enemy = enemy
 		if enemy.data.level < lowest_level:
@@ -81,15 +80,12 @@ func find_strongest_enemy() -> Creature:
 func find_frailest_enemy() -> Creature:
 	var frailest_enemy: Creature = null
 
-	for enemy in creature.data.hostile:
+	for enemy in creature.data.relationships.hostile:
 		if frailest_enemy == null or enemy.data.perceive_health() < frailest_enemy.data.perceive_health():
 			frailest_enemy = enemy
 	return frailest_enemy
 
-func setup(world_manager, owner_creature: Creature, ai_controller: Node):
-	wm = world_manager
-	creature = owner_creature
-	crisis_ai = ai_controller
-
 func _ready() -> void:
-	pass
+	creature = $"../../.."
+	await get_tree().process_frame
+	wm = Global.world_manager

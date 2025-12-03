@@ -5,6 +5,7 @@ class_name CrisisAI
 var wm = null
 
 var creature: Creature = null
+
 var situation: SituationModule = null
 var movement: MovementModule = null
 var evaluator: EvaluatorModule = null
@@ -48,22 +49,23 @@ func add_spell_entries(entries):
 
 func add_weapon_entries(entries):
 	var weapons = creature.data.get_active_weapons()
+	if weapons[0]:
+		var main_attack = ActivityEntry.new()
+		if weapons[0].shoot:
+			main_attack.activity = creature.data.get_modified_activity(weapons[0].shoot)
+		else:
+			main_attack.activity = creature.data.get_modified_activity(weapons[0].strike)
+		main_attack.hint = main_attack.activity.ai_hint
+		entries.append(main_attack)
 
-	var main_attack = ActivityEntry.new()
-	if weapons[0].shoot:
-		main_attack.activity = creature.data.get_modified_activity(weapons[0].shoot)
-	else:
-		main_attack.activity = creature.data.get_modified_activity(weapons[0].strike)
-	main_attack.hint = main_attack.activity.ai_hint
-	entries.append(main_attack)
-
-	var offhand_attack = ActivityEntry.new()
-	if weapons[1].shoot:
-		offhand_attack.activity = creature.data.get_modified_activity(weapons[1].shoot)
-	else:
-		offhand_attack.activity = creature.data.get_modified_activity(weapons[1].strike)
-	offhand_attack.hint = offhand_attack.activity.ai_hint
-	entries.append(offhand_attack)
+	if weapons[1]:
+		var offhand_attack = ActivityEntry.new()
+		if weapons[1].shoot:
+			offhand_attack.activity = creature.data.get_modified_activity(weapons[1].shoot)
+		else:
+			offhand_attack.activity = creature.data.get_modified_activity(weapons[1].strike)
+		offhand_attack.hint = offhand_attack.activity.ai_hint
+		entries.append(offhand_attack)
 
 func add_default_entries(entries):
 	return entries
@@ -71,13 +73,13 @@ func add_default_entries(entries):
 func setup(world_manager, owner_creature: Creature):
 	wm = world_manager
 	creature = owner_creature
+	print("CrisisAI")
+	print("	creature: ", creature)
+	print("	wm: ", wm)
 
 func _ready() -> void:
 	situation = $SituationModule
 	movement = $MovementModule
 	evaluator = $EvaluatorModule
 	executor = $ExecutorModule
-	
-	for child in get_children():
-		if child.has_method("setup"):
-			child.setup(wm, creature, self)
+	creature = $"../.."

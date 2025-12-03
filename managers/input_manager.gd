@@ -135,11 +135,12 @@ func BasicControls():
 			if creature_a.data.name == "Bandit":
 				for creature_b in wm.current_world.creatures:
 					if creature_b.data.player_controlled:
-						creature_a.data.hostile.append(creature_b)
+						creature_a.data.relationships.hostile.append(creature_b)
 			elif creature_a.data.player_controlled:
 				for creature_b in wm.current_world.creatures:
 					if creature_b.data.name == "Bandit":
-						creature_a.data.hostile.append(creature_b)
+						creature_a.data.relationships.hostile.append(creature_b)
+		print("Relationships set!")
 
 	if Input.is_action_just_pressed("E"):
 		if not Global.selected_char:

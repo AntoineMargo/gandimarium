@@ -73,6 +73,8 @@ func spawn_character_enemy():
 	
 	var abilities = []
 	
+	my_char.equipment.default_weapon = Library.get_item("wpn_fist")
+	
 	#my_char.equip_item("set1_left_hand", Library.get_item("wpn_longsword"))
 	#my_char.equip_item("set1_right_hand", Library.get_item("wpn_medium_shield"))
 
