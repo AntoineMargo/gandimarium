@@ -55,15 +55,19 @@ func add_weapon_entries(entries):
 			main_attack.activity = creature.data.get_modified_activity(weapons[0].shoot)
 		else:
 			main_attack.activity = creature.data.get_modified_activity(weapons[0].strike)
+		main_attack.activity.weapon = weapons[0]
 		main_attack.hint = main_attack.activity.ai_hint
 		entries.append(main_attack)
 
 	if weapons[1]:
 		var offhand_attack = ActivityEntry.new()
+		if weapons[1].name == weapons[0].name:
+			return
 		if weapons[1].shoot:
 			offhand_attack.activity = creature.data.get_modified_activity(weapons[1].shoot)
 		else:
 			offhand_attack.activity = creature.data.get_modified_activity(weapons[1].strike)
+		offhand_attack.activity.weapon = weapons[1]
 		offhand_attack.hint = offhand_attack.activity.ai_hint
 		entries.append(offhand_attack)
 

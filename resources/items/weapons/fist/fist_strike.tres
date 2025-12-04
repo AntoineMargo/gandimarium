@@ -13,7 +13,7 @@
 [resource]
 script = ExtResource("6_4o2pa")
 attack_types = Array[ExtResource("2_g7g36")]([ExtResource("5_dqov2")])
-name = "wpn_strike"
+name = "fist_strike"
 attacking_aptitude = "offence"
 defending_aptitude = "melee_defence"
 reach = 1

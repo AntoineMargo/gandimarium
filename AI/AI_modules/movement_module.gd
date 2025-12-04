@@ -22,7 +22,8 @@ func sequences_to_reach_target(sequences, report):
 	var mp_needed = 0
 	var cost = 0
 	var target = report["closest_enemy"]
-	var distance = report["favored_melee_weapon"].reach
+	print("favored_melee_attack: ", report["favored_melee_attack"].name)
+	var distance = report["favored_melee_attack"].reach
 	var path = wm.path_to_target_adjacency(creature, target, distance)
 	if not path:
 		return sequences
@@ -51,12 +52,14 @@ func sequences_to_reach_target(sequences, report):
 					number_of_moves += 1
 					act.activity = Library.get_activity("move")
 					if number_of_moves == mp_needed:
-						act.utility = 40 
+						act.utility = 25 
 						act.start_position = path[-1]
+						#act.target_position = path[0] # to verify
 					else:
 						act.utility = 5
 						var step_index = min(max(0, (number_of_moves - 1) * creature.data.current_mp), path.size() - 1)
 						act.start_position = path[step_index]
+						#act.target_position = 
 				else: # Free slot
 					act.hints.append("free")
 					if number_of_moves == mp_needed:

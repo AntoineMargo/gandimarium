@@ -14,7 +14,7 @@
 [resource]
 script = ExtResource("2_b5lty")
 attack_types = Array[ExtResource("2_bldbt")]([ExtResource("5_fcm7j")])
-name = "wpn_throw"
+name = "pollaxe_throw"
 attacking_aptitude = "offence"
 defending_aptitude = "ranged_defence"
 self_filters = Array[ExtResource("8_saf20")]([ExtResource("9_gap5k"), ExtResource("11_hcw60"), ExtResource("10_rho50")])

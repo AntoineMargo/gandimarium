@@ -121,8 +121,19 @@ func BasicControls():
 			print("	", element)
 
 	if Input.is_action_just_pressed("H"):
-		Global.ui_log.text += "\nTest message!"
-		Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()
+		print("creatures found in the world:")
+		for creature in wm.current_world.creatures:
+			print(creature.data.name)
+		for creature_a in wm.current_world.creatures:
+			if creature_a.data.name == "Bandit":
+				for creature_b in wm.current_world.creatures:
+					if creature_b.data.name == "Andimar":
+						creature_a.data.relationships.hostile.append(creature_b)
+			elif creature_a.data.name == "Andimar":
+				for creature_b in wm.current_world.creatures:
+					if creature_b.data.name == "Bandit":
+						creature_a.data.relationships.hostile.append(creature_b)
+		print("Relationships set!")
 
 	if Input.is_action_just_pressed("L"):
 		Global.inventory_window.print_tree_pretty()

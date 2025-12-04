@@ -84,6 +84,7 @@ func _on_end_turn():
 	current_ap = max_ap
 	current_mp = 0
 	if not player_controlled:
+		Global.focus_char = creature
 		creature.ai_controller.crisisai.plan_turn() 
 
 func add_activity(activity: Activity):

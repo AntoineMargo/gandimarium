@@ -10,7 +10,7 @@ func activity_selector(sequences, report, entries):
 			if not act.activity:
 				for hint in act.hints:
 					if hint == "hostile_melee":
-						act.activity = report["favored_melee_weapon"].strike
+						act.activity = report["favored_melee_attack"].activity
 						act.utility = 75
 						act.target_creature = report["closest_enemy"]
 						
@@ -19,7 +19,7 @@ func sequence_assessor(sequences, report, entries):
 	var best_utility: int = 0
 	
 	var current_utility: int
-	for i in range(sequences):
+	for i in range(sequences.size()):
 		current_utility = 0
 		for act in sequences[i]:
 			current_utility += act.utility

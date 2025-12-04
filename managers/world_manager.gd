@@ -278,33 +278,47 @@ func calculate_path_cost_3D(path: Array[Vector3i], tile_size: int = Global.TILE_
 func path_to_target_adjacency(creature, target, distance):
 	var origin = get_char_coords(target)
 	var goal = get_char_coords(creature)
-	var path = get_multi_level_path(origin.vec3, goal.vec3)
+	var path = null
+	path = get_multi_level_path(origin.vec3, goal.vec3, true)
 	
-	print("path: ", path)
-	for step in path:
-		print("	step: ", step)
-	if path.size() < 2 and path[-1] != target:
+	if path.is_empty():
+		print("No path found!")
 		return
+
 	path.reverse()
 	for i in range(distance):
 		path.pop_back()
 
 	return path
 
-func get_multi_level_path(start: Vector3i, goal: Vector3i) -> Array[Vector3i]:
-	var path_array = []
+func get_multi_level_path(start: Vector3i, goal: Vector3i, allow_occupied_goal: bool = false) -> Array[Vector3i]:
+	print("=== get_multi_level_path ===")
+	var was_occupied = false
+	var goal_xy: Vector2i = Vector2i(goal.x, goal.y)
+
+	if allow_occupied_goal and layers[goal.z]["occupied"][goal_xy] == true:
+		print("tile was occupied!")
+		was_occupied = true
+		layers[goal.z]["occupied"][goal_xy] = false
+		layers[goal.z]["path_map"].set_point_solid(goal_xy, false)
+
+	var path_array: Array = []
 	var visited: Dictionary = {}
 	var success = _find_recursive_path(start, goal, path_array, visited)
+
+	if was_occupied:
+		layers[goal.z]["occupied"][goal_xy] = true
+		layers[goal.z]["path_map"].set_point_solid(goal_xy, true)
+
 	if not success:
+		print("FAIL")
 		return []
 
-	# Flatten the path segments into a single array
+	print("SUCCESS")
 	var full_path: Array[Vector3i] = []
 	for segment in path_array:
 		full_path.append_array(segment)
-	print("get_multi_level_path full path: ")
-	for step in full_path:
-		print("step: %d/%d" % [step.x, step.y])
+
 	return full_path
 
 func get_tile_coords() -> Dictionary:
@@ -488,6 +502,9 @@ func _interact_move(t_coords):
 	if not path_map.region.has_point(t_coords.vec2) or path_map.is_point_solid(t_coords.vec2) or layers[t_coords.vec3.z]["occupied"].get(t_coords.vec2):
 		print("Invalid target location.")
 		return
+
+	print("origin: %d/%d" % [o_coords.vec2.x, o_coords.vec2.y])
+	print("goal: %d/%d" % [t_coords.vec2.x, t_coords.vec2.y])
 
 	path = get_multi_level_path(o_coords.vec3, t_coords.vec3)
 

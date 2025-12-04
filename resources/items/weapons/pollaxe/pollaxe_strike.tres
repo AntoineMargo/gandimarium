@@ -16,7 +16,7 @@
 [resource]
 script = ExtResource("6_1l81a")
 attack_types = Array[ExtResource("2_c00ss")]([ExtResource("3_1t5px"), ExtResource("4_ouq61"), ExtResource("5_mxovm")])
-name = "wpn_strike"
+name = "pollaxe_strike"
 attacking_aptitude = "offence"
 defending_aptitude = "melee_defence"
 reach = 2

@@ -63,6 +63,7 @@ func spawn_character_enemy():
 	my_char.map_id = wm.current_world.id
 	my_char.map_layer_id = wm.current_level
 	
+	my_char.player_controlled = false
 	my_char.crisis_ai_active = true
 	
 	my_char.initialise()
