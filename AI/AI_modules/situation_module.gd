@@ -60,7 +60,7 @@ func find_closest_enemy() -> Creature:
 	for enemy in creature.data.relationships.hostile:
 		var path = wm.path_to_target_adjacency(creature, enemy, 1)
 		if path:
-			var cost = wm.calculate_path_cost_3D(path)
+			var cost = wm.calculate_path_cost_3D_simple(path)
 			if best_cost > cost:
 				best_cost = cost
 				closest_enemy = enemy

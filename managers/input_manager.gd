@@ -116,9 +116,8 @@ func BasicControls():
 	if Input.is_action_just_pressed("K"):
 		if not Global.selected_char:
 			return
-		print("Inventory:")
-		for element in Global.selected_char.data.inventory:
-			print("	", element)
+		print("focus char: ", Global.focus_char.data.name)
+		print("selected char: ", Global.selected_char.data.name)
 
 	if Input.is_action_just_pressed("H"):
 		print("creatures found in the world:")
@@ -177,10 +176,7 @@ func BasicControls():
 			print("Offhand weapon: Empty")
 
 	if Input.is_action_just_pressed("B"):
-		if not Global.selected_char:
-			return
-		var c = Global.selected_char
-		c.data.active_hand = 0
+		pass
 
 	if Input.is_action_just_pressed("Backspace"):
 		SignalBus.toggle_crisis_button.emit()

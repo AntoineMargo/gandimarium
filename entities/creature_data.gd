@@ -245,13 +245,15 @@ func equip_item(slot, item):
 		equipment.set_weapon_slot(slot, item)
 
 	apply_conditions_from_equipment()
-	SignalBus.update_inventory.emit()
+	if creature and Global.selected_char == creature:
+		SignalBus.update_inventory.emit()
 
 func unequip_slot(slot):
 	remove_conditions_from_equipment()
 	remove_item_from_slot(slot)
 	apply_conditions_from_equipment()
-	SignalBus.update_inventory.emit()
+	if creature and Global.selected_char == creature:
+		SignalBus.update_inventory.emit()
 
 func remove_item_from_slot(slot):
 	var item = equipment.remove_item_from_slot(slot)

@@ -269,35 +269,76 @@ func calculate_path_cost_3D(path: Array[Vector3i], tile_size: int = Global.TILE_
 		elif prev.z != curr.z:
 			step_cost = 1.0  # Or set to 2.0 if stairs are "harder"
 
-		print("Step ", i, ": ", prev, " → ", curr, " | delta: ", delta, " | diagonal: ", is_diagonal, " | cost: ", step_cost)
+		#print("Step ", i, ": ", prev, " → ", curr, " | delta: ", delta, " | diagonal: ", is_diagonal, " | cost: ", step_cost)
+
+		total_cost += step_cost
+	
+	return total_cost
+
+func turn_path_from_pixels_to_tiles(path: Array[Vector3i], tile_size: int = Global.TILE_SIZE):
+	var tile_path = []
+	for element in path:
+		tile_path.append(Vector3i(element.x / tile_size, element.y / tile_size, element.z))
+	
+	return tile_path
+
+func calculate_path_cost_3D_simple(path) -> float:
+	if path.size() <= 1:
+		return 0.0
+	
+	var total_cost = 0.0
+
+	for i in range(1, path.size()):
+		var prev = path[i - 1]
+		var curr = path[i]
+
+		# Normalize to tile-space
+		var prev_tile = Vector2i(prev.x, prev.y)
+		var curr_tile = Vector2i(curr.x, curr.y)
+		var delta = curr_tile - prev_tile
+
+		var step_cost = 1.0
+		var is_diagonal = abs(delta.x) == 1 and abs(delta.y) == 1 and prev.z == curr.z
+		if is_diagonal:
+			step_cost = 1.5
+
+		# Optional: adjust cost for vertical movement
+		elif prev.z != curr.z:
+			step_cost = 1.0  # Or set to 2.0 if stairs are "harder"
+
+		#print("Step ", i, ": ", prev, " → ", curr, " | delta: ", delta, " | diagonal: ", is_diagonal, " | cost: ", step_cost)
 
 		total_cost += step_cost
 	
 	return total_cost
 
 func path_to_target_adjacency(creature, target, distance):
+	"finds best path from creature to a tile at X distance of target"
 	var origin = get_char_coords(target)
 	var goal = get_char_coords(creature)
 	var path = null
+	var tile_path = null
 	path = get_multi_level_path(origin.vec3, goal.vec3, true)
+	tile_path = turn_path_from_pixels_to_tiles(path)
 	
-	if path.is_empty():
+	if tile_path.is_empty():
 		print("No path found!")
 		return
 
-	path.reverse()
+	tile_path.reverse()
 	for i in range(distance):
-		path.pop_back()
+		tile_path.pop_back()
 
-	return path
+	return tile_path
 
 func get_multi_level_path(start: Vector3i, goal: Vector3i, allow_occupied_goal: bool = false) -> Array[Vector3i]:
-	print("=== get_multi_level_path ===")
+	"returns path array of steps to goal tile by tile in (x, y) format BY PIXEL"
+	
 	var was_occupied = false
 	var goal_xy: Vector2i = Vector2i(goal.x, goal.y)
 
 	if allow_occupied_goal and layers[goal.z]["occupied"][goal_xy] == true:
-		print("tile was occupied!")
+		#print("tile was occupied.")
 		was_occupied = true
 		layers[goal.z]["occupied"][goal_xy] = false
 		layers[goal.z]["path_map"].set_point_solid(goal_xy, false)
@@ -311,10 +352,8 @@ func get_multi_level_path(start: Vector3i, goal: Vector3i, allow_occupied_goal: 
 		layers[goal.z]["path_map"].set_point_solid(goal_xy, true)
 
 	if not success:
-		print("FAIL")
 		return []
 
-	print("SUCCESS")
 	var full_path: Array[Vector3i] = []
 	for segment in path_array:
 		full_path.append_array(segment)
@@ -329,6 +368,13 @@ func get_tile_coords() -> Dictionary:
 	var coords_3d = Vector3i(coords_2d[0], coords_2d[1], current_level)
 	return {
 		"vec3": coords_3d,
+		"vec2": coords_2d
+	}
+
+func turn_3D_coords_into_vector_array(coords):
+	var coords_2d = Vector2i(coords.x, coords.y)
+	return {
+		"vec3": coords,
 		"vec2": coords_2d
 	}
 
@@ -512,7 +558,8 @@ func _interact_move(t_coords):
 		print("No path found!")
 		return
 	
-	cost = calculate_path_cost_3D(path)
+	var tile_path = turn_path_from_pixels_to_tiles(path)
+	cost = calculate_path_cost_3D_simple(tile_path)
 	print("Path length: ", path.size() - 1, " steps.")
 	print("Path cost: ", cost)
 	if Global.crisis_manager.crisis_mode:

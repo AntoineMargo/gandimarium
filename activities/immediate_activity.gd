@@ -57,5 +57,5 @@ func execute() -> void:
 			user.data.add_concentration(concentration)
 		else:
 			concentration.cancel()
-
+	
 	SignalBus.update_ui_for_char.emit()
