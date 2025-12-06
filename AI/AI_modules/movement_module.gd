@@ -64,15 +64,20 @@ func sequences_to_reach_target(sequences, report):
 					print("	CHARACTER MOVES TOWARDS TARGET")
 					number_of_moves += 1
 					act.activity = Library.get_activity("move")
-					var step_index = min(max(0, (number_of_moves - 1) * creature.data.max_mp), path.size() - 1)
-					act.start_position = path[step_index]
+					
+					var start_cost = (number_of_moves - 1) * creature.data.max_mp
+					var target_cost = number_of_moves * creature.data.max_mp
+
+					var start_index = wm.find_path_index_by_cost(path, start_cost)
+					var target_index = wm.find_path_index_by_cost(path, target_cost)
+
+					act.start_position = path[start_index]
+					act.target_position = path[target_index]
+
 					print("act.start_position: ", act.start_position)
-					act.target_position = path[min(step_index + creature.data.max_mp, path.size() - 1)]
 					print("act.target_position: ", act.target_position)
-					
 					print("number_of_moves: ", number_of_moves)
-					print("step_index calculation: (", number_of_moves, " - 1) * ", creature.data.max_mp, " = ", (number_of_moves - 1) * creature.data.current_mp)
-					
+
 					if number_of_moves == moves_needed: # target tile reached
 						act.utility = 25
 					else: # target tile not yet reached

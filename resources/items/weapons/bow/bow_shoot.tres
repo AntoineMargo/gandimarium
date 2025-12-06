@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="WeaponStrike" load_steps=11 format=3 uid="uid://qspy4wxhgpf0"]
+
+[ext_resource type="Resource" uid="uid://je2xxcgbqw64" path="res://resources/items/weapons/bow/bow_shoot_ai.tres" id="1_n1qlh"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://activities/damage_pattern.gd" id="2_n1qlh"]
+[ext_resource type="Resource" uid="uid://b6lwaevovr35s" path="res://resources/damage_patterns/pierce.tres" id="3_8mac4"]
+[ext_resource type="Script" uid="uid://slgpne4ixmcv" path="res://activities/wpn_strike.gd" id="4_4napk"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="5_lqscd"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="6_iymc5"]
+[ext_resource type="Resource" uid="uid://rsyurje8uegc" path="res://resources/filters/crisis_mode.tres" id="7_gh3fr"]
+[ext_resource type="Resource" uid="uid://b4wcicn6nxx3e" path="res://resources/filters/enough_brawn.tres" id="8_4napk"]
+[ext_resource type="Resource" uid="uid://bhdp23fjgy1bl" path="res://resources/filters/enough_ap.tres" id="8_wbwku"]
+[ext_resource type="Resource" uid="uid://s3kc3gcdon6v" path="res://resources/effects/weapon_damage/damage_2d8.tres" id="10_lqscd"]
+
+[resource]
+script = ExtResource("4_4napk")
+attack_types = Array[ExtResource("2_n1qlh")]([ExtResource("3_8mac4")])
+name = "bow_shoot"
+attacking_aptitude = "offence"
+defending_aptitude = "ranged_defence"
+reach = 50
+self_filters = Array[ExtResource("6_iymc5")]([ExtResource("7_gh3fr"), ExtResource("8_4napk"), ExtResource("8_wbwku")])
+target_effects = Array[ExtResource("5_lqscd")]([ExtResource("10_lqscd")])
+ai_hint = ExtResource("1_n1qlh")
+metadata/_custom_type_script = "uid://slgpne4ixmcv"

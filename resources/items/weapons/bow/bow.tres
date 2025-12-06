@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3 uid="uid://b4idr8vu54ox6"]
+
+[ext_resource type="Script" uid="uid://djeyifuagvkr6" path="res://items/weapon_res.gd" id="1_vkhed"]
+[ext_resource type="Resource" uid="uid://b7eo5q60d827c" path="res://resources/items/weapons/bow/bow_strike.tres" id="2_gxaka"]
+[ext_resource type="Resource" uid="uid://qspy4wxhgpf0" path="res://resources/items/weapons/bow/bow_shoot.tres" id="3_bt1ra"]
+[ext_resource type="Resource" uid="uid://dm73fyw1ejgq0" path="res://resources/items/weapons/bow/bow_throw.tres" id="4_bt1ra"]
+
+[resource]
+script = ExtResource("1_vkhed")
+name = "Bow"
+brawn_req_1h = 999
+brawn_req_2h = 5
+strike = ExtResource("2_gxaka")
+shoot = ExtResource("3_bt1ra")
+throw = ExtResource("4_bt1ra")
+metadata/_custom_type_script = "uid://djeyifuagvkr6"

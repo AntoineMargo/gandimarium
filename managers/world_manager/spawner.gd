@@ -30,7 +30,7 @@ func spawn_character_player():
 	#"wpn_battle_axe", "wpn_dagger", "wpn_falchion", "wpn_shortsword",
 	#"wpn_quarterstaff", "wpn_greatsword"]
 	
-	var items = []
+	var items = ["wpn_bow", "wpn_longsword"]
 	
 	var activities = ["move", "aura_damage", "firebolt", "firebolts"]
 	
@@ -76,7 +76,7 @@ func spawn_character_enemy():
 	
 	my_char.equipment.default_weapon = Library.get_item("wpn_fist")
 	
-	#my_char.equip_item("set1_left_hand", Library.get_item("wpn_longsword"))
+	my_char.equip_item("set1_left_hand", Library.get_item("wpn_longsword"))
 	#my_char.equip_item("set1_right_hand", Library.get_item("wpn_medium_shield"))
 
 	var char_instance = _spawn_character_helper(items, activities, abilities, my_char)

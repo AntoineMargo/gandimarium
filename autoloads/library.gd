@@ -10,6 +10,8 @@ var _items = {
 	
 	"wpn_fist": "res://resources/items/weapons/fist/wpn_fist.tres",
 	"wpn_pollaxe": "res://resources/items/weapons/pollaxe/pollaxe.tres",
+	"wpn_longsword": "res://resources/items/weapons/longsword/longsword.tres",
+	"wpn_bow": "res://resources/items/weapons/bow/bow.tres",
 	#"wpn_battle_axe": "res://resources/items/weapons/wpn_battle_axe.tres",
 	#"wpn_bow": "res://resources/items/weapons/wpn_bow.tres",
 	#"wpn_dagger": "res://resources/items/weapons/wpn_dagger.tres",

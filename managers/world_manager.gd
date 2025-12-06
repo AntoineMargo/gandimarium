@@ -312,6 +312,26 @@ func calculate_path_cost_3D_simple(path) -> float:
 	
 	return total_cost
 
+func find_path_index_by_cost(path, move_budget):
+	"takes a path array, a movement budget, and returns the indice of the portion of the path that can be paid for"
+	if move_budget <= 0:
+		return 0
+
+	var accumulated_cost = 0.0
+	for i in range(path.size() - 1):
+		var current_tile = path[i]
+		var next_tile = path[i + 1]
+
+		var dx = abs(next_tile[0] - current_tile[0])
+		var dy = abs(next_tile[1] - current_tile[1])
+		var step_cost = 1.5 if (dx > 0 and dy > 0) else 1.0 # should modify and centralize this logic when I introduce difficult terrain
+		
+		if accumulated_cost + step_cost > move_budget:
+			return i
+		accumulated_cost += step_cost
+	
+	return path.size() - 1
+
 func path_to_target_adjacency(creature, target, distance):
 	"finds best path from creature to a tile at X distance of target"
 	var origin = get_char_coords(target)

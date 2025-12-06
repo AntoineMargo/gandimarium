@@ -121,6 +121,8 @@ func on_category_button_toggled(button_pressed: bool, category) -> void:
 	if Global.selected_char:
 		Global.selected_char.data.equipment.set_active_attack_category(category)
 		print("Active category changed.")
+		update_active_attack_buttons()
+		#update_weapon_buttons()
 		#update_ui_for_char()
 
 func on_weapon_button_toggled(button_pressed: bool, hand: int) -> void:
