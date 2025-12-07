@@ -13,7 +13,8 @@ var cursor_manager = CursorManager.new()
 var game_root = null
 
 @onready var menu_scene = preload("res://interface/pause_menu.tscn")
-@onready var inventory_window := preload("res://interface/inventory/inventory.tscn").instantiate()
+@onready var inventory_window := preload("res://interface/inventory_window/inventory.tscn").instantiate()
+@onready var character_window := preload("res://interface/character_window/character_info.tscn").instantiate()
 
 var ui_log: RichTextLabel = null
 var menu_instance: Node = null
@@ -58,10 +59,12 @@ func _ready() -> void:
 	add_child(ui_manager)
 	add_child(dialog_manager)
 	add_child(inventory_window)
+	add_child(character_window)
 	add_child(input_manager)
 	add_child(world_manager)
 	add_child(cursor_manager)
 	inventory_window.visible = false
+	character_window.visible = false
 	items_list = inventory_window.get_node("Inventory/MainVBox/SeparHBox/Scroller/ItemsList")
 	await get_tree().create_timer(0.1).timeout
 	SignalBus.change_cursor.emit("default")

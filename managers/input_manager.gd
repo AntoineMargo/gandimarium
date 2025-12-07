@@ -87,6 +87,13 @@ func BasicControls():
 		Global.inventory_window.visible = not Global.inventory_window.visible
 		print("Toggling inventory.")
 
+	if Input.is_action_just_pressed("C"):
+		if not Global.selected_char:
+			return
+		SignalBus.update_character_info.emit()
+		Global.character_window.visible = not Global.character_window.visible
+		print("Toggling character info.")
+
 	#if Input.is_action_just_pressed("O"):
 		#if not Global.focus_char:
 			#return

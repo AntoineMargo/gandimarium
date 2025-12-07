@@ -331,6 +331,9 @@ func update_weapon_buttons_text():
 		else:
 			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "Empty"
 
+func _on_update_character_info() -> void:
+	pass
+
 func _on_update_inventory() -> void:
 	var character = Global.selected_char
 	for child in Global.items_list.get_children():
@@ -343,7 +346,7 @@ func _on_update_inventory() -> void:
 		return
 	var items = character.data.get_inventory()
 	for i in range(items.size()):
-		var element = preload("res://interface/inventory/inventory_element.tscn").instantiate()
+		var element = preload("res://interface/inventory_window/inventory_element.tscn").instantiate()
 		element.index = i
 		element.item = items[i]
 		Global.items_list.add_child(element)
@@ -597,6 +600,7 @@ func _on_slider_value_changed(value):
 
 func _ready() -> void:
 	SignalBus.update_inventory.connect(_on_update_inventory)
+	SignalBus.update_character_info.connect(_on_update_character_info)
 	SignalBus.drop_item_on_tile.connect(_on_drop_item_on_tile)
 	SignalBus.update_ui_for_char.connect(update_ui_for_char)
 	SignalBus.toggle_end_turn_button.connect(_on_toggle_end_turn_button)
