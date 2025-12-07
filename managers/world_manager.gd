@@ -12,7 +12,7 @@ var spawner: Spawner
 
 var target_highlights = []
 
-@onready var selection_highlight = load("res://interface/local_map/selection_highlight.tscn").instantiate()
+@onready var selection_highlight = load("res://interface/local_map/selection_highlight/selection_highlight.tscn").instantiate()
 
 func setup_layers():
 	layers.clear()

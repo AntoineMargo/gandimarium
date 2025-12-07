@@ -507,20 +507,44 @@ func update_concentration_slots():
 		container.add_child(slot)
 
 func update_char_info():
-	var char = Global.selected_char.data
-	var name = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/Name")
-	var hp = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/HP")
-	var pp = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/PP")
-	var ep = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/EP")
-	var vigour = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/Vigour")
-	var mp = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/MP")
+	var character = Global.selected_char.data
+	#var name = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/Name")
+	#var hp = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/HP")
+	#var pp = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/PP")
+	#var ep = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/EP")
+	#var vigour = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/Vigour")
+	#var mp = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/MP")
 
-	name.text = char.name
-	hp.text = "%d/%d" % [char.current_hp, char.max_hp]
-	pp.text = "%d/%d" % [char.current_pp, char.max_pp]
-	ep.text = "%d/%d" % [char.current_ep, char.max_ep]
-	vigour.text = "%d" % char.vigour
-	mp.text = "%.1f" % char.current_mp
+	#name.text = char.name
+	#hp.text = "%d/%d" % [char.current_hp, char.max_hp]
+	#pp.text = "%d/%d" % [char.current_pp, char.max_pp]
+	#ep.text = "%d/%d" % [char.current_ep, char.max_ep]
+	#vigour.text = "%d" % char.vigour
+	#mp.text = "%.1f" % char.current_mp
+
+	var hp_bar = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/HP_bar")
+	var hp_label = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/HP_bar/HP_Label")
+	
+	var pp_bar = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar")
+	var pp_label = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar/PP_Label")
+	
+	var ep_bar = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/EP_bar")
+	var ep_label = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/EP_bar/EP_Label")
+
+	hp_bar.min_value = 0
+	hp_bar.max_value = character.max_hp
+	hp_bar.value = character.current_hp
+	hp_label.text = "%d/%d" % [character.current_hp, character.max_hp]
+	
+	pp_bar.min_value = 0
+	pp_bar.max_value = character.max_pp
+	pp_bar.value = character.current_pp
+	pp_label.text = "%d/%d" % [character.current_pp, character.max_pp]
+	
+	ep_bar.min_value = 0
+	ep_bar.max_value = character.max_ep
+	ep_bar.value = character.current_ep
+	ep_label.text = "%d/%d" % [character.current_ep, character.max_ep]
 
 func update_ui_for_char():
 	print("===update_ui_for_char called===")
