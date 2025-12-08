@@ -332,7 +332,8 @@ func update_weapon_buttons_text():
 			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "Empty"
 
 func _on_update_character_info() -> void:
-	pass
+	#Global.character_window.character = Global.selected_char
+	Global.character_window.update(Global.selected_char)
 
 func _on_update_inventory() -> void:
 	var character = Global.selected_char

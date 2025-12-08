@@ -4,6 +4,9 @@ class_name CreatureData
 
 @export var name: String
 @export var level: int = 1
+@export var major_archetype: String = ""
+@export var minor_archetype: String = ""
+
 @export var sprite: String = "res://art/characters/swordwraith1.png"
 
 @export var acuity: int = 5

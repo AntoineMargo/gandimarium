@@ -1,15 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://bc43w55jwpkoc"]
+[gd_scene load_steps=3 format=3 uid="uid://bc43w55jwpkoc"]
 
 [ext_resource type="Script" uid="uid://cra356sce8gfh" path="res://interface/character_window/character.gd" id="1_nmod3"]
+[ext_resource type="Script" uid="uid://bg0lj30uko0jn" path="res://interface/character_window/character_info.gd" id="1_w3gn6"]
 
 [node name="CharacterInfo" type="CanvasLayer"]
+script = ExtResource("1_w3gn6")
 
 [node name="Character" type="Control" parent="."]
-custom_minimum_size = Vector2(500, 500)
+custom_minimum_size = Vector2(600, 660)
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchor_left = 0.5
+anchor_top = 0.4
+anchor_right = 0.5
+anchor_bottom = 0.4
+offset_left = -250.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_nmod3")
 
 [node name="ColorRect" type="ColorRect" parent="Character"]
@@ -21,7 +30,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.78431374)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Character/ColorRect"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Character/ColorRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,11 +38,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TopBar" type="Panel" parent="Character/ColorRect/VBoxContainer"]
+[node name="LeftMargin" type="Control" parent="Character/ColorRect/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TopBar" type="Panel" parent="Character/ColorRect/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
-[node name="Title" type="Label" parent="Character/ColorRect/VBoxContainer/TopBar"]
+[node name="Title" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/TopBar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -44,14 +60,384 @@ text = "Character"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Character/ColorRect/VBoxContainer"]
+[node name="Basics" type="HBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Character/ColorRect/VBoxContainer/HBoxContainer"]
+[node name="Keys" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Name" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys"]
+layout_mode = 2
+text = "Name:"
+
+[node name="Level" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys"]
+layout_mode = 2
+text = "Level:"
+
+[node name="MajorArchetype" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys"]
+layout_mode = 2
+text = "Major Archetype:"
+
+[node name="MinorArchetype" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys"]
+layout_mode = 2
+text = "Minor Archetype:"
+
+[node name="Size" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys"]
+layout_mode = 2
+text = "Size:"
+
+[node name="Vigour" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys"]
+layout_mode = 2
+text = "Vigour:"
+
+[node name="StrengthBonus" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys"]
+layout_mode = 2
+text = "Strength Bonus:"
+
+[node name="Speed" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys"]
+layout_mode = 2
+text = "Speed:"
+
+[node name="Reactions" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys"]
+layout_mode = 2
+text = "Reactions:"
+
+[node name="values" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Name" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Character/ColorRect/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Level" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values"]
 layout_mode = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Character/ColorRect/VBoxContainer/HBoxContainer"]
+[node name="MajorArchetype" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values"]
+layout_mode = 2
+
+[node name="MinorArchetype" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values"]
+layout_mode = 2
+
+[node name="Size" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values"]
+layout_mode = 2
+
+[node name="Vigour" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values"]
+layout_mode = 2
+
+[node name="StrengthBonus" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values"]
+layout_mode = 2
+
+[node name="Speed" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values"]
+layout_mode = 2
+
+[node name="Reactions" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="Separator" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer"]
+layout_mode = 2
+
+[node name="Attributes" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer"]
+layout_mode = 2
+text = "Attributes                             "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Keys" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Acuity" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Keys"]
+layout_mode = 2
+text = "Acuity: "
+
+[node name="Brawn" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Keys"]
+layout_mode = 2
+text = "Brawn: "
+
+[node name="Dexterity" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Keys"]
+layout_mode = 2
+text = "Dexterity: "
+
+[node name="Will" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Keys"]
+layout_mode = 2
+text = "Will: "
+
+[node name="Values" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Acuity" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values"]
+layout_mode = 2
+
+[node name="Brawn" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values"]
+layout_mode = 2
+
+[node name="Dexterity" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values"]
+layout_mode = 2
+
+[node name="Will" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values"]
+layout_mode = 2
+
+[node name="Separation" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="AptitudesTitle" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Aptitudes"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Aptitudes" type="HBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Agility" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Agility"]
+layout_mode = 2
+text = "Agility"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Agility"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Resolve" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Resolve"]
+layout_mode = 2
+text = "Resolve"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Resolve"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sense" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Sense"]
+layout_mode = 2
+text = "Sense"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Sense"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Stamina" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Stamina"]
+layout_mode = 2
+text = "Stamina"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Stamina"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Offence" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Offence"]
+layout_mode = 2
+text = "Offence"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Offence"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MeleeDefence" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/MeleeDefence"]
+layout_mode = 2
+text = "Melee D."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/MeleeDefence"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RangedDefence" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/RangedDefence"]
+layout_mode = 2
+text = "Ranged D."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/RangedDefence"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Separation2" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ResistancesTitle" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Resistances"
+horizontal_alignment = 1
+
+[node name="Resistances" type="HBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Physical" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Physical"]
+layout_mode = 2
+text = "Physical"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Physical"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Heat" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Heat"]
+layout_mode = 2
+text = "Heat"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Heat"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cold" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Cold"]
+layout_mode = 2
+text = "Cold"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Cold"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Electricity" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Electricity"]
+layout_mode = 2
+text = "Electri."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Electricity"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Corrosion" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Corrosion"]
+layout_mode = 2
+text = "Corros."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Corrosion"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Poison" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Poison"]
+layout_mode = 2
+text = "Poison"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Poison"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Psychic" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Psychic"]
+layout_mode = 2
+text = "Psychic"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Psychic"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Separation3" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Talents" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Talents: "
+
+[node name="Conditions" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Conditions: "
+
+[node name="Spells" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Spells: "
+
+[node name="RightMargin" type="Control" parent="Character/ColorRect/HBoxContainer"]
 layout_mode = 2
