@@ -112,6 +112,7 @@ func get_all_equipped_items():
 	if body:
 		collection.append(body)
 	# Others...
+	return collection
 
 func remove_item_from_slot(slot):
 	var item: Item = null

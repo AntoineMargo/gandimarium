@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3 uid="uid://l1u68s0vjhnv"]
+[gd_resource type="Resource" script_class="Weapon" load_steps=6 format=3 uid="uid://l1u68s0vjhnv"]
 
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_7j6sb"]
 [ext_resource type="Script" uid="uid://djeyifuagvkr6" path="res://items/weapon_res.gd" id="1_51pgf"]
 [ext_resource type="Resource" uid="uid://hct0622s1i7r" path="res://resources/conditions/crossguarded.tres" id="1_vuq4f"]
 [ext_resource type="Resource" uid="uid://dudethai3b4r7" path="res://resources/items/weapons/longsword/longsword_strike.tres" id="2_8nera"]
@@ -9,7 +10,7 @@
 script = ExtResource("1_51pgf")
 name = "Longsword"
 value = 100
-conditions = [ExtResource("1_vuq4f")]
+conditions = Array[ExtResource("1_7j6sb")]([ExtResource("1_vuq4f")])
 brawn_req_1h = 6
 brawn_req_2h = 3
 strike = ExtResource("2_8nera")

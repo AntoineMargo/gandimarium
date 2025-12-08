@@ -136,10 +136,14 @@ func has_condition_named(condition_name: String) -> bool:
 func apply_modifier(stat, value):
 	if stat in self:
 		self.set(stat, self.get(stat) + value)
+	elif stat in resistances:
+		resistances.set(stat, resistances.get(stat) + value)
 
 func remove_modifier(stat, value):
 	if stat in self:
 		self.set(stat, self.get(stat) - value)
+	elif stat in resistances:
+		resistances.set(stat, resistances.get(stat) - value)
 
 func add_condition(condition: Condition):
 	if has_condition_named(condition.name):
@@ -264,11 +268,7 @@ func remove_item_from_slot(slot):
 
 func take_damage(damage: int, resistance: String = ""):
 	var resistance_value: int = 0
-	if resistance != "":
-		for prop in get_property_list():
-			if prop.name == resistance:
-				resistance_value = get(resistance)
-				break
+	resistance_value = resistances.get(resistance)
 	var final_damage = (damage - resistance_value)
 	if final_damage < 0:
 		final_damage = 0

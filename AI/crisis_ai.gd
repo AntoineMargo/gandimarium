@@ -17,6 +17,9 @@ func plan_turn():
 	var entries = get_all_activity_entries() # series of Activity / AiHint tuples
 	var sequences = [] # series of PlannedAct arrays based on available AP
 	var report = situation.produce_report(entries)
+	if not report["closest_enemy"]:
+		return
+	
 	movement.movement_planner(sequences, report)
 	evaluator.activity_selector(sequences, report, entries)
 	planned_sequence = evaluator.sequence_assessor(sequences, report, entries)

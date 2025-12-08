@@ -6,7 +6,7 @@
 [sub_resource type="Resource" id="Resource_ns0ch"]
 script = ExtResource("1_toyjn")
 modifiers = {
-"physical_resist": 10,
+"physical": 16,
 "vigour": -2
 }
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
