@@ -18,7 +18,7 @@ func _get_drag_data(at_position):
 	set_drag_preview(preview)
 
 	if index != -1:
-		Global.focus_char.data.get_inventory().remove_at(index)
+		Global.focus_char.get_inventory().remove_at(index)
 	
 	SignalBus.update_inventory.emit()
 	

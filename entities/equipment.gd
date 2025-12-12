@@ -1,5 +1,4 @@
 extends Resource
-
 class_name Equipment
 
 const SLOT_MAP = {

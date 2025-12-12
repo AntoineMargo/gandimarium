@@ -182,7 +182,7 @@ func is_tile_occupied(coords):
 func show_reachable_tiles():
 	if not Global.selected_char:
 		return
-	var char = Global.selected_char.data
+	var char = Global.selected_char
 	for coords in char.reachable_tiles:
 		if coords.z != current_level:
 			continue
@@ -205,10 +205,10 @@ func build_reachable_tiles():
 	if not Global.focus_char:
 		return
 	var char = Global.focus_char
-	var size = char.data.current_mp
+	var size = char.get_stat("current_mp")
 	var coords = get_char_coords(char)
 	#char.data.reachable_tiles = get_reachable_tiles_with_diagonals(layers[coords.vec3.z]["path_map"], coords.vec2, size)
-	char.data.reachable_tiles = get_reachable_tiles_3D_with_diagonals(coords.vec3, size)
+	char.reachable_tiles = get_reachable_tiles_3D_with_diagonals(coords.vec3, size)
 
 func add_item_visual(coords):
 	if not layers[current_level]["item_visual"].has(coords.vec2):
@@ -557,7 +557,7 @@ func _interact_attack(coords):
 	if not target:
 		return
 	print("===calling perform attak===")
-	Global.focus_char.data.perform_attack(target)
+	Global.focus_char.perform_attack(target)
 
 func _interact_move(t_coords):
 	var char = Global.focus_char
@@ -587,7 +587,8 @@ func _interact_move(t_coords):
 			SignalBus.dialog_show_message.emit("You do not have enough movements points.")
 			return
 		else:
-			char.data.current_mp -= cost
+			char.change_stat("current_mp", -cost)
+			#char.data.current_mp -= cost
 	_try_move_char_abs(t_coords)
 	update_creatures_visibility()
 	clear_reachable_tiles()

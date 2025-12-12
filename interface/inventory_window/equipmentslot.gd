@@ -14,7 +14,7 @@ func _drop_data(position, item):
 	if not (item is Item):
 		return
 
-	var char = Global.focus_char.data
+	var char = Global.focus_char
 
 	var old_item = get_item_from_slot()
 	if old_item and old_item.name != "Fist":
@@ -41,7 +41,7 @@ func _get_drag_data(at_position):
 	preview.text = item.name
 	preview.z_index = 3000
 	set_drag_preview(preview)
-	Global.focus_char.data.unequip_slot(slot_name)
+	Global.focus_char.unequip_slot(slot_name)
 	SignalBus.update_inventory.emit()
 	SignalBus.update_ui_for_char.emit()
 	return item
@@ -49,7 +49,7 @@ func _get_drag_data(at_position):
 func get_item_from_slot() -> Item:
 	var item = null;
 	if self.slot_name in ["set1_left_hand", "set1_right_hand", "set2_left_hand", "set2_right_hand"]:
-		item = Global.focus_char.data.get_weapon_slot(slot_name)
+		item = Global.focus_char.get_weapon_slot(slot_name)
 		var default = Global.focus_char.data.equipment.default_weapon
 		if item and default:
 			if item.name == default.name:
@@ -57,5 +57,5 @@ func get_item_from_slot() -> Item:
 		if item:
 			print("Equipment slot weapon name: ", item.name)
 	else:
-		item = Global.focus_char.data.get_slot(slot_name)
+		item = Global.focus_char.get_equipment_slot(slot_name)
 	return item

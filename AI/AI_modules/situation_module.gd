@@ -74,10 +74,10 @@ func find_strongest_enemy() -> Creature:
 	#var level_difference: int = 0
 
 	for enemy in creature.data.relationships.hostile:
-		if strongest_enemy == null or enemy.data.level > strongest_enemy.data.perceive_level():
+		if strongest_enemy == null or enemy.data.level > strongest_enemy.perceive_level():
 			strongest_enemy = enemy
 		if enemy.data.level < lowest_level:
-			lowest_level = enemy.data.perceive_level()
+			lowest_level = enemy.perceive_level()
 	#level_difference = strongest_enemy.data.perceive_level() - lowest_level
 	#return strongest_enemy if level_difference > 1 else null
 	return strongest_enemy
@@ -86,7 +86,7 @@ func find_frailest_enemy() -> Creature:
 	var frailest_enemy: Creature = null
 
 	for enemy in creature.data.relationships.hostile:
-		if frailest_enemy == null or enemy.data.perceive_health() < frailest_enemy.data.perceive_health():
+		if frailest_enemy == null or enemy.data.perceive_health() < frailest_enemy.perceive_health():
 			frailest_enemy = enemy
 	return frailest_enemy
 

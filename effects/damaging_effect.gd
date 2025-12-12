@@ -15,5 +15,5 @@ func apply(source, target, degree: int) -> void:
 		dice_number, damage_die,
 		damage_bonus, degree,
 		damage_pattern)
-	if target and target.data.has_method("take_damage"):
-		target.data.take_damage(total_damage, resistance)
+	if target and target.has_method("take_damage"):
+		target.take_damage(total_damage, resistance)

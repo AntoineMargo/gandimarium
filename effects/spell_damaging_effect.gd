@@ -12,5 +12,5 @@ func apply(source, target, degree: int) -> void:
 	var result = degree
 	dice_number *= source.user.data.current_spell_rank
 	var total_damage = Global.crisis_manager.determine_damage(dice_number, damage_die, damage_bonus, result)
-	if target and target.data.has_method("take_damage"):
-		target.data.take_damage(total_damage, resistance)
+	if target and target.has_method("take_damage"):
+		target.take_damage(total_damage, resistance)

@@ -6,7 +6,7 @@ func is_satisfied(target, activity):
 	if not target:
 		return false
 
-	if (target.data.get_current_ap() - activity.AP_cost) < 0:
+	if (target.get_current_ap() - activity.AP_cost) < 0:
 		SignalBus.not_enough_ap.emit()
 		return false
 

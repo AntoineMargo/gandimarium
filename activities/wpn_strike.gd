@@ -26,8 +26,8 @@ func execute() -> void:
 		if not passes_all_filters:
 			continue
 
-		var user_stat = user.data.get(attacking_aptitude) + user.data.get("vigour")
-		var target_stat = target.data.get(defending_aptitude) + user.data.get("vigour")
+		var user_stat = user.get_stat(attacking_aptitude) + user.get_stat("vigour")
+		var target_stat = target.get_stat(defending_aptitude) + user.get_stat("vigour")
 		
 		var user_roll = CombatMath.standard_roll()
 		var target_roll = CombatMath.standard_roll()
@@ -60,5 +60,5 @@ func execute() -> void:
 			if effect is Effect:
 				effect.apply(self, user, degree)
 
-		user.data.consume_ap(AP_cost)
+		user.consume_ap(AP_cost)
 		SignalBus.update_ui_for_char.emit()

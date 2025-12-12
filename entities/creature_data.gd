@@ -1,21 +1,21 @@
 extends Resource
-
 class_name CreatureData
 
 @export var name: String
 @export var level: int = 1
+@export var species: String = ""
 @export var major_archetype: String = ""
 @export var minor_archetype: String = ""
 
 @export var sprite: String = "res://art/characters/swordwraith1.png"
 
-@export var acuity: int = 5
-@export var brawn: int = 5
-@export var dexterity: int = 5
-@export var will: int = 5
-
-@export var base_size: String = "medium"
-@export var final_size: String = "medium"
+@export var attributes = Attributes.new()
+@export var aptitudes = Aptitudes.new()
+@export var skills = Skills.new()
+@export var inventory = Inventory.new()
+@export var equipment = Equipment.new()
+@export var resistances = Resistances.new()
+@export var relationships = Relationships.new()
 
 @export var talents: Array = []
 @export var activities: Array = []
@@ -25,54 +25,21 @@ class_name CreatureData
 @export var conditions: Array = []
 @export var activity_modifiers: Array = []
 @export var concentrations: Array = []
-@export var inventory = Inventory.new()
-@export var equipment = Equipment.new()
-@export var resistances = Resistances.new()
-@export var relationships = Relationships.new()
 
-# Derived values
-var level_mod: int = 0
+@export var current_hp: int = 0
+@export var temp_hp: int = 0
+@export var current_pp: int = 0
+@export var temp_pp: int = 0
+@export var current_ep: int = 0
+@export var temp_ep: int = 0
+@export var current_mp: float = 0
+@export var temp_mp: float = 0
+@export var current_ap: int = 3
+@export var current_reactions: int = 1
+@export var current_spell_rank: int = 0
 
-var agility: int = 0
-var resolve: int = 0
-var sense: int = 0
-var stamina: int = 0
-var offence: int = 0
-var melee_defence: int = 0
-var ranged_defence: int = 0
-
-var strength_bonus: int = 0
-var max_mp: int = 0
-var current_mp: float = 0
-
-var max_hp: int = 0
-var current_hp: int = 0
-var current_extra_hp: int = 0
-
-var max_pp: int = 0
-var current_pp: int = 0
-
-var max_ep: int = 0
-var current_ep: int = 0
-
-var max_ap: int = 3
-var current_ap: int = 3
-
-var max_reactions: int = 1
-var current_reactions: int = 1
-
-var vigour: int = 0
-
-var current_spell_rank: int = 0
-var max_spell_rank: int = 0
-
-var player_controlled: bool = false
-
-var active_right_click: Activity
-
-# Meta utility 
-var creature: Creature
-var reachable_tiles = []
+@export var player_controlled: bool = false
+@export var has_been_initialized: bool = false
 
 # Tactical information
 @export var map_id: String = ""
@@ -80,293 +47,4 @@ var reachable_tiles = []
 @export var tile_x: int = 0
 @export var tile_y: int = 0
 
-
-var crisis_ai_active: bool = false
-
-func _on_end_turn():
-	current_ap = max_ap
-	current_mp = 0
-	if not player_controlled:
-		Global.focus_char = creature
-		creature.ai_controller.crisisai.plan_turn() 
-
-func add_activity(activity: Activity):
-	if activity not in activities:
-		activities.append(activity)
-
-func add_ready_spell(spell: Spell):
-	if spell not in spells_ready:
-		spells_ready.append(spell)
-	#spells_ready.append(spell)
-	
-func add_concentration(concentration: Concentration):
-	concentrations.append(concentration)
-	SignalBus.update_ui_for_char.emit()
-
-func remove_concentration(concentration: Concentration):
-	concentrations.erase(concentration)
-
-func add_talent(talent: Talent):
-	for weaker_talent in talent.supplanted:
-		if has_talent_named(weaker_talent.name):
-			remove_talent(weaker_talent)
-	for existing_talent in talents:
-		for weaker_talent in existing_talent.supplanted:
-			if talent.name == weaker_talent.name:
-				return
-	talents.append(talent)
-
-func remove_talent(talent: Condition):
-	for existing_talent in talents:
-		if existing_talent.name == talent.name:
-			talents.erase(existing_talent)
-
-func has_talent_named(talent_name: String) -> bool:
-	for talent in talents:
-		if talent.name == talent_name:
-			return true
-	return false
-
-func has_condition_named(condition_name: String) -> bool:
-	for condition in conditions:
-		if condition.name == condition_name:
-			return true
-	return false
-
-func apply_modifier(stat, value):
-	if stat in self:
-		self.set(stat, self.get(stat) + value)
-	elif stat in resistances:
-		resistances.set(stat, resistances.get(stat) + value)
-
-func remove_modifier(stat, value):
-	if stat in self:
-		self.set(stat, self.get(stat) - value)
-	elif stat in resistances:
-		resistances.set(stat, resistances.get(stat) - value)
-
-func add_condition(condition: Condition):
-	if has_condition_named(condition.name):
-		return
-	for weaker_cond in condition.supplanted:
-		if has_condition_named(weaker_cond.name):
-			remove_condition(weaker_cond)
-	for existing_cond in conditions:
-		for weaker_cond in existing_cond.supplanted:
-			if condition.name == weaker_cond.name:
-				return
-	conditions.append(condition)
-	condition.initialize(self)
-	#for effect in condition.effects:
-		#effect.apply(self, self, -1)
-
-func remove_condition(condition: Condition):
-	for effect in condition.effects:
-		effect.remove(self, self, -1)
-	for existing_cond in conditions:
-		if existing_cond.name == condition.name:
-			conditions.erase(existing_cond)
-
-func add_item_conditions(item):
-	if not item or not item.conditions:
-		return
-	for condition in item.conditions:
-		if condition is Condition:
-			var instance = condition.duplicate()
-			add_condition(instance)
-		else:
-			push_error("Item condition is not a Condition resource: " + str(condition))
-
-func remove_item_conditions(item):
-	if not item or not item.conditions:
-		return
-	for item_condition in item.conditions:
-		for i in range(conditions.size() - 1, -1, -1):
-			var cond = conditions[i]
-			if cond.name == item_condition.name:
-				remove_condition(cond)
-
-func remove_conditions_from_equipment():
-	var collection = equipment.get_all_equipped_items()
-	if collection:
-		for item in collection:
-			remove_item_conditions(item)
-
-func apply_conditions_from_equipment():
-	var collection = equipment.get_all_equipped_items()
-	if collection:
-		for item in collection:
-			add_item_conditions(item)
-
-func make_active_set(number):
-	if number not in [0, 1]:
-		return
-	remove_conditions_from_equipment()
-	equipment.active_set = number
-	apply_conditions_from_equipment()
-
-func add_to_inventory(item):
-	inventory.add_to_inventory(item)
-
-func remove_from_inventory(item):
-	inventory.remove_from_inventory(item)
-
-func get_inventory():
-	return inventory.get_inventory()
-	
-func get_active_weapons():
-	return equipment.get_active_weapons()
-
-func get_active_strike_type():
-	return equipment.get_active_strike_type()
-
-func get_active_set():
-	return equipment.active_set
-
-func get_active_hand():
-	return equipment.active_hand
-
-func set_active_set(number: int):
-	if number == 0 or number == 1:
-		equipment.active_set = number
-
-func set_active_hand(number: int):
-	if number == 0 or number == 1:
-		equipment.active_hand = number
-
-func get_slot(slot):
-	return equipment.get(slot)
-
-func get_weapon_slot(slot):
-	return equipment.get_weapon_slot(slot)
-
-func equip_item(slot, item):
-	remove_conditions_from_equipment()
-	if slot == "body":
-		remove_item_from_slot(slot)
-		equipment.body = item
-
-	else:
-		if equipment.get_weapon_slot(slot):
-			remove_item_from_slot(slot)
-		equipment.set_weapon_slot(slot, item)
-
-	apply_conditions_from_equipment()
-	if creature and Global.selected_char == creature:
-		SignalBus.update_inventory.emit()
-
-func unequip_slot(slot):
-	remove_conditions_from_equipment()
-	remove_item_from_slot(slot)
-	apply_conditions_from_equipment()
-	if creature and Global.selected_char == creature:
-		SignalBus.update_inventory.emit()
-
-func remove_item_from_slot(slot):
-	var item = equipment.remove_item_from_slot(slot)
-	return item
-
-func take_damage(damage: int, resistance: String = ""):
-	var resistance_value: int = 0
-	resistance_value = resistances.get(resistance)
-	var final_damage = (damage - resistance_value)
-	if final_damage < 0:
-		final_damage = 0
-	current_hp -= final_damage
-	if current_hp <= -max_hp:
-		current_hp = -max_hp
-	creature.health_bar_instance.update_hp_bar()
-	SignalBus.dialog_damage_taken.emit(name, final_damage)
-
-func take_healing(healing: int):
-	current_hp += healing
-	if current_hp >= max_hp:
-		current_hp = max_hp
-	creature.health_bar_instance.update_hp_bar()
-	SignalBus.dialog_healing_taken.emit(name, healing)
-
-func perceive_level():
-	return level
-
-func perceive_health():
-	return (current_hp + current_extra_hp)
-
-func get_current_ap():
-	return current_ap
-
-func consume_ap(number):
-	current_ap -= number
-	if current_ap < 0:
-		current_ap = 0
-
-func meets_brawn_requirements() -> bool:
-	var weapons = get_active_weapons()
-	var main_hand = weapons[0]
-	var off_hand = weapons[1]
-	if brawn >= main_hand.brawn_req_1h:
-		return true
-	if brawn >= main_hand.brawn_req_2h and off_hand == equipment.default_weapon:
-		return true
-	return false
-
-func get_modified_activity(base_activity: Activity) -> Activity:
-	var result = base_activity.duplicate(true)
-
-	for modifier in activity_modifiers:
-		result = modifier.modify_activity(result)
-
-	return result
-
-func perform_activity(activity: Activity, target: Node = null):
-	var final = get_modified_activity(activity)
-	final.user = creature
-	if final is WeaponActivity:
-		final.weapon = activity.weapon
-	if target:
-		final.target_entities.append(target)
-	final.execute()
-
-func perform_attack(target):
-	print("_perform_attack_activity called.")
-	var weapons = get_active_weapons()
-	var category = equipment.get_active_attack_category()
-	if weapons[0]:
-		if category == 0 and weapons[0].strike:
-			var attack_activity = weapons[0].strike.duplicate(true)
-			attack_activity.weapon = weapons[0]
-			perform_activity(attack_activity, target)
-		elif category == 1 and weapons[0].shoot:
-			var attack_activity = weapons[0].shoot.duplicate(true)
-			attack_activity.weapon = weapons[0]
-			perform_activity(attack_activity, target)
-		elif category == 2 and weapons[0].throw:
-			var attack_activity = weapons[0].throw.duplicate(true)
-			attack_activity.weapon = weapons[0]
-			perform_activity(attack_activity, target)
-
-func initialise():
-	level_mod = level / 2
-	agility = dexterity + level_mod
-	resolve = will + level_mod
-	sense = acuity + level_mod
-	stamina = brawn + level_mod
-	offence = acuity + level_mod
-	melee_defence = dexterity + level_mod
-	ranged_defence = dexterity + level_mod
-
-	strength_bonus = brawn
-	max_mp = dexterity
-	current_mp = 0.0
-	
-	max_hp = (brawn * 12) + (brawn * level_mod)
-	current_hp = max_hp
-	current_extra_hp = 0
-
-	max_ep = (brawn * 12) + (brawn * level_mod)
-	current_ep = max_ep
-
-	current_ap = max_ap
-	current_reactions = max_reactions
-	
-	SignalBus.turn_ends.connect(_on_end_turn)
-	print("character file ready.")
+var derived_stats = null

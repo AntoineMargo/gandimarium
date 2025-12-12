@@ -6,7 +6,7 @@ func _can_drop_data(_pos, data):
 func _drop_data(position, data):
 	var um = Global.ui_manager
 	if data is Item:
-		var char = Global.focus_char.data
+		var char = Global.focus_char
 
 		var target_index = 0
 		var children = get_children()

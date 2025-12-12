@@ -32,10 +32,10 @@ func sequences_to_reach_target(sequences, report):
 		return sequences
 
 	cost = wm.calculate_path_cost_3D_simple(path)
-	moves_needed = ceil(cost/creature.data.max_mp)
+	moves_needed = ceil(cost/creature.get_stat("max_mp"))
 	moves_to_make = min(moves_needed, sequence_length)
 		
-	print("creature.data.max_mp: ", creature.data.max_mp)
+	print("creature.data.max_mp: ", creature.get_stat("max_mp"))
 	print("path.size(): ", path.size())
 	print("cost: ", cost)
 	print("moves_needed: ", moves_to_make)
@@ -65,8 +65,8 @@ func sequences_to_reach_target(sequences, report):
 					number_of_moves += 1
 					act.activity = Library.get_activity("move")
 					
-					var start_cost = (number_of_moves - 1) * creature.data.max_mp
-					var target_cost = number_of_moves * creature.data.max_mp
+					var start_cost = (number_of_moves - 1) * creature.get_stat("max_mp")
+					var target_cost = number_of_moves * creature.get_stat("max_mp")
 
 					var start_index = wm.find_path_index_by_cost(path, start_cost)
 					var target_index = wm.find_path_index_by_cost(path, target_cost)
@@ -91,7 +91,7 @@ func sequences_to_reach_target(sequences, report):
 						act.start_position = path[-1]
 						act.utility = 50
 					else:
-						var step_index = min(max(0, (number_of_moves) * creature.data.max_mp), path.size() - 1)
+						var step_index = min(max(0, (number_of_moves) * creature.get_stat("max_mp")), path.size() - 1)
 						act.start_position = path[step_index]
 						act.utility = 0
 
