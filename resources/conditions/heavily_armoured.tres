@@ -1,14 +1,24 @@
-[gd_resource type="Resource" script_class="Condition" load_steps=4 format=3 uid="uid://dq8birnet4lbp"]
+[gd_resource type="Resource" script_class="Condition" load_steps=7 format=3 uid="uid://dq8birnet4lbp"]
 
+[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/modifier_entry.gd" id="1_j85to"]
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/modifier_effect.gd" id="1_toyjn"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="2_j85to"]
 
+[sub_resource type="Resource" id="Resource_ot0y7"]
+script = ExtResource("1_j85to")
+stat = "physical"
+amount = 16
+metadata/_custom_type_script = "uid://ik0hrifgbwa4"
+
+[sub_resource type="Resource" id="Resource_potkk"]
+script = ExtResource("1_j85to")
+stat = "vigour"
+amount = -2
+metadata/_custom_type_script = "uid://ik0hrifgbwa4"
+
 [sub_resource type="Resource" id="Resource_ns0ch"]
 script = ExtResource("1_toyjn")
-modifiers = {
-"physical": 16,
-"vigour": -2
-}
+modifiers = Array[ExtResource("1_j85to")]([SubResource("Resource_ot0y7"), SubResource("Resource_potkk")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
 [resource]

@@ -6,6 +6,9 @@ var creature: Creature = null
 
 func execute(planned_sequence):
 	print("=== execute ===")
+	if !planned_sequence:
+		push_warning("No activity could be produced!")
+		return
 	for planned_act in planned_sequence:
 		if planned_act.activity.name == "Move":
 			print("MOVE ACTIVITY")

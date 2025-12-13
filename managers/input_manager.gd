@@ -125,6 +125,8 @@ func BasicControls():
 			return
 		print("focus char: ", Global.focus_char.data.name)
 		print("selected char: ", Global.selected_char.data.name)
+		SignalBus.dialog_show_message.emit("Selected: %s" % [Global.selected_char.data.name])
+		SignalBus.dialog_show_message.emit("Focus: %s" % [Global.focus_char.data.name])
 
 	if Input.is_action_just_pressed("H"):
 		print("creatures found in the world:")

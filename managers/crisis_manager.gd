@@ -22,7 +22,7 @@ func try_perform_activity(activity):
 	if not enough_action_points_for_activity(activity):
 		return
 
-	Global.focus_char.data.perform_activity(activity)
+	Global.focus_char.perform_activity(activity)
 	SignalBus.update_ui_for_char.emit()
 
 func forward_unhandled_input(event: InputEvent) -> void:
@@ -31,29 +31,21 @@ func forward_unhandled_input(event: InputEvent) -> void:
 
 func end_turn():
 	if crisis_mode == true:
-		#print("=== before ===")
-		#print("focus char: ", Global.focus_char.data.name)
-		#print("selected char: ", Global.selected_char.data.name)
-		
 		SignalBus.dialog_end_turn.emit()
 		SignalBus.turn_ends.emit()
-		SignalBus.update_ui_for_char.emit()
 		SignalBus.refresh_reachable_tiles.emit()
-		
-		#print("=== after ===")
-		#print("focus char: ", Global.focus_char.data.name)
-		#print("selected char: ", Global.selected_char.data.name)
+
+		crisis_turn += 1
 		
 		if Global.selected_char:
 			Global.focus_char = Global.selected_char
-
-		crisis_turn += 1
+		Global.world_manager.selection_highlight.update_selection_highlight()
+		SignalBus.update_ui_for_char.emit()
 
 func toggle_crisis(creature):
 	if crisis_mode == false:
 		start_crisis(creature)
 	else:
-		SignalBus.turn_ends.emit()
 		SignalBus.update_ui_for_char.emit()
 		SignalBus.refresh_reachable_tiles.emit()
 		end_crisis(creature)
@@ -65,6 +57,8 @@ func start_crisis(creature):
 		crisis_turn = 0
 		SignalBus.toggle_end_turn_button.emit()
 		SignalBus.dialog_start_crisis_mode.emit()
+		SignalBus.on_start_crisis.emit()
+		SignalBus.update_ui_for_char.emit()
 
 func end_crisis(creature):
 	if crisis_mode == true:

@@ -63,30 +63,6 @@ func has_condition_named(condition_name: String) -> bool:
 			return true
 	return false
 
-func apply_modifier(stat, value):
-	if stat in data:
-		data.set(stat, data.get(stat) + value)
-	elif stat in data.resistances:
-		data.resistances.set(stat, data.resistances.get(stat) + value)
-	elif stat in data.aptitudes:
-		data.aptitudes.set(stat, data.aptitudes.get(stat) + value)
-	elif stat in data.skills:
-		data.skills.set(stat, data.skills.get(stat) + value)
-	elif stat in data.attributes:
-		data.attributes.set(stat, data.attributes.get(stat) + value)
-
-func remove_modifier(stat, value):
-	if stat in data:
-		data.set(stat, data.get(stat) - value)
-	elif stat in data.resistances:
-		data.resistances.set(stat, data.resistances.get(stat) - value)
-	elif stat in data.aptitudes:
-		data.aptitudes.set(stat, data.aptitudes.get(stat) - value)
-	elif stat in data.skills:
-		data.skills.set(stat, data.skills.get(stat) - value)
-	elif stat in data.attributes:
-		data.attributes.set(stat, data.attributes.get(stat) - value)
-
 func add_condition(condition: Condition):
 	if has_condition_named(condition.name):
 		return
@@ -207,8 +183,8 @@ func remove_item_from_slot(slot):
 	return item
 
 func take_damage(damage: int, resistance: String = ""):
-	var resistance_value: int = 0
-	resistance_value = data.resistances.get(resistance)
+	var value = get_stat(resistance)
+	var resistance_value: int = value if value is int else 0
 	var final_damage = (damage - resistance_value)
 	if final_damage < 0:
 		final_damage = 0
@@ -303,7 +279,7 @@ func get_stat(stat):
 	elif stat in data.derived_stats:
 		return data.derived_stats.get(stat)
 	else:
-		push_error("Could not find stat: ", stat)
+		push_warning("Could not find stat: ", stat)
 
 func set_stat(stat, value):
 	if stat in data:
@@ -358,6 +334,10 @@ func initialise():
 		
 		print("character file ready.")
 
+func _on_start_crisis():
+	data.current_ap = data.derived_stats.max_ap
+	data.current_mp = 0
+
 func _on_end_turn():
 	data.current_ap = data.derived_stats.max_ap
 	data.current_mp = 0
@@ -371,4 +351,5 @@ func _ready():
 		return
 	health_bar_instance = health_bar_scene.instantiate()
 	add_child(health_bar_instance)
+	SignalBus.on_start_crisis.connect(_on_start_crisis)
 	SignalBus.turn_ends.connect(_on_end_turn)

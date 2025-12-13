@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="WeaponStrike" load_steps=13 format=3 uid="uid://xemlo603d7ki"]
 
 [ext_resource type="Resource" uid="uid://1dlg3tu4w25y" path="res://resources/items/weapons/pollaxe/pollaxe_strike_ai.tres" id="1_c00ss"]
-[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://activities/damage_pattern.gd" id="2_c00ss"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_c00ss"]
 [ext_resource type="Resource" uid="uid://lowvjn23gb1u" path="res://resources/damage_patterns/slash.tres" id="3_1t5px"]
 [ext_resource type="Resource" uid="uid://b6lwaevovr35s" path="res://resources/damage_patterns/pierce.tres" id="4_ouq61"]
 [ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="5_mxovm"]

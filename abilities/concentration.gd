@@ -15,4 +15,4 @@ func cancel():
 	emit_signal("ended")
 	linked_conditions.clear()
 	if source and source.user and source.user.data.concentrations.has(self):
-		source.user.data.remove_concentration(self)
+		source.user.remove_concentration(self)

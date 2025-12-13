@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="WeaponThrow" load_steps=11 format=3 uid="uid://ds2e0ntbdxsjg"]
 
 [ext_resource type="Resource" uid="uid://clmi1ceueqlw1" path="res://resources/items/weapons/longsword/longsword_throw_ai.tres" id="1_mc5ic"]
-[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://activities/damage_pattern.gd" id="2_q2ftp"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_q2ftp"]
 [ext_resource type="Resource" uid="uid://lowvjn23gb1u" path="res://resources/damage_patterns/slash.tres" id="3_mc5ic"]
 [ext_resource type="Script" uid="uid://bkxicxp8ud7lk" path="res://activities/wpn_throw.gd" id="4_2k1ub"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="5_i3xcq"]

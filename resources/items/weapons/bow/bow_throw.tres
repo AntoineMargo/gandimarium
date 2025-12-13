@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="WeaponStrike" load_steps=11 format=3 uid="uid://dm73fyw1ejgq0"]
 
 [ext_resource type="Resource" uid="uid://kkqpdyerhodk" path="res://resources/items/weapons/bow/bow_throw_ai.tres" id="1_lwobe"]
-[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://activities/damage_pattern.gd" id="2_lwobe"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_lwobe"]
 [ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="3_brjw5"]
 [ext_resource type="Script" uid="uid://slgpne4ixmcv" path="res://activities/wpn_strike.gd" id="4_06pmt"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="5_8orsa"]

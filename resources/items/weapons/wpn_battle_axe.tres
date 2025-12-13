@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3 uid="uid://clev8uttlirlo"]
 
-[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://activities/damage_pattern.gd" id="1_3lpvs"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="1_3lpvs"]
 [ext_resource type="Resource" uid="uid://lowvjn23gb1u" path="res://resources/damage_patterns/slash.tres" id="2_e7qg1"]
 [ext_resource type="Script" uid="uid://djeyifuagvkr6" path="res://items/weapon_res.gd" id="3_djw44"]
-[ext_resource type="Resource" uid="uid://b00bl2cl8sjx4" path="res://resources/damage_patterns/throw.tres" id="3_jse25"]
+[ext_resource type="Resource" path="res://resources/damage_patterns/throw.tres" id="3_jse25"]
 
 [resource]
 script = ExtResource("3_djw44")

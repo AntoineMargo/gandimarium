@@ -5,9 +5,9 @@ class_name Condition
 @export var name: String = "placeholder"
 @export var description: String = "This is a placeholder description."
 @export var icon: String
-@export var filters = []
-@export var effects = []
-@export var supplanted = []
+@export var filters: Array[Filter] = []
+@export var effects: Array[Effect] = []
+@export var supplanted: Array[Condition] = []
 @export var duration: int = -1
 
 var concentration: Concentration = null

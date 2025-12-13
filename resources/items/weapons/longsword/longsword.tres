@@ -8,7 +8,7 @@
 
 [resource]
 script = ExtResource("1_51pgf")
-name = "Longsword"
+name = "Long sword"
 value = 100
 conditions = Array[ExtResource("1_7j6sb")]([ExtResource("1_vuq4f")])
 brawn_req_1h = 6

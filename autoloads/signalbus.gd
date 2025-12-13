@@ -27,6 +27,7 @@ signal turn_ends()
 signal toggle_end_turn_button()
 signal toggle_crisis_button()
 signal weapon_attack(target)
+signal on_start_crisis()
 
 #signal resolve_damage(name, damage)
 

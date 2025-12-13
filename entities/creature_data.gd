@@ -34,7 +34,7 @@ class_name CreatureData
 @export var temp_ep: int = 0
 @export var current_mp: float = 0
 @export var temp_mp: float = 0
-@export var current_ap: int = 3
+@export var current_ap: int = 0
 @export var current_reactions: int = 1
 @export var current_spell_rank: int = 0
 

@@ -32,8 +32,8 @@ func execute() -> void:
 		if not passes_all_filters:
 			continue
 
-		var user_stat = user.data.get(attacking_aptitude)
-		var target_stat = user.data.get(defending_aptitude)
+		var user_stat = user.get_stat(attacking_aptitude)
+		var target_stat = user.get_stat(defending_aptitude)
 		
 		var user_roll = CombatMath.standard_roll()
 		var target_roll = CombatMath.standard_roll()
@@ -50,11 +50,11 @@ func execute() -> void:
 			if effect is Effect:
 				effect.apply(self, user, degree)
 
-		user.data.consume_ap(AP_cost)
+		user.consume_ap(AP_cost)
 
 	if requires_concentration:
 		if concentration.has_connections("ended"):
-			user.data.add_concentration(concentration)
+			user.add_concentration(concentration)
 		else:
 			concentration.cancel()
 	

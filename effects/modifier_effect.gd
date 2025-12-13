@@ -1,13 +1,14 @@
 extends Effect
-
 class_name ModifierEffect
 
-@export var modifiers: Dictionary
+@export var modifiers: Array[ModifierEntry] = []
 
 func apply(source, target, degree: int) -> void:
-	for stat in modifiers.keys():
-		target.apply_modifier(stat, modifiers[stat])
+	for entry in modifiers:
+		#target.apply_modifier(entry.stat, entry.amount)
+		target.change_stat(entry.stat, entry.amount)
 
 func remove(source, target, degree: int) -> void:
-	for stat in modifiers.keys():
-		target.remove_modifier(stat, modifiers[stat])
+	for entry in modifiers:
+		#target.remove_modifier(entry.stat, entry.amount)
+		target.change_stat(entry.stat, -entry.amount)

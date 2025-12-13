@@ -426,7 +426,7 @@ func update_action_pips():
 		return
 	var char = Global.selected_char
 	var max = char.get_stat("max_ap")
-	var current = char.get_stat("max_ap")
+	var current = char.get_stat("current_ap")
 	var container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints")
 	
 	for i in container.get_child_count():
@@ -578,7 +578,7 @@ func _on_activity_button_pressed(button: TextureButton):
 	var activity = button.get_meta("activity")
 	
 	if activity and activity.has_method("execute"):
-		Global.focus_char.data.perform_activity(activity)
+		Global.focus_char.perform_activity(activity)
 	else:
 		print("Invalid or missing activity.")
 
