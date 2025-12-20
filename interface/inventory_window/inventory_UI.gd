@@ -20,3 +20,4 @@ func _input(event):
 func _ready() -> void:
 	z_index = 2000
 	mouse_filter = Control.MOUSE_FILTER_PASS
+	$"..".layer = 100

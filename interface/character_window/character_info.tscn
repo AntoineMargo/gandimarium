@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://bg0lj30uko0jn" path="res://interface/character_window/character_info.gd" id="1_w3gn6"]
 
 [node name="CharacterInfo" type="CanvasLayer"]
+process_mode = 3
 script = ExtResource("1_w3gn6")
 
 [node name="Character" type="Control" parent="."]
@@ -19,6 +20,7 @@ offset_right = 250.0
 offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("1_nmod3")
 
 [node name="ColorRect" type="ColorRect" parent="Character"]
@@ -28,6 +30,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 color = Color(0, 0, 0, 0.78431374)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Character/ColorRect"]
@@ -73,6 +76,8 @@ text = "Name:"
 
 [node name="Level" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys"]
 layout_mode = 2
+tooltip_text = "LALALALALALALALALA"
+mouse_filter = 0
 text = "Level:"
 
 [node name="MajorArchetype" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys"]
@@ -112,6 +117,8 @@ layout_mode = 2
 
 [node name="Level" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values"]
 layout_mode = 2
+tooltip_text = "lulululululu"
+mouse_filter = 0
 
 [node name="MajorArchetype" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values"]
 layout_mode = 2
@@ -208,12 +215,14 @@ size_flags_horizontal = 3
 
 [node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Agility"]
 layout_mode = 2
+mouse_filter = 0
 text = "Agility"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Agility"]
 layout_mode = 2
+mouse_filter = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -431,8 +440,12 @@ layout_mode = 2
 text = "Talents: "
 
 [node name="Conditions" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Conditions: "
+
+[node name="HFlowContainer" type="HFlowContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer"]
+layout_mode = 2
 
 [node name="Spells" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer"]
 visible = false

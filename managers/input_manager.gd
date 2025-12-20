@@ -187,6 +187,14 @@ func BasicControls():
 	if Input.is_action_just_pressed("B"):
 		pass
 
+	#if Input.is_action_just_pressed("V"):
+		#print("=== CanvasLayers in scene ===")
+		#for node in get_tree().get_nodes_in_group("CanvasLayers"):
+			#print(node.name, " layer:", node.layer)
+
+	if Input.is_action_just_pressed("V"):
+		pass
+
 	if Input.is_action_just_pressed("Backspace"):
 		SignalBus.toggle_crisis_button.emit()
 

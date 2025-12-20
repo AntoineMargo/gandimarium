@@ -1,8 +1,6 @@
 extends CanvasLayer
 
 func update(character):
-	
-	# Basics
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values/Name.text = character.data.name
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values/Level.text = "%d" % character.get_stat("level")
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values/MajorArchetype.text = character.get_stat("major_archetype")
@@ -21,6 +19,7 @@ func update(character):
 
 	# Aptitudes
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Agility/Value.text = "%d" % character.get_stat("agility")
+	$Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Agility/Value.tooltip_text = "16"
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Resolve/Value.text = "%d" % character.get_stat("resolve")
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Sense/Value.text = "%d" % character.get_stat("sense")
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Stamina/Value.text = "%d" % character.get_stat("stamina")
@@ -35,4 +34,18 @@ func update(character):
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Talents.text = "Talents: " + ""
 
 	# Conditions
-	$Character/ColorRect/HBoxContainer/VBoxContainer/Conditions.text = "Conditions: " + ""
+	
+	var container = $Character/ColorRect/HBoxContainer/VBoxContainer/HFlowContainer
+	for child in container.get_children():
+		child.queue_free()
+
+	for condition in character.data.conditions:
+		
+		var lbl := Label.new()
+		lbl.text = condition.name
+		lbl.tooltip_text = condition.description
+		lbl.mouse_filter = Control.MOUSE_FILTER_STOP
+		container.add_child(lbl)
+		
+func _ready():
+	self.layer = 100

@@ -1,12 +1,5 @@
 extends Control
 
-#var character: Creature = null
-#
-#func update(character):
-	#$ColorRect/HBoxContainer/VBoxContainer/HBoxContainer/keys/Name.text = "Name: " + character.data.name
-
-
-
 var dragging := false
 var drag_offset := Vector2.ZERO
 

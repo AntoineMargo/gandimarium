@@ -400,17 +400,14 @@ func drag_fail_restore():
 	if drag_in_progress and Input.is_action_just_released("mouse_left"):
 		if last_dragged_item and not drag_was_dropped:
 
-			#var ui_under_mouse = get_viewport().gui_get_focus_owner()
 			var mouse_over_control = get_viewport().gui_get_hovered_control()
 			print("UI element under cursor:", mouse_over_control)
 
 			if mouse_over_control == null:
 				print("Dropping item on ground.")
-				#Interaction.drop_item_on_tile(selected_char, last_dragged_item)
 				SignalBus.drop_item_on_tile.emit(Global.selected_char, last_dragged_item)
 			elif mouse_over_control != null and mouse_over_control.name == "UI":
 				print("Dropping item on ground.")
-				#Interaction.drop_item_on_tile(selected_char, last_dragged_item)
 				SignalBus.drop_item_on_tile.emit(Global.selected_char, last_dragged_item)
 			else:
 				print("Drag failed — restoring item.")

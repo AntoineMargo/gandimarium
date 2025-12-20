@@ -265,7 +265,7 @@ func perform_attack(target):
 			attack_activity.weapon = weapons[0]
 			perform_activity(attack_activity, target)
 
-func get_stat(stat):
+func get_base_stat(stat):
 	if stat in data:
 		return data.get(stat)
 	elif stat in data.resistances:
@@ -278,6 +278,22 @@ func get_stat(stat):
 		return data.attributes.get(stat)
 	elif stat in data.derived_stats:
 		return data.derived_stats.get(stat)
+	else:
+		push_warning("Could not find stat: ", stat)
+
+func get_stat(stat):
+	if stat in data:
+		return data.get(stat)
+	elif stat in data.derived_stats:
+		return data.derived_stats.get(stat)
+	elif stat in data.resistances:
+		return data.resistances.get(stat)
+	elif stat in data.aptitudes:
+		return data.aptitudes.get(stat)
+	elif stat in data.skills:
+		return data.skills.get(stat)
+	elif stat in data.attributes:
+		return data.attributes.get(stat)
 	else:
 		push_warning("Could not find stat: ", stat)
 
