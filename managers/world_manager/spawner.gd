@@ -110,7 +110,7 @@ func _spawn_character_helper(items, activities, abilities, my_char):
 		if ability:
 			char_instance.add_ready_spell(ability)
 	
-	char_instance.initialise()
+	char_instance.initialise_stats()
 
 	var tile_coords = wm.get_tile_coords()
 	my_char.tile_x = tile_coords.vec2.x

@@ -270,16 +270,15 @@ func get_base_stat(stat):
 		return data.get(stat)
 	elif stat in data.resistances:
 		return data.resistances.get(stat)
-	elif stat in data.aptitudes:
-		return data.aptitudes.get(stat)
-	elif stat in data.skills:
-		return data.skills.get(stat)
 	elif stat in data.attributes:
 		return data.attributes.get(stat)
 	elif stat in data.derived_stats:
 		return data.derived_stats.get(stat)
 	else:
 		push_warning("Could not find stat: ", stat)
+
+func get_final_stat(stat):
+	get_stat(stat)
 
 func get_stat(stat):
 	if stat in data:
@@ -288,10 +287,8 @@ func get_stat(stat):
 		return data.derived_stats.get(stat)
 	elif stat in data.resistances:
 		return data.resistances.get(stat)
-	elif stat in data.aptitudes:
-		return data.aptitudes.get(stat)
-	elif stat in data.skills:
-		return data.skills.get(stat)
+	elif stat in data.base_stats:
+		return data.base_stats.get(stat)
 	elif stat in data.attributes:
 		return data.attributes.get(stat)
 	else:
@@ -300,16 +297,12 @@ func get_stat(stat):
 func set_stat(stat, value):
 	if stat in data:
 		data.set(stat, value)
-	elif stat in data.resistances:
-		data.resistances.set(stat, value)
-	elif stat in data.aptitudes:
-		data.aptitudes.set(stat, value)
-	elif stat in data.skills:
-		data.skills.set(stat, value)
-	elif stat in data.attributes:
-		data.attributes.set(stat, value)
 	elif stat in data.derived_stats:
 		data.derived_stats.set(stat, value)
+	elif stat in data.resistances:
+		data.resistances.set(stat, value)
+	elif stat in data.attributes:
+		data.attributes.set(stat, value)
 	else:
 		push_error("Could not find stat: ", stat)
 
@@ -318,37 +311,65 @@ func change_stat(stat: StringName, delta):
 	if current != null:
 		set_stat(stat, current + delta)
 
-func initialise():
+## This initalises the base stats, meant to be used on spawn and at every level-up, and not accessed from outside the class
+func initialise_stats():
 	if not data.has_been_initialized:
 		data.derived_stats = DerivedStats.new()
 
 		@warning_ignore("integer_division")
-		data.derived_stats.level_mod = data.level / 2
-		data.aptitudes.agility = data.attributes.dexterity + data.derived_stats.level_mod
-		data.aptitudes.resolve = data.attributes.will + data.derived_stats.level_mod
-		data.aptitudes.sense = data.attributes.acuity + data.derived_stats.level_mod
-		data.aptitudes.stamina = data.attributes.brawn + data.derived_stats.level_mod
-		data.aptitudes.offence = data.attributes.acuity + data.derived_stats.level_mod
-		data.aptitudes.melee_defence = data.attributes.dexterity + data.derived_stats.level_mod
-		data.aptitudes.ranged_defence = data.attributes.dexterity + data.derived_stats.level_mod
+		data.base_stats.level_mod = data.level / 2
+		data.base_stats.agility = data.attributes.dexterity + data.base_stats.level_mod
+		data.base_stats.resolve = data.attributes.will + data.base_stats.level_mod
+		data.base_stats.sense = data.attributes.acuity + data.base_stats.level_mod
+		data.base_stats.stamina = data.attributes.brawn + data.base_stats.level_mod
+		data.base_stats.offence = data.attributes.acuity + data.base_stats.level_mod
+		data.base_stats.melee_defence = data.attributes.dexterity + data.base_stats.level_mod
+		data.base_stats.ranged_defence = data.attributes.dexterity + data.base_stats.level_mod
 
-		data.derived_stats.strength_bonus = data.attributes.brawn
-		data.derived_stats.max_mp = data.attributes.dexterity
-		data.current_mp = 0.0
-		
-		data.derived_stats.max_hp = (data.attributes.brawn * 12) + (data.attributes.brawn * data.derived_stats.level_mod)
-		data.current_hp = data.derived_stats.max_hp
-		data.temp_mp = 0
+		# skills not implemented yet
 
-		data.derived_stats.max_ep = (data.attributes.brawn * 12) + (data.attributes.brawn * data.derived_stats.level_mod)
-		data.current_ep = data.derived_stats.max_ep
+		data.base_stats.strength_bonus = data.attributes.brawn
+		#data.base_stats.size = "medium"
 
-		data.current_ap = data.derived_stats.max_ap
-		data.current_reactions = data.derived_stats.max_reactions
-		
+		data.base_stats.max_hp = (data.attributes.brawn * 12) + (data.attributes.brawn * data.base_stats.level_mod)
+		data.current_hp = data.base_stats.max_hp
+		data.base_stats.max_pp = data.attributes.will * data.base_stats.level_mod
+		data.current_pp = data.base_stats.max_pp
+		data.base_stats.max_ep = (data.attributes.brawn * 12) + (data.attributes.brawn * data.base_stats.level_mod)
+		data.current_ep = data.base_stats.max_ep
+
+		data.base_stats.max_mp = data.attributes.dexterity
+
 		data.has_been_initialized = true
-		
+		update_stats()
 		print("character file ready.")
+
+## This builds the final usable stats; to be used directly for activities and from outside the class
+func update_stats():
+	if not stats_dirty:
+		return
+	data.derived_stats.agility = data.base_stats.agility + data.derived_stats.vigour
+	data.derived_stats.resolve = data.base_stats.resolve + data.derived_stats.vigour
+	data.derived_stats.sense = data.base_stats.sense + data.derived_stats.vigour
+	data.derived_stats.stamina = data.base_stats.stamina + data.derived_stats.vigour
+	data.derived_stats.offence = data.base_stats.offence + data.derived_stats.vigour
+	data.derived_stats.melee_defence = data.base_stats.melee_defence + data.derived_stats.vigour
+	data.derived_stats.ranged_defence = data.base_stats.ranged_defence + data.derived_stats.vigour
+	
+	# skills not implemented yet
+	
+	data.derived_stats.strength_bonus = data.base_stats.strength_bonus + data.derived_stats.vigour
+	#data.base_stats.size = "medium"
+	
+	data.derived_stats.max_hp = data.base_stats.max_hp
+	data.derived_stats.max_pp = data.base_stats.max_pp
+	data.derived_stats.max_ep = data.base_stats.max_ep
+	
+	data.derived_stats.max_mp = data.base_stats.max_mp + data.derived_stats.vigour
+	
+	data.derived_stats.max_ap = data.base_stats.max_ap
+	data.derived_stats.max_reactions = data.base_stats.max_reactions
+	data.derived_stats.max_spell_rank = data.base_stats.max_spell_rank
 
 func _on_start_crisis():
 	data.current_ap = data.derived_stats.max_ap

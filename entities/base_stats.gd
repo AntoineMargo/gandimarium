@@ -1,7 +1,7 @@
-extends Object
-class_name DerivedStats
+extends Resource
+class_name BaseStats
 
-var vigour: int = 0
+var level_mod: int = 0
 
 # aptitudes
 var agility: int = 0
@@ -37,6 +37,6 @@ var max_ep: int = 0
 
 var max_mp: int = 0
 
-var max_ap: int = 0
-var max_reactions: int = 0
-var max_spell_rank: int = 0
+var max_ap: int = 3
+var max_reactions: int = 1
+var max_spell_rank: int = -1

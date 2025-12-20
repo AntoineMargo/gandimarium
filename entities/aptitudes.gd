@@ -1,6 +1,7 @@
 extends Resource
 class_name Aptitudes
 
+
 var agility: int = 0
 var resolve: int = 0
 var sense: int = 0

@@ -10,8 +10,9 @@ class_name CreatureData
 @export var sprite: String = "res://art/characters/swordwraith1.png"
 
 @export var attributes = Attributes.new()
-@export var aptitudes = Aptitudes.new()
-@export var skills = Skills.new()
+@export var base_stats = BaseStats.new()
+#@export var aptitudes = Aptitudes.new()
+#@export var skills = Skills.new()
 @export var inventory = Inventory.new()
 @export var equipment = Equipment.new()
 @export var resistances = Resistances.new()
