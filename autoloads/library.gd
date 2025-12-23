@@ -47,6 +47,14 @@ var _activities = {
 	"weapon_attack": "res://resources/activities/wpn_attack.tres"
 }
 
+var _talents = {
+	"paragon_vigour": "res://resources/talents/paragon_vigour.tres"
+}
+
+var _archetypes = {
+	"paragon": "res://resources/archetypes/paragon/paragon.tres"
+}
+
 var _abilities = {
 	"degrade_defences": "res://resources/abilities/degrade_defences.tres",
 	"firebolt": "res://resources/abilities/firebolt.tres",
@@ -76,6 +84,12 @@ func get_activity(id: String) -> Resource:
 
 func get_ability(id: String) -> Resource:
 	return _get_from(_abilities, id)
+
+func get_talent(id: String) -> Resource:
+	return _get_from(_talents, id)
+
+func get_archetype(id: String) -> Resource:
+	return _get_from(_archetypes, id)
 
 func get_dmg_pattern(id: String) -> Resource:
 	return _get_from(_dmg_patterns, id)

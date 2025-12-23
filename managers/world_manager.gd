@@ -535,6 +535,7 @@ func _on_world_select():
 				Global.focus_char = element
 				selection_highlight.update_selection_highlight()
 				SignalBus.update_inventory.emit()
+				SignalBus.update_character_info.emit()
 				SignalBus.update_ui_for_char.emit()
 				SignalBus.refresh_reachable_tiles.emit()
 				print("Selected character: ", element.data.name)
@@ -556,7 +557,6 @@ func _interact_attack(coords):
 			break
 	if not target:
 		return
-	print("===calling perform attak===")
 	Global.focus_char.perform_attack(target)
 
 func _interact_move(t_coords):

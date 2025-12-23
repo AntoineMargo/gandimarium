@@ -45,11 +45,14 @@ func add_talent(talent: Talent):
 			if talent.name == weaker_talent.name:
 				return
 	data.talents.append(talent)
+	talent.initialize(self)
+	stats_dirty = true
 
-func remove_talent(talent: Condition):
+func remove_talent(talent: Talent):
 	for existing_talent in data.talents:
 		if existing_talent.name == talent.name:
 			data.talents.erase(existing_talent)
+	stats_dirty = true
 
 func has_talent_named(talent_name: String) -> bool:
 	for talent in data.talents:
@@ -75,6 +78,7 @@ func add_condition(condition: Condition):
 				return
 	data.conditions.append(condition)
 	condition.initialize(self)
+	stats_dirty = true
 
 func remove_condition(condition: Condition):
 	for effect in condition.effects:
@@ -82,6 +86,7 @@ func remove_condition(condition: Condition):
 	for existing_cond in data.conditions:
 		if existing_cond.name == condition.name:
 			data.conditions.erase(existing_cond)
+	stats_dirty = true
 
 func add_item_conditions(item):
 	if not item or not item.conditions:
@@ -170,6 +175,7 @@ func equip_item(slot, item):
 	apply_conditions_from_equipment()
 	if Global.focus_char == self:
 		SignalBus.update_inventory.emit()
+	update_stats()
 
 func unequip_slot(slot):
 	remove_conditions_from_equipment()
@@ -177,6 +183,7 @@ func unequip_slot(slot):
 	apply_conditions_from_equipment()
 	if Global.focus_char == self:
 		SignalBus.update_inventory.emit()
+	update_stats()
 
 func remove_item_from_slot(slot):
 	var item = data.equipment.remove_item_from_slot(slot)
@@ -278,8 +285,9 @@ func get_base_stat(stat):
 		push_warning("Could not find stat: ", stat)
 
 func get_final_stat(stat):
-	get_stat(stat)
+	return get_stat(stat)
 
+## @deprecated: use get_final_stat() instead
 func get_stat(stat):
 	if stat in data:
 		return data.get(stat)
@@ -307,12 +315,12 @@ func set_stat(stat, value):
 		push_error("Could not find stat: ", stat)
 
 func change_stat(stat: StringName, delta):
-	var current = get_stat(stat)
+	var current = get_final_stat(stat)
 	if current != null:
 		set_stat(stat, current + delta)
 
 ## This initalises the base stats, meant to be used on spawn and at every level-up, and not accessed from outside the class
-func initialise_stats():
+func initialise():
 	if not data.has_been_initialized:
 		data.derived_stats = DerivedStats.new()
 
@@ -340,6 +348,17 @@ func initialise_stats():
 
 		data.base_stats.max_mp = data.attributes.dexterity
 
+		if data.major_archetype:
+			for entry in data.major_archetype.talents_by_level:
+				if entry.level <= data.level and entry.auto_talents:
+					for talent in entry.auto_talents:
+						add_talent(talent)
+		if data.minor_archetype:
+			for entry in data.minor_archetype.talents_by_level:
+				if entry.level <= data.level and entry.auto_talents:
+					for talent in entry.auto_talents:
+						add_talent(talent)
+
 		data.has_been_initialized = true
 		update_stats()
 		print("character file ready.")
@@ -358,7 +377,7 @@ func update_stats():
 	
 	# skills not implemented yet
 	
-	data.derived_stats.strength_bonus = data.base_stats.strength_bonus + data.derived_stats.vigour
+	data.derived_stats.strength_bonus = data.base_stats.strength_bonus
 	#data.base_stats.size = "medium"
 	
 	data.derived_stats.max_hp = data.base_stats.max_hp
@@ -370,8 +389,11 @@ func update_stats():
 	data.derived_stats.max_ap = data.base_stats.max_ap
 	data.derived_stats.max_reactions = data.base_stats.max_reactions
 	data.derived_stats.max_spell_rank = data.base_stats.max_spell_rank
+	
+	stats_dirty = false
 
 func _on_start_crisis():
+	update_stats()
 	data.current_ap = data.derived_stats.max_ap
 	data.current_mp = 0
 

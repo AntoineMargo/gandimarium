@@ -1,0 +1,75 @@
+[gd_resource type="Resource" script_class="Archetype" load_steps=20 format=3 uid="uid://c00teqpc3o5li"]
+
+[ext_resource type="Script" uid="uid://br3qyd4n7fm2f" path="res://archetypes/archetype.gd" id="1_r5j56"]
+[ext_resource type="Script" uid="uid://dnii5080nqn0s" path="res://archetypes/talent_entry.gd" id="2_swb77"]
+[ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="3_r4bqb"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="4_3bq5y"]
+[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/modifier_entry.gd" id="5_711h4"]
+[ext_resource type="Script" uid="uid://ctc67jyi2kgtl" path="res://various/level_step_modifier_entry.gd" id="6_cdkcb"]
+[ext_resource type="Script" uid="uid://c6apq60hwcmxa" path="res://various/level_step.gd" id="7_q7p8u"]
+[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/modifier_effect.gd" id="8_h0lsc"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="9_83l8a"]
+
+[sub_resource type="Resource" id="Resource_cdkcb"]
+script = ExtResource("7_q7p8u")
+min_level = 1
+value = 1
+metadata/_custom_type_script = "uid://c6apq60hwcmxa"
+
+[sub_resource type="Resource" id="Resource_711h4"]
+script = ExtResource("7_q7p8u")
+min_level = 5
+value = 2
+metadata/_custom_type_script = "uid://c6apq60hwcmxa"
+
+[sub_resource type="Resource" id="Resource_3bq5y"]
+script = ExtResource("7_q7p8u")
+min_level = 9
+value = 3
+metadata/_custom_type_script = "uid://c6apq60hwcmxa"
+
+[sub_resource type="Resource" id="Resource_r4bqb"]
+script = ExtResource("7_q7p8u")
+min_level = 13
+value = 4
+metadata/_custom_type_script = "uid://c6apq60hwcmxa"
+
+[sub_resource type="Resource" id="Resource_swb77"]
+script = ExtResource("7_q7p8u")
+min_level = 17
+value = 5
+metadata/_custom_type_script = "uid://c6apq60hwcmxa"
+
+[sub_resource type="Resource" id="Resource_r5j56"]
+script = ExtResource("7_q7p8u")
+min_level = 21
+value = 6
+metadata/_custom_type_script = "uid://c6apq60hwcmxa"
+
+[sub_resource type="Resource" id="Resource_eodmp"]
+script = ExtResource("6_cdkcb")
+steps = Array[ExtResource("7_q7p8u")]([SubResource("Resource_cdkcb"), SubResource("Resource_711h4"), SubResource("Resource_3bq5y"), SubResource("Resource_r4bqb"), SubResource("Resource_swb77"), SubResource("Resource_r5j56")])
+stat = "vigour"
+metadata/_custom_type_script = "uid://ctc67jyi2kgtl"
+
+[sub_resource type="Resource" id="Resource_15jjh"]
+script = ExtResource("8_h0lsc")
+modifiers = Array[ExtResource("5_711h4")]([SubResource("Resource_eodmp")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_hsr4a"]
+script = ExtResource("3_r4bqb")
+name = "Paragon's Vigour."
+description = "The paragon benefits from extraordinary vigour and can perform virtually any action more effectively than his peers."
+effects = Array[ExtResource("4_3bq5y")]([SubResource("Resource_15jjh")])
+metadata/_custom_type_script = "uid://c5ijx7qo7jak"
+
+[sub_resource type="Resource" id="Resource_c1k8j"]
+script = ExtResource("2_swb77")
+auto_talents = Array[ExtResource("3_r4bqb")]([SubResource("Resource_hsr4a")])
+metadata/_custom_type_script = "uid://dnii5080nqn0s"
+
+[resource]
+script = ExtResource("1_r5j56")
+talents_by_level = Array[ExtResource("2_swb77")]([SubResource("Resource_c1k8j")])
+metadata/_custom_type_script = "uid://br3qyd4n7fm2f"

@@ -1,5 +1,4 @@
 extends Resource
-
 class_name Concentration
 
 signal ended

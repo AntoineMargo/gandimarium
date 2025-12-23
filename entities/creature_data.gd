@@ -4,15 +4,13 @@ class_name CreatureData
 @export var name: String
 @export var level: int = 1
 @export var species: String = ""
-@export var major_archetype: String = ""
-@export var minor_archetype: String = ""
+@export var major_archetype: Archetype = null
+@export var minor_archetype: Archetype = null
 
 @export var sprite: String = "res://art/characters/swordwraith1.png"
 
 @export var attributes = Attributes.new()
 @export var base_stats = BaseStats.new()
-#@export var aptitudes = Aptitudes.new()
-#@export var skills = Skills.new()
 @export var inventory = Inventory.new()
 @export var equipment = Equipment.new()
 @export var resistances = Resistances.new()

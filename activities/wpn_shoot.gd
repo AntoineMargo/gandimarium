@@ -26,8 +26,8 @@ func execute() -> void:
 		if not passes_all_filters:
 			continue
 
-		var user_stat = user.data.get(attacking_aptitude) + user.data.get("vigour")
-		var target_stat = target.data.get(defending_aptitude) + user.data.get("vigour")
+		var user_stat = user.data.get(attacking_aptitude)
+		var target_stat = target.data.get(defending_aptitude)
 		
 		var user_roll = CombatMath.standard_roll()
 		var target_roll = CombatMath.standard_roll()

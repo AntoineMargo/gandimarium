@@ -1,5 +1,4 @@
 extends Resource
-
 class_name Spell
 
 @export var name: String

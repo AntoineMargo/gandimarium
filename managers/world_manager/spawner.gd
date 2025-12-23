@@ -15,6 +15,8 @@ func spawn_character_player():
 	my_char.attributes.brawn = 6
 	my_char.attributes.dexterity = 7
 	my_char.attributes.will = 6
+	
+	my_char.major_archetype = Library.get_archetype("paragon")
 
 	my_char.map_id = wm.current_world.id
 	my_char.map_layer_id = wm.current_level
@@ -44,6 +46,8 @@ func spawn_character_player():
 	
 	#char_instance.equip_item("set2_left_hand", Library.get_item("wpn_longsword"))
 	#char_instance.equip_item("set2_right_hand", Library.get_item("wpn_medium_shield"))
+
+	#char_instance.add_talent(Library.get_talent("paragon_vigour"))
 
 	char_instance.crisis_ai_active = false
 	
@@ -110,7 +114,7 @@ func _spawn_character_helper(items, activities, abilities, my_char):
 		if ability:
 			char_instance.add_ready_spell(ability)
 	
-	char_instance.initialise_stats()
+	char_instance.initialise()
 
 	var tile_coords = wm.get_tile_coords()
 	my_char.tile_x = tile_coords.vec2.x

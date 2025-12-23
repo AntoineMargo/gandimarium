@@ -1,5 +1,4 @@
 extends Resource
-
 class_name Condition
 
 @export var name: String = "placeholder"
