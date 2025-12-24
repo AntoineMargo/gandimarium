@@ -2,12 +2,12 @@ class_name WorldMath
 
 static func shape_burst(target_entities, user, reach):
 	for creature in Global.world_manager.current_world.creatures:
-		var distance_ok = is_in_range(user, creature, reach)
+		var distance_ok = char_in_range(user, creature, reach)
 		var visible = has_line_of_sight(user, creature)
 		if distance_ok and visible:
 			target_entities.append(creature)
 
-static func is_in_range(user: Node, target: Node, reach: int) -> bool:
+static func char_in_range(user: Node, target: Node, reach: int) -> bool:
 	var user_coords = Vector2i(user.data.tile_x, user.data.tile_y)
 	var target_coords = Vector2i(target.data.tile_x, target.data.tile_y)
 
@@ -16,7 +16,32 @@ static func is_in_range(user: Node, target: Node, reach: int) -> bool:
 	
 	var result = floor(sqrt(dx * dx + dy * dy))
 	return result <= reach
+
+static func is_in_range_squared(user: Node, target: Node, reach: int) -> bool:
+	var dx = user.data.tile_x - target.data.tile_x
+	var dy = user.data.tile_y - target.data.tile_y
 	
+	var dist_sq = dx * dx + dy * dy
+	var reach_sq = reach * reach
+	
+	return dist_sq <= reach_sq
+
+static func pos_is_in_range(origin: Vector2i, target: Vector2i, reach: int) -> bool:
+	var dx = abs(origin.x - target.x)
+	var dy = abs(origin.y - target.y)
+	
+	var result = floor(sqrt(dx * dx + dy * dy))
+	return result <= reach
+
+static func pos_in_range_squared(origin: Vector2i, target: Vector2i, reach: int) -> bool:
+	var dx = origin.x - target.x
+	var dy = origin.y - target.y
+	
+	var dist_sq = dx * dx + dy * dy
+	var reach_sq = reach * reach
+	
+	return dist_sq <= reach_sq
+
 static func has_line_of_sight(origin_char, target_char):
 	var vm = Global.world_manager
 	var origin = vm.get_char_coords(origin_char)

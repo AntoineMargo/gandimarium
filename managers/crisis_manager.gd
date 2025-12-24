@@ -1,5 +1,4 @@
 extends Node
-
 class_name CrisisManager
 
 const CRITICAL_SUCCESS_THRESHOLD = 10

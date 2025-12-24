@@ -11,7 +11,7 @@ func execute() -> void:
 	if target_entities.is_empty():
 		return
 	for target in target_entities:
-		if not WorldMath.is_in_range(user, target, reach):
+		if not WorldMath.char_in_range(user, target, reach):
 			SignalBus.dialog_out_of_range.emit()
 			return
 		if not WorldMath.has_line_of_sight(user, target):

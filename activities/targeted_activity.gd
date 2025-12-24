@@ -27,7 +27,7 @@ func cancel_activity():
 	SignalBus.change_cursor.emit("default")
 
 func is_valid_target(target) -> bool:
-	if not WorldMath.is_in_range(user, target, reach):
+	if not WorldMath.char_in_range(user, target, reach):
 		SignalBus.dialog_out_of_range.emit()
 		return false
 	if not WorldMath.has_line_of_sight(user, target):

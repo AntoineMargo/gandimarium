@@ -78,6 +78,9 @@ func get_active_throw_type():
 func get_active_attack_category():
 	return active_category
 
+func set_active_strike_type(hand, type):
+	strike_types[active_set][hand] = type
+
 func set_active_attack_category(number):
 	if number >= 0 and number <= 2:
 		active_category = number

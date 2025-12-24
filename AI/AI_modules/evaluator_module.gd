@@ -13,6 +13,7 @@ func activity_selector(sequences, report, entries):
 						act.activity = report["favored_melee_attack"]
 						act.utility = 75
 						act.target_creature = report["closest_enemy"]
+						choose_optimal_attack_type(act)
 						
 func sequence_assessor(sequences, report, entries):
 	var best_sequence = null
@@ -27,6 +28,16 @@ func sequence_assessor(sequences, report, entries):
 			best_sequence = sequences[i]
 	
 	return best_sequence
+
+func choose_optimal_attack_type(act):
+	if act.target_creature.perceive_armour() is Armour:
+		for attack_type in act.activity.attack_types:
+			if attack_type.id == 1:
+				creature.data.equipment.set_active_strike_type(0, 1)
+				creature.data.equipment.set_active_strike_type(1, 1)
+			if attack_type.id == 2:
+				creature.data.equipment.set_active_strike_type(0, 2)
+				creature.data.equipment.set_active_strike_type(1, 2)
 
 func _ready() -> void:
 	creature = $"../../.."

@@ -215,6 +215,9 @@ func take_healing(healing: int):
 func perceive_level():
 	return data.level
 
+func perceive_armour():
+	return data.equipment.body
+
 func perceive_health():
 	return (data.current_hp + data.current_extra_hp)
 
@@ -318,6 +321,9 @@ func change_stat(stat: StringName, delta):
 	var current = get_final_stat(stat)
 	if current != null:
 		set_stat(stat, current + delta)
+
+func check_senses() -> bool :
+	return true
 
 ## This initalises the base stats, meant to be used on spawn and at every level-up, and not accessed from outside the class
 func initialise():
