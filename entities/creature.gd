@@ -322,13 +322,50 @@ func change_stat(stat: StringName, delta):
 	if current != null:
 		set_stat(stat, current + delta)
 
-func check_senses() -> bool :
-	return true
+func senses_check_on_tile(target_tile) -> bool: 
+	var origin_tile = Vector3i(data.tile_x, data.tile_y, data.map_layer_id)
+	if _hearing_check(origin_tile, target_tile):
+		return true
+	if _sight_check(origin_tile, target_tile):
+		return true
+	return false
+
+func discover_creature(creature):
+	var id = creature.data.id
+
+	if not data.relationships._tactical_map.has(id):
+		var entry = TacticalRelationEntry.new()
+		entry.target_id = id
+		entry.last_updated_turn = Global.crisis_manager.current_turn
+		entry.hostile = 100
+		for affiliation in creature.data.relationships.affiliations:
+			if affiliation.faction == "bandits":
+				entry.hostile = 0
+		data.relationships._tactical_map[id] = entry
+
+func build_tactical_map(): # to be built on init, for runtime use
+	var rel = data.relationships
+	rel._tactical_map.clear()
+	for entry in rel.tactical_relations:
+		rel._tactical_map[entry.target_id] = entry
+
+func get_tactical(target_id: String) -> TacticalRelationEntry:
+	return data.relationships._tactical_map.get(target_id, null)
 
 ## This initalises the base stats, meant to be used on spawn and at every level-up, and not accessed from outside the class
 func initialise():
 	if not data.has_been_initialized:
+		if data.uid == 0:
+			data.uid = Global.uid_manager.next_id()
+
 		data.derived_stats = DerivedStats.new()
+
+		data.relationships = _ensure_resource(data.relationships, func(): return Relationships.new())
+		data.attributes     = _ensure_resource(data.attributes, func(): return Attributes.new())
+		data.base_stats     = _ensure_resource(data.base_stats, func(): return BaseStats.new())
+		data.inventory      = _ensure_resource(data.inventory, func(): return Inventory.new())
+		data.equipment      = _ensure_resource(data.equipment, func(): return Equipment.new())
+		data.resistances    = _ensure_resource(data.resistances, func(): return Resistances.new())
 
 		@warning_ignore("integer_division")
 		data.base_stats.level_mod = data.level / 2
@@ -409,6 +446,22 @@ func _on_end_turn():
 	if not data.player_controlled:
 		Global.focus_char = self
 		ai_controller.crisisai.plan_turn() 
+
+func _sight_check(origin_tile, target_tile) -> bool: 
+	if WorldMath.pos_in_range_weighted_3d(origin_tile, target_tile, (data.base_stats.sense * 4)):
+		if WorldMath.has_line_of_sight_tile(origin_tile, target_tile):
+			return true
+	return false
+
+func _hearing_check(origin_tile, target_tile) -> bool: 
+	if WorldMath.pos_in_range_weighted_3d(origin_tile, target_tile, (data.base_stats.sense * 1)):
+		return true
+	return false
+
+func _ensure_resource(res: Resource, ctor: Callable) -> Resource:
+	if res:
+		return res.duplicate(true)
+	return ctor.call()
 
 func _ready():
 	if not health_bar_scene:

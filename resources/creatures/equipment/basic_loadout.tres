@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Equipment" load_steps=5 format=3 uid="uid://tb0qrirf41um"]
+
+[ext_resource type="Script" uid="uid://cna3smanlwqkg" path="res://entities/equipment.gd" id="1_13mkk"]
+[ext_resource type="Resource" uid="uid://dwt64w3wubcci" path="res://resources/items/armours/ar_light.tres" id="1_g8imr"]
+[ext_resource type="Resource" uid="uid://dglbdcuhxwnx0" path="res://resources/items/weapons/fist/wpn_fist.tres" id="2_iwucf"]
+[ext_resource type="Resource" uid="uid://cngw3i2m4xinc" path="res://resources/items/weapons/pollaxe/pollaxe.tres" id="4_rrf6b"]
+
+[resource]
+script = ExtResource("1_13mkk")
+body = ExtResource("1_g8imr")
+default_weapon = ExtResource("2_iwucf")
+weapon_sets = [[ExtResource("4_rrf6b"), null], [null, null]]
+metadata/_custom_type_script = "uid://cna3smanlwqkg"

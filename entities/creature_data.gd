@@ -1,6 +1,8 @@
 extends Resource
 class_name CreatureData
 
+@export var id: int = 0
+
 @export var name: String
 @export var level: int = 1
 @export var species: String = ""
@@ -9,21 +11,21 @@ class_name CreatureData
 
 @export var sprite: String = "res://art/characters/swordwraith1.png"
 
-@export var attributes = Attributes.new()
-@export var base_stats = BaseStats.new()
-@export var inventory = Inventory.new()
-@export var equipment = Equipment.new()
-@export var resistances = Resistances.new()
-@export var relationships = Relationships.new()
+@export var attributes: Attributes = null
+@export var base_stats: BaseStats = null
+@export var inventory: Inventory = null
+@export var equipment: Equipment = null
+@export var resistances: Resistances = null
+@export var relationships: Relationships = null
 
-@export var talents: Array = []
-@export var activities: Array = []
-@export var spells_ready: Array = []
-@export var spells_available: Array = []
+@export var talents: Array[Talent] = []
+@export var activities: Array[Activity] = []
+@export var spells_ready: Array = [Spell]
+@export var spells_available: Array = [Spell]
 @export var reactions: Array = []
-@export var conditions: Array = []
+@export var conditions: Array = [Condition]
 @export var activity_modifiers: Array = []
-@export var concentrations: Array = []
+@export var concentrations: Array = [Concentration]
 
 @export var current_hp: int = 0
 @export var temp_hp: int = 0

@@ -17,36 +17,51 @@ static func char_in_range(user: Node, target: Node, reach: int) -> bool:
 	var result = floor(sqrt(dx * dx + dy * dy))
 	return result <= reach
 
-static func is_in_range_squared(user: Node, target: Node, reach: int) -> bool:
-	var dx = user.data.tile_x - target.data.tile_x
-	var dy = user.data.tile_y - target.data.tile_y
-	
-	var dist_sq = dx * dx + dy * dy
-	var reach_sq = reach * reach
-	
-	return dist_sq <= reach_sq
+static func dist_sq_weighted_3d(a: Vector3i, b: Vector3i, z_weight: int = 2) -> int:
+	var dx := a.x - b.x
+	var dy := a.y - b.y
+	var dz := (a.z - b.z) * z_weight
+	return dx * dx + dy * dy + dz * dz
 
-static func pos_is_in_range(origin: Vector2i, target: Vector2i, reach: int) -> bool:
-	var dx = abs(origin.x - target.x)
-	var dy = abs(origin.y - target.y)
-	
-	var result = floor(sqrt(dx * dx + dy * dy))
-	return result <= reach
+static func dist_weighted_3d(a: Vector3i, b: Vector3i, z_weight: int = 2) -> float:
+	return sqrt(dist_sq_weighted_3d(a, b, z_weight))
 
-static func pos_in_range_squared(origin: Vector2i, target: Vector2i, reach: int) -> bool:
-	var dx = origin.x - target.x
-	var dy = origin.y - target.y
-	
-	var dist_sq = dx * dx + dy * dy
-	var reach_sq = reach * reach
-	
-	return dist_sq <= reach_sq
+static func pos_in_range_weighted_3d(a: Vector3i, b: Vector3i, reach: int, z_weight: int = 2) -> bool:
+	return dist_sq_weighted_3d(a, b, z_weight) <= reach * reach
+
+#static func is_in_range_squared(user: Node, target: Node, reach: int) -> bool:
+	#var dx = user.data.tile_x - target.data.tile_x
+	#var dy = user.data.tile_y - target.data.tile_y
+	#
+	#var dist_sq = dx * dx + dy * dy
+	#var reach_sq = reach * reach
+	#
+	#return dist_sq <= reach_sq
+
+#static func pos_is_in_range(origin: Vector2i, target: Vector2i, reach: int) -> bool:
+	#var dx = abs(origin.x - target.x)
+	#var dy = abs(origin.y - target.y)
+	#
+	#var result = floor(sqrt(dx * dx + dy * dy))
+	#return result <= reach
+#
+#static func pos_in_range_squared(origin: Vector2i, target: Vector2i, reach: int) -> bool:
+	#var dx = origin.x - target.x
+	#var dy = origin.y - target.y
+	#
+	#var dist_sq = dx * dx + dy * dy
+	#var reach_sq = reach * reach
+	#
+	#return dist_sq <= reach_sq
 
 static func has_line_of_sight(origin_char, target_char):
 	var vm = Global.world_manager
 	var origin = vm.get_char_coords(origin_char)
 	var target = vm.get_char_coords(target_char)
 	return line_of_sight_exists(origin.vec3.x, origin.vec3.y, origin.vec3.z, target.vec3.x, target.vec3.y, target.vec3.z)
+
+static func has_line_of_sight_tile(origin_tile: Vector3i, target_tile: Vector3i) -> bool:
+	return line_of_sight_exists(origin_tile.x, origin_tile.y, origin_tile.z, target_tile.x, target_tile.y, target_tile.z)
 
 static func line_of_sight_exists(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int) -> bool:
 	var points = bresenham_line_3d(x1, y1, z1, x2, y2, z2)

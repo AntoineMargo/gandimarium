@@ -1,7 +1,7 @@
 extends Resource
 class_name TacticalRelationEntry
 
-@export var target_id: String
+@export var target_id: int
 
 @export_range(0, 100, 1) var hostile: int = 0
 @export_range(0, 100, 1) var fearful: int = 0
