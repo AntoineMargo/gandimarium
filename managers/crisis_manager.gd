@@ -32,7 +32,6 @@ func end_turn():
 	if crisis_mode == true:
 		SignalBus.dialog_end_turn.emit()
 		SignalBus.turn_ends.emit()
-		SignalBus.refresh_reachable_tiles.emit()
 
 		crisis_turn += 1
 		
@@ -40,14 +39,15 @@ func end_turn():
 			Global.focus_char = Global.selected_char
 		Global.world_manager.selection_highlight.update_selection_highlight()
 		SignalBus.update_ui_for_char.emit()
+		SignalBus.refresh_reachable_tiles.emit()
 
 func toggle_crisis(creature):
 	if crisis_mode == false:
 		start_crisis(creature)
 	else:
-		SignalBus.update_ui_for_char.emit()
-		SignalBus.refresh_reachable_tiles.emit()
 		end_crisis(creature)
+	SignalBus.update_ui_for_char.emit()
+	SignalBus.refresh_reachable_tiles.emit()
 
 func start_crisis(creature):
 	if crisis_mode == false:
@@ -57,7 +57,6 @@ func start_crisis(creature):
 		SignalBus.toggle_end_turn_button.emit()
 		SignalBus.dialog_start_crisis_mode.emit()
 		SignalBus.on_start_crisis.emit()
-		SignalBus.update_ui_for_char.emit()
 
 func end_crisis(creature):
 	if crisis_mode == true:

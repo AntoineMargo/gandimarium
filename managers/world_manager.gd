@@ -402,7 +402,7 @@ func get_char_coords(character) -> Dictionary:
 	var pos_3d = Vector3i(
 	character.data.tile_x,
 	character.data.tile_y,
-	character.data.map_layer_id)
+	character.data.tile_z)
 	return {
 		"vec3": pos_3d,
 		"vec2": Vector2i(pos_3d.x, pos_3d.y)
@@ -447,13 +447,16 @@ func flash_tile_overlay(tile_pos: Vector2i) -> void:
 func update_creatures_visibility():
 	if current_world:
 		for creature in current_world.creatures:
-			creature.visible = (creature.data.map_layer_id == current_level)
+			creature.visible = (creature.data.tile_z == current_level)
 
 func spawn_player():
 	spawner.spawn_character_player()
 	
 func spawn_enemy():
 	spawner.spawn_character_enemy()
+	
+func spawn_character(data_file):
+	spawner.spawn_character(data_file)
 
 #func is_tile_walkable(tilemap: TileMap, world_pos: Vector2) -> bool:
 	#var coords = tilemap.local_to_map(world_pos)
@@ -519,17 +522,17 @@ func _try_move_char_abs(target):
 	
 	char.data.tile_x = target.vec3.x
 	char.data.tile_y = target.vec3.y
-	char.data.map_layer_id = target.vec3.z
+	char.data.tile_z = target.vec3.z
 	char.position = layers[target.vec3.z]["tile_map"].map_to_local(target.vec2)
 
 	layers[target.vec3.z]["occupied"][target.vec2] = true
 	add_to_tile(char, target)
 	layers[target.vec3.z]["path_map"].set_point_solid(target.vec2, true)
 
-func _on_world_select():
-	var coords = get_tile_coords()
-	if layers[current_level]["contents"].has(coords.vec2):
-		for element in layers[current_level]["contents"][coords.vec2]:
+func select_creature_on_tile(coordinates: Vector3i):
+	var coords = Vector2i(coordinates.x, coordinates.y)
+	if layers[current_level]["contents"].has(coords):
+		for element in layers[current_level]["contents"][coords]:
 			if element is Creature:
 				Global.selected_char = element
 				Global.focus_char = element
@@ -540,6 +543,22 @@ func _on_world_select():
 				SignalBus.refresh_reachable_tiles.emit()
 				print("Selected character: ", element.data.name)
 				return
+
+func _on_world_select():
+	var coords = get_tile_coords()
+	select_creature_on_tile(coords.vec3)
+	#if layers[current_level]["contents"].has(coords.vec2):
+		#for element in layers[current_level]["contents"][coords.vec2]:
+			#if element is Creature:
+				#Global.selected_char = element
+				#Global.focus_char = element
+				#selection_highlight.update_selection_highlight()
+				#SignalBus.update_inventory.emit()
+				#SignalBus.update_character_info.emit()
+				#SignalBus.update_ui_for_char.emit()
+				#SignalBus.refresh_reachable_tiles.emit()
+				#print("Selected character: ", element.data.name)
+				#return
 
 func _on_world_interact():
 	var coords = get_tile_coords()
@@ -596,6 +615,7 @@ func _interact_move(t_coords):
 	show_reachable_tiles()
 	selection_highlight.update_selection_highlight()
 	SignalBus.update_ui_for_char.emit()
+	SignalBus.noticing_check.emit(tile_path[-1])
 	
 	for point in path:
 		point[0] /= Global.TILE_SIZE

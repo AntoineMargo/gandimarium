@@ -30,13 +30,13 @@ func BasicControls():
 		if wm.current_world:
 			for creature in wm.current_world.creatures:
 				print("Creature: %s" % [creature.data.name])
-				creature.visible = (creature.data.map_layer_id == wm.current_level)
+				creature.visible = (creature.data.tile_z == wm.current_level)
 		
 	if Input.is_action_just_pressed("PageDown"):
 		wm.change_level(-1)
 		if wm.current_world:
 			for creature in wm.current_world.creatures:
-				creature.visible = (creature.data.map_layer_id == wm.current_level)
+				creature.visible = (creature.data.tile_z == wm.current_level)
 
 	if Input.is_action_just_pressed("F"):
 		var coords = wm.get_tile_coords()
@@ -62,12 +62,14 @@ func BasicControls():
 	if Input.is_action_just_pressed("T"):
 		if not wm.current_world:
 			return
-		wm.spawn_player()
+		#wm.spawn_player()
+		wm.spawn_character("res://resources/creatures/data_andimar.tres")
 		
 	if Input.is_action_just_pressed("Y"):
 		if not wm.current_world:
 			return
-		wm.spawn_enemy()
+		#wm.spawn_enemy()
+		wm.spawn_character("res://resources/creatures/data_bandit.tres")
 
 	if Input.is_action_just_pressed("U"):
 		var coords = wm.get_tile_coords()

@@ -19,7 +19,7 @@ func spawn_character_player():
 	my_char.major_archetype = Library.get_archetype("paragon")
 
 	my_char.map_id = wm.current_world.id
-	my_char.map_layer_id = wm.current_level
+	my_char.tile_z = wm.current_level
 	
 	my_char.player_controlled = true
 	
@@ -49,39 +49,36 @@ func spawn_character_player():
 
 	#char_instance.add_talent(Library.get_talent("paragon_vigour"))
 
-	char_instance.crisis_ai_active = false
-	
-func spawn_character_enemy():
-	if not _guardian():
-		return
-	var my_char = CreatureData.new()
-	my_char.name = "Bandit"
-	my_char.level = 8
-	my_char.attributes.acuity = 7
-	my_char.attributes.brawn = 6
-	my_char.attributes.dexterity = 7
-	my_char.attributes.will = 6
-
-	my_char.map_id = wm.current_world.id
-	my_char.map_layer_id = wm.current_level
-	
-	my_char.player_controlled = false
-
-	var items = []
-	var activities = ["move"]
-	var abilities = []
-
-	var char_instance = _spawn_character_helper(items, activities, abilities, my_char)
-	
-	my_char.equipment.default_weapon = Library.get_item("wpn_fist")
-
-	char_instance.equip_item("set1_left_hand", Library.get_item("wpn_longsword"))
-	#char_instance.equip_item("set1_right_hand", Library.get_item("wpn_medium_shield"))
-
-	var texture = load("res://art/characters/hooded_char_blue.png")
-	char_instance.sprite_node.texture = texture
-	
-	char_instance.crisis_ai_active = true
+#func spawn_character_enemy():
+	#if not _guardian():
+		#return
+	#var my_char = CreatureData.new()
+	#my_char.name = "Bandit"
+	#my_char.level = 8
+	#my_char.attributes.acuity = 7
+	#my_char.attributes.brawn = 6
+	#my_char.attributes.dexterity = 7
+	#my_char.attributes.will = 6
+#
+	#my_char.map_id = wm.current_world.id
+	#my_char.tile_z = wm.current_level
+	#
+	#my_char.player_controlled = false
+	##my_char.crisis_ai_active = true
+#
+	#var items = []
+	#var activities = ["move"]
+	#var abilities = []
+#
+	#var char_instance = _spawn_character_helper(items, activities, abilities, my_char)
+	#
+	#my_char.equipment.default_weapon = Library.get_item("wpn_fist")
+#
+	#char_instance.equip_item("set1_left_hand", Library.get_item("wpn_longsword"))
+	##char_instance.equip_item("set1_right_hand", Library.get_item("wpn_medium_shield"))
+#
+	#var texture = load("res://art/characters/hooded_char_blue.png")
+	#char_instance.sprite_node.texture = texture
 	
 func _guardian():
 	if wm.current_world == null:
@@ -93,6 +90,63 @@ func _guardian():
 		print("Cannot spawn character on this tile!")
 		return false
 	return true
+
+func spawn_character(data_file):
+	if not _guardian():
+		return null
+
+	var char_data: CreatureData = load(data_file)
+	char_data = char_data.duplicate(true)
+
+	var char_scene = load("res://entities/creature.tscn")
+	var character = char_scene.instantiate()
+	character.data = char_data
+
+	var tile_coords = wm.get_tile_coords()
+	character.data.tile_x = tile_coords.vec2.x
+	character.data.tile_y = tile_coords.vec2.y
+	character.data.map_id = "world"
+
+	character.position = wm.layers[tile_coords.vec3.z]["tile_map"].map_to_local(tile_coords.vec2)
+
+	wm.current_world.add_child(character)
+	wm.current_world.register_creature(character)
+
+	wm.layers[wm.current_level]["occupied"][tile_coords.vec2] = true
+	wm.add_to_tile(character, tile_coords)
+	wm.layers[wm.current_level]["path_map"].set_point_solid(tile_coords.vec2, true)
+
+	character.initialise()
+	character.make_active_set(0)
+
+	return character
+
+#
+#func spawn_character(data_file):
+	#if not _guardian():
+		#return
+	#var char_data = load(data_file)
+	#char_data = char_data.duplicate(true)
+#
+	#var char_scene = load("res://entities/creature.tscn")
+	#var character = char_scene.instantiate()
+	#
+	#character.data = char_data
+	#character.initialise()
+#
+	#var tile_coords = wm.get_tile_coords()
+	#character.data.tile_x = tile_coords.vec2.x
+	#character.data.tile_y = tile_coords.vec2.y
+	#character.position = wm.layers[tile_coords.vec3.z]["tile_map"].map_to_local(tile_coords.vec2)
+	#wm.current_world.add_child(character)
+	#wm.current_world.register_creature(character)
+	#wm.layers[wm.current_level]["occupied"][tile_coords.vec2] = true
+	#character.data.map_id = "world"
+	#wm.add_to_tile(character, tile_coords)
+	#wm.layers[wm.current_level]["path_map"].set_point_solid(tile_coords.vec2, true)
+	#character.make_active_set(0)
+	#var texture = load(char_data.sprite)
+	#character.sprite_node.texture = texture
 
 func _spawn_character_helper(items, activities, abilities, my_char):
 	var char_scene = load("res://entities/creature.tscn")

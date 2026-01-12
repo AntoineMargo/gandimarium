@@ -44,8 +44,10 @@ class_name CreatureData
 
 # Tactical information
 @export var map_id: String = ""
-@export var map_layer_id: int = 0
 @export var tile_x: int = 0
 @export var tile_y: int = 0
+@export var tile_z: int = 0
+#@export var map_layer_id: int = 0
+@export var crisis_ai_active: bool = false
 
 var derived_stats = null

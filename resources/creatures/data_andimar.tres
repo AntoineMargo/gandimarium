@@ -1,0 +1,62 @@
+[gd_resource type="Resource" script_class="CreatureData" load_steps=20 format=3 uid="uid://bihond6x2e5k"]
+
+[ext_resource type="Script" uid="uid://chufkd7a0xqa0" path="res://activities/activity.gd" id="1_j7btv"]
+[ext_resource type="Script" uid="uid://cfsxuwoytabsi" path="res://activities/move.gd" id="2_n2sep"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="3_d00pt"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_tmkg0"]
+[ext_resource type="Script" uid="uid://boxs05dhsll81" path="res://entities/attributes.gd" id="5_xy00l"]
+[ext_resource type="Script" uid="uid://bqbvgbqafpkej" path="res://entities/base_stats.gd" id="6_jgqia"]
+[ext_resource type="Resource" uid="uid://tb0qrirf41um" path="res://resources/creatures/equipment/basic_loadout.tres" id="7_u3w1l"]
+[ext_resource type="Resource" uid="uid://b4idr8vu54ox6" path="res://resources/items/weapons/bow/bow.tres" id="8_d00pt"]
+[ext_resource type="Script" uid="uid://0hy8gde00nbx" path="res://entities/inventory.gd" id="8_jm372"]
+[ext_resource type="Script" uid="uid://2esemn7osq1o" path="res://entities/resistances.gd" id="10_nocd4"]
+[ext_resource type="Resource" uid="uid://c00teqpc3o5li" path="res://resources/archetypes/paragon/paragon.tres" id="10_tmkg0"]
+[ext_resource type="Script" uid="uid://dyp8klyosnw2y" path="res://entities/creature_data.gd" id="11_mpyy1"]
+[ext_resource type="Resource" uid="uid://oe58h7tweyh7" path="res://resources/creatures/relationships/rel_andimar.tres" id="11_xy00l"]
+[ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="12_y36v0"]
+
+[sub_resource type="Resource" id="Resource_0c4wq"]
+script = ExtResource("2_n2sep")
+metadata/_custom_type_script = "uid://cfsxuwoytabsi"
+
+[sub_resource type="Resource" id="Resource_q1nu1"]
+script = ExtResource("5_xy00l")
+acuity = 7
+brawn = 6
+dexterity = 7
+will = 6
+metadata/_custom_type_script = "uid://boxs05dhsll81"
+
+[sub_resource type="Resource" id="Resource_8d3d6"]
+script = ExtResource("6_jgqia")
+metadata/_custom_type_script = "uid://bqbvgbqafpkej"
+
+[sub_resource type="Resource" id="Resource_nykox"]
+script = ExtResource("8_jm372")
+list = [ExtResource("8_d00pt")]
+metadata/_custom_type_script = "uid://0hy8gde00nbx"
+
+[sub_resource type="Resource" id="Resource_iyfvo"]
+script = ExtResource("10_nocd4")
+metadata/_custom_type_script = "uid://2esemn7osq1o"
+
+[resource]
+script = ExtResource("11_mpyy1")
+name = "Andimar"
+level = 12
+species = "kin"
+major_archetype = ExtResource("10_tmkg0")
+sprite = "res://art/characters/hooded_char.png"
+attributes = SubResource("Resource_q1nu1")
+base_stats = SubResource("Resource_8d3d6")
+inventory = SubResource("Resource_nykox")
+equipment = ExtResource("7_u3w1l")
+resistances = SubResource("Resource_iyfvo")
+relationships = ExtResource("11_xy00l")
+activities = Array[ExtResource("1_j7btv")]([SubResource("Resource_0c4wq")])
+spells_ready = []
+spells_available = []
+conditions = []
+concentrations = []
+player_controlled = true
+metadata/_custom_type_script = "uid://dyp8klyosnw2y"

@@ -15,7 +15,7 @@ metadata/_custom_type_script = "uid://ik0hrifgbwa4"
 [sub_resource type="Resource" id="Resource_fihoc"]
 script = ExtResource("1_rpkks")
 stat = "vigour"
-amount = -2
+amount = -1
 metadata/_custom_type_script = "uid://ik0hrifgbwa4"
 
 [sub_resource type="Resource" id="Resource_ns0ch"]

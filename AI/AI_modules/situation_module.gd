@@ -20,9 +20,13 @@ func produce_report(entries) -> Dictionary:
 	report["favored_ranged_attack"] = favored_ranged_attack
 	
 	report["enemy_positions"] = {}
-	for enemy in creature.data.relationships.hostile:
+	for id in creature.data.relationships._hostile_ids.keys():
+		var enemy = Global.world_manager.get_creature_by_id(id)
+		if enemy == null:
+			continue
+
 		var data = enemy.data
-		report["enemy_positions"][enemy] = Vector3i(data.tile_x, data.tile_y, data.map_layer_id)
+		report["enemy_positions"][enemy] = Vector3i(data.tile_x, data.tile_y, data.tile_z)
 
 	return report
 
@@ -57,35 +61,46 @@ func find_best_melee_attack(entries):
 func find_closest_enemy() -> Creature:
 	var closest_enemy: Creature = null
 	var best_cost: float = INF
-	for enemy in creature.data.relationships.hostile:
+
+	for id in creature.data.relationships._hostile_ids.keys():
+		var enemy = Global.world_manager.get_creature_by_id(id)
+		if enemy == null:
+			continue
+
 		var path = wm.path_to_target_adjacency(creature, enemy, 1)
 		if path:
 			var cost = wm.calculate_path_cost_3D_simple(path)
 			if best_cost > cost:
 				best_cost = cost
 				closest_enemy = enemy
-	if closest_enemy == null:
-		print("find_closest_enemy() failed to find a creature!")
+
 	return closest_enemy
+
 
 func find_strongest_enemy() -> Creature:
 	var strongest_enemy: Creature = null
 	var lowest_level: int = 100
-	#var level_difference: int = 0
 
-	for enemy in creature.data.relationships.hostile:
+	for id in creature.data.relationships._hostile_ids.keys():
+		var enemy = Global.world_manager.get_creature_by_id(id)
+		if enemy == null:
+			continue
+
 		if strongest_enemy == null or enemy.data.level > strongest_enemy.perceive_level():
 			strongest_enemy = enemy
 		if enemy.data.level < lowest_level:
 			lowest_level = enemy.perceive_level()
-	#level_difference = strongest_enemy.data.perceive_level() - lowest_level
-	#return strongest_enemy if level_difference > 1 else null
+
 	return strongest_enemy
 
 func find_frailest_enemy() -> Creature:
 	var frailest_enemy: Creature = null
 
-	for enemy in creature.data.relationships.hostile:
+	for id in creature.data.relationships._hostile_ids.keys():
+		var enemy = Global.world_manager.get_creature_by_id(id)
+		if enemy == null:
+			continue
+
 		if frailest_enemy == null or enemy.data.perceive_health() < frailest_enemy.perceive_health():
 			frailest_enemy = enemy
 	return frailest_enemy

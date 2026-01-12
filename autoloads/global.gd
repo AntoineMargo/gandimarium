@@ -10,6 +10,7 @@ var crisis_manager = CrisisManager.new()
 var input_manager = InputManager.new()
 var cursor_manager = CursorManager.new()
 var id_manager = IDManager.new()
+var ai_manager = AIManager.new()
 
 var game_root = null
 
@@ -65,6 +66,7 @@ func _ready() -> void:
 	add_child(world_manager)
 	add_child(cursor_manager)
 	add_child(id_manager)
+	add_child(ai_manager)
 	inventory_window.visible = false
 	character_window.visible = false
 	items_list = inventory_window.get_node("Inventory/MainVBox/SeparHBox/Scroller/ItemsList")

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Relationships" load_steps=5 format=3 uid="uid://oe58h7tweyh7"]
+
+[ext_resource type="Script" uid="uid://cwy5ao2mmfqfh" path="res://various/affiliation_entry.gd" id="1_2tj42"]
+[ext_resource type="Script" uid="uid://ci8skyvllvl30" path="res://various/reputation_entry.gd" id="2_y7v4y"]
+[ext_resource type="Script" uid="uid://bucqf63xvppow" path="res://entities/relationships.gd" id="3_lvqy1"]
+[ext_resource type="Script" uid="uid://dlk8wy6dlqksm" path="res://various/tactical_relation_entry.gd" id="4_2thsq"]
+
+[resource]
+script = ExtResource("3_lvqy1")
+metadata/_custom_type_script = "uid://bucqf63xvppow"

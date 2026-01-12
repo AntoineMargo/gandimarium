@@ -14,7 +14,6 @@ var health_bar_instance: Node
 var reachable_tiles = []
 var stats_dirty = true
 var active_right_click: Activity
-var crisis_ai_active: bool = false
 
 func update_world_position():
 	if Global.current_tile_map_layer and data:
@@ -323,7 +322,7 @@ func change_stat(stat: StringName, delta):
 		set_stat(stat, current + delta)
 
 func senses_check_on_tile(target_tile) -> bool: 
-	var origin_tile = Vector3i(data.tile_x, data.tile_y, data.map_layer_id)
+	var origin_tile = Vector3i(data.tile_x, data.tile_y, data.tile_z)
 	if _hearing_check(origin_tile, target_tile):
 		return true
 	if _sight_check(origin_tile, target_tile):
@@ -336,28 +335,35 @@ func discover_creature(creature):
 	if not data.relationships._tactical_map.has(id):
 		var entry = TacticalRelationEntry.new()
 		entry.target_id = id
-		entry.last_updated_turn = Global.crisis_manager.current_turn
-		entry.hostile = 100
+		entry.last_updated_turn = Global.crisis_manager.crisis_turn
+		data.relationships._tactical_map[id] = entry
+		set_hostile(id, 100)
 		for affiliation in creature.data.relationships.affiliations:
 			if affiliation.faction == "bandits":
-				entry.hostile = 0
-		data.relationships._tactical_map[id] = entry
+				set_hostile(id, 0)
 
-func build_tactical_map(): # to be built on init, for runtime use
-	var rel = data.relationships
-	rel._tactical_map.clear()
-	for entry in rel.tactical_relations:
-		rel._tactical_map[entry.target_id] = entry
+func evaluate_entering_crisis(creature):
+	var rel_entry = get_tactical(creature.data.id)
+	if rel_entry:
+		if rel_entry.hostile > 0:
+			data.crisis_ai_active = true
 
-func get_tactical(target_id: String) -> TacticalRelationEntry:
-	return data.relationships._tactical_map.get(target_id, null)
+func build_tactical_map():
+	data.relationships.build_tactical_map()
+
+func get_tactical(target_id: int) -> TacticalRelationEntry:
+	return data.relationships.get_tactical(target_id)
+
+func set_hostile(target_id: int, value: int):
+	data.relationships.set_hostile(target_id, value)
 
 ## This initalises the base stats, meant to be used on spawn and at every level-up, and not accessed from outside the class
 func initialise():
 	if not data.has_been_initialized:
-		if data.uid == 0:
-			data.uid = Global.uid_manager.next_id()
+		if data.id == 0:
+			data.id = Global.id_manager.next_id()
 
+		_duplicate_runtime_resources()
 		data.derived_stats = DerivedStats.new()
 
 		data.relationships = _ensure_resource(data.relationships, func(): return Relationships.new())
@@ -434,6 +440,8 @@ func update_stats():
 	data.derived_stats.max_spell_rank = data.base_stats.max_spell_rank
 	
 	stats_dirty = false
+	sprite_node.texture = load(data.sprite)
+	build_tactical_map()
 
 func _on_start_crisis():
 	update_stats()
@@ -462,6 +470,37 @@ func _ensure_resource(res: Resource, ctor: Callable) -> Resource:
 	if res:
 		return res.duplicate(true)
 	return ctor.call()
+
+func _duplicate_runtime_resources():
+	if data.attributes:
+		data.attributes = data.attributes.duplicate(true)
+	else:
+		data.attributes = Attributes.new()
+
+	if data.base_stats:
+		data.base_stats = data.base_stats.duplicate(true)
+	else:
+		data.base_stats = BaseStats.new()
+
+	if data.inventory:
+		data.inventory = data.inventory.duplicate(true)
+	else:
+		data.inventory = Inventory.new()
+
+	if data.equipment:
+		data.equipment = data.equipment.duplicate(true)
+	else:
+		data.equipment = Equipment.new()
+
+	if data.resistances:
+		data.resistances = data.resistances.duplicate(true)
+	else:
+		data.resistances = Resistances.new()
+
+	if data.relationships:
+		data.relationships = data.relationships.duplicate(true)
+	else:
+		data.relationships = Relationships.new()
 
 func _ready():
 	if not health_bar_scene:

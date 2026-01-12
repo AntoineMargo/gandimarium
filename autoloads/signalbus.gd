@@ -29,6 +29,9 @@ signal toggle_crisis_button()
 signal weapon_attack(target)
 signal on_start_crisis()
 
+#AI
+signal noticing_check(coordinates)
+
 #signal resolve_damage(name, damage)
 
 #UI
