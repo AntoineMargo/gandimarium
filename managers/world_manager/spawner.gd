@@ -4,82 +4,6 @@ class_name Spawner
 
 var wm = null
 
-func spawn_character_player():
-	if not _guardian():
-		return
-
-	var my_char = CreatureData.new()
-	my_char.name = "Andimar"
-	my_char.level = 12
-	my_char.attributes.acuity = 7
-	my_char.attributes.brawn = 6
-	my_char.attributes.dexterity = 7
-	my_char.attributes.will = 6
-	
-	my_char.major_archetype = Library.get_archetype("paragon")
-
-	my_char.map_id = wm.current_world.id
-	my_char.tile_z = wm.current_level
-	
-	my_char.player_controlled = true
-	
-	#var items = ["wpn_saber", "wpn_longspear", "wpn_great_axe", "ar_light",
-	#"ar_heavy", "wpn_light_shield", "wpn_bow", "wpn_large_shield",
-	#"wpn_mace", "wpn_poleaxe", "wpn_warhammer", "wpn_partisan",
-	#"wpn_battle_axe", "wpn_dagger", "wpn_falchion", "wpn_shortsword",
-	#"wpn_quarterstaff", "wpn_greatsword"]
-	
-	var items = ["wpn_bow", "wpn_longsword"]
-	var activities = ["move", "aura_damage", "firebolt", "firebolts"]
-	var abilities = ["firebolt", "degrade_defences"]
-
-
-	var char_instance = _spawn_character_helper(items, activities, abilities, my_char)
-	
-	my_char.equipment.default_weapon = Library.get_item("wpn_fist")
-	#char_instance.equipment.default_weapon = Library.get_item("wpn_pollaxe")
-
-	char_instance.equip_item("body", Library.get_item("ar_heavy"))
-
-	char_instance.equip_item("set1_left_hand", Library.get_item("wpn_pollaxe"))
-	#char_instance.equip_item("set1_right_hand", Library.get_item("wpn_pollaxe"))
-	
-	#char_instance.equip_item("set2_left_hand", Library.get_item("wpn_longsword"))
-	#char_instance.equip_item("set2_right_hand", Library.get_item("wpn_medium_shield"))
-
-	#char_instance.add_talent(Library.get_talent("paragon_vigour"))
-
-#func spawn_character_enemy():
-	#if not _guardian():
-		#return
-	#var my_char = CreatureData.new()
-	#my_char.name = "Bandit"
-	#my_char.level = 8
-	#my_char.attributes.acuity = 7
-	#my_char.attributes.brawn = 6
-	#my_char.attributes.dexterity = 7
-	#my_char.attributes.will = 6
-#
-	#my_char.map_id = wm.current_world.id
-	#my_char.tile_z = wm.current_level
-	#
-	#my_char.player_controlled = false
-	##my_char.crisis_ai_active = true
-#
-	#var items = []
-	#var activities = ["move"]
-	#var abilities = []
-#
-	#var char_instance = _spawn_character_helper(items, activities, abilities, my_char)
-	#
-	#my_char.equipment.default_weapon = Library.get_item("wpn_fist")
-#
-	#char_instance.equip_item("set1_left_hand", Library.get_item("wpn_longsword"))
-	##char_instance.equip_item("set1_right_hand", Library.get_item("wpn_medium_shield"))
-#
-	#var texture = load("res://art/characters/hooded_char_blue.png")
-	#char_instance.sprite_node.texture = texture
-	
 func _guardian():
 	if wm.current_world == null:
 		print("No current world.")
@@ -110,81 +34,16 @@ func spawn_character(data_file):
 	character.position = wm.layers[tile_coords.vec3.z]["tile_map"].map_to_local(tile_coords.vec2)
 
 	wm.current_world.add_child(character)
-	wm.current_world.register_creature(character)
 
 	wm.layers[wm.current_level]["occupied"][tile_coords.vec2] = true
 	wm.add_to_tile(character, tile_coords)
 	wm.layers[wm.current_level]["path_map"].set_point_solid(tile_coords.vec2, true)
 
 	character.initialise()
+	wm.current_world.register_creature(character)
 	character.make_active_set(0)
 
 	return character
-
-#
-#func spawn_character(data_file):
-	#if not _guardian():
-		#return
-	#var char_data = load(data_file)
-	#char_data = char_data.duplicate(true)
-#
-	#var char_scene = load("res://entities/creature.tscn")
-	#var character = char_scene.instantiate()
-	#
-	#character.data = char_data
-	#character.initialise()
-#
-	#var tile_coords = wm.get_tile_coords()
-	#character.data.tile_x = tile_coords.vec2.x
-	#character.data.tile_y = tile_coords.vec2.y
-	#character.position = wm.layers[tile_coords.vec3.z]["tile_map"].map_to_local(tile_coords.vec2)
-	#wm.current_world.add_child(character)
-	#wm.current_world.register_creature(character)
-	#wm.layers[wm.current_level]["occupied"][tile_coords.vec2] = true
-	#character.data.map_id = "world"
-	#wm.add_to_tile(character, tile_coords)
-	#wm.layers[wm.current_level]["path_map"].set_point_solid(tile_coords.vec2, true)
-	#character.make_active_set(0)
-	#var texture = load(char_data.sprite)
-	#character.sprite_node.texture = texture
-
-func _spawn_character_helper(items, activities, abilities, my_char):
-	var char_scene = load("res://entities/creature.tscn")
-	var char_instance = char_scene.instantiate()
-	char_instance.data = my_char
-	
-	for item_ref in items:
-		var item = Library.get_item(item_ref)
-		if item:
-			char_instance.add_to_inventory(item)
-	
-	for activity_ref in activities:
-		var activity = Library.get_activity(activity_ref)
-		if activity:
-			char_instance.add_activity(activity)
-	
-	for ability_ref in abilities:
-		var ability = Library.get_ability(ability_ref)
-		if ability:
-			char_instance.add_ready_spell(ability)
-	
-	char_instance.initialise()
-
-	var tile_coords = wm.get_tile_coords()
-	my_char.tile_x = tile_coords.vec2.x
-	my_char.tile_y = tile_coords.vec2.y
-	char_instance.position = wm.layers[tile_coords.vec3.z]["tile_map"].map_to_local(tile_coords.vec2)
-	wm.current_world.add_child(char_instance)
-	wm.current_world.register_creature(char_instance)
-	wm.layers[wm.current_level]["occupied"][tile_coords.vec2] = true
-	my_char.map_id = "world"
-	wm.add_to_tile(char_instance, tile_coords)
-	wm.layers[wm.current_level]["path_map"].set_point_solid(tile_coords.vec2, true)
-	wm.selection_highlight.update_selection_highlight()
-	char_instance.make_active_set(0)
-	#focus_char = char_instance
-	
-	return char_instance
 
 #func _ready():
 	#pass

@@ -1,17 +1,17 @@
 extends Node2D
+class_name WorldArea
 
-@export var id: String = "testlocation2"
+@export var id: String = "placeholder"
 @onready var current_tile_map_layer = $level0
-@onready var level0 = $level0
-@onready var level1 = $level1
-@onready var layers: Array[TileMapLayer] = [$level0, $level1]
+@onready var layers: Array[TileMapLayer] = [$level0]
 
-var creatures: Array = []
-var creatures_by_id: Dictionary = {}
+var creatures: Array[Creature] = []
+var creatures_by_id: Dictionary[int, Creature] = {}
 
 func register_creature(creature):
 	creatures.append(creature)
 	creatures_by_id[creature.data.id] = creature
+	print("creature registered: ", creature.data.name)
 
 func unregister_creature(creature):
 	creatures.erase(creature)

@@ -47,7 +47,9 @@ class_name CreatureData
 @export var tile_x: int = 0
 @export var tile_y: int = 0
 @export var tile_z: int = 0
-#@export var map_layer_id: int = 0
+
+@export var alive: bool = true
+@export var conscious: bool = true
 @export var crisis_ai_active: bool = false
 
 var derived_stats = null

@@ -64,7 +64,7 @@ func find_closest_enemy() -> Creature:
 
 	for id in creature.data.relationships._hostile_ids.keys():
 		var enemy = Global.world_manager.get_creature_by_id(id)
-		if enemy == null:
+		if enemy == null or not enemy.data.conscious:
 			continue
 
 		var path = wm.path_to_target_adjacency(creature, enemy, 1)
@@ -83,7 +83,7 @@ func find_strongest_enemy() -> Creature:
 
 	for id in creature.data.relationships._hostile_ids.keys():
 		var enemy = Global.world_manager.get_creature_by_id(id)
-		if enemy == null:
+		if enemy == null or not enemy.data.conscious:
 			continue
 
 		if strongest_enemy == null or enemy.data.level > strongest_enemy.perceive_level():
@@ -98,10 +98,10 @@ func find_frailest_enemy() -> Creature:
 
 	for id in creature.data.relationships._hostile_ids.keys():
 		var enemy = Global.world_manager.get_creature_by_id(id)
-		if enemy == null:
+		if enemy == null or not enemy.data.conscious:
 			continue
 
-		if frailest_enemy == null or enemy.data.perceive_health() < frailest_enemy.perceive_health():
+		if frailest_enemy == null or enemy.perceive_health() < frailest_enemy.perceive_health():
 			frailest_enemy = enemy
 	return frailest_enemy
 

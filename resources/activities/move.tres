@@ -1,22 +1,15 @@
-[gd_resource type="Resource" script_class="Move" load_steps=2 format=3 uid="uid://bdi3ai1alxwrn"]
+[gd_resource type="Resource" script_class="Move" load_steps=6 format=3 uid="uid://bdi3ai1alxwrn"]
 
 [ext_resource type="Script" uid="uid://cfsxuwoytabsi" path="res://activities/move.gd" id="1_cniym"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="2_5xg6s"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_b2gpa"]
+[ext_resource type="Resource" uid="uid://rsyurje8uegc" path="res://resources/filters/crisis_mode.tres" id="5_5xg6s"]
+[ext_resource type="Resource" uid="uid://bhdp23fjgy1bl" path="res://resources/filters/enough_ap.tres" id="6_oh2ww"]
 
 [resource]
 script = ExtResource("1_cniym")
 name = "Move"
 description = "Spend an Action to move up to your speed."
 icon = "res://art/interface/activities/move_activity2.png"
-AP_cost = 1
-EP_cost = 0
-PP_cost = 0
-requires_opposed_roll = false
-attacking_aptitude = "will"
-defending_aptitude = "will"
-range = 0
-reach = 0
-filters = []
-effects = []
-affected_type = 0
-affected_shape = 0
+self_filters = Array[ExtResource("4_b2gpa")]([ExtResource("5_5xg6s"), ExtResource("6_oh2ww")])
 metadata/_custom_type_script = "uid://cfsxuwoytabsi"

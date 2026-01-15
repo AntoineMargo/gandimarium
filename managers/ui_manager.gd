@@ -590,9 +590,9 @@ func _on_toggle_crisis_button():
 	var crisis_button = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/CrisisModeButton")
 	
 	if crisis_button.button_pressed == true:
-		crisis_button.button_pressed = false
+		crisis_button.set_pressed_no_signal(false)
 	else:
-		crisis_button.button_pressed = true
+		crisis_button.set_pressed_no_signal(true)
 
 func _on_slider_value_changed(value):
 	var char = Global.selected_char.data

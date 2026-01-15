@@ -198,7 +198,11 @@ func take_damage(damage: int, resistance: String = ""):
 	var current_hp = get_stat("current_hp") 
 	var max_hp = get_stat("max_hp") 
 	if current_hp <= -max_hp:
-		change_stat("current_hp", -max_hp)
+		set_stat("current_hp", -max_hp)
+	if current_hp < 0:
+		data.conscious = false
+	if current_hp == -max_hp:
+		data.alive = false
 	health_bar_instance.update_hp_bar()
 	SignalBus.dialog_damage_taken.emit(data.name, final_damage)
 
@@ -218,7 +222,7 @@ func perceive_armour():
 	return data.equipment.body
 
 func perceive_health():
-	return (data.current_hp + data.current_extra_hp)
+	return (data.current_hp + data.temp_hp)
 
 func get_current_ap():
 	return data.current_ap
@@ -347,6 +351,7 @@ func evaluate_entering_crisis(creature):
 	if rel_entry:
 		if rel_entry.hostile > 0:
 			data.crisis_ai_active = true
+			SignalBus.start_crisis_mode.emit(self)
 
 func build_tactical_map():
 	data.relationships.build_tactical_map()

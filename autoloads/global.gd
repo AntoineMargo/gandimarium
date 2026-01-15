@@ -5,6 +5,7 @@ const TILE_SIZE = 16
 
 var ui_manager = UIManager.new()
 var dialog_manager = DialogManager.new()
+var overworld_manager = OverworldManager.new()
 var world_manager = WorldManager.new()
 var crisis_manager = CrisisManager.new()
 var input_manager = InputManager.new()
@@ -63,6 +64,7 @@ func _ready() -> void:
 	add_child(inventory_window)
 	add_child(character_window)
 	add_child(input_manager)
+	add_child(overworld_manager)
 	add_child(world_manager)
 	add_child(cursor_manager)
 	add_child(id_manager)

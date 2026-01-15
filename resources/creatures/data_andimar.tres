@@ -1,9 +1,7 @@
-[gd_resource type="Resource" script_class="CreatureData" load_steps=20 format=3 uid="uid://bihond6x2e5k"]
+[gd_resource type="Resource" script_class="CreatureData" load_steps=17 format=3 uid="uid://bihond6x2e5k"]
 
 [ext_resource type="Script" uid="uid://chufkd7a0xqa0" path="res://activities/activity.gd" id="1_j7btv"]
-[ext_resource type="Script" uid="uid://cfsxuwoytabsi" path="res://activities/move.gd" id="2_n2sep"]
-[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="3_d00pt"]
-[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_tmkg0"]
+[ext_resource type="Resource" uid="uid://bdi3ai1alxwrn" path="res://resources/activities/move.tres" id="2_j7btv"]
 [ext_resource type="Script" uid="uid://boxs05dhsll81" path="res://entities/attributes.gd" id="5_xy00l"]
 [ext_resource type="Script" uid="uid://bqbvgbqafpkej" path="res://entities/base_stats.gd" id="6_jgqia"]
 [ext_resource type="Resource" uid="uid://tb0qrirf41um" path="res://resources/creatures/equipment/basic_loadout.tres" id="7_u3w1l"]
@@ -14,10 +12,6 @@
 [ext_resource type="Script" uid="uid://dyp8klyosnw2y" path="res://entities/creature_data.gd" id="11_mpyy1"]
 [ext_resource type="Resource" uid="uid://oe58h7tweyh7" path="res://resources/creatures/relationships/rel_andimar.tres" id="11_xy00l"]
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="12_y36v0"]
-
-[sub_resource type="Resource" id="Resource_0c4wq"]
-script = ExtResource("2_n2sep")
-metadata/_custom_type_script = "uid://cfsxuwoytabsi"
 
 [sub_resource type="Resource" id="Resource_q1nu1"]
 script = ExtResource("5_xy00l")
@@ -53,7 +47,7 @@ inventory = SubResource("Resource_nykox")
 equipment = ExtResource("7_u3w1l")
 resistances = SubResource("Resource_iyfvo")
 relationships = ExtResource("11_xy00l")
-activities = Array[ExtResource("1_j7btv")]([SubResource("Resource_0c4wq")])
+activities = Array[ExtResource("1_j7btv")]([ExtResource("2_j7btv")])
 spells_ready = []
 spells_available = []
 conditions = []

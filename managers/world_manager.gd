@@ -1,5 +1,4 @@
 extends Node
-
 class_name WorldManager
 
 var layers: Dictionary = {}
@@ -380,6 +379,9 @@ func get_multi_level_path(start: Vector3i, goal: Vector3i, allow_occupied_goal: 
 
 	return full_path
 
+func get_creature_by_id(target_id) -> Creature:
+	return current_world.creatures_by_id.get(target_id, null)
+
 func get_tile_coords() -> Dictionary:
 	var screen_mouse_pos = get_viewport().get_mouse_position()
 	var canvas_transform = get_viewport().get_canvas_transform()
@@ -529,7 +531,15 @@ func _try_move_char_abs(target):
 	add_to_tile(char, target)
 	layers[target.vec3.z]["path_map"].set_point_solid(target.vec2, true)
 
-func select_creature_on_tile(coordinates: Vector3i):
+func find_creature_on_tile(coordinates: Vector3i) -> Creature:
+	var coords = Vector2i(coordinates.x, coordinates.y)
+	if layers[current_level]["contents"].has(coords):
+		for element in layers[current_level]["contents"][coords]:
+			if element is Creature:
+				return element
+	return null
+
+func select_creature_on_tile(coordinates: Vector3i) -> void:
 	var coords = Vector2i(coordinates.x, coordinates.y)
 	if layers[current_level]["contents"].has(coords):
 		for element in layers[current_level]["contents"][coords]:
@@ -628,10 +638,10 @@ func _interact_move(t_coords):
 func _on_local_timeout():
 	SignalBus.local_turn_passed.emit()
 
-func _on_crisis_mode_started():
+func _on_crisis_mode_started(_creature):
 	local_timer.paused = true
 
-func _on_crisis_mode_ended():
+func _on_crisis_mode_ended(_creature):
 	local_timer.paused = false
 
 func _ready() -> void:
@@ -642,7 +652,7 @@ func _ready() -> void:
 	SignalBus.world_interact.connect(_on_world_interact)
 	SignalBus.refresh_reachable_tiles.connect(_on_refresh_reachable_tiles)
 	SignalBus.start_crisis_mode.connect(_on_crisis_mode_started)
-	SignalBus.end_crisis_turn.connect(_on_crisis_mode_started)
+	SignalBus.end_crisis_mode.connect(_on_crisis_mode_ended)
 	local_timer.wait_time = 6.0
 	local_timer.autostart = true
 	#local_timer.start()

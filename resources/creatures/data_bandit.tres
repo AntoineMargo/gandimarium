@@ -1,21 +1,15 @@
-[gd_resource type="Resource" script_class="CreatureData" load_steps=18 format=3 uid="uid://bhh58kb8nb8jx"]
+[gd_resource type="Resource" script_class="CreatureData" load_steps=15 format=3 uid="uid://bhh58kb8nb8jx"]
 
 [ext_resource type="Script" uid="uid://dyp8klyosnw2y" path="res://entities/creature_data.gd" id="1_5j1ub"]
 [ext_resource type="Script" uid="uid://chufkd7a0xqa0" path="res://activities/activity.gd" id="1_moixc"]
-[ext_resource type="Script" uid="uid://cfsxuwoytabsi" path="res://activities/move.gd" id="2_q1nu1"]
+[ext_resource type="Resource" uid="uid://bdi3ai1alxwrn" path="res://resources/activities/move.tres" id="2_0c4wq"]
 [ext_resource type="Script" uid="uid://boxs05dhsll81" path="res://entities/attributes.gd" id="2_qxrml"]
-[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="3_ywfhg"]
-[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_8sqhd"]
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="4_brg24"]
 [ext_resource type="Script" uid="uid://bqbvgbqafpkej" path="res://entities/base_stats.gd" id="6_5ncy8"]
 [ext_resource type="Resource" uid="uid://tb0qrirf41um" path="res://resources/creatures/equipment/basic_loadout.tres" id="7_j8ykb"]
 [ext_resource type="Script" uid="uid://0hy8gde00nbx" path="res://entities/inventory.gd" id="8_qqsho"]
 [ext_resource type="Resource" uid="uid://ce1yneg2dwyxq" path="res://resources/creatures/relationships/rel_bandit.tres" id="9_rtfxi"]
 [ext_resource type="Script" uid="uid://2esemn7osq1o" path="res://entities/resistances.gd" id="10_g7eh2"]
-
-[sub_resource type="Resource" id="Resource_0c4wq"]
-script = ExtResource("2_q1nu1")
-metadata/_custom_type_script = "uid://cfsxuwoytabsi"
 
 [sub_resource type="Resource" id="Resource_q1nu1"]
 script = ExtResource("2_qxrml")
@@ -49,7 +43,7 @@ inventory = SubResource("Resource_nykox")
 equipment = ExtResource("7_j8ykb")
 resistances = SubResource("Resource_iyfvo")
 relationships = ExtResource("9_rtfxi")
-activities = Array[ExtResource("1_moixc")]([SubResource("Resource_0c4wq")])
+activities = Array[ExtResource("1_moixc")]([ExtResource("2_0c4wq")])
 spells_ready = []
 spells_available = []
 conditions = []
