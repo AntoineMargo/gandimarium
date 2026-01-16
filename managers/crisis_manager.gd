@@ -41,13 +41,16 @@ func end_turn():
 		SignalBus.update_ui_for_char.emit()
 		SignalBus.refresh_reachable_tiles.emit()
 
+func request_toggle_crisis(creature):
+	if Global.ai_manager.active_number == 0:
+		toggle_crisis(creature)
+	SignalBus.crisis_state_changed.emit()
+
 func toggle_crisis(creature):
 	if crisis_mode == false:
 		start_crisis(creature)
 	else:
 		end_crisis(creature)
-	SignalBus.update_ui_for_char.emit()
-	SignalBus.refresh_reachable_tiles.emit()
 
 func start_crisis(creature):
 	if crisis_mode == false:
@@ -57,9 +60,11 @@ func start_crisis(creature):
 		crisis_turn = 0
 		SignalBus.toggle_end_turn_button.emit()
 		if creature.data.crisis_ai_active:
-			SignalBus.toggle_crisis_button.emit()
+			SignalBus.crisis_state_changed.emit()
 		SignalBus.dialog_start_crisis_mode.emit()
 		SignalBus.on_start_crisis.emit()
+		SignalBus.refresh_reachable_tiles.emit()
+		SignalBus.update_ui_for_char.emit()
 
 func end_crisis(creature):
 	if crisis_mode == true:
@@ -68,6 +73,8 @@ func end_crisis(creature):
 		crisis_turn = 0
 		SignalBus.toggle_end_turn_button.emit()
 		SignalBus.dialog_end_crisis_mode.emit()
+		SignalBus.refresh_reachable_tiles.emit()
+		SignalBus.update_ui_for_char.emit()
 
 func enough_action_points_for_activity(activity):
 	var cost = activity.AP_cost
@@ -80,8 +87,15 @@ func enough_action_points_for_activity(activity):
 	char.data.current_ap -= cost
 	return true
 
+#func active_hostiles_changed(active_creatures):
+	#if active_creatures > 0:
+		#start_crisis
+
 func _ready() -> void:
 	SignalBus.start_crisis_mode.connect(start_crisis)
 	SignalBus.end_crisis_mode.connect(end_crisis)
 	SignalBus.end_crisis_turn.connect(end_turn)
 	SignalBus.toggle_crisis_mode.connect(toggle_crisis)
+	
+	SignalBus.request_toggle_crisis.connect(request_toggle_crisis)
+	#SignalBus.active_hostiles_changed.connect(active_hostiles_changed)

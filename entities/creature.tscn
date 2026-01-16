@@ -1,23 +1,77 @@
-[gd_scene load_steps=12 format=3 uid="uid://di24o35dhla3y"]
+[gd_scene load_steps=21 format=3 uid="uid://di24o35dhla3y"]
 
 [ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creature.gd" id="1_ss4pg"]
-[ext_resource type="PackedScene" uid="uid://wqxs6c21eg4g" path="res://interface/local_map/health_bar/health_bar.tscn" id="3_g0uk5"]
+[ext_resource type="PackedScene" uid="uid://wqxs6c21eg4g" path="res://interface/local_map/health_bar/health_bar.tscn" id="2_w4hkv"]
+[ext_resource type="Shader" uid="uid://cqkd3unjccij7" path="res://shaders/creature_hit.gdshader" id="3_w4hkv"]
 [ext_resource type="Texture2D" uid="uid://bcjmxhgemswtr" path="res://art/characters/hooded_char.png" id="4_4w7f4"]
+[ext_resource type="Script" uid="uid://bufus6wx0rpcx" path="res://entities/hit_flash.gd" id="5_l4b1g"]
 [ext_resource type="Script" uid="uid://b52a57vjokam7" path="res://AI/ai_controller.gd" id="5_ud2rd"]
+[ext_resource type="Script" uid="uid://dtu6ryfnfv5lx" path="res://entities/outline.gd" id="6_7srhi"]
 [ext_resource type="Script" uid="uid://d34g8yxog7bux" path="res://AI/overmap_ai.gd" id="6_jjh6p"]
+[ext_resource type="Shader" uid="uid://d3bhdpwfbbg1x" path="res://shaders/outline.gdshader" id="6_puink"]
 [ext_resource type="Script" uid="uid://c322dqhnn6or0" path="res://AI/local_ai.gd" id="7_dlu0d"]
+[ext_resource type="Shader" uid="uid://cwmeclk1lgms4" path="res://shaders/glow_outline.gdshader" id="7_vsju1"]
 [ext_resource type="Script" uid="uid://0c01n60cxt6k" path="res://AI/crisis_ai.gd" id="8_7mdsa"]
 [ext_resource type="Script" uid="uid://dbqssotspewok" path="res://AI/AI_modules/situation_module.gd" id="8_dlu0d"]
 [ext_resource type="Script" uid="uid://ck1ya5qrk4hik" path="res://AI/AI_modules/movement_module.gd" id="9_7mdsa"]
 [ext_resource type="Script" uid="uid://b0vouykjkbbkv" path="res://AI/AI_modules/evaluator_module.gd" id="10_dlu0d"]
 [ext_resource type="Script" uid="uid://dy6lsk0db1sgf" path="res://AI/AI_modules/executor_module.gd" id="11_7mdsa"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7mdsa"]
+resource_local_to_scene = true
+shader = ExtResource("3_w4hkv")
+shader_parameter/intensity = 0.0
+shader_parameter/tint = Color(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vsju1"]
+resource_local_to_scene = true
+shader = ExtResource("6_puink")
+shader_parameter/allow_out_of_bounds = true
+shader_parameter/outline_thickness = 1.0
+shader_parameter/outline_color = Color(0, 1, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vm3c7"]
+shader = ExtResource("7_vsju1")
+shader_parameter/line_color = Color(1, 1, 0, 1)
+shader_parameter/glowSize = 2.000000095
+shader_parameter/glowDensity = 3
+shader_parameter/glowRadialCoverage = 4
+shader_parameter/glowAngle = 1.57
+shader_parameter/glowSharpness = 1.0
+shader_parameter/alphaThreshold = 0.2
+
+[sub_resource type="Curve" id="Curve_l4b1g"]
+_data = [Vector2(0.027624309, 0), 0.0, 0.0, 0, 0, Vector2(0.17403314, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
 [node name="Creature" type="Node2D"]
+z_index = 2
 script = ExtResource("1_ss4pg")
-health_bar_scene = ExtResource("3_g0uk5")
+health_bar_scene = ExtResource("2_w4hkv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 2
+material = SubResource("ShaderMaterial_7mdsa")
 texture = ExtResource("4_4w7f4")
+
+[node name="Outline" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 0, 1)
+self_modulate = Color(1, 1, 0, 1)
+z_index = 1
+material = SubResource("ShaderMaterial_vsju1")
+texture = ExtResource("4_4w7f4")
+script = ExtResource("6_7srhi")
+
+[node name="Shader" type="Sprite2D" parent="."]
+visible = false
+z_index = 3
+material = SubResource("ShaderMaterial_vm3c7")
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("4_4w7f4")
+
+[node name="HitFlash" type="Node" parent="."]
+script = ExtResource("5_l4b1g")
+hit_curve = SubResource("Curve_l4b1g")
 
 [node name="AIController" type="Node" parent="."]
 script = ExtResource("5_ud2rd")

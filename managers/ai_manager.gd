@@ -1,10 +1,13 @@
 extends Node
 class_name AIManager
 
+var active_creatures := {}
+var active_number : int = 0
+
 func noticing_check(origin: Vector3i):
 	var wm = Global.world_manager
 	for creature in Global.world_manager.current_world.creatures:
-		if creature.data.player_controlled == false:
+		if creature.data.player_controlled == false and creature.data.conscious:
 			var self_coords = Global.world_manager.get_char_coords(creature)
 			if WorldMath.pos_in_range_weighted_3d(self_coords.vec3, origin, 40):
 				if creature.senses_check_on_tile(origin):
@@ -12,5 +15,15 @@ func noticing_check(origin: Vector3i):
 					creature.discover_creature(potential_creature)
 					creature.evaluate_entering_crisis(potential_creature)
 
+func ai_became_active(creature):
+	active_creatures[creature] = true
+	active_number += 1
+	
+func ai_became_inactive(creature):
+	active_creatures.erase(creature)
+	active_number -= 1
+
 func _ready() -> void:
 		SignalBus.noticing_check.connect(noticing_check)
+		SignalBus.ai_became_active.connect(ai_became_active)
+		SignalBus.ai_became_inactive.connect(ai_became_inactive)

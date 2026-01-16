@@ -147,22 +147,16 @@ func BasicControls():
 		print("Relationships set!")
 
 	if Input.is_action_just_pressed("L"):
-		Global.inventory_window.print_tree_pretty()
+		SignalBus.dialog_show_message.emit("Action points: %d" % Global.focus_char.data.current_ap)
+		SignalBus.update_ui_for_char.emit()
+		#Global.inventory_window.print_tree_pretty()
 		#print_tree_pretty()
 
 	if Input.is_action_just_pressed("M"):
-		for creature in wm.current_world.creatures:
-			print(creature.data.name)
-		for creature_a in wm.current_world.creatures:
-			if creature_a.data.name == "Bandit":
-				for creature_b in wm.current_world.creatures:
-					if creature_b.data.player_controlled:
-						creature_a.data.relationships.hostile.append(creature_b)
-			elif creature_a.data.player_controlled:
-				for creature_b in wm.current_world.creatures:
-					if creature_b.data.name == "Bandit":
-						creature_a.data.relationships.hostile.append(creature_b)
-		print("Relationships set!")
+		if Global.crisis_manager.crisis_mode:
+			SignalBus.dialog_show_message.emit("Crisis mode: Active")
+		else:
+			SignalBus.dialog_show_message.emit("Crisis mode: Inactive")
 
 	if Input.is_action_just_pressed("E"):
 		if not Global.selected_char:
@@ -188,7 +182,8 @@ func BasicControls():
 			print("Offhand weapon: Empty")
 
 	if Input.is_action_just_pressed("B"):
-		pass
+		Global.selected_char.debug_outline()
+		#$Outline.toggle_outline()
 
 	#if Input.is_action_just_pressed("V"):
 		#print("=== CanvasLayers in scene ===")

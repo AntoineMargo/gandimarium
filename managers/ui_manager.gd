@@ -79,7 +79,8 @@ func set_ui_node(node: Node):
 
 @warning_ignore("unused_parameter")
 func on_crisis_mode_toggled(button_pressed: bool) -> void:
-	SignalBus.toggle_crisis_mode.emit(Global.focus_char)
+	#SignalBus.toggle_crisis_mode.emit(Global.focus_char)
+	SignalBus.request_toggle_crisis.emit(Global.focus_char)
 
 func on_end_turn_pressed() -> void:
 	SignalBus.end_crisis_turn.emit()
@@ -586,20 +587,36 @@ func _on_toggle_end_turn_button():
 	else:
 		end_turn_button.disabled = true
 
-func _on_toggle_crisis_button():
-	var crisis_button = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/CrisisModeButton")
-	
-	if crisis_button.button_pressed == true:
-		crisis_button.set_pressed_no_signal(false)
-	else:
-		crisis_button.set_pressed_no_signal(true)
+func _on_crisis_state_changed():
+	var crisis_button = ui_node.get_node("PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/CrisisModeButton")
+	crisis_button.set_pressed_no_signal(Global.crisis_manager.crisis_mode)
+
+#func _on_toggle_crisis_button():
+	#var crisis_button = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/CrisisModeButton")
+	#
+	#if crisis_button.button_pressed == true:
+		#crisis_button.set_pressed_no_signal(false)
+	#else:
+		#crisis_button.set_pressed_no_signal(true)
+
+#func crisis_request_accepted():
+	#var crisis_button = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/CrisisModeButton")
+	#
+	#if crisis_button.button_pressed == true:
+		#crisis_button.set_pressed_no_signal(false)
+	#else:
+		#crisis_button.set_pressed_no_signal(true)
+
+#func crisis_request_denied():
+	#var crisis_button = ui_node.get_node("PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/CrisisModeButton")
+	#crisis_button.set_pressed_no_signal(Global.crisis_manager.crisis_mode)
 
 func _on_slider_value_changed(value):
-	var char = Global.selected_char.data
+	var character = Global.selected_char.data
 	var slider = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/SpellRankSlider")
-	char.current_spell_rank = value
-	slider.tooltip_text = "Spell rank selected: %d" % char.current_spell_rank
-	#print("value changed to ", char.current_spell_rank)
+	character.current_spell_rank = value
+	slider.tooltip_text = "Spell rank selected: %d" % character.current_spell_rank
+	#print("value changed to ", character.current_spell_rank)
 
 func _ready() -> void:
 	SignalBus.update_inventory.connect(_on_update_inventory)
@@ -607,4 +624,9 @@ func _ready() -> void:
 	SignalBus.drop_item_on_tile.connect(_on_drop_item_on_tile)
 	SignalBus.update_ui_for_char.connect(update_ui_for_char)
 	SignalBus.toggle_end_turn_button.connect(_on_toggle_end_turn_button)
-	SignalBus.toggle_crisis_button.connect(_on_toggle_crisis_button)
+	#SignalBus.toggle_crisis_button.connect(_on_toggle_crisis_button)
+	SignalBus.crisis_state_changed.connect(_on_crisis_state_changed)
+
+	#SignalBus.crisis_request_accepted.connect(crisis_request_accepted)
+	#SignalBus.crisis_request_denied.connect(crisis_request_denied)
+	

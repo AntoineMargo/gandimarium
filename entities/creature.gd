@@ -1,5 +1,4 @@
 extends Node2D
-
 class_name Creature
 
 @export var data: CreatureData
@@ -9,6 +8,10 @@ class_name Creature
 @onready var ai_controller = $AIController
 
 var health_bar_instance: Node
+
+#@export var hit_curve: Curve
+#var hit_material: ShaderMaterial
+#var hit_tween: Tween
 
 # Meta utility 
 var reachable_tiles = []
@@ -194,6 +197,9 @@ func take_damage(damage: int, resistance: String = ""):
 	var final_damage = (damage - resistance_value)
 	if final_damage < 0:
 		final_damage = 0
+	else:
+		#$HitFlash.play_hit_flash()
+		$HitFlash.play_hit_flash(final_damage, 20)
 	change_stat("current_hp", -final_damage)
 	var current_hp = get_stat("current_hp") 
 	var max_hp = get_stat("max_hp") 
@@ -201,6 +207,9 @@ func take_damage(damage: int, resistance: String = ""):
 		set_stat("current_hp", -max_hp)
 	if current_hp < 0:
 		data.conscious = false
+		if data.crisis_ai_active:
+			data.crisis_ai_active = false
+			SignalBus.ai_became_inactive.emit(self)
 	if current_hp == -max_hp:
 		data.alive = false
 	health_bar_instance.update_hp_bar()
@@ -351,7 +360,9 @@ func evaluate_entering_crisis(creature):
 	if rel_entry:
 		if rel_entry.hostile > 0:
 			data.crisis_ai_active = true
-			SignalBus.start_crisis_mode.emit(self)
+			SignalBus.ai_became_active.emit(self)
+			if not Global.crisis_manager.crisis_mode:
+				SignalBus.start_crisis_mode.emit(self)
 
 func build_tactical_map():
 	data.relationships.build_tactical_map()
@@ -377,6 +388,7 @@ func initialise():
 		data.inventory      = _ensure_resource(data.inventory, func(): return Inventory.new())
 		data.equipment      = _ensure_resource(data.equipment, func(): return Equipment.new())
 		data.resistances    = _ensure_resource(data.resistances, func(): return Resistances.new())
+		data.personality    = _ensure_resource(data.personality, func(): return Personality.new())
 
 		@warning_ignore("integer_division")
 		data.base_stats.level_mod = data.level / 2
@@ -456,7 +468,7 @@ func _on_start_crisis():
 func _on_end_turn():
 	data.current_ap = data.derived_stats.max_ap
 	data.current_mp = 0
-	if not data.player_controlled:
+	if not data.player_controlled and data.crisis_ai_active:
 		Global.focus_char = self
 		ai_controller.crisisai.plan_turn() 
 
@@ -475,6 +487,10 @@ func _ensure_resource(res: Resource, ctor: Callable) -> Resource:
 	if res:
 		return res.duplicate(true)
 	return ctor.call()
+	
+func debug_outline():
+	print("debugging outline")
+	$Outline.toggle_outline()
 
 func _duplicate_runtime_resources():
 	if data.attributes:
@@ -508,10 +524,16 @@ func _duplicate_runtime_resources():
 		data.relationships = Relationships.new()
 
 func _ready():
+	print("Creature getting ready!")
 	if not health_bar_scene:
 		print("Health bar scene not set!")
-		return
 	health_bar_instance = health_bar_scene.instantiate()
 	add_child(health_bar_instance)
 	SignalBus.on_start_crisis.connect(_on_start_crisis)
 	SignalBus.turn_ends.connect(_on_end_turn)
+	print(SignalBus.on_start_crisis.is_connected(_on_start_crisis))
+	print(SignalBus.turn_ends.is_connected(_on_end_turn))
+	$HitFlash.hit_material = sprite_node.material as ShaderMaterial
+	#$Outline.z_index = $Sprite2D.z_index + 1
+	#$Outline.scale = $Sprite2D.scale * 2
+	#func _ready() -> void:

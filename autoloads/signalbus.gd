@@ -29,6 +29,16 @@ signal toggle_crisis_button()
 signal weapon_attack(target)
 signal on_start_crisis()
 
+signal ai_became_active(creature)
+signal ai_became_inactive(creature)
+
+signal request_toggle_crisis(active: bool, creature)
+signal crisis_request_denied(reason: String)
+signal crisis_request_accepted(active: bool)
+signal crisis_state_changed()
+
+#signal active_hostiles_changed(active_creatures)
+
 #AI
 signal noticing_check(coordinates)
 

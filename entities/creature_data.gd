@@ -18,6 +18,8 @@ class_name CreatureData
 @export var resistances: Resistances = null
 @export var relationships: Relationships = null
 
+@export var personality: Personality = null
+
 @export var talents: Array[Talent] = []
 @export var activities: Array[Activity] = []
 @export var spells_ready: Array = [Spell]
