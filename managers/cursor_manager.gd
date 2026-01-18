@@ -8,9 +8,9 @@ func set_cursor(name: String):
 		Input.set_custom_mouse_cursor(cursors[name], Input.CURSOR_ARROW, Vector2(0, 0))
 
 func _ready():
-	cursors["default"] = preload("res://art/interface/cursors/36/Cursor Default.png")
-	cursors["activity"] = preload("res://art/interface/cursors/36/Cursor Magic Use Blue.png")
-	cursors["enemy"] = preload("res://art/interface/cursors/36/Cursor Default Enemy.png")
+	cursors["default"] = preload("res://art/interface/cursors/abstract/default.png")
+	cursors["activity"] = preload("res://art/interface/cursors/abstract/fleur.png")
+	cursors["enemy"] = preload("res://art/interface/cursors/abstract/fleur.png")
 	cursors["friendly"] = preload("res://art/interface/cursors/36/Cursor Default Friends.png")
 	cursors["select"] = preload("res://art/interface/cursors/36/Cursor Target Move B.png")
 	cursors["select2"] = preload("res://art/interface/cursors/36/Cursor Attack Friends.png")

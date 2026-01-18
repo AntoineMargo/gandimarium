@@ -27,8 +27,9 @@ func spawn_character(data_file):
 	character.data = char_data
 
 	var tile_coords = wm.get_tile_coords()
-	character.data.tile_x = tile_coords.vec2.x
-	character.data.tile_y = tile_coords.vec2.y
+	character.data.tile_x = tile_coords.vec3.x
+	character.data.tile_y = tile_coords.vec3.y
+	character.data.tile_z = tile_coords.vec3.z
 	character.data.map_id = "world"
 
 	character.position = wm.layers[tile_coords.vec3.z]["tile_map"].map_to_local(tile_coords.vec2)

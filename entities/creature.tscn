@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://d34g8yxog7bux" path="res://AI/overmap_ai.gd" id="6_jjh6p"]
 [ext_resource type="Shader" uid="uid://d3bhdpwfbbg1x" path="res://shaders/outline.gdshader" id="6_puink"]
 [ext_resource type="Script" uid="uid://c322dqhnn6or0" path="res://AI/local_ai.gd" id="7_dlu0d"]
-[ext_resource type="Shader" uid="uid://cjyupy54ar71l" path="res://shaders/squish.gdshader" id="7_vsju1"]
+[ext_resource type="Shader" uid="uid://d3fol7vawwuyd" path="res://shaders/damaged_combined.gdshader" id="7_vsju1"]
 [ext_resource type="Script" uid="uid://0c01n60cxt6k" path="res://AI/crisis_ai.gd" id="8_7mdsa"]
 [ext_resource type="Script" uid="uid://dbqssotspewok" path="res://AI/AI_modules/situation_module.gd" id="8_dlu0d"]
 [ext_resource type="Script" uid="uid://ck1ya5qrk4hik" path="res://AI/AI_modules/movement_module.gd" id="9_7mdsa"]
@@ -28,13 +28,16 @@ resource_local_to_scene = true
 shader = ExtResource("6_puink")
 shader_parameter/allow_out_of_bounds = true
 shader_parameter/outline_thickness = 1.0
-shader_parameter/outline_color = Color(0, 1, 0, 1)
+shader_parameter/outline_color = Color(9.62615e-07, 0.9396129, 0.96898717, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vm3c7"]
 shader = ExtResource("7_vsju1")
-shader_parameter/uv_mode = false
-shader_parameter/x_factor = 2.0
-shader_parameter/bulge = 0.0
+shader_parameter/grayscale_amount = 0.0
+shader_parameter/wounded_amount = 0.0
+shader_parameter/wounded_color = Vector3(1, 0.1, 0.1)
+shader_parameter/wounded_strength = 1.0000000475
+shader_parameter/hit_intensity = 0.0
+shader_parameter/hit_color = Vector3(255, 0, 0)
 
 [sub_resource type="Curve" id="Curve_l4b1g"]
 _data = [Vector2(0.027624309, 0), 0.0, 0.0, 0, 0, Vector2(0.04972376, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]

@@ -356,7 +356,7 @@ func get_multi_level_path(start: Vector3i, goal: Vector3i, allow_occupied_goal: 
 	var was_occupied = false
 	var goal_xy: Vector2i = Vector2i(goal.x, goal.y)
 
-	if allow_occupied_goal and layers[goal.z]["occupied"][goal_xy] == true:
+	if allow_occupied_goal and layers[goal.z]["occupied"].get(goal_xy, false) == true:
 		#print("tile was occupied.")
 		was_occupied = true
 		layers[goal.z]["occupied"][goal_xy] = false
