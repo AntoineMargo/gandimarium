@@ -54,6 +54,8 @@ func toggle_crisis(creature):
 
 func start_crisis(creature):
 	if crisis_mode == false:
+		if not Global.selected_char:
+			return
 		print("Crisis started by %s." % creature.data.name)
 		SignalBus.dialog_show_message.emit("Crisis started by %s." % creature.data.name)
 		crisis_mode = true

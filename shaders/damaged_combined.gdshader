@@ -25,7 +25,9 @@ void fragment() {
 	color = mix(color, wounded, wounded_amount);
 
 	/* --- Hit Flash (last, so it dominates visually) --- */
-	color = mix(color, hit_color, hit_intensity);
+	color = mix(color, hit_color, hit_intensity * 1.2);
+	//color = clamp(color + hit_color * hit_intensity, 0.0, 1.0); interesting effect!
+
 
 	COLOR = vec4(color, tex.a);
 }

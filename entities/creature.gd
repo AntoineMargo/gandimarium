@@ -191,6 +191,7 @@ func remove_item_from_slot(slot):
 	var item = data.equipment.remove_item_from_slot(slot)
 	return item
 
+## Used when something (usually an activity) deals damage to a creature
 func take_damage(damage: int, resistance: String = ""):
 	var value = get_stat(resistance)
 	var resistance_value: int = value if value is int else 0
@@ -198,31 +199,39 @@ func take_damage(damage: int, resistance: String = ""):
 	if final_damage < 0:
 		final_damage = 0
 	else:
-		#$HitFlash.play_hit_flash()
-		$HitFlash.play_hit_flash(final_damage, 20)
+		$DamageVisual.play_hit_flash(final_damage)
 	change_stat("current_hp", -final_damage)
-	var current_hp = get_stat("current_hp") 
-	var max_hp = get_stat("max_hp") 
-	if current_hp <= -max_hp:
-		set_stat("current_hp", -max_hp)
-	if current_hp < 0:
-		data.conscious = false
-		if data.crisis_ai_active:
-			data.crisis_ai_active = false
-			SignalBus.ai_became_inactive.emit(self)
-	if current_hp == -max_hp:
-		data.alive = false
+	health_status_change()
 	health_bar_instance.update_hp_bar()
 	SignalBus.dialog_damage_taken.emit(data.name, final_damage)
 
+## Used when something (usually an activity) restores health to a creature
 func take_healing(healing: int):
 	change_stat("current_hp", healing)
-	var current_hp = get_stat("current_hp") 
-	var max_hp = get_stat("max_hp") 
-	if current_hp >= max_hp:
-		set_stat("current_hp", max_hp)
+	health_status_change()
 	health_bar_instance.update_hp_bar()
 	SignalBus.dialog_healing_taken.emit(data.name, healing)
+
+func health_status_change():
+	var current_hp = get_stat("current_hp") 
+	var max_hp = get_stat("max_hp") 
+	if current_hp > 0:
+		$DamageVisual.set_healthy_tint()
+	if current_hp <= -max_hp:
+		set_stat("current_hp", -max_hp)
+	if current_hp >= max_hp:
+		set_stat("current_hp", max_hp)
+	if current_hp < 0:
+		data.conscious = false
+		$DamageVisual.set_wounded_tint()
+		if data.crisis_ai_active:
+			data.crisis_ai_active = false
+			SignalBus.ai_became_inactive.emit(self)
+	if current_hp <= -max_hp:
+		data.alive = false
+		print("character is dead!")
+		$DamageVisual.set_dead_tint()
+
 
 func perceive_level():
 	return data.level
@@ -533,7 +542,7 @@ func _ready():
 	SignalBus.turn_ends.connect(_on_end_turn)
 	print(SignalBus.on_start_crisis.is_connected(_on_start_crisis))
 	print(SignalBus.turn_ends.is_connected(_on_end_turn))
-	$HitFlash.hit_material = sprite_node.material as ShaderMaterial
+	$DamageVisual.hit_material = sprite_node.material as ShaderMaterial
 	#$Outline.z_index = $Sprite2D.z_index + 1
 	#$Outline.scale = $Sprite2D.scale * 2
 	#func _ready() -> void:
