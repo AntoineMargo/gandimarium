@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="PowerPointsFilter" load_steps=2 format=3 uid="uid://dxhi3w7coy3mv"]
+
+[ext_resource type="Script" uid="uid://tw4lacdrgfs3" path="res://filters/power_points.gd" id="1_jfkqh"]
+
+[resource]
+script = ExtResource("1_jfkqh")
+metadata/_custom_type_script = "uid://tw4lacdrgfs3"

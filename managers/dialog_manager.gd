@@ -86,4 +86,4 @@ func _ready() -> void:
 	
 	SignalBus.crisis_mode_not_active.connect(_crisis_mode_not_active)
 	SignalBus.not_enough_brawn.connect(_not_enough_brawn)
-	SignalBus.not_enough_ap.connect(_not_enough_ap)
+	#SignalBus.not_enough_ap.connect(_not_enough_ap)

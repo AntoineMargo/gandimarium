@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SpellCosts" load_steps=2 format=3 uid="uid://di2lq3rft63b0"]
+
+[ext_resource type="Script" uid="uid://ddmmsirmeo2fq" path="res://abilities/spell_costs.gd" id="1_j2jhn"]
+
+[resource]
+script = ExtResource("1_j2jhn")
+spell_costs = Dictionary[int, int]({
+1: 1,
+2: 2
+})
+metadata/_custom_type_script = "uid://ddmmsirmeo2fq"

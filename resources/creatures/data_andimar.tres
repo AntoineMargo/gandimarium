@@ -6,9 +6,9 @@
 [ext_resource type="Script" uid="uid://bqbvgbqafpkej" path="res://entities/base_stats.gd" id="6_jgqia"]
 [ext_resource type="Resource" uid="uid://tb0qrirf41um" path="res://resources/creatures/equipment/basic_loadout.tres" id="7_u3w1l"]
 [ext_resource type="Resource" uid="uid://b4idr8vu54ox6" path="res://resources/items/weapons/bow/bow.tres" id="8_d00pt"]
+[ext_resource type="Resource" uid="uid://dif5f8s0c1c6x" path="res://resources/archetypes/mage/mage.tres" id="8_j7btv"]
 [ext_resource type="Script" uid="uid://0hy8gde00nbx" path="res://entities/inventory.gd" id="8_jm372"]
 [ext_resource type="Script" uid="uid://2esemn7osq1o" path="res://entities/resistances.gd" id="10_nocd4"]
-[ext_resource type="Resource" uid="uid://c00teqpc3o5li" path="res://resources/archetypes/paragon/paragon.tres" id="10_tmkg0"]
 [ext_resource type="Script" uid="uid://dyp8klyosnw2y" path="res://entities/creature_data.gd" id="11_mpyy1"]
 [ext_resource type="Resource" uid="uid://oe58h7tweyh7" path="res://resources/creatures/relationships/rel_andimar.tres" id="11_xy00l"]
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="12_y36v0"]
@@ -39,7 +39,7 @@ script = ExtResource("11_mpyy1")
 name = "Andimar"
 level = 12
 species = "kin"
-major_archetype = ExtResource("10_tmkg0")
+major_archetype = ExtResource("8_j7btv")
 sprite = "res://art/characters/hooded_char.png"
 attributes = SubResource("Resource_q1nu1")
 base_stats = SubResource("Resource_8d3d6")

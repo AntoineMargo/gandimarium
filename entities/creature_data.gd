@@ -29,6 +29,8 @@ class_name CreatureData
 @export var activity_modifiers: Array = []
 @export var concentrations: Array = [Concentration]
 
+@export var casting_table: CastingTable = null
+
 @export var current_hp: int = 0
 @export var temp_hp: int = 0
 @export var current_pp: int = 0
@@ -39,7 +41,8 @@ class_name CreatureData
 @export var temp_mp: float = 0
 @export var current_ap: int = 0
 @export var current_reactions: int = 1
-@export var current_spell_rank: int = 0
+@export var current_spell_rank: int = 1
+@export var max_spell_rank: int = 0
 
 @export var player_controlled: bool = false
 @export var has_been_initialized: bool = false

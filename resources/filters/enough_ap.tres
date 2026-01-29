@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ActionPointsFilter" load_steps=2 format=3 uid="uid://bhdp23fjgy1bl"]
 
-[ext_resource type="Script" uid="uid://bmyfmkog6abuh" path="res://filters/actions_points.gd" id="1_pclyb"]
+[ext_resource type="Script" uid="uid://bmyfmkog6abuh" path="res://filters/action_points.gd" id="1_pclyb"]
 
 [resource]
 script = ExtResource("1_pclyb")

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Archetype" load_steps=7 format=3 uid="uid://dif5f8s0c1c6x"]
+
+[ext_resource type="Script" uid="uid://br3qyd4n7fm2f" path="res://archetypes/archetype.gd" id="1_lkmbs"]
+[ext_resource type="Script" uid="uid://dnii5080nqn0s" path="res://archetypes/talent_entry.gd" id="2_pphpq"]
+[ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="3_4f3bi"]
+[ext_resource type="Resource" uid="uid://rn0a3hnwu3o1" path="res://resources/talents/mage_casting.tres" id="4_kkl6y"]
+[ext_resource type="Resource" uid="uid://triv1hkglh82" path="res://resources/talents/basic_spells.tres" id="5_4f3bi"]
+
+[sub_resource type="Resource" id="Resource_xc8o4"]
+script = ExtResource("2_pphpq")
+level = 1
+auto_talents = Array[ExtResource("3_4f3bi")]([ExtResource("4_kkl6y"), ExtResource("5_4f3bi")])
+metadata/_custom_type_script = "uid://dnii5080nqn0s"
+
+[resource]
+script = ExtResource("1_lkmbs")
+talents_by_level = Array[ExtResource("2_pphpq")]([SubResource("Resource_xc8o4")])
+metadata/_custom_type_script = "uid://br3qyd4n7fm2f"

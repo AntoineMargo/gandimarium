@@ -39,4 +39,4 @@ var max_mp: int = 0
 
 var max_ap: int = 3
 var max_reactions: int = 1
-var max_spell_rank: int = -1
+#var max_spell_rank: int = -1

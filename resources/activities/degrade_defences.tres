@@ -29,7 +29,7 @@ metadata/_custom_type_script = "uid://cpuyout31r1c5"
 [sub_resource type="Resource" id="Resource_bkb7n"]
 script = ExtResource("4_hg2gv")
 name = "degrade_defences"
-effects = [SubResource("Resource_onxra")]
+effects = Array[ExtResource("2_nx6a8")]([SubResource("Resource_onxra")])
 metadata/_custom_type_script = "uid://dvi4ohsador2o"
 
 [sub_resource type="Resource" id="Resource_hg2gv"]
@@ -51,4 +51,5 @@ requires_concentration = true
 reach = 5
 target_filters = Array[ExtResource("3_hg2gv")]([SubResource("Resource_8gves")])
 target_effects = Array[ExtResource("2_nx6a8")]([SubResource("Resource_hg2gv")])
+is_spell = true
 metadata/_custom_type_script = "uid://beq2nm7ovc2lf"

@@ -12,7 +12,8 @@ signal dialog_hostile_activity(user, target, user_stat, target_stat, user_roll, 
 
 signal crisis_mode_not_active()
 signal not_enough_brawn()
-signal not_enough_ap()
+#signal not_enough_ap()
+#signal not_enough_pp()
 
 signal dialog_start_crisis_mode()
 signal dialog_end_crisis_mode()

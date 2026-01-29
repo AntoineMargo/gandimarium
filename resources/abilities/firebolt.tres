@@ -9,8 +9,5 @@
 script = ExtResource("2_hrsab")
 name = "Firebolt"
 description = "You hurl small bolts of fire towards the chosen target(s)."
-icon = "res://art/interface/activities/placeholder1.png"
 activities = [ExtResource("2_gvxsn"), ExtResource("3_fxfyf"), ExtResource("4_txpam")]
-minimum_rank = 1
-current_index = 0
 metadata/_custom_type_script = "uid://sg6vjj4j36i4"

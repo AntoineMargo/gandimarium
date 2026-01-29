@@ -1,5 +1,4 @@
 extends Activity
-
 class_name TargetedActivity
 
 @export var number_of_targets: int = 1
@@ -18,7 +17,7 @@ func cancel_activity():
 	SignalBus.dialog_show_message.emit("Canceling activity.")
 	var cm = Global.crisis_manager
 	var wm = Global.world_manager
-	user.data.current_ap += self.AP_cost
+	#user.data.current_ap += self.AP_cost
 	for hl in wm.target_highlights:
 		hl.queue_free()
 	wm.target_highlights.clear()
@@ -78,8 +77,8 @@ func follow_up() -> void:
 			if not filter.is_satisfied(target, self):
 				continue
 
-		var user_stat = user.data.get(attacking_aptitude)
-		var target_stat = user.data.get(defending_aptitude)
+		var user_stat = user.get_final_stat(attacking_aptitude)
+		var target_stat = user.get_final_stat(defending_aptitude)
 		
 		var user_roll = CombatMath.standard_roll()
 		var target_roll = CombatMath.standard_roll()
@@ -96,7 +95,11 @@ func follow_up() -> void:
 			if effect is Effect:
 				effect.apply(self, user, degree)
 
-		user.data.consume_ap(AP_cost)
+		user.consume_ap(AP_cost)
+		if is_spell:
+			user.consume_pp(user.get_stat("current_spell_cost"))
+		else:
+			user.consume_pp(PP_cost)
 	
 	SignalBus.dialog_show_message.emit("Activity effects released.")
 	SignalBus.change_cursor.emit("default")

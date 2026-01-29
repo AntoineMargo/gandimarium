@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3 uid="uid://b4idr8vu54ox6"]
+[gd_resource type="Resource" script_class="Weapon" load_steps=6 format=3 uid="uid://b4idr8vu54ox6"]
 
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_pjb8s"]
 [ext_resource type="Script" uid="uid://djeyifuagvkr6" path="res://items/weapon_res.gd" id="1_vkhed"]
 [ext_resource type="Resource" uid="uid://b7eo5q60d827c" path="res://resources/items/weapons/bow/bow_strike.tres" id="2_gxaka"]
 [ext_resource type="Resource" uid="uid://qspy4wxhgpf0" path="res://resources/items/weapons/bow/bow_shoot.tres" id="3_bt1ra"]

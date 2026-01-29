@@ -1,19 +1,27 @@
-[gd_resource type="Resource" script_class="TargetedActivity" load_steps=4 format=3 uid="uid://dynq0aw55vrns"]
+[gd_resource type="Resource" script_class="TargetedActivity" load_steps=9 format=3 uid="uid://dynq0aw55vrns"]
 
-[ext_resource type="Script" uid="uid://bwfaipulxr7tq" path="res://effects/damaging_effect.gd" id="2_twomy"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="2_labk7"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="3_hl0n8"]
 [ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="3_lwdho"]
+[ext_resource type="Resource" uid="uid://rsyurje8uegc" path="res://resources/filters/crisis_mode.tres" id="4_8ya3a"]
+[ext_resource type="Resource" uid="uid://bhdp23fjgy1bl" path="res://resources/filters/enough_ap.tres" id="5_xmd7d"]
+[ext_resource type="Resource" uid="uid://dxhi3w7coy3mv" path="res://resources/filters/enough_pp.tres" id="6_mit2j"]
+[ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damaging_effect.gd" id="7_xmd7d"]
 
-[sub_resource type="Resource" id="Resource_lwdho"]
-script = ExtResource("2_twomy")
-dice_number = 4
-damage_die = 6
-metadata/_custom_type_script = "uid://bwfaipulxr7tq"
+[sub_resource type="Resource" id="Resource_mit2j"]
+script = ExtResource("7_xmd7d")
+damage_bonus = 0
+resistance = "will"
+metadata/_custom_type_script = "uid://otrxaros8gk8"
 
 [resource]
 script = ExtResource("3_lwdho")
 name = "Firebolt"
+PP_cost = 10
 attacking_aptitude = "resolve"
 defending_aptitude = "ranged_defence"
-range = 10
-effects = [SubResource("Resource_lwdho")]
+reach = 12
+self_filters = Array[ExtResource("3_hl0n8")]([ExtResource("4_8ya3a"), ExtResource("5_xmd7d"), ExtResource("6_mit2j")])
+target_effects = Array[ExtResource("2_labk7")]([SubResource("Resource_mit2j")])
+is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"

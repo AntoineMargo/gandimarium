@@ -10,6 +10,7 @@ var last_dragged_item : Item = null
 var full_pip = preload("res://art/interface/base/pip.png")
 var empty_pip = preload("res://art/interface/base/empty_pip.png")
 
+## Basic configuration of interface nodes on game startup
 func set_ui_node(node: Node):
 	ui_node = node
 	
@@ -444,16 +445,6 @@ func update_activity_buttons():
 	var char = Global.selected_char
 	var activities = Global.selected_char.data.activities
 	var button_container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1")
-	#var activity1 = ui_node.get_node_or_null("$PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1/Activity1")
-	#var activity2 = ui_node.get_node_or_null("$PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1/Activity2")
-	#var activity3 = ui_node.get_node_or_null("$PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1/Activity3")
-	#var activity4 = ui_node.get_node_or_null("$PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1/Activity4")
-	#var activity5 = ui_node.get_node_or_null("$PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1/Activity5")
-	#var activity6 = ui_node.get_node_or_null("$PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1/Activity6")
-	#var activity7 = ui_node.get_node_or_null("$PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1/Activity7")
-	#var activity8 = ui_node.get_node_or_null("$PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1/Activity8")
-	#var activity9 = ui_node.get_node_or_null("$PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1/Activity9")
-	#var activity10 = ui_node.get_node_or_null("$PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1/Activity10")
 
 	for i in button_container.get_child_count():
 		var button = button_container.get_child(i)
@@ -484,6 +475,7 @@ func update_spell_list():
 	separator.visible = true
 	slider.visible = true
 	
+	slider.max_value = char.get_stat("max_spell_rank")
 	slider.value = char.get_stat("current_spell_rank")
 	for spell in char.data.spells_ready:
 		var spell_button = load("res://interface/bottom_bar/spell_button.tscn").instantiate()
@@ -509,25 +501,13 @@ func update_concentration_slots():
 
 func update_char_info():
 	var character = Global.selected_char
-	#var name = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/Name")
-	#var hp = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/HP")
-	#var pp = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/PP")
-	#var ep = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/EP")
-	#var vigour = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/Vigour")
-	#var mp = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2/MP")
-
-	#name.text = char.name
-	#hp.text = "%d/%d" % [char.current_hp, char.max_hp]
-	#pp.text = "%d/%d" % [char.current_pp, char.max_pp]
-	#ep.text = "%d/%d" % [char.current_ep, char.max_ep]
-	#vigour.text = "%d" % char.vigour
-	#mp.text = "%.1f" % char.current_mp
 
 	var hp_bar = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/HP_bar")
 	var hp_label = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/HP_bar/HP_Label")
 	
-	var pp_bar = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar")
-	var pp_label = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar/PP_Label")
+	var pp_bar = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar_wrapper/PP_bar")
+	var pp_bar_proj = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar_wrapper/PP_bar_preview")
+	var pp_label = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar_wrapper/PP_Label")
 	
 	var ep_bar = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/EP_bar")
 	var ep_label = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/EP_bar/EP_Label")
@@ -541,6 +521,15 @@ func update_char_info():
 
 	pp_bar.max_value = character.get_stat("max_pp")
 	pp_bar.value     = character.get_stat("current_pp")
+	pp_bar_proj.max_value = character.get_stat("max_pp")
+	
+	if character.data.casting_table:
+		var current_level_table = character.data.casting_table.cost_table[character.get_stat("level") - 1]
+		var current_spell_cost = current_level_table.spell_costs[character.data.current_spell_rank]
+		pp_bar_proj.value = character.get_stat("current_pp") - current_spell_cost
+	else:
+		pp_bar_proj.value     = character.get_stat("current_pp")
+	
 	pp_label.text    = "%d/%d" % [
 		character.get_stat("current_pp"),
 		character.get_stat("max_pp")
@@ -591,32 +580,25 @@ func _on_crisis_state_changed():
 	var crisis_button = ui_node.get_node("PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/CrisisModeButton")
 	crisis_button.set_pressed_no_signal(Global.crisis_manager.crisis_mode)
 
-#func _on_toggle_crisis_button():
-	#var crisis_button = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/CrisisModeButton")
-	#
-	#if crisis_button.button_pressed == true:
-		#crisis_button.set_pressed_no_signal(false)
-	#else:
-		#crisis_button.set_pressed_no_signal(true)
-
-#func crisis_request_accepted():
-	#var crisis_button = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/CrisisModeButton")
-	#
-	#if crisis_button.button_pressed == true:
-		#crisis_button.set_pressed_no_signal(false)
-	#else:
-		#crisis_button.set_pressed_no_signal(true)
-
-#func crisis_request_denied():
-	#var crisis_button = ui_node.get_node("PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/CrisisModeButton")
-	#crisis_button.set_pressed_no_signal(Global.crisis_manager.crisis_mode)
-
 func _on_slider_value_changed(value):
 	var character = Global.selected_char.data
 	var slider = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/SpellRankSlider")
 	character.current_spell_rank = value
 	slider.tooltip_text = "Spell rank selected: %d" % character.current_spell_rank
-	#print("value changed to ", character.current_spell_rank)
+	
+	var PP_bar_preview = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar_wrapper/PP_bar_preview")
+	PP_bar_preview.visible = true
+	
+	var current_level_table = character.casting_table.cost_table[character.level - 1]
+	var cost = current_level_table.spell_costs[character.current_spell_rank]
+	character.derived_stats.current_spell_cost = cost
+	PP_bar_preview.value = character.current_pp - cost
+	#SignalBus.dialog_show_message.emit("PP bar value: %d" % PP_bar_preview.value)
+
+#func update_spell_rank_slider():
+	#var slider = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/SpellRankSlider")
+	#var PP_bar_preview = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar_wrapper/PP_bar_preview")
+	#PP_bar_preview.value = character.current_pp - current_spell_cost
 
 func _ready() -> void:
 	SignalBus.update_inventory.connect(_on_update_inventory)
@@ -624,9 +606,4 @@ func _ready() -> void:
 	SignalBus.drop_item_on_tile.connect(_on_drop_item_on_tile)
 	SignalBus.update_ui_for_char.connect(update_ui_for_char)
 	SignalBus.toggle_end_turn_button.connect(_on_toggle_end_turn_button)
-	#SignalBus.toggle_crisis_button.connect(_on_toggle_crisis_button)
 	SignalBus.crisis_state_changed.connect(_on_crisis_state_changed)
-
-	#SignalBus.crisis_request_accepted.connect(crisis_request_accepted)
-	#SignalBus.crisis_request_denied.connect(crisis_request_denied)
-	

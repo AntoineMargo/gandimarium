@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="3_3t44i"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="3_q3tw7"]
 [ext_resource type="Script" uid="uid://bkpdgukx86gex" path="res://filters/crisis_mode_active.gd" id="4_tdoh8"]
-[ext_resource type="Script" uid="uid://bmyfmkog6abuh" path="res://filters/actions_points.gd" id="5_05pwy"]
+[ext_resource type="Script" uid="uid://bmyfmkog6abuh" path="res://filters/action_points.gd" id="5_05pwy"]
 [ext_resource type="Script" uid="uid://bwfaipulxr7tq" path="res://effects/damaging_effect.gd" id="6_l6f20"]
 [ext_resource type="Script" uid="uid://7wr7rbo7kwhw" path="res://filters/player_controlled.gd" id="7_p5m0l"]
 
@@ -35,4 +35,5 @@ reach = 5
 self_filters = Array[ExtResource("3_q3tw7")]([SubResource("Resource_7mq25"), SubResource("Resource_pq43k")])
 target_filters = Array[ExtResource("3_q3tw7")]([SubResource("Resource_4g8u5")])
 target_effects = Array[ExtResource("2_t7fke")]([SubResource("Resource_35p6u")])
+is_spell = true
 metadata/_custom_type_script = "uid://beq2nm7ovc2lf"

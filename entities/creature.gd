@@ -244,11 +244,19 @@ func perceive_health():
 
 func get_current_ap():
 	return data.current_ap
+	
+func get_current_pp():
+	return data.current_pp
 
 func consume_ap(number):
 	data.current_ap -= number
 	if data.current_ap < 0:
 		data.current_ap = 0
+
+func consume_pp(number):
+	data.current_pp -= number
+	if data.current_pp < 0:
+		data.current_pp = 0
 
 func meets_brawn_requirements() -> bool:
 	var weapons = get_active_weapons()
@@ -343,6 +351,9 @@ func change_stat(stat: StringName, delta):
 	if current != null:
 		set_stat(stat, current + delta)
 
+func add_casting_table(table: CastingTable):
+	data.casting_table = table
+
 func senses_check_on_tile(target_tile) -> bool: 
 	var origin_tile = Vector3i(data.tile_x, data.tile_y, data.tile_z)
 	if _hearing_check(origin_tile, target_tile):
@@ -434,6 +445,10 @@ func initialise():
 					for talent in entry.auto_talents:
 						add_talent(talent)
 
+		if data.casting_table:
+			var current_level_table := data.casting_table.cost_table[data.level - 1]
+			data.max_spell_rank = current_level_table.spell_costs.keys().max()
+
 		data.has_been_initialized = true
 		update_stats()
 		print("character file ready.")
@@ -463,7 +478,11 @@ func update_stats():
 	
 	data.derived_stats.max_ap = data.base_stats.max_ap
 	data.derived_stats.max_reactions = data.base_stats.max_reactions
-	data.derived_stats.max_spell_rank = data.base_stats.max_spell_rank
+	
+	#if data.casting_table:
+		#var current_level_table = data.casting_table.cost_table[get_stat("level") - 1]
+		#var cost = current_level_table.spell_costs[data.current_spell_rank]
+		#data.derived_stats.current_spell_cost = cost
 	
 	stats_dirty = false
 	sprite_node.texture = load(data.sprite)

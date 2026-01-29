@@ -17,10 +17,11 @@ func try_perform_activity(activity):
 		return
 	if not Global.focus_char:
 		return
-		
+	
 	if not enough_action_points_for_activity(activity):
 		return
-
+	if not enough_power_points_for_activity(activity):
+		return
 	Global.focus_char.perform_activity(activity)
 	SignalBus.update_ui_for_char.emit()
 
@@ -80,13 +81,27 @@ func end_crisis(creature):
 
 func enough_action_points_for_activity(activity):
 	var cost = activity.AP_cost
-	var char = Global.focus_char
+	var character = Global.focus_char
 
-	if char.data.current_ap < cost:
+	if character.get_stat("current_ap") < cost:
 		print("Not enough action points.")
 		SignalBus.dialog_show_message.emit("You don't have enough action points!")
 		return false
-	char.data.current_ap -= cost
+	return true
+
+func enough_power_points_for_activity(activity):
+	var character = Global.focus_char
+	var cost = 0
+	if character.data.casting_table:
+		var current_level_table = character.data.casting_table.cost_table[character.get_stat("level") - 1]
+		cost = current_level_table.spell_costs[character.data.current_spell_rank]
+	else:
+		cost = activity.EP_cost
+	
+	if character.get_stat("current_pp") < cost:
+		print("Not enough power points.")
+		SignalBus.dialog_show_message.emit("You don't have enough power points!")
+		return false
 	return true
 
 #func active_hostiles_changed(active_creatures):

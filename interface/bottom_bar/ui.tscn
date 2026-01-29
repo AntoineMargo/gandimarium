@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cwvyyn40aylxe"]
+[gd_scene load_steps=11 format=3 uid="uid://cwvyyn40aylxe"]
 
 [ext_resource type="Script" uid="uid://cqrxcc7cn32yf" path="res://interface/bottom_bar/ui.gd" id="1_nt7q6"]
 [ext_resource type="ButtonGroup" uid="uid://d0bbndwtryk01" path="res://interface/bottom_bar/weapon_set_group.tres" id="2_fqd3i"]
@@ -12,7 +12,13 @@ bg_color = Color(2.9480084e-06, 0.46219367, 0.05253657, 1)
 shadow_size = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_whaje"]
-bg_color = Color(0.0026285166, 0.2152164, 0.8361351, 1)
+bg_color = Color(0, 0.8473907, 0.8877926, 1)
+corner_detail = 1
+shadow_size = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p5au4"]
+bg_color = Color(0, 0.1254902, 0.8862745, 1)
+corner_detail = 1
 shadow_size = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bfbnh"]
@@ -234,19 +240,40 @@ theme_override_font_sizes/font_size = 13
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PP_bar" type="ProgressBar" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
+[node name="PP_bar_wrapper" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
+
+[node name="PP_bar" type="ProgressBar" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar_wrapper"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 15.0
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 12
 theme_override_styles/fill = SubResource("StyleBoxFlat_whaje")
 show_percentage = false
 
-[node name="PP_Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar"]
+[node name="PP_bar_preview" type="ProgressBar" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar_wrapper"]
+modulate = Color(0, 1, 1, 1)
+z_index = 5
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 15.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 12
+theme_override_styles/fill = SubResource("StyleBoxFlat_p5au4")
+show_percentage = false
+
+[node name="PP_Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar_wrapper"]
+z_index = 10
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -1.0
+offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/outline_size = 4
