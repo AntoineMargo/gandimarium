@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cwvyyn40aylxe"]
+[gd_scene format=3 uid="uid://cwvyyn40aylxe"]
 
 [ext_resource type="Script" uid="uid://cqrxcc7cn32yf" path="res://interface/bottom_bar/ui.gd" id="1_nt7q6"]
 [ext_resource type="ButtonGroup" uid="uid://d0bbndwtryk01" path="res://interface/bottom_bar/weapon_set_group.tres" id="2_fqd3i"]
@@ -25,7 +25,7 @@ shadow_size = 2
 bg_color = Color(0.6094804, 0.60159653, 0.22683543, 1)
 shadow_size = 2
 
-[node name="UI" type="Control"]
+[node name="UI" type="Control" unique_id=1448575853]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -35,7 +35,7 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_nt7q6")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=421555657]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -46,30 +46,30 @@ grow_vertical = 0
 mouse_filter = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="ColorRect" type="ColorRect" parent="PanelContainer"]
+[node name="ColorRect" type="ColorRect" parent="PanelContainer" unique_id=1651560235]
 layout_mode = 2
 color = Color(0, 0, 0, 0.5882353)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=2105412159]
 layout_mode = 2
 
-[node name="TopMargin" type="Control" parent="PanelContainer/VBoxContainer"]
+[node name="TopMargin" type="Control" parent="PanelContainer/VBoxContainer" unique_id=1823459566]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=632679744]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="LeftMargin" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="LeftMargin" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=613744480]
 layout_mode = 2
 
-[node name="ColorRect" type="ColorRect" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="ColorRect" type="ColorRect" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1486916438]
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 color = Color(0, 0, 0, 0)
 
-[node name="Log" type="RichTextLabel" parent="PanelContainer/VBoxContainer/HBoxContainer/ColorRect"]
+[node name="Log" type="RichTextLabel" parent="PanelContainer/VBoxContainer/HBoxContainer/ColorRect" unique_id=1153647481]
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 0
 offset_left = 4.0
@@ -87,24 +87,24 @@ text = "Welcome to Andimarium.
 "
 scroll_following = true
 
-[node name="LogMargin" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="LogMargin" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1740745723]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="WeaponSetsContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="WeaponSetsContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=2029410928]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="CheckButton" type="CheckButton" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer"]
+[node name="CheckButton" type="CheckButton" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer" unique_id=1567182890]
 custom_minimum_size = Vector2(0, 31)
 layout_mode = 2
 tooltip_text = "Click to change your active weapon set."
 focus_mode = 0
 
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer"]
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer" unique_id=1148625341]
 layout_mode = 2
 
-[node name="Strike" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer"]
+[node name="Strike" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer" unique_id=1293121882]
 layout_mode = 2
 focus_mode = 0
 toggle_mode = true
@@ -113,7 +113,7 @@ button_group = ExtResource("2_wgjoc")
 text = "Strike
 "
 
-[node name="Shoot" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer"]
+[node name="Shoot" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer" unique_id=1010780833]
 layout_mode = 2
 focus_mode = 0
 toggle_mode = true
@@ -121,7 +121,7 @@ keep_pressed_outside = true
 button_group = ExtResource("2_wgjoc")
 text = "Shoot"
 
-[node name="Throw" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer"]
+[node name="Throw" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer" unique_id=1800627642]
 layout_mode = 2
 focus_mode = 0
 toggle_mode = true
@@ -129,10 +129,10 @@ keep_pressed_outside = true
 button_group = ExtResource("2_wgjoc")
 text = "Throw"
 
-[node name="Weapon1Container" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Weapon1Container" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=915914240]
 layout_mode = 2
 
-[node name="Weapon1" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container"]
+[node name="Weapon1" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container" unique_id=2059377598]
 layout_mode = 2
 focus_mode = 0
 toggle_mode = true
@@ -140,10 +140,10 @@ keep_pressed_outside = true
 button_group = ExtResource("2_fqd3i")
 text = "None"
 
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container"]
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container" unique_id=1101243388]
 layout_mode = 2
 
-[node name="W1_AttackType1" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container"]
+[node name="W1_AttackType1" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container" unique_id=513785037]
 layout_mode = 2
 focus_mode = 0
 toggle_mode = true
@@ -151,7 +151,7 @@ keep_pressed_outside = true
 button_group = ExtResource("3_bgvwv")
 text = "Slash"
 
-[node name="W1_AttackType2" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container"]
+[node name="W1_AttackType2" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container" unique_id=470177240]
 layout_mode = 2
 focus_mode = 0
 toggle_mode = true
@@ -159,7 +159,7 @@ keep_pressed_outside = true
 button_group = ExtResource("3_bgvwv")
 text = "Pierce"
 
-[node name="W1_AttackType3" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container"]
+[node name="W1_AttackType3" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container" unique_id=1949396866]
 layout_mode = 2
 focus_mode = 0
 toggle_mode = true
@@ -167,10 +167,10 @@ keep_pressed_outside = true
 button_group = ExtResource("3_bgvwv")
 text = "Crush"
 
-[node name="Weapon2Container" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Weapon2Container" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=622016662]
 layout_mode = 2
 
-[node name="Weapon2" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container"]
+[node name="Weapon2" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container" unique_id=1197045275]
 layout_mode = 2
 focus_mode = 0
 toggle_mode = true
@@ -179,10 +179,10 @@ button_group = ExtResource("2_fqd3i")
 text = "None
 "
 
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container"]
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container" unique_id=829317420]
 layout_mode = 2
 
-[node name="W2_AttackType1" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container"]
+[node name="W2_AttackType1" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container" unique_id=1627052038]
 layout_mode = 2
 focus_mode = 0
 toggle_mode = true
@@ -190,7 +190,7 @@ keep_pressed_outside = true
 button_group = ExtResource("4_h0o3h")
 text = "Slash"
 
-[node name="W2_AttackType2" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container"]
+[node name="W2_AttackType2" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container" unique_id=1732528185]
 layout_mode = 2
 focus_mode = 0
 toggle_mode = true
@@ -198,7 +198,7 @@ keep_pressed_outside = true
 button_group = ExtResource("4_h0o3h")
 text = "Pierce"
 
-[node name="W2_AttackType3" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container"]
+[node name="W2_AttackType3" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container" unique_id=476570983]
 layout_mode = 2
 focus_mode = 0
 toggle_mode = true
@@ -206,19 +206,19 @@ keep_pressed_outside = true
 button_group = ExtResource("4_h0o3h")
 text = "Crush"
 
-[node name="VSeparator" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1297392481]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="CharInfoVBox1" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="CharInfoVBox1" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=440897545]
 layout_mode = 2
 
-[node name="CharacterPortrait" type="ColorRect" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
+[node name="CharacterPortrait" type="ColorRect" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1" unique_id=1981229456]
 custom_minimum_size = Vector2(100, 120)
 layout_mode = 2
 color = Color(0, 0, 0, 1)
 
-[node name="HP_bar" type="ProgressBar" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
+[node name="HP_bar" type="ProgressBar" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1" unique_id=566594379]
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 theme_override_constants/outline_size = 5
@@ -227,7 +227,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_wgjoc")
 step = 1.0
 show_percentage = false
 
-[node name="HP_Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/HP_bar"]
+[node name="HP_Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/HP_bar" unique_id=1488094419]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -240,11 +240,11 @@ theme_override_font_sizes/font_size = 13
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PP_bar_wrapper" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
+[node name="PP_bar_wrapper" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1" unique_id=1468677080]
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 
-[node name="PP_bar" type="ProgressBar" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar_wrapper"]
+[node name="PP_bar" type="ProgressBar" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar_wrapper" unique_id=787721756]
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 0
 offset_right = 100.0
@@ -254,7 +254,7 @@ theme_override_font_sizes/font_size = 12
 theme_override_styles/fill = SubResource("StyleBoxFlat_whaje")
 show_percentage = false
 
-[node name="PP_bar_preview" type="ProgressBar" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar_wrapper"]
+[node name="PP_bar_preview" type="ProgressBar" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar_wrapper" unique_id=793951759]
 modulate = Color(0, 1, 1, 1)
 z_index = 5
 custom_minimum_size = Vector2(0, 15)
@@ -266,7 +266,7 @@ theme_override_font_sizes/font_size = 12
 theme_override_styles/fill = SubResource("StyleBoxFlat_p5au4")
 show_percentage = false
 
-[node name="PP_Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar_wrapper"]
+[node name="PP_Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar_wrapper" unique_id=1442021489]
 z_index = 10
 layout_mode = 1
 anchors_preset = 15
@@ -282,7 +282,7 @@ theme_override_font_sizes/font_size = 13
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EP_bar" type="ProgressBar" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
+[node name="EP_bar" type="ProgressBar" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1" unique_id=440662103]
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 theme_override_constants/outline_size = 5
@@ -290,7 +290,7 @@ theme_override_font_sizes/font_size = 12
 theme_override_styles/fill = SubResource("StyleBoxFlat_bfbnh")
 show_percentage = false
 
-[node name="EP_Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/EP_bar"]
+[node name="EP_Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/EP_bar" unique_id=2106511286]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -303,152 +303,152 @@ theme_override_font_sizes/font_size = 13
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Name" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
+[node name="Name" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1" unique_id=466352111]
 visible = false
 layout_mode = 2
 mouse_filter = 0
 text = "Name:"
 
-[node name="HP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
+[node name="HP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1" unique_id=1233724522]
 visible = false
 layout_mode = 2
 tooltip_text = "Your health points."
 mouse_filter = 0
 text = "HP:"
 
-[node name="PP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
+[node name="PP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1" unique_id=143617013]
 visible = false
 layout_mode = 2
 tooltip_text = "Your power points (for casting spells and the like)."
 mouse_filter = 0
 text = "PP:"
 
-[node name="EP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
+[node name="EP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1" unique_id=676023060]
 visible = false
 layout_mode = 2
 tooltip_text = "Your energy points (for replenishing both health and power)."
 mouse_filter = 0
 text = "EP:"
 
-[node name="Vigour" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
+[node name="Vigour" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1" unique_id=40512265]
 visible = false
 layout_mode = 2
 tooltip_text = "Your current vigour level, which influences almost all activities you can undertake."
 mouse_filter = 0
 text = "Vigour:"
 
-[node name="MP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1"]
+[node name="MP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1" unique_id=2009231944]
 visible = false
 layout_mode = 2
 tooltip_text = "Your currently available movement points."
 mouse_filter = 0
 text = "MP:"
 
-[node name="Margin" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Margin" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=437579876]
 visible = false
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
 
-[node name="CharInfoVBox2" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="CharInfoVBox2" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=986760105]
 layout_mode = 2
 
-[node name="Name" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2"]
+[node name="Name" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2" unique_id=1918227337]
 layout_mode = 2
 mouse_filter = 0
 
-[node name="HP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2"]
+[node name="HP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2" unique_id=727388035]
 layout_mode = 2
 tooltip_text = "Your health points."
 mouse_filter = 0
 
-[node name="PP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2"]
+[node name="PP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2" unique_id=605184332]
 layout_mode = 2
 tooltip_text = "Your power points (for casting spells and the like)."
 mouse_filter = 0
 
-[node name="EP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2"]
+[node name="EP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2" unique_id=440971786]
 layout_mode = 2
 tooltip_text = "Your energy points (for replenishing both health and power)."
 mouse_filter = 0
 
-[node name="Vigour" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2"]
+[node name="Vigour" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2" unique_id=1640318177]
 layout_mode = 2
 tooltip_text = "Your current vigour level, which influences almost all activities you can undertake."
 mouse_filter = 0
 
-[node name="MP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2"]
+[node name="MP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox2" unique_id=152917226]
 layout_mode = 2
 tooltip_text = "Your currently available movement points."
 mouse_filter = 0
 
-[node name="VSeparator2" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="VSeparator2" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=841664521]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 
-[node name="ActivitiesContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="ActivitiesContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=234484203]
 layout_mode = 2
 
-[node name="ActivitiesLine1" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer"]
+[node name="ActivitiesLine1" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer" unique_id=1022351926]
 layout_mode = 2
 
-[node name="Activity1" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+[node name="Activity1" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=45708061]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 focus_mode = 0
 
-[node name="Activity2" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+[node name="Activity2" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=992287194]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 focus_mode = 0
 
-[node name="Activity3" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+[node name="Activity3" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=226838071]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 focus_mode = 0
 
-[node name="Activity4" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+[node name="Activity4" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=104047551]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 focus_mode = 0
 
-[node name="Activity5" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+[node name="Activity5" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=1806967561]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 focus_mode = 0
 
-[node name="Activity6" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+[node name="Activity6" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=1582752972]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 focus_mode = 0
 
-[node name="Activity7" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+[node name="Activity7" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=582002314]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 focus_mode = 0
 
-[node name="Activity8" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+[node name="Activity8" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=1705110773]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 focus_mode = 0
 
-[node name="Activity9" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+[node name="Activity9" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=2044277751]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 focus_mode = 0
 
-[node name="Activity10" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1"]
+[node name="Activity10" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=1645630019]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 focus_mode = 0
 
-[node name="ActivitiesLine2" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer"]
+[node name="ActivitiesLine2" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer" unique_id=2131534227]
 layout_mode = 2
 
-[node name="VSeparator3" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="VSeparator3" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=906261255]
 visible = false
 layout_mode = 2
 
-[node name="SpellRankSlider" type="VSlider" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="SpellRankSlider" type="VSlider" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1682277861]
 visible = false
 layout_mode = 2
 focus_mode = 0
@@ -458,35 +458,35 @@ max_value = 12.0
 value = 1.0
 rounded = true
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1021675399]
 visible = false
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SpellList" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer"]
+[node name="SpellList" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer" unique_id=698679286]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VSeparator4" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="VSeparator4" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1453070703]
 visible = false
 layout_mode = 2
 
-[node name="VSeparator5" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="VSeparator5" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=366499856]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1790354722]
 layout_mode = 2
 theme_override_constants/h_separation = 4
 theme_override_constants/v_separation = 4
 columns = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=230746962]
 layout_mode = 2
 size_flags_horizontal = 10
 
-[node name="CrisisModeButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="CrisisModeButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=2089803279]
 custom_minimum_size = Vector2(120, 40)
 layout_mode = 2
 tooltip_text = "Click here to start or end 'crisis mode' (turn by turn)."
@@ -495,7 +495,7 @@ theme_override_font_sizes/font_size = 18
 toggle_mode = true
 text = "Crisis Mode"
 
-[node name="EndTurnButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="EndTurnButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=933223210]
 custom_minimum_size = Vector2(120, 80)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -507,48 +507,48 @@ text = "End
 Turn"
 icon_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1528486418]
 visible = false
 layout_mode = 2
 
-[node name="ActionPointsLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="ActionPointsLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1216457770]
 layout_mode = 2
 text = "Actions Points:"
 
-[node name="ActionPoints" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="ActionPoints" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1563657927]
 layout_mode = 2
 
-[node name="ActionPip1" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints"]
+[node name="ActionPip1" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints" unique_id=1533840643]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 texture = ExtResource("5_h0o3h")
 
-[node name="ActionPip2" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints"]
+[node name="ActionPip2" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints" unique_id=2133175166]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 texture = ExtResource("5_h0o3h")
 
-[node name="ActionPip3" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints"]
+[node name="ActionPip3" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints" unique_id=2101449639]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 texture = ExtResource("5_h0o3h")
 
-[node name="ActionPip4" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints"]
+[node name="ActionPip4" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints" unique_id=1285371191]
 visible = false
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 texture = ExtResource("5_h0o3h")
 
-[node name="ActionPip5" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints"]
+[node name="ActionPip5" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints" unique_id=1239433508]
 visible = false
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 texture = ExtResource("5_h0o3h")
 
-[node name="RightMargin" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="RightMargin" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1049128816]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="BottomMargin" type="Control" parent="PanelContainer/VBoxContainer"]
+[node name="BottomMargin" type="Control" parent="PanelContainer/VBoxContainer" unique_id=1174437479]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2

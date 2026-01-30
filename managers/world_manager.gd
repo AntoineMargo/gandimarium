@@ -28,7 +28,8 @@ func setup_layers():
 			var hit_points = {};
 			var item_visual = {};
 			astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
-			astar.region = Rect2i(0, 0, width, height)
+			#astar.region = Rect2i(0, 0, width, height)
+			astar.region = layer.get_used_rect()
 			astar.cell_size = Vector2(Global.TILE_SIZE, Global.TILE_SIZE)
 			astar.update()
 			for x in range(width):
@@ -471,46 +472,150 @@ func _on_refresh_reachable_tiles():
 	show_reachable_tiles()
 
 func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, visited: Dictionary) -> bool:
+	print("==_find_recursive_path==")
 	var key = str(start)
 	if visited.has(key):
+		print("	visited.has(key)")
 		return false
 	visited[key] = true
-
 	if start.z == goal.z:
+		print("	start.z == goal.z")
 		var path2D: PackedVector2Array = layers[start.z]["path_map"].get_point_path(Vector2i(start.x, start.y), Vector2i(goal.x, goal.y))
 		if path2D.is_empty():
 			return false
 		var path_3d: Array[Vector3i] = []
 		for p in path2D:
-			path_3d.append(Vector3i(p.x, p.y, start.z))
+			path_3d.append(Vector3i(int(p.x), int(p.y), start.z))  # Cast to int
 		path_array.append(path_3d)
 		return true
-
 	# Look for ramps on this level
 	if not layer_links.has(start.z):
+		print("	not layer_links.has(start.z)")
 		return false
-
 	for ramp_xy in layer_links[start.z].keys():
-		var path2ramp: PackedVector2Array = layers[start.z]["path_map"].get_point_path(Vector2i(start.x, start.y), ramp_xy)
+		var pm = layers[start.z]["path_map"]
+		print(
+			"Ramp check Z=%d Start=%s Ramp=%s | in_bounds=%s solid=%s"
+			% [
+				start.z,
+				Vector2i(start.x, start.y),
+				ramp_xy,
+				pm.is_in_boundsv(ramp_xy),
+				pm.is_point_solid(ramp_xy)
+			]
+		)
+		var start_2d = Vector2i(start.x, start.y)
+		var was_solid = pm.is_point_solid(start_2d)
+		if was_solid:
+			pm.set_point_solid(start_2d, false)
+			pm.update()
+		var path2ramp = pm.get_point_path(start_2d, ramp_xy, true)
+		print("	1")
 		if path2ramp.is_empty():
+			print("	1 fail")
 			continue
+		print("	2")
+		# FIX: Godot 4.6 returns world coordinates, convert back to grid coordinates
+		var last_pos = Vector2i(int(path2ramp[-1].x) / Global.TILE_SIZE, int(path2ramp[-1].y) / Global.TILE_SIZE)
+		print("path2ramp last =", last_pos, " expected =", ramp_xy)
+		if last_pos != ramp_xy:
+			print("	2 fail")
+			continue
+		print("	3")
 		var path_3d: Array[Vector3i] = []
 		for p in path2ramp:
-			path_3d.append(Vector3i(p.x, p.y, start.z))
+			# Convert from world coordinates to grid coordinates
+			path_3d.append(Vector3i(int(p.x) / Global.TILE_SIZE, int(p.y) / Global.TILE_SIZE, start.z))
 		path_array.append(path_3d)
-
+		print("	4")
 		for link in layer_links[start.z][ramp_xy]:
+			print("	looking at link")
 			var next_z: int = link[0]
 			var next_pos: Vector2i = link[1]
 			var new_start = Vector3i(next_pos.x, next_pos.y, next_z)
-
 			if _find_recursive_path(new_start, goal, path_array, visited):
 				return true
-
 		# Backtrack if this ramp path didn't work out
 		path_array.pop_back()
-
+	print("	final failure")
 	return false
+
+
+#func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, visited: Dictionary) -> bool:
+	#print("==_find_recursive_path==")
+	#var key = str(start)
+	#if visited.has(key):
+		#print("	visited.has(key)")
+		#return false
+	#visited[key] = true
+#
+	#if start.z == goal.z:
+		#print("	start.z == goal.z")
+		#var path2D: PackedVector2Array = layers[start.z]["path_map"].get_point_path(Vector2i(start.x, start.y), Vector2i(goal.x, goal.y))
+		#if path2D.is_empty():
+			#return false
+		#var path_3d: Array[Vector3i] = []
+		#for p in path2D:
+			#path_3d.append(Vector3i(p.x, p.y, start.z))
+		#path_array.append(path_3d)
+		#return true
+#
+	## Look for ramps on this level
+	#if not layer_links.has(start.z):
+		#print("	not layer_links.has(start.z)")
+		#return false
+#
+	#for ramp_xy in layer_links[start.z].keys():
+		#var pm = layers[start.z]["path_map"]
+		#print(
+			#"Ramp check Z=%d Start=%s Ramp=%s | in_bounds=%s solid=%s"
+			#% [
+				#start.z,
+				#Vector2i(start.x, start.y),
+				#ramp_xy,
+				#pm.is_in_boundsv(ramp_xy),
+				#pm.is_point_solid(ramp_xy)
+			#]
+		#)
+		##var path2ramp: PackedVector2Array = layers[start.z]["path_map"].get_point_path(Vector2i(start.x, start.y), ramp_xy)
+		#var start_2d = Vector2i(start.x, start.y)
+#
+		#var was_solid = pm.is_point_solid(start_2d)
+		#if was_solid:
+			#pm.set_point_solid(start_2d, false)
+			#pm.update()
+#
+		#var path2ramp = layers[start.z]["path_map"].get_point_path(Vector2i(start.x, start.y), ramp_xy, true)
+		#print("	1")
+		#if path2ramp.is_empty():
+			#print("	1 fail")
+			#continue
+		#print("	2")
+		#print("path2ramp last =", Vector2i(path2ramp[-1]), " expected =", ramp_xy)
+		#if Vector2i(path2ramp[-1]) != ramp_xy:
+			#print("	2 fail")
+			#continue
+		#print("	3")
+		#var path_3d: Array[Vector3i] = []
+		#for p in path2ramp:
+			#path_3d.append(Vector3i(p.x, p.y, start.z))
+		#path_array.append(path_3d)
+		#print("	4")
+#
+		#for link in layer_links[start.z][ramp_xy]:
+			#print("	looking at link")
+			#var next_z: int = link[0]
+			#var next_pos: Vector2i = link[1]
+			#var new_start = Vector3i(next_pos.x, next_pos.y, next_z)
+#
+			#if _find_recursive_path(new_start, goal, path_array, visited):
+				#return true
+#
+		## Backtrack if this ramp path didn't work out
+		#path_array.pop_back()
+#
+	#print("	final failure")
+	#return false
 
 func _try_move_char_abs(target):
 	if not Global.focus_char:
@@ -600,6 +705,8 @@ func _interact_move(t_coords):
 
 	print("origin: %d/%d" % [o_coords.vec2.x, o_coords.vec2.y])
 	print("goal: %d/%d" % [t_coords.vec2.x, t_coords.vec2.y])
+
+	path_map.set_point_solid(o_coords.vec2, false)
 
 	path = get_multi_level_path(o_coords.vec3, t_coords.vec3)
 

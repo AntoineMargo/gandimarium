@@ -73,14 +73,26 @@ func BasicControls():
 
 	if Input.is_action_just_pressed("U"):
 		var coords = wm.get_tile_coords()
-		print("Current location: (%d:%d)" % [coords.vec2.x, coords.vec2.y])
-		if wm.layers[wm.current_level]["contents"].has(coords.vec2):
+		var tile_coords: Vector2i = coords.vec2
+
+		print("Current location: (%d:%d)" % [tile_coords.x, tile_coords.y])
+
+		if wm.layers[wm.current_level]["contents"].has(tile_coords):
 			print("Contents: ")
-			for element in wm.layers[wm.current_level]["contents"][coords.vec2]:
+			for element in wm.layers[wm.current_level]["contents"][tile_coords]:
 				if element is Item:
 					print("	%s" % element.name)
 				if element is Node:
 					print("	%s" % element.data.name)
+
+		var pm: AStarGrid2D = wm.layers[wm.current_level]["path_map"]
+
+		if not pm.is_in_boundsv(tile_coords):
+			print("This tile is OUT OF BOUNDS (treated as solid)")
+		elif pm.is_point_solid(tile_coords):
+			print("This tile is SOLID!")
+		else:
+			print("This tile is free to move onto.")
 
 	if Input.is_action_just_pressed("I"):
 		if not Global.selected_char:
