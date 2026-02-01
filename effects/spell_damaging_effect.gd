@@ -8,7 +8,7 @@ class_name SpellDamagingEffect
 @export var resistance: String = ""
 @export var damage_pattern: DamagePattern = null
 
-func apply(source, target, degree: int) -> void:
+func apply(source, target, degree: int = 2) -> void:
 	if damage_pattern == null:
 		damage_pattern = Library.get_dmg_pattern("default")
 	var user = source.user

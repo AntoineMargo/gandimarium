@@ -4,7 +4,7 @@ class_name ConditionEffect
 
 @export var conditions: Array[Condition] = []
 
-func apply(source, target, degree: int) -> void:
+func apply(source, target, degree: int = 2) -> void:
 	for condition in conditions:
 		if condition == null:
 			continue

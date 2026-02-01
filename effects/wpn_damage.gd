@@ -6,7 +6,7 @@ class_name WeaponDamageEffect
 @export var damage_bonus: int = 0
 @export var resistance: String = "physical"
 
-func apply(source, target, degree: int) -> void:
+func apply(source, target, degree: int = 2) -> void:
 	var category = source.user.data.equipment.get_active_attack_category()
 	var chosen_attack_type = -1
 	if category == 0:

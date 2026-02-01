@@ -1,5 +1,5 @@
 extends Activity
-class_name TargetedActivity
+class_name TargetedActivityOld
 
 @export var number_of_targets: int = 1
 var number_of_targets_left = 0
@@ -12,26 +12,6 @@ func handle_input(event: InputEvent) -> void:
 					select_entity_target()
 			MOUSE_BUTTON_RIGHT:
 				cancel_activity()
-
-func execute() -> void:
-	if user.data.player_controlled:
-		execute_player()
-	else:
-		execute_ai()
-
-func execute_ai() -> void:
-	resolve_with_targets(target_entities)
-
-func execute_player() -> void:
-	SignalBus.dialog_show_message.emit("Waiting for target(s) of activity...")
-	var cm = Global.crisis_manager
-	cm.activity_mode = self
-	self.user = user
-	number_of_targets_left = number_of_targets
-	SignalBus.dialog_selectable_targets.emit(number_of_targets_left)
-	target_entities.clear()
-	target_points.clear()
-	SignalBus.change_cursor.emit("select2")
 
 func cancel_activity():
 	SignalBus.dialog_show_message.emit("Canceling activity.")
@@ -75,18 +55,28 @@ func select_entity_target():
 						for hl in wm.target_highlights:
 							hl.queue_free()
 						wm.target_highlights.clear()
-						resolve_with_targets(target_entities)
+						follow_up()
 				else:
 					SignalBus.dialog_show_message.emit("Invalid target.")
 
-func resolve_with_targets(targets: Array) -> void:
-	assert(targets.size() > 0, "resolve_with_targets called with no targets")
+func execute() -> void:
+	SignalBus.dialog_show_message.emit("Waiting for target(s) of activity...")
+	var cm = Global.crisis_manager
+	cm.activity_mode = self
+	self.user = user
+	number_of_targets_left = number_of_targets
+	SignalBus.dialog_selectable_targets.emit(number_of_targets_left)
+	target_entities.clear()
+	target_points.clear()
+	SignalBus.change_cursor.emit("select2")
+
+func follow_up() -> void:
 	var cm = Global.crisis_manager
 	for target in target_entities:
 		for filter in target_filters:
 			if not filter.is_satisfied(target, self):
 				continue
-	
+
 		var user_stat = user.get_final_stat(attacking_aptitude)
 		var target_stat = user.get_final_stat(defending_aptitude)
 		
@@ -101,15 +91,15 @@ func resolve_with_targets(targets: Array) -> void:
 			if effect is Effect:
 				effect.apply(self, target, degree)
 
-	for effect in self_effects:
-		if effect is Effect:
-			effect.apply(self, user)
+		for effect in self_effects:
+			if effect is Effect:
+				effect.apply(self, user, degree)
 
-	user.consume_ap(AP_cost)
-	if is_spell:
-		user.consume_pp(user.get_stat("current_spell_cost"))
-	else:
-		user.consume_pp(PP_cost)
+		user.consume_ap(AP_cost)
+		if is_spell:
+			user.consume_pp(user.get_stat("current_spell_cost"))
+		else:
+			user.consume_pp(PP_cost)
 	
 	SignalBus.dialog_show_message.emit("Activity effects released.")
 	SignalBus.change_cursor.emit("default")

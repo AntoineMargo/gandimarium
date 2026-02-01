@@ -3,7 +3,7 @@ class_name AddSpellEffect
 
 @export var spells: Array[Spell] = []
 
-func apply(source, target, degree: int) -> void:
+func apply(source, target, degree: int = 2) -> void:
 	for spell in spells:
 		var new_spell = spell.duplicate()
 		if target.has_method("add_ready_spell"):

@@ -3,7 +3,7 @@ class_name ModifierEffect
 
 @export var modifiers: Array[ModifierEntry] = []
 
-func apply(source, target, degree):
+func apply(source, target, degree: int = 2):
 	for entry in modifiers:
 		target.change_stat(entry.stat, entry.get_amount(target))
 
