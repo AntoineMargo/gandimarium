@@ -56,5 +56,6 @@ class_name CreatureData
 @export var alive: bool = true
 @export var conscious: bool = true
 @export var crisis_ai_active: bool = false
+@export var initiative: int = -1
 
 var derived_stats = null

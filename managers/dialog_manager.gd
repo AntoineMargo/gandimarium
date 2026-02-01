@@ -56,7 +56,7 @@ func _on_crisis_mode_ending():
 	_on_show_message("Crisis Mode ending.")
 
 func _on_turn_ending():
-	_on_show_message("Turn Ending.")
+	_on_show_message("Turn ending.")
 
 func _crisis_mode_not_active():
 	_on_show_message("Crisis mode is not active!")

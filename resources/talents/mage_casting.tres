@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Talent" load_steps=7 format=3 uid="uid://rn0a3hnwu3o1"]
+[gd_resource type="Resource" script_class="Talent" format=3 uid="uid://rn0a3hnwu3o1"]
 
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_jimtj"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_2apet"]

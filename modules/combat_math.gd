@@ -4,6 +4,11 @@ const CRITICAL_SUCCESS_THRESHOLD = 10
 const SUCCESS_THRESHOLD = 0
 const FAILURE_THRESHOLD = -10
 
+## straight check
+static func make_regular_check(stat: int, roll: int) -> int:
+	return  stat + roll
+
+## comparison between two creatures' checks
 static func make_opposed_check(stat1: int, roll1: int, stat2: int, roll2: int) -> int:
 	var result1 = stat1 + roll1
 	var result2 = stat2 + roll2

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Relationships" load_steps=6 format=3 uid="uid://ce1yneg2dwyxq"]
+[gd_resource type="Resource" script_class="Relationships" format=3 uid="uid://ce1yneg2dwyxq"]
 
 [ext_resource type="Script" uid="uid://cwy5ao2mmfqfh" path="res://various/affiliation_entry.gd" id="1_yqp2a"]
 [ext_resource type="Script" uid="uid://ci8skyvllvl30" path="res://various/reputation_entry.gd" id="2_x2jov"]

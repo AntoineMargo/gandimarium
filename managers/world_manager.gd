@@ -332,14 +332,23 @@ func find_path_index_by_cost(path, move_budget):
 	
 	return path.size() - 1
 
+## finds best path from creature to a tile at X distance of target
 func path_to_target_adjacency(creature, target, distance):
-	"finds best path from creature to a tile at X distance of target"
 	var origin = get_char_coords(target)
 	var goal = get_char_coords(creature)
+	
+	# making characters non-blocking since Godot 4.6 doesn't like that anymore
+	layers[origin.vec3.z]["path_map"].set_point_solid(origin.vec2, false)
+	layers[goal.vec3.z]["path_map"].set_point_solid(goal.vec2, false)
+	
 	var path = null
 	var tile_path = null
 	path = get_multi_level_path(origin.vec3, goal.vec3, true)
 	tile_path = turn_path_from_pixels_to_tiles(path)
+	
+	# making characters blocking again
+	layers[origin.vec3.z]["path_map"].set_point_solid(origin.vec2, true)
+	layers[goal.vec3.z]["path_map"].set_point_solid(goal.vec2, true)
 	
 	if tile_path.is_empty():
 		print("No path found!")
@@ -472,14 +481,14 @@ func _on_refresh_reachable_tiles():
 	show_reachable_tiles()
 
 func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, visited: Dictionary) -> bool:
-	print("==_find_recursive_path==")
+	#print("==_find_recursive_path==")
 	var key = str(start)
 	if visited.has(key):
-		print("	visited.has(key)")
+		#print("	visited.has(key)")
 		return false
 	visited[key] = true
 	if start.z == goal.z:
-		print("	start.z == goal.z")
+		#print("	start.z == goal.z")
 		var path2D: PackedVector2Array = layers[start.z]["path_map"].get_point_path(Vector2i(start.x, start.y), Vector2i(goal.x, goal.y))
 		if path2D.is_empty():
 			return false
@@ -494,79 +503,6 @@ func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, vi
 		return false
 	for ramp_xy in layer_links[start.z].keys():
 		var pm = layers[start.z]["path_map"]
-		print(
-			"Ramp check Z=%d Start=%s Ramp=%s | in_bounds=%s solid=%s"
-			% [
-				start.z,
-				Vector2i(start.x, start.y),
-				ramp_xy,
-				pm.is_in_boundsv(ramp_xy),
-				pm.is_point_solid(ramp_xy)
-			]
-		)
-		var start_2d = Vector2i(start.x, start.y)
-		var was_solid = pm.is_point_solid(start_2d)
-		if was_solid:
-			pm.set_point_solid(start_2d, false)
-			pm.update()
-		var path2ramp = pm.get_point_path(start_2d, ramp_xy, true)
-		print("	1")
-		if path2ramp.is_empty():
-			print("	1 fail")
-			continue
-		print("	2")
-		# FIX: Godot 4.6 returns world coordinates, convert back to grid coordinates
-		var last_pos = Vector2i(int(path2ramp[-1].x) / Global.TILE_SIZE, int(path2ramp[-1].y) / Global.TILE_SIZE)
-		print("path2ramp last =", last_pos, " expected =", ramp_xy)
-		if last_pos != ramp_xy:
-			print("	2 fail")
-			continue
-		print("	3")
-		var path_3d: Array[Vector3i] = []
-		for p in path2ramp:
-			# Convert from world coordinates to grid coordinates
-			path_3d.append(Vector3i(int(p.x) / Global.TILE_SIZE, int(p.y) / Global.TILE_SIZE, start.z))
-		path_array.append(path_3d)
-		print("	4")
-		for link in layer_links[start.z][ramp_xy]:
-			print("	looking at link")
-			var next_z: int = link[0]
-			var next_pos: Vector2i = link[1]
-			var new_start = Vector3i(next_pos.x, next_pos.y, next_z)
-			if _find_recursive_path(new_start, goal, path_array, visited):
-				return true
-		# Backtrack if this ramp path didn't work out
-		path_array.pop_back()
-	print("	final failure")
-	return false
-
-
-#func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, visited: Dictionary) -> bool:
-	#print("==_find_recursive_path==")
-	#var key = str(start)
-	#if visited.has(key):
-		#print("	visited.has(key)")
-		#return false
-	#visited[key] = true
-#
-	#if start.z == goal.z:
-		#print("	start.z == goal.z")
-		#var path2D: PackedVector2Array = layers[start.z]["path_map"].get_point_path(Vector2i(start.x, start.y), Vector2i(goal.x, goal.y))
-		#if path2D.is_empty():
-			#return false
-		#var path_3d: Array[Vector3i] = []
-		#for p in path2D:
-			#path_3d.append(Vector3i(p.x, p.y, start.z))
-		#path_array.append(path_3d)
-		#return true
-#
-	## Look for ramps on this level
-	#if not layer_links.has(start.z):
-		#print("	not layer_links.has(start.z)")
-		#return false
-#
-	#for ramp_xy in layer_links[start.z].keys():
-		#var pm = layers[start.z]["path_map"]
 		#print(
 			#"Ramp check Z=%d Start=%s Ramp=%s | in_bounds=%s solid=%s"
 			#% [
@@ -577,63 +513,57 @@ func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, vi
 				#pm.is_point_solid(ramp_xy)
 			#]
 		#)
-		##var path2ramp: PackedVector2Array = layers[start.z]["path_map"].get_point_path(Vector2i(start.x, start.y), ramp_xy)
-		#var start_2d = Vector2i(start.x, start.y)
-#
-		#var was_solid = pm.is_point_solid(start_2d)
-		#if was_solid:
-			#pm.set_point_solid(start_2d, false)
-			#pm.update()
-#
-		#var path2ramp = layers[start.z]["path_map"].get_point_path(Vector2i(start.x, start.y), ramp_xy, true)
-		#print("	1")
-		#if path2ramp.is_empty():
+		var start_2d = Vector2i(start.x, start.y)
+		var was_solid = pm.is_point_solid(start_2d)
+		if was_solid:
+			pm.set_point_solid(start_2d, false)
+			pm.update()
+		var path2ramp = pm.get_point_path(start_2d, ramp_xy, true)
+		if path2ramp.is_empty():
 			#print("	1 fail")
-			#continue
-		#print("	2")
-		#print("path2ramp last =", Vector2i(path2ramp[-1]), " expected =", ramp_xy)
-		#if Vector2i(path2ramp[-1]) != ramp_xy:
+			continue
+		# FIX: Godot 4.6 returns world coordinates, convert back to grid coordinates
+		@warning_ignore("integer_division")
+		var last_pos = Vector2i(int(path2ramp[-1].x) / Global.TILE_SIZE, int(path2ramp[-1].y) / Global.TILE_SIZE)
+		#print("path2ramp last =", last_pos, " expected =", ramp_xy)
+		if last_pos != ramp_xy:
 			#print("	2 fail")
-			#continue
-		#print("	3")
-		#var path_3d: Array[Vector3i] = []
-		#for p in path2ramp:
-			#path_3d.append(Vector3i(p.x, p.y, start.z))
-		#path_array.append(path_3d)
-		#print("	4")
-#
-		#for link in layer_links[start.z][ramp_xy]:
+			continue
+		var path_3d: Array[Vector3i] = []
+		for p in path2ramp:
+			# Convert from world coordinates to grid coordinates
+			@warning_ignore("integer_division")
+			path_3d.append(Vector3i(int(p.x) / Global.TILE_SIZE, int(p.y) / Global.TILE_SIZE, start.z))
+		path_array.append(path_3d)
+		for link in layer_links[start.z][ramp_xy]:
 			#print("	looking at link")
-			#var next_z: int = link[0]
-			#var next_pos: Vector2i = link[1]
-			#var new_start = Vector3i(next_pos.x, next_pos.y, next_z)
-#
-			#if _find_recursive_path(new_start, goal, path_array, visited):
-				#return true
-#
-		## Backtrack if this ramp path didn't work out
-		#path_array.pop_back()
-#
+			var next_z: int = link[0]
+			var next_pos: Vector2i = link[1]
+			var new_start = Vector3i(next_pos.x, next_pos.y, next_z)
+			if _find_recursive_path(new_start, goal, path_array, visited):
+				return true
+		# Backtrack if this ramp path didn't work out
+		path_array.pop_back()
 	#print("	final failure")
-	#return false
+	return false
 
 func _try_move_char_abs(target):
 	if not Global.focus_char:
 		return
-	var char = Global.focus_char
-	var origin = get_char_coords(char)
+	var character = Global.focus_char
+	var origin = get_char_coords(character)
 
 	layers[origin.vec3.z]["occupied"][origin.vec2] = false
 	layers[origin.vec3.z]["path_map"].set_point_solid(origin.vec2, false)
-	remove_from_tile(char, origin)
+	remove_from_tile(character, origin)
 	
-	char.data.tile_x = target.vec3.x
-	char.data.tile_y = target.vec3.y
-	char.data.tile_z = target.vec3.z
-	char.position = layers[target.vec3.z]["tile_map"].map_to_local(target.vec2)
+	character.data.tile_x = target.vec3.x
+	character.data.tile_y = target.vec3.y
+	character.data.tile_z = target.vec3.z
+	character.position = layers[target.vec3.z]["tile_map"].map_to_local(target.vec2)
 
 	layers[target.vec3.z]["occupied"][target.vec2] = true
-	add_to_tile(char, target)
+	add_to_tile(character, target)
 	layers[target.vec3.z]["path_map"].set_point_solid(target.vec2, true)
 
 func find_creature_on_tile(coordinates: Vector3i) -> Creature:
@@ -649,31 +579,23 @@ func select_creature_on_tile(coordinates: Vector3i) -> void:
 	if layers[current_level]["contents"].has(coords):
 		for element in layers[current_level]["contents"][coords]:
 			if element is Creature:
-				Global.selected_char = element
-				Global.focus_char = element
-				selection_highlight.update_selection_highlight()
-				SignalBus.update_inventory.emit()
-				SignalBus.update_character_info.emit()
-				SignalBus.update_ui_for_char.emit()
-				SignalBus.refresh_reachable_tiles.emit()
-				print("Selected character: ", element.data.name)
-				return
+				if element.data.player_controlled:
+					Global.selected_char = element
+					Global.focus_char = element
+					selection_highlight.update_selection_highlight()
+					SignalBus.update_inventory.emit()
+					SignalBus.update_character_info.emit()
+					SignalBus.update_ui_for_char.emit()
+					SignalBus.refresh_reachable_tiles.emit()
+					print("Selected character: ", element.data.name)
+					return
+				#else:
+					#zzz
+					#pass
 
 func _on_world_select():
 	var coords = get_tile_coords()
 	select_creature_on_tile(coords.vec3)
-	#if layers[current_level]["contents"].has(coords.vec2):
-		#for element in layers[current_level]["contents"][coords.vec2]:
-			#if element is Creature:
-				#Global.selected_char = element
-				#Global.focus_char = element
-				#selection_highlight.update_selection_highlight()
-				#SignalBus.update_inventory.emit()
-				#SignalBus.update_character_info.emit()
-				#SignalBus.update_ui_for_char.emit()
-				#SignalBus.refresh_reachable_tiles.emit()
-				#print("Selected character: ", element.data.name)
-				#return
 
 func _on_world_interact():
 	var coords = get_tile_coords()

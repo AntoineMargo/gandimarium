@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Talent" load_steps=10 format=3 uid="uid://triv1hkglh82"]
+[gd_resource type="Resource" script_class="Talent" format=3 uid="uid://triv1hkglh82"]
 
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_02b7h"]
 [ext_resource type="Script" uid="uid://2oaio4mh2bc8" path="res://effects/add_spell_effect.gd" id="2_4m7g3"]

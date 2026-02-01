@@ -368,7 +368,7 @@ func discover_creature(creature):
 	if not data.relationships._tactical_map.has(id):
 		var entry = TacticalRelationEntry.new()
 		entry.target_id = id
-		entry.last_updated_turn = Global.crisis_manager.crisis_turn
+		entry.last_updated_turn = Global.crisis_manager.crisis_round
 		data.relationships._tactical_map[id] = entry
 		set_hostile(id, 100)
 		for affiliation in creature.data.relationships.affiliations:
@@ -379,10 +379,17 @@ func evaluate_entering_crisis(creature):
 	var rel_entry = get_tactical(creature.data.id)
 	if rel_entry:
 		if rel_entry.hostile > 0:
+			enter_initiative()
+			creature.enter_initiative()
 			data.crisis_ai_active = true
 			SignalBus.ai_became_active.emit(self)
 			if not Global.crisis_manager.crisis_mode:
 				SignalBus.start_crisis_mode.emit(self)
+
+func enter_initiative():
+	data.initiative = CombatMath.make_regular_check(get_stat("sense"),
+		CombatMath.standard_roll())
+	Global.crisis_manager.add_to_initiative_order(self)
 
 func build_tactical_map():
 	data.relationships.build_tactical_map()
@@ -493,12 +500,26 @@ func _on_start_crisis():
 	data.current_ap = data.derived_stats.max_ap
 	data.current_mp = 0
 
-func _on_end_turn():
+func turn_start():
 	data.current_ap = data.derived_stats.max_ap
 	data.current_mp = 0
+	Global.focus_char = self
+	if data.player_controlled:
+		Global.selected_char = self
+	Global.world_manager.selection_highlight.update_selection_highlight()
+	SignalBus.update_ui_for_char.emit()
+	SignalBus.refresh_reachable_tiles.emit()
 	if not data.player_controlled and data.crisis_ai_active:
 		Global.focus_char = self
 		ai_controller.crisisai.plan_turn() 
+		SignalBus.turn_ends.emit()
+
+#func _on_end_turn():
+	#data.current_ap = data.derived_stats.max_ap
+	#data.current_mp = 0
+	#if not data.player_controlled and data.crisis_ai_active:
+		#Global.focus_char = self
+		#ai_controller.crisisai.plan_turn() 
 
 func _sight_check(origin_tile, target_tile) -> bool: 
 	if WorldMath.pos_in_range_weighted_3d(origin_tile, target_tile, (data.base_stats.sense * 4)):
@@ -558,9 +579,9 @@ func _ready():
 	health_bar_instance = health_bar_scene.instantiate()
 	add_child(health_bar_instance)
 	SignalBus.on_start_crisis.connect(_on_start_crisis)
-	SignalBus.turn_ends.connect(_on_end_turn)
-	print(SignalBus.on_start_crisis.is_connected(_on_start_crisis))
-	print(SignalBus.turn_ends.is_connected(_on_end_turn))
+	#SignalBus.turn_ends.connect(_on_end_turn)
+	#print(SignalBus.on_start_crisis.is_connected(_on_start_crisis))
+	#print(SignalBus.turn_ends.is_connected(_on_end_turn))
 	$DamageVisual.hit_material = sprite_node.material as ShaderMaterial
 	#$Outline.z_index = $Sprite2D.z_index + 1
 	#$Outline.scale = $Sprite2D.scale * 2

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="TargetedActivity" load_steps=9 format=3 uid="uid://dynq0aw55vrns"]
+[gd_resource type="Resource" script_class="TargetedActivity" format=3 uid="uid://dynq0aw55vrns"]
 
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="2_labk7"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="3_hl0n8"]

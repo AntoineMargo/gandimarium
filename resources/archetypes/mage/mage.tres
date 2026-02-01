@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Archetype" load_steps=7 format=3 uid="uid://dif5f8s0c1c6x"]
+[gd_resource type="Resource" script_class="Archetype" format=3 uid="uid://dif5f8s0c1c6x"]
 
 [ext_resource type="Script" uid="uid://br3qyd4n7fm2f" path="res://archetypes/archetype.gd" id="1_lkmbs"]
 [ext_resource type="Script" uid="uid://dnii5080nqn0s" path="res://archetypes/talent_entry.gd" id="2_pphpq"]

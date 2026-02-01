@@ -84,7 +84,7 @@ func on_crisis_mode_toggled(button_pressed: bool) -> void:
 	SignalBus.request_toggle_crisis.emit(Global.focus_char)
 
 func on_end_turn_pressed() -> void:
-	SignalBus.end_crisis_turn.emit()
+	SignalBus.end_crisis_round.emit()
 
 func on_attack1_button_toggled(button_pressed: bool, attack_type: int) -> void:
 	if not button_pressed:

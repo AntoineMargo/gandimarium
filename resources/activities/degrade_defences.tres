@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ImmediateActivity" load_steps=15 format=3 uid="uid://4xmvyot42trc"]
+[gd_resource type="Resource" script_class="ImmediateActivity" format=3 uid="uid://4xmvyot42trc"]
 
 [ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="1_hgdxv"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="2_nx6a8"]
