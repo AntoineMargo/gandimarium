@@ -25,7 +25,7 @@ shadow_size = 2
 bg_color = Color(0.6094804, 0.60159653, 0.22683543, 1)
 shadow_size = 2
 
-[node name="UI" type="Control" unique_id=1448575853]
+[node name="GridContainer" type="Control" unique_id=1448575853]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -385,64 +385,10 @@ mouse_filter = 0
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 
-[node name="ActivitiesContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=234484203]
+[node name="Activities" type="GridContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1375517906]
+layout_direction = 2
 layout_mode = 2
-
-[node name="ActivitiesLine1" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer" unique_id=1022351926]
-layout_mode = 2
-
-[node name="Activity1" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=45708061]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-focus_mode = 0
-
-[node name="Activity2" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=992287194]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-focus_mode = 0
-
-[node name="Activity3" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=226838071]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-focus_mode = 0
-
-[node name="Activity4" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=104047551]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-focus_mode = 0
-
-[node name="Activity5" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=1806967561]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-focus_mode = 0
-
-[node name="Activity6" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=1582752972]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-focus_mode = 0
-
-[node name="Activity7" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=582002314]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-focus_mode = 0
-
-[node name="Activity8" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=1705110773]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-focus_mode = 0
-
-[node name="Activity9" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=2044277751]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-focus_mode = 0
-
-[node name="Activity10" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1" unique_id=1645630019]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-focus_mode = 0
-
-[node name="ActivitiesLine2" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer" unique_id=2131534227]
-layout_mode = 2
+columns = 10
 
 [node name="VSeparator3" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=906261255]
 visible = false
@@ -476,11 +422,14 @@ layout_mode = 2
 [node name="VSeparator5" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=366499856]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1790354722]
+[node name="Concentrations" type="GridContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1790354722]
+custom_minimum_size = Vector2(50, 50)
+layout_direction = 2
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/h_separation = 4
 theme_override_constants/v_separation = 4
-columns = 2
+columns = 10
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=230746962]
 layout_mode = 2

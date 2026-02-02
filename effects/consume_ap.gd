@@ -1,7 +1,7 @@
 extends Effect
 class_name ConsumeAPEffect
 
-func apply(source, target, degree: int) -> void:
+func apply(source, target, degree: int = 2) -> void:
 	if not target:
 		return
 

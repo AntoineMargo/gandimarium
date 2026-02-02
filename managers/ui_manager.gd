@@ -1,6 +1,9 @@
 extends Node
 class_name UIManager
 
+const MAX_ACTIVITIES: int = 40
+const COLUMNS: int  = 10
+
 var ui_node: Node = null
 
 var drag_in_progress := false
@@ -9,6 +12,9 @@ var last_dragged_item : Item = null
 
 var full_pip = preload("res://art/interface/base/pip.png")
 var empty_pip = preload("res://art/interface/base/empty_pip.png")
+var activity_button = preload("res://interface/bottom_bar/ActivityButton.tscn")
+var spell_button = preload("res://interface/bottom_bar/spell_button.tscn")
+var concentration_slot = preload("res://interface/bottom_bar/concentration_slot.tscn")
 
 ## Basic configuration of interface nodes on game startup
 func set_ui_node(node: Node):
@@ -36,10 +42,10 @@ func set_ui_node(node: Node):
 
 	var slider = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/SpellRankSlider")
 
-	var activity_button_container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1")
-	for i in activity_button_container.get_child_count():
-		var button = activity_button_container.get_child(i)
-		button.connect("pressed", Callable(self, "_on_activity_button_pressed").bind(button))
+	#var activity_button_container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1")
+	#for i in activity_button_container.get_child_count():
+		#var button = activity_button_container.get_child(i)
+		#button.connect("pressed", Callable(self, "_on_activity_button_pressed").bind(button))
 
 	if crisis_mode:
 		crisis_mode.connect("toggled", Callable(self, "on_crisis_mode_toggled"))
@@ -441,21 +447,57 @@ func update_action_pips():
 		else:
 			pip.modulate = Color(0.5, 0.5, 0.5, 0.7)
 
+#func update_activity_buttons():
+	#var char = Global.selected_char
+	#var activities = Global.selected_char.data.activities
+#
+#
+	#for child in nodes["grid"].get_children():
+		#child.queue_free()
+#
+	#var count = min(activities.size(), MAX_ACTIVITIES)
+	#for i in count:
+		#_create_activity_button(activities[i])
+#
+#func _create_activity_button(activity):
+	#var button = activity_button.instantiate() as TextureButton
+	#button.texture_normal = load(activity.icon)
+	#button.set_meta("activity", activity)
+	#nodes["grid"].add_child(button)
+
+
+
 func update_activity_buttons():
 	var char = Global.selected_char
 	var activities = Global.selected_char.data.activities
-	var button_container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1")
+	
+	var node_grid = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Activities")
 
-	for i in button_container.get_child_count():
-		var button = button_container.get_child(i)
-		
-		if i < activities.size():
-			var activity = activities[i]
-			button.texture_normal = load(activity.icon)
-			button.set_meta("activity", activity)
+	for child in node_grid.get_children():
+		child.queue_free()
+
+	var count = min(activities.size(), MAX_ACTIVITIES)
+	for i in count:
+		_create_activity_button(activities[i], node_grid)
+
+func _create_activity_button(activity, node_grid):
+	var button = activity_button.instantiate() as TextureButton
+	var icon = button.get_node("Icon") as TextureRect
+	icon.texture = load(activity.icon)
+	button.set_meta("activity", activity)
+	node_grid.add_child(button)
+
+	#var mat = icon.material as ShaderMaterial
+	#if mat:
+		#mat.set_shader_parameter("active", true)  # <-- forces it on by default
+
+	if activity.is_constant:
+		button.toggled.connect(Callable(self, "_on_activity_toggled").bind(button))
+	else:
+		button.connect("pressed", Callable(self, "_on_activity_button_pressed").bind(button))
 
 func update_spell_list():
-	var char = Global.selected_char
+	var character = Global.selected_char
 	var spell_list = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/SpellList")
 	var scroll_container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer")
 	var separator = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/VSeparator3")
@@ -464,7 +506,7 @@ func update_spell_list():
 	for child in spell_list.get_children():
 		child.queue_free()
 
-	if char.data.spells_ready.is_empty():
+	if character.data.spells_ready.is_empty():
 		spell_list.visible = false
 		scroll_container.visible = false
 		separator.visible = false
@@ -475,25 +517,25 @@ func update_spell_list():
 	separator.visible = true
 	slider.visible = true
 	
-	slider.max_value = char.get_stat("max_spell_rank")
-	slider.value = char.get_stat("current_spell_rank")
-	for spell in char.data.spells_ready:
-		var spell_button = load("res://interface/bottom_bar/spell_button.tscn").instantiate()
+	slider.max_value = character.get_stat("max_spell_rank")
+	slider.value = character.get_stat("current_spell_rank")
+	for spell in character.data.spells_ready:
+		var spell_button = spell_button.instantiate()
 		spell_button.spell = spell
 		spell_list.add_child(spell_button)
 		#spell_button.connect("pressed", Callable(self, "_on_spell_button_pressed").bind(spell_button))
 		#spell_button.pressed.connect(update_concentration_slots.bind(spell))
 
 func update_concentration_slots():
-	var char = Global.selected_char
-	var container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/GridContainer")
+	var character = Global.selected_char
+	var container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Concentrations")
 	for child in container.get_children():
 		child.queue_free()
 
-	for i in range(char.get_stat("will")):
-		var slot = preload("res://interface/bottom_bar/concentration_slot.tscn").instantiate()
-		if i < char.data.concentrations.size():
-			var concentration = char.data.concentrations[i]
+	for i in range(character.get_stat("will")):
+		var slot = concentration_slot.instantiate()
+		if i < character.data.concentrations.size():
+			var concentration = character.data.concentrations[i]
 			slot.setup(concentration)
 		else:
 			slot.setup(null) # Empty slot
@@ -558,10 +600,23 @@ func update_ui_for_char():
 	await get_tree().process_frame
 	#Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()
 
-func _on_activity_button_pressed(button: TextureButton):
-	if not button.has_meta("activity"):
-		return
+func _on_activity_toggled(pressed: bool, button: TextureButton):
 	var activity = button.get_meta("activity")
+	if not activity:
+		return
+
+	var icon = button.get_node("Icon") as TextureRect
+	var mat = icon.material as ShaderMaterial
+	if mat:
+		mat.set_shader_parameter("active", pressed)
+
+	# Update activity state if needed
+	activity.autocast = pressed
+
+func _on_activity_button_pressed(button: TextureButton):
+	var activity = button.get_meta("activity")
+	if not activity:
+		return
 	
 	if activity and activity.has_method("execute"):
 		Global.focus_char.perform_activity(activity)
@@ -607,3 +662,7 @@ func _ready() -> void:
 	SignalBus.update_ui_for_char.connect(update_ui_for_char)
 	SignalBus.toggle_end_turn_button.connect(_on_toggle_end_turn_button)
 	SignalBus.crisis_state_changed.connect(_on_crisis_state_changed)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().process_frame
+	#await get_tree().create_timer(0.1).timeout

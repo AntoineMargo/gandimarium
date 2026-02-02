@@ -40,12 +40,13 @@ func try_perform_activity(activity):
 	SignalBus.update_ui_for_char.emit()
 
 func handle_next_turn():
-	current_index += 1
-	if current_index > (creatures_in_crisis.size() - 1):
-		current_index = 0
-		crisis_round += 1
-		SignalBus.dialog_show_message.emit("Round %d has started." % crisis_round)
-	creatures_in_crisis[current_index].turn_start()
+	if creatures_in_crisis:
+		current_index += 1
+		if current_index > (creatures_in_crisis.size() - 1):
+			current_index = 0
+			crisis_round += 1
+			SignalBus.dialog_show_message.emit("Round %d has started." % crisis_round)
+		creatures_in_crisis[current_index].turn_start()
 
 func end_player_turn():
 	if crisis_mode == true:

@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://dj5yyj3iy7dip"]
+
+[ext_resource type="Script" uid="uid://wkrfh501y2qo" path="res://interface/bottom_bar/activity_button.gd" id="1_c2af4"]
+
+[node name="ActivityButton" type="TextureButton" unique_id=168495364]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+toggle_mode = true
+stretch_mode = 5
+script = ExtResource("1_c2af4")
+
+[node name="Icon" type="TextureRect" parent="." unique_id=1329299875]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+stretch_mode = 5

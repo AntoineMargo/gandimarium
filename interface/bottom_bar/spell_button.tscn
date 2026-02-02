@@ -1,18 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://b8mjvbp1pkl76"]
+[gd_scene format=3 uid="uid://b8mjvbp1pkl76"]
 
 [ext_resource type="Script" uid="uid://cakgffxv28h7m" path="res://interface/bottom_bar/spell_button.gd" id="1_ov7jt"]
 
-[node name="SpellRow" type="HBoxContainer"]
+[node name="SpellRow" type="HBoxContainer" unique_id=192939659]
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_ov7jt")
 
-[node name="IconRect" type="TextureRect" parent="."]
+[node name="IconRect" type="TextureRect" parent="." unique_id=375877670]
 layout_mode = 2
 
-[node name="NameLabel" type="Label" parent="."]
+[node name="NameLabel" type="Label" parent="." unique_id=1787492683]
 layout_mode = 2
 
-[node name="ActionsLabel" type="Label" parent="."]
+[node name="ActionsLabel" type="Label" parent="." unique_id=951602148]
 layout_mode = 2
 size_flags_horizontal = 10

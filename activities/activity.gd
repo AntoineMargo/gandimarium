@@ -37,7 +37,7 @@ enum ShapeType {
 @export var shape: ShapeType = ShapeType.CIRCLE
 
 @export var is_spell: bool = false
-
+@export var is_constant: bool = false
 @export var ai_hint: AIHint
  
 var user = null

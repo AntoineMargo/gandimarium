@@ -6,7 +6,7 @@ class_name HealingEffect
 @export var healing_die: int = 10
 @export var healing_bonus: int = 0
 
-func apply(source, target, degree: int) -> void:
+func apply(source, target, degree: int = 2) -> void:
 	var user = source.user
 	var result = degree
 	var total_healing = Global.combat_manager.determine_damage(dice_number, healing_die, healing_bonus, result)

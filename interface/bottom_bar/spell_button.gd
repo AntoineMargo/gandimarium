@@ -1,4 +1,5 @@
 extends HBoxContainer
+class_name SpellButton
 
 var is_hovered := false
 var is_pressed := false
