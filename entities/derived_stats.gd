@@ -41,3 +41,5 @@ var max_ap: int = 0
 var max_reactions: int = 0
 
 var current_spell_cost: int = 0
+
+var tie_breaker: float = 0.0

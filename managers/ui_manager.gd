@@ -86,11 +86,10 @@ func set_ui_node(node: Node):
 
 @warning_ignore("unused_parameter")
 func on_crisis_mode_toggled(button_pressed: bool) -> void:
-	#SignalBus.toggle_crisis_mode.emit(Global.focus_char)
 	SignalBus.request_toggle_crisis.emit(Global.focus_char)
 
 func on_end_turn_pressed() -> void:
-	SignalBus.end_crisis_round.emit()
+	SignalBus.end_player_turn.emit()
 
 func on_attack1_button_toggled(button_pressed: bool, attack_type: int) -> void:
 	if not button_pressed:

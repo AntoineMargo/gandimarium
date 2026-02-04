@@ -379,17 +379,10 @@ func evaluate_entering_crisis(creature):
 	var rel_entry = get_tactical(creature.data.id)
 	if rel_entry:
 		if rel_entry.hostile > 0:
-			enter_initiative()
-			creature.enter_initiative()
 			data.crisis_ai_active = true
 			SignalBus.ai_became_active.emit(self)
 			if not Global.crisis_manager.crisis_mode:
 				SignalBus.start_crisis_mode.emit(self)
-
-func enter_initiative():
-	data.initiative = CombatMath.make_regular_check(get_stat("sense"),
-		CombatMath.standard_roll())
-	Global.crisis_manager.add_to_initiative_order(self)
 
 func build_tactical_map():
 	data.relationships.build_tactical_map()
@@ -486,6 +479,8 @@ func update_stats():
 	data.derived_stats.max_ap = data.base_stats.max_ap
 	data.derived_stats.max_reactions = data.base_stats.max_reactions
 	
+	data.derived_stats.tie_breaker = randf()
+	
 	#if data.casting_table:
 		#var current_level_table = data.casting_table.cost_table[get_stat("level") - 1]
 		#var cost = current_level_table.spell_costs[data.current_spell_rank]
@@ -494,6 +489,7 @@ func update_stats():
 	stats_dirty = false
 	sprite_node.texture = load(data.sprite)
 	build_tactical_map()
+	SignalBus.add_to_initiative.emit(self)
 
 func _on_start_crisis():
 	update_stats()
@@ -501,18 +497,26 @@ func _on_start_crisis():
 	data.current_mp = 0
 
 func turn_start():
+	print("turn_start for: %s" % data.name)
 	data.current_ap = data.derived_stats.max_ap
 	data.current_mp = 0
 	Global.focus_char = self
 	if data.player_controlled:
+		print("played controlled")
 		Global.selected_char = self
-	Global.world_manager.selection_highlight.update_selection_highlight()
-	SignalBus.update_ui_for_char.emit()
-	SignalBus.refresh_reachable_tiles.emit()
-	if not data.player_controlled and data.crisis_ai_active:
-		Global.focus_char = self
-		ai_controller.crisisai.plan_turn() 
-		SignalBus.turn_ends.emit()
+		Global.world_manager.selection_highlight.update_selection_highlight()
+		SignalBus.update_ui_for_char.emit()
+		SignalBus.refresh_reachable_tiles.emit()
+	else:
+		print("AI controlled")
+		if data.crisis_ai_active:
+			print("AI active")
+			SignalBus.dialog_show_message.emit("%s is acting." % self.data.name)
+			ai_controller.crisisai.plan_turn() 
+			SignalBus.turn_ends.emit()
+		else:
+			# character does their real time routine in turn by turn
+			SignalBus.turn_ends.emit()
 
 #func _on_end_turn():
 	#data.current_ap = data.derived_stats.max_ap
@@ -579,6 +583,7 @@ func _ready():
 	health_bar_instance = health_bar_scene.instantiate()
 	add_child(health_bar_instance)
 	SignalBus.on_start_crisis.connect(_on_start_crisis)
+	#SignalBus.add_to_initiative.emit(self)
 	#SignalBus.turn_ends.connect(_on_end_turn)
 	#print(SignalBus.on_start_crisis.is_connected(_on_start_crisis))
 	#print(SignalBus.turn_ends.is_connected(_on_end_turn))

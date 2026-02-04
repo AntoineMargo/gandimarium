@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Condition" load_steps=9 format=3 uid="uid://3xw0lplsohmg"]
+[gd_resource type="Resource" script_class="Condition" format=3 uid="uid://3xw0lplsohmg"]
 
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_fihoc"]
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/modifier_effect.gd" id="1_nvvfr"]

@@ -8,8 +8,10 @@ const FAILURE_THRESHOLD = -10
 var crisis_mode: bool = false
 var crisis_round: int = 0
 
-var creatures_in_crisis = []
+var initiative_order = []
 var current_index: int = -1
+
+
 
 var activity_mode: Activity = null
 #var activity_user: Node = null
@@ -18,12 +20,21 @@ func forward_unhandled_input(event: InputEvent) -> void:
 	if activity_mode != null:
 		activity_mode.handle_input(event)
 
-func add_to_initiative_order(creature):
-	if creature not in creatures_in_crisis:
-		creatures_in_crisis.append(creature)
-		creatures_in_crisis.sort_custom(func(a, b): 
-			return a.data.initiative > b.data.initiative)
+func _add_to_initiative_order(creature):
+	if creature not in initiative_order:
+		initiative_order.append(creature)
+		initiative_order.sort_custom(func(a, b):
+			if a.get_stat("sense") > b.get_stat("sense"):
+				return true
+			elif a.get_stat("sense") < b.get_stat("sense"):
+				return false
+			return a.get_stat("tie_breaker") > b.get_stat("tie_breaker"))
 		SignalBus.dialog_show_message.emit("%s added to the initiative order." % [creature.data.name])
+
+func remove_from_initiative_order(creature):
+	if creature in initiative_order:
+		initiative_order.erase(creature)
+		SignalBus.dialog_show_message.emit("%s removed from the initiative order." % [creature.data.name])
 
 func try_perform_activity(activity):
 	if not crisis_mode:
@@ -40,30 +51,28 @@ func try_perform_activity(activity):
 	SignalBus.update_ui_for_char.emit()
 
 func handle_next_turn():
-	if creatures_in_crisis:
+	if initiative_order:
 		current_index += 1
-		if current_index > (creatures_in_crisis.size() - 1):
+		if current_index > (initiative_order.size() - 1):
 			current_index = 0
 			crisis_round += 1
 			SignalBus.dialog_show_message.emit("Round %d has started." % crisis_round)
-		creatures_in_crisis[current_index].turn_start()
+		initiative_order[current_index].turn_start()
 
-func end_player_turn():
+func _end_player_turn():
 	if crisis_mode == true:
 		SignalBus.dialog_end_turn.emit()
 		handle_next_turn()
 
-		#crisis_round += 1
-		
-		#if Global.selected_char:
-			#Global.focus_char = Global.selected_char
-		#Global.world_manager.selection_highlight.update_selection_highlight()
-		#SignalBus.update_ui_for_char.emit()
-		#SignalBus.refresh_reachable_tiles.emit()
-
 func request_toggle_crisis(creature):
+
 	if Global.ai_manager.active_number == 0:
 		toggle_crisis(creature)
+	else:
+		SignalBus.dialog_show_message.emit("Cannot end crisis: there are still creatures inching for a fight.")
+		print("Cannot end crisis as the following creatures are active:")
+		for element in Global.ai_manager.active_creatures:
+			print("%s" % element.data.name)
 	SignalBus.crisis_state_changed.emit()
 
 func toggle_crisis(creature):
@@ -88,7 +97,7 @@ func start_crisis(creature):
 		SignalBus.update_ui_for_char.emit()
 		SignalBus.dialog_show_message.emit("Initiative order:")
 		var count: int = 0
-		for element in creatures_in_crisis:
+		for element in initiative_order:
 			SignalBus.dialog_show_message.emit("%d: %s" % [count, element.data.name])
 			count += 1
 		handle_next_turn()
@@ -98,7 +107,7 @@ func end_crisis(creature):
 		print("Crisis ended by %s." % creature.data.name)
 		crisis_mode = false
 		crisis_round = 0
-		creatures_in_crisis.clear()
+		#initiative_order.clear()
 		current_index = -1
 		SignalBus.toggle_end_turn_button.emit()
 		SignalBus.dialog_end_crisis_mode.emit()
@@ -137,9 +146,10 @@ func enough_power_points_for_activity(activity):
 func _ready() -> void:
 	SignalBus.start_crisis_mode.connect(start_crisis)
 	SignalBus.end_crisis_mode.connect(end_crisis)
-	SignalBus.end_crisis_round.connect(end_player_turn)
 	SignalBus.toggle_crisis_mode.connect(toggle_crisis)
-	SignalBus.turn_ends.connect(handle_next_turn)
-	
+	SignalBus.add_to_initiative.connect(_add_to_initiative_order)
 	SignalBus.request_toggle_crisis.connect(request_toggle_crisis)
 	#SignalBus.active_hostiles_changed.connect(active_hostiles_changed)
+	
+	SignalBus.turn_ends.connect(handle_next_turn)
+	SignalBus.end_player_turn.connect(_end_player_turn)

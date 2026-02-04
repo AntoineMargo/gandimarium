@@ -182,8 +182,8 @@ func is_tile_occupied(coords):
 func show_reachable_tiles():
 	if not Global.selected_char:
 		return
-	var char = Global.selected_char
-	for coords in char.reachable_tiles:
+	var character = Global.selected_char
+	for coords in character.reachable_tiles:
 		if coords.z != current_level:
 			continue
 		var coords_2d = Vector2i(coords[0], coords[1])
