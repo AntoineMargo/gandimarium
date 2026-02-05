@@ -1,11 +1,14 @@
 extends Node2D
 
-@export var line_color: Color
+
 @export var line_width: float = 4.0
 @export var ap_tick_length: float = 10.0
 @export var mp_per_ap: float = 5.0
 @export var max_available_ap: int = 3
+@export var line_color_transp: Color
+@export var line_color: Color
 @export var blocked_color: Color
+@export var blocked_color_transp: Color
 
 var path_points: Array = []
 var segment_costs: Array = []
@@ -35,7 +38,21 @@ func update_path(path: Array, tilemap: TileMapLayer, costs: Array) -> void:
 	line.points = path_points
 	shadow_line.points = path_points
 
+	# determine color based on AP availability
+	var max_ap_mp = max_available_ap * mp_per_ap
+	var total_mp = 0.0
+	for cost in segment_costs:
+		total_mp += cost
+
+	var grad = line.gradient
+
+	if total_mp > max_ap_mp:
+		grad.set_color(1, blocked_color)
+	else:
+		grad.set_color(1, line_color)
+
 	update_ap_ticks()
+
 
 func clear_ticks():
 	for child in ticks_container.get_children():
@@ -47,6 +64,13 @@ func update_ap_ticks():
 
 	var accumulated_mp = -1.0
 	var next_ap_threshold = mp_per_ap
+	var cutoff_mp := max_available_ap * mp_per_ap
+	
+	# Check if we're over the limit
+	var total_mp := 0.0
+	for c in segment_costs:
+		total_mp += c
+	var is_over_limit := total_mp > cutoff_mp
 
 	for i in range(path_points.size() - 1):
 
@@ -63,11 +87,9 @@ func update_ap_ticks():
 			var dir = (b - a).normalized()
 			var perp = Vector2(-dir.y, dir.x)
 
-			# Compute start and end of tick
 			var tick_start = mid - perp * ap_tick_length
 			var tick_end = mid + perp * ap_tick_length
 
-			# duplicate template
 			var tick := tick_template.duplicate()
 			tick.visible = true
 			ticks_container.add_child(tick)
@@ -75,8 +97,7 @@ func update_ap_ticks():
 			var main = tick.get_node("Main") as Line2D
 			var shadow = tick.get_node("Shadow") as Line2D
 
-			# Create multi-point line for gradient
-			var num_points = 10  # increase for smoother gradient
+			var num_points = 10
 			var points = []
 			for j in range(num_points + 1):
 				var t = float(j) / num_points
@@ -84,6 +105,19 @@ func update_ap_ticks():
 
 			main.points = points
 			shadow.points = points
+			
+			# Set tick colors based on limit
+			if is_over_limit:
+				main.gradient.set_color(0, blocked_color_transp)
+				main.gradient.set_color(1, blocked_color)
+				main.gradient.set_color(2, blocked_color)
+				main.gradient.set_color(3, blocked_color_transp)
+			else:
+				# Reset to original colors from template
+				main.gradient.set_color(0, line_color_transp)
+				main.gradient.set_color(1, line_color)
+				main.gradient.set_color(2, line_color)
+				main.gradient.set_color(3, line_color_transp)
 
 			next_ap_threshold += mp_per_ap
 
