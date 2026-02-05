@@ -2,53 +2,35 @@
 
 [ext_resource type="Script" uid="uid://dgggp04qjb3vg" path="res://interface/local_map/path_preview.gd" id="1_8h28m"]
 
-[sub_resource type="Gradient" id="Gradient_8h28m"]
-offsets = PackedFloat32Array(0, 0.21768707)
-colors = PackedColorArray(1, 1, 1, 0, 0, 1, 0, 1)
-
-[sub_resource type="Gradient" id="Gradient_fyjq7"]
-offsets = PackedFloat32Array(0.15306123, 1)
-colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.29411766)
-
 [node name="PathPreview" type="Node2D" unique_id=936331406]
 z_index = 10
 script = ExtResource("1_8h28m")
 
-[node name="Line2D" type="Line2D" parent="." unique_id=721198873]
+[node name="LineContainer" type="Node2D" parent="." unique_id=1777446311]
 z_index = 1
-width = 0.8
-default_color = Color(0, 1, 0, 1)
-gradient = SubResource("Gradient_8h28m")
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
 
-[node name="ShadowLine2D" type="Line2D" parent="." unique_id=293197341]
-width = 0.8
-default_color = Color(0, 0, 0, 0.29411766)
-gradient = SubResource("Gradient_fyjq7")
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-antialiased = true
+[node name="TicksContainer" type="Node2D" parent="." unique_id=1717681414]
 
-[node name="Ticks2D" type="Node2D" parent="." unique_id=1717681414]
+[node name="LineTemplate" type="ColorRect" parent="." unique_id=743322706]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 16.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(6.208867e-06, 0.968393, 7.70092e-07, 1)
 
-[node name="Tick2D" type="Node2D" parent="Ticks2D" unique_id=1763543808]
-
-[node name="Main" type="Line2D" parent="Ticks2D/Tick2D" unique_id=1368621002]
-z_index = 1
-width = 0.8
-default_color = Color(0, 1, 0, 1)
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-antialiased = true
-
-[node name="Shadow" type="Line2D" parent="Ticks2D/Tick2D" unique_id=718759439]
-width = 0.8
-default_color = Color(0, 0, 0, 0.29411766)
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-antialiased = true
+[node name="TickTemplate" type="ColorRect" parent="." unique_id=305211230]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 5.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 1, 0, 1)

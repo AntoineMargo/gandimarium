@@ -1,19 +1,23 @@
 extends Node2D
 
-@export var line_color: Color
-@export var line_width: float = 4.0
 @export var ap_tick_length: float = 3.0
 @export var mp_per_ap: float = 5.0
 
 var path_points: Array = []
 var segment_costs: Array = []
 
-var line: Line2D
-var shadow_line: Line2D
+var line_container: Node2D
 var ticks_container: Node2D
-var tick_template: Node2D 
-var tick_main: Line2D
-var tick_shadow: Line2D
+var line_template: ColorRect
+var tick_template: ColorRect
+
+func _ready():
+	line_container = $LineContainer
+	ticks_container = $TicksContainer
+	line_template = $LineTemplate
+	tick_template = $TickTemplate
+	line_template.visible = false
+	tick_template.visible = false
 
 func update_path(path: Array, tilemap: TileMapLayer, costs: Array) -> void:
 	path_points.clear()
@@ -21,6 +25,7 @@ func update_path(path: Array, tilemap: TileMapLayer, costs: Array) -> void:
 
 	var current_level = Global.world_manager.current_level
 
+	# convert tile positions to local
 	for point in path:
 		if point.z != current_level:
 			continue
@@ -29,11 +34,29 @@ func update_path(path: Array, tilemap: TileMapLayer, costs: Array) -> void:
 
 	segment_costs = costs.duplicate()
 
-	# update line points
-	line.points = path_points
-	shadow_line.points = path_points
-
+	update_segments()
 	update_ap_ticks()
+
+func clear_segments():
+	for child in line_container.get_children():
+		if child != line_template:
+			child.queue_free()
+
+func update_segments():
+	clear_segments()
+	if path_points.size() < 2:
+		return
+
+	for i in range(path_points.size() - 1):
+		var a = path_points[i]
+		var b = path_points[i + 1]
+
+		var seg = line_template.duplicate() as ColorRect
+		seg.visible = true
+		seg.size = Vector2(a.distance_to(b), seg.size.y)  # keep height from template
+		seg.position = a + Vector2(seg.size.x, 0) * 0.0  # adjust if needed
+		seg.rotation = (b - a).angle()
+		line_container.add_child(seg)
 
 func clear_ticks():
 	for child in ticks_container.get_children():
@@ -41,52 +64,23 @@ func clear_ticks():
 			child.queue_free()
 
 func update_ap_ticks():
-
 	clear_ticks()
-
 	var accumulated_mp = -1.0
 	var next_ap_threshold = mp_per_ap
 
 	for i in range(path_points.size() - 1):
-
-		if i < segment_costs.size():
-			accumulated_mp += segment_costs[i]
-		else:
-			accumulated_mp += 1.0
-
+		accumulated_mp += segment_costs[i] if i < segment_costs.size() else 1.0
 		if accumulated_mp >= next_ap_threshold and i + 1 < path_points.size():
-
 			var a = path_points[i]
 			var b = path_points[i + 1]
-
 			var mid = a.lerp(b, 0.5)
 			var dir = (b - a).normalized()
 			var perp = Vector2(-dir.y, dir.x)
 
-			var p1 = mid - perp * ap_tick_length
-			var p2 = mid + perp * ap_tick_length
-
-			# duplicate template
-			var tick := tick_template.duplicate()
+			var tick = tick_template.duplicate() as ColorRect
 			tick.visible = true
+			tick.position = mid - tick.size * 0.5  # center tick
+			tick.rotation = perp.angle()
 			ticks_container.add_child(tick)
 
-			#tick.points = [p1, p2]
-			var main = tick.get_node("Main") as Line2D
-			var shadow = tick.get_node("Shadow") as Line2D
-
-			main.points = [p1, p2]
-			shadow.points = [p1, p2]
-
 			next_ap_threshold += mp_per_ap
-
-func _ready():
-	line = $Line2D
-	shadow_line =  $ShadowLine2D
-	ticks_container = $Ticks2D
-	tick_template = $Ticks2D/Tick2D
-	tick_main = $Ticks2D/Tick2D/Main
-	tick_shadow = $Ticks2D/Tick2D/Shadow
-	tick_template.visible = false
-	shadow_line.position = Vector2(0.5, 0.5)
-	tick_shadow.position = Vector2(0.5, 0.5)
