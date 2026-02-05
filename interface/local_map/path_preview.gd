@@ -2,8 +2,10 @@ extends Node2D
 
 @export var line_color: Color
 @export var line_width: float = 4.0
-@export var ap_tick_length: float = 3.0
+@export var ap_tick_length: float = 10.0
 @export var mp_per_ap: float = 5.0
+@export var max_available_ap: int = 3
+@export var blocked_color: Color
 
 var path_points: Array = []
 var segment_costs: Array = []
@@ -41,7 +43,6 @@ func clear_ticks():
 			child.queue_free()
 
 func update_ap_ticks():
-
 	clear_ticks()
 
 	var accumulated_mp = -1.0
@@ -58,25 +59,31 @@ func update_ap_ticks():
 
 			var a = path_points[i]
 			var b = path_points[i + 1]
-
 			var mid = a.lerp(b, 0.5)
 			var dir = (b - a).normalized()
 			var perp = Vector2(-dir.y, dir.x)
 
-			var p1 = mid - perp * ap_tick_length
-			var p2 = mid + perp * ap_tick_length
+			# Compute start and end of tick
+			var tick_start = mid - perp * ap_tick_length
+			var tick_end = mid + perp * ap_tick_length
 
 			# duplicate template
 			var tick := tick_template.duplicate()
 			tick.visible = true
 			ticks_container.add_child(tick)
 
-			#tick.points = [p1, p2]
 			var main = tick.get_node("Main") as Line2D
 			var shadow = tick.get_node("Shadow") as Line2D
 
-			main.points = [p1, p2]
-			shadow.points = [p1, p2]
+			# Create multi-point line for gradient
+			var num_points = 10  # increase for smoother gradient
+			var points = []
+			for j in range(num_points + 1):
+				var t = float(j) / num_points
+				points.append(tick_start.lerp(tick_end, t))
+
+			main.points = points
+			shadow.points = points
 
 			next_ap_threshold += mp_per_ap
 

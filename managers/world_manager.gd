@@ -13,7 +13,7 @@ var last_hovered_tile: Vector3i
 var target_highlights = []
 
 var PathPreviewScene = preload("res://interface/local_map/path_preview.tscn")
-var path_preview_instance: Node2D = null
+var path_preview: Node2D = null
 
 
 @onready var selection_highlight = load("res://interface/local_map/selection_highlight/selection_highlight.tscn").instantiate()
@@ -641,6 +641,7 @@ func select_creature_on_tile(coordinates: Vector3i) -> void:
 					SignalBus.update_character_info.emit()
 					SignalBus.update_ui_for_char.emit()
 					SignalBus.refresh_reachable_tiles.emit()
+					path_preview.mp_per_ap = element.get_stat("max_mp")
 					print("Selected character: ", element.data.name)
 					return
 				#else:
@@ -670,7 +671,7 @@ func preview_path(to_tile: Vector3i) -> void:
 	var tile_path = turn_path_from_pixels_to_tiles(path)
 	var costs = calculate_path_cost_3D_simple_with_segments(tile_path)
 	print("Path length: ", path.size() - 1, " steps.")
-	path_preview_instance.update_path(path, layers[current_level]["tile_map"], costs)
+	path_preview.update_path(path, layers[current_level]["tile_map"], costs)
 
 	#var cost = calculate_path_cost_3D_simple(tile_path)
 	#for point in path:
@@ -777,5 +778,5 @@ func _ready() -> void:
 	local_timer.autostart = true
 	#local_timer.start()
 	local_timer.timeout.connect(_on_local_timeout)
-	path_preview_instance = PathPreviewScene.instantiate()
-	add_child(path_preview_instance)
+	path_preview = PathPreviewScene.instantiate()
+	add_child(path_preview)

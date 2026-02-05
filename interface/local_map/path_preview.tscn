@@ -3,16 +3,30 @@
 [ext_resource type="Script" uid="uid://dgggp04qjb3vg" path="res://interface/local_map/path_preview.gd" id="1_8h28m"]
 
 [sub_resource type="Gradient" id="Gradient_8h28m"]
-offsets = PackedFloat32Array(0, 0.21768707)
+offsets = PackedFloat32Array(0, 0.2)
 colors = PackedColorArray(1, 1, 1, 0, 0, 1, 0, 1)
 
 [sub_resource type="Gradient" id="Gradient_fyjq7"]
 offsets = PackedFloat32Array(0.15306123, 1)
 colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.29411766)
 
+[sub_resource type="Gradient" id="Gradient_cyx1s"]
+offsets = PackedFloat32Array(0, 0.45, 0.55, 1)
+colors = PackedColorArray(0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0)
+metadata/_snap_enabled = true
+metadata/_snap_count = 20
+
+[sub_resource type="Gradient" id="Gradient_custv"]
+offsets = PackedFloat32Array(0, 0.5, 0.55, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.29411766, 0, 0, 0, 0.29411766, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+metadata/_snap_count = 20
+
 [node name="PathPreview" type="Node2D" unique_id=936331406]
 z_index = 10
 script = ExtResource("1_8h28m")
+line_color = Color(0, 1, 0, 1)
+blocked_color = Color(1, 0, 0, 1)
 
 [node name="Line2D" type="Line2D" parent="." unique_id=721198873]
 z_index = 1
@@ -40,6 +54,7 @@ antialiased = true
 z_index = 1
 width = 0.8
 default_color = Color(0, 1, 0, 1)
+gradient = SubResource("Gradient_cyx1s")
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
@@ -48,6 +63,7 @@ antialiased = true
 [node name="Shadow" type="Line2D" parent="Ticks2D/Tick2D" unique_id=718759439]
 width = 0.8
 default_color = Color(0, 0, 0, 0.29411766)
+gradient = SubResource("Gradient_custv")
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
