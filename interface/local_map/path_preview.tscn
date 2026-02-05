@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://xv1xacvsnl7a"]
+
+[ext_resource type="Script" uid="uid://dgggp04qjb3vg" path="res://interface/local_map/path_preview.gd" id="1_8h28m"]
+
+[node name="PathPreview" type="Node2D" unique_id=936331406]
+z_index = 10
+script = ExtResource("1_8h28m")
+line_color = Color(0, 1, 0, 1)
+line_width = 0.8
+ap_tick_length = 4.0

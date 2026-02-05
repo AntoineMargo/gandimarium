@@ -23,7 +23,7 @@ var ui_log: RichTextLabel = null
 var menu_instance: Node = null
 var items_list: VBoxContainer = null
 
-var current_camera: Camera2D = null
+var camera: Camera2D = null
 
 var pause_menu_active: bool = false
 

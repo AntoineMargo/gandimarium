@@ -9,9 +9,33 @@ var current_world: Node = null
 var local_timer: Timer = Timer.new() 
 var spawner: Spawner
 
+var last_hovered_tile: Vector3i
 var target_highlights = []
 
+var PathPreviewScene = preload("res://interface/local_map/path_preview.tscn")
+var path_preview_instance: Node2D = null
+
+
 @onready var selection_highlight = load("res://interface/local_map/selection_highlight/selection_highlight.tscn").instantiate()
+
+
+func _process(_delta):
+	if current_world and Global.selected_char:
+		var tile_under_cursor = get_hovered_tile()
+
+		if tile_under_cursor != last_hovered_tile:
+			last_hovered_tile = tile_under_cursor
+			print("previewing!")
+			preview_path(tile_under_cursor)
+
+func get_hovered_tile() -> Vector3i:
+	var screen_mouse_pos = get_viewport().get_mouse_position()
+	var canvas_transform = get_viewport().get_canvas_transform()
+	var world_mouse_pos = canvas_transform.affine_inverse() * screen_mouse_pos
+
+	var coords_2d = Vector2i(current_tile_map_layer.local_to_map(world_mouse_pos))
+	return Vector3i(coords_2d.x, coords_2d.y, current_level)
+
 
 func setup_layers():
 	layers.clear()
@@ -306,11 +330,41 @@ func calculate_path_cost_3D_simple(path) -> float:
 		elif prev.z != curr.z:
 			step_cost = 1.0  # Or set to 2.0 if stairs are "harder"
 
-		#print("Step ", i, ": ", prev, " → ", curr, " | delta: ", delta, " | diagonal: ", is_diagonal, " | cost: ", step_cost)
-
 		total_cost += step_cost
 	
 	return total_cost
+
+func calculate_path_cost_3D_simple_with_segments(path: Array) -> Array:
+	# Returns an array of floats: movement cost per segment
+	var segment_costs: Array = []
+
+	if path.size() <= 1:
+		return segment_costs
+
+	for i in range(1, path.size()):
+		var prev = path[i - 1]
+		var curr = path[i]
+
+		# Tile-space coordinates for XY
+		var prev_tile = Vector2i(prev.x, prev.y)
+		var curr_tile = Vector2i(curr.x, curr.y)
+		var delta = curr_tile - prev_tile
+
+		var step_cost = 1.0
+
+		# diagonal movement on the same level
+		var is_diagonal = abs(delta.x) == 1 and abs(delta.y) == 1 and prev.z == curr.z
+		if is_diagonal:
+			step_cost = 1.5
+
+		# vertical movement (up/down stairs, ramps)
+		elif prev.z != curr.z:
+			step_cost = 1.0  # or 2.0 if you want stairs/ramps cost more
+
+		segment_costs.append(step_cost)
+
+	return segment_costs
+
 
 func find_path_index_by_cost(path, move_budget):
 	"takes a path array, a movement budget, and returns the indice of the portion of the path that can be paid for"
@@ -593,6 +647,43 @@ func select_creature_on_tile(coordinates: Vector3i) -> void:
 					#zzz
 					#pass
 
+func preview_path(to_tile: Vector3i) -> void:
+	var to_tile_vec2 = Vector2i(to_tile.x, to_tile.y)
+	var character = Global.focus_char
+	var o_coords = get_char_coords(character)
+	var path = null
+	var path_map = layers[to_tile.z]["path_map"]
+	if not path_map.region.has_point(to_tile_vec2) or path_map.is_point_solid(to_tile_vec2) or layers[to_tile.z]["occupied"].get(to_tile_vec2):
+		print("Invalid target location.")
+		return
+
+	print("origin: %d/%d" % [o_coords.vec2.x, o_coords.vec2.y])
+	print("goal: %d/%d" % [to_tile.x, to_tile.y])
+
+	path_map.set_point_solid(o_coords.vec2, false)
+	path = get_multi_level_path(o_coords.vec3, to_tile)
+
+	if path.is_empty():
+		print("No path found!")
+		return
+	
+	var tile_path = turn_path_from_pixels_to_tiles(path)
+	var costs = calculate_path_cost_3D_simple_with_segments(tile_path)
+	print("Path length: ", path.size() - 1, " steps.")
+	path_preview_instance.update_path(path, layers[current_level]["tile_map"], costs)
+
+	#var cost = calculate_path_cost_3D_simple(tile_path)
+	#for point in path:
+		#point[0] /= Global.TILE_SIZE
+		#point[1] /= Global.TILE_SIZE
+		#print("Tile (%d:%d:%d)" % [point[0], point[1], point[2]])
+		#if point[2] == current_level:
+			#var point_coords = Vector2i(point[0], point[1])
+			#flash_tile_overlay(point_coords)
+
+	#show_preview(path, cost)
+
+
 func _on_world_select():
 	var coords = get_tile_coords()
 	select_creature_on_tile(coords.vec3)
@@ -686,3 +777,5 @@ func _ready() -> void:
 	local_timer.autostart = true
 	#local_timer.start()
 	local_timer.timeout.connect(_on_local_timeout)
+	path_preview_instance = PathPreviewScene.instantiate()
+	add_child(path_preview_instance)
