@@ -427,21 +427,21 @@ func drag_fail_restore():
 func update_action_pips():
 	if Global.selected_char == null:
 		return
-	var char = Global.selected_char
-	var max = char.get_stat("max_ap")
-	var current = char.get_stat("current_ap")
+	var character = Global.selected_char
+	var max_ap = character.get_stat("max_ap")
+	var current_ap = character.get_stat("current_ap")
 	var container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ActionPoints")
 	
 	for i in container.get_child_count():
 		var pip = container.get_child(i)
-		if max < i + 1:
+		if max_ap < i + 1:
 			pip.visible = false
 		else:
 			pip.visible = true
 			
-	for i in range(max):
+	for i in range(max_ap):
 		var pip = container.get_child(i)
-		if i < current:
+		if i < current_ap:
 			pip.modulate = Color(1, 1, 1, 1)
 		else:
 			pip.modulate = Color(0.5, 0.5, 0.5, 0.7)

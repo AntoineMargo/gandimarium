@@ -20,12 +20,14 @@ var path_preview: Node2D = null
 
 
 func _process(_delta):
-	if current_world and Global.selected_char:
+	#if get_viewport().gui_get_hovered_control():
+		#path_preview.clear_all()
+		#return  # Mouse is over UI, skip preview
+	if current_world and Global.crisis_manager.crisis_mode and Global.selected_char:
 		var tile_under_cursor = get_hovered_tile()
 
 		if tile_under_cursor != last_hovered_tile:
 			last_hovered_tile = tile_under_cursor
-			print("previewing!")
 			preview_path(tile_under_cursor)
 
 func get_hovered_tile() -> Vector3i:
@@ -203,36 +205,36 @@ func is_tile_occupied(coords):
 	if layers[current_level]["occupied"][coords.vec2]:
 		return true
 
-func show_reachable_tiles():
-	if not Global.selected_char:
-		return
-	var character = Global.selected_char
-	for coords in character.reachable_tiles:
-		if coords.z != current_level:
-			continue
-		var coords_2d = Vector2i(coords[0], coords[1])
-		var painted_scene = preload("res://interface/local_map/painted_tile_effect.tscn")
-		var painted_instance = painted_scene.instantiate()
-		painted_instance.add_to_group("reachable_overlay")
-		
-		var tilemap = layers[current_level]["tile_map"]
-		var world_pos = tilemap.map_to_local(coords_2d)
-		painted_instance.position = world_pos
-		
-		tilemap.add_child(painted_instance)
-
-func clear_reachable_tiles():
-	for node in get_tree().get_nodes_in_group("reachable_overlay"):
-		node.queue_free()
-
-func build_reachable_tiles():
-	if not Global.focus_char:
-		return
-	var char = Global.focus_char
-	var size = char.get_stat("current_mp")
-	var coords = get_char_coords(char)
-	#char.data.reachable_tiles = get_reachable_tiles_with_diagonals(layers[coords.vec3.z]["path_map"], coords.vec2, size)
-	char.reachable_tiles = get_reachable_tiles_3D_with_diagonals(coords.vec3, size)
+#func show_reachable_tiles():
+	#if not Global.selected_char:
+		#return
+	#var character = Global.selected_char
+	#for coords in character.reachable_tiles:
+		#if coords.z != current_level:
+			#continue
+		#var coords_2d = Vector2i(coords[0], coords[1])
+		#var painted_scene = preload("res://interface/local_map/painted_tile_effect.tscn")
+		#var painted_instance = painted_scene.instantiate()
+		#painted_instance.add_to_group("reachable_overlay")
+		#
+		#var tilemap = layers[current_level]["tile_map"]
+		#var world_pos = tilemap.map_to_local(coords_2d)
+		#painted_instance.position = world_pos
+		#
+		#tilemap.add_child(painted_instance)
+#
+#func clear_reachable_tiles():
+	#for node in get_tree().get_nodes_in_group("reachable_overlay"):
+		#node.queue_free()
+#
+#func build_reachable_tiles():
+	#if not Global.focus_char:
+		#return
+	#var char = Global.focus_char
+	#var size = char.get_stat("current_mp")
+	#var coords = get_char_coords(char)
+	##char.data.reachable_tiles = get_reachable_tiles_with_diagonals(layers[coords.vec3.z]["path_map"], coords.vec2, size)
+	#char.reachable_tiles = get_reachable_tiles_3D_with_diagonals(coords.vec3, size)
 
 func add_item_visual(coords):
 	if not layers[current_level]["item_visual"].has(coords.vec2):
@@ -266,7 +268,7 @@ func change_level(direction: int):
 	update_layer_visibility()
 	current_tile_map_layer = layers[current_level]["tile_map"]
 	selection_highlight.update_selection_highlight()
-	SignalBus.refresh_reachable_tiles.emit()
+	#SignalBus.refresh_reachable_tiles.emit()
 	print("Now showing layer %d" % current_level)
 
 func calculate_path_cost_3D(path: Array[Vector3i], tile_size: int = Global.TILE_SIZE) -> float:
@@ -529,10 +531,10 @@ func spawn_character(data_file):
 	#var data = tilemap.get_cell_tile_data(0, coords)
 	#return data != null and data.get_custom_data("walkable") == true
 
-func _on_refresh_reachable_tiles():
-	clear_reachable_tiles()
-	build_reachable_tiles()
-	show_reachable_tiles()
+#func _on_refresh_reachable_tiles():
+	#clear_reachable_tiles()
+	#build_reachable_tiles()
+	#show_reachable_tiles()
 
 func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, visited: Dictionary) -> bool:
 	#print("==_find_recursive_path==")
@@ -640,8 +642,6 @@ func select_creature_on_tile(coordinates: Vector3i) -> void:
 					SignalBus.update_inventory.emit()
 					SignalBus.update_character_info.emit()
 					SignalBus.update_ui_for_char.emit()
-					SignalBus.refresh_reachable_tiles.emit()
-					path_preview.mp_per_ap = element.get_stat("max_mp")
 					print("Selected character: ", element.data.name)
 					return
 				#else:
@@ -655,11 +655,12 @@ func preview_path(to_tile: Vector3i) -> void:
 	var path = null
 	var path_map = layers[to_tile.z]["path_map"]
 	if not path_map.region.has_point(to_tile_vec2) or path_map.is_point_solid(to_tile_vec2) or layers[to_tile.z]["occupied"].get(to_tile_vec2):
+		path_preview.clear_all()
 		print("Invalid target location.")
 		return
 
-	print("origin: %d/%d" % [o_coords.vec2.x, o_coords.vec2.y])
-	print("goal: %d/%d" % [to_tile.x, to_tile.y])
+	#print("origin: %d/%d" % [o_coords.vec2.x, o_coords.vec2.y])
+	#print("goal: %d/%d" % [to_tile.x, to_tile.y])
 
 	path_map.set_point_solid(o_coords.vec2, false)
 	path = get_multi_level_path(o_coords.vec3, to_tile)
@@ -670,7 +671,7 @@ func preview_path(to_tile: Vector3i) -> void:
 	
 	var tile_path = turn_path_from_pixels_to_tiles(path)
 	var costs = calculate_path_cost_3D_simple_with_segments(tile_path)
-	print("Path length: ", path.size() - 1, " steps.")
+	#print("Path length: ", path.size() - 1, " steps.")
 	path_preview.update_path(path, layers[current_level]["tile_map"], costs)
 
 	#var cost = calculate_path_cost_3D_simple(tile_path)
@@ -707,9 +708,31 @@ func _interact_attack(coords):
 		return
 	Global.focus_char.perform_attack(target)
 
+func calculate_ap_cost(cost: float, current_available_mp: float, mp_per_ap: float, total_mp: float) -> int:
+	var mp_after = current_available_mp  # This is AFTER the move
+	var mp_before = current_available_mp + cost  # Reconstruct BEFORE the move
+	
+	# If we haven't moved yet this turn (still at full MP), any move costs 1 AP
+	if mp_before >= total_mp:
+		# First move of the turn - costs 1 AP plus any additional boundaries crossed
+		var consumed_after = total_mp - mp_after
+		# How many full mp_per_ap chunks did we consume?
+		var ap_consumed = ceili(consumed_after / mp_per_ap)
+		return ap_consumed
+	else:
+		# Not the first move - only pay for crossing boundaries
+		var consumed_before = total_mp - mp_before
+		var consumed_after = total_mp - mp_after
+		
+		var ap_used_before = ceili(consumed_before / mp_per_ap)
+		var ap_used_after = ceili(consumed_after / mp_per_ap)
+		
+		var ap_consumed = ap_used_after - ap_used_before
+		return ap_consumed
+
 func _interact_move(t_coords):
-	var char = Global.focus_char
-	var o_coords = get_char_coords(char)
+	var character = Global.focus_char
+	var o_coords = get_char_coords(character)
 	var path = null
 	var cost: float = 0
 	var path_map = layers[t_coords.vec3.z]["path_map"]
@@ -730,21 +753,33 @@ func _interact_move(t_coords):
 	
 	var tile_path = turn_path_from_pixels_to_tiles(path)
 	cost = calculate_path_cost_3D_simple(tile_path)
-	print("Path length: ", path.size() - 1, " steps.")
-	print("Path cost: ", cost)
+	#print("Path length: ", path.size() - 1, " steps.")
+	#print("Path cost: ", cost)
 	if Global.crisis_manager.crisis_mode:
-		if cost > char.data.current_mp:
+		if cost > character.data.current_mp:
 			SignalBus.dialog_show_message.emit("You do not have enough movements points.")
 			return
 		else:
-			char.change_stat("current_mp", -cost)
+			character.change_stat("current_mp", -cost)
 			#char.data.current_mp -= cost
 	_try_move_char_abs(t_coords)
 	update_creatures_visibility()
-	clear_reachable_tiles()
-	build_reachable_tiles()
-	show_reachable_tiles()
+	#clear_reachable_tiles()
+	#build_reachable_tiles()
+	#show_reachable_tiles()
 	selection_highlight.update_selection_highlight()
+	
+	var current_available_mp = character.get_stat("current_mp")
+	var max_ap = character.get_stat("max_ap")
+	var mp_per_ap = character.get_stat("max_mp")
+	var total_mp = mp_per_ap * max_ap
+	
+	var ap_cost = calculate_ap_cost(cost, current_available_mp, mp_per_ap, total_mp)
+	SignalBus.dialog_show_message.emit("ap_cost: %d" % ap_cost)
+	character.consume_ap(ap_cost)
+
+	path_preview.get_char_data()
+	
 	SignalBus.update_ui_for_char.emit()
 	SignalBus.noticing_check.emit(tile_path[-1])
 	
@@ -771,7 +806,7 @@ func _ready() -> void:
 	spawner.wm = self
 	SignalBus.world_select.connect(_on_world_select)
 	SignalBus.world_interact.connect(_on_world_interact)
-	SignalBus.refresh_reachable_tiles.connect(_on_refresh_reachable_tiles)
+	#SignalBus.refresh_reachable_tiles.connect(_on_refresh_reachable_tiles)
 	SignalBus.start_crisis_mode.connect(_on_crisis_mode_started)
 	SignalBus.end_crisis_mode.connect(_on_crisis_mode_ended)
 	local_timer.wait_time = 6.0

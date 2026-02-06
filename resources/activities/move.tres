@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Move" load_steps=6 format=3 uid="uid://bdi3ai1alxwrn"]
+[gd_resource type="Resource" script_class="Move" format=3 uid="uid://bdi3ai1alxwrn"]
 
 [ext_resource type="Script" uid="uid://cfsxuwoytabsi" path="res://activities/move.gd" id="1_cniym"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="2_5xg6s"]
@@ -12,4 +12,5 @@ name = "Move"
 description = "Spend an Action to move up to your speed."
 icon = "res://art/interface/activities/move_activity2.png"
 self_filters = Array[ExtResource("4_b2gpa")]([ExtResource("5_5xg6s"), ExtResource("6_oh2ww")])
+is_invisible = true
 metadata/_custom_type_script = "uid://cfsxuwoytabsi"

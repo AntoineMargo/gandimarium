@@ -30,6 +30,8 @@ var pause_menu_active: bool = false
 var focus_char: Creature
 var selected_char: Creature
 
+#var menu_open: bool = false
+
 func _process(_delta: float) -> void:
 	input_manager.BasicControls()
 	ui_manager.drag_fail_restore()

@@ -1,13 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://b04adad7twhtm"]
+[gd_scene format=3 uid="uid://b04adad7twhtm"]
 
 [ext_resource type="Script" uid="uid://cq7n5wq4jlsfr" path="res://locations/game_root.gd" id="1_kcw43"]
 [ext_resource type="PackedScene" uid="uid://cwvyyn40aylxe" path="res://interface/bottom_bar/ui.tscn" id="1_uwb0s"]
 [ext_resource type="Script" uid="uid://drbbq6qwb16mo" path="res://interface/camera_controller.gd" id="2_ry4tc"]
 
-[node name="GameRoot" type="Node"]
+[node name="GameRoot" type="Node" unique_id=1705718674]
 script = ExtResource("1_kcw43")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1404138575]
 position = Vector2(544, 729)
 offset = Vector2(500, 0)
 limit_smoothed = true
@@ -15,8 +15,8 @@ script = ExtResource("2_ry4tc")
 zoomSpeed = 20.0
 panSpeed = 8.0
 
-[node name="WorldContainer" type="Node2D" parent="."]
+[node name="WorldContainer" type="Node2D" parent="." unique_id=74430627]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2140145342]
 
-[node name="UI" parent="CanvasLayer" instance=ExtResource("1_uwb0s")]
+[node name="UI" parent="CanvasLayer" unique_id=1980164482 instance=ExtResource("1_uwb0s")]

@@ -93,9 +93,10 @@ func start_crisis(creature):
 			SignalBus.crisis_state_changed.emit()
 		SignalBus.dialog_start_crisis_mode.emit()
 		SignalBus.on_start_crisis.emit()
-		SignalBus.refresh_reachable_tiles.emit()
+		#SignalBus.refresh_reachable_tiles.emit()
 		SignalBus.update_ui_for_char.emit()
 		SignalBus.dialog_show_message.emit("Initiative order:")
+		#Global.world_manager.path_preview.get_char_data()
 		var count: int = 0
 		for element in initiative_order:
 			SignalBus.dialog_show_message.emit("%d: %s" % [count, element.data.name])
@@ -111,8 +112,9 @@ func end_crisis(creature):
 		current_index = -1
 		SignalBus.toggle_end_turn_button.emit()
 		SignalBus.dialog_end_crisis_mode.emit()
-		SignalBus.refresh_reachable_tiles.emit()
+		#SignalBus.refresh_reachable_tiles.emit()
 		SignalBus.update_ui_for_char.emit()
+		SignalBus.clear_path_preview.emit()
 
 func enough_action_points_for_activity(activity):
 	var cost = activity.AP_cost

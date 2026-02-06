@@ -498,15 +498,22 @@ func _on_start_crisis():
 
 func turn_start():
 	print("turn_start for: %s" % data.name)
-	data.current_ap = data.derived_stats.max_ap
-	data.current_mp = 0
+	#data.current_ap = data.derived_stats.max_ap
+	#data.current_mp = 0
+
+	set_stat("current_ap", get_stat("max_ap"))
+	set_stat("current_mp", (get_stat("max_mp") * get_stat("max_ap")))
+	print("max_ap: ", get_stat("max_ap"))
+	print("current_ap: ", get_stat("current_ap"))
+	print("current_mp: ", get_stat("current_mp"))
 	Global.focus_char = self
 	if data.player_controlled:
 		print("played controlled")
 		Global.selected_char = self
 		Global.world_manager.selection_highlight.update_selection_highlight()
 		SignalBus.update_ui_for_char.emit()
-		SignalBus.refresh_reachable_tiles.emit()
+		#SignalBus.refresh_reachable_tiles.emit()
+		Global.world_manager.path_preview.get_char_data()
 	else:
 		print("AI controlled")
 		if data.crisis_ai_active:

@@ -36,6 +36,7 @@ enum ShapeType {
 @export var affected_type: AffectedType = AffectedType.ENTITIES
 @export var shape: ShapeType = ShapeType.CIRCLE
 
+@export var is_invisible: bool = false
 @export var is_spell: bool = false
 @export var is_constant: bool = false
 @export var ai_hint: AIHint
