@@ -26,7 +26,7 @@ class_name CreatureData
 @export var spells_available: Array = [Spell]
 @export var reactions: Array = []
 @export var conditions: Array = [Condition]
-@export var activity_modifiers: Array = []
+@export var activity_modifiers: Array = [ActivityModifier]
 @export var concentrations: Array = [Concentration]
 
 @export var casting_table: CastingTable = null

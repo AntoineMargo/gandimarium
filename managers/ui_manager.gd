@@ -446,26 +446,6 @@ func update_action_pips():
 		else:
 			pip.modulate = Color(0.5, 0.5, 0.5, 0.7)
 
-#func update_activity_buttons():
-	#var char = Global.selected_char
-	#var activities = Global.selected_char.data.activities
-#
-#
-	#for child in nodes["grid"].get_children():
-		#child.queue_free()
-#
-	#var count = min(activities.size(), MAX_ACTIVITIES)
-	#for i in count:
-		#_create_activity_button(activities[i])
-#
-#func _create_activity_button(activity):
-	#var button = activity_button.instantiate() as TextureButton
-	#button.texture_normal = load(activity.icon)
-	#button.set_meta("activity", activity)
-	#nodes["grid"].add_child(button)
-
-
-
 func update_activity_buttons():
 	var char = Global.selected_char
 	var activities = Global.selected_char.data.activities
@@ -477,7 +457,8 @@ func update_activity_buttons():
 
 	var count = min(activities.size(), MAX_ACTIVITIES)
 	for i in count:
-		_create_activity_button(activities[i], node_grid)
+		if activities[i].is_invisible == false:
+			_create_activity_button(activities[i], node_grid)
 
 func _create_activity_button(activity, node_grid):
 	var button = activity_button.instantiate() as TextureButton

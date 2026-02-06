@@ -791,8 +791,7 @@ func _interact_move(t_coords):
 	if path.is_empty():
 		print("No path found!")
 		return
-	
-	#var tile_path = turn_path_from_pixels_to_tiles(path)
+
 	cost = calculate_path_cost_3D_simple(path)
 	#print("Path length: ", path.size() - 1, " steps.")
 	#print("Path cost: ", cost)
@@ -802,7 +801,6 @@ func _interact_move(t_coords):
 			return
 		else:
 			character.change_stat("current_mp", -cost)
-			#char.data.current_mp -= cost
 	_try_move_char_abs(t_coords)
 	update_creatures_visibility()
 	#clear_reachable_tiles()
@@ -810,16 +808,15 @@ func _interact_move(t_coords):
 	#show_reachable_tiles()
 	selection_highlight.update_selection_highlight()
 	
-	var current_available_mp = character.get_stat("current_mp")
-	var max_ap = character.get_stat("max_ap")
-	var mp_per_ap = character.get_stat("max_mp")
-	var total_mp = mp_per_ap * max_ap
-	
-	var ap_cost = calculate_ap_cost(cost, current_available_mp, mp_per_ap, total_mp)
-	SignalBus.dialog_show_message.emit("ap_cost: %d" % ap_cost)
-	character.consume_ap(ap_cost)
-
-	path_preview.get_char_data()
+	if Global.crisis_manager.crisis_mode:
+		var current_available_mp = character.get_stat("current_mp")
+		var max_ap = character.get_stat("max_ap")
+		var mp_per_ap = character.get_stat("max_mp")
+		var total_mp = mp_per_ap * max_ap
+		
+		var ap_cost = calculate_ap_cost(cost, current_available_mp, mp_per_ap, total_mp)
+		character.consume_ap(ap_cost)
+		path_preview.get_char_data()
 	
 	SignalBus.update_ui_for_char.emit()
 	SignalBus.noticing_check.emit(path[-1])
