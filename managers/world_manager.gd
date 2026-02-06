@@ -400,21 +400,21 @@ func path_to_target_adjacency(creature, target, distance):
 	var path = null
 	var tile_path = null
 	path = get_multi_level_path(origin.vec3, goal.vec3, true)
-	tile_path = turn_path_from_pixels_to_tiles(path)
+	#tile_path = turn_path_from_pixels_to_tiles(path)
 	
 	# making characters blocking again
 	layers[origin.vec3.z]["path_map"].set_point_solid(origin.vec2, true)
 	layers[goal.vec3.z]["path_map"].set_point_solid(goal.vec2, true)
 	
-	if tile_path.is_empty():
+	if path.is_empty():
 		print("No path found!")
 		return
 
-	tile_path.reverse()
+	path.reverse()
 	for i in range(distance):
-		tile_path.pop_back()
+		path.pop_back()
 
-	return tile_path
+	return path
 
 func get_multi_level_path(start: Vector3i, goal: Vector3i, allow_occupied_goal: bool = false) -> Array[Vector3i]:
 	"returns path array of steps to goal tile by tile in (x, y) format BY PIXEL"
@@ -536,6 +536,66 @@ func spawn_character(data_file):
 	#build_reachable_tiles()
 	#show_reachable_tiles()
 
+
+#func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, visited: Dictionary) -> bool:
+	##print("==_find_recursive_path==")
+	#var key = str(start)
+	#if visited.has(key):
+		##print("	visited.has(key)")
+		#return false
+	#visited[key] = true
+	#if start.z == goal.z:
+		##print("	start.z == goal.z")
+		#var path2D: PackedVector2Array = layers[start.z]["path_map"].get_point_path(Vector2i(start.x, start.y), Vector2i(goal.x, goal.y))
+		#if path2D.is_empty():
+			#return false
+		#var path_3d: Array[Vector3i] = []
+		#for p in path2D:
+			## Convert from world coordinates to grid coordinates
+			#@warning_ignore("integer_division")
+			#path_3d.append(Vector3i(int(p.x) / Global.TILE_SIZE, int(p.y) / Global.TILE_SIZE, start.z))
+		#path_array.append(path_3d)
+		#return true
+	## Look for ramps on this level
+	#if not layer_links.has(start.z):
+		#print("	not layer_links.has(start.z)")
+		#return false
+	#for ramp_xy in layer_links[start.z].keys():
+		#var pm = layers[start.z]["path_map"]
+		#var start_2d = Vector2i(start.x, start.y)
+		#var was_solid = pm.is_point_solid(start_2d)
+		#if was_solid:
+			#pm.set_point_solid(start_2d, false)
+			#pm.update()
+		#var path2ramp = pm.get_point_path(start_2d, ramp_xy, true)
+		#if path2ramp.is_empty():
+			##print("	1 fail")
+			#continue
+		## FIX: Godot 4.6 returns world coordinates, convert back to grid coordinates
+		#@warning_ignore("integer_division")
+		#var last_pos = Vector2i(int(path2ramp[-1].x) / Global.TILE_SIZE, int(path2ramp[-1].y) / Global.TILE_SIZE)
+		##print("path2ramp last =", last_pos, " expected =", ramp_xy)
+		#if last_pos != ramp_xy:
+			##print("	2 fail")
+			#continue
+		#var path_3d: Array[Vector3i] = []
+		#for p in path2ramp:
+			## Convert from world coordinates to grid coordinates
+			#@warning_ignore("integer_division")
+			#path_3d.append(Vector3i(int(p.x) / Global.TILE_SIZE, int(p.y) / Global.TILE_SIZE, start.z))
+		#path_array.append(path_3d)
+		#for link in layer_links[start.z][ramp_xy]:
+			##print("	looking at link")
+			#var next_z: int = link[0]
+			#var next_pos: Vector2i = link[1]
+			#var new_start = Vector3i(next_pos.x, next_pos.y, next_z)
+			#if _find_recursive_path(new_start, goal, path_array, visited):
+				#return true
+		## Backtrack if this ramp path didn't work out
+		#path_array.pop_back()
+	##print("	final failure")
+	#return false
+
 func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, visited: Dictionary) -> bool:
 	#print("==_find_recursive_path==")
 	var key = str(start)
@@ -550,7 +610,9 @@ func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, vi
 			return false
 		var path_3d: Array[Vector3i] = []
 		for p in path2D:
-			path_3d.append(Vector3i(int(p.x), int(p.y), start.z))  # Cast to int
+			# Convert from world coordinates to grid coordinates
+			@warning_ignore("integer_division")
+			path_3d.append(Vector3i(int(p.x) / Global.TILE_SIZE, int(p.y) / Global.TILE_SIZE, start.z))
 		path_array.append(path_3d)
 		return true
 	# Look for ramps on this level
@@ -559,16 +621,6 @@ func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, vi
 		return false
 	for ramp_xy in layer_links[start.z].keys():
 		var pm = layers[start.z]["path_map"]
-		#print(
-			#"Ramp check Z=%d Start=%s Ramp=%s | in_bounds=%s solid=%s"
-			#% [
-				#start.z,
-				#Vector2i(start.x, start.y),
-				#ramp_xy,
-				#pm.is_in_boundsv(ramp_xy),
-				#pm.is_point_solid(ramp_xy)
-			#]
-		#)
 		var start_2d = Vector2i(start.x, start.y)
 		var was_solid = pm.is_point_solid(start_2d)
 		if was_solid:
@@ -669,21 +721,10 @@ func preview_path(to_tile: Vector3i) -> void:
 		print("No path found!")
 		return
 	
-	var tile_path = turn_path_from_pixels_to_tiles(path)
-	var costs = calculate_path_cost_3D_simple_with_segments(tile_path)
-	#print("Path length: ", path.size() - 1, " steps.")
+	#var tile_path = turn_path_from_pixels_to_tiles(path)
+	var costs = calculate_path_cost_3D_simple_with_segments(path)
 	path_preview.update_path(path, layers[current_level]["tile_map"], costs)
 
-	#var cost = calculate_path_cost_3D_simple(tile_path)
-	#for point in path:
-		#point[0] /= Global.TILE_SIZE
-		#point[1] /= Global.TILE_SIZE
-		#print("Tile (%d:%d:%d)" % [point[0], point[1], point[2]])
-		#if point[2] == current_level:
-			#var point_coords = Vector2i(point[0], point[1])
-			#flash_tile_overlay(point_coords)
-
-	#show_preview(path, cost)
 
 
 func _on_world_select():
@@ -751,8 +792,8 @@ func _interact_move(t_coords):
 		print("No path found!")
 		return
 	
-	var tile_path = turn_path_from_pixels_to_tiles(path)
-	cost = calculate_path_cost_3D_simple(tile_path)
+	#var tile_path = turn_path_from_pixels_to_tiles(path)
+	cost = calculate_path_cost_3D_simple(path)
 	#print("Path length: ", path.size() - 1, " steps.")
 	#print("Path cost: ", cost)
 	if Global.crisis_manager.crisis_mode:
@@ -781,11 +822,9 @@ func _interact_move(t_coords):
 	path_preview.get_char_data()
 	
 	SignalBus.update_ui_for_char.emit()
-	SignalBus.noticing_check.emit(tile_path[-1])
+	SignalBus.noticing_check.emit(path[-1])
 	
 	for point in path:
-		point[0] /= Global.TILE_SIZE
-		point[1] /= Global.TILE_SIZE
 		print("Tile (%d:%d:%d)" % [point[0], point[1], point[2]])
 		if point[2] == current_level:
 			var point_coords = Vector2i(point[0], point[1])

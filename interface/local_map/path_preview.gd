@@ -26,7 +26,6 @@ func get_char_data():
 	mp_per_ap = character.get_stat("max_mp")
 	max_available_ap = character.get_stat("current_ap")
 	current_available_mp = character.get_stat("current_mp")
-	print("lala")
 
 func update_path(path: Array, tilemap: TileMapLayer, costs: Array) -> void:
 	path_points.clear()
@@ -38,7 +37,7 @@ func update_path(path: Array, tilemap: TileMapLayer, costs: Array) -> void:
 	for point in path:
 		if point.z != current_level:
 			continue
-		var cell = Vector2i(int(point.x / Global.TILE_SIZE), int(point.y / Global.TILE_SIZE))
+		var cell = Vector2i(int(point.x), int(point.y))
 		path_points.append(tilemap.map_to_local(cell))
 
 	segment_costs = costs.duplicate()

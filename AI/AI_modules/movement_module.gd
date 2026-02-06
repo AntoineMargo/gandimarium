@@ -97,8 +97,8 @@ func sequences_to_reach_target(sequences, report):
 
 				sequence[i] = act
 
+## returns an exhaustive number of sequences that incorporate 'move' and 'empty' activities as 0s and 1s
 func combinatorial(sequences, current, indice: int, changes_needed: int):
-	"returns an exhaustive number of sequences that incorporate 'move' and 'empty' activities as 0s and 1s"
 	if changes_needed == 0:
 		sequences.append(current.duplicate())
 		return 
