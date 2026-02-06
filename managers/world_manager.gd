@@ -20,9 +20,9 @@ var path_preview: Node2D = null
 
 
 func _process(_delta):
-	#if get_viewport().gui_get_hovered_control():
-		#path_preview.clear_all()
-		#return  # Mouse is over UI, skip preview
+	if get_viewport().gui_get_hovered_control():
+		path_preview.clear_all()
+		return  # Mouse is over UI, skip preview
 	if current_world and Global.crisis_manager.crisis_mode and Global.selected_char:
 		var tile_under_cursor = get_hovered_tile()
 

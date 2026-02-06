@@ -7,7 +7,6 @@ var zoomTarget : Vector2
 var panTarget : Vector2
 
 func _ready() -> void:
-	#zoomTarget = zoom
 	zoomTarget = Vector2(2, 2)
 
 func _process(delta: float) -> void:
@@ -15,14 +14,21 @@ func _process(delta: float) -> void:
 	SimplePan(delta)
 	ClickAndDrag()
 	
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
+
+		# Block zoom when over UI
 		if get_viewport().gui_get_hovered_control():
-			match event.button_index:
-				MOUSE_BUTTON_WHEEL_UP:
-					zoomTarget *= 1.1
-				MOUSE_BUTTON_WHEEL_DOWN:
-					zoomTarget *= 0.9
+			return
+
+		match event.button_index:
+			MOUSE_BUTTON_WHEEL_UP:
+				zoomTarget *= 1.1
+			MOUSE_BUTTON_WHEEL_DOWN:
+				zoomTarget *= 0.9
+
+		zoomTarget = zoomTarget.clamp(Vector2(1, 1), Vector2(4, 4))
+
 
 func Zoom(delta):
 	# var mouse_pos_before  = get_global_mouse_position()
