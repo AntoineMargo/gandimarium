@@ -37,7 +37,7 @@ func remove_from_initiative_order(creature):
 		SignalBus.dialog_show_message.emit("%s removed from the initiative order." % [creature.data.name])
 
 func try_perform_activity(activity):
-	if not crisis_mode:
+	if activity.requires_crisis and not crisis_mode:
 		SignalBus.dialog_show_message.emit("You are not in crisis mode!")
 		return
 	if not Global.focus_char:

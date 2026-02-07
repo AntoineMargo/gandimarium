@@ -4,25 +4,26 @@ class_name HostileFilter
 
 @export var reverse: bool = false
 
-func is_satisfied(target, activity):
-	if not target:
+func is_satisfied(context: ActivityContext) -> bool:
+	if not context.target:
 		return false
 		
-	print("target object: ", target)
-	print("target name: ", target.data.name)
+	print("target object: ", context.target)
+	print("target name: ", context.target.data.name)
 	
-	print("self object: ", activity.user)
-	print("self name: ",  activity.user.data.name)
+	print("self object: ", context.activity.user)
+	print("self name: ",  context.activity.user.data.name)
 	
 	print("Hostile: ")
-	for creature in activity.user.data.hostile:
+	for creature in context.activity.user.data.hostile:
 		print("	creature name: ", creature.data.name)
 
-	var data = target.data
+	var data = context.target.data
 	if reverse:
-		if target in activity.user.data.hostile:
+		if context.target in context.activity.user.data.hostile:
 			return false
 		return true
 	else:
-		if target in activity.user.data.hostile:
+		if context.target in context.activity.user.data.hostile:
 			return true
+	return true

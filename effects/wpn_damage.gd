@@ -31,3 +31,4 @@ func apply(source, target, degree: int = 2) -> void:
 		damage_pattern)
 	if target and target.has_method("take_damage"):
 		target.take_damage(total_damage, resistance)
+	print("damage done (before armour): %d" % total_damage)

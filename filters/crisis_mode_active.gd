@@ -3,7 +3,7 @@ class_name CrisisModeFilter
 
 @export var reverse: bool = false
 
-func is_satisfied(target, activity) -> bool:
+func is_satisfied(context: ActivityContext) -> bool:
 	var mode: bool = Global.crisis_manager.crisis_mode
 	var satisfied: bool = mode
 

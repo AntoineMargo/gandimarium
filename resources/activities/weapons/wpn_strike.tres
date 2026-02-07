@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="WeaponStrike" load_steps=15 format=3 uid="uid://7wax86x3q1hj"]
+[gd_resource type="Resource" script_class="WeaponStrike" format=3 uid="uid://7wax86x3q1hj"]
 
 [ext_resource type="Script" uid="uid://lrec85jjq4ih" path="res://AIHints/AI_hint.gd" id="1_f4prb"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_1csp3"]

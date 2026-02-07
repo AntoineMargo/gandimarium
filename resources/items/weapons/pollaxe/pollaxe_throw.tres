@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="WeaponThrow" load_steps=11 format=3 uid="uid://c8uws3pgn48f8"]
+[gd_resource type="Resource" script_class="WeaponThrow" format=3 uid="uid://c8uws3pgn48f8"]
 
 [ext_resource type="Resource" uid="uid://orrfy6m63wyr" path="res://resources/items/weapons/pollaxe/pollaxe_throw_ai.tres" id="1_23wxu"]
 [ext_resource type="Script" uid="uid://bkxicxp8ud7lk" path="res://activities/wpn_throw.gd" id="2_b5lty"]

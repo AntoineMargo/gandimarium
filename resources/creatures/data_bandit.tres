@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CreatureData" load_steps=15 format=3 uid="uid://bhh58kb8nb8jx"]
+[gd_resource type="Resource" script_class="CreatureData" format=3 uid="uid://bhh58kb8nb8jx"]
 
 [ext_resource type="Script" uid="uid://dyp8klyosnw2y" path="res://entities/creature_data.gd" id="1_5j1ub"]
 [ext_resource type="Script" uid="uid://chufkd7a0xqa0" path="res://activities/activity.gd" id="1_moixc"]
@@ -47,5 +47,6 @@ activities = Array[ExtResource("1_moixc")]([ExtResource("2_0c4wq")])
 spells_ready = []
 spells_available = []
 conditions = []
+activity_modifiers = []
 concentrations = []
 metadata/_custom_type_script = "uid://dyp8klyosnw2y"

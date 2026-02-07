@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="WeaponStrike" load_steps=13 format=3 uid="uid://xemlo603d7ki"]
+[gd_resource type="Resource" script_class="WeaponStrike" format=3 uid="uid://xemlo603d7ki"]
 
 [ext_resource type="Resource" uid="uid://1dlg3tu4w25y" path="res://resources/items/weapons/pollaxe/pollaxe_strike_ai.tres" id="1_c00ss"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_c00ss"]

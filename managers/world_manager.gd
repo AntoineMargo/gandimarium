@@ -466,6 +466,7 @@ func turn_3D_coords_into_vector_array(coords):
 		"vec2": coords_2d
 	}
 
+## @deprecated: use get_character_coords(character) instead
 func get_char_coords(character) -> Dictionary:
 	var pos_3d = Vector3i(
 	character.data.tile_x,

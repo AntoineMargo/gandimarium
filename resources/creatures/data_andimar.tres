@@ -51,6 +51,7 @@ activities = Array[ExtResource("1_j7btv")]([ExtResource("2_j7btv")])
 spells_ready = []
 spells_available = []
 conditions = []
+activity_modifiers = []
 concentrations = []
 player_controlled = true
 metadata/_custom_type_script = "uid://dyp8klyosnw2y"

@@ -5,11 +5,11 @@ class_name StatRequirementFilter
 @export var stat: String = ""
 @export var value: int = 0
 
-func is_satisfied(target, activity):
-	if not target:
+func is_satisfied(context: ActivityContext) -> bool:
+	if not context.target:
 		return false
 
-	var stat_value = target.data.get(stat)
+	var stat_value = context.target.data.get(stat)
 
 	if stat_value == null:
 		return false

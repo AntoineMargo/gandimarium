@@ -2,51 +2,61 @@ extends WeaponActivity
 class_name WeaponShoot
 
 func execute() -> void:
-
+	_apply_act_mods()
+	var self_ctx = _build_context(user)
 	for filter in self_filters:
 		if filter is Filter:
-			if not filter.is_satisfied(user, self):
+			if not filter.is_satisfied(self_ctx):
 				return
 
 	if target_entities.is_empty():
 		return
 	for target in target_entities:
-		if not WorldMath.char_in_range(user, target, reach):
+		var ctx = _build_context(target)
+		if not WorldMath.char_in_range(ctx.origin, ctx.target, reach):
 			SignalBus.dialog_out_of_range.emit()
-			return
-		if not WorldMath.has_line_of_sight(user, target):
+			continue
+			#return
+		if not WorldMath.has_line_of_sight(ctx.origin, ctx.target):
 			SignalBus.dialog_no_line_of_sight.emit()
-			return
+			continue
+			#return
 		var passes_all_filters = true
 		for filter in target_filters:
 			if filter is Filter:
-				if not filter.is_satisfied(target, self):
+				if not filter.is_satisfied(ctx):
 					passes_all_filters = false
 					break
 		if not passes_all_filters:
 			continue
 
-		var user_stat = user.data.get(attacking_aptitude)
-		var target_stat = target.data.get(defending_aptitude)
-		
-		var user_roll = CombatMath.standard_roll()
-		var target_roll = CombatMath.standard_roll()
-		
-		SignalBus.dialog_show_message.emit(
-			"%s rolled %d against %s's %d." % [user.data.name, user_stat+user_roll, target.data.name, target_stat+target_roll])
-		
-		var result = CombatMath.make_opposed_check(
-			user_stat, user_roll,
-			target_stat, target_roll)
-		var degree = CombatMath.determine_degree_success(result)
+		_apply_pre_mods(ctx)
+		_roll(ctx)
+		_apply_post_mods(ctx)
+		if requires_roll:
+			_resolve(ctx)
 
 		for effect in target_effects:
 			if effect is Effect:
-				effect.apply(self, target, degree)
+				if effect.has_method("apply_context"):
+					effect.apply_context(ctx)
+				else:
+					effect.apply(self, ctx.target, ctx.degree)
 
-		for effect in self_effects:
+		for effect in self_per_target_effects:
 			if effect is Effect:
-				effect.apply(self, user, degree)
+				if effect.has_method("apply_context"):
+					effect.apply_context(ctx)
+				else:
+					effect.apply(self, ctx.user, ctx.degree)
 
-		user.data.consume_ap(AP_cost)
-		SignalBus.update_ui_for_char.emit()
+	for effect in self_final_effects:
+		if effect is Effect:
+			if effect.has_method("apply_context"):
+				effect.apply_context(self_ctx)
+			else:
+				effect.apply(self, self_ctx.user, self_ctx.degree)
+
+	_consume_ap(self_ctx)
+	_consume_pp(self_ctx)
+	SignalBus.update_ui_for_char.emit()
