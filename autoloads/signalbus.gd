@@ -52,6 +52,7 @@ signal update_inventory()
 signal update_character_info()
 signal drop_item_on_tile(focus_char, last_dragged_item)
 signal update_ui_for_char()
+signal end_crisis_turn()
 
 #World
 signal world_select(tile_coords)

@@ -18,6 +18,7 @@ enum ShapeType {
 @export var name: String = "placeholder"
 @export var description: String = "This is a placeholder description."
 @export var icon: String = "res://art/interface/activities/placeholder1.png"
+@export var tags: Array[String] = []
 @export var AP_cost: int = 1
 @export var PP_cost: int = 0
 @export var EP_cost: int = 0
@@ -39,7 +40,7 @@ enum ShapeType {
 
 @export var minimum_rank: int = 1
 
-@export var requires_crisis: bool = false
+@export var requires_crisis: bool = true
 @export var requires_roll: bool = true
 @export var is_invisible: bool = false
 @export var is_spell: bool = false
@@ -130,6 +131,9 @@ func can_execute() -> bool:
 			if not filter.is_satisfied(ctx):
 				return false
 	return true
+
+func has_tag(tag: String) -> bool:
+	return tags.has(tag)
 
 func _init():
 	if ai_hint:

@@ -20,4 +20,5 @@ metadata/_custom_type_script = "uid://cpuyout31r1c5"
 [resource]
 script = ExtResource("3_80tq4")
 name = "crossguarded"
+id = "crossguarded"
 effects = Array[ExtResource("1_xrcrv")]([SubResource("Resource_ns0ch")])

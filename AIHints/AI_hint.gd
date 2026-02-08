@@ -30,8 +30,8 @@ enum OriginType { SELF, FAMILIAR, SUMMON, ALLY, ENEMY, LOCATION }
 @export var friendy_fire: bool = true
 @export var provokes_aoo: bool = false
 @export var damage_type: Array[DamageType] = [DamageType.PHYSICAL]
-@export var damage_variance: int = 5 # 1 to 10
-@export var damage_certainty: int = 5 # 1 to 10
+@export var variance: int = 5 # 1 to 10 (if the activity's effects can vary)
+@export var certainty: int = 5 # 1 to 10 (if the activity can miss)
 
 var AP_cost: int = 1
 var PP_cost: int = 0 # if spell then disregarded since variable

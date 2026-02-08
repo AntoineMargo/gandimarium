@@ -9,10 +9,6 @@ class_name Creature
 
 var health_bar_instance: Node
 
-#@export var hit_curve: Curve
-#var hit_material: ShaderMaterial
-#var hit_tween: Tween
-
 # Meta utility 
 var reachable_tiles = []
 var stats_dirty = true
@@ -34,6 +30,23 @@ func add_ready_spell(spell: Spell):
 func add_concentration(concentration: Concentration):
 	data.concentrations.append(concentration)
 	SignalBus.update_ui_for_char.emit()
+
+func toggle_activity_modifier(modifier: ActivityModifier) -> void:
+	for existing_mod in data.activity_modifiers:
+		if existing_mod.id == modifier.id:
+			data.activity_modifiers.erase(existing_mod)
+		else:
+			data.activity_modifiers.append(modifier)
+
+func add_activity_modifier(modifier: ActivityModifier) -> void:
+	data.activity_modifiers.append(modifier)
+	SignalBus.update_ui_for_char.emit()
+
+func remove_activity_modifier(modifier: ActivityModifier) -> void:
+	for existing_mod in data.activity_modifiers:
+		if existing_mod.id == modifier.id:
+			data.conditions.erase(existing_mod)
+			return
 
 func remove_concentration(concentration: Concentration):
 	data.concentrations.erase(concentration)
@@ -68,25 +81,65 @@ func has_condition_named(condition_name: String) -> bool:
 			return true
 	return false
 
-func add_condition(condition: Condition):
-	if has_condition_named(condition.name):
+func has_condition(condition_id: String) -> bool:
+	for condition in data.conditions:
+		if condition.id == condition_id:
+			return true
+	return false
+
+func get_condition_by_id(condition_id) -> Condition:
+	for condition in data.conditions:
+		if condition.id == condition_id:
+			return condition
+	return null
+
+func toggle_condition(cond: Condition, source):
+	var existing = get_condition_by_id(cond.id)
+
+	if existing:
+		existing.remove_source(source)
+	else:
+		add_condition_from(source, cond)
+
+func add_condition_from(source, cond: Condition):
+	var existing = get_condition_by_id(cond.id)
+
+	if existing:
+		existing.add_source(source)
 		return
-	for weaker_cond in condition.supplanted:
-		if has_condition_named(weaker_cond.name):
+
+	for weaker_cond in cond.supplanted:
+		if has_condition(weaker_cond.id):
 			remove_condition(weaker_cond)
 	for existing_cond in data.conditions:
 		for weaker_cond in existing_cond.supplanted:
-			if condition.name == weaker_cond.name:
+			if cond.id == weaker_cond.id:
 				return
-	data.conditions.append(condition)
-	condition.initialize(self)
-	stats_dirty = true
+
+	var inst = cond.duplicate(true)
+	inst.add_source(source)
+	data.conditions.append(inst)
+	inst.initialize(self)
+
+#func add_condition(condition: Condition):
+	#if has_condition(condition.id):
+		#return
+	#for weaker_cond in condition.supplanted:
+		#if has_condition(weaker_cond.id):
+			#remove_condition(weaker_cond)
+	#for existing_cond in data.conditions:
+		#for weaker_cond in existing_cond.supplanted:
+			#if condition.id == weaker_cond.id:
+				#return
+	#data.conditions.append(condition)
+	#condition.initialize(self)
+	#stats_dirty = true
 
 func remove_condition(condition: Condition):
 	for effect in condition.effects:
 		effect.remove(self, self, -1)
 	for existing_cond in data.conditions:
-		if existing_cond.name == condition.name:
+		if existing_cond.id == condition.id:
 			data.conditions.erase(existing_cond)
 	stats_dirty = true
 
@@ -95,8 +148,8 @@ func add_item_conditions(item):
 		return
 	for condition in item.conditions:
 		if condition is Condition:
-			var instance = condition.duplicate()
-			add_condition(instance)
+			var instance = condition.duplicate(true)
+			add_condition_from(item, instance)
 		else:
 			push_error("Item condition is not a Condition resource: " + str(condition))
 
@@ -178,6 +231,7 @@ func equip_item(slot, item):
 	if Global.focus_char == self:
 		SignalBus.update_inventory.emit()
 	update_stats()
+	SignalBus.update_character_info.emit()
 
 func unequip_slot(slot):
 	remove_conditions_from_equipment()
@@ -186,6 +240,7 @@ func unequip_slot(slot):
 	if Global.focus_char == self:
 		SignalBus.update_inventory.emit()
 	update_stats()
+	SignalBus.update_character_info.emit()
 
 func remove_item_from_slot(slot):
 	var item = data.equipment.remove_item_from_slot(slot)
@@ -248,10 +303,17 @@ func get_current_ap():
 func get_current_pp():
 	return data.current_pp
 
-func consume_ap(number):
+## consumes AP and associated MP!
+func consume_ap(number: int, mp_equivalent: bool = true):
 	data.current_ap -= number
 	if data.current_ap < 0:
 		data.current_ap = 0
+	if mp_equivalent:
+		data.current_mp -= number * get_stat("max_mp")
+		if data.current_mp < 0:
+			data.current_mp = 0
+		if Global.selected_char == self:
+			Global.world_manager.path_preview.get_char_data()
 
 func consume_pp(number):
 	data.current_pp -= number
@@ -591,11 +653,4 @@ func _ready():
 	health_bar_instance = health_bar_scene.instantiate()
 	add_child(health_bar_instance)
 	SignalBus.on_start_crisis.connect(_on_start_crisis)
-	#SignalBus.add_to_initiative.emit(self)
-	#SignalBus.turn_ends.connect(_on_end_turn)
-	#print(SignalBus.on_start_crisis.is_connected(_on_start_crisis))
-	#print(SignalBus.turn_ends.is_connected(_on_end_turn))
 	$DamageVisual.hit_material = sprite_node.material as ShaderMaterial
-	#$Outline.z_index = $Sprite2D.z_index + 1
-	#$Outline.scale = $Sprite2D.scale * 2
-	#func _ready() -> void:

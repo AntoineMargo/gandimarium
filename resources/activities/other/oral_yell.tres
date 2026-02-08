@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="ImmediateActivity" format=3 uid="uid://bljt80d10kudf"]
+
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="1_0mnqb"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_sovki"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="3_dh45m"]
+[ext_resource type="Resource" uid="uid://ct023ctlxw1di" path="res://resources/activity_modifiers/casting_tradition_oral.tres" id="4_dh45m"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="4_jm6kp"]
+[ext_resource type="Script" uid="uid://dywclcl7k47vv" path="res://effects/activity_modifier_effect.gd" id="4_sovki"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/condition_effect.gd" id="7_5xub5"]
+
+[sub_resource type="Resource" id="Resource_ol6fn"]
+script = ExtResource("4_sovki")
+modifier = ExtResource("4_dh45m")
+metadata/_custom_type_script = "uid://dywclcl7k47vv"
+
+[sub_resource type="Resource" id="Resource_sb3m0"]
+script = ExtResource("4_jm6kp")
+name = "Yelling"
+description = "You yell your incantations to make them more powerful."
+effects = Array[ExtResource("3_dh45m")]([SubResource("Resource_ol6fn")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_ytumn"]
+script = ExtResource("7_5xub5")
+conditions = Array[ExtResource("4_jm6kp")]([SubResource("Resource_sb3m0")])
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[resource]
+script = ExtResource("1_0mnqb")
+name = "Yell"
+description = "You yell your incantations, increasing the save DC by 1."
+AP_cost = 0
+target_effects = Array[ExtResource("3_dh45m")]([SubResource("Resource_ytumn")])
+requires_roll = false
+is_constant = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"

@@ -52,6 +52,7 @@ metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
 [resource]
 script = ExtResource("1_k5cex")
 name = "Mage Armour"
+tags = Array[String](["spell"])
 AP_cost = 2
 requires_concentration = true
 self_filters = Array[ExtResource("2_x0fl4")]([ExtResource("4_ixjsb"), ExtResource("5_xnel6")])

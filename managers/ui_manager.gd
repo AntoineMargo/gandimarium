@@ -467,14 +467,16 @@ func _create_activity_button(activity, node_grid):
 	button.set_meta("activity", activity)
 	node_grid.add_child(button)
 
-	#var mat = icon.material as ShaderMaterial
-	#if mat:
-		#mat.set_shader_parameter("active", true)  # <-- forces it on by default
+	var mat = icon.material as ShaderMaterial
+	if mat:
+		mat.set_shader_parameter("outline_thickness", 0)
 
 	if activity.is_constant:
-		button.toggled.connect(Callable(self, "_on_activity_toggled").bind(button))
+		button.toggled.connect(Callable(self, "_on_activity_button_toggled").bind(button))
+		print("toggle-type activity button created")
 	else:
 		button.connect("pressed", Callable(self, "_on_activity_button_pressed").bind(button))
+		print("press-type activity button created")
 
 func update_spell_list():
 	var character = Global.selected_char
@@ -580,18 +582,31 @@ func update_ui_for_char():
 	await get_tree().process_frame
 	#Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()
 
-func _on_activity_toggled(pressed: bool, button: TextureButton):
+func _on_activity_button_toggled(pressed: bool, button: TextureButton):
 	var activity = button.get_meta("activity")
 	if not activity:
 		return
 
 	var icon = button.get_node("Icon") as TextureRect
 	var mat = icon.material as ShaderMaterial
-	if mat:
-		mat.set_shader_parameter("active", pressed)
+	
+	if pressed:
+		SignalBus.dialog_show_message.emit("Button toggle: On")
+		if activity and activity.has_method("execute"):
+			Global.focus_char.perform_activity(activity)
+		else:
+			print("Invalid or missing activity.")
+		if mat:
+			mat.set_shader_parameter("outline_thickness", 2)
+	else:
+		SignalBus.dialog_show_message.emit("Button toggle: Off")
+		if activity and activity.has_method("execute"):
+			Global.focus_char.perform_activity(activity)
+		else:
+			print("Invalid or missing activity.")
+		if mat:
+			mat.set_shader_parameter("outline_thickness", 0)
 
-	# Update activity state if needed
-	activity.autocast = pressed
 
 func _on_activity_button_pressed(button: TextureButton):
 	var activity = button.get_meta("activity")

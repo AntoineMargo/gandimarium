@@ -20,6 +20,8 @@ var path_preview: Node2D = null
 
 
 func _process(_delta):
+	if Global.crisis_manager.activity_mode:
+		return
 	if get_viewport().gui_get_hovered_control():
 		path_preview.clear_all()
 		return  # Mouse is over UI, skip preview
@@ -816,7 +818,7 @@ func _interact_move(t_coords):
 		var total_mp = mp_per_ap * max_ap
 		
 		var ap_cost = calculate_ap_cost(cost, current_available_mp, mp_per_ap, total_mp)
-		character.consume_ap(ap_cost)
+		character.consume_ap(ap_cost, false)
 		path_preview.get_char_data()
 	
 	SignalBus.update_ui_for_char.emit()

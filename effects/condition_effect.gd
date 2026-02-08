@@ -1,5 +1,4 @@
 extends Effect
-
 class_name ConditionEffect
 
 @export var conditions: Array[Condition] = []
@@ -11,4 +10,5 @@ func apply(source, target, degree: int = 2) -> void:
 		var instance = condition.duplicate()
 		instance.concentration = source.concentration
 		if target.has_method("add_condition"):
-			target.add_condition(instance)
+			target.add_condition_from(source, instance)
+			#target.add_condition(instance)

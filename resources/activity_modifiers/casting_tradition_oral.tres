@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="IntPreModifier" format=3 uid="uid://ct023ctlxw1di"]
+
+[ext_resource type="Script" uid="uid://bq63dydos81cc" path="res://activity_modifiers/int_pre_modifier.gd" id="1_lrqlh"]
+
+[resource]
+script = ExtResource("1_lrqlh")
+tag = "spell"
+property = "user_stat"
+delta = 1
+metadata/_custom_type_script = "uid://bq63dydos81cc"

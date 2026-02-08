@@ -152,6 +152,6 @@ func _ready() -> void:
 	SignalBus.add_to_initiative.connect(_add_to_initiative_order)
 	SignalBus.request_toggle_crisis.connect(request_toggle_crisis)
 	#SignalBus.active_hostiles_changed.connect(active_hostiles_changed)
-	
+	SignalBus.end_crisis_turn.connect(_end_player_turn)
 	SignalBus.turn_ends.connect(handle_next_turn)
 	SignalBus.end_player_turn.connect(_end_player_turn)

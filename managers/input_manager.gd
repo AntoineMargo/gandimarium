@@ -196,8 +196,7 @@ func BasicControls():
 			print("Offhand weapon: Empty")
 
 	if Input.is_action_just_pressed("B"):
-		Global.selected_char.debug_outline()
-		#$Outline.toggle_outline()
+		SignalBus.dialog_show_message.emit("Available MP: %d" % Global.selected_char.get_stat("current_mp"))
 
 	#if Input.is_action_just_pressed("V"):
 		#print("=== CanvasLayers in scene ===")
@@ -205,13 +204,13 @@ func BasicControls():
 			#print(node.name, " layer:", node.layer)
 
 	if Input.is_action_just_pressed("V"):
-		pass
+		SignalBus.dialog_show_message.emit("Number of active creatures: %d" % Global.ai_manager.active_number)
 
 	if Input.is_action_just_pressed("Backspace"):
-		SignalBus.toggle_crisis_button.emit()
+		SignalBus.request_toggle_crisis.emit(Global.focus_char)
 
 	if Input.is_action_just_pressed("Enter"):
-			SignalBus.end_crisis_round.emit()
+			SignalBus.end_crisis_turn.emit()
 
 #func CharControls():
 	#if not Global.focus_char:

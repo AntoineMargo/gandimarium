@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Condition" load_steps=9 format=3 uid="uid://dq8birnet4lbp"]
+[gd_resource type="Resource" script_class="Condition" format=3 uid="uid://dq8birnet4lbp"]
 
 [ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/modifier_entry.gd" id="1_j85to"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_potkk"]
@@ -25,5 +25,6 @@ metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
 [resource]
 script = ExtResource("2_j85to")
-name = "heavily armoured"
+name = "Heavily armoured"
+id = "heavily_armoured"
 effects = Array[ExtResource("1_potkk")]([SubResource("Resource_ns0ch")])

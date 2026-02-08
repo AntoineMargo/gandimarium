@@ -25,5 +25,6 @@ metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
 [resource]
 script = ExtResource("2_ounh6")
-name = "lightly armoured"
+name = "Lightly armoured"
+id = "lightly_armored"
 effects = Array[ExtResource("1_fihoc")]([SubResource("Resource_ns0ch")])

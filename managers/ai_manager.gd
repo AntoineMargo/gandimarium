@@ -16,12 +16,18 @@ func noticing_check(origin: Vector3i):
 					creature.evaluate_entering_crisis(potential_creature)
 
 func ai_became_active(creature):
+	if active_creatures.has(creature):
+		return
+	SignalBus.dialog_show_message.emit("A creature's AI just turned active!")
 	active_creatures[creature] = true
 	active_number += 1
+	#SignalBus.dialog_show_message.emit("1 more active creature: %d" % active_number)
 	
 func ai_became_inactive(creature):
+	SignalBus.dialog_show_message.emit("A creature's AI just turned inactive.")
 	active_creatures.erase(creature)
 	active_number -= 1
+	#SignalBus.dialog_show_message.emit("1 less active creature: %d" % active_number)
 
 func _ready() -> void:
 		SignalBus.noticing_check.connect(noticing_check)
