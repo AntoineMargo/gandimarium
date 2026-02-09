@@ -16,6 +16,7 @@ enum ShapeType {
 }
 
 @export var name: String = "placeholder"
+@export var id: String = "placeholder"
 @export var description: String = "This is a placeholder description."
 @export var icon: String = "res://art/interface/activities/placeholder1.png"
 @export var tags: Array[String] = []
@@ -44,7 +45,8 @@ enum ShapeType {
 @export var requires_roll: bool = true
 @export var is_invisible: bool = false
 @export var is_spell: bool = false
-@export var is_constant: bool = false
+@export var builds_condition: bool = false
+@export var condition_id: String = ""
 @export var ai_hint: AIHint
 
 

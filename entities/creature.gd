@@ -81,6 +81,7 @@ func has_condition_named(condition_name: String) -> bool:
 			return true
 	return false
 
+## Takes the id of the condition as parameter
 func has_condition(condition_id: String) -> bool:
 	for condition in data.conditions:
 		if condition.id == condition_id:
@@ -97,7 +98,7 @@ func toggle_condition(cond: Condition, source):
 	var existing = get_condition_by_id(cond.id)
 
 	if existing:
-		existing.remove_source(source)
+		existing.remove_source(source.id)
 	else:
 		add_condition_from(source, cond)
 
@@ -105,7 +106,7 @@ func add_condition_from(source, cond: Condition):
 	var existing = get_condition_by_id(cond.id)
 
 	if existing:
-		existing.add_source(source)
+		existing.add_source(source.id)
 		return
 
 	for weaker_cond in cond.supplanted:
@@ -117,9 +118,38 @@ func add_condition_from(source, cond: Condition):
 				return
 
 	var inst = cond.duplicate(true)
-	inst.add_source(source)
+	inst.add_source(source.id)
 	data.conditions.append(inst)
 	inst.initialize(self)
+
+func remove_condition_from(source, id: String):
+	var cond = get_condition_by_id(id)
+	if not cond:
+		return
+
+	cond.remove_source(source.id)
+
+	if not cond.has_sources():
+		remove_condition(cond)
+
+func remove_condition_by_id(condition_id: String):
+	var condition = null
+	for existing_cond in data.conditions:
+		if existing_cond.id == condition_id:
+			condition = existing_cond
+	if not condition:
+		return
+	for effect in condition.effects:
+		effect.remove(self, self)
+	data.conditions.erase(condition)
+
+func remove_condition(condition: Condition):
+	for effect in condition.effects:
+		effect.remove(self, self, -1)
+	for existing_cond in data.conditions:
+		if existing_cond.id == condition.id:
+			data.conditions.erase(existing_cond)
+	stats_dirty = true
 
 #func add_condition(condition: Condition):
 	#if has_condition(condition.id):
@@ -134,14 +164,6 @@ func add_condition_from(source, cond: Condition):
 	#data.conditions.append(condition)
 	#condition.initialize(self)
 	#stats_dirty = true
-
-func remove_condition(condition: Condition):
-	for effect in condition.effects:
-		effect.remove(self, self, -1)
-	for existing_cond in data.conditions:
-		if existing_cond.id == condition.id:
-			data.conditions.erase(existing_cond)
-	stats_dirty = true
 
 func add_item_conditions(item):
 	if not item or not item.conditions:
@@ -303,7 +325,7 @@ func get_current_ap():
 func get_current_pp():
 	return data.current_pp
 
-## consumes AP and associated MP!
+## consumes AP and potentially associated MP if set to 'true'
 func consume_ap(number: int, mp_equivalent: bool = true):
 	data.current_ap -= number
 	if data.current_ap < 0:

@@ -7,4 +7,6 @@ script = ExtResource("1_lrqlh")
 tag = "spell"
 property = "user_stat"
 delta = 1
+name = "yell"
+id = "mod_yell_tradition"
 metadata/_custom_type_script = "uid://bq63dydos81cc"

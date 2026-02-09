@@ -196,7 +196,11 @@ func BasicControls():
 			print("Offhand weapon: Empty")
 
 	if Input.is_action_just_pressed("B"):
-		SignalBus.dialog_show_message.emit("Available MP: %d" % Global.selected_char.get_stat("current_mp"))
+		var character = Global.selected_char
+		SignalBus.dialog_show_message.emit("Activity modifiers active:")
+		for mod in character.data.activity_modifiers:
+			SignalBus.dialog_show_message.emit("Mod %s" % mod.name)
+		#SignalBus.dialog_show_message.emit("Available MP: %d" % Global.selected_char.get_stat("current_mp"))
 
 	#if Input.is_action_just_pressed("V"):
 		#print("=== CanvasLayers in scene ===")

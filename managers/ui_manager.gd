@@ -460,23 +460,46 @@ func update_activity_buttons():
 		if activities[i].is_invisible == false:
 			_create_activity_button(activities[i], node_grid)
 
+func _set_button_active(button: TextureButton, active: bool) -> void:
+	var icon := button.get_node("Icon") as TextureRect
+	if not icon:
+		return
+
+	var mat = icon.material as ShaderMaterial
+	if not mat:
+		return
+
+	mat.set_shader_parameter("outline_thickness", 2 if active else 0)
+
 func _create_activity_button(activity, node_grid):
 	var button = activity_button.instantiate() as TextureButton
 	var icon = button.get_node("Icon") as TextureRect
 	icon.texture = load(activity.icon)
+
 	button.set_meta("activity", activity)
 	node_grid.add_child(button)
 
-	var mat = icon.material as ShaderMaterial
-	if mat:
-		mat.set_shader_parameter("outline_thickness", 0)
+	var character = Global.selected_char
 
-	if activity.is_constant:
-		button.toggled.connect(Callable(self, "_on_activity_button_toggled").bind(button))
-		print("toggle-type activity button created")
+	if activity.builds_condition and activity.condition_id == "":
+		push_error("Activity %s builds condition but has no condition_id" % activity.name)
+
+	if activity.builds_condition:
+		button.toggle_mode = true
+
+		var active = character.has_condition(activity.condition_id)
+
+		button.set_pressed_no_signal(active)
+		_set_button_active(button, active)
+
+		button.toggled.connect(
+			Callable(self, "_on_activity_button_toggled").bind(button)
+		)
 	else:
-		button.connect("pressed", Callable(self, "_on_activity_button_pressed").bind(button))
-		print("press-type activity button created")
+		button.pressed.connect(
+			Callable(self, "_on_activity_button_pressed").bind(button)
+		)
+
 
 func update_spell_list():
 	var character = Global.selected_char
@@ -587,25 +610,32 @@ func _on_activity_button_toggled(pressed: bool, button: TextureButton):
 	if not activity:
 		return
 
-	var icon = button.get_node("Icon") as TextureRect
-	var mat = icon.material as ShaderMaterial
-	
-	if pressed:
-		SignalBus.dialog_show_message.emit("Button toggle: On")
-		if activity and activity.has_method("execute"):
-			Global.focus_char.perform_activity(activity)
-		else:
-			print("Invalid or missing activity.")
-		if mat:
-			mat.set_shader_parameter("outline_thickness", 2)
-	else:
-		SignalBus.dialog_show_message.emit("Button toggle: Off")
-		if activity and activity.has_method("execute"):
-			Global.focus_char.perform_activity(activity)
-		else:
-			print("Invalid or missing activity.")
-		if mat:
-			mat.set_shader_parameter("outline_thickness", 0)
+	Global.focus_char.perform_activity(activity, Global.focus_char)
+
+	var active = Global.focus_char.has_condition(activity.condition_id)
+
+	button.set_pressed_no_signal(active)
+	_set_button_active(button, active)
+
+	#var icon = button.get_node("Icon") as TextureRect
+	#var mat = icon.material as ShaderMaterial
+	#
+	#if pressed:
+		#SignalBus.dialog_show_message.emit("Button toggle: On")
+		#if activity and activity.has_method("execute"):
+			#Global.focus_char.perform_activity(activity)
+		#else:
+			#print("Invalid or missing activity.")
+		#if mat:
+			#mat.set_shader_parameter("outline_thickness", 2)
+	#else:
+		#SignalBus.dialog_show_message.emit("Button toggle: Off")
+		#if activity and activity.has_method("execute"):
+			#Global.focus_char.perform_activity(activity)
+		#else:
+			#print("Invalid or missing activity.")
+		#if mat:
+			#mat.set_shader_parameter("outline_thickness", 0)
 
 
 func _on_activity_button_pressed(button: TextureButton):

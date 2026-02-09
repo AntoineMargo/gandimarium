@@ -7,7 +7,7 @@ class_name IntPreModifier
 
 # pre-runtime
 func modify_activity(activity: Activity):
-	pass
+	return activity
 
 # runtime before resolution
 func apply_pre_mods(ctx: ActivityContext):
