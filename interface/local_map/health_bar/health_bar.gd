@@ -1,10 +1,10 @@
 extends Node2D
 
-var parent: Node
+var creature: Node
 
 func update_hp_bar():
-	var current_hp = parent.get_stat("current_hp")
-	var max_hp = parent.get_stat("max_hp")
+	var current_hp = creature.get_stat("current_hp")
+	var max_hp = creature.get_stat("max_hp")
 
 	$PositiveHP.min_value = 0
 	$PositiveHP.max_value = max_hp
@@ -26,4 +26,4 @@ func update_hp_bar():
 		$NegativeHP.value = current_hp
 
 func _ready() -> void:
-	parent = get_parent()
+	creature = get_parent().get_parent()

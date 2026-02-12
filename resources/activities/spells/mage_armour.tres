@@ -6,9 +6,6 @@
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="3_wvaus"]
 [ext_resource type="Resource" uid="uid://bhdp23fjgy1bl" path="res://resources/filters/enough_ap.tres" id="4_ixjsb"]
 [ext_resource type="Resource" uid="uid://dxhi3w7coy3mv" path="res://resources/filters/enough_pp.tres" id="5_xnel6"]
-[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="7_edodd"]
-[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/modifier_entry.gd" id="8_cmqee"]
-[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/modifier_effect.gd" id="9_4jyfm"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/condition_effect.gd" id="10_owuk3"]
 
 [sub_resource type="Resource" id="Resource_lerwq"]
@@ -27,26 +24,8 @@ power = {
 }
 metadata/_custom_type_script = "uid://lrec85jjq4ih"
 
-[sub_resource type="Resource" id="Resource_yoil6"]
-script = ExtResource("8_cmqee")
-stat = "physical"
-amount = 20
-metadata/_custom_type_script = "uid://ik0hrifgbwa4"
-
-[sub_resource type="Resource" id="Resource_2l3m2"]
-script = ExtResource("9_4jyfm")
-modifiers = Array[ExtResource("8_cmqee")]([SubResource("Resource_yoil6")])
-metadata/_custom_type_script = "uid://cpuyout31r1c5"
-
-[sub_resource type="Resource" id="Resource_mpm26"]
-script = ExtResource("7_edodd")
-name = "Mage Armour"
-effects = Array[ExtResource("3_wvaus")]([SubResource("Resource_2l3m2")])
-metadata/_custom_type_script = "uid://dvi4ohsador2o"
-
 [sub_resource type="Resource" id="Resource_5g3tl"]
 script = ExtResource("10_owuk3")
-conditions = Array[ExtResource("7_edodd")]([SubResource("Resource_mpm26")])
 metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
 
 [resource]
@@ -59,6 +38,5 @@ self_filters = Array[ExtResource("2_x0fl4")]([ExtResource("4_ixjsb"), ExtResourc
 target_effects = Array[ExtResource("3_wvaus")]([SubResource("Resource_5g3tl")])
 requires_roll = false
 is_spell = true
-is_constant = true
 ai_hint = SubResource("Resource_lerwq")
 metadata/_custom_type_script = "uid://beq2nm7ovc2lf"

@@ -418,8 +418,8 @@ func path_to_target_adjacency(creature, target, distance):
 
 	return path
 
+## returns path array of steps to goal tile by tile in (x, y) format BY PIXEL... Or not anymore? Not sure.
 func get_multi_level_path(start: Vector3i, goal: Vector3i, allow_occupied_goal: bool = false) -> Array[Vector3i]:
-	"returns path array of steps to goal tile by tile in (x, y) format BY PIXEL"
 	
 	var was_occupied = false
 	var goal_xy: Vector2i = Vector2i(goal.x, goal.y)
@@ -450,6 +450,15 @@ func get_multi_level_path(start: Vector3i, goal: Vector3i, allow_occupied_goal: 
 func get_creature_by_id(target_id) -> Creature:
 	return current_world.creatures_by_id.get(target_id, null)
 
+
+func get_tile_coords_under_cursor() -> Vector3i:
+	var screen_mouse_pos = get_viewport().get_mouse_position()
+	var canvas_transform = get_viewport().get_canvas_transform()
+	var world_mouse_pos = canvas_transform.affine_inverse() * screen_mouse_pos
+	var coords_2d = Vector2i(current_tile_map_layer.local_to_map(world_mouse_pos))
+	return Vector3i(coords_2d[0], coords_2d[1], current_level)
+
+## @deprecated: use "get_tile_coords_under_cursor"
 func get_tile_coords() -> Dictionary:
 	var screen_mouse_pos = get_viewport().get_mouse_position()
 	var canvas_transform = get_viewport().get_canvas_transform()
@@ -461,14 +470,7 @@ func get_tile_coords() -> Dictionary:
 		"vec2": coords_2d
 	}
 
-func turn_3D_coords_into_vector_array(coords):
-	var coords_2d = Vector2i(coords.x, coords.y)
-	return {
-		"vec3": coords,
-		"vec2": coords_2d
-	}
-
-## @deprecated: use get_character_coords(character) instead
+## @deprecated: use get_coords(character) from Creature instead
 func get_char_coords(character) -> Dictionary:
 	var pos_3d = Vector3i(
 	character.data.tile_x,
@@ -479,15 +481,16 @@ func get_char_coords(character) -> Dictionary:
 		"vec2": Vector2i(pos_3d.x, pos_3d.y)
 	}
 
-func add_to_tile(element, coords):
-	var layers = layers
-	if not layers[coords.vec3.z]["contents"].has(coords.vec2):
-		layers[coords.vec3.z]["contents"][coords.vec2] = []
-	layers[coords.vec3.z]["contents"][coords.vec2].append(element)
+func add_to_tile(element, coords: Vector3i):
+	var layer_coords = Vector2i(coords.x, coords.y)
+	if not layers[coords.z]["contents"].has(layer_coords):
+		layers[coords.z]["contents"][layer_coords] = []
+	layers[coords.z]["contents"][layer_coords].append(element)
 
-func remove_from_tile(element, coords):
-	if layers[coords.vec3.z]["contents"].has(coords.vec2):
-		var contents = layers[coords.vec3.z]["contents"][coords.vec2]
+func remove_from_tile(element, coords: Vector3i):
+	var layer_coords = Vector2i(coords.x, coords.y)
+	if layers[coords.z]["contents"].has(layer_coords):
+		var contents = layers[coords.z]["contents"][layer_coords]
 		if element in contents:
 			contents.erase(element)
 			
@@ -495,14 +498,15 @@ func remove_from_tile(element, coords):
 			for other in contents:
 				if other is Item:
 					still_has_items = true
-			if not still_has_items and layers[coords.vec3.z]["item_visual"].has(coords.vec2):
+			if not still_has_items and layers[coords.z]["item_visual"].has(layer_coords):
 				remove_item_visual(coords)
 
-func remove_item_visual(coords):
-	var visual = layers[coords.vec3.z]["item_visual"].get(coords.vec2)
+func remove_item_visual(coords: Vector3i):
+	var layer_coords = Vector2i(coords.x, coords.y)
+	var visual = layers[coords.z]["item_visual"].get(layer_coords)
 	if visual:
 		visual.queue_free()
-		layers[coords.vec3.z]["item_visual"].erase(coords.vec2)
+		layers[coords.z]["item_visual"].erase(layer_coords)
 
 func flash_tile_overlay(tile_pos: Vector2i) -> void:
 	var flash_scene = preload("res://interface/local_map/flash_tile_effect.tscn")
@@ -515,7 +519,7 @@ func flash_tile_overlay(tile_pos: Vector2i) -> void:
 	tilemap.add_child(flash_instance)
 	flash_instance.get_node("AnimationPlayer").play("flash")
 	
-func update_creatures_visibility():
+func creatures_visible_if_on_layer():
 	if current_world:
 		for creature in current_world.creatures:
 			creature.visible = (creature.data.tile_z == current_level)
@@ -528,6 +532,22 @@ func spawn_enemy():
 	
 func spawn_character(data_file):
 	spawner.spawn_character(data_file)
+
+## takes a tile's coords in either Vector3i or Vector2i format and returns them in pixel format
+func tile_to_pixels(coords) -> Vector2:
+	if coords is Vector3i:
+		coords = Vector2i(coords.x, coords.y)
+	elif coords is Vector2i:
+		pass
+	else:
+		push_warning("Error: Invalid type")
+		return Vector2(-1.0, -1.0)
+	return Vector2((coords.x * Global.TILE_SIZE + Global.TILE_SIZE * 0.5), (coords.y * Global.TILE_SIZE + Global.TILE_SIZE * 0.5))
+
+## takes a tile's coords in pixel format and returns it in Vector2i format
+func pixels_to_tile(coords: Vector2) -> Vector3i:
+	return Vector3i(coords.x / Global.TILE_SIZE, coords.y / Global.TILE_SIZE, current_level)
+	#return Vector2i(coords.x / Global.TILE_SIZE, coords.y / Global.TILE_SIZE)
 
 #func is_tile_walkable(tilemap: TileMap, world_pos: Vector2) -> bool:
 	#var coords = tilemap.local_to_map(world_pos)
@@ -658,24 +678,22 @@ func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, vi
 	#print("	final failure")
 	return false
 
-func _try_move_char_abs(target):
-	if not Global.focus_char:
-		return
-	var character = Global.focus_char
-	var origin = get_char_coords(character)
-
-	layers[origin.vec3.z]["occupied"][origin.vec2] = false
-	layers[origin.vec3.z]["path_map"].set_point_solid(origin.vec2, false)
-	remove_from_tile(character, origin)
+func try_move_char_abs(creature: Creature, origin: Vector3i, target: Vector3i):
+	var layer_origin = Vector2i(origin.x, origin.y)
+	var layer_target = Vector2i(target.x, target.y)
 	
-	character.data.tile_x = target.vec3.x
-	character.data.tile_y = target.vec3.y
-	character.data.tile_z = target.vec3.z
-	character.position = layers[target.vec3.z]["tile_map"].map_to_local(target.vec2)
-
-	layers[target.vec3.z]["occupied"][target.vec2] = true
-	add_to_tile(character, target)
-	layers[target.vec3.z]["path_map"].set_point_solid(target.vec2, true)
+	layers[origin.z]["occupied"][layer_origin] = false
+	layers[origin.z]["path_map"].set_point_solid(layer_origin, false)
+	remove_from_tile(creature, origin)
+	
+	creature.data.tile_x = target.x
+	creature.data.tile_y = target.y
+	creature.data.tile_z = target.z
+	
+	layers[target.z]["occupied"][layer_target] = true
+	add_to_tile(creature, target)
+	layers[target.z]["path_map"].set_point_solid(layer_target, true)
+	path_preview.clear_all()
 
 func find_creature_on_tile(coordinates: Vector3i) -> Creature:
 	var coords = Vector2i(coordinates.x, coordinates.y)
@@ -684,6 +702,38 @@ func find_creature_on_tile(coordinates: Vector3i) -> Creature:
 			if element is Creature:
 				return element
 	return null
+
+#func try_move_char_abs(target: Vector3i):
+	#if not Global.focus_char:
+		#return
+	#var character = Global.focus_char
+	#var origin = character.get_coords()
+	#var layer_origin = Vector2i(origin.x, origin.y)
+	#var layer_target = Vector2i(target.x, target.y)
+	#
+#
+	#layers[origin.z]["occupied"][layer_origin] = false
+	#layers[origin.z]["path_map"].set_point_solid(layer_origin, false)
+	#remove_from_tile(character, origin)
+	#
+	#character.data.tile_x = target.x
+	#character.data.tile_y = target.y
+	#character.data.tile_z = target.z
+	#
+	##character.position = layers[target.z]["tile_map"].map_to_local(layer_target)
+	#
+	#layers[target.z]["occupied"][layer_target] = true
+	#add_to_tile(character, target)
+	#layers[target.z]["path_map"].set_point_solid(layer_target, true)
+	#path_preview.clear_all()
+#
+#func find_creature_on_tile(coordinates: Vector3i) -> Creature:
+	#var coords = Vector2i(coordinates.x, coordinates.y)
+	#if layers[current_level]["contents"].has(coords):
+		#for element in layers[current_level]["contents"][coords]:
+			#if element is Creature:
+				#return element
+	#return null
 
 func select_creature_on_tile(coordinates: Vector3i) -> void:
 	var coords = Vector2i(coordinates.x, coordinates.y)
@@ -735,16 +785,18 @@ func _on_world_select():
 	select_creature_on_tile(coords.vec3)
 
 func _on_world_interact():
-	var coords = get_tile_coords()
+	var coords = get_tile_coords_under_cursor()
+	var layer_coords = Vector2i(coords.x, coords.y)
 	if Global.selected_char:
-		if layers[current_level]["occupied"].get(coords.vec2):
+		if layers[current_level]["occupied"].get(layer_coords):
 			_interact_attack(coords)
 		else:
 			_interact_move(coords)
 
-func _interact_attack(coords):
+func _interact_attack(coords: Vector3i):
+	var layer_coords = Vector2i(coords.x, coords.y)
 	var target: Creature
-	for element in layers[coords.vec3.z]["contents"].get(coords.vec2):
+	for element in layers[coords.z]["contents"].get(layer_coords):
 		if element is Creature:
 			target = element
 			break
@@ -774,44 +826,34 @@ func calculate_ap_cost(cost: float, current_available_mp: float, mp_per_ap: floa
 		var ap_consumed = ap_used_after - ap_used_before
 		return ap_consumed
 
-func _interact_move(t_coords):
+func _interact_move(target: Vector3i):
 	var character = Global.focus_char
-	var o_coords = get_char_coords(character)
+	var origin = character.get_coords()
+	var layer_origin = Vector2i(origin.x, origin.y)
+	var layer_target = Vector2i(target.x, target.y)
 	var path = null
 	var cost: float = 0
-	var path_map = layers[t_coords.vec3.z]["path_map"]
-	if not path_map.region.has_point(t_coords.vec2) or path_map.is_point_solid(t_coords.vec2) or layers[t_coords.vec3.z]["occupied"].get(t_coords.vec2):
+	var path_map = layers[target.z]["path_map"]
+	if not path_map.region.has_point(layer_target) or path_map.is_point_solid(layer_target) or layers[target.z]["occupied"].get(layer_target):
 		print("Invalid target location.")
 		return
 
-	print("origin: %d/%d" % [o_coords.vec2.x, o_coords.vec2.y])
-	print("goal: %d/%d" % [t_coords.vec2.x, t_coords.vec2.y])
+	print("origin: %d/%d" % [origin.x, origin.y])
+	print("goal: %d/%d" % [target.x, target.y])
 
-	path_map.set_point_solid(o_coords.vec2, false)
-
-	path = get_multi_level_path(o_coords.vec3, t_coords.vec3)
-
+	path_map.set_point_solid(layer_origin, false)
+	path = get_multi_level_path(origin, target)
 	if path.is_empty():
 		print("No path found!")
 		return
-
 	cost = calculate_path_cost_3D_simple(path)
-	#print("Path length: ", path.size() - 1, " steps.")
-	#print("Path cost: ", cost)
+	
 	if Global.crisis_manager.crisis_mode:
 		if cost > character.data.current_mp:
 			SignalBus.dialog_show_message.emit("You do not have enough movements points.")
 			return
 		else:
 			character.change_stat("current_mp", -cost)
-	_try_move_char_abs(t_coords)
-	update_creatures_visibility()
-	#clear_reachable_tiles()
-	#build_reachable_tiles()
-	#show_reachable_tiles()
-	selection_highlight.update_selection_highlight()
-	
-	if Global.crisis_manager.crisis_mode:
 		var current_available_mp = character.get_stat("current_mp")
 		var max_ap = character.get_stat("max_ap")
 		var mp_per_ap = character.get_stat("max_mp")
@@ -820,10 +862,20 @@ func _interact_move(t_coords):
 		var ap_cost = calculate_ap_cost(cost, current_available_mp, mp_per_ap, total_mp)
 		character.consume_ap(ap_cost, false)
 		path_preview.get_char_data()
+		character.global_position = layers[target.z]["tile_map"].map_to_local(layer_origin)
+		try_move_char_abs(character, origin, target)
+		character.global_position = layers[target.z]["tile_map"].map_to_local(layer_target)
+		character.mover.position = Vector2.ZERO # Very necessary because of position/global_position mismatch during real-time move
+		flash_path(path)
+		SignalBus.noticing_check.emit(path[-1])
+	else: #New! For real time.
+		character.mover.begin_path(path)
 	
+	creatures_visible_if_on_layer()
 	SignalBus.update_ui_for_char.emit()
-	SignalBus.noticing_check.emit(path[-1])
-	
+	selection_highlight.update_selection_highlight()
+
+func flash_path(path: Array) -> void:
 	for point in path:
 		print("Tile (%d:%d:%d)" % [point[0], point[1], point[2]])
 		if point[2] == current_level:

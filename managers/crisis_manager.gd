@@ -83,8 +83,9 @@ func toggle_crisis(creature):
 
 func start_crisis(creature):
 	if crisis_mode == false:
-		if not Global.selected_char:
+		if not Global.focus_char:
 			return
+		SignalBus.stop_all_movement.emit()
 		SignalBus.dialog_show_message.emit("Crisis started by %s." % creature.data.name)
 		crisis_mode = true
 		crisis_round = 0
@@ -93,14 +94,13 @@ func start_crisis(creature):
 			SignalBus.crisis_state_changed.emit()
 		SignalBus.dialog_start_crisis_mode.emit()
 		SignalBus.on_start_crisis.emit()
-		#SignalBus.refresh_reachable_tiles.emit()
 		SignalBus.update_ui_for_char.emit()
-		SignalBus.dialog_show_message.emit("Initiative order:")
-		#Global.world_manager.path_preview.get_char_data()
-		var count: int = 0
-		for element in initiative_order:
-			SignalBus.dialog_show_message.emit("%d: %s" % [count, element.data.name])
-			count += 1
+		#SignalBus.refresh_reachable_tiles.emit()
+		#SignalBus.dialog_show_message.emit("Initiative order:")
+		#var count: int = 0
+		#for element in initiative_order:
+			#SignalBus.dialog_show_message.emit("%d: %s" % [count, element.data.name])
+			#count += 1
 		handle_next_turn()
 
 func end_crisis(creature):

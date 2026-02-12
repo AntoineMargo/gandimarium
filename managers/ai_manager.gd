@@ -14,6 +14,7 @@ func noticing_check(origin: Vector3i):
 					var potential_creature = wm.find_creature_on_tile(origin)
 					creature.discover_creature(potential_creature)
 					creature.evaluate_entering_crisis(potential_creature)
+					SignalBus.stop_all_movement.emit()
 
 func ai_became_active(creature):
 	if active_creatures.has(creature):

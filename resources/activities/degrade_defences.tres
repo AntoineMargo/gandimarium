@@ -3,38 +3,11 @@
 [ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="1_hgdxv"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="2_nx6a8"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="3_hg2gv"]
-[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="4_hg2gv"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/condition_effect.gd" id="4_nx6a8"]
-[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/modifier_entry.gd" id="5_4v7pr"]
-[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/modifier_effect.gd" id="6_y1e7a"]
 [ext_resource type="Script" uid="uid://7wr7rbo7kwhw" path="res://filters/player_controlled.gd" id="8_5rid0"]
-
-[sub_resource type="Resource" id="Resource_u3rir"]
-script = ExtResource("5_4v7pr")
-stat = "melee_defence"
-amount = -5
-metadata/_custom_type_script = "uid://ik0hrifgbwa4"
-
-[sub_resource type="Resource" id="Resource_vs1b6"]
-script = ExtResource("5_4v7pr")
-stat = "ranged_defence"
-amount = -5
-metadata/_custom_type_script = "uid://ik0hrifgbwa4"
-
-[sub_resource type="Resource" id="Resource_onxra"]
-script = ExtResource("6_y1e7a")
-modifiers = Array[ExtResource("5_4v7pr")]([SubResource("Resource_u3rir"), SubResource("Resource_vs1b6")])
-metadata/_custom_type_script = "uid://cpuyout31r1c5"
-
-[sub_resource type="Resource" id="Resource_bkb7n"]
-script = ExtResource("4_hg2gv")
-name = "degrade_defences"
-effects = Array[ExtResource("2_nx6a8")]([SubResource("Resource_onxra")])
-metadata/_custom_type_script = "uid://dvi4ohsador2o"
 
 [sub_resource type="Resource" id="Resource_hg2gv"]
 script = ExtResource("4_nx6a8")
-conditions = Array[ExtResource("4_hg2gv")]([SubResource("Resource_bkb7n")])
 metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
 
 [sub_resource type="Resource" id="Resource_8gves"]

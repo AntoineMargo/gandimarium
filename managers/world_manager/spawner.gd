@@ -26,19 +26,20 @@ func spawn_character(data_file):
 	var character = char_scene.instantiate()
 	character.data = char_data
 
-	var tile_coords = wm.get_tile_coords()
-	character.data.tile_x = tile_coords.vec3.x
-	character.data.tile_y = tile_coords.vec3.y
-	character.data.tile_z = tile_coords.vec3.z
+	var coords = wm.get_tile_coords_under_cursor()
+	var layer_coords = Vector2i(coords.x, coords.y)
+	character.data.tile_x = coords.x
+	character.data.tile_y = coords.y
+	character.data.tile_z = coords.z
 	character.data.map_id = "world"
 
-	character.position = wm.layers[tile_coords.vec3.z]["tile_map"].map_to_local(tile_coords.vec2)
+	character.position = wm.layers[coords.z]["tile_map"].map_to_local(layer_coords)
 
 	wm.current_world.add_child(character)
 
-	wm.layers[wm.current_level]["occupied"][tile_coords.vec2] = true
-	wm.add_to_tile(character, tile_coords)
-	wm.layers[wm.current_level]["path_map"].set_point_solid(tile_coords.vec2, true)
+	wm.layers[wm.current_level]["occupied"][layer_coords] = true
+	wm.add_to_tile(character, coords)
+	wm.layers[wm.current_level]["path_map"].set_point_solid(layer_coords, true)
 
 	character.initialise()
 	wm.current_world.register_creature(character)

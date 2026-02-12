@@ -4,8 +4,10 @@ class_name Creature
 @export var data: CreatureData
 @export var health_bar_scene: PackedScene
 
-@onready var sprite_node = $Sprite2D
+@onready var sprite_node = $Mover/Sprite2D
 @onready var ai_controller = $AIController
+
+@onready var mover = $Mover
 
 var health_bar_instance: Node
 
@@ -14,10 +16,10 @@ var reachable_tiles = []
 var stats_dirty = true
 var active_right_click: Activity
 
-func update_world_position():
-	if Global.current_tile_map_layer and data:
-		var tile_pos = Vector2i(self.data.tile_x, self.data.tile_y)
-		position = Global.current_tile_map_layer.map_to_local(tile_pos)
+#func update_world_position():
+	#if Global.current_tile_map_layer and data:
+		#var tile_pos = Vector2i(self.data.tile_x, self.data.tile_y)
+		#position = Global.current_tile_map_layer.map_to_local(tile_pos)
 
 func add_activity(activity: Activity):
 	if activity not in data.activities:
@@ -276,7 +278,7 @@ func take_damage(damage: int, resistance: String = ""):
 	if final_damage < 0:
 		final_damage = 0
 	else:
-		$DamageVisual.play_hit_flash(final_damage)
+		$Mover/DamageVisual.play_hit_flash(final_damage)
 	change_stat("current_hp", -final_damage)
 	health_status_change()
 	health_bar_instance.update_hp_bar()
@@ -293,22 +295,21 @@ func health_status_change():
 	var current_hp = get_stat("current_hp") 
 	var max_hp = get_stat("max_hp") 
 	if current_hp > 0:
-		$DamageVisual.set_healthy_tint()
+		$Mover/DamageVisual.set_healthy_tint()
 	if current_hp <= -max_hp:
 		set_stat("current_hp", -max_hp)
 	if current_hp >= max_hp:
 		set_stat("current_hp", max_hp)
 	if current_hp < 0:
 		data.conscious = false
-		$DamageVisual.set_wounded_tint()
+		$Mover/DamageVisual.set_wounded_tint()
 		if data.crisis_ai_active:
 			data.crisis_ai_active = false
 			SignalBus.ai_became_inactive.emit(self)
 	if current_hp <= -max_hp:
 		data.alive = false
 		print("character is dead!")
-		$DamageVisual.set_dead_tint()
-
+		$Mover/DamageVisual.set_dead_tint()
 
 func perceive_level():
 	return data.level
@@ -484,6 +485,11 @@ func get_coords() -> Vector3i:
 	data.tile_z)
 	return pos_3d
 
+func set_coords(new_coords: Vector3i):
+	data.tile_x = new_coords.x
+	data.tile_y = new_coords.y
+	data.tile_z = new_coords.z
+
 ## This initalises the base stats, meant to be used on spawn and at every level-up, and not accessed from outside the class
 func initialise():
 	if not data.has_been_initialized:
@@ -571,7 +577,7 @@ func update_stats():
 	data.derived_stats.max_reactions = data.base_stats.max_reactions
 	
 	data.derived_stats.tie_breaker = randf()
-	
+
 	#if data.casting_table:
 		#var current_level_table = data.casting_table.cost_table[get_stat("level") - 1]
 		#var cost = current_level_table.spell_costs[data.current_spell_rank]
@@ -581,6 +587,7 @@ func update_stats():
 	sprite_node.texture = load(data.sprite)
 	build_tactical_map()
 	set_stat("current_ap", get_stat("max_ap"))
+	$Mover.max_speed = get_stat("max_mp") * Global.TILE_SIZE * 0.5
 	SignalBus.add_to_initiative.emit(self)
 	SignalBus.update_ui_for_char.emit()
 
@@ -635,7 +642,7 @@ func _ensure_resource(res: Resource, ctor: Callable) -> Resource:
 	
 func debug_outline():
 	print("debugging outline")
-	$Outline.toggle_outline()
+	$Mover/Outline.toggle_outline()
 
 func _duplicate_runtime_resources():
 	if data.attributes:
@@ -673,6 +680,8 @@ func _ready():
 	if not health_bar_scene:
 		print("Health bar scene not set!")
 	health_bar_instance = health_bar_scene.instantiate()
-	add_child(health_bar_instance)
+	$Mover.add_child(health_bar_instance)
+	mover.position = Vector2.ZERO
 	SignalBus.on_start_crisis.connect(_on_start_crisis)
-	$DamageVisual.hit_material = sprite_node.material as ShaderMaterial
+	$Mover/DamageVisual.hit_material = sprite_node.material as ShaderMaterial
+	
