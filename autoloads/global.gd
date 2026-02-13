@@ -12,12 +12,15 @@ var input_manager = InputManager.new()
 var cursor_manager = CursorManager.new()
 var id_manager = IDManager.new()
 var ai_manager = AIManager.new()
+var time_manager = TimeManager.new()
 
 var game_root = null
 
 @onready var menu_scene = preload("res://interface/pause_menu.tscn")
 @onready var inventory_window := preload("res://interface/inventory_window/inventory.tscn").instantiate()
 @onready var character_window := preload("res://interface/character_window/character_info.tscn").instantiate()
+
+@onready var world_info := preload("res://interface/screen/world_info.tscn").instantiate()
 
 var ui_log: RichTextLabel = null
 var menu_instance: Node = null
@@ -63,16 +66,19 @@ func _ready() -> void:
 	add_child(crisis_manager)
 	add_child(ui_manager)
 	add_child(dialog_manager)
-	add_child(inventory_window)
-	add_child(character_window)
 	add_child(input_manager)
 	add_child(overworld_manager)
 	add_child(world_manager)
 	add_child(cursor_manager)
 	add_child(id_manager)
 	add_child(ai_manager)
+	add_child(time_manager)
+	add_child(inventory_window)
+	add_child(character_window)
+	add_child(world_info)
 	inventory_window.visible = false
 	character_window.visible = false
+	world_info.visible = false
 	items_list = inventory_window.get_node("Inventory/MainVBox/SeparHBox/Scroller/ItemsList")
 	await get_tree().create_timer(0.1).timeout
 	SignalBus.change_cursor.emit("default")

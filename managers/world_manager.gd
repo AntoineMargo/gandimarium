@@ -881,15 +881,15 @@ func flash_path(path: Array) -> void:
 		if point[2] == current_level:
 			var point_coords = Vector2i(point[0], point[1])
 			flash_tile_overlay(point_coords)
-
-func _on_local_timeout():
-	SignalBus.local_turn_passed.emit()
-
-func _on_crisis_mode_started(_creature):
-	local_timer.paused = true
-
-func _on_crisis_mode_ended(_creature):
-	local_timer.paused = false
+#
+#func _on_local_timeout():
+	#SignalBus.local_turn_passed.emit()
+#
+#func _on_crisis_mode_started(_creature):
+	#local_timer.paused = true
+#
+#func _on_crisis_mode_ended(_creature):
+	#local_timer.paused = false
 
 func _ready() -> void:
 	selection_highlight.update_selection_highlight()
@@ -898,11 +898,11 @@ func _ready() -> void:
 	SignalBus.world_select.connect(_on_world_select)
 	SignalBus.world_interact.connect(_on_world_interact)
 	#SignalBus.refresh_reachable_tiles.connect(_on_refresh_reachable_tiles)
-	SignalBus.start_crisis_mode.connect(_on_crisis_mode_started)
-	SignalBus.end_crisis_mode.connect(_on_crisis_mode_ended)
-	local_timer.wait_time = 6.0
-	local_timer.autostart = true
-	#local_timer.start()
-	local_timer.timeout.connect(_on_local_timeout)
+	#SignalBus.start_crisis_mode.connect(_on_crisis_mode_started)
+	#SignalBus.end_crisis_mode.connect(_on_crisis_mode_ended)
+	#local_timer.wait_time = 1.0
+	#local_timer.autostart = true
+	##local_timer.start()
+	#local_timer.timeout.connect(_on_local_timeout)
 	path_preview = PathPreviewScene.instantiate()
 	add_child(path_preview)

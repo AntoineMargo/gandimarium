@@ -7,6 +7,10 @@ func _ready():
 	if not is_instance_valid(Global.world_manager.selection_highlight):
 		Global.world_manager.selection_highlight = preload("res://interface/local_map/selection_highlight/selection_highlight.tscn").instantiate()
 	self.add_child(Global.world_manager.selection_highlight)
+	var time = Global.time_manager
+	$CanvasModulate.update_light(time.hours)
+	Global.world_info.change_time(time.hours, time.minutes, time.seconds)
+	Global.world_info.visible = true
 
 func load_map(path: String):
 	var world_container = $WorldContainer

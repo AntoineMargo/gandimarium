@@ -19,6 +19,10 @@ signal dialog_start_crisis_mode()
 signal dialog_end_crisis_mode()
 signal dialog_end_turn()
 
+#Time
+signal time_changed(seconds, minutes, hours)
+signal hour_change(hours)
+
 #Crisis
 signal toggle_crisis_mode(creature)
 signal start_crisis_mode(creature)
