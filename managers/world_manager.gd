@@ -9,6 +9,8 @@ var current_world: Node = null
 var local_timer: Timer = Timer.new() 
 var spawner: Spawner
 
+var world_ready: bool = false
+
 var last_hovered_tile: Vector3i
 var target_highlights = []
 
@@ -238,14 +240,15 @@ func is_tile_occupied(coords):
 	##char.data.reachable_tiles = get_reachable_tiles_with_diagonals(layers[coords.vec3.z]["path_map"], coords.vec2, size)
 	#char.reachable_tiles = get_reachable_tiles_3D_with_diagonals(coords.vec3, size)
 
-func add_item_visual(coords):
-	if not layers[current_level]["item_visual"].has(coords.vec2):
+func add_item_visual(coords: Vector3i):
+	var layer_coords = Vector2i(coords.x, coords.y)
+	if not layers[coords.z]["item_visual"].has(layer_coords):
 		var visual_scene = preload("res://items/item_on_tile.tscn")
 		var visual_instance = visual_scene.instantiate()
 		#visual_instance.item = item
-		visual_instance.position = current_tile_map_layer.map_to_local(coords.vec2)
+		visual_instance.position = current_tile_map_layer.map_to_local(layer_coords)
 		current_tile_map_layer.add_child(visual_instance)
-		layers[current_level]["item_visual"][coords.vec2] = visual_instance
+		layers[coords.z]["item_visual"][layer_coords] = visual_instance
 		print("Item VISUAL just added to tile.")
 
 func update_layer_visibility():
@@ -545,9 +548,9 @@ func tile_to_pixels(coords) -> Vector2:
 	return Vector2((coords.x * Global.TILE_SIZE + Global.TILE_SIZE * 0.5), (coords.y * Global.TILE_SIZE + Global.TILE_SIZE * 0.5))
 
 ## takes a tile's coords in pixel format and returns it in Vector2i format
-func pixels_to_tile(coords: Vector2) -> Vector3i:
-	return Vector3i(coords.x / Global.TILE_SIZE, coords.y / Global.TILE_SIZE, current_level)
-	#return Vector2i(coords.x / Global.TILE_SIZE, coords.y / Global.TILE_SIZE)
+## second parameter is optional: the z-level of the location, current_level by default
+func pixels_to_tile(coords: Vector2, level: int = current_level) -> Vector3i:
+	return Vector3i(coords.x / Global.TILE_SIZE, coords.y / Global.TILE_SIZE, level)
 
 #func is_tile_walkable(tilemap: TileMap, world_pos: Vector2) -> bool:
 	#var coords = tilemap.local_to_map(world_pos)
@@ -881,7 +884,10 @@ func flash_path(path: Array) -> void:
 		if point[2] == current_level:
 			var point_coords = Vector2i(point[0], point[1])
 			flash_tile_overlay(point_coords)
-#
+
+func _on_world_ready():
+	world_ready = true
+
 #func _on_local_timeout():
 	#SignalBus.local_turn_passed.emit()
 #
@@ -897,12 +903,6 @@ func _ready() -> void:
 	spawner.wm = self
 	SignalBus.world_select.connect(_on_world_select)
 	SignalBus.world_interact.connect(_on_world_interact)
-	#SignalBus.refresh_reachable_tiles.connect(_on_refresh_reachable_tiles)
-	#SignalBus.start_crisis_mode.connect(_on_crisis_mode_started)
-	#SignalBus.end_crisis_mode.connect(_on_crisis_mode_ended)
-	#local_timer.wait_time = 1.0
-	#local_timer.autostart = true
-	##local_timer.start()
-	#local_timer.timeout.connect(_on_local_timeout)
+	SignalBus.world_ready.connect(_on_world_ready)
 	path_preview = PathPreviewScene.instantiate()
 	add_child(path_preview)

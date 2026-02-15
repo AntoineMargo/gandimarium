@@ -19,7 +19,8 @@ func unregister_creature(creature):
 
 func deferred_setup_layers():
 	Global.world_manager.setup_layers()
-
+	SignalBus.world_ready.emit()
+	
 func _ready() -> void:
 	call_deferred("deferred_setup_layers")
 	pass

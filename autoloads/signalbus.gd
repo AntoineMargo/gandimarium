@@ -64,6 +64,7 @@ signal world_interact(tile_coords)
 #signal refresh_reachable_tiles()
 signal local_turn_passed()
 signal clear_path_preview()
+signal world_ready()
 
 #Cursors
 signal change_cursor(name)

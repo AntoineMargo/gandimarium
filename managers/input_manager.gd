@@ -39,7 +39,7 @@ func BasicControls():
 				creature.visible = (creature.data.tile_z == wm.current_level)
 
 	if Input.is_action_just_pressed("F"):
-		var coords = wm.get_tile_coords()
+		var coords = wm.get_tile_coords_under_cursor()
 		var longspear = Library.get_item("wpn_longspear")
 		#var longspear_instance = longspear.duplicate()
 		wm.add_to_tile(longspear, coords)
