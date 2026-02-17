@@ -5,6 +5,7 @@ extends Node2D
 @onready var level0 = $level0
 @onready var level1 = $level1
 @onready var layers: Array[TileMapLayer] = [$level0, $level1]
+@onready var map_delta = Global.world_manager.get_map_delta(id)
 
 var creatures: Array = []
 var creatures_by_id: Dictionary = {}

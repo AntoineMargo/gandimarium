@@ -17,6 +17,7 @@ var target_highlights = []
 var PathPreviewScene = preload("res://interface/local_map/path_preview.tscn")
 var path_preview: Node2D = null
 
+var map_deltas = {}
 
 @onready var selection_highlight = load("res://interface/local_map/selection_highlight/selection_highlight.tscn").instantiate()
 
@@ -33,6 +34,24 @@ func _process(_delta):
 		if tile_under_cursor != last_hovered_tile:
 			last_hovered_tile = tile_under_cursor
 			preview_path(tile_under_cursor)
+
+func get_map_delta(map_id: String) -> MapDelta:
+	if not map_deltas.has(map_id):
+		map_deltas[map_id] = MapDelta.new()
+	return map_deltas[map_id]
+
+func save_map_delta() -> MapDelta:
+	var map_delta = get_map_delta(current_world.id)
+	map_delta.added_props.clear()
+	#for child of prop_layer:
+		#add_prop_to_delta(prop, map_delta)
+	return map_delta
+
+func add_prop_to_delta(prop: Prop, map_delta: MapDelta):
+	var prop_delta = PropDelta.new()
+	prop_delta.id = prop.id
+	prop_delta.pos = prop.pos
+	map_delta.added_props.append(prop_delta)
 
 func get_hovered_tile() -> Vector3i:
 	var screen_mouse_pos = get_viewport().get_mouse_position()
@@ -705,38 +724,6 @@ func find_creature_on_tile(coordinates: Vector3i) -> Creature:
 			if element is Creature:
 				return element
 	return null
-
-#func try_move_char_abs(target: Vector3i):
-	#if not Global.focus_char:
-		#return
-	#var character = Global.focus_char
-	#var origin = character.get_coords()
-	#var layer_origin = Vector2i(origin.x, origin.y)
-	#var layer_target = Vector2i(target.x, target.y)
-	#
-#
-	#layers[origin.z]["occupied"][layer_origin] = false
-	#layers[origin.z]["path_map"].set_point_solid(layer_origin, false)
-	#remove_from_tile(character, origin)
-	#
-	#character.data.tile_x = target.x
-	#character.data.tile_y = target.y
-	#character.data.tile_z = target.z
-	#
-	##character.position = layers[target.z]["tile_map"].map_to_local(layer_target)
-	#
-	#layers[target.z]["occupied"][layer_target] = true
-	#add_to_tile(character, target)
-	#layers[target.z]["path_map"].set_point_solid(layer_target, true)
-	#path_preview.clear_all()
-#
-#func find_creature_on_tile(coordinates: Vector3i) -> Creature:
-	#var coords = Vector2i(coordinates.x, coordinates.y)
-	#if layers[current_level]["contents"].has(coords):
-		#for element in layers[current_level]["contents"][coords]:
-			#if element is Creature:
-				#return element
-	#return null
 
 func select_creature_on_tile(coordinates: Vector3i) -> void:
 	var coords = Vector2i(coordinates.x, coordinates.y)

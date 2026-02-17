@@ -21,6 +21,7 @@ func load_map(path: String):
 	var new_map_scene = load(path)
 	var new_map = new_map_scene.instantiate()
 	world_container.add_child(new_map)
+	
 	$Camera2D.position = Vector2(0, 300)
 
 	Global.world_manager.current_world = new_map
