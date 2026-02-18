@@ -90,7 +90,7 @@ func _physics_process(delta: float) -> void:
 		stop()
 		return
 
-	print("Position: ", position)
+	#print("Position: ", position)
 	move_to_next_point(delta)
 
 func _ready() -> void:

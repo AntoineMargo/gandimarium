@@ -494,7 +494,7 @@ func set_coords(new_coords: Vector3i):
 func initialise():
 	if not data.has_been_initialized:
 		if data.id == 0:
-			data.id = Global.id_manager.next_id()
+			data.id = Global.uid_manager.next_uid(UIDManager.Type.CREATURE)
 
 		_duplicate_runtime_resources()
 		data.derived_stats = DerivedStats.new()

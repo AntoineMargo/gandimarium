@@ -19,6 +19,7 @@ func unregister_creature(creature):
 
 func deferred_setup_layers():
 	Global.world_manager.setup_layers()
+	#Global.world_manager.clear_current_map_delta()
 	SignalBus.world_ready.emit()
 	
 func _ready() -> void:

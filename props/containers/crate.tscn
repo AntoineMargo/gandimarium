@@ -5,7 +5,8 @@
 
 [node name="Crate" type="Node2D" unique_id=1411168712]
 script = ExtResource("1_j1jct")
-prop_id = "crate"
+prop_name = "crate"
+id = "wooden_crate"
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1013100124]
 texture = ExtResource("1_nr3te")

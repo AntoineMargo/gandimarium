@@ -6,7 +6,7 @@ var layer_links: Dictionary = {}
 var current_tile_map_layer: TileMapLayer = null
 var current_level: int = 0
 var current_world: Node = null
-var local_timer: Timer = Timer.new() 
+var world_state = null
 var spawner: Spawner
 
 var world_ready: bool = false
@@ -17,10 +17,7 @@ var target_highlights = []
 var PathPreviewScene = preload("res://interface/local_map/path_preview.tscn")
 var path_preview: Node2D = null
 
-var map_deltas = {}
-
 @onready var selection_highlight = load("res://interface/local_map/selection_highlight/selection_highlight.tscn").instantiate()
-
 
 func _process(_delta):
 	if Global.crisis_manager.activity_mode:
@@ -35,23 +32,71 @@ func _process(_delta):
 			last_hovered_tile = tile_under_cursor
 			preview_path(tile_under_cursor)
 
+#func clear_current_map_delta() -> void:
+	#var map_delta = get_map_delta(current_world.id)
+	#map_delta.added_props.clear()
+
+#func add_prop_to_delta(prop: Prop):
+	#var map_delta = get_map_delta(current_world.id)
+	#var prop_delta = PropDelta.new()
+	#prop_delta.id = prop.id
+	#prop_delta.pos = prop.pos
+	#map_delta.added_props.append(prop_delta)
+
+#func get_prop_delta(map_delta: MapDelta, prop: Prop) -> PropDelta:
+	#for prop_delta in map_delta.added_props:
+		#if prop_delta.pos == prop.pos and prop_delta.id == prop.id:
+			#return prop_delta
+	#return null
+
 func get_map_delta(map_id: String) -> MapDelta:
-	if not map_deltas.has(map_id):
-		map_deltas[map_id] = MapDelta.new()
-	return map_deltas[map_id]
+	if not world_state.map_deltas.has(map_id):
+		world_state.map_deltas[map_id] = MapDelta.new()
+	return world_state.map_deltas[map_id]
 
-func save_map_delta() -> MapDelta:
+func add_prop_to_delta(prop: Prop) -> void:
 	var map_delta = get_map_delta(current_world.id)
-	map_delta.added_props.clear()
-	#for child of prop_layer:
-		#add_prop_to_delta(prop, map_delta)
-	return map_delta
+	var prop_delta = prop.make_delta()
+	var key: String= str(prop_delta.uid)
 
-func add_prop_to_delta(prop: Prop, map_delta: MapDelta):
-	var prop_delta = PropDelta.new()
-	prop_delta.id = prop.id
-	prop_delta.pos = prop.pos
-	map_delta.added_props.append(prop_delta)
+	if map_delta.removed_props.has(key):
+		map_delta.removed_props.erase(key)
+
+	if map_delta.added_props.has(key):
+		return
+	else:
+		map_delta.added_props[key] = prop_delta
+
+func remove_prop_from_delta(prop: Prop) -> void:
+	var map_delta = get_map_delta(current_world.id)
+	var key: String = str(prop.uid)
+
+	if map_delta.added_props.has(key):
+		map_delta.added_props.erase(key)
+		return
+
+	# Cancel modification
+	if map_delta.modified_props.has(key):
+		map_delta.modified_props.erase(key)
+
+	map_delta.removed_props[key] = true
+
+func on_prop_modified(prop: Prop) -> void:
+	var key: String = str(prop.uid)
+	var map_delta = get_map_delta(current_world.id)
+
+	if map_delta.added_props.has(key):
+		map_delta.added_props[key] = prop.make_delta()
+	else:
+		map_delta.modified_props[key] = prop.make_delta()
+
+func spawn_prop(scene: PackedScene, map_id: String, pos: Vector3i):
+	var prop: Prop = scene.instantiate()
+	prop.uid = Global.uid_manager.next_uid(UIDManager.Type.PROP)
+	prop.is_runtime = true
+	prop.pos = pos
+	add_child(prop)
+	add_prop_to_delta(prop)
 
 func get_hovered_tile() -> Vector3i:
 	var screen_mouse_pos = get_viewport().get_mouse_position()
@@ -60,7 +105,6 @@ func get_hovered_tile() -> Vector3i:
 
 	var coords_2d = Vector2i(current_tile_map_layer.local_to_map(world_mouse_pos))
 	return Vector3i(coords_2d.x, coords_2d.y, current_level)
-
 
 func setup_layers():
 	layers.clear()
@@ -328,6 +372,7 @@ func calculate_path_cost_3D(path: Array[Vector3i], tile_size: int = Global.TILE_
 func turn_path_from_pixels_to_tiles(path: Array[Vector3i], tile_size: int = Global.TILE_SIZE):
 	var tile_path = []
 	for element in path:
+		@warning_ignore("integer_division")
 		tile_path.append(Vector3i(element.x / tile_size, element.y / tile_size, element.z))
 	
 	return tile_path
@@ -422,6 +467,7 @@ func path_to_target_adjacency(creature, target, distance):
 	layers[goal.vec3.z]["path_map"].set_point_solid(goal.vec2, false)
 	
 	var path = null
+	@warning_ignore("unused_variable")
 	var tile_path = null
 	path = get_multi_level_path(origin.vec3, goal.vec3, true)
 	#tile_path = turn_path_from_pixels_to_tiles(path)
@@ -569,6 +615,7 @@ func tile_to_pixels(coords) -> Vector2:
 ## takes a tile's coords in pixel format and returns it in Vector2i format
 ## second parameter is optional: the z-level of the location, current_level by default
 func pixels_to_tile(coords: Vector2, level: int = current_level) -> Vector3i:
+	@warning_ignore("narrowing_conversion")
 	return Vector3i(coords.x / Global.TILE_SIZE, coords.y / Global.TILE_SIZE, level)
 
 #func is_tile_walkable(tilemap: TileMap, world_pos: Vector2) -> bool:
@@ -885,9 +932,10 @@ func _on_world_ready():
 	#local_timer.paused = false
 
 func _ready() -> void:
-	selection_highlight.update_selection_highlight()
+	world_state = WorldState.new()
 	spawner = Spawner.new()
 	spawner.wm = self
+	selection_highlight.update_selection_highlight()
 	SignalBus.world_select.connect(_on_world_select)
 	SignalBus.world_interact.connect(_on_world_interact)
 	SignalBus.world_ready.connect(_on_world_ready)

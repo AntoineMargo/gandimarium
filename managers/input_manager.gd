@@ -161,10 +161,9 @@ func BasicControls():
 		print("Relationships set!")
 
 	if Input.is_action_just_pressed("L"):
-		SignalBus.dialog_show_message.emit("Action points: %d" % Global.focus_char.data.current_ap)
-		SignalBus.update_ui_for_char.emit()
-		#Global.inventory_window.print_tree_pretty()
-		#print_tree_pretty()
+		var map_delta = wm.get_map_delta(wm.current_world.id)
+		for prop in map_delta.added_props:
+			print("prop: %s (pos: %d, %d, %d)" % [prop.id, prop.pos.x, prop.pos.y, prop.pos.z])
 
 	if Input.is_action_just_pressed("M"):
 		if Global.crisis_manager.crisis_mode:
@@ -201,11 +200,6 @@ func BasicControls():
 		for mod in character.data.activity_modifiers:
 			SignalBus.dialog_show_message.emit("Mod %s" % mod.name)
 		#SignalBus.dialog_show_message.emit("Available MP: %d" % Global.selected_char.get_stat("current_mp"))
-
-	#if Input.is_action_just_pressed("V"):
-		#print("=== CanvasLayers in scene ===")
-		#for node in get_tree().get_nodes_in_group("CanvasLayers"):
-			#print(node.name, " layer:", node.layer)
 
 	if Input.is_action_just_pressed("V"):
 		SignalBus.dialog_show_message.emit("Number of active creatures: %d" % Global.ai_manager.active_number)
