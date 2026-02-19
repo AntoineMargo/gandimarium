@@ -44,8 +44,10 @@ class_name CreatureData
 @export var current_spell_rank: int = 1
 @export var max_spell_rank: int = 0
 
-@export var player_controlled: bool = false
-@export var has_been_initialized: bool = false
+# AI Needs
+@export_range(0, 100) var hunger = 100
+@export_range(0, 100) var sleep = 100
+@export_range(0, 100) var social = 100
 
 # Tactical information
 @export var map_id: String = ""
@@ -53,9 +55,11 @@ class_name CreatureData
 @export var tile_y: int = 0
 @export var tile_z: int = 0
 
+@export var has_been_initialized: bool = false
+@export var player_controlled: bool = false
+@export var crisis_ai_active: bool = false
 @export var alive: bool = true
 @export var conscious: bool = true
-@export var crisis_ai_active: bool = false
 @export var initiative: int = -1
 
 var derived_stats = null

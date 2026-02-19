@@ -6,7 +6,6 @@ class_name Prop
 @export var uid: int = -1
 @export var blocks_movement: bool = true
 @export var max_hp: int = 20
-@export var default_inventory = []
 @export var is_runtime: bool = false
 
 var wm = null
@@ -14,13 +13,15 @@ var parent_layer = null
 
 var pos : Vector3i
 var hp: int = 0
-var runtime_inventory = []
 
 func _initialize() -> void:
-	wm.layers[pos.z]["path_map"].set_point_solid(Vector2i(pos.x, pos.y), true)
-	if uid == 0:
-		uid = Global.uid_manager.next_uid(UIDManager.Type.CREATURE)
+	var layer_coords = Vector2i(pos.x, pos.y)
+	wm.add_to_tile(self, pos)
+	if blocks_movement:
+		wm.layers[pos.z]["path_map"].set_point_solid(layer_coords, true)
+		wm.layers[pos.z]["occupied"][layer_coords] = true
 	if is_runtime:
+		uid = Global.uid_manager.next_uid(UIDManager.Type.PROP)
 		register()
 	
 func register() -> void:
@@ -35,8 +36,10 @@ func make_delta() -> PropDelta:
 	prop_delta.id = id
 	prop_delta.pos = pos
 	prop_delta.hp = hp
-	prop_delta.inventory = runtime_inventory
 	return prop_delta
+
+func operate():
+	pass
 
 func _ready() -> void:
 	wm = Global.world_manager

@@ -13,10 +13,25 @@ func _unhandled_input(event: InputEvent) -> void:
 			if event is InputEventMouseButton and event.pressed:
 				match event.button_index:
 					MOUSE_BUTTON_LEFT:
-						SignalBus.world_select.emit()
+						if event.ctrl_pressed:
+							SignalBus.simple_interact.emit(true)
+						else:
+							SignalBus.simple_interact.emit(false)
 					MOUSE_BUTTON_RIGHT:
-						if Global.selected_char:
-							SignalBus.world_interact.emit()
+						SignalBus.complex_interact.emit()
+
+
+#func _unhandled_input(event: InputEvent) -> void:
+	#if Global.world_manager.current_world:
+		#if cm.activity_mode:
+			#cm.forward_unhandled_input(event)
+		#else:
+			#if event is InputEventMouseButton and event.pressed:
+				#match event.button_index:
+					#MOUSE_BUTTON_LEFT:
+						#SignalBus.simple_interact.emit()
+					#MOUSE_BUTTON_RIGHT:
+						#SignalBus.complex_interact.emit()
 
 func BasicControls():
 	if Input.is_action_just_pressed("Escape"):
@@ -40,9 +55,9 @@ func BasicControls():
 
 	if Input.is_action_just_pressed("F"):
 		var coords = wm.get_tile_coords_under_cursor()
-		var longspear = Library.get_item("wpn_longspear")
-		#var longspear_instance = longspear.duplicate()
-		wm.add_to_tile(longspear, coords)
+		var item = Library.get_item("wpn_bow")
+		var item_instance = item.duplicate()
+		wm.add_to_tile(item_instance, coords)
 		wm.add_item_visual(coords)
 		print("Item just added to tile.")
 

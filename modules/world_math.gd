@@ -7,6 +7,16 @@ static func shape_burst(target_entities, user, reach):
 		if distance_ok and visible:
 			target_entities.append(creature)
 
+static func is_in_range(origin: Vector3i, target: Vector3i, reach: int) -> bool:
+	#var layer_origin = Vector2i(origin.x, origin.y)
+	#var layer_target = Vector2i(target.x, target.y)
+
+	var dx = abs(origin.x - target.x)
+	var dy = abs(origin.y - target.y)
+	
+	var result = floor(sqrt(dx * dx + dy * dy))
+	return result <= reach
+
 static func char_in_range(user: Node, target: Node, reach: int) -> bool:
 	var user_coords = Vector2i(user.data.tile_x, user.data.tile_y)
 	var target_coords = Vector2i(target.data.tile_x, target.data.tile_y)
@@ -28,31 +38,6 @@ static func dist_weighted_3d(a: Vector3i, b: Vector3i, z_weight: int = 2) -> flo
 
 static func pos_in_range_weighted_3d(a: Vector3i, b: Vector3i, reach: int, z_weight: int = 2) -> bool:
 	return dist_sq_weighted_3d(a, b, z_weight) <= reach * reach
-
-#static func is_in_range_squared(user: Node, target: Node, reach: int) -> bool:
-	#var dx = user.data.tile_x - target.data.tile_x
-	#var dy = user.data.tile_y - target.data.tile_y
-	#
-	#var dist_sq = dx * dx + dy * dy
-	#var reach_sq = reach * reach
-	#
-	#return dist_sq <= reach_sq
-
-#static func pos_is_in_range(origin: Vector2i, target: Vector2i, reach: int) -> bool:
-	#var dx = abs(origin.x - target.x)
-	#var dy = abs(origin.y - target.y)
-	#
-	#var result = floor(sqrt(dx * dx + dy * dy))
-	#return result <= reach
-#
-#static func pos_in_range_squared(origin: Vector2i, target: Vector2i, reach: int) -> bool:
-	#var dx = origin.x - target.x
-	#var dy = origin.y - target.y
-	#
-	#var dist_sq = dx * dx + dy * dy
-	#var reach_sq = reach * reach
-	#
-	#return dist_sq <= reach_sq
 
 static func has_line_of_sight(origin_char, target_char):
 	var vm = Global.world_manager

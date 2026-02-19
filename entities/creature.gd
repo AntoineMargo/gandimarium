@@ -389,6 +389,15 @@ func perform_attack(target):
 			attack_activity.weapon = weapons[0]
 			perform_activity(attack_activity, target)
 
+func perform_operate(prop: Prop):
+	pass
+
+func grab_item(item: Item, coords: Vector3i):
+	Global.world_manager.remove_from_tile(item, coords)
+	Global.selected_char.get_inventory().append(item)
+	SignalBus.update_inventory.emit()
+	SignalBus.dialog_show_message.emit("Picked up %s." % item.name)
+
 func get_base_stat(stat):
 	if stat in data:
 		return data.get(stat)

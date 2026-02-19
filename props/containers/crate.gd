@@ -1,2 +1,2 @@
-extends Prop
+extends ContainerProp
 class_name Crate

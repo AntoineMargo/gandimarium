@@ -59,8 +59,10 @@ signal update_ui_for_char()
 signal end_crisis_turn()
 
 #World
-signal world_select(tile_coords)
-signal world_interact(tile_coords)
+signal simple_interact()
+signal complex_interact()
+#signal world_select(tile_coords)
+#signal world_interact(tile_coords)
 #signal refresh_reachable_tiles()
 signal local_turn_passed()
 signal clear_path_preview()

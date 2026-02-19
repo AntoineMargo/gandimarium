@@ -19,6 +19,12 @@ var path_preview: Node2D = null
 
 @onready var selection_highlight = load("res://interface/local_map/selection_highlight/selection_highlight.tscn").instantiate()
 
+enum ElementPriority {
+	CREATURE = 3,
+	ITEM = 2,
+	PROP = 1
+}
+
 func _process(_delta):
 	if Global.crisis_manager.activity_mode:
 		return
@@ -90,7 +96,7 @@ func on_prop_modified(prop: Prop) -> void:
 	else:
 		map_delta.modified_props[key] = prop.make_delta()
 
-func spawn_prop(scene: PackedScene, map_id: String, pos: Vector3i):
+func spawn_prop(scene: PackedScene, _map_id: String, pos: Vector3i):
 	var prop: Prop = scene.instantiate()
 	prop.uid = Global.uid_manager.next_uid(UIDManager.Type.PROP)
 	prop.is_runtime = true
@@ -457,6 +463,34 @@ func find_path_index_by_cost(path, move_budget):
 	
 	return path.size() - 1
 
+func path_to_adjacency(origin: Vector3i, goal: Vector3i, distance: int):
+	var layer_origin = Vector2i(origin.x, origin.y)
+	var layer_goal = Vector2i(goal.x, goal.y)
+	
+	# making characters non-blocking since Godot 4.6 doesn't like that anymore
+	layers[origin.z]["path_map"].set_point_solid(layer_origin, false)
+	layers[goal.z]["path_map"].set_point_solid(layer_goal, false)
+	
+	var path = null
+	@warning_ignore("unused_variable")
+	var tile_path = null
+	path = get_multi_level_path(origin, goal, true)
+	#tile_path = turn_path_from_pixels_to_tiles(path)
+	
+	# making characters blocking again
+	layers[origin.z]["path_map"].set_point_solid(layer_origin, true)
+	layers[goal.z]["path_map"].set_point_solid(layer_goal, true)
+	
+	if path.is_empty():
+		print("No path found!")
+		return
+
+	path.reverse()
+	for i in range(distance):
+		path.pop_back()
+
+	return path
+
 ## finds best path from creature to a tile at X distance of target
 func path_to_target_adjacency(creature, target, distance):
 	var origin = get_char_coords(target)
@@ -628,66 +662,6 @@ func pixels_to_tile(coords: Vector2, level: int = current_level) -> Vector3i:
 	#build_reachable_tiles()
 	#show_reachable_tiles()
 
-
-#func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, visited: Dictionary) -> bool:
-	##print("==_find_recursive_path==")
-	#var key = str(start)
-	#if visited.has(key):
-		##print("	visited.has(key)")
-		#return false
-	#visited[key] = true
-	#if start.z == goal.z:
-		##print("	start.z == goal.z")
-		#var path2D: PackedVector2Array = layers[start.z]["path_map"].get_point_path(Vector2i(start.x, start.y), Vector2i(goal.x, goal.y))
-		#if path2D.is_empty():
-			#return false
-		#var path_3d: Array[Vector3i] = []
-		#for p in path2D:
-			## Convert from world coordinates to grid coordinates
-			#@warning_ignore("integer_division")
-			#path_3d.append(Vector3i(int(p.x) / Global.TILE_SIZE, int(p.y) / Global.TILE_SIZE, start.z))
-		#path_array.append(path_3d)
-		#return true
-	## Look for ramps on this level
-	#if not layer_links.has(start.z):
-		#print("	not layer_links.has(start.z)")
-		#return false
-	#for ramp_xy in layer_links[start.z].keys():
-		#var pm = layers[start.z]["path_map"]
-		#var start_2d = Vector2i(start.x, start.y)
-		#var was_solid = pm.is_point_solid(start_2d)
-		#if was_solid:
-			#pm.set_point_solid(start_2d, false)
-			#pm.update()
-		#var path2ramp = pm.get_point_path(start_2d, ramp_xy, true)
-		#if path2ramp.is_empty():
-			##print("	1 fail")
-			#continue
-		## FIX: Godot 4.6 returns world coordinates, convert back to grid coordinates
-		#@warning_ignore("integer_division")
-		#var last_pos = Vector2i(int(path2ramp[-1].x) / Global.TILE_SIZE, int(path2ramp[-1].y) / Global.TILE_SIZE)
-		##print("path2ramp last =", last_pos, " expected =", ramp_xy)
-		#if last_pos != ramp_xy:
-			##print("	2 fail")
-			#continue
-		#var path_3d: Array[Vector3i] = []
-		#for p in path2ramp:
-			## Convert from world coordinates to grid coordinates
-			#@warning_ignore("integer_division")
-			#path_3d.append(Vector3i(int(p.x) / Global.TILE_SIZE, int(p.y) / Global.TILE_SIZE, start.z))
-		#path_array.append(path_3d)
-		#for link in layer_links[start.z][ramp_xy]:
-			##print("	looking at link")
-			#var next_z: int = link[0]
-			#var next_pos: Vector2i = link[1]
-			#var new_start = Vector3i(next_pos.x, next_pos.y, next_z)
-			#if _find_recursive_path(new_start, goal, path_array, visited):
-				#return true
-		## Backtrack if this ramp path didn't work out
-		#path_array.pop_back()
-	##print("	final failure")
-	#return false
-
 func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, visited: Dictionary) -> bool:
 	#print("==_find_recursive_path==")
 	var key = str(start)
@@ -772,10 +746,10 @@ func find_creature_on_tile(coordinates: Vector3i) -> Creature:
 				return element
 	return null
 
-func select_creature_on_tile(coordinates: Vector3i) -> void:
-	var coords = Vector2i(coordinates.x, coordinates.y)
-	if layers[current_level]["contents"].has(coords):
-		for element in layers[current_level]["contents"][coords]:
+func select_creature_on_tile(coordinates: Vector3i) -> bool:
+	var layer_coords = Vector2i(coordinates.x, coordinates.y)
+	if layers[current_level]["contents"].has(layer_coords):
+		for element in layers[current_level]["contents"][layer_coords]:
 			if element is Creature:
 				if element.data.player_controlled:
 					Global.selected_char = element
@@ -785,10 +759,8 @@ func select_creature_on_tile(coordinates: Vector3i) -> void:
 					SignalBus.update_character_info.emit()
 					SignalBus.update_ui_for_char.emit()
 					print("Selected character: ", element.data.name)
-					return
-				#else:
-					#zzz
-					#pass
+					return true
+	return false
 
 func preview_path(to_tile: Vector3i) -> void:
 	var to_tile_vec2 = Vector2i(to_tile.x, to_tile.y)
@@ -815,7 +787,98 @@ func preview_path(to_tile: Vector3i) -> void:
 	var costs = calculate_path_cost_3D_simple_with_segments(path)
 	path_preview.update_path(path, layers[current_level]["tile_map"], costs)
 
+func _get_element_priority(element) -> int:
+	if element is Creature:
+		return ElementPriority.CREATURE
+	if element is Item:
+		return ElementPriority.ITEM
+	if element is Prop:
+		return ElementPriority.PROP
+	return 0
 
+func get_priority_element_on_tile(coords: Vector3i):
+	var layer_coords = Vector2i(coords.x, coords.y)
+	var elements = layers[coords.z]["contents"].get(layer_coords, [])
+
+	var best = null
+	var best_priority: int = -1
+
+	for element in elements:
+		var priority = _get_element_priority(element)
+		if priority > best_priority:
+			best_priority = priority
+			best = element
+
+	return best
+
+func _simple_interact_disambiguation(force_interact: bool = false):
+	var coords = get_tile_coords_under_cursor()
+	if select_creature_on_tile(coords):
+		return
+	if Global.selected_char:
+		var element = get_priority_element_on_tile(coords)
+		if element == null:
+			_interact_move(coords)
+		elif element is Creature:
+			if force_interact:
+				Global.selected_char.perform_attack(element)
+			else:
+				Global.selected_char.perform_attack(element)
+		elif element is Item:
+			if force_interact:
+				Global.selected_char.perform_attack(element)
+			else:
+				interact_grab(Global.selected_char, element, coords)
+		elif element is Prop:
+			if force_interact:
+				Global.selected_char.perform_attack(element)
+			else:
+				interact_operate(Global.selected_char, element, coords)
+
+#func _simple_interact_disambiguation(force_interact: bool = false):
+	#var coords = get_tile_coords_under_cursor()
+	#if select_creature_on_tile(coords):
+		#return
+	#if Global.selected_char:
+		#var element = get_priority_element_on_tile(coords)
+		#if element == null:
+			#_interact_move(coords)
+		#elif element is Creature:
+			#Global.selected_char.perform_attack(element)
+		#elif element is Item:
+			#interact_grab(Global.selected_char, element, coords)
+		#elif element is Prop:
+			#interact_operate(Global.selected_char, element, coords)
+
+func get_close_to_target(creature: Creature, target: Vector3i, distance: int) -> bool:
+	var char_coords = creature.get_coords()
+	if char_coords.z == target.z and WorldMath.is_in_range(char_coords, target, 1):
+		pass
+	else:
+		var path = path_to_adjacency(char_coords, target, distance)
+		_interact_move(path[1])
+		if Global.selected_char.get_coords() != path[-1]:
+			return false
+	return true
+
+func interact_operate(creature: Creature, element: Prop, coords: Vector3i):
+	if get_close_to_target(creature, coords, 1):
+		creature.perform_operate(element)
+
+func interact_grab(creature: Creature, element: Item, coords: Vector3i):
+	#var char_coords = Global.selected_char.get_coords()
+	#if char_coords.z == coords.z and WorldMath.is_in_range(char_coords, coords, 1):
+		#pass
+	#else:
+		#var path = path_to_adjacency(char_coords, coords, 1)
+		#_interact_move(path[-1])
+		#if Global.selected_char.get_coords() != path[-1]:
+			#return # failed to get close to item
+	if get_close_to_target(creature, coords, 1):
+		creature.grab_item(element, coords)
+
+func _complex_interact():
+	pass
 
 func _on_world_select():
 	var coords = get_tile_coords()
@@ -936,8 +999,10 @@ func _ready() -> void:
 	spawner = Spawner.new()
 	spawner.wm = self
 	selection_highlight.update_selection_highlight()
-	SignalBus.world_select.connect(_on_world_select)
-	SignalBus.world_interact.connect(_on_world_interact)
+	#SignalBus.world_select.connect(_on_world_select)
+	#SignalBus.world_interact.connect(_on_world_interact)
+	SignalBus.simple_interact.connect(_simple_interact_disambiguation)
+	SignalBus.complex_interact.connect(_complex_interact)
 	SignalBus.world_ready.connect(_on_world_ready)
 	path_preview = PathPreviewScene.instantiate()
 	add_child(path_preview)
