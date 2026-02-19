@@ -2,9 +2,9 @@ extends RefCounted
 class_name ActivityContext
 
 var activity: Activity = null
-var user: Creature = null
-var target: Creature = null
-var origin: Creature = null
+var user: Node = null
+var target: Node = null
+var origin: Node = null
 
 var user_stat: int = 0
 var target_stat: int = 0

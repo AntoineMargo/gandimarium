@@ -81,7 +81,10 @@ func _build_context(target = null):
 	ctx.origin = user
 	
 	ctx.user_stat = user.get_final_stat(attacking_aptitude)
-	ctx.target_stat = target.get_final_stat(defending_aptitude)
+	if ctx.target is Creature:
+		ctx.target_stat = target.get_final_stat(defending_aptitude)
+	else:
+		ctx.target_stat = 0
 
 	return ctx
 
@@ -105,9 +108,11 @@ func _resolve(ctx):
 	ctx.result = CombatMath.make_opposed_check(ctx.user_stat, ctx.user_roll, ctx.target_stat, ctx.target_roll)
 	ctx.degree = CombatMath.determine_degree_success(ctx.result)
 	
-	SignalBus.dialog_show_message.emit(
-		"%s rolled %d against %s's %d." % [ctx.user.data.name, ctx.user_stat+ctx.user_roll, ctx.target.data.name, ctx.target_stat+ctx.target_roll])
+	if ctx.target is Creature:
+		SignalBus.dialog_show_message.emit(
+			"%s rolled %d against %s's %d." % [ctx.user.data.name, ctx.user_stat+ctx.user_roll, ctx.target.data.name, ctx.target_stat+ctx.target_roll])
 
+@warning_ignore("unused_parameter")
 func _apply_effects(ctx):
 	for effect in target_effects:
 		pass

@@ -10,7 +10,7 @@ func make_delta() -> PropDelta:
 	prop_delta.uid = uid
 	prop_delta.id = id
 	prop_delta.pos = pos
-	prop_delta.hp = hp
+	prop_delta.hp = current_hp
 	prop_delta.inventory = runtime_inventory
 	return prop_delta
 

@@ -8,9 +8,6 @@ static func shape_burst(target_entities, user, reach):
 			target_entities.append(creature)
 
 static func is_in_range(origin: Vector3i, target: Vector3i, reach: int) -> bool:
-	#var layer_origin = Vector2i(origin.x, origin.y)
-	#var layer_target = Vector2i(target.x, target.y)
-
 	var dx = abs(origin.x - target.x)
 	var dy = abs(origin.y - target.y)
 	
@@ -18,8 +15,8 @@ static func is_in_range(origin: Vector3i, target: Vector3i, reach: int) -> bool:
 	return result <= reach
 
 static func char_in_range(user: Node, target: Node, reach: int) -> bool:
-	var user_coords = Vector2i(user.data.tile_x, user.data.tile_y)
-	var target_coords = Vector2i(target.data.tile_x, target.data.tile_y)
+	var user_coords = user.get_coords()
+	var target_coords = target.get_coords()
 
 	var dx = abs(user_coords.x - target_coords.x)
 	var dy = abs(user_coords.y - target_coords.y)
@@ -39,11 +36,10 @@ static func dist_weighted_3d(a: Vector3i, b: Vector3i, z_weight: int = 2) -> flo
 static func pos_in_range_weighted_3d(a: Vector3i, b: Vector3i, reach: int, z_weight: int = 2) -> bool:
 	return dist_sq_weighted_3d(a, b, z_weight) <= reach * reach
 
-static func has_line_of_sight(origin_char, target_char):
-	var vm = Global.world_manager
-	var origin = vm.get_char_coords(origin_char)
-	var target = vm.get_char_coords(target_char)
-	return line_of_sight_exists(origin.vec3.x, origin.vec3.y, origin.vec3.z, target.vec3.x, target.vec3.y, target.vec3.z)
+static func has_line_of_sight(origin_node, target_node):
+	var origin = origin_node.get_coords()
+	var target = target_node.get_coords()
+	return line_of_sight_exists(origin.x, origin.y, origin.z, target.x, target.y, target.z)
 
 static func has_line_of_sight_tile(origin_tile: Vector3i, target_tile: Vector3i) -> bool:
 	return line_of_sight_exists(origin_tile.x, origin_tile.y, origin_tile.z, target_tile.x, target_tile.y, target_tile.z)

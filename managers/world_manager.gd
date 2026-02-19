@@ -596,7 +596,7 @@ func remove_from_tile(element, coords: Vector3i):
 		if element in contents:
 			contents.erase(element)
 			
-			var still_has_items := false
+			var still_has_items = false
 			for other in contents:
 				if other is Item:
 					still_has_items = true
@@ -985,6 +985,9 @@ func flash_path(path: Array) -> void:
 func _on_world_ready():
 	world_ready = true
 
+func _on_world_quit():
+	world_ready = true
+
 #func _on_local_timeout():
 	#SignalBus.local_turn_passed.emit()
 #
@@ -1004,5 +1007,6 @@ func _ready() -> void:
 	SignalBus.simple_interact.connect(_simple_interact_disambiguation)
 	SignalBus.complex_interact.connect(_complex_interact)
 	SignalBus.world_ready.connect(_on_world_ready)
+	SignalBus.world_quit.connect(_on_world_quit)
 	path_preview = PathPreviewScene.instantiate()
 	add_child(path_preview)

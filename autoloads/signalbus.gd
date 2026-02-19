@@ -67,6 +67,7 @@ signal complex_interact()
 signal local_turn_passed()
 signal clear_path_preview()
 signal world_ready()
+signal world_quit()
 
 #Cursors
 signal change_cursor(name)
