@@ -3,9 +3,8 @@ class_name Prop
 
 @export var prop_name: String = "placehoder"
 @export var id: String = "placehoder"
-@export var uid: int = -1
 @export var blocks_movement: bool = true
-@export var max_hp: int = 20
+@export var max_hp: int = 40
 @export var is_runtime: bool = false
 
 @export var physical: int = 0
@@ -32,8 +31,8 @@ func _initialize() -> void:
 		wm.layers[pos.z]["path_map"].set_point_solid(layer_coords, true)
 		wm.layers[pos.z]["occupied"][layer_coords] = true
 	if is_runtime:
-		uid = Global.uid_manager.next_uid(UIDManager.Type.PROP)
 		register()
+	print_info()
 
 func register() -> void:
 	wm.add_prop_to_delta(self)
@@ -43,7 +42,6 @@ func unregister() -> void:
 
 func make_delta() -> PropDelta:
 	var prop_delta = PropDelta.new()
-	prop_delta.uid = uid
 	prop_delta.id = id
 	prop_delta.pos = pos
 	prop_delta.hp = current_hp
@@ -80,6 +78,9 @@ func destroy_self():
 
 func operate():
 	pass
+
+func print_info():
+	print("id: %s, pos: (%d, %d, %d)" % [id, pos.x, pos.y, pos.z])
 
 func _ready() -> void:
 	wm = Global.world_manager

@@ -17,14 +17,16 @@ var time_manager = TimeManager.new()
 var game_root = null
 
 @onready var menu_scene = preload("res://interface/pause_menu.tscn")
-@onready var inventory_window := preload("res://interface/inventory_window/inventory.tscn").instantiate()
-@onready var character_window := preload("res://interface/character_window/character_info.tscn").instantiate()
+@onready var inventory_window = preload("res://interface/inventory_window/inventory.tscn").instantiate()
+@onready var character_window = preload("res://interface/character_window/character_info.tscn").instantiate()
+@onready var container_window = preload("res://interface/container_window/container_window.tscn").instantiate()
 
-@onready var world_info := preload("res://interface/screen/world_info.tscn").instantiate()
+@onready var world_info = preload("res://interface/screen/world_info.tscn").instantiate()
 
 var ui_log: RichTextLabel = null
 var menu_instance: Node = null
 var items_list: VBoxContainer = null
+var container_list: VBoxContainer = null
 
 var camera: Camera2D = null
 
@@ -73,13 +75,15 @@ func _ready() -> void:
 	add_child(uid_manager)
 	add_child(ai_manager)
 	add_child(time_manager)
-	add_child(inventory_window)
 	add_child(character_window)
+	add_child(inventory_window)
+	add_child(container_window)
 	add_child(world_info)
 	inventory_window.visible = false
+	container_window.visible = false
 	character_window.visible = false
 	world_info.visible = false
 	items_list = inventory_window.get_node("Inventory/MainVBox/SeparHBox/Scroller/ItemsList")
+	container_list = container_window.get_node("Control/ColorRect/VBoxContainer/ScrollContainer/ItemList")
 	await get_tree().create_timer(0.1).timeout
 	SignalBus.change_cursor.emit("default")
-	#ui_log = $PanelContainer/VBoxContainer/HBoxContainer/Log

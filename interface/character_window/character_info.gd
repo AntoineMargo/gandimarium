@@ -46,6 +46,10 @@ func update(character):
 		lbl.tooltip_text = condition.description
 		lbl.mouse_filter = Control.MOUSE_FILTER_STOP
 		container.add_child(lbl)
-		
+
+func _on_exit_pressed() -> void:
+	Global.character_window.visible = false
+
 func _ready():
 	self.layer = 100
+	$Character/ColorRect/HBoxContainer/VBoxContainer/TopBar/ExitButton.pressed.connect(_on_exit_pressed)

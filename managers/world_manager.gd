@@ -38,23 +38,6 @@ func _process(_delta):
 			last_hovered_tile = tile_under_cursor
 			preview_path(tile_under_cursor)
 
-#func clear_current_map_delta() -> void:
-	#var map_delta = get_map_delta(current_world.id)
-	#map_delta.added_props.clear()
-
-#func add_prop_to_delta(prop: Prop):
-	#var map_delta = get_map_delta(current_world.id)
-	#var prop_delta = PropDelta.new()
-	#prop_delta.id = prop.id
-	#prop_delta.pos = prop.pos
-	#map_delta.added_props.append(prop_delta)
-
-#func get_prop_delta(map_delta: MapDelta, prop: Prop) -> PropDelta:
-	#for prop_delta in map_delta.added_props:
-		#if prop_delta.pos == prop.pos and prop_delta.id == prop.id:
-			#return prop_delta
-	#return null
-
 func get_map_delta(map_id: String) -> MapDelta:
 	if not world_state.map_deltas.has(map_id):
 		world_state.map_deltas[map_id] = MapDelta.new()
@@ -63,7 +46,7 @@ func get_map_delta(map_id: String) -> MapDelta:
 func add_prop_to_delta(prop: Prop) -> void:
 	var map_delta = get_map_delta(current_world.id)
 	var prop_delta = prop.make_delta()
-	var key: String= str(prop_delta.uid)
+	var key = prop_delta.pos
 
 	if map_delta.removed_props.has(key):
 		map_delta.removed_props.erase(key)
@@ -75,7 +58,7 @@ func add_prop_to_delta(prop: Prop) -> void:
 
 func remove_prop_from_delta(prop: Prop) -> void:
 	var map_delta = get_map_delta(current_world.id)
-	var key: String = str(prop.uid)
+	var key = prop.pos
 
 	if map_delta.added_props.has(key):
 		map_delta.added_props.erase(key)
@@ -88,7 +71,7 @@ func remove_prop_from_delta(prop: Prop) -> void:
 	map_delta.removed_props[key] = true
 
 func on_prop_modified(prop: Prop) -> void:
-	var key: String = str(prop.uid)
+	var key: String = str(prop.pos)
 	var map_delta = get_map_delta(current_world.id)
 
 	if map_delta.added_props.has(key):
@@ -96,12 +79,14 @@ func on_prop_modified(prop: Prop) -> void:
 	else:
 		map_delta.modified_props[key] = prop.make_delta()
 
-func spawn_prop(scene: PackedScene, _map_id: String, pos: Vector3i):
+func spawn_prop(scene: PackedScene, pos: Vector3i):
+	#var map_delta = get_map_delta(current_world.id)
 	var prop: Prop = scene.instantiate()
-	prop.uid = Global.uid_manager.next_uid(UIDManager.Type.PROP)
 	prop.is_runtime = true
 	prop.pos = pos
-	add_child(prop)
+	for layer in current_world.children():
+		if layer.id == pos.z:
+			layer.child.add_child(prop) #  not correct
 	add_prop_to_delta(prop)
 
 func get_hovered_tile() -> Vector3i:

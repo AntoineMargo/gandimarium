@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://thk1t6r2gsv8"]
+
+[ext_resource type="Script" uid="uid://bfc1y5p73kchv" path="res://interface/container_window/container_window.gd" id="1_bfuc0"]
+[ext_resource type="Script" uid="uid://fdfshqkvr0fy" path="res://interface/container_window/control.gd" id="2_8mcut"]
+
+[node name="ContainerWindow" type="CanvasLayer" unique_id=879203631]
+script = ExtResource("1_bfuc0")
+
+[node name="Control" type="Control" parent="." unique_id=812459141]
+custom_minimum_size = Vector2(400, 300)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_8mcut")
+
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=1457422962]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.78431374)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/ColorRect" unique_id=2094177983]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="TopBar" type="Panel" parent="Control/ColorRect/VBoxContainer" unique_id=123440759]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="StatusBar" type="HBoxContainer" parent="Control/ColorRect/VBoxContainer/TopBar" unique_id=578200866]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="Label" type="Label" parent="Control/ColorRect/VBoxContainer/TopBar/StatusBar" unique_id=2139153826]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+mouse_filter = 0
+theme_override_font_sizes/font_size = 12
+text = "Container"
+horizontal_alignment = 1
+
+[node name="ExitButton" type="Button" parent="Control/ColorRect/VBoxContainer/TopBar/StatusBar" unique_id=1627550123]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 8
+text = "X"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/ColorRect/VBoxContainer" unique_id=1380091455]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 0
+
+[node name="ItemList" type="VBoxContainer" parent="Control/ColorRect/VBoxContainer/ScrollContainer" unique_id=144392715]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 0

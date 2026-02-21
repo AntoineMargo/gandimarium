@@ -390,7 +390,7 @@ func perform_attack(target):
 			perform_activity(attack_activity, target)
 
 func perform_operate(prop: Prop):
-	pass
+	prop.operate()
 
 func grab_item(item: Item, coords: Vector3i):
 	Global.world_manager.remove_from_tile(item, coords)

@@ -30,3 +30,4 @@ func _drop_data(position, data):
 		um.drag_was_dropped = true
 
 		SignalBus.update_inventory.emit()
+		SignalBus.update_container.emit()

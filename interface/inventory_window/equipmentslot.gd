@@ -25,6 +25,7 @@ func _drop_data(position, item):
 	Global.ui_manager.drag_was_dropped = true
 	
 	SignalBus.update_inventory.emit()
+	SignalBus.update_container.emit()
 	SignalBus.update_ui_for_char.emit()
 
 func _get_drag_data(at_position):
@@ -43,6 +44,7 @@ func _get_drag_data(at_position):
 	set_drag_preview(preview)
 	Global.focus_char.unequip_slot(slot_name)
 	SignalBus.update_inventory.emit()
+	SignalBus.update_container.emit()
 	SignalBus.update_ui_for_char.emit()
 	return item
 

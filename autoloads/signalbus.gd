@@ -53,6 +53,7 @@ signal stop_all_movement()
 #UI
 signal open_inventory()
 signal update_inventory()
+signal update_container()
 signal update_character_info()
 signal drop_item_on_tile(focus_char, last_dragged_item)
 signal update_ui_for_char()

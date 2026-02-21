@@ -20,7 +20,6 @@ offset_right = 250.0
 offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
 script = ExtResource("1_nmod3")
 
 [node name="ColorRect" type="ColorRect" parent="Character" unique_id=461934964]
@@ -30,7 +29,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
 color = Color(0, 0, 0, 0.78431374)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Character/ColorRect" unique_id=1124248484]
@@ -40,6 +38,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 0
 
 [node name="LeftMargin" type="Control" parent="Character/ColorRect/HBoxContainer" unique_id=1611674665]
 layout_mode = 2
@@ -47,10 +46,12 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer" unique_id=1516562014]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
 [node name="TopBar" type="Panel" parent="Character/ColorRect/HBoxContainer/VBoxContainer" unique_id=799856162]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+size_flags_vertical = 0
 
 [node name="Title" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/TopBar" unique_id=1402495735]
 layout_mode = 1
@@ -63,15 +64,35 @@ text = "Character"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ExitButton" type="Button" parent="Character/ColorRect/HBoxContainer/VBoxContainer/TopBar" unique_id=487858087]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -13.0
+offset_top = -10.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 8
+text = "X"
+
 [node name="Basics" type="HBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer" unique_id=1412456819]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="Keys" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics" unique_id=1854633649]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
 [node name="Name" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys" unique_id=2014951269]
 layout_mode = 2
+mouse_filter = 0
 text = "Name:"
 
 [node name="Level" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys" unique_id=1351497135]
@@ -82,38 +103,47 @@ text = "Level:"
 
 [node name="MajorArchetype" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys" unique_id=1694306607]
 layout_mode = 2
+mouse_filter = 0
 text = "Major Archetype:"
 
 [node name="MinorArchetype" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys" unique_id=1794497942]
 layout_mode = 2
+mouse_filter = 0
 text = "Minor Archetype:"
 
 [node name="Size" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys" unique_id=1920814536]
 layout_mode = 2
+mouse_filter = 0
 text = "Size:"
 
 [node name="Vigour" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys" unique_id=558243949]
 layout_mode = 2
+mouse_filter = 0
 text = "Vigour:"
 
 [node name="StrengthBonus" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys" unique_id=983168931]
 layout_mode = 2
+mouse_filter = 0
 text = "Strength Bonus:"
 
 [node name="Speed" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys" unique_id=1596057577]
 layout_mode = 2
+mouse_filter = 0
 text = "Speed:"
 
 [node name="Reactions" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/Keys" unique_id=784569164]
 layout_mode = 2
+mouse_filter = 0
 text = "Reactions:"
 
 [node name="values" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics" unique_id=2037793127]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
 [node name="Name" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values" unique_id=1208132567]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="Level" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values" unique_id=1147029918]
 layout_mode = 2
@@ -122,35 +152,45 @@ mouse_filter = 0
 
 [node name="MajorArchetype" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values" unique_id=1046075026]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="MinorArchetype" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values" unique_id=1292248843]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="Size" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values" unique_id=569518698]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="Vigour" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values" unique_id=1590116806]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="StrengthBonus" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values" unique_id=1254581720]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="Speed" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values" unique_id=335500941]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="Reactions" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values" unique_id=1792530847]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics" unique_id=59392751]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
+mouse_filter = 0
 
 [node name="Separator" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer" unique_id=489988513]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="Attributes" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer" unique_id=1322124053]
 layout_mode = 2
+mouse_filter = 0
 text = "Attributes                             "
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -158,60 +198,75 @@ vertical_alignment = 1
 [node name="HBoxContainer" type="HBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer" unique_id=1648526642]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 0
 
 [node name="Keys" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer" unique_id=1625604761]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 0
 
 [node name="Acuity" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Keys" unique_id=313463805]
 layout_mode = 2
+mouse_filter = 0
 text = "Acuity: "
 
 [node name="Brawn" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Keys" unique_id=1321347514]
 layout_mode = 2
+mouse_filter = 0
 text = "Brawn: "
 
 [node name="Dexterity" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Keys" unique_id=24272017]
 layout_mode = 2
+mouse_filter = 0
 text = "Dexterity: "
 
 [node name="Will" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Keys" unique_id=622973872]
 layout_mode = 2
+mouse_filter = 0
 text = "Will: "
 
 [node name="Values" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer" unique_id=1342110130]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 0
 
 [node name="Acuity" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values" unique_id=1452029903]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="Brawn" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values" unique_id=9816422]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="Dexterity" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values" unique_id=1499125748]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="Will" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values" unique_id=769609603]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="Separation" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer" unique_id=1522853163]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="AptitudesTitle" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer" unique_id=241851944]
 layout_mode = 2
+mouse_filter = 0
 text = "Aptitudes"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Aptitudes" type="HBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer" unique_id=268747654]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="Agility" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes" unique_id=205062866]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
 [node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Agility" unique_id=1955308068]
 layout_mode = 2
@@ -229,226 +284,273 @@ vertical_alignment = 1
 [node name="Resolve" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes" unique_id=108200669]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
 [node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Resolve" unique_id=1498825436]
 layout_mode = 2
+mouse_filter = 0
 text = "Resolve"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Resolve" unique_id=1352076346]
 layout_mode = 2
+mouse_filter = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Sense" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes" unique_id=91312061]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
 [node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Sense" unique_id=1934279251]
 layout_mode = 2
+mouse_filter = 0
 text = "Sense"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Sense" unique_id=1925663635]
 layout_mode = 2
+mouse_filter = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Stamina" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes" unique_id=1625434114]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
 [node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Stamina" unique_id=180412202]
 layout_mode = 2
+mouse_filter = 0
 text = "Stamina"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Stamina" unique_id=1307447843]
 layout_mode = 2
+mouse_filter = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Offence" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes" unique_id=100899522]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
 [node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Offence" unique_id=1692465252]
 layout_mode = 2
+mouse_filter = 0
 text = "Offence"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Offence" unique_id=737199222]
 layout_mode = 2
+mouse_filter = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MeleeDefence" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes" unique_id=1015616828]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
 [node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/MeleeDefence" unique_id=347766488]
 layout_mode = 2
+mouse_filter = 0
 text = "Melee D."
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/MeleeDefence" unique_id=1540084373]
 layout_mode = 2
+mouse_filter = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="RangedDefence" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes" unique_id=416809242]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
 [node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/RangedDefence" unique_id=2081238034]
 layout_mode = 2
+mouse_filter = 0
 text = "Ranged D."
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/RangedDefence" unique_id=2078327231]
 layout_mode = 2
+mouse_filter = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Separation2" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer" unique_id=1693266891]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="ResistancesTitle" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer" unique_id=495081341]
 layout_mode = 2
+mouse_filter = 0
 text = "Resistances"
 horizontal_alignment = 1
 
 [node name="Resistances" type="HBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer" unique_id=1897524528]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="Physical" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances" unique_id=183773836]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
 [node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Physical" unique_id=326058630]
 layout_mode = 2
+mouse_filter = 0
 text = "Physical"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Physical" unique_id=2146801394]
 layout_mode = 2
+mouse_filter = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Heat" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances" unique_id=698778112]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
 [node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Heat" unique_id=1494677814]
 layout_mode = 2
+mouse_filter = 0
 text = "Heat"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Heat" unique_id=1172625175]
 layout_mode = 2
+mouse_filter = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Cold" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances" unique_id=1069262071]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
 [node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Cold" unique_id=1160903184]
 layout_mode = 2
+mouse_filter = 0
 text = "Cold"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Cold" unique_id=509653680]
 layout_mode = 2
+mouse_filter = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Electricity" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances" unique_id=2015233022]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
 [node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Electricity" unique_id=311921126]
 layout_mode = 2
+mouse_filter = 0
 text = "Electri."
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Electricity" unique_id=1024070375]
 layout_mode = 2
+mouse_filter = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Corrosion" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances" unique_id=1021864110]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
 [node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Corrosion" unique_id=1884550044]
 layout_mode = 2
+mouse_filter = 0
 text = "Corros."
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Corrosion" unique_id=42991252]
 layout_mode = 2
+mouse_filter = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Poison" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances" unique_id=371356992]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
 [node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Poison" unique_id=1497061086]
 layout_mode = 2
+mouse_filter = 0
 text = "Poison"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Poison" unique_id=1612447512]
 layout_mode = 2
+mouse_filter = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Psychic" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances" unique_id=1134304526]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 0
 
 [node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Psychic" unique_id=1172000134]
 layout_mode = 2
+mouse_filter = 0
 text = "Psychic"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Resistances/Psychic" unique_id=1572402304]
 layout_mode = 2
+mouse_filter = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Separation3" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer" unique_id=1844628564]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="Talents" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer" unique_id=924329504]
 layout_mode = 2
+mouse_filter = 0
 text = "Talents: "
 
 [node name="Conditions" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer" unique_id=35382186]
 layout_mode = 2
+mouse_filter = 0
 text = "Conditions: "
 
 [node name="HFlowContainer" type="HFlowContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer" unique_id=339618311]
 layout_mode = 2
+mouse_filter = 0
 
 [node name="Spells" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer" unique_id=1839517521]
 visible = false
 layout_mode = 2
+mouse_filter = 0
 text = "Spells: "
 
 [node name="RightMargin" type="Control" parent="Character/ColorRect/HBoxContainer" unique_id=314410486]
