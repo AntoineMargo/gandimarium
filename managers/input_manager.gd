@@ -175,6 +175,20 @@ func BasicControls():
 		for prop in map_delta.added_props:
 			print("prop: %s (pos: %d, %d, %d)" % [prop.id, prop.pos.x, prop.pos.y, prop.pos.z])
 
+	if Input.is_action_just_pressed("J"):
+		var coords = wm.get_tile_coords_under_cursor()
+		var layer_coords = Vector2i(coords.x, coords.y)
+		for layer in wm.current_world.get_children():
+			if layer.id == wm.current_level:
+				layer.set_cell(layer_coords, 5, Vector2i(2, 11))
+				var tile_data = layer.get_cell_tile_data(layer_coords)
+				if tile_data and tile_data.get_custom_data("walkable") == false:
+					wm.layers[coords.z]["path_map"].set_point_solid(layer_coords, true)
+				else:
+					wm.layers[coords.z]["path_map"].set_point_solid(layer_coords, false)
+				SignalBus.dialog_show_message.emit("Tile changed.")
+				return
+
 	if Input.is_action_just_pressed("M"):
 		if Global.crisis_manager.crisis_mode:
 			SignalBus.dialog_show_message.emit("Crisis mode: Active")
