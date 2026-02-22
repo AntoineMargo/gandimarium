@@ -46,7 +46,7 @@ func get_map_delta(map_id: String) -> MapDelta:
 func add_prop_to_delta(prop: Prop) -> void:
 	var map_delta = get_map_delta(current_world.id)
 	var prop_delta = prop.make_delta()
-	var key = prop_delta.pos
+	var key: String = str(prop.pos)
 
 	if map_delta.removed_props.has(key):
 		map_delta.removed_props.erase(key)
@@ -58,7 +58,7 @@ func add_prop_to_delta(prop: Prop) -> void:
 
 func remove_prop_from_delta(prop: Prop) -> void:
 	var map_delta = get_map_delta(current_world.id)
-	var key = prop.pos
+	var key: String = str(prop.pos)
 
 	if map_delta.added_props.has(key):
 		map_delta.added_props.erase(key)
@@ -71,31 +71,45 @@ func remove_prop_from_delta(prop: Prop) -> void:
 	map_delta.removed_props[key] = true
 
 func on_prop_modified(prop: Prop) -> void:
-	var key: String = str(prop.pos)
 	var map_delta = get_map_delta(current_world.id)
+	var key: String = str(prop.pos)
 
 	if map_delta.added_props.has(key):
 		map_delta.added_props[key] = prop.make_delta()
 	else:
 		map_delta.modified_props[key] = prop.make_delta()
 
-func spawn_prop(scene: PackedScene, pos: Vector3i):
-	#var map_delta = get_map_delta(current_world.id)
+func spawn_prop(scene: PackedScene, pos: Vector3i) -> Prop:
 	var prop: Prop = scene.instantiate()
+	prop.scene = scene
 	prop.is_runtime = true
 	prop.pos = pos
-	for layer in current_world.children():
+
+	for layer in current_world.get_children():
+		print("layer id: %d" % layer.id)
 		if layer.id == pos.z:
-			layer.child.add_child(prop) #  not correct
+			layer.props.add_child(prop)
+			prop.global_position = tile_to_pixels(pos)
+			prop.initialize()
+			break
+
 	add_prop_to_delta(prop)
+	return prop
 
-func get_hovered_tile() -> Vector3i:
-	var screen_mouse_pos = get_viewport().get_mouse_position()
-	var canvas_transform = get_viewport().get_canvas_transform()
-	var world_mouse_pos = canvas_transform.affine_inverse() * screen_mouse_pos
+func get_prop_at_pos(pos: Vector3i) -> Prop:
+	var layer_pos = Vector2i(pos.x, pos.y)
+	if layers[pos.z]["contents"].has(layer_pos):
+		for element in layers[pos.z]["contents"][layer_pos]:
+			if element is Prop:
+				return element
+	return null
 
-	var coords_2d = Vector2i(current_tile_map_layer.local_to_map(world_mouse_pos))
-	return Vector3i(coords_2d.x, coords_2d.y, current_level)
+func move_prop(old_pos: Vector3i, new_pos: Vector3i):
+	var old_prop = get_prop_at_pos(old_pos)
+	var new_prop = spawn_prop(old_prop.scene, new_pos)
+	new_prop.current_hp = old_prop.current_hp
+	new_prop.is_active = old_prop.is_active
+	old_prop.destroy_self()
 
 func setup_layers():
 	layers.clear()
@@ -537,6 +551,13 @@ func get_multi_level_path(start: Vector3i, goal: Vector3i, allow_occupied_goal: 
 func get_creature_by_id(target_id) -> Creature:
 	return current_world.creatures_by_id.get(target_id, null)
 
+func get_hovered_tile() -> Vector3i:
+	var screen_mouse_pos = get_viewport().get_mouse_position()
+	var canvas_transform = get_viewport().get_canvas_transform()
+	var world_mouse_pos = canvas_transform.affine_inverse() * screen_mouse_pos
+
+	var coords_2d = Vector2i(current_tile_map_layer.local_to_map(world_mouse_pos))
+	return Vector3i(coords_2d.x, coords_2d.y, current_level)
 
 func get_tile_coords_under_cursor() -> Vector3i:
 	var screen_mouse_pos = get_viewport().get_mouse_position()

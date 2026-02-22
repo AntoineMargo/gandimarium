@@ -47,6 +47,24 @@ func _process(_delta: float) -> void:
 #func _unhandled_input(event: InputEvent) -> void:
 	#pass
 
+func save_current_map_delta():
+	var delta: MapDelta = world_manager.get_map_delta(world_manager.current_world.id)
+
+	var map_id = world_manager.current_world.id
+	var dir_path = "user://map_deltas"
+	var path = "%s/%s.tres" % [dir_path, map_id]
+
+	var dir = DirAccess.open("user://")
+	if not dir.dir_exists("map_deltas"):
+		dir.make_dir("map_deltas")
+
+	var err = ResourceSaver.save(delta, path)
+
+	if err != OK:
+		push_error("Failed to save delta: %s" % err)
+	else:
+		print("SAVED!")
+
 func toggle_pause():
 	if pause_menu_active:
 		unpause_game()

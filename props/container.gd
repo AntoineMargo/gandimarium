@@ -26,14 +26,24 @@ func operate():
 	SignalBus.update_container.emit(self)
 	Global.container_window.visible = true
 
-func _ready() -> void:
-	wm = Global.world_manager
-	parent_layer = get_parent().get_parent()
-	current_hp = max_hp
-	pos = wm.pixels_to_tile(global_position, parent_layer.id)
-	if wm.world_ready == true:
-		_initialize()
+func _initalize_container():
 	if runtime_inventory.is_empty():
 		runtime_inventory = default_inventory.duplicate(true)
-	SignalBus.world_ready.connect(_initialize)
-	SignalBus.world_quit.connect(unregister)
+
+func _ready() -> void:
+	_on_ready()
+	_initalize_container()
+	
+
+
+#func _ready() -> void:
+	#wm = Global.world_manager
+	#parent_layer = get_parent().get_parent()
+	#current_hp = max_hp
+	#pos = wm.pixels_to_tile(global_position, parent_layer.id)
+	#if wm.world_ready == true:
+		#initialize()
+	#if runtime_inventory.is_empty():
+		#runtime_inventory = default_inventory.duplicate(true)
+	#SignalBus.world_ready.connect(initialize)
+	#SignalBus.world_quit.connect(unregister)

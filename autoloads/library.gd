@@ -69,6 +69,10 @@ var _dmg_patterns = {
 	"throw": "res://resources/damage_patterns/throw.tres"
 }
 
+var _props = {
+	"wooden_crate": "res://props/containers/crate.tscn"
+}
+
 var _char_sprites = {
 	
 }
@@ -96,6 +100,9 @@ func get_dmg_pattern(id: String) -> Resource:
 
 func get_char_sprite(id: String) -> Resource:
 	return _get_from(_char_sprites, id)
+
+func get_prop(id: String) -> Resource:
+	return _get_from(_props, id)
 
 func _get_from(dict: Dictionary, id: String) -> Resource:
 	if dict.has(id):

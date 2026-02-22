@@ -13,22 +13,22 @@ var uid_state = null
 func next_uid(type: Type) -> int:
 	if type == Type.CREATURE:
 		return uid_state.get_creature_next()
-	if type == Type.PROP:
-		return uid_state.get_prop_next(wm.current_world.id)
-	if type == Type.TILE:
-		return uid_state.get_tile_next(wm.current_world.id)
+	#if type == Type.PROP:
+		#return uid_state.get_prop_next(wm.current_world.id)
+	#if type == Type.TILE:
+		#return uid_state.get_tile_next(wm.current_world.id)
 	push_error("Error: ID could not be successfully produced")
 	return -1
 
-func init_uid_state_for_map():
-	var props = get_all_props()
-	var map_id = wm.current_world.id
-	var max_uid: int = -1
-	for prop in props:
-		if prop.is_runtime == false:
-			max_uid = max(max_uid, prop.uid)
-
-	uid_state.set_prop_next(map_id, max_uid) 
+#func init_uid_state_for_map():
+	#var props = get_all_props()
+	#var map_id = wm.current_world.id
+	#var max_uid: int = -1
+	#for prop in props:
+		#if prop.is_runtime == false:
+			#max_uid = max(max_uid, prop.uid)
+#
+	#uid_state.set_prop_next(map_id, max_uid) 
 
 func get_all_props() -> Array:
 	var root = wm.current_world

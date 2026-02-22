@@ -62,9 +62,7 @@ func BasicControls():
 		print("Item just added to tile.")
 
 	if Input.is_action_just_pressed("G"):
-		print("Global is a: ", Global)
-		print("Global type: ", typeof(Global))
-		print("Global class: ", Global.get_class())
+		Global.save_current_map_delta()
 
 	if Input.is_action_just_pressed("R"):
 		var coords = wm.get_tile_coords()
@@ -77,13 +75,11 @@ func BasicControls():
 	if Input.is_action_just_pressed("T"):
 		if not wm.current_world:
 			return
-		#wm.spawn_player()
 		wm.spawn_character("res://resources/creatures/data_andimar.tres")
 		
 	if Input.is_action_just_pressed("Y"):
 		if not wm.current_world:
 			return
-		#wm.spawn_enemy()
 		wm.spawn_character("res://resources/creatures/data_bandit.tres")
 
 	if Input.is_action_just_pressed("U"):
@@ -97,8 +93,10 @@ func BasicControls():
 			for element in wm.layers[wm.current_level]["contents"][tile_coords]:
 				if element is Item:
 					print("	%s" % element.name)
-				if element is Node:
+				elif element is Creature:
 					print("	%s" % element.data.name)
+				elif element is Prop:
+					print("	%s" % element.id)
 
 		var pm: AStarGrid2D = wm.layers[wm.current_level]["path_map"]
 
@@ -150,15 +148,12 @@ func BasicControls():
 					Global.selected_char.get_inventory().append(element)
 					SignalBus.update_inventory.emit()
 					SignalBus.dialog_show_message.emit("Picked up %s." % element.name)
-		
 
 	if Input.is_action_just_pressed("K"):
-		if not Global.selected_char:
-			return
-		print("focus char: ", Global.focus_char.data.name)
-		print("selected char: ", Global.selected_char.data.name)
-		SignalBus.dialog_show_message.emit("Selected: %s" % [Global.selected_char.data.name])
-		SignalBus.dialog_show_message.emit("Focus: %s" % [Global.focus_char.data.name])
+		var coords = wm.get_tile_coords_under_cursor()
+		print("Tile: (%d, %d, %d)" % [coords.x, coords.y, coords.z])
+		#var coords = wm.get_hovered_tile()
+		wm.spawn_prop(Library.get_prop("wooden_crate"), coords)
 
 	if Input.is_action_just_pressed("H"):
 		print("creatures found in the world:")

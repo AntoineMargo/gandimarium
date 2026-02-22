@@ -1,0 +1,128 @@
+[gd_resource type="Resource" script_class="MapDelta" format=3 uid="uid://bahhfanota8eb"]
+
+[ext_resource type="Script" uid="uid://cjuanyy3v2i2y" path="res://locations/prop_delta.gd" id="1_dj2w8"]
+[ext_resource type="Script" uid="uid://dyig45un17g17" path="res://locations/map_delta.gd" id="2_vddwa"]
+
+[sub_resource type="Resource" id="Resource_6gus2"]
+script = ExtResource("1_dj2w8")
+id = "wooden_crate"
+pos = Vector3i(41, 17, 0)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_cnglb"]
+script = ExtResource("1_dj2w8")
+id = "wooden_crate"
+pos = Vector3i(41, 24, 0)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_qu5tg"]
+script = ExtResource("1_dj2w8")
+id = "wooden_crate"
+pos = Vector3i(43, 20, 0)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_dwjcl"]
+script = ExtResource("1_dj2w8")
+id = "wooden_crate"
+pos = Vector3i(44, 21, 0)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_fnjtn"]
+script = ExtResource("1_dj2w8")
+id = "wooden_crate"
+pos = Vector3i(45, 19, 0)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_qv14n"]
+script = ExtResource("1_dj2w8")
+id = "wooden_crate"
+pos = Vector3i(45, 22, 1)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_bgolk"]
+script = ExtResource("1_dj2w8")
+id = "wooden_crate"
+pos = Vector3i(46, 19, 1)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_2o8ru"]
+script = ExtResource("1_dj2w8")
+id = "wooden_crate"
+pos = Vector3i(48, 21, 1)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_k2g8l"]
+script = ExtResource("1_dj2w8")
+id = "wooden_crate"
+pos = Vector3i(48, 22, 1)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_367s0"]
+script = ExtResource("1_dj2w8")
+id = "wooden_crate"
+pos = Vector3i(50, 19, 0)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_h2d68"]
+script = ExtResource("1_dj2w8")
+id = "wooden_crate"
+pos = Vector3i(50, 20, 0)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_deai1"]
+script = ExtResource("1_dj2w8")
+id = "wooden_crate"
+pos = Vector3i(50, 21, 0)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_275bf"]
+script = ExtResource("1_dj2w8")
+id = "wooden_crate"
+pos = Vector3i(50, 22, 0)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_ulkrg"]
+script = ExtResource("1_dj2w8")
+id = "wooden_crate"
+pos = Vector3i(50, 23, 0)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_2jfp5"]
+script = ExtResource("1_dj2w8")
+id = "wooden_crate"
+pos = Vector3i(50, 29, 0)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_0h5ml"]
+script = ExtResource("1_dj2w8")
+id = "wooden_crate"
+pos = Vector3i(51, 20, 0)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_caqqh"]
+script = ExtResource("1_dj2w8")
+id = "wooden_crate"
+pos = Vector3i(51, 21, 0)
+hp = 40
+
+[resource]
+script = ExtResource("2_vddwa")
+added_props = {
+"(41, 17, 0)": SubResource("Resource_6gus2"),
+"(41, 24, 0)": SubResource("Resource_cnglb"),
+"(43, 20, 0)": SubResource("Resource_qu5tg"),
+"(44, 21, 0)": SubResource("Resource_dwjcl"),
+"(45, 19, 0)": SubResource("Resource_fnjtn"),
+"(45, 22, 1)": SubResource("Resource_qv14n"),
+"(46, 19, 1)": SubResource("Resource_bgolk"),
+"(48, 21, 1)": SubResource("Resource_2o8ru"),
+"(48, 22, 1)": SubResource("Resource_k2g8l"),
+"(50, 19, 0)": SubResource("Resource_367s0"),
+"(50, 20, 0)": SubResource("Resource_h2d68"),
+"(50, 21, 0)": SubResource("Resource_deai1"),
+"(50, 22, 0)": SubResource("Resource_275bf"),
+"(50, 23, 0)": SubResource("Resource_ulkrg"),
+"(50, 29, 0)": SubResource("Resource_2jfp5"),
+"(51, 20, 0)": SubResource("Resource_0h5ml"),
+"(51, 21, 0)": SubResource("Resource_caqqh")
+}
