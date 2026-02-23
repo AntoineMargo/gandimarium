@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bfc1y5p73kchv" path="res://interface/container_window/container_window.gd" id="1_bfuc0"]
 [ext_resource type="Script" uid="uid://fdfshqkvr0fy" path="res://interface/container_window/control.gd" id="2_8mcut"]
+[ext_resource type="Script" uid="uid://bhjwojwdm51hw" path="res://interface/container_window/item_list.gd" id="3_vocen"]
 
 [node name="ContainerWindow" type="CanvasLayer" unique_id=879203631]
 script = ExtResource("1_bfuc0")
@@ -79,3 +80,4 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 0
+script = ExtResource("3_vocen")

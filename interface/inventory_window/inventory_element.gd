@@ -23,7 +23,8 @@ func _get_drag_data(_at_position):
 			Global.selected_char.remove_item_at_index(index)
 			SignalBus.update_inventory.emit()
 		elif items_interface == Enums.ItemsInterface.CONTAINER:
-			Global.container_window.current_container.runtime_inventory.remove_at(index)
+			#Global.container_window.current_container.runtime_inventory.remove_at(index)
+			Global.container_window.current_container.remove_item_at_index(index)
 			SignalBus.update_container.emit()
 
 	Global.ui_manager.drag_in_progress = true
