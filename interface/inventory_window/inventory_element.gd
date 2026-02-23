@@ -1,13 +1,10 @@
-extends Panel
+extends HBoxContainer
 
 var items_interface = null
 var index: int = -1
-var item: Item:
-	set(value):
-		item = value
-		$Label.text = item.name if item else "Empty"
+var item: Item
 
-func _get_drag_data(at_position):
+func _get_drag_data(_at_position):
 	print("index of item: ", index)
 	if items_interface:
 		Global.ui_manager.window_dragged_from = items_interface
@@ -22,7 +19,8 @@ func _get_drag_data(at_position):
 
 	if index != -1:
 		if items_interface == Enums.ItemsInterface.INVENTORY:
-			Global.selected_char.get_inventory().remove_at(index)
+			#Global.selected_char.get_inventory().remove_at(index)
+			Global.selected_char.remove_item_at_index(index)
 			SignalBus.update_inventory.emit()
 		elif items_interface == Enums.ItemsInterface.CONTAINER:
 			Global.container_window.current_container.runtime_inventory.remove_at(index)
@@ -31,5 +29,13 @@ func _get_drag_data(at_position):
 	Global.ui_manager.drag_in_progress = true
 	Global.ui_manager.drag_was_dropped = false
 	Global.ui_manager.last_dragged_item = item
-	
+
 	return item
+
+func initialize():
+	$NameLabel.text = item.name if item else "Empty"
+	$CountLabel.text = "%d" % [item.count]
+
+#func _ready() -> void:
+	#$NameLabel.text = item.name if item else "Empty"
+	#$CountLabel.text = item.count

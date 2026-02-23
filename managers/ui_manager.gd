@@ -363,6 +363,7 @@ func _on_update_inventory() -> void:
 		element.items_interface = Enums.ItemsInterface.INVENTORY
 		element.index = i
 		element.item = items[i]
+		element.initialize()
 		Global.items_list.add_child(element)
 
 	var equipment_label_paths := {

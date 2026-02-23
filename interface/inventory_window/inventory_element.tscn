@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cclh5qj1d70yt"]
+[gd_scene format=3 uid="uid://cclh5qj1d70yt"]
 
 [ext_resource type="Script" uid="uid://cshqa15xf6uqg" path="res://interface/inventory_window/inventory_element.gd" id="1_turg8"]
 
-[node name="InventoryElement" type="Panel"]
+[node name="InventoryElement" type="HBoxContainer" unique_id=1768787366]
 custom_minimum_size = Vector2(0, 20)
 anchors_preset = 8
 anchor_left = 0.5
@@ -10,13 +10,23 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_top = -10.0
-offset_bottom = 10.0
+offset_right = 1.0
+offset_bottom = 13.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
 script = ExtResource("1_turg8")
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="IconRect" type="TextureRect" parent="." unique_id=2123227497]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="." unique_id=1641471924]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CountLabel" type="Label" parent="." unique_id=283321037]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="SpaceLabel" type="Label" parent="." unique_id=586375301]
+layout_mode = 2
+size_flags_horizontal = 10

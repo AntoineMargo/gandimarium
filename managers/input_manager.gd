@@ -139,13 +139,15 @@ func BasicControls():
 	if Input.is_action_just_pressed("P"):
 		if not Global.selected_char:
 			return
-		var coords = wm.get_char_coords(Global.selected_char)
-		if wm.layers[wm.current_level]["contents"].has(coords.vec2):
-			var contents_copy = wm.layers[coords.vec3.z]["contents"][coords.vec2].duplicate()
+		var coords = Global.selected_char.get_coords()
+		var layer_coords = Vector2i(coords.x, coords.y)
+		if wm.layers[coords.z]["contents"].has(layer_coords):
+			var contents_copy = wm.layers[coords.z]["contents"][layer_coords].duplicate()
 			for element in contents_copy:
 				if element is Item:
 					wm.remove_from_tile(element, coords)
-					Global.selected_char.get_inventory().append(element)
+					#Global.selected_char.get_inventory().append(element)
+					Global.selected_char.add_item(element)
 					SignalBus.update_inventory.emit()
 					SignalBus.dialog_show_message.emit("Picked up %s." % element.name)
 
