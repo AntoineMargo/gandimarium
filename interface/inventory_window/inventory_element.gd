@@ -19,12 +19,10 @@ func _get_drag_data(_at_position):
 
 	if index != -1:
 		if items_interface == Enums.ItemsInterface.INVENTORY:
-			#Global.selected_char.get_inventory().remove_at(index)
-			Global.selected_char.remove_item_at_index(index)
+			Global.selected_char.data.inventory.remove_item_at_index(index)
 			SignalBus.update_inventory.emit()
 		elif items_interface == Enums.ItemsInterface.CONTAINER:
-			#Global.container_window.current_container.runtime_inventory.remove_at(index)
-			Global.container_window.current_container.remove_item_at_index(index)
+			Global.container_window.current_container.inventory.remove_item_at_index(index)
 			SignalBus.update_container.emit()
 
 	Global.ui_manager.drag_in_progress = true
@@ -38,5 +36,4 @@ func initialize():
 	$CountLabel.text = "%d" % [item.count]
 
 #func _ready() -> void:
-	#$NameLabel.text = item.name if item else "Empty"
-	#$CountLabel.text = item.count
+	#pass

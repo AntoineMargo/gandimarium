@@ -15,7 +15,7 @@ func _on_update_container(container_prop: ContainerProp = current_container) -> 
 	for child in Global.container_list.get_children():
 		child.queue_free()
 
-	var items = container_prop.runtime_inventory
+	var items = container_prop.inventory.list
 	for i in range(items.size()):
 		var element = preload("res://interface/inventory_window/inventory_element.tscn").instantiate()
 		element.items_interface = Enums.ItemsInterface.CONTAINER

@@ -6,7 +6,6 @@ func _can_drop_data(_pos, data):
 func _drop_data(_position, data):
 	var um = Global.ui_manager
 	if data is Item:
-		#var character = Global.focus_char
 
 		var target_index = 0
 		var children = get_children()
@@ -20,12 +19,10 @@ func _drop_data(_position, data):
 				break
 
 		# Clamp target index to valid range
-		target_index = clamp(target_index, 0, Global.container_window.current_container.get_inventory().size())
+		target_index = clamp(target_index, 0, Global.container_window.current_container.inventory.list.size())
 
 		# Insert it
-		#char.get_inventory().insert(target_index, data)
-		#char.add_item_at_index(data, target_index)
-		Global.container_window.current_container.add_item_at_index(data, target_index)
+		Global.container_window.current_container.inventory.add_item_at_index(data, target_index)
 		
 		print("drag considered successful.")
 		um.drag_in_progress = false

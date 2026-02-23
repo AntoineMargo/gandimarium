@@ -146,8 +146,7 @@ func BasicControls():
 			for element in contents_copy:
 				if element is Item:
 					wm.remove_from_tile(element, coords)
-					#Global.selected_char.get_inventory().append(element)
-					Global.selected_char.add_item(element)
+					Global.selected_char.data.inventory.add_item(element)
 					SignalBus.update_inventory.emit()
 					SignalBus.dialog_show_message.emit("Picked up %s." % element.name)
 

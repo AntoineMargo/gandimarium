@@ -426,10 +426,10 @@ func drag_fail_restore():
 			else:
 				print("Drag failed — restoring item.")
 				if window_dragged_from == ItemsInterface.INVENTORY:
-					Global.selected_char.data.inventory.add_to_inventory(last_dragged_item)
+					Global.selected_char.data.inventory.add_item(last_dragged_item)
 					SignalBus.update_inventory.emit()
 				elif window_dragged_from == ItemsInterface.CONTAINER:
-					Global.container_window.current_container.runtime_inventory.append(last_dragged_item)
+					Global.container_window.current_container.inventory.add_item(last_dragged_item)
 					SignalBus.update_container.emit()
 
 		drag_in_progress = false
