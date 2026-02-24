@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=6 format=3 uid="uid://b4idr8vu54ox6"]
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://b4idr8vu54ox6"]
 
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_pjb8s"]
 [ext_resource type="Script" uid="uid://djeyifuagvkr6" path="res://items/weapon_res.gd" id="1_vkhed"]
@@ -9,6 +9,7 @@
 [resource]
 script = ExtResource("1_vkhed")
 name = "Bow"
+id = "bow"
 brawn_req_1h = 999
 brawn_req_2h = 5
 strike = ExtResource("2_gxaka")

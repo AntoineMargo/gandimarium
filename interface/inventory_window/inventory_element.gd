@@ -5,7 +5,11 @@ var index: int = -1
 var item: Item
 
 func _get_drag_data(_at_position):
-	print("index of item: ", index)
+	var amount_to_take: int = 1
+	if Input.is_key_pressed(KEY_CTRL):
+		amount_to_take = min(5, item.count)  # prevent over-removal
+	if Input.is_key_pressed(KEY_SHIFT):
+		amount_to_take = item.count  # prevent over-removal
 	if items_interface:
 		Global.ui_manager.window_dragged_from = items_interface
 	
@@ -17,19 +21,20 @@ func _get_drag_data(_at_position):
 	preview.z_index = 3000
 	set_drag_preview(preview)
 
+	var retrieved_item = null
 	if index != -1:
 		if items_interface == Enums.ItemsInterface.INVENTORY:
-			Global.selected_char.data.inventory.remove_item_at_index(index)
+			retrieved_item = Global.selected_char.data.inventory.remove_item_at_index(index, amount_to_take)
 			SignalBus.update_inventory.emit()
 		elif items_interface == Enums.ItemsInterface.CONTAINER:
-			Global.container_window.current_container.inventory.remove_item_at_index(index)
+			retrieved_item = Global.container_window.current_container.inventory.remove_item_at_index(index, amount_to_take)
 			SignalBus.update_container.emit()
 
 	Global.ui_manager.drag_in_progress = true
 	Global.ui_manager.drag_was_dropped = false
-	Global.ui_manager.last_dragged_item = item
+	Global.ui_manager.last_dragged_item = retrieved_item
 
-	return item
+	return retrieved_item
 
 func initialize():
 	$NameLabel.text = item.name if item else "Empty"

@@ -19,20 +19,29 @@ func add_item(item: Item):
 
 	for element in inventory:
 		if element.id == item.id:
-			#element.count += item.count
-			element.count += 1
+			element.count += item.count
+			#element.count += 1
 			return
 	inventory.append(item)
+
+#func add_item_at_index(item: Item, index: int):
+	#var inventory = list
+	#for element in inventory:
+		#if element.id == item.id:
+			##element.count += item.count
+			#element.count += 1
+			#return
+	#item = item.duplicate(true)
+	#item.count = 1
+	#inventory.insert(index, item)
 
 func add_item_at_index(item: Item, index: int):
 	var inventory = list
 	for element in inventory:
 		if element.id == item.id:
-			#element.count += item.count
-			element.count += 1
+			element.count += item.count
+			#element.count += 1
 			return
-	item = item.duplicate(true)
-	item.count = 1
 	inventory.insert(index, item)
 
 func remove_item(item: Item):
@@ -48,14 +57,14 @@ func remove_item(item: Item):
 				inventory.erase(element)
 				return item
 
-func remove_item_at_index(index: int):
+func remove_item_at_index(index: int, amount: int = 1):
 	var inventory = list
 	var item = inventory[index]
 
-	if item.count > 1:
-		item.count -= 1
+	if item.count > amount:
+		item.count -= amount
 		var new_item = item.duplicate(true)
-		new_item.count = 1
+		new_item.count = amount
 		return new_item
 	else:
 		inventory.remove_at(index)
