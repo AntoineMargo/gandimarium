@@ -36,7 +36,7 @@ func initialize() -> void:
 	#if is_runtime:
 		#register()
 	register()
-	print_info()
+	#print_info()
 
 func register() -> void:
 	wm.add_prop_to_delta(self)

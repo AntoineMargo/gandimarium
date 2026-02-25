@@ -34,8 +34,7 @@ var pause_menu_active: bool = false
 
 var focus_char: Creature
 var selected_char: Creature
-
-#var menu_open: bool = false
+var active_party: PartyData
 
 func _process(_delta: float) -> void:
 	input_manager.BasicControls()
@@ -81,6 +80,12 @@ func unpause_game():
 	get_tree().paused = false
 	pause_menu_active = false
 
+func create_player_party():
+	var new_party = PartyData.new()
+	for creature in world_manager.current_world.creatures:
+		if creature.data.player_controlled:
+			new_party.members_by_uid.append(creature.data.id)
+
 func _ready() -> void:
 	randomize()
 	add_child(crisis_manager)
@@ -105,3 +110,4 @@ func _ready() -> void:
 	container_list = container_window.get_node("Control/ColorRect/VBoxContainer/ScrollContainer/ItemList")
 	await get_tree().create_timer(0.1).timeout
 	SignalBus.change_cursor.emit("default")
+	#active_party = create_player_party()

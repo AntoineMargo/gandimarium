@@ -391,53 +391,6 @@ func perform_attack(target):
 
 func perform_operate(prop: Prop):
 	prop.operate()
-#
-#func add_item(item: Item):
-	#var inventory = get_inventory()
-	#item = item.duplicate(true)
-#
-	#for element in inventory:
-		#if element.id == item.id:
-			##element.count += item.count
-			#element.count += 1
-			#return
-	#inventory.append(item)
-#
-#func add_item_at_index(item: Item, index: int):
-	#var inventory = get_inventory()
-	#for element in inventory:
-		#if element.id == item.id:
-			##element.count += item.count
-			#element.count += 1
-			#return
-	#item = item.duplicate(true)
-	#inventory.insert(index, item)
-#
-#func remove_item(item: Item):
-	#var inventory = get_inventory()
-	#for element in inventory:
-		#if element.id == item.id:
-			#if element.count > 1:
-				#element.count -= 1
-				#var new_item = item.duplicate(true)
-				#new_item.count = 1
-				#return new_item
-			#else:
-				#inventory.erase(element)
-				#return item
-#
-#func remove_item_at_index(index: int):
-	#var inventory = get_inventory()
-	#var item = inventory[index]
-#
-	#if item.count > 1:
-		#item.count -= 1
-		#var new_item = item.duplicate(true)
-		#new_item.count = 1
-		#return new_item
-	#else:
-		#inventory.remove_at(index)
-		#return item
 
 func grab_item(item: Item, coords: Vector3i):
 	Global.world_manager.remove_from_tile(item, coords)

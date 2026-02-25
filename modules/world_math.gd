@@ -1,5 +1,92 @@
 class_name WorldMath
 
+static func get_burst_tiles(center: Vector3i, reach: float) -> Array[Vector3i]:
+	var wm = Global.world_manager
+	var visited: Dictionary = {}
+	var tiles: Array[Vector3i] = []
+	var open := [{"pos": center, "dist": 0.0}]
+	
+	var cardinal_dirs := [
+		Vector2i.LEFT,
+		Vector2i.RIGHT,
+		Vector2i.UP,
+		Vector2i.DOWN
+	]
+	var diagonal_dirs := [
+		Vector2i(-1, -1),
+		Vector2i(-1, 1),
+		Vector2i(1, -1),
+		Vector2i(1, 1)
+	]
+	
+	while open.size() > 0:
+		var current = open.pop_front()
+		var pos: Vector3i = current.pos
+		var dist: float = current.dist
+		
+		if visited.has(pos):
+			continue
+		
+		# Check line of sight from center
+		if pos != center and not has_line_of_sight_tile(center, pos):
+			continue
+		
+		visited[pos] = true
+		tiles.append(pos)
+		
+		# Don't expand from max reach tiles
+		if dist >= reach:
+			continue
+		
+		var z := pos.z
+		var xy := Vector2i(pos.x, pos.y)
+		var astar := wm.layers[z]["path_map"] as AStarGrid2D
+		
+		# Cardinal neighbors (cost 1.0)
+		for dir in cardinal_dirs:
+			var neighbor_xy = xy + dir
+			var neighbor := Vector3i(neighbor_xy.x, neighbor_xy.y, z)
+			
+			if not astar.region.has_point(neighbor_xy):
+				continue
+			
+			var tile_data = get_tile_data(neighbor.x, neighbor.y, neighbor.z)
+			if tile_data == null or tile_data.get_custom_data("passable") == false:
+				continue
+			
+			open.append({"pos": neighbor, "dist": dist + 1.0})
+		
+		# Diagonal neighbors (cost 1.5 for more circular shape)
+		for dir in diagonal_dirs:
+			var neighbor_xy = xy + dir
+			var neighbor := Vector3i(neighbor_xy.x, neighbor_xy.y, z)
+			
+			if not astar.region.has_point(neighbor_xy):
+				continue
+			
+			var tile_data = get_tile_data(neighbor.x, neighbor.y, neighbor.z)
+			if tile_data == null or tile_data.get_custom_data("passable") == false:
+				continue
+			
+			open.append({"pos": neighbor, "dist": dist + 1.5})
+	
+	return tiles
+
+static func shape_burst2(target_tile: Vector3i, reach: int) -> Array:
+	var target_entities = []
+	var wm = Global.world_manager
+	var tiles = get_burst_tiles(target_tile, reach)
+	
+	wm.visualize_area(tiles)
+	
+	for tile in tiles:
+		var creature: Creature
+		creature = wm.get_creature_at_pos(tile)
+		if creature:
+			target_entities.append(creature)
+	
+	return target_entities
+
 static func shape_burst(target_entities, user, reach):
 	for creature in Global.world_manager.current_world.creatures:
 		var distance_ok = char_in_range(user, creature, reach)
@@ -70,8 +157,8 @@ static func line_of_sight_exists(x1: int, y1: int, z1: int, x2: int, y2: int, z2
 	return true
 
 static func get_tile_data(x: int, y: int, z: int):
-	var vm = Global.world_manager
-	var layer = vm.layers.get(z)
+	var wm = Global.world_manager
+	var layer = wm.layers.get(z)
 	if not layer:
 		return null
 	var tile_map: TileMapLayer = layer["tile_map"]

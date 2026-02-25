@@ -20,19 +20,6 @@ func _unhandled_input(event: InputEvent) -> void:
 					MOUSE_BUTTON_RIGHT:
 						SignalBus.complex_interact.emit()
 
-
-#func _unhandled_input(event: InputEvent) -> void:
-	#if Global.world_manager.current_world:
-		#if cm.activity_mode:
-			#cm.forward_unhandled_input(event)
-		#else:
-			#if event is InputEventMouseButton and event.pressed:
-				#match event.button_index:
-					#MOUSE_BUTTON_LEFT:
-						#SignalBus.simple_interact.emit()
-					#MOUSE_BUTTON_RIGHT:
-						#SignalBus.complex_interact.emit()
-
 func BasicControls():
 	if Input.is_action_just_pressed("Escape"):
 		get_tree().quit()
@@ -83,14 +70,18 @@ func BasicControls():
 		wm.spawn_character("res://resources/creatures/data_bandit.tres")
 
 	if Input.is_action_just_pressed("U"):
-		var coords = wm.get_tile_coords()
-		var tile_coords: Vector2i = coords.vec2
+		var hovered_tile = Global.world_manager.get_hovered_tile()
+		var layer_tile = Vector2i(hovered_tile.x, hovered_tile.y)
+		var creature = wm.get_creature_at_pos(hovered_tile)
+		SignalBus.dialog_show_message.emit("Tile: (%d, %d, %d)" % [hovered_tile.x, hovered_tile.y, hovered_tile.z])
+		SignalBus.dialog_show_message.emit("Creature: %s" % [creature.data.name if creature else "None"])
+		
 
-		print("Current location: (%d:%d)" % [tile_coords.x, tile_coords.y])
+		print("Current location: (%d:%d)" % [hovered_tile.x, hovered_tile.y])
 
-		if wm.layers[wm.current_level]["contents"].has(tile_coords):
+		if wm.layers[hovered_tile.z]["contents"].has(layer_tile):
 			print("Contents: ")
-			for element in wm.layers[wm.current_level]["contents"][tile_coords]:
+			for element in wm.layers[hovered_tile.z]["contents"][layer_tile]:
 				if element is Item:
 					print("	%s" % element.name)
 				elif element is Creature:
@@ -100,9 +91,9 @@ func BasicControls():
 
 		var pm: AStarGrid2D = wm.layers[wm.current_level]["path_map"]
 
-		if not pm.is_in_boundsv(tile_coords):
+		if not pm.is_in_boundsv(layer_tile):
 			print("This tile is OUT OF BOUNDS (treated as solid)")
-		elif pm.is_point_solid(tile_coords):
+		elif pm.is_point_solid(layer_tile):
 			print("This tile is SOLID!")
 		else:
 			print("This tile is free to move onto.")
@@ -196,10 +187,17 @@ func BasicControls():
 		else:
 			SignalBus.dialog_show_message.emit("Crisis mode: Inactive")
 
+	if Input.is_action_just_pressed("N"):
+		var hovered_tile = Global.world_manager.get_hovered_tile()
+		var targets = WorldMath.shape_burst2(hovered_tile, 6)
+		SignalBus.dialog_show_message.emit("Targets found:")
+		for target in targets:
+			SignalBus.dialog_show_message.emit("	%s" % [target.data.name])
+
 	if Input.is_action_just_pressed("E"):
 		if not Global.selected_char:
 			return
-		var c = Global.selected_char
+		var c = Global.selected_charuuutnnnnuu
 		print("active category: ", c.data.equipment.get_active_attack_category())
 		print("active set: ", c.data.get_active_set())
 		print("active hand: ", c.data.get_active_hand())
@@ -220,6 +218,8 @@ func BasicControls():
 			print("Offhand weapon: Empty")
 
 	if Input.is_action_just_pressed("B"):
+		if not Global.selected_char:
+			return
 		var character = Global.selected_char
 		SignalBus.dialog_show_message.emit("Activity modifiers active:")
 		for mod in character.data.activity_modifiers:
