@@ -16,8 +16,18 @@ var target_highlights = []
 
 var PathPreviewScene = preload("res://interface/local_map/path_preview.tscn")
 var path_preview: Node2D = null
-var visualized_rects: Array[ColorRect] = []
-var visualized_lines: Array[Line2D] = []
+
+var preview_area_nodes = []
+var committed_area_nodes = []
+
+var preview_visualized_rects: Array[ColorRect] = []
+var preview_visualized_lines: Array[Line2D] = []
+
+var committed_visualized_rects: Array[ColorRect] = []
+var committed_visualized_lines: Array[Line2D] = []
+
+#var visualized_rects: Array[ColorRect] = []
+#var visualized_lines: Array[Line2D] = []
 
 @onready var selection_highlight = load("res://interface/local_map/selection_highlight/selection_highlight.tscn").instantiate()
 
@@ -28,17 +38,32 @@ enum ElementPriority {
 }
 
 func _process(_delta):
-	if Global.crisis_manager.activity_mode:
-		return
 	if get_viewport().gui_get_hovered_control():
 		path_preview.clear_all()
-		return  # Mouse is over UI, skip preview
-	if current_world and Global.crisis_manager.crisis_mode and Global.selected_char:
-		var tile_under_cursor = get_hovered_tile()
+		return
 
-		if tile_under_cursor != last_hovered_tile:
-			last_hovered_tile = tile_under_cursor
-			preview_path(tile_under_cursor)
+	if not current_world:
+		return
+
+	var tile_under_cursor = get_hovered_tile()
+	Global.handle_world_hover(tile_under_cursor)
+	if Global.activity_handler:
+		return
+	if Global.crisis_manager.crisis_mode and Global.selected_char:
+		preview_path(tile_under_cursor)
+
+#func _process(_delta):
+	#if Global.crisis_manager.activity_mode:
+		#return
+	#if get_viewport().gui_get_hovered_control():
+		#path_preview.clear_all()
+		#return  # Mouse is over UI, skip preview
+	#if current_world and Global.crisis_manager.crisis_mode and Global.selected_char:
+		#var tile_under_cursor = get_hovered_tile()
+#
+		#if tile_under_cursor != last_hovered_tile:
+			#last_hovered_tile = tile_under_cursor
+			#preview_path(tile_under_cursor)
 
 func get_map_delta(map_id: String) -> MapDelta:
 	if not world_state.map_deltas.has(map_id):
@@ -967,22 +992,8 @@ func flash_path(path: Array) -> void:
 			var point_coords = Vector2i(point[0], point[1])
 			flash_tile_overlay(point_coords)
 
-#func visualize_area(tiles: Array[Vector3i]) -> void:
-	#clear_visualization()
-	#for tile in tiles:
-		#var rect = ColorRect.new()
-		#rect.color = Color8(0, 255, 0, 100)
-		#rect.size = Vector2(Global.TILE_SIZE, Global.TILE_SIZE)
-		#var pos = tile_to_pixels(tile)
-		#@warning_ignore("integer_division")
-		#rect.position = Vector2(pos.x - Global.TILE_SIZE/2, pos.y - Global.TILE_SIZE/2)
-		#rect.z_index = 999
-		#rect.queue_redraw()
-		#add_child(rect)
-		#visualized_rects.append(rect)
-
-func visualize_area(tiles: Array[Vector3i]) -> void:
-	clear_visualization()
+func visualize_area(tiles: Array[Vector3i], rect_container: Array, line_container: Array) -> void:
+	clear_visualization(rect_container, line_container)
 	
 	# Convert tiles array to a set for fast lookup
 	var tile_set = {}
@@ -997,13 +1008,14 @@ func visualize_area(tiles: Array[Vector3i]) -> void:
 		@warning_ignore("integer_division")
 		rect.position = Vector2(pos.x - Global.TILE_SIZE/2, pos.y - Global.TILE_SIZE/2)
 		rect.z_index = 999
+		rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(rect)
-		visualized_rects.append(rect)
+		rect_container.append(rect)
 		
 		# Draw border lines where there's no adjacent tile
-		draw_tile_borders(tile, tile_set, pos)
+		draw_tile_borders(tile, tile_set, pos, line_container)
 
-func draw_tile_borders(tile: Vector3i, tile_set: Dictionary, pixel_pos: Vector2) -> void:
+func draw_tile_borders(tile: Vector3i, tile_set: Dictionary, pixel_pos: Vector2, line_container: Array) -> void:
 	var directions = [
 		{"offset": Vector3i(-1, 0, 0), "start": Vector2(0, 0), "end": Vector2(0, Global.TILE_SIZE)},  # LEFT
 		{"offset": Vector3i(1, 0, 0), "start": Vector2(Global.TILE_SIZE, 0), "end": Vector2(Global.TILE_SIZE, Global.TILE_SIZE)},  # RIGHT
@@ -1025,15 +1037,73 @@ func draw_tile_borders(tile: Vector3i, tile_set: Dictionary, pixel_pos: Vector2)
 			line.default_color = Color8(0, 255, 0, 255)  # Bright opaque green
 			line.z_index = 1000
 			add_child(line)
-			visualized_lines.append(line)  # Store for cleanup (change array type if needed)
+			line_container.append(line)  # Store for cleanup (change array type if needed)
 
-func clear_visualization() -> void:
+func clear_all_visualizations() -> void:
+	clear_visualization(preview_visualized_rects, preview_visualized_lines)
+	clear_visualization(committed_visualized_rects, committed_visualized_lines)
+
+func clear_visualization(visualized_rects: Array, visualized_lines: Array) -> void:
 	for rect in visualized_rects:
 		rect.queue_free()
 	visualized_rects.clear()
 	for line in visualized_lines:
 		line.queue_free()
 	visualized_lines.clear()
+
+#func visualize_area(tiles: Array[Vector3i]) -> void:
+	#clear_visualization()
+	#
+	## Convert tiles array to a set for fast lookup
+	#var tile_set = {}
+	#for tile in tiles:
+		#tile_set[tile] = true
+	#
+	#for tile in tiles:
+		#var rect = ColorRect.new()
+		#rect.color = Color8(0, 255, 0, 100)
+		#rect.size = Vector2(Global.TILE_SIZE, Global.TILE_SIZE)
+		#var pos = tile_to_pixels(tile)
+		#@warning_ignore("integer_division")
+		#rect.position = Vector2(pos.x - Global.TILE_SIZE/2, pos.y - Global.TILE_SIZE/2)
+		#rect.z_index = 999
+		#add_child(rect)
+		#visualized_rects.append(rect)
+		#
+		## Draw border lines where there's no adjacent tile
+		#draw_tile_borders(tile, tile_set, pos)
+
+#func draw_tile_borders(tile: Vector3i, tile_set: Dictionary, pixel_pos: Vector2) -> void:
+	#var directions = [
+		#{"offset": Vector3i(-1, 0, 0), "start": Vector2(0, 0), "end": Vector2(0, Global.TILE_SIZE)},  # LEFT
+		#{"offset": Vector3i(1, 0, 0), "start": Vector2(Global.TILE_SIZE, 0), "end": Vector2(Global.TILE_SIZE, Global.TILE_SIZE)},  # RIGHT
+		#{"offset": Vector3i(0, -1, 0), "start": Vector2(0, 0), "end": Vector2(Global.TILE_SIZE, 0)},  # UP (north)
+		#{"offset": Vector3i(0, 1, 0), "start": Vector2(0, Global.TILE_SIZE), "end": Vector2(Global.TILE_SIZE, Global.TILE_SIZE)}  # DOWN (south)
+	#]
+	#
+	#for dir in directions:
+		#var neighbor = tile + dir.offset
+		#
+		## If neighbor is not in the tile set, draw border on this edge
+		#if not tile_set.has(neighbor):
+			#var line = Line2D.new()
+			#@warning_ignore("integer_division")
+			#var base_pos = Vector2(pixel_pos.x - Global.TILE_SIZE/2, pixel_pos.y - Global.TILE_SIZE/2)
+			#line.add_point(base_pos + dir.start)
+			#line.add_point(base_pos + dir.end)
+			#line.width = 0.5
+			#line.default_color = Color8(0, 255, 0, 255)  # Bright opaque green
+			#line.z_index = 1000
+			#add_child(line)
+			#visualized_lines.append(line)  # Store for cleanup (change array type if needed)
+
+#func clear_visualization() -> void:
+	#for rect in visualized_rects:
+		#rect.queue_free()
+	#visualized_rects.clear()
+	#for line in visualized_lines:
+		#line.queue_free()
+	#visualized_lines.clear()
 
 func _on_world_ready():
 	world_ready = true

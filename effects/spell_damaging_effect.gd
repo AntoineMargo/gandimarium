@@ -12,10 +12,17 @@ func apply(source, target, degree: int = 2) -> void:
 	if damage_pattern == null:
 		damage_pattern = Library.get_dmg_pattern("default")
 	var user = source.user
-	dice_number *= source.user.data.current_spell_rank
+	var dice_n = dice_number
+	dice_n *= source.user.data.current_spell_rank
+	print("Current Spell Rank: ", source.user.data.current_spell_rank)
+	print("Spell damage: ")
+	print("	dice_number: ", dice_n)
+	print("	damage_die: ", damage_die)
+	print("	damage_bonus: ", damage_bonus)
 	var total_damage = CombatMath.determine_damage(
-		dice_number, damage_die,
+		dice_n, damage_die,
 		damage_bonus, degree,
 		damage_pattern)
+	print("	total_damage: ", total_damage)
 	if target and target.has_method("take_damage"):
 		target.take_damage(total_damage, resistance)

@@ -11,14 +11,14 @@
 [sub_resource type="Resource" id="Resource_mit2j"]
 script = ExtResource("7_yutk5")
 damage_bonus = 0
-resistance = "will"
+resistance = "resolve"
 metadata/_custom_type_script = "uid://otrxaros8gk8"
 
 [resource]
 script = ExtResource("1_d3lnv")
 name = "Firebolt"
+id = "firebolt"
 tags = Array[String](["spell"])
-PP_cost = 10
 attacking_aptitude = "resolve"
 defending_aptitude = "ranged_defence"
 reach = 12

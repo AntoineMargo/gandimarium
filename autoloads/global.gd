@@ -36,6 +36,19 @@ var focus_char: Creature
 var selected_char: Creature
 var active_party: PartyData
 
+var activity_handler: Activity = null
+var last_hovered_tile: Vector3i
+
+func handle_world_hover(tile: Vector3i) -> void:
+	if tile == last_hovered_tile:
+		return
+
+	last_hovered_tile = tile
+
+	if activity_handler:
+		if activity_handler.has_method("handle_hover"):
+			activity_handler.handle_hover(tile)
+
 func _process(_delta: float) -> void:
 	input_manager.BasicControls()
 	ui_manager.drag_fail_restore()

@@ -189,7 +189,7 @@ func BasicControls():
 
 	if Input.is_action_just_pressed("N"):
 		var hovered_tile = Global.world_manager.get_hovered_tile()
-		var targets = WorldMath.shape_burst2(hovered_tile, 6)
+		var targets = WorldMath.shape_burst_entities(hovered_tile, 6)
 		SignalBus.dialog_show_message.emit("Targets found:")
 		for target in targets:
 			SignalBus.dialog_show_message.emit("	%s" % [target.data.name])

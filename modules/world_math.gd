@@ -72,12 +72,23 @@ static func get_burst_tiles(center: Vector3i, reach: float) -> Array[Vector3i]:
 	
 	return tiles
 
-static func shape_burst2(target_tile: Vector3i, reach: int) -> Array:
+static func get_creatures_from_tiles(tiles: Array[Vector3i]) -> Array:
+	var wm = Global.world_manager
+	var target_creatures = []
+	for tile in tiles:
+		var creature: Creature
+		creature = wm.get_creature_at_pos(tile)
+		if creature:
+			target_creatures.append(creature)
+
+	return target_creatures
+
+static func shape_burst_entities(target_tile: Vector3i, reach: int) -> Array:
 	var target_entities = []
 	var wm = Global.world_manager
 	var tiles = get_burst_tiles(target_tile, reach)
 	
-	wm.visualize_area(tiles)
+	#wm.visualize_area(tiles)
 	
 	for tile in tiles:
 		var creature: Creature

@@ -9,10 +9,12 @@
 [ext_resource type="Resource" uid="uid://1bq4k4ctiqvj" path="res://resources/abilities/fireray.tres" id="5_smms5"]
 [ext_resource type="Resource" uid="uid://tjtnr1pympae" path="res://resources/abilities/degrade_defences.tres" id="6_kpcy5"]
 [ext_resource type="Resource" uid="uid://c50tk0l60a5qw" path="res://resources/abilities/mage_armour.tres" id="7_4eqj7"]
+[ext_resource type="Resource" uid="uid://cvj66k14frhx0" path="res://resources/abilities/fireball.tres" id="8_7g3vd"]
+[ext_resource type="Resource" uid="uid://bdfg8nvw2c1k4" path="res://resources/abilities/fire_burst.tres" id="9_smms5"]
 
 [sub_resource type="Resource" id="Resource_bddu2"]
 script = ExtResource("2_4m7g3")
-spells = Array[ExtResource("3_4eqj7")]([ExtResource("4_7g3vd"), ExtResource("5_smms5"), ExtResource("6_kpcy5"), ExtResource("7_4eqj7")])
+spells = Array[ExtResource("3_4eqj7")]([ExtResource("4_7g3vd"), ExtResource("5_smms5"), ExtResource("6_kpcy5"), ExtResource("7_4eqj7"), ExtResource("8_7g3vd"), ExtResource("9_smms5")])
 metadata/_custom_type_script = "uid://2oaio4mh2bc8"
 
 [resource]

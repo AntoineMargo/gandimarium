@@ -23,10 +23,10 @@ func _get_drag_data(_at_position):
 
 	var retrieved_item = null
 	if index != -1:
-		if items_interface == Enums.ItemsInterface.INVENTORY:
+		if items_interface == Enums.ItemsList.INVENTORY:
 			retrieved_item = Global.selected_char.data.inventory.remove_item_at_index(index, amount_to_take)
 			SignalBus.update_inventory.emit()
-		elif items_interface == Enums.ItemsInterface.CONTAINER:
+		elif items_interface == Enums.ItemsList.CONTAINER:
 			retrieved_item = Global.container_window.current_container.inventory.remove_item_at_index(index, amount_to_take)
 			SignalBus.update_container.emit()
 

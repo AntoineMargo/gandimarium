@@ -1,20 +1,6 @@
 extends Resource
 class_name Activity
 
-enum AffectedType {
-	ENTITIES,
-	TERRAIN,
-	ENTITIES_OR_TERRAIN,
-	ENTITIES_AND_TERRAIN
-}
-
-enum ShapeType {
-	CIRCLE,
-	CONE,
-	LINE,
-	CUSTOM
-}
-
 @export var name: String = "placeholder"
 @export var id: String = "placeholder"
 @export var description: String = "This is a placeholder description."
@@ -36,8 +22,10 @@ enum ShapeType {
 
 @export var target_filters: Array[Filter] = []
 @export var target_effects: Array[Effect] = []
-@export var affected_type: AffectedType = AffectedType.ENTITIES
-@export var shape: ShapeType = ShapeType.CIRCLE
+@export var targeting_type: Enums.Targeting = Enums.Targeting.ENTITIES
+@export var affected_type: Enums.Affected = Enums.Affected.ENTITIES
+@export var shape: Enums.Shape = Enums.Shape.BURST
+@export var can_only_hit_once: bool = true
 
 @export var minimum_rank: int = 1
 
@@ -53,7 +41,10 @@ enum ShapeType {
 var user = null
 var origin: Vector3i
 var concentration = null
-var target_points = []
+
+#var targets: Array[Vector3i] = []
+
+var target_points: Array[Vector3i] = []
 var target_entities = []
 
 func _setup_concentration():
@@ -77,8 +68,16 @@ func _build_context(target = null):
 	var ctx = ActivityContext.new()
 	ctx.activity = self
 	ctx.user = user
-	ctx.target = target
 	ctx.origin = user
+	
+	ctx.target = target
+	#if target is Node:
+		#ctx.target_entity = target
+	#if target is Vector3i:
+		#ctx.target_point = target
+
+	#if self is ImmediateActivity and ctx.origin is Creature:
+		#ctx.location = ctx.origin.get_coords()
 	
 	ctx.user_stat = user.get_final_stat(attacking_aptitude)
 	if ctx.target is Creature:

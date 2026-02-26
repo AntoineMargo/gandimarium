@@ -58,6 +58,7 @@ var _archetypes = {
 var _abilities = {
 	"degrade_defences": "res://resources/abilities/degrade_defences.tres",
 	"firebolt": "res://resources/abilities/firebolt.tres",
+	"fireball": "res://resources/abilities/fireball.tres",
 	"fireray": "res://resources/abilities/fireray.tres"
 }
 

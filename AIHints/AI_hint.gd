@@ -2,7 +2,7 @@ extends Resource
 class_name AIHint
 
 enum CategoryType { HOSTILE, BENEFICIAL, BOTH, NEITHER }
-enum ShapeType { CIRCLE, CONE, LINE, CUSTOM }
+enum ShapeType { BURST, CONE, LINE, CUSTOM }
 enum DamageType { PHYSICAL, HEAT, COLD, ELECTRICITY, CORROSION, POISON, PSYCHIC, RAW }
 enum TargetingType { CREATURE, LOCATION, BOTH }
 enum OriginType { SELF, FAMILIAR, SUMMON, ALLY, ENEMY, LOCATION }
@@ -22,7 +22,7 @@ enum OriginType { SELF, FAMILIAR, SUMMON, ALLY, ENEMY, LOCATION }
 	utility = 0}
 @export var targeting_type: TargetingType = TargetingType.CREATURE # "creature" or "location"
 @export var targeting_number: int = 1
-@export var shape: ShapeType = ShapeType.CIRCLE
+@export var shape: Enums.Shape = Enums.Shape.BURST
 @export var requires_line_of_sight: bool = true
 @export var uses_melee_weapon: bool = false
 @export var uses_ranged_weapon: bool = false

@@ -8,12 +8,18 @@ func execute() -> void:
 	target_entities.clear()
 	target_points.clear()
 
-	var self_ctx = _build_context(user)
+	var self_ctx = _build_context(user.get_coords())
 
-	if affected_type == Activity.AffectedType.ENTITIES and reach == 0:
-		target_entities = [self_ctx.origin]
+	if spread == 0:
+		if affected_type == Enums.Affected.ENTITIES:
+			target_entities = self_ctx.origin
+		elif affected_type == Enums.Affected.TERRAIN:
+			target_entities = self_ctx.origin.get_coords()
 	else:
-		WorldMath.shape_burst(target_entities, self_ctx.origin, self_ctx.reach)
+		target_entities = WorldMath.shape_burst_entities(self_ctx.target, spread)
+		#WorldMath.shape_burst(target_entities, self_ctx.origin, spread)
+
+	self_ctx.target = user
 
 	for filter in self_filters:
 		if filter is Filter:

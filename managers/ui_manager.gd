@@ -4,7 +4,7 @@ class_name UIManager
 const MAX_ACTIVITIES: int = 40
 const COLUMNS: int  = 10
 
-enum ItemsInterface {
+enum ItemsList {
 	INVENTORY,
 	CONTAINER
 	}
@@ -14,7 +14,7 @@ var ui_node: Node = null
 var drag_in_progress: bool = false
 var drag_was_dropped: bool = true
 var last_dragged_item: Item = null
-var window_dragged_from: ItemsInterface = ItemsInterface.INVENTORY
+var window_dragged_from: ItemsList = ItemsList.INVENTORY
 
 var full_pip = preload("res://art/interface/base/pip.png")
 var empty_pip = preload("res://art/interface/base/empty_pip.png")
@@ -360,7 +360,7 @@ func _on_update_inventory() -> void:
 	var items = character.get_inventory()
 	for i in range(items.size()):
 		var element = preload("res://interface/inventory_window/inventory_element.tscn").instantiate()
-		element.items_interface = Enums.ItemsInterface.INVENTORY
+		element.items_interface = Enums.ItemsList.INVENTORY
 		element.index = i
 		element.item = items[i]
 		element.initialize()
@@ -425,10 +425,10 @@ func drag_fail_restore():
 				SignalBus.drop_item_on_tile.emit(Global.selected_char, last_dragged_item)
 			else:
 				print("Drag failed — restoring item.")
-				if window_dragged_from == ItemsInterface.INVENTORY:
+				if window_dragged_from == ItemsList.INVENTORY:
 					Global.selected_char.data.inventory.add_item(last_dragged_item)
 					SignalBus.update_inventory.emit()
-				elif window_dragged_from == ItemsInterface.CONTAINER:
+				elif window_dragged_from == ItemsList.CONTAINER:
 					Global.container_window.current_container.inventory.add_item(last_dragged_item)
 					SignalBus.update_container.emit()
 
