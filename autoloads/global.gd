@@ -39,6 +39,28 @@ var active_party: PartyData
 var activity_handler: Activity = null
 var last_hovered_tile: Vector3i
 
+func _unhandled_input(event: InputEvent) -> void:
+	if Global.world_manager.current_world:
+		if activity_handler:
+			activity_handler.handle_input(event)
+		else:
+			if event is InputEventMouseButton and event.pressed:
+				match event.button_index:
+					MOUSE_BUTTON_LEFT:
+						if event.ctrl_pressed:
+							SignalBus.simple_interact.emit(true)
+						else:
+							SignalBus.simple_interact.emit(false)
+					MOUSE_BUTTON_RIGHT:
+						SignalBus.complex_interact.emit()
+
+func _process(_delta: float) -> void:
+	input_manager.BasicControls()
+	ui_manager.drag_fail_restore()
+
+#func _input(event: InputEvent) -> void:
+	#pass
+
 func handle_world_hover(tile: Vector3i) -> void:
 	if tile == last_hovered_tile:
 		return
@@ -48,16 +70,6 @@ func handle_world_hover(tile: Vector3i) -> void:
 	if activity_handler:
 		if activity_handler.has_method("handle_hover"):
 			activity_handler.handle_hover(tile)
-
-func _process(_delta: float) -> void:
-	input_manager.BasicControls()
-	ui_manager.drag_fail_restore()
-
-#func _input(event: InputEvent) -> void:
-	#pass
-
-#func _unhandled_input(event: InputEvent) -> void:
-	#pass
 
 func save_current_map_delta():
 	var delta: MapDelta = world_manager.get_map_delta(world_manager.current_world.id)

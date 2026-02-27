@@ -5,21 +5,6 @@ class_name InputManager
 var wm = null
 var cm = null
 
-func _unhandled_input(event: InputEvent) -> void:
-	if Global.world_manager.current_world:
-		if cm.activity_mode:
-			cm.forward_unhandled_input(event)
-		else:
-			if event is InputEventMouseButton and event.pressed:
-				match event.button_index:
-					MOUSE_BUTTON_LEFT:
-						if event.ctrl_pressed:
-							SignalBus.simple_interact.emit(true)
-						else:
-							SignalBus.simple_interact.emit(false)
-					MOUSE_BUTTON_RIGHT:
-						SignalBus.complex_interact.emit()
-
 func BasicControls():
 	if Input.is_action_just_pressed("Escape"):
 		get_tree().quit()

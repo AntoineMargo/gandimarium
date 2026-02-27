@@ -20,11 +20,15 @@ func _gui_input(event):
 
 func _on_mouse_entered():
 	is_hovered = true
+	if spell.activities[spell.current_index] is ImmediateActivity:
+		spell.activities[spell.current_index].preview_area(Global.selected_char.get_coords())
 	queue_redraw()
 
 func _on_mouse_exited():
 	is_hovered = false
 	is_pressed = false
+	if spell.activities[spell.current_index] is ImmediateActivity:
+		Global.world_manager.clear_all_visualizations()
 	queue_redraw()
 
 func _draw():

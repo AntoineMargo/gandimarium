@@ -16,9 +16,9 @@ metadata/_custom_type_script = "uid://otrxaros8gk8"
 
 [resource]
 script = ExtResource("1_d3lnv")
+number_of_targets = 3
 name = "Firebolt"
 id = "firebolt"
-tags = Array[String](["spell"])
 attacking_aptitude = "resolve"
 defending_aptitude = "ranged_defence"
 reach = 12

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="NotSelfFilter" format=3 uid="uid://c2bqcuoqbx3wi"]
+
+[ext_resource type="Script" uid="uid://3t3dwtov2mvp" path="res://filters/not_self.gd" id="1_48332"]
+
+[resource]
+script = ExtResource("1_48332")
+metadata/_custom_type_script = "uid://3t3dwtov2mvp"

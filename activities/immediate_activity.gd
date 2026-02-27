@@ -1,23 +1,32 @@
 extends Activity
 class_name ImmediateActivity
 
+func preview_area(tile):
+	var wm = Global.world_manager
+	var tiles = compute_affected_area(tile)
+	wm.clear_visualization(wm.preview_visualized_rects, wm.preview_visualized_lines)
+	wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines)
+
 func execute() -> void:
 	_apply_act_mods()
 	_setup_concentration()
 
-	target_entities.clear()
 	target_points.clear()
 
 	var self_ctx = _build_context(user.get_coords())
 
 	if spread == 0:
-		if affected_type == Enums.Affected.ENTITIES:
-			target_entities = self_ctx.origin
-		elif affected_type == Enums.Affected.TERRAIN:
-			target_entities = self_ctx.origin.get_coords()
+		target_points = self_ctx.origin.get_coords()
 	else:
-		target_entities = WorldMath.shape_burst_entities(self_ctx.target, spread)
-		#WorldMath.shape_burst(target_entities, self_ctx.origin, spread)
+		target_points = compute_affected_area(self_ctx.origin.get_coords())
+
+	var final_targets = []
+	
+	match affected_type:
+		Enums.Affected.ENTITIES:
+			final_targets.append_array(WorldMath.get_creatures_from_tiles(target_points))
+		Enums.Affected.TERRAIN:
+			final_targets.append_array(target_points)
 
 	self_ctx.target = user
 
@@ -26,9 +35,9 @@ func execute() -> void:
 			if not filter.is_satisfied(self_ctx):
 				return
 
-	if target_entities.is_empty():
+	if final_targets.is_empty():
 		return
-	for target in target_entities:
+	for target in final_targets:
 		var ctx = _build_context(target)
 		var passes_all_filters = true
 		for filter in target_filters:

@@ -7,13 +7,9 @@ var cm = null
 var wm = null
 
 func handle_hover(tile: Vector3i) -> void:
-	#if not is_valid_target_point(tile):
-		#wm.clear_all_visualizations()
-		#return
-
 	var tiles = compute_affected_area(tile)
-	wm.visualize_area(tiles,wm.preview_visualized_rects, wm.preview_visualized_lines)
-	#Global.world_manager.visualize_preview_area(tiles)
+	wm.clear_visualization(wm.preview_visualized_rects, wm.preview_visualized_lines)
+	wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines)
 
 func handle_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -25,8 +21,8 @@ func handle_input(event: InputEvent) -> void:
 
 func _cleanup() -> void:
 	SignalBus.change_cursor.emit("default")
-	#cm.activity_mode = null
 	Global.activity_handler = null
+	wm.clear_all_visualizations()
 	for hl in wm.target_highlights:
 		hl.queue_free()
 	wm.target_highlights.clear()
@@ -50,7 +46,6 @@ func execute_ai() -> void:
 func execute_player() -> void:
 	SignalBus.dialog_show_message.emit("Waiting for target(s) of activity...")
 	Global.activity_handler = self
-	#cm.activity_mode = self
 	self.user = user
 	number_of_targets_left = number_of_targets
 	SignalBus.dialog_selectable_targets.emit(number_of_targets_left)
@@ -77,7 +72,6 @@ func is_valid_target_point(point: Vector3i) -> bool:
 func select_target():
 	print("number_of_targets_left: ", number_of_targets_left)
 	var coords = wm.get_hovered_tile()
-	#var layer_coords = Vector2i(coords.x, coords.y)
 	if is_valid_target_point(coords):
 		if targeting_type == Enums.Targeting.ENTITIES:
 			if not wm.find_creature_on_tile(coords):
@@ -87,32 +81,14 @@ func select_target():
 		number_of_targets_left -= 1
 
 		if number_of_targets_left > 0:
-			var target_highlight = load("res://interface/target_highlight.tscn").instantiate()
-			target_highlight.target = coords
-			wm.add_child(target_highlight)
-			wm.target_highlights.append(target_highlight)
-			target_highlight.update_selection_highlight()
+			var tiles = compute_affected_area(coords)
+			wm.visualize_area(tiles, wm.committed_visualized_rects, wm.committed_visualized_lines)
 			SignalBus.dialog_selectable_targets.emit(number_of_targets_left)
 
 		if number_of_targets_left == 0:
 			resolve_with_targets(target_points)
-
 	else:
 		SignalBus.dialog_show_message.emit("Invalid target.")
-
-func compute_affected_area(target_location: Vector3i) -> Array[Vector3i]:
-	match shape:
-		Enums.Shape.BURST:
-			return WorldMath.get_burst_tiles(target_location, spread)
-		Enums.Shape.CONE:
-			pass
-			#return WorldMath.get_cone_tiles(origin, user.get_facing(), spread)
-		Enums.Shape.LINE:
-			pass
-			#return WorldMath.get_line_tiles(origin, spread)
-		Enums.Shape.CUSTOM:
-			pass
-	return WorldMath.get_burst_tiles(target_location, spread)
 
 func make_targets_unique(targets: Array) -> Array:
 			var tile_set := {}
@@ -192,72 +168,3 @@ func resolve_with_targets(targets: Array) -> void:
 	_finalize_concentration()
 	_cleanup()
 	#SignalBus.dialog_show_message.emit("Activity effects released.")
-
-
-#func resolve_with_targets(targets: Array) -> void:
-	#if targets.is_empty():
-		#_cleanup()
-		#return
-#
-	#_setup_concentration()
-	#var self_ctx = _build_context(user)
-#
-	#for filter in self_filters:
-		#if filter is Filter:
-			#if not filter.is_satisfied(self_ctx):
-				#_cleanup()
-				#return
-#
-	#for target in targets:
-		#target_points = compute_affected_area(target) 
-		#
-		#var final_targets = []
-		#match affected_type:
-			#Enums.Affected.ENTITIES:
-				#final_targets = WorldMath.get_creatures_from_tiles(target_points)
-			#Enums.Affected.TERRAIN:
-				#final_targets = target_points
-#
-		#for final_target in final_targets:
-			#var ctx = _build_context(final_target)
-			#var passes_all_filters = true
-			#for filter in target_filters:
-				#if filter is Filter:
-					#if not filter.is_satisfied(ctx):
-						#passes_all_filters = false
-						#break
-			#if not passes_all_filters:
-				#continue
-#
-			#_apply_pre_mods(ctx)
-			#_roll(ctx)
-			#_apply_post_mods(ctx)
-			#if requires_roll:
-				#_resolve(ctx)
-#
-			#for effect in target_effects:
-				#if effect is Effect:
-					#if effect.has_method("apply_context"):
-						#effect.apply_context(ctx)
-					#else:
-						#effect.apply(self, ctx.target, ctx.degree)
-#
-			#for effect in self_per_target_effects:
-				#if effect is Effect:
-					#if effect.has_method("apply_context"):
-						#effect.apply_context(ctx)
-					#else:
-						#effect.apply(self, ctx.user, ctx.degree)
-#
-	#for effect in self_final_effects:
-		#if effect is Effect:
-			#if effect.has_method("apply_context"):
-				#effect.apply_context(self_ctx)
-			#else:
-				#effect.apply(self, self_ctx.user, self_ctx.degree)
-#
-	#_consume_ap(self_ctx)
-	#_consume_pp(self_ctx)
-	#_finalize_concentration()
-	#_cleanup()
-	##SignalBus.dialog_show_message.emit("Activity effects released.")

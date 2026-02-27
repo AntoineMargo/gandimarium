@@ -20,7 +20,7 @@ func _on_crisis_mode_ended(_creature):
 func advance_time():
 	seconds += 1
 
-	if seconds >= 60:
+	if seconds >= 10:
 		seconds = 0
 		minutes += 1
 

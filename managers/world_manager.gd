@@ -52,19 +52,6 @@ func _process(_delta):
 	if Global.crisis_manager.crisis_mode and Global.selected_char:
 		preview_path(tile_under_cursor)
 
-#func _process(_delta):
-	#if Global.crisis_manager.activity_mode:
-		#return
-	#if get_viewport().gui_get_hovered_control():
-		#path_preview.clear_all()
-		#return  # Mouse is over UI, skip preview
-	#if current_world and Global.crisis_manager.crisis_mode and Global.selected_char:
-		#var tile_under_cursor = get_hovered_tile()
-#
-		#if tile_under_cursor != last_hovered_tile:
-			#last_hovered_tile = tile_under_cursor
-			#preview_path(tile_under_cursor)
-
 func get_map_delta(map_id: String) -> MapDelta:
 	if not world_state.map_deltas.has(map_id):
 		world_state.map_deltas[map_id] = MapDelta.new()
@@ -993,8 +980,6 @@ func flash_path(path: Array) -> void:
 			flash_tile_overlay(point_coords)
 
 func visualize_area(tiles: Array[Vector3i], rect_container: Array, line_container: Array) -> void:
-	clear_visualization(rect_container, line_container)
-	
 	# Convert tiles array to a set for fast lookup
 	var tile_set = {}
 	for tile in tiles:

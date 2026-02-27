@@ -11,15 +11,6 @@ var crisis_round: int = 0
 var initiative_order = []
 var current_index: int = -1
 
-var activity_mode: Activity = null
-#var activity_user: Node = null
-
-func forward_unhandled_input(event: InputEvent) -> void:
-	if Global.activity_handler:
-		Global.activity_handler.handle_input(event)
-	#if activity_mode != null:
-		#activity_mode.handle_input(event)
-
 func _add_to_initiative_order(creature):
 	if creature not in initiative_order:
 		initiative_order.append(creature)

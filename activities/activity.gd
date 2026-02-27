@@ -37,12 +37,9 @@ class_name Activity
 @export var condition_id: String = ""
 @export var ai_hint: AIHint
 
-
 var user = null
 var origin: Vector3i
 var concentration = null
-
-#var targets: Array[Vector3i] = []
 
 var target_points: Array[Vector3i] = []
 var target_entities = []
@@ -51,18 +48,13 @@ func _setup_concentration():
 	if requires_concentration:
 		concentration = Concentration.new()
 		concentration.source = self
-	
 
 func _finalize_concentration():
-	#if requires_concentration and concentration:
-		#user.add_concentration(concentration)
-		#concentration = null
 	if requires_concentration:
 		if concentration.has_connections("ended"):
 			user.add_concentration(concentration)
 		else:
 			concentration.cancel()
-	
 
 func _build_context(target = null):
 	var ctx = ActivityContext.new()
@@ -71,13 +63,6 @@ func _build_context(target = null):
 	ctx.origin = user
 	
 	ctx.target = target
-	#if target is Node:
-		#ctx.target_entity = target
-	#if target is Vector3i:
-		#ctx.target_point = target
-
-	#if self is ImmediateActivity and ctx.origin is Creature:
-		#ctx.location = ctx.origin.get_coords()
 	
 	ctx.user_stat = user.get_final_stat(attacking_aptitude)
 	if ctx.target is Creature:
@@ -140,6 +125,20 @@ func can_execute() -> bool:
 
 func has_tag(tag: String) -> bool:
 	return tags.has(tag)
+
+func compute_affected_area(target_location: Vector3i) -> Array[Vector3i]:
+	match shape:
+		Enums.Shape.BURST:
+			return WorldMath.get_burst_tiles(target_location, spread)
+		Enums.Shape.CONE:
+			pass
+			#return WorldMath.get_cone_tiles(origin, user.get_facing(), spread)
+		Enums.Shape.LINE:
+			pass
+			#return WorldMath.get_line_tiles(origin, spread)
+		Enums.Shape.CUSTOM:
+			pass
+	return WorldMath.get_burst_tiles(target_location, spread)
 
 func _init():
 	if ai_hint:
