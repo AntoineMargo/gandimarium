@@ -12,6 +12,9 @@ class_name Condition
 @export var toggle: bool = false
 @export var is_visible: bool = true
 
+var linked_items: Array[Item] = []
+var linked_modifiers: Array[ModifierEntry] = []
+
 var concentration: Concentration = null
 var user = null
 var target = null
@@ -33,9 +36,11 @@ func initialize(ctx: Context) -> void:
 	self.user_uid = user.get_final_stat("uid")
 	self.target_uid = target.get_final_stat("uid")
 	if ctx is ActivityContext:
+		ctx.condition = self
 		self.spell_rank = ctx.current_spell_rank
 		if ctx.concentration:
 			concentration = ctx.concentration
+			concentration.linked_conditions.append(self)
 		if concentration and not concentration.ended.is_connected(_on_concentration_ended):
 			concentration.ended.connect(_on_concentration_ended)
 	for effect in effects:

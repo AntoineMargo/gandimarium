@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Condition" format=3 uid="uid://6nqtak4qoo1p"]
+
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_ovfuq"]
+[ext_resource type="Resource" uid="uid://eyjsms47n3eg" path="res://resources/items/armours/ar_magic.tres" id="2_cj5f0"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_dh2nj"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="3_cj5f0"]
+[ext_resource type="Script" uid="uid://dxmd4au5mv1y0" path="res://effects/equip_item.gd" id="5_b41ce"]
+
+[sub_resource type="Resource" id="Resource_wndbx"]
+script = ExtResource("5_b41ce")
+item = ExtResource("2_cj5f0")
+slot = "body"
+metadata/_custom_type_script = "uid://dxmd4au5mv1y0"
+
+[resource]
+script = ExtResource("3_cj5f0")
+name = "Magic Armour"
+id = "magic_armour"
+effects = Array[ExtResource("1_ovfuq")]([SubResource("Resource_wndbx"), null])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"

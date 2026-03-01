@@ -202,7 +202,7 @@ func add_item_conditions(item):
 	for condition in item.conditions:
 		if condition is Condition:
 			var instance = condition.duplicate(true)
-			var ctx = ActivityContext.new()
+			var ctx = Context.new()
 			ctx.id = item.id
 			ctx.user = self
 			ctx.origin = self
@@ -273,6 +273,11 @@ func get_equipment_slot(slot):
 
 func get_weapon_slot(slot):
 	return data.equipment.get_weapon_slot(slot)
+
+
+func reload_equipment():
+	remove_conditions_from_equipment()
+	apply_conditions_from_equipment()
 
 func equip_item(slot, item):
 	remove_conditions_from_equipment()
@@ -427,7 +432,14 @@ func perform_attack(target):
 func perform_operate(prop: Prop):
 	prop.operate()
 
-func grab_item(item: Item, coords: Vector3i):
+func get_all_equipped_items() -> Array:
+	return data.equipment.get_all_equipped_items()
+
+#func get_item(item: Item, coords: Vector3i) -> Item:
+	#return data.equipment.get_item(item)
+	##return data.inventory.get_item(item)
+
+func grab_item(item: Item, coords: Vector3i) -> void:
 	Global.world_manager.remove_from_tile(item, coords)
 	data.inventory.add_item(item)
 	SignalBus.update_inventory.emit()

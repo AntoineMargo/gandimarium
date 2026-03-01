@@ -6,4 +6,4 @@ class_name SpellModifierEntry
 @export var base_amount: int = 0
 
 func get_amount(source, _target) -> int:
-	return (amount * source.user.data.current_spell_rank) + base_amount
+	return (amount * source.current_spell_rank) + base_amount

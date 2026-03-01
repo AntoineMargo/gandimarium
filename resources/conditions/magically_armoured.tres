@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="Condition" format=3 uid="uid://dheqdkmequumy"]
+
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_ei24s"]
+[ext_resource type="Script" uid="uid://do65om3llmjke" path="res://various/spell_modifier_entry.gd" id="2_62ys3"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_fhw7o"]
+[ext_resource type="Script" uid="uid://dh1bd8jrxvw1w" path="res://effects/spell_modifier_effect.gd" id="3_32htc"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="3_62ys3"]
+
+[sub_resource type="Resource" id="Resource_trysa"]
+script = ExtResource("2_62ys3")
+stat = "physical"
+amount = 2
+metadata/_custom_type_script = "uid://do65om3llmjke"
+
+[sub_resource type="Resource" id="Resource_16eg3"]
+script = ExtResource("3_32htc")
+modifiers = Array[ExtResource("2_62ys3")]([SubResource("Resource_trysa")])
+metadata/_custom_type_script = "uid://dh1bd8jrxvw1w"
+
+[resource]
+script = ExtResource("3_62ys3")
+name = "Magically Armoured"
+id = "magically_armoured"
+effects = Array[ExtResource("1_ei24s")]([SubResource("Resource_16eg3")])
+is_visible = false
+metadata/_custom_type_script = "uid://dvi4ohsador2o"

@@ -112,7 +112,7 @@ func set_weapon_slot(slot, item):
 			if item.throw:
 				throw_types[pos.y] = item.throw.attack_types[0].id
 
-func get_all_equipped_items():
+func get_all_equipped_items() -> Array:
 	var collection = []
 	for item in weapon_sets[active_set]:
 		if item:

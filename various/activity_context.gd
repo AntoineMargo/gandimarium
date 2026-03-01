@@ -15,5 +15,8 @@ var target_roll: int = 0
 var result: int = 0
 var degree: int = 0
 
+var created_items: Array[Item] = []
+
 var current_spell_rank: int = 0
 var concentration: Concentration = null
+var condition: Condition = null

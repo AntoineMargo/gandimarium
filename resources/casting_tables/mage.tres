@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CastingTable" load_steps=15 format=3 uid="uid://dfkl0hiqfnhhy"]
+[gd_resource type="Resource" script_class="CastingTable" format=3 uid="uid://dfkl0hiqfnhhy"]
 
 [ext_resource type="Script" uid="uid://ddmmsirmeo2fq" path="res://abilities/spell_costs.gd" id="1_xbtq4"]
 [ext_resource type="Resource" uid="uid://c0v10bqlhpj3q" path="res://resources/casting_tables/mage/level1.tres" id="2_kwn1q"]

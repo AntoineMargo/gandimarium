@@ -3,7 +3,7 @@ class_name LevelStepModifierEntry
 
 @export var steps: Array[LevelStep] = []
 
-func get_amount(target) -> int:
+func get_amount(_source, target) -> int:
 	for i in range(steps.size() - 1, -1, -1):
 		var step = steps[i]
 		if target.data.level >= step.min_level:

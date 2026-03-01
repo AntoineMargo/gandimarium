@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="ImmediateActivity" format=3 uid="uid://bns16gt6wf8ux"]
+
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="1_2s5jf"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_43yev"]
+[ext_resource type="Script" uid="uid://tw4lacdrgfs3" path="res://filters/power_points.gd" id="3_7p654"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="3_u0rus"]
+[ext_resource type="Script" uid="uid://bmyfmkog6abuh" path="res://filters/action_points.gd" id="4_npsde"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/condition_effect.gd" id="6_d15b5"]
+[ext_resource type="Resource" uid="uid://6nqtak4qoo1p" path="res://resources/conditions/magic_armour.tres" id="6_npsde"]
+
+[sub_resource type="Resource" id="Resource_17lpk"]
+script = ExtResource("3_7p654")
+metadata/_custom_type_script = "uid://tw4lacdrgfs3"
+
+[sub_resource type="Resource" id="Resource_0vdfd"]
+script = ExtResource("4_npsde")
+metadata/_custom_type_script = "uid://bmyfmkog6abuh"
+
+[sub_resource type="Resource" id="Resource_4g858"]
+script = ExtResource("6_d15b5")
+condition = ExtResource("6_npsde")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[resource]
+script = ExtResource("1_2s5jf")
+name = "Magic Armour"
+id = "magic_armour"
+requires_concentration = true
+self_filters = Array[ExtResource("2_43yev")]([SubResource("Resource_17lpk"), SubResource("Resource_0vdfd")])
+target_effects = Array[ExtResource("3_u0rus")]([SubResource("Resource_4g858")])
+is_spell = true
+builds_condition = true
+condition_id = "magic_armour"
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
