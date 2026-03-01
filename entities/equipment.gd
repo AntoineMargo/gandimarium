@@ -12,12 +12,12 @@ const SLOT_MAP = {
 @export var shoulders: Item
 @export var neck: Item
 @export var body: Item
+@export var armour: Item
 @export var belt: Item
 @export var gauntlets: Item
 @export var boots: Item
 @export var left_wrist: Item
 @export var right_wrist: Item
-@export var head_item: Item
 @export var left_ring: Item
 @export var right_ring: Item
 
@@ -84,6 +84,12 @@ func set_active_strike_type(hand, type):
 func set_active_attack_category(number):
 	if number >= 0 and number <= 2:
 		active_category = number
+
+func get_equipment_slot(slot):
+	var weap_pos = SLOT_MAP.get(slot)
+	if weap_pos:
+		return weapon_sets[weap_pos.x][weap_pos.y] if not null else default_weapon
+	return get(slot)
 
 func get_weapon_slot(slot):
 	var pos = SLOT_MAP.get(slot)

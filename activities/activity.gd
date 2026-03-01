@@ -59,10 +59,17 @@ func _finalize_concentration():
 func _build_context(target = null):
 	var ctx = ActivityContext.new()
 	ctx.activity = self
+	ctx.id = id
 	ctx.user = user
 	ctx.origin = user
 	
 	ctx.target = target
+	
+	ctx.current_spell_rank = user.get_final_stat("current_spell_rank")
+	ctx.concentration = concentration
+	
+	if ctx.target is Creature or ctx.target is Prop:
+		ctx.tile_spawned_on = target.get_coords()
 	
 	ctx.user_stat = user.get_final_stat(attacking_aptitude)
 	if ctx.target is Creature:

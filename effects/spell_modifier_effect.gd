@@ -1,7 +1,7 @@
 extends Effect
-class_name ModifierEffect
+class_name SpellModifierEffect
 
-@export var modifiers: Array[ModifierEntry] = []
+@export var modifiers: Array[SpellModifierEntry] = []
 
 func apply(source, target, degree: int = 2):
 	for entry in modifiers:

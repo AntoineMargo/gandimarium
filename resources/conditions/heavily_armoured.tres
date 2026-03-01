@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="2_j85to"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_6xee6"]
 
-[sub_resource type="Resource" id="Resource_ot0y7"]
+[sub_resource type="Resource" id="Resource_6xee6"]
 script = ExtResource("1_j85to")
 stat = "physical"
 amount = 16
@@ -20,7 +20,7 @@ metadata/_custom_type_script = "uid://ik0hrifgbwa4"
 
 [sub_resource type="Resource" id="Resource_ns0ch"]
 script = ExtResource("1_toyjn")
-modifiers = Array[ExtResource("1_j85to")]([SubResource("Resource_ot0y7"), SubResource("Resource_potkk")])
+modifiers = Array[ExtResource("1_j85to")]([SubResource("Resource_6xee6"), SubResource("Resource_potkk")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
 [resource]

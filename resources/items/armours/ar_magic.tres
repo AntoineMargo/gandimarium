@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="HeavyArmour" format=3 uid="uid://eyjsms47n3eg"]
+
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_vy8kk"]
+[ext_resource type="Resource" uid="uid://dq8birnet4lbp" path="res://resources/conditions/heavily_armoured.tres" id="2_pu3sn"]
+[ext_resource type="Script" uid="uid://kwfb8h6v1f5j" path="res://items/heavy_armour_res.gd" id="3_em5w5"]
+
+[resource]
+script = ExtResource("3_em5w5")
+name = "Magic Armor"
+id = "magic_armour"
+description = "Shimmering intangible set of armour."
+weight = 0.0
+value = 0
+conditions = Array[ExtResource("1_vy8kk")]([ExtResource("2_pu3sn")])
+metadata/_custom_type_script = "uid://kwfb8h6v1f5j"

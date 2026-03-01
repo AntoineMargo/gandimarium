@@ -3,15 +3,9 @@ class_name ConditionEffect
 
 @export var condition: Condition = null
 
-func apply(source, target, degree: int = 2) -> void:
-	target.toggle_condition(condition, source)
+func apply(_source, _target, _degree: int = 2) -> void:
+	pass
+	#target.toggle_condition(condition, source)
 
-#func apply(source, target, degree: int = 2) -> void:
-	#for condition in conditions:
-		#if condition == null:
-			#continue
-		#var instance = condition.duplicate()
-		#instance.concentration = source.concentration
-		#if target.has_method("add_condition"):
-			#target.add_condition_from(source, instance)
-			##target.add_condition(instance)
+func apply_context(ctx: ActivityContext) -> void:
+	ctx.target.toggle_condition(condition, ctx)

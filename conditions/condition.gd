@@ -10,12 +10,16 @@ class_name Condition
 @export var supplanted: Array[Condition] = []
 @export var duration: int = -1
 @export var toggle: bool = false
+@export var is_visible: bool = true
 
 var concentration: Concentration = null
 var user = null
 var target = null
+var user_uid = null
+var target_uid = null
+var tile_spawned_on: Vector3i = Vector3i(0, 0, 0)
+var spell_rank: int = 0
 var sources = {}
-#var sources: Array = []
 
 func is_active() -> bool:
 	return not sources.is_empty()
@@ -23,12 +27,19 @@ func is_active() -> bool:
 func _on_concentration_ended():
 	target.remove_condition(self)
 
-func initialize(target) -> void:
-	self.target = target
-	if concentration and not concentration.ended.is_connected(_on_concentration_ended):
-		concentration.ended.connect(_on_concentration_ended)
+func initialize(ctx: Context) -> void:
+	self.target = ctx.target
+	self.user = ctx.user
+	self.user_uid = user.get_final_stat("uid")
+	self.target_uid = target.get_final_stat("uid")
+	if ctx is ActivityContext:
+		self.spell_rank = ctx.current_spell_rank
+		if ctx.concentration:
+			concentration = ctx.concentration
+		if concentration and not concentration.ended.is_connected(_on_concentration_ended):
+			concentration.ended.connect(_on_concentration_ended)
 	for effect in effects:
-		effect.apply(self, target)
+		effect.apply(self, ctx.target)
 
 func add_source(identifier: String):
 	if not sources.has(identifier):
@@ -54,17 +65,3 @@ func has_source(identifier: String) -> bool:
 
 func has_sources() -> bool:
 	return not sources.is_empty()
-	
-#func add_source(src) -> void:
-	#if not sources.has(src):
-		#sources.append(src)
-
-#func remove_source(src) -> void:
-	#sources.erase(src)
-	#if sources.is_empty():
-		#target.remove_condition(self)
-	##user.remove_condition_from(self, id)
-	##target.remove_condition_from(self, id)
-
-#func remove():
-	#pass

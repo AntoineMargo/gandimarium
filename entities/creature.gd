@@ -96,19 +96,27 @@ func get_condition_by_id(condition_id) -> Condition:
 			return condition
 	return null
 
-func toggle_condition(cond: Condition, source):
+#func toggle_condition(cond: Condition, source):
+	#var existing = get_condition_by_id(cond.id)
+#
+	#if existing:
+		#existing.remove_source(source.id)
+	#else:
+		#add_condition_from(source, cond)
+
+func toggle_condition(cond: Condition, ctx: Context):
 	var existing = get_condition_by_id(cond.id)
 
 	if existing:
-		existing.remove_source(source.id)
+		existing.remove_source(ctx.id)
 	else:
-		add_condition_from(source, cond)
+		add_condition_from(ctx, cond)
 
-func add_condition_from(source, cond: Condition):
+func add_condition_from(ctx: Context, cond: Condition):
 	var existing = get_condition_by_id(cond.id)
 
 	if existing:
-		existing.add_source(source.id)
+		existing.add_source(ctx.id)
 		return
 
 	for weaker_cond in cond.supplanted:
@@ -120,10 +128,31 @@ func add_condition_from(source, cond: Condition):
 				return
 
 	var inst = cond.duplicate(true)
-	inst.add_source(source.id)
+	inst.add_source(ctx.id)
 	data.conditions.append(inst)
-	inst.initialize(self)
+	inst.initialize(ctx)
 
+#func add_condition_from(source, cond: Condition):
+	#var existing = get_condition_by_id(cond.id)
+#
+	#if existing:
+		#existing.add_source(source.id)
+		#return
+#
+	#for weaker_cond in cond.supplanted:
+		#if has_condition(weaker_cond.id):
+			#remove_condition(weaker_cond)
+	#for existing_cond in data.conditions:
+		#for weaker_cond in existing_cond.supplanted:
+			#if cond.id == weaker_cond.id:
+				#return
+#
+	#var inst = cond.duplicate(true)
+	#inst.add_source(source.id)
+	#data.conditions.append(inst)
+	#inst.initialize(self, source)
+
+## Unused?
 func remove_condition_from(source, id: String):
 	var cond = get_condition_by_id(id)
 	if not cond:
@@ -173,7 +202,12 @@ func add_item_conditions(item):
 	for condition in item.conditions:
 		if condition is Condition:
 			var instance = condition.duplicate(true)
-			add_condition_from(item, instance)
+			var ctx = ActivityContext.new()
+			ctx.id = item.id
+			ctx.user = self
+			ctx.origin = self
+			ctx.target = self
+			add_condition_from(ctx, instance)
 		else:
 			push_error("Item condition is not a Condition resource: " + str(condition))
 
@@ -235,7 +269,7 @@ func set_active_hand(number: int):
 		data.equipment.active_hand = number
 
 func get_equipment_slot(slot):
-	return data.equipment.get(slot)
+	return data.equipment.get_equipment_slot(slot)
 
 func get_weapon_slot(slot):
 	return data.equipment.get_weapon_slot(slot)
@@ -257,16 +291,17 @@ func equip_item(slot, item):
 	update_stats()
 	SignalBus.update_character_info.emit()
 
-func unequip_slot(slot):
+func unequip_slot(slot) -> Item:
 	remove_conditions_from_equipment()
-	remove_item_from_slot(slot)
+	var item = remove_item_from_slot(slot)
 	apply_conditions_from_equipment()
 	if Global.focus_char == self:
 		SignalBus.update_inventory.emit()
 	update_stats()
 	SignalBus.update_character_info.emit()
+	return item
 
-func remove_item_from_slot(slot):
+func remove_item_from_slot(slot) -> Item:
 	var item = data.equipment.remove_item_from_slot(slot)
 	return item
 
@@ -502,8 +537,10 @@ func set_coords(new_coords: Vector3i):
 ## This initalises the base stats, meant to be used on spawn and at every level-up, and not accessed from outside the class
 func initialise():
 	if not data.has_been_initialized:
-		if data.id == 0:
+		if data.uid == 0:
 			data.id = Global.uid_manager.next_uid(UIDManager.Type.CREATURE)
+		if data.id == 0:
+			data.id = data.uid
 
 		_duplicate_runtime_resources()
 		data.derived_stats = DerivedStats.new()

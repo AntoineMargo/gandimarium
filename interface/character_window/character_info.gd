@@ -41,11 +41,12 @@ func update(character):
 
 	for condition in character.data.conditions:
 		
-		var lbl := Label.new()
-		lbl.text = condition.name
-		lbl.tooltip_text = condition.description
-		lbl.mouse_filter = Control.MOUSE_FILTER_STOP
-		container.add_child(lbl)
+		if condition.is_visible:
+			var lbl := Label.new()
+			lbl.text = condition.name
+			lbl.tooltip_text = condition.description
+			lbl.mouse_filter = Control.MOUSE_FILTER_STOP
+			container.add_child(lbl)
 
 func _on_exit_pressed() -> void:
 	Global.character_window.visible = false

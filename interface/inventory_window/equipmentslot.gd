@@ -10,16 +10,28 @@ func _can_drop_data(_pos, data):
 	else:
 		return false
 
-func _drop_data(position, item):
+func _drop_data(_position, item):
 	if not (item is Item):
 		return
 
-	var char = Global.focus_char
+	var character = Global.focus_char
 
 	var old_item = get_item_from_slot()
-	if old_item and old_item.name != "Fist":
-		char.add_to_inventory(old_item)
-	char.equip_item(slot_name, item)
+	
+	if old_item and not old_item.can_be_removed:
+		character.add_to_inventory(item)
+	elif old_item and old_item.name != "Fist":
+		character.add_to_inventory(old_item)
+		character.equip_item(slot_name, item)
+	else:
+		character.equip_item(slot_name, item)
+
+	#if old_item and old_item.can_be_removed:
+		#if old_item and old_item.name != "Fist":
+			#character.add_to_inventory(old_item)
+		#character.equip_item(slot_name, item)
+	#else:
+		#character.add_to_inventory(item)
 
 	Global.ui_manager.drag_in_progress = false
 	Global.ui_manager.drag_was_dropped = true
@@ -28,7 +40,7 @@ func _drop_data(position, item):
 	SignalBus.update_container.emit()
 	SignalBus.update_ui_for_char.emit()
 
-func _get_drag_data(at_position):
+func _get_drag_data(_at_position):
 	var item = get_item_from_slot()
 	if not item:
 		return

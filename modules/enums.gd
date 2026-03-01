@@ -1,5 +1,19 @@
 class_name Enums
 
+enum EquipmentSlot {
+	ARMOUR,
+	HELM,
+	CAPE,
+	TOP,
+	BELT,
+	BOTTOM,
+	GAUNTLETS,
+	BOOTS,
+	JEWELRY,
+	LEFT_HAND,
+	RIGHT_HAND
+	}
+
 enum ItemsList {
 	INVENTORY,
 	CONTAINER

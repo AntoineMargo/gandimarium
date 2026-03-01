@@ -10,6 +10,7 @@ class_name Item
 @export var value: int = 10
 @export var activities = []
 @export var conditions: Array[Condition] = []
+@export var can_be_removed: bool = true
 
 @export var brawn_req_1h: int = 4
 @export var brawn_req_2h: int = 2

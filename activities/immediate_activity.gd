@@ -16,7 +16,7 @@ func execute() -> void:
 	var self_ctx = _build_context(user.get_coords())
 
 	if spread == 0:
-		target_points = self_ctx.origin.get_coords()
+		target_points.append(self_ctx.origin.get_coords())
 	else:
 		target_points = compute_affected_area(self_ctx.origin.get_coords())
 
