@@ -13,4 +13,5 @@ weight = 0.0
 value = 0
 conditions = Array[ExtResource("1_vy8kk")]([ExtResource("2_vy8kk")])
 can_be_removed = false
+owner = null
 metadata/_custom_type_script = "uid://kwfb8h6v1f5j"

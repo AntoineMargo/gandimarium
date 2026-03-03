@@ -291,6 +291,7 @@ func equip_item(slot, item):
 		data.equipment.set_weapon_slot(slot, item)
 
 	apply_conditions_from_equipment()
+	item.owner = data.equipment
 	if Global.focus_char == self:
 		SignalBus.update_inventory.emit()
 	update_stats()

@@ -51,10 +51,17 @@ func _setup_concentration():
 
 func _finalize_concentration():
 	if requires_concentration:
-		if concentration.has_connections("ended"):
+		if concentration.linked_conditions.size() > 0:
 			user.add_concentration(concentration)
 		else:
 			concentration.cancel()
+
+#func _finalize_concentration():
+	#if requires_concentration:
+		#if concentration.has_connections("ended"):
+			#user.add_concentration(concentration)
+		#else:
+			#concentration.cancel()
 
 func _build_context(target = null):
 	var ctx = ActivityContext.new()

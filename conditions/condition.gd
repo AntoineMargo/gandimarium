@@ -15,7 +15,6 @@ class_name Condition
 var linked_items: Array[Item] = []
 var linked_modifiers: Array[ModifierEntry] = []
 
-var concentration: Concentration = null
 var user = null
 var target = null
 var user_uid = null
@@ -27,24 +26,34 @@ var sources = {}
 func is_active() -> bool:
 	return not sources.is_empty()
 
-func _on_concentration_ended():
-	target.remove_condition(self)
+#func _on_concentration_ended():
+	#target.remove_condition(self)
 
 func initialize(ctx: Context) -> void:
 	self.target = ctx.target
 	self.user = ctx.user
 	self.user_uid = user.get_final_stat("uid")
 	self.target_uid = target.get_final_stat("uid")
+	ctx.condition = self
 	if ctx is ActivityContext:
-		ctx.condition = self
 		self.spell_rank = ctx.current_spell_rank
 		if ctx.concentration:
-			concentration = ctx.concentration
-			concentration.linked_conditions.append(self)
-		if concentration and not concentration.ended.is_connected(_on_concentration_ended):
-			concentration.ended.connect(_on_concentration_ended)
+			ctx.concentration.linked_conditions.append(self)
+		#if ctx.concentration and not ctx.concentration.ended.is_connected(_on_concentration_ended):
+			#ctx.concentration.ended.connect(_on_concentration_ended)
 	for effect in effects:
-		effect.apply(self, ctx.target)
+		if effect.has_method("apply_context"):
+			effect.apply_context(ctx)
+		else:
+			effect.apply(self, ctx.target)
+
+func dispose():
+	destroy_children()
+	target.remove_condition(self)
+
+func destroy_children():
+	for item in linked_items:
+		item.destroy()
 
 func add_source(identifier: String):
 	if not sources.has(identifier):
@@ -61,9 +70,8 @@ func remove_source(identifier: String) -> void:
 
 	if sources[identifier] <= 0:
 		sources.erase(identifier)
-
 	if sources.is_empty():
-		target.remove_condition(self)
+		dispose()
 
 func has_source(identifier: String) -> bool:
 	return sources.has(identifier)

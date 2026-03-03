@@ -14,6 +14,8 @@ func apply_context(ctx: ActivityContext) -> void:
 			if ctx.target is Prop:
 				ctx.target.inventory.add_item(item)
 
+func remove(_source, _target, _degree):
+	pass
 
 #func apply(_source, target, _degree: int = 2) -> void:
 	#var new_item = item.duplicate()

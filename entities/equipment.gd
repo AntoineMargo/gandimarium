@@ -133,6 +133,13 @@ func remove_item_from_slot(slot):
 		set_weapon_slot(slot, null)
 	return (item)
 
+func remove_item(item: Item) -> Item:
+	if get("body") == item:
+		set("body", null)
+		item.owner = null
+		return item
+	return null
+
 #func remove_item_from_slot(slot):
 	#var item: Item = null
 	#if slot == "body":

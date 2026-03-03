@@ -19,4 +19,3 @@ var created_items: Array[Item] = []
 
 var current_spell_rank: int = 0
 var concentration: Concentration = null
-var condition: Condition = null

@@ -21,6 +21,9 @@ func apply_context(ctx: ActivityContext) -> void:
 							if modifier_entry.stat == entry.stat:
 								modifier_entry.amount = entry.get_amount(ctx, null)
 
+func remove(_source, _target, _degree):
+	pass
+
 #@export var condition_id: String = ""
 #@export var stat: String = ""
 #@export var base_amount: int = 0

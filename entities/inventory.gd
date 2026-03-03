@@ -12,10 +12,10 @@ func add_to_inventory(item):
 func remove_from_inventory(item):
 	list.erase(item)
 
-
 func add_item(item: Item):
 	var inventory = list
 	item = item.duplicate(true)
+	item.owner = self
 
 	for element in inventory:
 		if element.id == item.id:
@@ -37,6 +37,7 @@ func add_item(item: Item):
 
 func add_item_at_index(item: Item, index: int):
 	var inventory = list
+	item.owner = self
 	for element in inventory:
 		if element.id == item.id:
 			element.count += item.count

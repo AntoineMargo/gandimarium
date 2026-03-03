@@ -10,8 +10,10 @@ func apply_context(ctx: ActivityContext) -> void:
 	if count == -1:
 		new_item.count = count * ctx.current_spell_rank
 	ctx.created_items.append(new_item)
+	ctx.condition.linked_items.append(new_item)
 
-
+func remove(_source, _target, _degree):
+	pass
 
 	#if ctx.target is Creature:
 		#ctx.target.data.inventory.add_item(new_item)

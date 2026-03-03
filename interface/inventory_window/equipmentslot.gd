@@ -19,9 +19,11 @@ func _drop_data(_position, item):
 	var old_item = get_item_from_slot()
 	
 	if old_item and not old_item.can_be_removed:
-		character.add_to_inventory(item)
+		#character.add_to_inventory(item)
+		character.data.inventory.add_item(item)
 	elif old_item and old_item.name != "Fist":
-		character.add_to_inventory(old_item)
+		#character.add_to_inventory(old_item)
+		character.data.inventory.add_item(old_item)
 		character.equip_item(slot_name, item)
 	else:
 		character.equip_item(slot_name, item)

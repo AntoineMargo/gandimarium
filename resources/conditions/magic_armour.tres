@@ -3,12 +3,31 @@
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_ovfuq"]
 [ext_resource type="Resource" uid="uid://eyjsms47n3eg" path="res://resources/items/armours/ar_magic.tres" id="2_cj5f0"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_dh2nj"]
+[ext_resource type="Script" uid="uid://d3y8y4l4xgjbd" path="res://effects/create_item.gd" id="3_b41ce"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="3_cj5f0"]
+[ext_resource type="Script" uid="uid://do65om3llmjke" path="res://various/spell_modifier_entry.gd" id="4_jocpq"]
 [ext_resource type="Script" uid="uid://dxmd4au5mv1y0" path="res://effects/equip_item.gd" id="5_b41ce"]
+[ext_resource type="Script" uid="uid://8u1mf484l0nx" path="res://effects/modify_item.gd" id="5_wndbx"]
 
-[sub_resource type="Resource" id="Resource_wndbx"]
-script = ExtResource("5_b41ce")
+[sub_resource type="Resource" id="Resource_jc7fu"]
+script = ExtResource("3_b41ce")
 item = ExtResource("2_cj5f0")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_ess8v"]
+script = ExtResource("4_jocpq")
+stat = "physical"
+amount = 2
+metadata/_custom_type_script = "uid://do65om3llmjke"
+
+[sub_resource type="Resource" id="Resource_spr5c"]
+script = ExtResource("5_wndbx")
+condition_id = "magically_armoured"
+entries = Array[ExtResource("4_jocpq")]([SubResource("Resource_ess8v")])
+metadata/_custom_type_script = "uid://8u1mf484l0nx"
+
+[sub_resource type="Resource" id="Resource_s8iek"]
+script = ExtResource("5_b41ce")
 slot = "body"
 metadata/_custom_type_script = "uid://dxmd4au5mv1y0"
 
@@ -16,5 +35,5 @@ metadata/_custom_type_script = "uid://dxmd4au5mv1y0"
 script = ExtResource("3_cj5f0")
 name = "Magic Armour"
 id = "magic_armour"
-effects = Array[ExtResource("1_ovfuq")]([SubResource("Resource_wndbx"), null])
+effects = Array[ExtResource("1_ovfuq")]([SubResource("Resource_jc7fu"), SubResource("Resource_spr5c"), SubResource("Resource_s8iek")])
 metadata/_custom_type_script = "uid://dvi4ohsador2o"

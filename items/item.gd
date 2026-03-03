@@ -19,4 +19,9 @@ class_name Item
 @export var shoot: Activity = null
 @export var throw: Activity = null
 
+@export var owner = null # inventory/equipment/tile
 @export var count: int = 1
+
+func destroy():
+	if owner and owner.has_method("remove_item"):
+			owner.remove_item(self)
