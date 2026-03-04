@@ -872,7 +872,7 @@ func interact_operate(creature: Creature, element: Prop, coords: Vector3i):
 
 func interact_grab(creature: Creature, element: Item, coords: Vector3i):
 	if get_close_to_target(creature, coords, 1):
-		creature.grab_item(element, coords)
+		creature.grab_item_from_coords(element, coords)
 
 func _complex_interact():
 	pass

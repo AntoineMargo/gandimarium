@@ -26,6 +26,17 @@ func _initalize_container():
 	new_item.count = 5
 	inventory.list.append(new_item)
 
+func add_item_to_inventory(item: Item) -> void:
+	item.owner = self
+	inventory.add_item(item)
+	SignalBus.update_container.emit()
+
+func remove_item(item: Item) -> Item:
+	if item in inventory.list:
+		inventory.remove_from_inventory(item)
+		return item
+	return null
+
 func _ready() -> void:
 	_on_ready()
 	_initalize_container()

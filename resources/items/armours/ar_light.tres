@@ -2,14 +2,16 @@
 
 [ext_resource type="Resource" uid="uid://3xw0lplsohmg" path="res://resources/conditions/lightly_armoured.tres" id="1_bp1tk"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_fscr6"]
-[ext_resource type="Script" uid="uid://d3sdrg6ues8pm" path="res://items/armour_res.gd" id="1_pv0gy"]
+[ext_resource type="Script" uid="uid://d3sdrg6ues8pm" path="res://items/armour.gd" id="3_fscr6"]
 
 [resource]
-script = ExtResource("1_pv0gy")
+script = ExtResource("3_fscr6")
 name = "Light Armour"
 id = "light_armour"
 description = "A complete set of relatively light and flexible armour."
 weight = 5.0
 value = 500
 conditions = Array[ExtResource("1_fscr6")]([ExtResource("1_bp1tk")])
+slot_type = 4
+owner = null
 metadata/_custom_type_script = "uid://d3sdrg6ues8pm"

@@ -10,6 +10,7 @@ class_name Item
 @export var value: int = 10
 @export var activities = []
 @export var conditions: Array[Condition] = []
+@export var slot_type: Enums.SlotType = Enums.SlotType.NONE
 @export var can_be_removed: bool = true
 
 @export var brawn_req_1h: int = 4
@@ -19,8 +20,14 @@ class_name Item
 @export var shoot: Activity = null
 @export var throw: Activity = null
 
-@export var owner = null # inventory/equipment/tile
+@export var owner = null # Creature/ContainerProp/tile
 @export var count: int = 1
+
+#func destroy():
+	#if owner and owner.has_method("remove_item"):
+			#for condition in conditions:
+				#condition.remove_source(id)
+			#owner.remove_item(self)
 
 func destroy():
 	if owner and owner.has_method("remove_item"):

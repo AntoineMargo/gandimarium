@@ -6,8 +6,8 @@ class_name Inventory
 func get_inventory():
 	return list
 
-func add_to_inventory(item):
-	list.append(item)
+#func add_to_inventory(item):
+	#list.append(item)
 
 func remove_from_inventory(item):
 	list.erase(item)
@@ -45,7 +45,7 @@ func add_item_at_index(item: Item, index: int):
 			return
 	inventory.insert(index, item)
 
-func remove_item(item: Item):
+func remove_item(item: Item) -> Item:
 	var inventory = list
 	for element in inventory:
 		if element.id == item.id:
@@ -57,6 +57,7 @@ func remove_item(item: Item):
 			else:
 				inventory.erase(element)
 				return item
+	return null
 
 func remove_item_at_index(index: int, amount: int = 1):
 	var inventory = list

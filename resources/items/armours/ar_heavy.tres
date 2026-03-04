@@ -1,15 +1,16 @@
-[gd_resource type="Resource" script_class="HeavyArmour" format=3 uid="uid://b7qdugdif1mto"]
+[gd_resource type="Resource" script_class="Armour" format=3 uid="uid://b7qdugdif1mto"]
 
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_k45yp"]
 [ext_resource type="Resource" uid="uid://dq8birnet4lbp" path="res://resources/conditions/heavily_armoured.tres" id="2_6r0m2"]
-[ext_resource type="Script" uid="uid://kwfb8h6v1f5j" path="res://items/heavy_armour_res.gd" id="2_apwvi"]
+[ext_resource type="Script" uid="uid://d3sdrg6ues8pm" path="res://items/armour.gd" id="3_apwvi"]
 
 [resource]
-script = ExtResource("2_apwvi")
+script = ExtResource("3_apwvi")
 name = "Heavy Armour"
 id = "heavy_armour"
 description = "A complete set of thick and bulky armor."
 weight = 10.0
 value = 1000
 conditions = Array[ExtResource("1_k45yp")]([ExtResource("2_6r0m2")])
-metadata/_custom_type_script = "uid://kwfb8h6v1f5j"
+slot_type = 4
+owner = null

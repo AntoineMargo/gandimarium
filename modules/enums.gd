@@ -1,5 +1,21 @@
 class_name Enums
 
+enum SlotType {
+	NONE,
+	HELM,
+	CAPE,
+	TOP,
+	ARMOUR,
+	BELT,
+	BOTTOM,
+	GAUNTLETS,
+	BOOTS,
+	NECKLACE,
+	RING,
+	BRACER,
+	HAND
+	}
+
 enum EquipmentSlot {
 	ARMOUR,
 	HELM,

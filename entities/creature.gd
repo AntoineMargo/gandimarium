@@ -239,8 +239,8 @@ func make_active_set(number):
 	data.equipment.active_set = number
 	apply_conditions_from_equipment()
 
-func add_to_inventory(item):
-	data.inventory.add_to_inventory(item)
+#func add_to_inventory(item):
+	#data.inventory.add_to_inventory(item)
 
 func remove_from_inventory(item):
 	data.inventory.remove_from_inventory(item)
@@ -274,7 +274,6 @@ func get_equipment_slot(slot):
 func get_weapon_slot(slot):
 	return data.equipment.get_weapon_slot(slot)
 
-
 func reload_equipment():
 	remove_conditions_from_equipment()
 	apply_conditions_from_equipment()
@@ -291,7 +290,7 @@ func equip_item(slot, item):
 		data.equipment.set_weapon_slot(slot, item)
 
 	apply_conditions_from_equipment()
-	item.owner = data.equipment
+	item.owner = self
 	if Global.focus_char == self:
 		SignalBus.update_inventory.emit()
 	update_stats()
@@ -305,6 +304,15 @@ func unequip_slot(slot) -> Item:
 		SignalBus.update_inventory.emit()
 	update_stats()
 	SignalBus.update_character_info.emit()
+	return item
+
+func remove_item(item: Item) -> Item:
+	var inventory = get_inventory()
+	if item in inventory:
+		inventory.remove_from_inventory(item)
+	else:
+		#unequip_slot(slot)
+		data.equipment.remove_item(item)
 	return item
 
 func remove_item_from_slot(slot) -> Item:
@@ -440,7 +448,12 @@ func get_all_equipped_items() -> Array:
 	#return data.equipment.get_item(item)
 	##return data.inventory.get_item(item)
 
-func grab_item(item: Item, coords: Vector3i) -> void:
+func add_item_to_inventory(item: Item) -> void:
+	data.inventory.add_item(item)
+	SignalBus.update_inventory.emit()
+	SignalBus.dialog_show_message.emit("Picked up %s." % item.name)
+
+func grab_item_from_coords(item: Item, coords: Vector3i) -> void:
 	Global.world_manager.remove_from_tile(item, coords)
 	data.inventory.add_item(item)
 	SignalBus.update_inventory.emit()
