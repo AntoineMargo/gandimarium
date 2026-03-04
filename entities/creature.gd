@@ -16,11 +16,6 @@ var reachable_tiles = []
 var stats_dirty = true
 var active_right_click: Activity
 
-#func update_world_position():
-	#if Global.current_tile_map_layer and data:
-		#var tile_pos = Vector2i(self.data.tile_x, self.data.tile_y)
-		#position = Global.current_tile_map_layer.map_to_local(tile_pos)
-
 func add_activity(activity: Activity):
 	if activity not in data.activities:
 		data.activities.append(activity)
@@ -96,14 +91,6 @@ func get_condition_by_id(condition_id) -> Condition:
 			return condition
 	return null
 
-#func toggle_condition(cond: Condition, source):
-	#var existing = get_condition_by_id(cond.id)
-#
-	#if existing:
-		#existing.remove_source(source.id)
-	#else:
-		#add_condition_from(source, cond)
-
 func toggle_condition(cond: Condition, ctx: Context):
 	var existing = get_condition_by_id(cond.id)
 
@@ -152,16 +139,53 @@ func add_condition_from(ctx: Context, cond: Condition):
 	#data.conditions.append(inst)
 	#inst.initialize(self, source)
 
+#func add_condition(condition: Condition):
+	#if has_condition(condition.id):
+		#return
+	#for weaker_cond in condition.supplanted:
+		#if has_condition(weaker_cond.id):
+			#remove_condition(weaker_cond)
+	#for existing_cond in data.conditions:
+		#for weaker_cond in existing_cond.supplanted:
+			#if condition.id == weaker_cond.id:
+				#return
+	#data.conditions.append(condition)
+	#condition.initialize(self)
+	#stats_dirty = true
+
 ## Unused?
-func remove_condition_from(source, id: String):
-	var cond = get_condition_by_id(id)
-	if not cond:
-		return
+#func remove_condition_from(source, id: String):
+	#var cond = get_condition_by_id(id)
+	#if not cond:
+		#return
+#
+	#cond.remove_source(source.id)
+#
+	#if not cond.has_sources():
+		#remove_condition(cond)
 
-	cond.remove_source(source.id)
+#func make_active_set(number):
+	#if number not in [0, 1]:
+		#return
+	#remove_conditions_from_equipment()
+	#data.equipment.active_set = number
+	#apply_conditions_from_equipment()
 
-	if not cond.has_sources():
-		remove_condition(cond)
+#func get_active_weapons():
+	#return data.equipment.get_active_weapons()
+
+#func get_active_strike_type():
+	#return data.equipment.get_active_strike_type()
+
+#func get_active_set():
+	#return data.equipment.active_set
+
+#func set_active_set(number: int):
+	#if number == 0 or number == 1:
+		#data.equipment.active_set = number
+
+#func get_weapon_slot(slot):
+	#return data.equipment.get_weapon_slot(slot)
 
 func remove_condition_by_id(condition_id: String):
 	var condition = null
@@ -181,20 +205,6 @@ func remove_condition(condition: Condition):
 		if existing_cond.id == condition.id:
 			data.conditions.erase(existing_cond)
 	stats_dirty = true
-
-#func add_condition(condition: Condition):
-	#if has_condition(condition.id):
-		#return
-	#for weaker_cond in condition.supplanted:
-		#if has_condition(weaker_cond.id):
-			#remove_condition(weaker_cond)
-	#for existing_cond in data.conditions:
-		#for weaker_cond in existing_cond.supplanted:
-			#if condition.id == weaker_cond.id:
-				#return
-	#data.conditions.append(condition)
-	#condition.initialize(self)
-	#stats_dirty = true
 
 func add_item_conditions(item):
 	if not item or not item.conditions:
@@ -232,78 +242,79 @@ func apply_conditions_from_equipment():
 		for item in collection:
 			add_item_conditions(item)
 
-func make_active_set(number):
-	if number not in [0, 1]:
-		return
-	remove_conditions_from_equipment()
-	data.equipment.active_set = number
-	apply_conditions_from_equipment()
-
-#func add_to_inventory(item):
-	#data.inventory.add_to_inventory(item)
-
 func remove_from_inventory(item):
 	data.inventory.remove_from_inventory(item)
 
 func get_inventory():
 	return data.inventory.get_inventory()
-	
-func get_active_weapons():
-	return data.equipment.get_active_weapons()
-
-func get_active_strike_type():
-	return data.equipment.get_active_strike_type()
-
-func get_active_set():
-	return data.equipment.active_set
 
 func get_active_hand():
 	return data.equipment.active_hand
-
-func set_active_set(number: int):
-	if number == 0 or number == 1:
-		data.equipment.active_set = number
 
 func set_active_hand(number: int):
 	if number == 0 or number == 1:
 		data.equipment.active_hand = number
 
-func get_equipment_slot(slot):
-	return data.equipment.get_equipment_slot(slot)
+func get_weapons() -> Array[Item]:
+	var weapons = data.equipment.get_items_of_slot_type(Enums.SlotType.HAND)
+	return weapons
 
-func get_weapon_slot(slot):
-	return data.equipment.get_weapon_slot(slot)
+func get_active_weapon() -> Item:
+	var weapons = data.equipment.get_items_of_slot_type(Enums.SlotType.HAND)
+	var selected_weapon = weapons[data.equipment.active_hand]
+	return selected_weapon
+
+func get_item_in_slot(slot):
+	return data.equipment.get_item_in_slot(slot)
 
 func reload_equipment():
 	remove_conditions_from_equipment()
 	apply_conditions_from_equipment()
 
-func equip_item(slot, item):
+func initialize_item(item: Item):
+	item.initialize_attack_modes()
+
+func equip_item(item: Item) -> bool:
+	initialize_item(item)
 	remove_conditions_from_equipment()
-	if slot == "body":
-		remove_item_from_slot(slot)
-		data.equipment.body = item
+	if not data.equipment.equip_item(item):
+		apply_conditions_from_equipment()
+		return false
+	item.owner = self
+	apply_conditions_from_equipment()
+	update_stats()
+	if Global.selected_char == self:
+		SignalBus.update_inventory.emit()
+		SignalBus.update_character_info.emit()
+	return true
 
-	else:
-		if data.equipment.get_weapon_slot(slot):
-			remove_item_from_slot(slot)
-		data.equipment.set_weapon_slot(slot, item)
-
+func equip_item_in_slot(item: Item, slot: Enums.EquipmentSlot, force: bool = false) -> bool:
+	initialize_item(item)
+	remove_conditions_from_equipment()
+	if data.equipment.get_item_in_slot(slot):
+		if force:
+			var old_item: Item = data.equipment.free_slot(slot)
+			data.inventory.add_item(old_item)
+		else:
+			apply_conditions_from_equipment()
+			return false
+	data.equipment.equip_item_in_slot(item, slot)
 	apply_conditions_from_equipment()
 	item.owner = self
-	if Global.focus_char == self:
-		SignalBus.update_inventory.emit()
 	update_stats()
-	SignalBus.update_character_info.emit()
+	if Global.selected_char == self:
+		SignalBus.update_inventory.emit()
+		SignalBus.update_character_info.emit()
+	return true
 
 func unequip_slot(slot) -> Item:
 	remove_conditions_from_equipment()
-	var item = remove_item_from_slot(slot)
+	var item: Item = data.equipment.free_slot(slot)
 	apply_conditions_from_equipment()
-	if Global.focus_char == self:
+	if Global.selected_char == self:
 		SignalBus.update_inventory.emit()
+		SignalBus.update_character_info.emit()
 	update_stats()
-	SignalBus.update_character_info.emit()
 	return item
 
 func remove_item(item: Item) -> Item:
@@ -311,13 +322,16 @@ func remove_item(item: Item) -> Item:
 	if item in inventory:
 		inventory.remove_from_inventory(item)
 	else:
-		#unequip_slot(slot)
+		remove_conditions_from_equipment()
 		data.equipment.remove_item(item)
+		apply_conditions_from_equipment()
+		if Global.selected_char == self:
+			SignalBus.update_inventory.emit()
+			SignalBus.update_character_info.emit()
 	return item
 
 func remove_item_from_slot(slot) -> Item:
-	var item = data.equipment.remove_item_from_slot(slot)
-	return item
+	return data.equipment.remove_item_from_slot(slot)
 
 ## Used when something (usually an activity) deals damage to a creature
 func take_damage(damage: int, resistance: String = ""):
@@ -393,14 +407,22 @@ func consume_pp(number):
 		data.current_pp = 0
 
 func meets_brawn_requirements() -> bool:
-	var weapons = get_active_weapons()
-	var main_hand = weapons[0]
-	var off_hand = weapons[1]
+	var weapons = data.equipment.get_items_of_slot_type(Enums.SlotType.HAND)
+	var selected_weapon = weapons[data.equipment.active_hand]
+	
 	var brawn = get_stat("brawn")
-	if brawn >= main_hand.brawn_req_1h:
+	if brawn >= selected_weapon.brawn_req_1h:
 		return true
-	if brawn >= main_hand.brawn_req_2h and off_hand == data.equipment.default_weapon:
-		return true
+	
+	var can_dual_wield: bool = false
+	for weapon in weapons:
+		if weapon == data.equipment.slots[Enums.EquipmentSlot.HAND_DEFAULT]:
+			can_dual_wield = true
+	
+	if can_dual_wield:
+		if brawn >= selected_weapon.brawn_req_2h:
+			return true
+
 	return false
 
 func get_modified_activity(base_activity: Activity) -> Activity:
@@ -421,21 +443,22 @@ func perform_activity(activity: Activity, target: Node = null):
 	final.execute()
 
 func perform_attack(target):
-	print("_perform_attack_activity called.")
-	var weapons = get_active_weapons()
-	var category = data.equipment.get_active_attack_category()
-	if weapons[0]:
-		if category == 0 and weapons[0].strike:
-			var attack_activity = weapons[0].strike.duplicate(true)
-			attack_activity.weapon = weapons[0]
+	var weapons = get_weapons()
+	var hand = data.equipment.active_hand
+	var category = data.equipment.active_category
+	var selected_weapon = weapons[hand]
+	if selected_weapon:
+		if category == Enums.AttackCategory.STRIKE and selected_weapon.strike:
+			var attack_activity = selected_weapon.strike.duplicate(true)
+			attack_activity.weapon = selected_weapon
 			perform_activity(attack_activity, target)
-		elif category == 1 and weapons[0].shoot:
-			var attack_activity = weapons[0].shoot.duplicate(true)
-			attack_activity.weapon = weapons[0]
+		elif category == Enums.AttackCategory.SHOOT and selected_weapon.shoot:
+			var attack_activity = selected_weapon.shoot.duplicate(true)
+			attack_activity.weapon = selected_weapon
 			perform_activity(attack_activity, target)
-		elif category == 2 and weapons[0].throw:
-			var attack_activity = weapons[0].throw.duplicate(true)
-			attack_activity.weapon = weapons[0]
+		elif category == Enums.AttackCategory.THROW and selected_weapon.throw:
+			var attack_activity = selected_weapon.throw.duplicate(true)
+			attack_activity.weapon = selected_weapon
 			perform_activity(attack_activity, target)
 
 func perform_operate(prop: Prop):
@@ -444,16 +467,14 @@ func perform_operate(prop: Prop):
 func get_all_equipped_items() -> Array:
 	return data.equipment.get_all_equipped_items()
 
-#func get_item(item: Item, coords: Vector3i) -> Item:
-	#return data.equipment.get_item(item)
-	##return data.inventory.get_item(item)
-
 func add_item_to_inventory(item: Item) -> void:
+	initialize_item(item)
 	data.inventory.add_item(item)
 	SignalBus.update_inventory.emit()
 	SignalBus.dialog_show_message.emit("Picked up %s." % item.name)
 
 func grab_item_from_coords(item: Item, coords: Vector3i) -> void:
+	initialize_item(item)
 	Global.world_manager.remove_from_tile(item, coords)
 	data.inventory.add_item(item)
 	SignalBus.update_inventory.emit()

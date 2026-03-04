@@ -1,5 +1,4 @@
 extends Resource
-
 class_name Item
 
 @export var name: String
@@ -22,6 +21,17 @@ class_name Item
 
 @export var owner = null # Creature/ContainerProp/tile
 @export var count: int = 1
+#@export var selected_attack: int = 0
+#@export var selected_attacks: Dictionary[Enums.AttackCategory, int] = {}
+@export var selected_attacks: Dictionary[Enums.AttackCategory, Enums.AttackType] = {}
+
+func initialize_attack_modes():
+	if strike:
+		selected_attacks[Enums.AttackCategory.STRIKE] = strike.attack_types[0].id
+	if shoot:
+		selected_attacks[Enums.AttackCategory.SHOOT] = shoot.attack_types[0].id
+	if throw:
+		selected_attacks[Enums.AttackCategory.THROW] = throw.attack_types[0].id
 
 #func destroy():
 	#if owner and owner.has_method("remove_item"):

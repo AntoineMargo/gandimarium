@@ -5,7 +5,7 @@
 [ext_resource type="Resource" uid="uid://bljt80d10kudf" path="res://resources/activities/other/oral_yell.tres" id="3_n2sep"]
 [ext_resource type="Script" uid="uid://boxs05dhsll81" path="res://entities/attributes.gd" id="5_xy00l"]
 [ext_resource type="Script" uid="uid://bqbvgbqafpkej" path="res://entities/base_stats.gd" id="6_jgqia"]
-[ext_resource type="Resource" uid="uid://tb0qrirf41um" path="res://resources/creatures/equipment/basic_loadout.tres" id="7_u3w1l"]
+[ext_resource type="Resource" uid="uid://bllgi7mc7acsd" path="res://resources/creatures/equipment/andimar_loadout.tres" id="6_n2sep"]
 [ext_resource type="Resource" uid="uid://b4idr8vu54ox6" path="res://resources/items/weapons/bow/bow.tres" id="8_d00pt"]
 [ext_resource type="Resource" uid="uid://dif5f8s0c1c6x" path="res://resources/archetypes/mage/mage.tres" id="8_j7btv"]
 [ext_resource type="Script" uid="uid://0hy8gde00nbx" path="res://entities/inventory.gd" id="8_jm372"]
@@ -45,7 +45,7 @@ sprite = "res://art/characters/hooded_char.png"
 attributes = SubResource("Resource_q1nu1")
 base_stats = SubResource("Resource_8d3d6")
 inventory = SubResource("Resource_nykox")
-equipment = ExtResource("7_u3w1l")
+equipment = ExtResource("6_n2sep")
 resistances = SubResource("Resource_iyfvo")
 relationships = ExtResource("11_xy00l")
 activities = Array[ExtResource("1_j7btv")]([ExtResource("2_j7btv"), ExtResource("3_n2sep")])

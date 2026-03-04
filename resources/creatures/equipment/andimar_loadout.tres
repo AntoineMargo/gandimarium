@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="Equipment" format=3 uid="uid://bllgi7mc7acsd"]
+
+[ext_resource type="Script" uid="uid://dxofkj1ggocqb" path="res://various/hand_set.gd" id="1_yxng2"]
+[ext_resource type="Script" uid="uid://cna3smanlwqkg" path="res://entities/equipment.gd" id="2_43xdt"]
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="3_dksvu"]
+[ext_resource type="Resource" uid="uid://dwt64w3wubcci" path="res://resources/items/armours/ar_light.tres" id="4_bxgci"]
+[ext_resource type="Resource" uid="uid://cngw3i2m4xinc" path="res://resources/items/weapons/pollaxe/pollaxe.tres" id="5_tajx0"]
+[ext_resource type="Resource" uid="uid://dglbdcuhxwnx0" path="res://resources/items/weapons/fist/wpn_fist.tres" id="6_x573n"]
+
+[resource]
+script = ExtResource("2_43xdt")
+slots = Dictionary[int, ExtResource("3_dksvu")]({
+0: null,
+1: null,
+2: ExtResource("4_bxgci"),
+3: null,
+4: null,
+5: null,
+6: null,
+7: null,
+8: null,
+9: null,
+10: null,
+11: null,
+12: null,
+13: null,
+14: null,
+15: null,
+16: null,
+17: ExtResource("5_tajx0"),
+18: null,
+19: ExtResource("6_x573n"),
+20: ExtResource("6_x573n")
+})
+metadata/_custom_type_script = "uid://cna3smanlwqkg"

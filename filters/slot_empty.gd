@@ -1,14 +1,14 @@
 extends Filter
 class_name SlotEmptyFilter
 
-@export var slot: String = ""
+@export var slot: Enums.EquipmentSlot
 @export var reverse: bool = false
 
 func is_satisfied(context: ActivityContext) -> bool:
 	if not context.target:
 		return false
 
-	var item = context.target.get_equipment_slot(slot)
+	var item = context.target.data.equipment.get_item_in_slot(slot)
 
 	if item:
 		return false

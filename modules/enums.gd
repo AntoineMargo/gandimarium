@@ -1,5 +1,17 @@
 class_name Enums
 
+enum AttackCategory {
+	STRIKE,
+	SHOOT,
+	THROW
+}
+
+enum AttackType {
+	SLASH,
+	PIERCE,
+	CRUSH
+}
+
 enum SlotType {
 	NONE,
 	HELM,
@@ -9,7 +21,7 @@ enum SlotType {
 	BELT,
 	BOTTOM,
 	GAUNTLETS,
-	BOOTS,
+	SHOES,
 	NECKLACE,
 	RING,
 	BRACER,
@@ -17,23 +29,26 @@ enum SlotType {
 	}
 
 enum EquipmentSlot {
-	ARMOUR,
 	HELM,
 	CAPE,
+	ARMOUR,
 	TOP,
 	BELT,
 	BOTTOM,
 	GAUNTLETS,
-	BOOTS,
+	SHOES,
 	NECKLACE,
 	RING1,
 	RING2,
 	RING3,
 	RING4,
-	LEFT_BRACER,
-	RIGHT_BRACER,
-	LEFT_HAND,
-	RIGHT_HAND
+	RING5,
+	RING6,
+	BRACER_LEFT,
+	BRACER_RIGHT,
+	HAND_LEFT,
+	HAND_RIGHT,
+	HAND_DEFAULT
 	}
 
 enum ItemsList {

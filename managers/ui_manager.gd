@@ -102,14 +102,17 @@ func on_attack1_button_toggled(button_pressed: bool, attack_type: int) -> void:
 		return
 	if not Global.selected_char:
 		return
-	var c = Global.selected_char
-	var category = c.data.equipment.get_active_attack_category()
+	var character = Global.selected_char
+	var category = character.data.equipment.active_category
+	var weapons = character.get_weapons()
+	var left_weapon = weapons[0]
+	
 	if category == 0:
-		c.data.equipment.strike_types[c.data.equipment.active_set][0] = attack_type
+		left_weapon.selected_attacks[Enums.AttackCategory.STRIKE] = attack_type
 	elif category == 1:
-		c.data.equipment.shoot_types[0] = attack_type
+		left_weapon.selected_attacks[Enums.AttackCategory.SHOOT] = attack_type
 	elif category == 2:
-		c.data.equipment.throw_types[0] = attack_type
+		left_weapon.selected_attacks[Enums.AttackCategory.THROW] = attack_type
 	print("Active attack type changed.")
 
 func on_attack2_button_toggled(button_pressed: bool, attack_type: int) -> void:
@@ -117,25 +120,29 @@ func on_attack2_button_toggled(button_pressed: bool, attack_type: int) -> void:
 		return
 	if not Global.selected_char:
 		return
-	var c = Global.selected_char
-	var category = c.data.equipment.get_active_attack_category()
+	var character = Global.selected_char
+	var category = character.data.equipment.active_category
+	var weapons = character.get_weapons()
+	var right_weapon = weapons[1]
+	
 	if category == 0:
-		c.data.equipment.strike_types[c.data.equipment.active_set][1] = attack_type
+		right_weapon.selected_attacks[Enums.AttackCategory.STRIKE] = attack_type
 	elif category == 1:
-		c.data.equipment.shoot_types[1] = attack_type
+		right_weapon.selected_attacks[Enums.AttackCategory.SHOOT] = attack_type
 	elif category == 2:
-		c.data.equipment.throw_types[1] = attack_type
+		right_weapon.selected_attacks[Enums.AttackCategory.THROW] = attack_type
 	print("Active attack type changed.")
 
 func on_category_button_toggled(button_pressed: bool, category) -> void:
 	if not button_pressed:
 		return
-	if Global.selected_char:
-		Global.selected_char.data.equipment.set_active_attack_category(category)
-		print("Active category changed.")
-		update_active_attack_buttons()
-		#update_weapon_buttons()
-		#update_ui_for_char()
+	var character = Global.selected_char
+	if not character:
+		return
+
+	character.data.equipment.active_category = category
+	print("Active category changed.")
+	update_active_attack_buttons()
 
 func on_weapon_button_toggled(button_pressed: bool, hand: int) -> void:
 	if not button_pressed:
@@ -153,67 +160,38 @@ func on_weapon_set_toggled(button_pressed: bool) -> void:
 		update_ui_for_char()
 
 func update_active_attack_buttons():
-	print("update_active_attack_buttons called")
 	if ui_node == null or Global.selected_char == null:
 		return
-	
-	var char = Global.selected_char
-	if char == null:
+
+	var character = Global.selected_char
+	var weapons = character.get_weapons()
+	if weapons.size() < 2:
 		return
 
-	var w1_slash = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType1")
-	var w1_pierce = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType2")
-	var w1_crush = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType3")
-	
-	var w2_slash = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType1")
-	var w2_pierce = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType2")
-	var w2_crush = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType3")
+	var left_weapon: Item = weapons[0]
+	var right_weapon: Item = weapons[1]
 
-	var category = char.data.equipment.get_active_attack_category()
+	var category: Enums.AttackCategory = character.data.equipment.active_category
 
-	if w1_slash and w1_pierce and w1_crush and w2_slash and w2_pierce and w2_crush:
-		if category == 0:
-					w1_slash.button_pressed = char.data.equipment.strike_types[char.get_active_set()][0] == 0
-					w1_pierce.button_pressed = char.data.equipment.strike_types[char.get_active_set()][0] == 1
-					w1_crush.button_pressed = char.data.equipment.strike_types[char.get_active_set()][0] == 2
+	var w1_buttons = [
+		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType1"),
+		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType2"),
+		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/W1_AttackType3")
+	]
 
-					w2_slash.button_pressed = char.data.equipment.strike_types[char.get_active_set()][1] == 0
-					w2_pierce.button_pressed = char.data.equipment.strike_types[char.get_active_set()][1] == 1
-					w2_crush.button_pressed = char.data.equipment.strike_types[char.get_active_set()][1] == 2
-		elif category == 1:
-					w1_slash.button_pressed = char.data.equipment.shoot_types[0] == 0
-					w1_pierce.button_pressed = char.data.equipment.shoot_types[0] == 1
-					w1_crush.button_pressed = char.data.equipment.shoot_types[0] == 2
+	var w2_buttons = [
+		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType1"),
+		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType2"),
+		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/W2_AttackType3")
+	]
 
-					w2_slash.button_pressed = char.data.equipment.shoot_types[1] == 0
-					w2_pierce.button_pressed = char.data.equipment.shoot_types[1] == 1
-					w2_crush.button_pressed = char.data.equipment.shoot_types[1] == 2
-		elif category == 2:
-					w1_slash.button_pressed = char.data.equipment.throw_types[0] == 0
-					w1_pierce.button_pressed = char.data.equipment.throw_types[0] == 1
-					w1_crush.button_pressed = char.data.equipment.throw_types[0] == 2
-
-					w2_slash.button_pressed = char.data.equipment.throw_types[1] == 0
-					w2_pierce.button_pressed = char.data.equipment.throw_types[1] == 1
-					w2_crush.button_pressed = char.data.equipment.throw_types[1] == 2
-	else:
-		print("Attack buttons failed.")
-
-
-	#var left_weapon: Weapon = null
-	#var right_weapon: Weapon = null
-
-	var weapons = char.data.equipment.get_active_set_weapons()
-	var left_weapon = weapons[0]
-	var right_weapon = weapons[1]
-
-	# This is where we disable the attack buttons if they're not available for the weapon
+	_update_weapon_buttons(left_weapon, w1_buttons, category)
+	_update_weapon_buttons(right_weapon, w2_buttons, category)
 
 	# ----- Left weapon buttons -----
 
-	w1_slash.disabled = true
-	w1_pierce.disabled = true
-	w1_crush.disabled = true
+	for button in w1_buttons:
+		button.disabled = true
 	
 	if left_weapon:
 		var attack_types = null
@@ -235,17 +213,16 @@ func update_active_attack_buttons():
 
 		for type in attack_types:
 			if type.id == 0:
-				w1_slash.disabled  = false
+				w1_buttons[0].disabled  = false
 			elif type.id == 1:
-				w1_pierce.disabled  = false
+				w1_buttons[1].disabled  = false
 			elif type.id == 2:
-				w1_crush.disabled  = false
+				w1_buttons[2].disabled  = false
 
 	# ----- Right weapon buttons -----
 	
-	w2_slash.disabled = true
-	w2_pierce.disabled = true
-	w2_crush.disabled = true
+	for button in w2_buttons:
+		button.disabled = true
 	
 	if right_weapon:
 		var attack_types = null
@@ -267,25 +244,37 @@ func update_active_attack_buttons():
 
 		for type in attack_types:
 			if type.id == 0:
-				w2_slash.disabled  = false
+				w2_buttons[0].disabled  = false
 			elif type.id == 1:
-				w2_pierce.disabled  = false
+				w2_buttons[1].disabled  = false
 			elif type.id == 2:
-				w2_crush.disabled  = false
+				w2_buttons[2].disabled  = false
+
+func _update_weapon_buttons(weapon: Item, buttons: Array, category: Enums.AttackCategory):
+	if weapon == null:
+		return
+
+	var attack = weapon.selected_attacks.get(category)
+	if attack == null:
+		return
+
+	for i in range(3):
+		if buttons[i]:
+			buttons[i].button_pressed = attack == i
+
 
 func update_active_category_buttons():
 	if ui_node == null or Global.selected_char == null:
 		return
 	
-	var char = Global.selected_char
-	if char == null:
+	var character = Global.selected_char
+	if character == null:
 		return
+	var active_category = character.data.equipment.active_category
 
 	var c1 = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer/Strike")
 	var c2 = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer/Shoot")
 	var c3 = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/WeaponSetsContainer/Throw")
-
-	var active_category = char.data.equipment.get_active_attack_category()
 
 	if c1 and c2 and c3:
 		c1.button_pressed = active_category == 0
@@ -296,16 +285,16 @@ func update_weapon_buttons():
 	if ui_node == null or Global.selected_char == null:
 		return
 	
-	var char = Global.selected_char
-	if char == null:
+	var character = Global.selected_char
+	if character == null:
 		return
 
 	var w1 = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1")
 	var w2 = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2")
 
 	if w1 and w2:
-		w1.button_pressed = char.get_active_hand() == 0
-		w2.button_pressed = char.get_active_hand() == 1
+		w1.button_pressed = character.data.equipment.active_hand == 0
+		w2.button_pressed = character.data.equipment.active_hand == 1
 
 func update_weapon_buttons_text():
 	if ui_node == null:
@@ -314,40 +303,30 @@ func update_weapon_buttons_text():
 	
 	var item = null
 
-	var char = Global.selected_char
-	if !char:
+	var character = Global.selected_char
+	if !character:
 		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = "None"
 		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "None"
 		return
 
-	if char.get_active_set() == 0:
-		item = char.get_weapon_slot("set1_left_hand")
-		if item:
-			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = item.name
-		else:
-			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = "Empty"
-		item = char.get_weapon_slot("set1_right_hand")
-		if item:
-			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = item.name
-		else:
-			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "Empty"
-	elif char.get_active_set() == 1:
-		item = char.get_weapon_slot("set2_left_hand")
-		if item:
-			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = item.name
-		else:
-			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = "Empty"
-		item = char.get_weapon_slot("set2_right_hand")
-		if item:
-			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = item.name
-		else:
-			ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "Empty"
+	var default_item = character.data.equipment.get_item_in_slot(Enums.EquipmentSlot.HAND_DEFAULT)
+
+	item = character.data.equipment.get_item_in_slot(Enums.EquipmentSlot.HAND_LEFT)
+	if item:
+		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = item.name
+	else:
+		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = default_item.name
+	item = character.data.equipment.get_item_in_slot(Enums.EquipmentSlot.HAND_RIGHT)
+	if item:
+		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = item.name
+	else:
+		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = default_item.name
 
 func _on_update_character_info() -> void:
 	#Global.character_window.character = Global.selected_char
 	Global.character_window.update(Global.selected_char)
 
-func _on_update_inventory() -> void:
+func _on_update_inventory_window() -> void:
 	var character = Global.selected_char
 	for child in Global.items_list.get_children():
 		child.queue_free()
@@ -367,35 +346,28 @@ func _on_update_inventory() -> void:
 		Global.items_list.add_child(element)
 
 	var equipment_label_paths := {
-		"head": "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/HeadSpaceItem",
-		"shoulders": "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/ShouldersSpaceItem",
-		"neck": "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/NeckSpaceItem",
-		"body": "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/BodySpaceItem",
-		"belt": "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/BeltSpaceItem",
-		"gauntlets": "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/GauntletsSpaceItem",
-		"boots": "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/BootsSpaceItem",
-		"left_wrist": "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/LeftWristSpaceItem",
-		"right_wrist": "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/RightWristSpaceItem",
-		"left_ring": "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/Ring1SpaceItem",
-		"right_ring": "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/Ring2SpaceItem",
-		"set1_left_hand": "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet1/WeaponSet1Space/WeaponSet1SpaceItemLeft",
-		"set1_right_hand": "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet1/WeaponSet1Space/WeaponSet1SpaceItemRight",
-		"set2_left_hand": "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2/WeaponSet2Space/WeaponSet2SpaceItemLeft",
-		"set2_right_hand": "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2/WeaponSet2Space/WeaponSet2SpaceItemRight"
+		Enums.EquipmentSlot.HELM: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/HeadSpaceItem",
+		Enums.EquipmentSlot.CAPE: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/ShouldersSpaceItem",
+		Enums.EquipmentSlot.NECKLACE: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/NeckSpaceItem",
+		Enums.EquipmentSlot.ARMOUR: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/BodySpaceItem",
+		Enums.EquipmentSlot.BELT: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/BeltSpaceItem",
+		Enums.EquipmentSlot.GAUNTLETS: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/GauntletsSpaceItem",
+		Enums.EquipmentSlot.SHOES: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/BootsSpaceItem",
+		Enums.EquipmentSlot.BRACER_LEFT: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/LeftWristSpaceItem",
+		Enums.EquipmentSlot.BRACER_RIGHT: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/RightWristSpaceItem",
+		Enums.EquipmentSlot.RING1: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/Ring1SpaceItem",
+		Enums.EquipmentSlot.RING2: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/Ring2SpaceItem",
+		Enums.EquipmentSlot.HAND_LEFT: "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet1/WeaponSet1Space/WeaponSet1SpaceItemLeft",
+		Enums.EquipmentSlot.HAND_RIGHT: "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet1/WeaponSet1Space/WeaponSet1SpaceItemRight",
+		#Enums.EquipmentSlot.HAND_LEFT: "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2/WeaponSet2Space/WeaponSet2SpaceItemLeft",
+		#Enums.EquipmentSlot.HAND_RIGHT: "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2/WeaponSet2Space/WeaponSet2SpaceItemRight"
 	}
-	for slot_name in equipment_label_paths.keys():
-		var path = equipment_label_paths[slot_name]
+	for slot in equipment_label_paths.keys():
+		var path = equipment_label_paths[slot]
 		var label_node = Global.inventory_window.get_node(path)
 		if label_node and label_node is Label:
 			var item = null
-			if slot_name in ["set1_left_hand", "set1_right_hand", "set2_left_hand", "set2_right_hand"]:
-				item = character.get_weapon_slot(slot_name)
-				var default = Global.focus_char.data.equipment.default_weapon
-				if item and default:
-					if item.name == default.name:
-						item = null
-			else:
-				item = character.get_equipment_slot(slot_name)
+			item = character.data.equipment.get_item_in_slot(slot)
 			if item:
 				label_node.text = item.name
 			else:
@@ -403,7 +375,7 @@ func _on_update_inventory() -> void:
 		else:
 			print("Label node not found at:", path)
 
-func _on_drop_item_on_tile(selected_char, last_dragged_item):
+func _on_drop_item_on_tile(selected_char):
 	var wm = Global.world_manager
 	var coords = selected_char.get_coords()
 	wm.add_to_tile(last_dragged_item, coords)
@@ -693,7 +665,7 @@ func _on_slider_value_changed(value):
 	#PP_bar_preview.value = character.current_pp - current_spell_cost
 
 func _ready() -> void:
-	SignalBus.update_inventory.connect(_on_update_inventory)
+	SignalBus.update_inventory.connect(_on_update_inventory_window)
 	SignalBus.update_character_info.connect(_on_update_character_info)
 	SignalBus.drop_item_on_tile.connect(_on_drop_item_on_tile)
 	SignalBus.update_ui_for_char.connect(update_ui_for_char)

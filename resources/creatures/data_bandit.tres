@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://boxs05dhsll81" path="res://entities/attributes.gd" id="2_qxrml"]
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="4_brg24"]
 [ext_resource type="Script" uid="uid://bqbvgbqafpkej" path="res://entities/base_stats.gd" id="6_5ncy8"]
-[ext_resource type="Resource" uid="uid://tb0qrirf41um" path="res://resources/creatures/equipment/basic_loadout.tres" id="7_j8ykb"]
+[ext_resource type="Resource" uid="uid://ddwvf0nog3kqk" path="res://resources/creatures/equipment/basic_loadout.tres" id="7_j8ykb"]
 [ext_resource type="Script" uid="uid://0hy8gde00nbx" path="res://entities/inventory.gd" id="8_qqsho"]
 [ext_resource type="Resource" uid="uid://ce1yneg2dwyxq" path="res://resources/creatures/relationships/rel_bandit.tres" id="9_rtfxi"]
 [ext_resource type="Script" uid="uid://2esemn7osq1o" path="res://entities/resistances.gd" id="10_g7eh2"]
