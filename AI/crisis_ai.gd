@@ -56,7 +56,7 @@ func add_spell_entries(entries):
 			entries.append(entry)
 
 func add_weapon_entries(entries):
-	var weapons = creature.get_active_weapons()
+	var weapons = creature.get_weapons()
 	if weapons[0]:
 		var main_attack = ActivityEntry.new()
 		if weapons[0].shoot:

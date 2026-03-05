@@ -7,14 +7,16 @@ class_name WeaponDamageEffect
 @export var resistance: String = "physical"
 
 func apply(source, target, degree: int = 2) -> void:
-	var category = source.user.data.equipment.get_active_attack_category()
+	#var hand = source.user.data.equipment.active_hand
+	var category = source.user.data.equipment.active_category
+
 	var chosen_attack_type = -1
-	if category == 0:
-		chosen_attack_type = source.user.data.equipment.get_active_strike_type()
-	elif category == 1:
-		chosen_attack_type = source.user.data.equipment.get_active_shoot_type()
-	elif category == 2:
-		chosen_attack_type = source.user.data.equipment.get_active_throw_type()
+	if category == Enums.AttackCategory.STRIKE:
+		chosen_attack_type = source.weapon.selected_attacks[Enums.AttackCategory.STRIKE]
+	elif category == Enums.AttackCategory.SHOOT:
+		chosen_attack_type = source.weapon.selected_attacks[Enums.AttackCategory.SHOOT]
+	elif category == Enums.AttackCategory.THROW:
+		chosen_attack_type = source.weapon.selected_attacks[Enums.AttackCategory.THROW]
 	
 	var damage_pattern: DamagePattern = null
 	

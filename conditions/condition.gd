@@ -39,8 +39,6 @@ func initialize(ctx: Context) -> void:
 		self.spell_rank = ctx.current_spell_rank
 		if ctx.concentration:
 			ctx.concentration.linked_conditions.append(self)
-		#if ctx.concentration and not ctx.concentration.ended.is_connected(_on_concentration_ended):
-			#ctx.concentration.ended.connect(_on_concentration_ended)
 	for effect in effects:
 		if effect.has_method("apply_context"):
 			effect.apply_context(ctx)
@@ -50,6 +48,9 @@ func initialize(ctx: Context) -> void:
 func dispose():
 	destroy_children()
 	target.remove_condition(self)
+	if Global.selected_char == target:
+		SignalBus.update_inventory.emit()
+		SignalBus.update_character_info.emit()
 
 func destroy_children():
 	for item in linked_items:

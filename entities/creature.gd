@@ -378,7 +378,7 @@ func perceive_level():
 	return data.level
 
 func perceive_armour():
-	return data.equipment.body
+	return data.equipment.slots[Enums.EquipmentSlot.ARMOUR]
 
 func perceive_health():
 	return (data.current_hp + data.temp_hp)

@@ -4,7 +4,8 @@ extends Label
 
 func _can_drop_data(_pos, item):
 	var character = Global.focus_char
-	if item.slot_type == character.data.equipment.SLOT_TO_TYPE[slot]:
+	var slot_type = character.data.equipment.SLOT_TO_TYPE[slot]
+	if item.slot_type == slot_type:
 		return true
 	else:
 		return false
@@ -16,8 +17,6 @@ func _drop_data(_position, item):
 		return
 	
 	var old_item = get_item_from_slot()
-	if not old_item:
-		return
 	
 	if old_item:
 		if not old_item.can_be_removed:
@@ -40,7 +39,7 @@ func _get_drag_data(_at_position):
 	var um = Global.ui_manager
 	
 	var item = get_item_from_slot()
-	if not item:
+	if not item or not item.can_be_removed:
 		return
 
 	um.drag_in_progress = true

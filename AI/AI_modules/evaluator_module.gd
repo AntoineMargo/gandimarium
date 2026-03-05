@@ -4,7 +4,7 @@ class_name EvaluatorModule
 var wm: WorldManager = null
 var creature: Creature = null
 
-func activity_selector(sequences, report, entries):
+func activity_selector(sequences, report, _entries):
 	for sequence in sequences:
 		for act in sequence:
 			if not act.activity:
@@ -15,7 +15,7 @@ func activity_selector(sequences, report, entries):
 						act.target_creature = report["closest_enemy"]
 						choose_optimal_attack_type(act)
 						
-func sequence_assessor(sequences, report, entries):
+func sequence_assessor(sequences, _report, _entries):
 	var best_sequence = null
 	var best_utility: int = 0
 	
@@ -31,13 +31,11 @@ func sequence_assessor(sequences, report, entries):
 
 func choose_optimal_attack_type(act):
 	if act.target_creature.perceive_armour() is Armour:
-		for attack_type in act.activity.attack_types:
-			if attack_type.id == 1:
-				creature.data.equipment.set_active_strike_type(0, 1)
-				creature.data.equipment.set_active_strike_type(1, 1)
-			if attack_type.id == 2:
-				creature.data.equipment.set_active_strike_type(0, 2)
-				creature.data.equipment.set_active_strike_type(1, 2)
+		for attack_type in act.activity.attack_types: 
+			if attack_type.id == 1: # if activity's weapon has "pierce"
+				act.activity.weapon.selected_attacks[Enums.AttackCategory.STRIKE] = Enums.AttackType.PIERCE
+			if attack_type.id == 2: # if activity's weapon has "crush"
+				act.activity.weapon.selected_attacks[Enums.AttackCategory.STRIKE] = Enums.AttackType.CRUSH
 
 func _ready() -> void:
 	creature = $"../../.."

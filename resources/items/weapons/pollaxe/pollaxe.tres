@@ -9,6 +9,7 @@
 script = ExtResource("1_g557r")
 name = "Pole-axe"
 id = "pole_axe"
+slot_type = 12
 brawn_req_1h = 8
 brawn_req_2h = 4
 strike = ExtResource("2_fqa1g")

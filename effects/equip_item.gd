@@ -1,27 +1,13 @@
 extends Effect
 class_name EquipItemEffect
 
-@export var slot: String = ""
-
 func apply_context(ctx: ActivityContext) -> void:
 	for item in ctx.created_items:
-		if slot:
-			if ctx.target is Creature:
-				ctx.target.equip_item(slot, item)
-		else:
-			if ctx.target is Creature:
-				ctx.target.add_item_to_inventory(item)
-			if ctx.target is ContainerProp:
-				ctx.target.add_item_to_inventory(item)
+		if ctx.target is Creature:
+			if ctx.target.equip_item(item):
+				SignalBus.dialog_show_message.emit("Spell has succeeded!")
+			else:
+				SignalBus.dialog_show_message.emit("Spell has failed.")
 
 func remove(_source, _target, _degree):
 	pass
-
-#func apply(_source, target, _degree: int = 2) -> void:
-	#var new_item = item.duplicate()
-	#if target.has_method("equip_item"):
-		#target.equip_item(slot, new_item)
-#
-#func remove(_source, target, _degree):
-	#if target.has_method("unequip_slot"):
-		#target.unequip_slot(slot)

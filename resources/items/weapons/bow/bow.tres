@@ -10,9 +10,11 @@
 script = ExtResource("1_vkhed")
 name = "Bow"
 id = "bow"
+slot_type = 12
 brawn_req_1h = 999
 brawn_req_2h = 5
 strike = ExtResource("2_gxaka")
 shoot = ExtResource("3_bt1ra")
 throw = ExtResource("4_bt1ra")
+owner = null
 metadata/_custom_type_script = "uid://djeyifuagvkr6"

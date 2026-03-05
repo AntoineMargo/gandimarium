@@ -14,7 +14,3 @@ func cancel():
 	for condition in linked_conditions:
 		if is_instance_valid(condition):
 			condition.remove_source(source.id)
-	emit_signal("ended")
-	linked_conditions.clear()
-	if source and source.user and source.user.data.concentrations.has(self):
-		source.user.remove_concentration(self)

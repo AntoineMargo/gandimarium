@@ -114,143 +114,142 @@ layout_mode = 2
 mouse_filter = 0
 columns = 2
 
-[node name="HeadSpaceLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=446790466]
+[node name="HelmLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=446790466]
 layout_mode = 2
 mouse_filter = 0
-text = "Head:"
+text = "Helm:"
 
-[node name="HeadSpaceItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=1986637592]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 0
-horizontal_alignment = 1
-script = ExtResource("3_lf0vd")
-slot_name = "head"
-
-[node name="ShouldersSpaceLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=799599989]
-layout_mode = 2
-mouse_filter = 0
-text = "Shoulders:"
-
-[node name="ShouldersSpaceItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=1769151594]
+[node name="HelmItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=1986637592]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 horizontal_alignment = 1
 script = ExtResource("3_lf0vd")
-slot_name = "shoulders"
 
-[node name="NeckSpaceLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=1225910929]
+[node name="CapeLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=799599989]
 layout_mode = 2
 mouse_filter = 0
-text = "Neck:"
+text = "Cape:"
 
-[node name="NeckSpaceItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=993080505]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 0
-horizontal_alignment = 1
-script = ExtResource("3_lf0vd")
-slot_name = "neck"
-
-[node name="BodySpaceLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=212084587]
-layout_mode = 2
-mouse_filter = 0
-text = "Body:"
-
-[node name="BodySpaceItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=809284604]
+[node name="CapeItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=1769151594]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 horizontal_alignment = 1
 script = ExtResource("3_lf0vd")
-slot_name = "body"
+slot = 1
 
-[node name="BeltSpaceLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=249113629]
+[node name="ArmourLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=1225910929]
+layout_mode = 2
+mouse_filter = 0
+text = "Armour:"
+
+[node name="ArmourItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=993080505]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+horizontal_alignment = 1
+script = ExtResource("3_lf0vd")
+slot = 2
+
+[node name="TopLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=212084587]
+layout_mode = 2
+mouse_filter = 0
+text = "Top:"
+
+[node name="TopItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=809284604]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+horizontal_alignment = 1
+script = ExtResource("3_lf0vd")
+slot = 3
+
+[node name="BeltLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=249113629]
 layout_mode = 2
 mouse_filter = 0
 text = "Belt:						"
 
-[node name="BeltSpaceItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=1822736792]
+[node name="BeltItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=1822736792]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 horizontal_alignment = 1
 script = ExtResource("3_lf0vd")
-slot_name = "belt"
+slot = 4
 
-[node name="GauntletsSpaceLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=2034580116]
+[node name="BottomLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=2034580116]
 layout_mode = 2
 mouse_filter = 0
-text = "Gauntlets:				"
+text = "Bottom:				"
 
-[node name="GauntletsSpaceItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=1917968321]
+[node name="BottomItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=1917968321]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 horizontal_alignment = 1
 script = ExtResource("3_lf0vd")
-slot_name = "gauntlets"
+slot = 5
 
-[node name="BootsSpaceLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=1563098834]
+[node name="GauntletsLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=1563098834]
 layout_mode = 2
 mouse_filter = 0
-text = "Boots:						"
+text = "Gauntlets:						"
 
-[node name="BootsSpaceItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=2062102067]
-layout_mode = 2
-mouse_filter = 0
-horizontal_alignment = 1
-script = ExtResource("3_lf0vd")
-slot_name = "boots"
-
-[node name="LeftWristSpaceLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=865568107]
-layout_mode = 2
-mouse_filter = 0
-text = "Left Wrist:				"
-
-[node name="LeftWristSpaceItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=891092333]
+[node name="GauntletsItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=2062102067]
 layout_mode = 2
 mouse_filter = 0
 horizontal_alignment = 1
 script = ExtResource("3_lf0vd")
-slot_name = "left_wrist"
+slot = 6
 
-[node name="RightWristSpaceLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=649389438]
+[node name="ShoesLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=865568107]
 layout_mode = 2
 mouse_filter = 0
-text = "Right Wrist:			"
+text = "Shoes:				"
 
-[node name="RightWristSpaceItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=2078194878]
-layout_mode = 2
-mouse_filter = 0
-horizontal_alignment = 1
-script = ExtResource("3_lf0vd")
-slot_name = "right_wrist"
-
-[node name="Ring1SpaceLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=1744869024]
-layout_mode = 2
-mouse_filter = 0
-text = "Left Ring:				"
-
-[node name="Ring1SpaceItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=1008633578]
+[node name="ShoesItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=891092333]
 layout_mode = 2
 mouse_filter = 0
 horizontal_alignment = 1
 script = ExtResource("3_lf0vd")
-slot_name = "left_ring"
+slot = 7
 
-[node name="Ring2SpaceLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=2083155382]
+[node name="NecklaceLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=649389438]
 layout_mode = 2
 mouse_filter = 0
-text = "Right Ring:				"
+text = "Necklace:"
 
-[node name="Ring2SpaceItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=624299512]
+[node name="NecklaceItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=2078194878]
 layout_mode = 2
 mouse_filter = 0
 horizontal_alignment = 1
 script = ExtResource("3_lf0vd")
-slot_name = "right_ring"
+slot = 8
+
+[node name="LeftBracerLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=1744869024]
+layout_mode = 2
+mouse_filter = 0
+text = "Left Bracer:				"
+
+[node name="LeftBracerItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=1008633578]
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+script = ExtResource("3_lf0vd")
+slot = 15
+
+[node name="RightBracerLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=2083155382]
+layout_mode = 2
+mouse_filter = 0
+text = "Right Bracer:				"
+
+[node name="RightBracerItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=624299512]
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+script = ExtResource("3_lf0vd")
+slot = 16
 
 [node name="EmptyLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer" unique_id=1079345228]
 layout_mode = 2
@@ -259,65 +258,35 @@ mouse_filter = 0
 [node name="HSeparator" type="HSeparator" parent="Inventory/MainVBox/SeparHBox/VBoxContainer" unique_id=1527704186]
 layout_mode = 2
 
-[node name="WeaponSet1" type="VBoxContainer" parent="Inventory/MainVBox/SeparHBox/VBoxContainer" unique_id=1880822897]
+[node name="WeaponSet" type="VBoxContainer" parent="Inventory/MainVBox/SeparHBox/VBoxContainer" unique_id=1880822897]
 layout_mode = 2
 mouse_filter = 0
 
-[node name="WeaponSet1Label" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet1" unique_id=134421114]
+[node name="WeaponSetLabel" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet" unique_id=134421114]
 layout_mode = 2
 mouse_filter = 0
-text = "Weapon Set 1:"
+text = "Weapon Set:"
 horizontal_alignment = 1
 
-[node name="WeaponSet1Space" type="HBoxContainer" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet1" unique_id=91537390]
+[node name="WeaponSetSpace" type="HBoxContainer" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet" unique_id=91537390]
 layout_mode = 2
 mouse_filter = 0
 
-[node name="WeaponSet1SpaceItemLeft" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet1/WeaponSet1Space" unique_id=1195433998]
+[node name="LeftWeaponItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet/WeaponSetSpace" unique_id=1195433998]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 horizontal_alignment = 1
 script = ExtResource("3_lf0vd")
-slot_name = "set1_left_hand"
+slot = 17
 
-[node name="WeaponSet1SpaceItemRight" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet1/WeaponSet1Space" unique_id=1516482306]
+[node name="RightWeaponItem" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet/WeaponSetSpace" unique_id=1516482306]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 horizontal_alignment = 1
 script = ExtResource("3_lf0vd")
-slot_name = "set1_right_hand"
-
-[node name="WeaponSet2" type="VBoxContainer" parent="Inventory/MainVBox/SeparHBox/VBoxContainer" unique_id=313829204]
-layout_mode = 2
-mouse_filter = 0
-
-[node name="WeaponSet2Label" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2" unique_id=1551623342]
-layout_mode = 2
-mouse_filter = 0
-text = "Weapon Set 2:"
-horizontal_alignment = 1
-
-[node name="WeaponSet2Space" type="HBoxContainer" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2" unique_id=700276267]
-layout_mode = 2
-mouse_filter = 0
-
-[node name="WeaponSet2SpaceItemLeft" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2/WeaponSet2Space" unique_id=1873073330]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 0
-horizontal_alignment = 1
-script = ExtResource("3_lf0vd")
-slot_name = "set2_left_hand"
-
-[node name="WeaponSet2SpaceItemRight" type="Label" parent="Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2/WeaponSet2Space" unique_id=906876747]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 0
-horizontal_alignment = 1
-script = ExtResource("3_lf0vd")
-slot_name = "set2_right_hand"
+slot = 18
 
 [node name="HSeparator2" type="HSeparator" parent="Inventory/MainVBox/SeparHBox/VBoxContainer" unique_id=1468545616]
 visible = false
