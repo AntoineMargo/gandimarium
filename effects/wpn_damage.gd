@@ -4,7 +4,7 @@ class_name WeaponDamageEffect
 @export var dice_number: int = 2
 @export var damage_die: int = 10
 @export var damage_bonus: int = 0
-@export var resistance: String = "physical"
+@export var resistance: Enums.Resistance = Enums.Resistance.NONE
 
 func apply(source, target, degree: int = 2) -> void:
 	#var hand = source.user.data.equipment.active_hand

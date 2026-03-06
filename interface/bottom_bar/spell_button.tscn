@@ -16,3 +16,7 @@ layout_mode = 2
 [node name="ActionsLabel" type="Label" parent="." unique_id=951602148]
 layout_mode = 2
 size_flags_horizontal = 10
+
+[node name="SpaceLabel" type="Label" parent="." unique_id=121509587]
+layout_mode = 2
+text = " "

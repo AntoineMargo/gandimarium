@@ -151,7 +151,7 @@ func on_weapon_button_toggled(button_pressed: bool, hand: int) -> void:
 		Global.selected_char.set_active_hand(hand)
 		print("Active hand changed.")
 
-func on_weapon_set_toggled(button_pressed: bool) -> void:
+func on_weapon_set_toggled(_button_pressed: bool) -> void:
 	if Global.selected_char:
 		if Global.selected_char.get_active_set() == 0:
 			Global.selected_char.set_active_set(1)
@@ -433,7 +433,7 @@ func update_action_pips():
 			pip.modulate = Color(0.5, 0.5, 0.5, 0.7)
 
 func update_activity_buttons():
-	var char = Global.selected_char
+	#var char = Global.selected_char
 	var activities = Global.selected_char.data.activities
 	
 	var node_grid = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Activities")
@@ -511,6 +511,7 @@ func update_spell_list():
 	slider.max_value = character.get_stat("max_spell_rank")
 	slider.value = character.get_stat("current_spell_rank")
 	for spell in character.data.spells_ready:
+		@warning_ignore("confusable_local_usage", "shadowed_variable")
 		var spell_button = spell_button.instantiate()
 		spell_button.spell = spell
 		spell_list.add_child(spell_button)
@@ -519,11 +520,11 @@ func update_spell_list():
 
 func update_concentration_slots():
 	var character = Global.selected_char
-	var container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Concentrations")
+	var container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ConcentrationScroll/Concentrations")
 	for child in container.get_children():
 		child.queue_free()
 
-	for i in range(character.get_stat("will")):
+	for i in range(character.get_stat("resolve")):
 		var slot = concentration_slot.instantiate()
 		if i < character.data.concentrations.size():
 			var concentration = character.data.concentrations[i]
@@ -591,7 +592,7 @@ func update_ui_for_char():
 	await get_tree().process_frame
 	#Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()
 
-func _on_activity_button_toggled(pressed: bool, button: TextureButton):
+func _on_activity_button_toggled(_pressed: bool, button: TextureButton):
 	var activity = button.get_meta("activity")
 	if not activity:
 		return

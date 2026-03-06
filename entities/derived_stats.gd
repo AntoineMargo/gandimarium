@@ -4,10 +4,10 @@ class_name DerivedStats
 var vigour: int = 0
 
 # aptitudes
-var agility: int = 0
-var resolve: int = 0
 var sense: int = 0
 var stamina: int = 0
+var agility: int = 0
+var will: int = 0
 var offence: int = 0
 var melee_defence: int = 0
 var ranged_defence: int = 0
@@ -43,3 +43,38 @@ var max_reactions: int = 0
 var current_spell_cost: int = 0
 
 var tie_breaker: float = 0.0
+
+func get_aptitude(type: Enums.Aptitude) -> int:
+	match type:
+		Enums.Aptitude.SENSE:
+			return sense
+		Enums.Aptitude.STAMINA:
+			return stamina
+		Enums.Aptitude.AGILITY:
+			return agility
+		Enums.Aptitude.WILL:
+			return will
+		Enums.Aptitude.OFFENCE:
+			return offence
+		Enums.Aptitude.MELEE_DEFENCE:
+			return melee_defence
+		Enums.Aptitude.RANGED_DEFENCE:
+			return ranged_defence
+	return 0
+
+func set_aptitude(type: Enums.Aptitude, value: int) -> void:
+	match type:
+		Enums.Aptitude.SENSE:
+			sense = value
+		Enums.Aptitude.STAMINA:
+			stamina = value
+		Enums.Aptitude.AGILITY:
+			agility = value
+		Enums.Aptitude.WILL:
+			will = value
+		Enums.Aptitude.OFFENCE:
+			offence = value
+		Enums.Aptitude.MELEE_DEFENCE:
+			melee_defence = value
+		Enums.Aptitude.RANGED_DEFENCE:
+			ranged_defence = value

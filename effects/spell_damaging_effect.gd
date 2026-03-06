@@ -5,7 +5,7 @@ class_name SpellDamagingEffect
 @export var dice_number: int = 1
 @export var damage_die: int = 8
 @export var damage_bonus: int = 0
-@export var resistance: String = ""
+@export var resistance: Enums.Resistance = Enums.Resistance.NONE
 @export var damage_pattern: DamagePattern = null
 
 func apply(source, target, degree: int = 2) -> void:

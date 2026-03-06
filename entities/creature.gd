@@ -334,8 +334,8 @@ func remove_item_from_slot(slot) -> Item:
 	return data.equipment.remove_item_from_slot(slot)
 
 ## Used when something (usually an activity) deals damage to a creature
-func take_damage(damage: int, resistance: String = ""):
-	var value = get_stat(resistance)
+func take_damage(damage: int, resistance: Enums.Resistance):
+	var value = get_resistance(resistance)
 	var resistance_value: int = value if value is int else 0
 	var final_damage = (damage - resistance_value)
 	if final_damage < 0:
@@ -527,6 +527,18 @@ func change_stat(stat: StringName, delta):
 	if current != null:
 		set_stat(stat, current + delta)
 
+func get_aptitude(type: Enums.Aptitude) -> int:
+	return data.derived_stats.get_aptitude(type)
+	
+func set_aptitude(type: Enums.Aptitude, value: int) -> void:
+	data.derived_stats.set_aptitude(type, value)
+
+func get_resistance(type: Enums.Resistance) -> int:
+	return data.resistances.get_resistance(type)
+
+func set_resistance(type: Enums.Resistance, value: int) -> void:
+	data.resistances.set_resistance(type, value)
+
 func add_casting_table(table: CastingTable):
 	data.casting_table = table
 
@@ -603,7 +615,7 @@ func initialise():
 		@warning_ignore("integer_division")
 		data.base_stats.level_mod = data.level / 2
 		data.base_stats.agility = data.attributes.dexterity + data.base_stats.level_mod
-		data.base_stats.resolve = data.attributes.will + data.base_stats.level_mod
+		data.base_stats.will = data.attributes.resolve + data.base_stats.level_mod
 		data.base_stats.sense = data.attributes.acuity + data.base_stats.level_mod
 		data.base_stats.stamina = data.attributes.brawn + data.base_stats.level_mod
 		data.base_stats.offence = data.attributes.acuity + data.base_stats.level_mod
@@ -617,7 +629,7 @@ func initialise():
 
 		data.base_stats.max_hp = (data.attributes.brawn * 12) + (data.attributes.brawn * data.base_stats.level_mod)
 		data.current_hp = data.base_stats.max_hp
-		data.base_stats.max_pp = data.attributes.will * data.base_stats.level_mod
+		data.base_stats.max_pp = data.attributes.resolve * data.base_stats.level_mod
 		data.current_pp = data.base_stats.max_pp
 		data.base_stats.max_ep = (data.attributes.brawn * 12) + (data.attributes.brawn * data.base_stats.level_mod)
 		data.current_ep = data.base_stats.max_ep
@@ -648,7 +660,7 @@ func update_stats():
 	if not stats_dirty:
 		return
 	data.derived_stats.agility = data.base_stats.agility + data.derived_stats.vigour
-	data.derived_stats.resolve = data.base_stats.resolve + data.derived_stats.vigour
+	data.derived_stats.will = data.base_stats.will + data.derived_stats.vigour
 	data.derived_stats.sense = data.base_stats.sense + data.derived_stats.vigour
 	data.derived_stats.stamina = data.base_stats.stamina + data.derived_stats.vigour
 	data.derived_stats.offence = data.base_stats.offence + data.derived_stats.vigour

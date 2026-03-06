@@ -74,3 +74,24 @@ enum Shape {
 	LINE,
 	CUSTOM
 }
+
+enum Aptitude {
+	SENSE,
+	STAMINA,
+	AGILITY,
+	WILL,
+	OFFENCE,
+	MELEE_DEFENCE,
+	RANGED_DEFENCE
+}
+
+enum Resistance {
+	NONE,
+	PHYSICAL,
+	HEAT,
+	COLD,
+	ELECTRICITY,
+	CORROSION,
+	POISON,
+	PSYCHIC
+}

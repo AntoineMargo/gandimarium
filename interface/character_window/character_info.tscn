@@ -221,10 +221,10 @@ layout_mode = 2
 mouse_filter = 0
 text = "Dexterity: "
 
-[node name="Will" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Keys" unique_id=622973872]
+[node name="Resolve" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Keys" unique_id=622973872]
 layout_mode = 2
 mouse_filter = 0
-text = "Will: "
+text = "Resolve: "
 
 [node name="Values" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer" unique_id=1342110130]
 layout_mode = 2
@@ -244,7 +244,7 @@ mouse_filter = 0
 layout_mode = 2
 mouse_filter = 0
 
-[node name="Will" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values" unique_id=769609603]
+[node name="Resolve" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values" unique_id=769609603]
 layout_mode = 2
 mouse_filter = 0
 
@@ -281,19 +281,19 @@ mouse_filter = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Resolve" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes" unique_id=108200669]
+[node name="Will" type="VBoxContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes" unique_id=108200669]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 
-[node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Resolve" unique_id=1498825436]
+[node name="Key" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Will" unique_id=1498825436]
 layout_mode = 2
 mouse_filter = 0
-text = "Resolve"
+text = "Will"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Resolve" unique_id=1352076346]
+[node name="Value" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Will" unique_id=1352076346]
 layout_mode = 2
 mouse_filter = 0
 horizontal_alignment = 1

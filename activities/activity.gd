@@ -10,8 +10,8 @@ class_name Activity
 @export var PP_cost: int = 0
 @export var EP_cost: int = 0
 @export var requires_concentration: bool = false
-@export var attacking_aptitude: String = "will"
-@export var defending_aptitude: String = "will"
+@export var attacking_aptitude: Enums.Aptitude = Enums.Aptitude.WILL
+@export var defending_aptitude: Enums.Aptitude = Enums.Aptitude.WILL
 @export var reach: int = 0
 @export var spread: int = 0
 @export var delay: int = 0
@@ -71,9 +71,9 @@ func _build_context(target = null):
 	if ctx.target is Creature or ctx.target is Prop:
 		ctx.tile_spawned_on = target.get_coords()
 	
-	ctx.user_stat = user.get_final_stat(attacking_aptitude)
+	ctx.user_stat = user.get_aptitude(attacking_aptitude)
 	if ctx.target is Creature:
-		ctx.target_stat = target.get_final_stat(defending_aptitude)
+		ctx.target_stat = target.get_aptitude(defending_aptitude)
 	else:
 		ctx.target_stat = 0
 

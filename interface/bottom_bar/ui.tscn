@@ -406,9 +406,8 @@ rounded = true
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1021675399]
 visible = false
-custom_minimum_size = Vector2(220, 0)
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="SpellList" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer" unique_id=698679286]
 visible = false
@@ -422,14 +421,17 @@ layout_mode = 2
 [node name="VSeparator5" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=366499856]
 layout_mode = 2
 
-[node name="Concentrations" type="GridContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1790354722]
+[node name="ConcentrationScroll" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=143970400]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+
+[node name="Concentrations" type="GridContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ConcentrationScroll" unique_id=1790354722]
 custom_minimum_size = Vector2(50, 50)
 layout_direction = 2
 layout_mode = 2
-size_flags_horizontal = 3
 theme_override_constants/h_separation = 4
 theme_override_constants/v_separation = 4
-columns = 10
+columns = 2
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=230746962]
 layout_mode = 2

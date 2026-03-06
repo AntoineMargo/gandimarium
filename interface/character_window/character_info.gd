@@ -15,12 +15,12 @@ func update(character):
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values/Acuity.text = "%d" % character.get_final_stat("acuity")
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values/Brawn.text = "%d" % character.get_final_stat("brawn")
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values/Dexterity.text = "%d" % character.get_final_stat("dexterity")
-	$Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values/Will.text = "%d" % character.get_final_stat("will")
+	$Character/ColorRect/HBoxContainer/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values/Resolve.text = "%d" % character.get_final_stat("resolve")
 
 	# Aptitudes
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Agility/Value.text = "%d" % character.get_final_stat("agility")
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Agility/Value.tooltip_text = "16"
-	$Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Resolve/Value.text = "%d" % character.get_final_stat("resolve")
+	$Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Will/Value.text = "%d" % character.get_final_stat("will")
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Sense/Value.text = "%d" % character.get_final_stat("sense")
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Stamina/Value.text = "%d" % character.get_final_stat("stamina")
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Offence/Value.text = "%d" % character.get_final_stat("offence")

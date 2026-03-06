@@ -19,7 +19,6 @@ metadata/_custom_type_script = "uid://tw4lacdrgfs3"
 
 [sub_resource type="Resource" id="Resource_j56p0"]
 script = ExtResource("7_iof02")
-resistance = "heat"
 metadata/_custom_type_script = "uid://otrxaros8gk8"
 
 [sub_resource type="Resource" id="Resource_2wtsy"]
@@ -27,15 +26,12 @@ script = ExtResource("2_qhnga")
 name = "Fire Cone"
 id = "fire_cone"
 AP_cost = 2
-attacking_aptitude = "resolve"
-defending_aptitude = "agility"
 reach = 12
 spread = 90
 self_filters = Array[ExtResource("3_34bej")]([SubResource("Resource_ak3sk"), SubResource("Resource_0qamt")])
 target_effects = Array[ExtResource("4_awbbw")]([SubResource("Resource_j56p0")])
 targeting_type = 1
 shape = 1
-requires_crisis = false
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 

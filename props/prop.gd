@@ -51,8 +51,8 @@ func make_delta() -> PropDelta:
 	prop_delta.hp = current_hp
 	return prop_delta
 
-func take_damage(damage: int, resistance: String = ""):
-	var value = get(resistance)
+func take_damage(damage: int, resistance: Enums.Resistance):
+	var value = get_resistance(resistance)
 	var resistance_value: int = value if value is int else 0
 	var final_damage = (damage - resistance_value)
 	if final_damage < 0:
@@ -67,6 +67,26 @@ func health_status_change():
 		current_hp = 0
 	if current_hp == 0:
 		destroy_self()
+
+func get_resistance(type: Enums.Resistance) -> int:
+	match type:
+		Enums.Resistance.NONE:
+			return 0
+		Enums.Resistance.PHYSICAL:
+			return physical
+		Enums.Resistance.HEAT:
+			return heat
+		Enums.Resistance.COLD:
+			return cold
+		Enums.Resistance.ELECTRICITY:
+			return electricity
+		Enums.Resistance.CORROSION:
+			return corrosion
+		Enums.Resistance.POISON:
+			return poison
+		Enums.Resistance.PSYCHIC:
+			return psychic
+	return 0
 
 func destroy_self():
 	var layer_coords = Vector2i(pos.x, pos.y)
