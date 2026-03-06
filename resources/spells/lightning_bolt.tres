@@ -1,0 +1,45 @@
+[gd_resource type="Resource" script_class="Spell" format=3 uid="uid://c27hc6u5j6gv"]
+
+[ext_resource type="Script" uid="uid://chufkd7a0xqa0" path="res://activities/activity.gd" id="1_e3rie"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell.gd" id="2_i4vi6"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="2_o3wrr"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="3_yax3i"]
+[ext_resource type="Script" uid="uid://bmyfmkog6abuh" path="res://filters/action_points.gd" id="4_2x88a"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="4_x6gtk"]
+[ext_resource type="Script" uid="uid://tw4lacdrgfs3" path="res://filters/power_points.gd" id="5_ln73p"]
+[ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damaging_effect.gd" id="7_cr0rr"]
+
+[sub_resource type="Resource" id="Resource_yhrhx"]
+script = ExtResource("4_2x88a")
+metadata/_custom_type_script = "uid://bmyfmkog6abuh"
+
+[sub_resource type="Resource" id="Resource_h8t4n"]
+script = ExtResource("5_ln73p")
+metadata/_custom_type_script = "uid://tw4lacdrgfs3"
+
+[sub_resource type="Resource" id="Resource_886ob"]
+script = ExtResource("7_cr0rr")
+resistance = "electricity"
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_2x88a"]
+script = ExtResource("2_o3wrr")
+name = "Lightning Bolt"
+id = "lightning_bolt"
+AP_cost = 2
+attacking_aptitude = "resolve"
+defending_aptitude = "agility"
+reach = 20
+self_filters = Array[ExtResource("3_yax3i")]([SubResource("Resource_yhrhx"), SubResource("Resource_h8t4n")])
+target_effects = Array[ExtResource("4_x6gtk")]([SubResource("Resource_886ob")])
+targeting_type = 1
+shape = 2
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[resource]
+script = ExtResource("2_i4vi6")
+name = "Lightning Bolt"
+description = "lightning_bolt"
+activities = Array[ExtResource("1_e3rie")]([SubResource("Resource_2x88a")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

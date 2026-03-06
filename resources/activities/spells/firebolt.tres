@@ -10,7 +10,6 @@
 
 [sub_resource type="Resource" id="Resource_mit2j"]
 script = ExtResource("7_yutk5")
-damage_bonus = 0
 resistance = "resolve"
 metadata/_custom_type_script = "uid://otrxaros8gk8"
 

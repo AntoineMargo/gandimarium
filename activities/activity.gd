@@ -56,13 +56,6 @@ func _finalize_concentration():
 		else:
 			concentration.cancel()
 
-#func _finalize_concentration():
-	#if requires_concentration:
-		#if concentration.has_connections("ended"):
-			#user.add_concentration(concentration)
-		#else:
-			#concentration.cancel()
-
 func _build_context(target = null):
 	var ctx = ActivityContext.new()
 	ctx.activity = self
@@ -145,11 +138,9 @@ func compute_affected_area(target_location: Vector3i) -> Array[Vector3i]:
 		Enums.Shape.BURST:
 			return WorldMath.get_burst_tiles(target_location, spread)
 		Enums.Shape.CONE:
-			pass
-			#return WorldMath.get_cone_tiles(origin, user.get_facing(), spread)
+			return WorldMath.get_cone_tiles(origin, target_location, reach, spread)
 		Enums.Shape.LINE:
-			pass
-			#return WorldMath.get_line_tiles(origin, spread)
+			return WorldMath.get_line_tiles(origin, target_location, reach)
 		Enums.Shape.CUSTOM:
 			pass
 	return WorldMath.get_burst_tiles(target_location, spread)

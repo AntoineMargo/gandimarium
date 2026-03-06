@@ -4,7 +4,7 @@ class_name SpellDamagingEffect
 
 @export var dice_number: int = 1
 @export var damage_die: int = 8
-@export var damage_bonus: int = 50
+@export var damage_bonus: int = 0
 @export var resistance: String = ""
 @export var damage_pattern: DamagePattern = null
 

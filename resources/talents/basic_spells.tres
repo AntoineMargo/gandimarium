@@ -12,10 +12,12 @@
 [ext_resource type="Resource" uid="uid://cvj66k14frhx0" path="res://resources/spells/fireball.tres" id="8_7g3vd"]
 [ext_resource type="Resource" uid="uid://bdfg8nvw2c1k4" path="res://resources/spells/fire_burst.tres" id="9_smms5"]
 [ext_resource type="Resource" uid="uid://dbmammlmm7shr" path="res://resources/spells/magic_armour.tres" id="10_kpcy5"]
+[ext_resource type="Resource" uid="uid://c27hc6u5j6gv" path="res://resources/spells/lightning_bolt.tres" id="11_bddu2"]
+[ext_resource type="Resource" uid="uid://usx0qt1e57vs" path="res://resources/spells/fire_cone.tres" id="12_vsy8l"]
 
 [sub_resource type="Resource" id="Resource_bddu2"]
 script = ExtResource("2_4m7g3")
-spells = Array[ExtResource("3_4eqj7")]([ExtResource("4_7g3vd"), ExtResource("5_smms5"), ExtResource("6_kpcy5"), ExtResource("7_4eqj7"), ExtResource("8_7g3vd"), ExtResource("9_smms5"), ExtResource("10_kpcy5")])
+spells = Array[ExtResource("3_4eqj7")]([ExtResource("4_7g3vd"), ExtResource("5_smms5"), ExtResource("6_kpcy5"), ExtResource("7_4eqj7"), ExtResource("8_7g3vd"), ExtResource("9_smms5"), ExtResource("10_kpcy5"), ExtResource("11_bddu2"), ExtResource("12_vsy8l")])
 metadata/_custom_type_script = "uid://2oaio4mh2bc8"
 
 [resource]

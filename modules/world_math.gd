@@ -1,5 +1,116 @@
 class_name WorldMath
 
+#static func get_line_tiles(origin: Vector3i, target: Vector3i) -> Array[Vector3i]:
+	#var points = bresenham_line_3d(origin.x, origin.y, origin.z, target.x, target.y, target.z)
+	#
+	#return points
+
+static func get_line_tiles(origin: Vector3i, target: Vector3i, reach: float) -> Array[Vector3i]:
+	var line: Array[Vector3i] = bresenham_line_3d(origin.x, origin.y, origin.z, target.x, target.y, target.z)
+	
+	var tiles: Array[Vector3i] = []
+	
+	for i in range(1, line.size()): # skip origin
+		var p: Vector3i = line[i]
+		
+		var dx: int = p.x - origin.x
+		var dy: int = p.y - origin.y
+		var dist: float = sqrt(dx * dx + dy * dy)
+		
+		if dist > reach:
+			break
+		
+		tiles.append(p)
+
+	return tiles
+
+static func get_cone_tiles(origin: Vector3i, target: Vector3i, reach: float, spread_degrees: float) -> Array[Vector3i]:
+	var wm = Global.world_manager
+	var visited: Dictionary = {}
+	var tiles: Array[Vector3i] = []
+	var open: Array = [{"pos": origin, "dist": 0.0}]
+	
+	var cardinal_dirs: Array[Vector2i] = [
+		Vector2i.LEFT,
+		Vector2i.RIGHT,
+		Vector2i.UP,
+		Vector2i.DOWN
+	]
+	var diagonal_dirs: Array[Vector2i] = [
+		Vector2i(-1, -1),
+		Vector2i(-1, 1),
+		Vector2i(1, -1),
+		Vector2i(1, 1)
+	]
+
+	# Forward direction
+	var forward := (Vector2(target.x - origin.x, target.y - origin.y)).normalized()
+	var half_spread := deg_to_rad(spread_degrees * 0.5)
+
+	while open.size() > 0:
+		var current = open.pop_front()
+		var pos: Vector3i = current.pos
+		var dist: float = current.dist
+		
+		if visited.has(pos):
+			continue
+		
+		visited[pos] = true
+		
+		# Direction from origin to tile
+		var to_tile := Vector2(pos.x - origin.x, pos.y - origin.y)
+		
+		if to_tile.length() > 0:
+			var dir := to_tile.normalized()
+			var angle := acos(forward.dot(dir))
+			
+			if angle > half_spread:
+				continue
+		
+		# LOS check
+		if pos != origin and not has_line_of_sight_tile(origin, pos):
+			continue
+		
+		tiles.append(pos)
+		
+		if dist >= reach:
+			continue
+		
+		var z := pos.z
+		var xy := Vector2i(pos.x, pos.y)
+		var astar := wm.layers[z]["path_map"] as AStarGrid2D
+		
+		# Cardinal neighbors
+		for dir in cardinal_dirs:
+			var neighbor_xy := xy + dir
+			var neighbor := Vector3i(neighbor_xy.x, neighbor_xy.y, z)
+			
+			if not astar.region.has_point(neighbor_xy):
+				continue
+			
+			var tile_data = get_tile_data(neighbor.x, neighbor.y, neighbor.z)
+			if tile_data == null or tile_data.get_custom_data("passable") == false:
+				continue
+			
+			open.append({"pos": neighbor, "dist": dist + 1.0})
+		
+		# Diagonal neighbors
+		for dir in diagonal_dirs:
+			var neighbor_xy := xy + dir
+			var neighbor := Vector3i(neighbor_xy.x, neighbor_xy.y, z)
+			
+			if not astar.region.has_point(neighbor_xy):
+				continue
+			
+			var tile_data = get_tile_data(neighbor.x, neighbor.y, neighbor.z)
+			if tile_data == null or tile_data.get_custom_data("passable") == false:
+				continue
+			
+			open.append({"pos": neighbor, "dist": dist + 1.5})
+	
+	tiles.pop_front()
+	return tiles
+
 static func get_burst_tiles(center: Vector3i, reach: float) -> Array[Vector3i]:
 	var wm = Global.world_manager
 	var visited: Dictionary = {}
@@ -175,8 +286,8 @@ static func get_tile_data(x: int, y: int, z: int):
 	var tile_map: TileMapLayer = layer["tile_map"]
 	return tile_map.get_cell_tile_data(Vector2i(x, y))
 
-static func bresenham_line_3d(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int) -> Array:
-	var points := []
+static func bresenham_line_3d(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int) -> Array[Vector3i]:
+	var points: Array[Vector3i] = []
 
 	var dx = abs(x2 - x1)
 	var dy = abs(y2 - y1)

@@ -33,6 +33,7 @@ func _cleanup() -> void:
 func execute() -> void:
 	cm = Global.crisis_manager
 	wm = Global.world_manager
+	origin = user.get_coords()
 	_apply_act_mods()
 	if user.data.player_controlled:
 		execute_player()
