@@ -140,9 +140,9 @@ func compute_affected_area(target_location: Vector3i) -> Array[Vector3i]:
 		Enums.Shape.CONE:
 			return WorldMath.get_cone_tiles(origin, target_location, reach, spread)
 		Enums.Shape.LINE:
-			return WorldMath.get_line_tiles(origin, target_location, reach)
-		Enums.Shape.CUSTOM:
-			pass
+			var tiles = WorldMath.get_line_tiles(origin, target_location, reach)
+			tiles.pop_front()
+			return tiles
 	return WorldMath.get_burst_tiles(target_location, spread)
 
 func _init():

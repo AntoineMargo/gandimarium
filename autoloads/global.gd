@@ -111,6 +111,10 @@ func create_player_party():
 		if creature.data.player_controlled:
 			new_party.members_by_uid.append(creature.data.id)
 
+func wait_frame(amount: int = 1):
+	for i in range(amount):
+		await get_tree().process_frame
+
 func _ready() -> void:
 	randomize()
 	add_child(crisis_manager)

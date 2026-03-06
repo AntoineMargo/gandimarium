@@ -10,7 +10,6 @@
 
 [sub_resource type="Resource" id="Resource_mit2j"]
 script = ExtResource("7_yutk5")
-resistance = "resolve"
 metadata/_custom_type_script = "uid://otrxaros8gk8"
 
 [resource]
@@ -18,8 +17,6 @@ script = ExtResource("1_d3lnv")
 number_of_targets = 3
 name = "Firebolt"
 id = "firebolt"
-attacking_aptitude = "resolve"
-defending_aptitude = "ranged_defence"
 reach = 12
 self_filters = Array[ExtResource("2_og7ga")]([ExtResource("3_twg2q"), ExtResource("4_jf354"), ExtResource("5_mqn1y")])
 target_effects = Array[ExtResource("6_t1oup")]([SubResource("Resource_mit2j")])

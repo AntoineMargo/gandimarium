@@ -211,6 +211,11 @@ func BasicControls():
 			SignalBus.dialog_show_message.emit("Mod %s" % mod.name)
 		#SignalBus.dialog_show_message.emit("Available MP: %d" % Global.selected_char.get_stat("current_mp"))
 
+	if Input.is_action_just_pressed("X"):
+		if Global.selected_char:
+			for concentration in Global.selected_char.data.concentrations:
+				SignalBus.dialog_show_message.emit("Concentration found.")
+
 	if Input.is_action_just_pressed("V"):
 		SignalBus.dialog_show_message.emit("Number of active creatures: %d" % Global.ai_manager.active_number)
 

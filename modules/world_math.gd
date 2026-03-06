@@ -10,7 +10,7 @@ static func get_line_tiles(origin: Vector3i, target: Vector3i, reach: float) -> 
 	
 	var tiles: Array[Vector3i] = []
 	
-	for i in range(1, line.size()): # skip origin
+	for i in range(0, line.size()): # skip origin
 		var p: Vector3i = line[i]
 		
 		var dx: int = p.x - origin.x
@@ -234,9 +234,9 @@ static func char_in_range(user: Node, target: Node, reach: int) -> bool:
 	return result <= reach
 
 static func dist_sq_weighted_3d(a: Vector3i, b: Vector3i, z_weight: int = 2) -> int:
-	var dx := a.x - b.x
-	var dy := a.y - b.y
-	var dz := (a.z - b.z) * z_weight
+	var dx = a.x - b.x
+	var dy = a.y - b.y
+	var dz = (a.z - b.z) * z_weight
 	return dx * dx + dy * dy + dz * dz
 
 static func dist_weighted_3d(a: Vector3i, b: Vector3i, z_weight: int = 2) -> float:

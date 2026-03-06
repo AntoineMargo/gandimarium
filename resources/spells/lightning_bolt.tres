@@ -19,7 +19,6 @@ metadata/_custom_type_script = "uid://tw4lacdrgfs3"
 
 [sub_resource type="Resource" id="Resource_886ob"]
 script = ExtResource("7_cr0rr")
-resistance = "electricity"
 metadata/_custom_type_script = "uid://otrxaros8gk8"
 
 [sub_resource type="Resource" id="Resource_2x88a"]
@@ -27,8 +26,6 @@ script = ExtResource("2_o3wrr")
 name = "Lightning Bolt"
 id = "lightning_bolt"
 AP_cost = 2
-attacking_aptitude = "resolve"
-defending_aptitude = "agility"
 reach = 20
 self_filters = Array[ExtResource("3_yax3i")]([SubResource("Resource_yhrhx"), SubResource("Resource_h8t4n")])
 target_effects = Array[ExtResource("4_x6gtk")]([SubResource("Resource_886ob")])

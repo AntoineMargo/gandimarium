@@ -1,0 +1,44 @@
+[gd_resource type="Resource" script_class="Spell" format=3 uid="uid://ceuyup5d4j2f"]
+
+[ext_resource type="Script" uid="uid://chufkd7a0xqa0" path="res://activities/activity.gd" id="1_8getf"]
+[ext_resource type="Script" uid="uid://bgx24o78uf4n3" path="res://activities/variable_area_activity.gd" id="2_mcysb"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="3_d0t7b"]
+[ext_resource type="Script" uid="uid://bmyfmkog6abuh" path="res://filters/action_points.gd" id="4_b717v"]
+[ext_resource type="Script" uid="uid://tw4lacdrgfs3" path="res://filters/power_points.gd" id="5_cdcir"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_dbyep"]
+[ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damaging_effect.gd" id="7_36pk0"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell.gd" id="8_ud4is"]
+
+[sub_resource type="Resource" id="Resource_a6kr5"]
+script = ExtResource("4_b717v")
+metadata/_custom_type_script = "uid://bmyfmkog6abuh"
+
+[sub_resource type="Resource" id="Resource_eo5kp"]
+script = ExtResource("5_cdcir")
+metadata/_custom_type_script = "uid://tw4lacdrgfs3"
+
+[sub_resource type="Resource" id="Resource_q421p"]
+script = ExtResource("7_36pk0")
+damage_die = 6
+resistance = 2
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_0ld5o"]
+script = ExtResource("2_mcysb")
+number_of_targets = 3
+name = "Bursts of Fire"
+id = "bursts_of_fire"
+AP_cost = 2
+reach = 20
+spread = 6
+self_filters = Array[ExtResource("3_d0t7b")]([SubResource("Resource_a6kr5"), SubResource("Resource_eo5kp")])
+target_effects = Array[ExtResource("6_dbyep")]([SubResource("Resource_q421p")])
+targeting_type = 1
+is_spell = true
+metadata/_custom_type_script = "uid://bgx24o78uf4n3"
+
+[resource]
+script = ExtResource("8_ud4is")
+name = "Bursts of Fire"
+activities = Array[ExtResource("1_8getf")]([SubResource("Resource_0ld5o")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

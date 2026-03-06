@@ -11,14 +11,10 @@ var spawner: Spawner
 
 var world_ready: bool = false
 
-var last_hovered_tile: Vector3i
 var target_highlights = []
 
 var PathPreviewScene = preload("res://interface/local_map/path_preview.tscn")
 var path_preview: Node2D = null
-
-var preview_area_nodes = []
-var committed_area_nodes = []
 
 var preview_visualized_rects: Array[ColorRect] = []
 var preview_visualized_lines: Array[Line2D] = []
@@ -26,8 +22,6 @@ var preview_visualized_lines: Array[Line2D] = []
 var committed_visualized_rects: Array[ColorRect] = []
 var committed_visualized_lines: Array[Line2D] = []
 
-#var visualized_rects: Array[ColorRect] = []
-#var visualized_lines: Array[Line2D] = []
 
 @onready var selection_highlight = load("res://interface/local_map/selection_highlight/selection_highlight.tscn").instantiate()
 
@@ -1035,60 +1029,6 @@ func clear_visualization(visualized_rects: Array, visualized_lines: Array) -> vo
 	for line in visualized_lines:
 		line.queue_free()
 	visualized_lines.clear()
-
-#func visualize_area(tiles: Array[Vector3i]) -> void:
-	#clear_visualization()
-	#
-	## Convert tiles array to a set for fast lookup
-	#var tile_set = {}
-	#for tile in tiles:
-		#tile_set[tile] = true
-	#
-	#for tile in tiles:
-		#var rect = ColorRect.new()
-		#rect.color = Color8(0, 255, 0, 100)
-		#rect.size = Vector2(Global.TILE_SIZE, Global.TILE_SIZE)
-		#var pos = tile_to_pixels(tile)
-		#@warning_ignore("integer_division")
-		#rect.position = Vector2(pos.x - Global.TILE_SIZE/2, pos.y - Global.TILE_SIZE/2)
-		#rect.z_index = 999
-		#add_child(rect)
-		#visualized_rects.append(rect)
-		#
-		## Draw border lines where there's no adjacent tile
-		#draw_tile_borders(tile, tile_set, pos)
-
-#func draw_tile_borders(tile: Vector3i, tile_set: Dictionary, pixel_pos: Vector2) -> void:
-	#var directions = [
-		#{"offset": Vector3i(-1, 0, 0), "start": Vector2(0, 0), "end": Vector2(0, Global.TILE_SIZE)},  # LEFT
-		#{"offset": Vector3i(1, 0, 0), "start": Vector2(Global.TILE_SIZE, 0), "end": Vector2(Global.TILE_SIZE, Global.TILE_SIZE)},  # RIGHT
-		#{"offset": Vector3i(0, -1, 0), "start": Vector2(0, 0), "end": Vector2(Global.TILE_SIZE, 0)},  # UP (north)
-		#{"offset": Vector3i(0, 1, 0), "start": Vector2(0, Global.TILE_SIZE), "end": Vector2(Global.TILE_SIZE, Global.TILE_SIZE)}  # DOWN (south)
-	#]
-	#
-	#for dir in directions:
-		#var neighbor = tile + dir.offset
-		#
-		## If neighbor is not in the tile set, draw border on this edge
-		#if not tile_set.has(neighbor):
-			#var line = Line2D.new()
-			#@warning_ignore("integer_division")
-			#var base_pos = Vector2(pixel_pos.x - Global.TILE_SIZE/2, pixel_pos.y - Global.TILE_SIZE/2)
-			#line.add_point(base_pos + dir.start)
-			#line.add_point(base_pos + dir.end)
-			#line.width = 0.5
-			#line.default_color = Color8(0, 255, 0, 255)  # Bright opaque green
-			#line.z_index = 1000
-			#add_child(line)
-			#visualized_lines.append(line)  # Store for cleanup (change array type if needed)
-
-#func clear_visualization() -> void:
-	#for rect in visualized_rects:
-		#rect.queue_free()
-	#visualized_rects.clear()
-	#for line in visualized_lines:
-		#line.queue_free()
-	#visualized_lines.clear()
 
 func _on_world_ready():
 	world_ready = true

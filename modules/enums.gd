@@ -72,7 +72,6 @@ enum Shape {
 	BURST,
 	CONE,
 	LINE,
-	CUSTOM
 }
 
 enum Aptitude {
