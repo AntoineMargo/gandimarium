@@ -65,6 +65,8 @@ func handle_world_hover(tile: Vector3i) -> void:
 	if tile == last_hovered_tile:
 		return
 
+	world_manager.hover_tile.set_tile(tile)
+
 	last_hovered_tile = tile
 
 	if activity_handler:

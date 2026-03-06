@@ -24,6 +24,7 @@ var committed_visualized_lines: Array[Line2D] = []
 
 
 @onready var selection_highlight = load("res://interface/local_map/selection_highlight/selection_highlight.tscn").instantiate()
+@onready var hover_tile = load("res://interface/local_map/hover_tile_indicator/hover_tile_indicator.tscn").instantiate()
 
 enum ElementPriority {
 	CREATURE = 3,
@@ -1058,3 +1059,4 @@ func _ready() -> void:
 	SignalBus.world_quit.connect(_on_world_quit)
 	path_preview = PathPreviewScene.instantiate()
 	add_child(path_preview)
+	add_child(hover_tile)

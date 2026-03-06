@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bs2nolrsd6ds1"]
+
+[ext_resource type="Script" uid="uid://ccwo0xkuxxoyq" path="res://interface/local_map/hover_tile_indicator/hover_tile_indicator.gd" id="1_uxnaj"]
+
+[node name="HoverTileIndicator" type="Node2D" unique_id=1562178406]
+z_index = 500
+script = ExtResource("1_uxnaj")
