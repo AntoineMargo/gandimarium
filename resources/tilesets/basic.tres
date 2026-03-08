@@ -1,6 +1,7 @@
 [gd_resource type="TileSet" format=3 uid="uid://ctj7opq37dw46"]
 
 [ext_resource type="PackedScene" uid="uid://c071vi42b0xxf" path="res://props/containers/crate.tscn" id="1_ef5ns"]
+[ext_resource type="PackedScene" uid="uid://bkx2puqv0suly" path="res://props/beds/bed.tscn" id="2_0akgm"]
 [ext_resource type="Texture2D" uid="uid://cexhdafqfd4n0" path="res://art/tiles/16x16_tiles.png" id="6_ex8c5"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_mwy2k"]
@@ -21,6 +22,7 @@ tile_data = PackedInt32Array(0, 458757, 7, 65536, 458757, 7, 131072, 458757, 7, 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_mwy2k"]
 resource_name = "props"
 scenes/1/scene = ExtResource("1_ef5ns")
+scenes/2/scene = ExtResource("2_0akgm")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7dkb5"]
 texture = ExtResource("6_ex8c5")

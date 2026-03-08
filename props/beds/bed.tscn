@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bkx2puqv0suly"]
+
+[ext_resource type="Script" uid="uid://daca8buxekfmc" path="res://props/beds/bed.gd" id="1_r54y8"]
+[ext_resource type="Texture2D" uid="uid://bg4yjm2fp47vf" path="res://art/props/bed.png" id="2_lic68"]
+
+[node name="Bed" type="Node2D" unique_id=781949589]
+script = ExtResource("1_r54y8")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1041684433]
+texture = ExtResource("2_lic68")

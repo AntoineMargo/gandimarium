@@ -1046,17 +1046,23 @@ func _on_world_quit():
 #func _on_crisis_mode_ended(_creature):
 	#local_timer.paused = false
 
+func time_effects_on_creatures():
+	for creature in current_world.creatures:
+		creature.decay_stats()
+		#creature.data.hunger -= 2
+		#creature.data.sleep -= 5
+		#creature.data.social -= 2
+
 func _ready() -> void:
 	world_state = WorldState.new()
 	spawner = Spawner.new()
 	spawner.wm = self
 	selection_highlight.update_selection_highlight()
-	#SignalBus.world_select.connect(_on_world_select)
-	#SignalBus.world_interact.connect(_on_world_interact)
 	SignalBus.simple_interact.connect(_simple_interact_disambiguation)
 	SignalBus.complex_interact.connect(_complex_interact)
 	SignalBus.world_ready.connect(_on_world_ready)
 	SignalBus.world_quit.connect(_on_world_quit)
+	SignalBus.hour_change.connect(time_effects_on_creatures)
 	path_preview = PathPreviewScene.instantiate()
 	add_child(path_preview)
 	add_child(hover_tile)
