@@ -4,6 +4,32 @@ var items_interface = null
 var index: int = -1
 var item: Item
 
+func _gui_input(event):
+	if event is InputEventMouseButton \
+	and event.button_index == MOUSE_BUTTON_LEFT \
+	and event.pressed \
+	and event.double_click:
+		_on_double_clicked()
+
+func _on_double_clicked():
+	if item == null:
+		return
+
+	print("Double clicked:", item.name)
+	if item is Food:
+		Global.selected_char.eat_food(item)
+
+func remove_n_of_item(amount) -> Item:
+	var retrieved_item = null
+	if index != -1:
+		if items_interface == Enums.ItemsList.INVENTORY:
+			retrieved_item = Global.selected_char.data.inventory.remove_item_at_index(index, amount)
+			SignalBus.update_inventory.emit()
+		elif items_interface == Enums.ItemsList.CONTAINER:
+			retrieved_item = Global.container_window.current_container.inventory.remove_item_at_index(index, amount)
+			SignalBus.update_container.emit()
+	return retrieved_item
+
 func _get_drag_data(_at_position):
 	var amount_to_take: int = 1
 	if Input.is_key_pressed(KEY_CTRL):
@@ -21,14 +47,7 @@ func _get_drag_data(_at_position):
 	preview.z_index = 3000
 	set_drag_preview(preview)
 
-	var retrieved_item = null
-	if index != -1:
-		if items_interface == Enums.ItemsList.INVENTORY:
-			retrieved_item = Global.selected_char.data.inventory.remove_item_at_index(index, amount_to_take)
-			SignalBus.update_inventory.emit()
-		elif items_interface == Enums.ItemsList.CONTAINER:
-			retrieved_item = Global.container_window.current_container.inventory.remove_item_at_index(index, amount_to_take)
-			SignalBus.update_container.emit()
+	var retrieved_item = remove_n_of_item(amount_to_take)
 
 	Global.ui_manager.drag_in_progress = true
 	Global.ui_manager.drag_was_dropped = false

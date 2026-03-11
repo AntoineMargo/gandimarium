@@ -19,9 +19,10 @@ class_name Item
 @export var shoot: Activity = null
 @export var throw: Activity = null
 
-@export var owner = null # Creature/ContainerProp/tile
 @export var count: int = 1
 @export var selected_attacks: Dictionary[Enums.AttackCategory, Enums.AttackType] = {}
+
+@export_storage var owner = null # Creature/ContainerProp/tile
 
 func initialize_attack_modes():
 	if strike:

@@ -1049,9 +1049,9 @@ func _on_world_quit():
 #func _on_crisis_mode_ended(_creature):
 	#local_timer.paused = false
 
-func time_effects_on_creatures():
+func time_effects_on_creatures(n):
 	for creature in current_world.creatures:
-		creature.decay_needs()
+		creature.decay_needs(n)
 
 func _ready() -> void:
 	world_state = WorldState.new()

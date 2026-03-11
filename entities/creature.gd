@@ -399,6 +399,15 @@ func get_best_state() -> Enums.State:
 		return  Enums.State.UNCONSCIOUS
 	return Enums.State.CONSCIOUS
 
+func eat_food(food: Food) -> void:
+	data.hunger += food.food_value
+	if data.hunger > 10000:
+		data.hunger = 10000
+	data.inventory.remove_item(food)
+	SignalBus.dialog_show_message.emit("You have eaten: %s" % [food.name])
+	SignalBus.dialog_show_message.emit("Your hunger is now: %d" % [data.hunger])
+	SignalBus.update_inventory.emit()
+
 ## consumes AP and potentially associated MP if set to 'true'
 func consume_ap(number: int, mp_equivalent: bool = true):
 	data.current_ap -= number
@@ -794,12 +803,18 @@ func _duplicate_runtime_resources():
 	else:
 		data.relationships = Relationships.new()
 
-func decay_needs():
-	data.hunger -= 200
-	data.sleep -= 500
+func decay_needs(n):
+	data.hunger -= 200 * n
+	if data.hunger < 0:
+		data.hunger = 0
+	data.sleep -= 500 * n
+	if data.sleep < 0:
+		data.sleep = 0
 	if not data.player_controlled:
 		@warning_ignore("integer_division", "narrowing_conversion")
-		data.social -= data.personality.sociality * 10
+		data.social -= data.personality.sociality * 10 * n
+		if data.social < 0:
+			data.social = 0
 
 func _ready():
 	print("Creature getting ready!")

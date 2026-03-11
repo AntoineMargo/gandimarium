@@ -21,9 +21,9 @@ func operate(_creature: Creature):
 
 func _initalize_container():
 	inventory = Inventory.new()
-	var new_item = Library.get_item("wpn_bow")
+	var new_item = Library.get_item("food_bread")
 	new_item = new_item.duplicate(true)
-	new_item.count = 5
+	new_item.count = 10
 	inventory.list.append(new_item)
 
 func add_item_to_inventory(item: Item) -> void:

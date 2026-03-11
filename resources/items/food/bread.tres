@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Food" format=3 uid="uid://cwe2vnqpdkkug"]
+
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_p2hjy"]
+[ext_resource type="Script" uid="uid://5p63q28tlgwq" path="res://items/food.gd" id="2_laie5"]
+[ext_resource type="Resource" uid="uid://7wax86x3q1hj" path="res://resources/activities/weapons/wpn_strike.tres" id="3_meaq2"]
+[ext_resource type="Resource" uid="uid://vtijt8upywt0" path="res://resources/activities/weapons/wpn_throw.tres" id="4_v1rsu"]
+
+[resource]
+script = ExtResource("2_laie5")
+food_value = 2500
+name = "Bread"
+id = "food_bread"
+description = "Oh, delicious fluffy white bread!"
+value = 2
+strike = ExtResource("3_meaq2")
+throw = ExtResource("4_v1rsu")
+owner = null
+metadata/_custom_type_script = "uid://5p63q28tlgwq"
