@@ -831,6 +831,9 @@ func _simple_interact_disambiguation(force_interact: bool = false):
 	if select_creature_on_tile(coords):
 		return
 	if Global.selected_char:
+		if not Global.selected_char.can_act():
+			SignalBus.dialog_show_message.emit("You currently cannot act.")
+			return
 		var element = get_priority_element_on_tile(coords)
 		if element == null:
 			_interact_move(coords)
@@ -1048,10 +1051,7 @@ func _on_world_quit():
 
 func time_effects_on_creatures():
 	for creature in current_world.creatures:
-		creature.decay_stats()
-		#creature.data.hunger -= 2
-		#creature.data.sleep -= 5
-		#creature.data.social -= 2
+		creature.decay_needs()
 
 func _ready() -> void:
 	world_state = WorldState.new()
@@ -1062,7 +1062,7 @@ func _ready() -> void:
 	SignalBus.complex_interact.connect(_complex_interact)
 	SignalBus.world_ready.connect(_on_world_ready)
 	SignalBus.world_quit.connect(_on_world_quit)
-	SignalBus.hour_change.connect(time_effects_on_creatures)
+	#SignalBus.hour_change.connect(time_effects_on_creatures)
 	path_preview = PathPreviewScene.instantiate()
 	add_child(path_preview)
 	add_child(hover_tile)

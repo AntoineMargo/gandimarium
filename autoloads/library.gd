@@ -74,6 +74,10 @@ var _props = {
 	"wooden_crate": "res://props/containers/crate.tscn"
 }
 
+var _conditions = {
+	"bed_sleep" = "res://resources/conditions/bed_sleep.tres"
+}
+
 var _char_sprites = {
 	
 }
@@ -104,6 +108,9 @@ func get_char_sprite(id: String) -> Resource:
 
 func get_prop(id: String) -> Resource:
 	return _get_from(_props, id)
+
+func get_condition(id: String) -> Resource:
+	return _get_from(_conditions, id)
 
 func _get_from(dict: Dictionary, id: String) -> Resource:
 	if dict.has(id):

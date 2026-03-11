@@ -102,7 +102,7 @@ func destroy_self():
 	else:
 		tilemap.erase_cell(layer_coords)
 
-func operate():
+func operate(_creature: Creature):
 	pass
 
 func print_info():

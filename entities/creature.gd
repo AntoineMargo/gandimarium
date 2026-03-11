@@ -364,7 +364,7 @@ func health_status_change():
 	if current_hp >= max_hp:
 		set_stat("current_hp", max_hp)
 	if current_hp < 0:
-		data.conscious = false
+		data.state = Enums.State.UNCONSCIOUS
 		$Mover/DamageVisual.set_wounded_tint()
 		if data.crisis_ai_active:
 			data.crisis_ai_active = false
@@ -388,6 +388,16 @@ func get_current_ap():
 	
 func get_current_pp():
 	return data.current_pp
+
+func can_act() -> bool:
+	if data.state == Enums.State.CONSCIOUS:
+		return true
+	return false
+
+func get_best_state() -> Enums.State:
+	if data.current_hp < 0:
+		return  Enums.State.UNCONSCIOUS
+	return Enums.State.CONSCIOUS
 
 ## consumes AP and potentially associated MP if set to 'true'
 func consume_ap(number: int, mp_equivalent: bool = true):
@@ -462,7 +472,7 @@ func perform_attack(target):
 			perform_activity(attack_activity, target)
 
 func perform_operate(prop: Prop):
-	prop.operate()
+	prop.operate(self)
 
 func get_all_equipped_items() -> Array:
 	return data.equipment.get_all_equipped_items()
@@ -702,8 +712,12 @@ func _on_start_crisis():
 	data.current_mp = 0
 
 func turn_start():
-	set_stat("current_ap", get_stat("max_ap"))
-	set_stat("current_mp", (get_stat("max_mp") * get_stat("max_ap")))
+	if data.state == Enums.State.CONSCIOUS:
+		set_stat("current_ap", get_stat("max_ap"))
+		set_stat("current_mp", (get_stat("max_mp") * get_stat("max_ap")))
+	else:
+		set_stat("current_ap", 0)
+		set_stat("current_mp", 0)
 	Global.focus_char = self
 	if data.player_controlled:
 		print("played controlled")
@@ -779,6 +793,13 @@ func _duplicate_runtime_resources():
 		data.relationships = data.relationships.duplicate(true)
 	else:
 		data.relationships = Relationships.new()
+
+func decay_needs():
+	data.hunger -= 200
+	data.sleep -= 500
+	if not data.player_controlled:
+		@warning_ignore("integer_division", "narrowing_conversion")
+		data.social -= data.personality.sociality * 10
 
 func _ready():
 	print("Creature getting ready!")

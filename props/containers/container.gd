@@ -12,7 +12,7 @@ func make_delta() -> PropDelta:
 		prop_delta.inventory = inventory.list
 	return prop_delta
 
-func operate():
+func operate(_creature: Creature):
 	SignalBus.update_container.emit(self)
 	if Global.container_window.visible == false:
 		Global.container_window.visible = true

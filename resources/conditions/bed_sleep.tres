@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Condition" format=3 uid="uid://drp51dn28rmft"]
+
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_crx4t"]
+[ext_resource type="Script" uid="uid://dtm4ug362b7" path="res://effects/state_effect.gd" id="2_6f6g7"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_skv01"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="3_6f6g7"]
+
+[sub_resource type="Resource" id="Resource_bd6ip"]
+script = ExtResource("2_6f6g7")
+induced_state = 1
+metadata/_custom_type_script = "uid://dtm4ug362b7"
+
+[resource]
+script = ExtResource("3_6f6g7")
+name = "Sleep"
+id = "bed_sleep"
+effects = Array[ExtResource("1_crx4t")]([SubResource("Resource_bd6ip")])
+duration = 28800
+metadata/_custom_type_script = "uid://dvi4ohsador2o"

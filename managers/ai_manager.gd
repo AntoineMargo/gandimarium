@@ -7,7 +7,7 @@ var active_number : int = 0
 func noticing_check(origin: Vector3i):
 	var wm = Global.world_manager
 	for creature in Global.world_manager.current_world.creatures:
-		if creature.data.player_controlled == false and creature.data.conscious:
+		if creature.data.player_controlled == false and creature.data.state == Enums.State.CONSCIOUS:
 			var self_coords = Global.world_manager.get_char_coords(creature)
 			if WorldMath.pos_in_range_weighted_3d(self_coords.vec3, origin, 40):
 				if creature.senses_check_on_tile(origin):

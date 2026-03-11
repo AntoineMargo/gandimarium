@@ -8,7 +8,7 @@ class_name Condition
 @export var filters: Array[Filter] = []
 @export var effects: Array[Effect] = []
 @export var supplanted: Array[Condition] = []
-@export var duration: int = -1
+@export var duration: int = -1 # in seconds
 @export var toggle: bool = false
 @export var is_visible: bool = true
 
@@ -23,16 +23,30 @@ var tile_spawned_on: Vector3i = Vector3i(0, 0, 0)
 var spell_rank: int = 0
 var sources = {}
 
+var start_time: int
+var end_time: int
+
+#var start_time: Dictionary[String, int] = {
+	#"days" = 0,
+	#"hours" = 0,
+	#"minutes" = 0,
+	#"seconds" = 0,
+#}
+#var end_time: Dictionary[String, int] = {
+	#"days" = 0,
+	#"hours" = 0,
+	#"minutes" = 0,
+	#"seconds" = 0,
+#}
+
 func is_active() -> bool:
 	return not sources.is_empty()
-
-#func _on_concentration_ended():
-	#target.remove_condition(self)
 
 func initialize(ctx: Context) -> void:
 	self.target = ctx.target
 	self.user = ctx.user
-	self.user_uid = user.get_final_stat("uid")
+	if user is Creature:
+		self.user_uid = user.get_final_stat("uid")
 	self.target_uid = target.get_final_stat("uid")
 	ctx.condition = self
 	if ctx is ActivityContext:
@@ -44,6 +58,15 @@ func initialize(ctx: Context) -> void:
 			effect.apply_context(ctx)
 		else:
 			effect.apply(self, ctx.target)
+	start_time = Global.time_manager.get_total_seconds()
+	if duration > 0:
+		end_time = start_time + duration
+		SignalBus.time_changed.connect(verify_expired)
+		
+
+func verify_expired(_days, _hours, _minutes, _seconds):
+	if Global.time_manager.get_total_seconds() >= end_time:
+		dispose()
 
 func dispose():
 	destroy_children()

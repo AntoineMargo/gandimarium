@@ -46,9 +46,9 @@ class_name CreatureData
 @export var max_spell_rank: int = 0
 
 # AI Needs
-@export_range(0, 100) var hunger = 100
-@export_range(0, 100) var sleep = 100
-@export_range(0, 100) var social = 100
+@export_range(0, 10000) var hunger: int = 10000
+@export_range(0, 10000) var sleep: int = 10000
+@export_range(0, 10000) var social: int = 10000
 
 # Tactical information
 @export var map_id: String = ""
@@ -60,7 +60,7 @@ class_name CreatureData
 @export var player_controlled: bool = false
 @export var crisis_ai_active: bool = false
 @export var alive: bool = true
-@export var conscious: bool = true
+@export var state: Enums.State = Enums.State.CONSCIOUS
 @export var initiative: int = -1
 
 var derived_stats = null

@@ -1,5 +1,12 @@
 class_name Enums
 
+enum State {
+	CONSCIOUS,
+	SLEEP,
+	SLUMBER,
+	UNCONSCIOUS
+}
+
 enum AttackCategory {
 	STRIKE,
 	SHOOT,

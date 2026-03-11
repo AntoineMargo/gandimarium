@@ -20,8 +20,9 @@ signal dialog_end_crisis_mode()
 signal dialog_end_turn()
 
 #Time
-signal time_changed(seconds, minutes, hours)
-signal hour_change(hours)
+signal time_changed(days, hours, minutes, seconds)
+signal time_skipped(hours)
+#signal hour_change(hours)
 
 #Crisis
 signal toggle_crisis_mode(creature)
@@ -62,8 +63,6 @@ signal end_crisis_turn()
 #World
 signal simple_interact()
 signal complex_interact()
-#signal world_select(tile_coords)
-#signal world_interact(tile_coords)
 #signal refresh_reachable_tiles()
 signal local_turn_passed()
 signal clear_path_preview()
