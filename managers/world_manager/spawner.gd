@@ -43,7 +43,7 @@ func spawn_character(data_file):
 
 	character.initialise()
 	wm.current_world.register_creature(character)
-	#character.make_active_set(0)
+	character.apply_conditions_from_equipment()
 	var weapons = character.get_weapons()
 	for weapon in weapons:
 		weapon.initialize_attack_modes()

@@ -27,7 +27,7 @@ func advance_time():
 	if minutes >= 60:
 		minutes = 0
 		hours += 1
-		#SignalBus.hour_change.emit(hours)
+		SignalBus.hour_change.emit(1)
 
 	if hours >= 24:
 		hours = 0
@@ -63,6 +63,7 @@ func skip_time(skipped_days: int, skipped_hours: int = 0, skipped_minutes: int =
 	var new_total_hours = days * 24 + hours
 	var hour_difference = new_total_hours - old_total_hours
 
+	SignalBus.hour_change.emit(hour_difference)
 	SignalBus.time_skipped.emit(hour_difference)
 	SignalBus.time_changed.emit(days, hours, minutes, seconds)
 
@@ -77,41 +78,12 @@ func jump_to_time(new_days: int, new_hours: int, new_minutes: int, new_seconds: 
 	minutes = new_minutes
 	seconds = new_seconds
 
+	SignalBus.hour_change.emit(hour_difference)
 	SignalBus.time_skipped.emit(hour_difference)
 	SignalBus.time_changed.emit(days, hours, minutes, seconds)
 
 func get_total_seconds() -> int:
 	return seconds + minutes * 60 + hours * 3600 + days * 86400
-
-#func skip_time(skipped_days: int, skipped_hours: int = 0, skipped_minutes: int = 0, skipped_seconds: int = 0):
-	#var old_hours = hours
-	#var old_days = days
-	#
-	#seconds += skipped_seconds
-	#minutes += skipped_minutes
-	#hours += skipped_hours
-	#days += skipped_days
-#
-	#@warning_ignore("integer_division")
-	#minutes += seconds / 60
-	#seconds = seconds % 60
-#
-	#@warning_ignore("integer_division")
-	#hours += minutes / 60
-	#minutes = minutes % 60
-#
-	#@warning_ignore("integer_division")
-	#days += hours / 24
-	#hours = hours % 24
-#
-	#@warning_ignore("integer_division")
-	#var hour_difference = ((days - old_days) * 24) + (hours - old_hours)
-	#
-	#for hour in range(hour_difference):
-		#SignalBus.hour_change.emit(hours)
-#
-	#SignalBus.time_skipped.emit(hour_difference)
-	#SignalBus.time_changed.emit(days, hours, minutes, seconds)
 
 func _ready() -> void:
 	add_child(world_timer)

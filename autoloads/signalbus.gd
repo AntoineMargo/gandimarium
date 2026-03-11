@@ -1,4 +1,5 @@
 extends Node
+@warning_ignore_start("unused_signal")
 
 #Dialog
 signal dialog_show_message(text)
@@ -22,7 +23,7 @@ signal dialog_end_turn()
 #Time
 signal time_changed(days, hours, minutes, seconds)
 signal time_skipped(hours)
-#signal hour_change(hours)
+signal hour_change(n)
 
 #Crisis
 signal toggle_crisis_mode(creature)
@@ -56,7 +57,7 @@ signal open_inventory()
 signal update_inventory()
 signal update_container()
 signal update_character_info()
-signal drop_item_on_tile(focus_char, last_dragged_item)
+signal drop_item_on_tile(character)
 signal update_ui_for_char()
 signal end_crisis_turn()
 

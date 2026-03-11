@@ -30,6 +30,10 @@ Library="*res://autoloads/library.gd"
 window/size/viewport_height=792
 mouse_cursor/tooltip_position_offset=Vector2(5, -25)
 
+[editor]
+
+movie_writer/movie_file="/home/antoine/Documents/gandimarium/movie.avi"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/ai_zone_painter/plugin.cfg")

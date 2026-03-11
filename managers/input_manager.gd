@@ -180,27 +180,7 @@ func BasicControls():
 			SignalBus.dialog_show_message.emit("	%s" % [target.data.name])
 
 	if Input.is_action_just_pressed("E"):
-		if not Global.selected_char:
-			return
-		var c = Global.selected_charuuutnnnnuu
-		print("active category: ", c.data.equipment.get_active_attack_category())
-		print("active set: ", c.data.get_active_set())
-		print("active hand: ", c.data.get_active_hand())
-		print("Set 1 left strike: ", c.data.equipment.strike_types[0][0])
-		print("Set 1 right strike: ", c.data.equipment.strike_types[0][1])
-		print("Set 2 left strike: ", c.data.equipment.strike_types[1][0])
-		print("Set 2 right strike: ", c.data.equipment.strike_types[1][1])
-		print("Current set left throw: ", c.data.equipment.throw_types[0])
-		print("Current set right throw: ", c.data.equipment.throw_types[1])
-		var weapons = c.data.get_active_weapons()
-		if weapons[0]:
-			print("Main weapon: ",  weapons[0].name)
-		else:
-			print("Main weapon: Empty")
-		if weapons[1]:
-			print("Offhand weapon: ",  weapons[1].name)
-		else:
-			print("Offhand weapon: Empty")
+		pass
 
 	if Input.is_action_just_pressed("B"):
 		if not Global.selected_char:

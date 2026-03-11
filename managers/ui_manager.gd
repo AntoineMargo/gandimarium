@@ -48,11 +48,6 @@ func set_ui_node(node: Node):
 
 	var slider = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/SpellRankSlider")
 
-	#var activity_button_container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ActivitiesContainer/ActivitiesLine1")
-	#for i in activity_button_container.get_child_count():
-		#var button = activity_button_container.get_child(i)
-		#button.connect("pressed", Callable(self, "_on_activity_button_pressed").bind(button))
-
 	if crisis_mode:
 		crisis_mode.connect("toggled", Callable(self, "on_crisis_mode_toggled"))
 
@@ -393,10 +388,10 @@ func drag_fail_restore():
 
 			if mouse_over_control == null:
 				print("Dropping item on ground.")
-				SignalBus.drop_item_on_tile.emit(Global.selected_char, last_dragged_item)
+				SignalBus.drop_item_on_tile.emit(Global.selected_char)
 			elif mouse_over_control != null and mouse_over_control.name == "UI":
 				print("Dropping item on ground.")
-				SignalBus.drop_item_on_tile.emit(Global.selected_char, last_dragged_item)
+				SignalBus.drop_item_on_tile.emit(Global.selected_char)
 			else:
 				print("Drag failed — restoring item.")
 				if window_dragged_from == ItemsList.INVENTORY:

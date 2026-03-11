@@ -3,8 +3,22 @@ class_name WeaponThrow
 
 @export var reach_mult: int = 1
 
+func drop_item_on_target(target):
+	var item_in_inventory: bool = false
+	for item in user.data.inventory.list:
+		if item.id == weapon.id:
+			user.data.inventory.remove_item(item)
+			item_in_inventory = true
+			break
+	if not item_in_inventory:
+		user.data.equipment.remove_item(weapon)
+	var wm = Global.world_manager
+	var coords = target.get_coords()
+	wm.add_to_tile(weapon, coords)
+	wm.add_item_visual(coords)
+
 func execute() -> void:
-	reach = user.data.brawn * reach_mult
+	reach = user.data.attributes.brawn * reach_mult
 	_apply_act_mods()
 	var self_ctx = _build_context(user)
 	for filter in self_filters:
@@ -19,11 +33,9 @@ func execute() -> void:
 		if not WorldMath.char_in_range(ctx.origin, ctx.target, reach):
 			SignalBus.dialog_out_of_range.emit()
 			continue
-			#return
 		if not WorldMath.has_line_of_sight(ctx.origin, ctx.target):
 			SignalBus.dialog_no_line_of_sight.emit()
 			continue
-			#return
 		var passes_all_filters = true
 		for filter in target_filters:
 			if filter is Filter:
@@ -52,6 +64,8 @@ func execute() -> void:
 					effect.apply_context(ctx)
 				else:
 					effect.apply(self, ctx.user, ctx.degree)
+
+		drop_item_on_target(target)
 
 	for effect in self_final_effects:
 		if effect is Effect:

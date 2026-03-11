@@ -1062,7 +1062,7 @@ func _ready() -> void:
 	SignalBus.complex_interact.connect(_complex_interact)
 	SignalBus.world_ready.connect(_on_world_ready)
 	SignalBus.world_quit.connect(_on_world_quit)
-	#SignalBus.hour_change.connect(time_effects_on_creatures)
+	SignalBus.hour_change.connect(time_effects_on_creatures)
 	path_preview = PathPreviewScene.instantiate()
 	add_child(path_preview)
 	add_child(hover_tile)
