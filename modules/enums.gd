@@ -1,5 +1,12 @@
 class_name Enums
 
+enum Cover {
+	NONE,
+	QUARTER,
+	HALF,
+	FULL
+}
+
 enum State {
 	CONSCIOUS,
 	SLEEP,

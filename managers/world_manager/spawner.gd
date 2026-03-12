@@ -15,8 +15,8 @@ func _guardian():
 		return false
 	return true
 
-func spawn_character(data_file):
-	if not _guardian():
+func spawn_character(data_file, coords: Vector3i, guardian: bool = true):
+	if guardian and not _guardian():
 		return null
 
 	var char_data: CreatureData = load(data_file)
@@ -26,7 +26,7 @@ func spawn_character(data_file):
 	var character = char_scene.instantiate()
 	character.data = char_data
 
-	var coords = wm.get_tile_coords_under_cursor()
+	#var coords = wm.get_tile_coords_under_cursor()
 	var layer_coords = Vector2i(coords.x, coords.y)
 	character.data.tile_x = coords.x
 	character.data.tile_y = coords.y

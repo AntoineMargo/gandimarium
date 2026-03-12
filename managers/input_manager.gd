@@ -47,12 +47,14 @@ func BasicControls():
 	if Input.is_action_just_pressed("T"):
 		if not wm.current_world:
 			return
-		wm.spawn_character("res://resources/creatures/data_andimar.tres")
+		var coords = wm.get_tile_coords_under_cursor()
+		wm.spawn_character("res://resources/creatures/data_andimar.tres", coords)
 		
 	if Input.is_action_just_pressed("Y"):
 		if not wm.current_world:
 			return
-		wm.spawn_character("res://resources/creatures/data_bandit.tres")
+		var coords = wm.get_tile_coords_under_cursor()
+		wm.spawn_character("res://resources/creatures/data_bandit.tres", coords)
 
 	if Input.is_action_just_pressed("U"):
 		var hovered_tile = Global.world_manager.get_hovered_tile()

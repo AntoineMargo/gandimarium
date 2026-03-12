@@ -135,32 +135,42 @@ func setup_layers():
 			var layer = child
 			var id = layer.id
 			var astar = AStarGrid2D.new()
-			var tile_map_limits = layer.get_used_rect()
-			var width = tile_map_limits.size.x
-			var height = tile_map_limits.size.y
+			#var tile_map_limits = layer.get_used_rect()
+			#var width = tile_map_limits.size.x
+			#var height = tile_map_limits.size.y
 			var contents = {};
 			var occupied = {};
+			var cover = {};
 			var hit_points = {};
 			var item_visual = {};
-			astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
-			#astar.region = Rect2i(0, 0, width, height)
-			astar.region = layer.get_used_rect()
-			astar.cell_size = Vector2(Global.TILE_SIZE, Global.TILE_SIZE)
-			astar.update()
-			for x in range(width):
-				for y in range(height):
-					var coords = Vector2i(x, y)
-					var tile_data = layer.get_cell_tile_data(coords)
-					if tile_data and tile_data.get_custom_data("walkable") == false:
-						astar.set_point_solid(coords, true)
+
 			layers[id] = {
 				"tile_map": layer,
 				"path_map": astar,
 				"contents": contents,
 				"occupied": occupied,
+				"cover": cover,
 				"hit_points": hit_points,
 				"item_visual": item_visual
 			}
+			
+			astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
+			astar.region = layer.get_used_rect()
+			astar.cell_size = Vector2(Global.TILE_SIZE, Global.TILE_SIZE)
+			astar.update()
+			
+			var rect = layer.get_used_rect()
+
+			for x in range(rect.position.x, rect.position.x + rect.size.x):
+				for y in range(rect.position.y, rect.position.y + rect.size.y):
+					var coords = Vector2i(x, y)
+					var tile_data = layer.get_cell_tile_data(coords)
+					if tile_data:
+						var tile_cover = tile_data.get_custom_data("cover")
+						if tile_cover == 4:
+							layers[id]["cover"][coords] = Enums.Cover.FULL
+							astar.set_point_solid(coords, true)
+
 	if not layers.is_empty():
 		current_level = 0
 		current_tile_map_layer = layers[current_level]["tile_map"]
@@ -168,6 +178,7 @@ func setup_layers():
 	else:
 		print("Layers is not set up...")
 
+func setup_ramps():
 	for z in layers:
 		var layer = layers[z]["tile_map"]
 		var width = layer.get_used_rect().size.x
@@ -657,8 +668,8 @@ func spawn_player():
 func spawn_enemy():
 	spawner.spawn_character_enemy()
 	
-func spawn_character(data_file):
-	spawner.spawn_character(data_file)
+func spawn_character(data_file, coords):
+	spawner.spawn_character(data_file, coords)
 
 ## takes a tile's coords in either Vector3i or Vector2i format and returns them in pixel format
 func tile_to_pixels(coords) -> Vector2:
@@ -740,6 +751,7 @@ func try_move_char_abs(creature: Creature, origin: Vector3i, target: Vector3i):
 	var layer_origin = Vector2i(origin.x, origin.y)
 	var layer_target = Vector2i(target.x, target.y)
 	
+	layers[origin.z]["cover"][layer_origin] = Enums.Cover.NONE
 	layers[origin.z]["occupied"][layer_origin] = false
 	layers[origin.z]["path_map"].set_point_solid(layer_origin, false)
 	remove_from_tile(creature, origin)
@@ -748,9 +760,10 @@ func try_move_char_abs(creature: Creature, origin: Vector3i, target: Vector3i):
 	creature.data.tile_y = target.y
 	creature.data.tile_z = target.z
 	
+	layers[target.z]["cover"][layer_target] = Enums.Cover.QUARTER
 	layers[target.z]["occupied"][layer_target] = true
-	add_to_tile(creature, target)
 	layers[target.z]["path_map"].set_point_solid(layer_target, true)
+	add_to_tile(creature, target)
 	path_preview.clear_all()
 
 func find_creature_on_tile(coordinates: Vector3i) -> Creature:

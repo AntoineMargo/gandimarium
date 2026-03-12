@@ -21,6 +21,7 @@ class_name CreatureData
 
 @export var personality: Personality = null
 
+@export var aspects: Array[Aspect] = []
 @export var talents: Array[Talent] = []
 @export var activities: Array[Activity] = []
 @export var spells_ready: Array = [Spell]
