@@ -1,5 +1,4 @@
 extends Node
-
 class_name CrisisAI
 
 var wm = null
@@ -82,16 +81,10 @@ func add_weapon_entries(entries):
 func add_default_entries(entries):
 	return entries
 
-func setup(world_manager, owner_creature: Creature):
-	wm = world_manager
-	creature = owner_creature
-	print("CrisisAI")
-	print("	creature: ", creature)
-	print("	wm: ", wm)
-
 func _ready() -> void:
 	situation = $SituationModule
 	movement = $MovementModule
 	evaluator = $EvaluatorModule
 	executor = $ExecutorModule
 	creature = $"../.."
+	wm = Global.world_manager

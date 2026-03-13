@@ -2,9 +2,10 @@ extends Prop
 class_name SpawnerProp
 
 @export var creature_data: String = "res://resources/creatures/data_bandit.tres"
+@export var routine: String = "res://resources/routines/bandit_routine.tres"
 
 func spawn_creature():
-	Global.world_manager.spawner.spawn_character(creature_data, pos, false)
+	Global.world_manager.spawner.spawn_character(creature_data, pos, routine, false)
 
 func initialize() -> void:
 	var layer_coords = Vector2i(pos.x, pos.y)

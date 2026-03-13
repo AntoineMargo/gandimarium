@@ -82,6 +82,11 @@ func jump_to_time(new_days: int, new_hours: int, new_minutes: int, new_seconds: 
 	SignalBus.time_skipped.emit(hour_difference)
 	SignalBus.time_changed.emit(days, hours, minutes, seconds)
 
+## Returns a Vector4i of days, hours, minutes and seconds
+func get_time() -> Vector4i:
+	var time = Vector4i(days, hours, minutes, seconds)
+	return time
+
 func get_total_seconds() -> int:
 	return seconds + minutes * 60 + hours * 3600 + days * 86400
 

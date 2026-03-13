@@ -1,5 +1,13 @@
 class_name Enums
 
+enum ZoneTag {
+	NONE,
+	MEETING,
+	SLEEP,
+	PATROL,
+	GUARD
+}
+
 enum Cover {
 	NONE,
 	QUARTER,

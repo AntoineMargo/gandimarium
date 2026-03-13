@@ -14,7 +14,7 @@ func execute(planned_sequence):
 			print("MOVE ACTIVITY")
 			creature.perform_activity(planned_act.activity)
 			print("planned_act.target_position: ", planned_act.target_position)
-			wm._interact_move(planned_act.target_position)
+			wm.interact_move(creature, planned_act.target_position)
 		elif planned_act.target_creature:
 			print("TARGETED ACTIVITY")
 			creature.perform_activity(planned_act.activity, planned_act.target_creature)

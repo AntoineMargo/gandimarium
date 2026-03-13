@@ -53,8 +53,10 @@ func BasicControls():
 	if Input.is_action_just_pressed("Y"):
 		if not wm.current_world:
 			return
-		var coords = wm.get_tile_coords_under_cursor()
-		wm.spawn_character("res://resources/creatures/data_bandit.tres", coords)
+		var coords: Vector3i = wm.get_tile_coords_under_cursor()
+		var data: String = "res://resources/creatures/data_bandit.tres"
+		var routine: String = "res://resources/routines/bandit_routine.tres"
+		wm.spawn_character(data, coords, routine)
 
 	if Input.is_action_just_pressed("U"):
 		var hovered_tile = Global.world_manager.get_hovered_tile()

@@ -15,12 +15,14 @@ func _guardian():
 		return false
 	return true
 
-func spawn_character(data_file, coords: Vector3i, guardian: bool = true):
+func spawn_character(data_file: String, coords: Vector3i, routine: String = "", guardian: bool = true):
+	# Don't use guardian for scene tile spawners
 	if guardian and not _guardian():
 		return null
 
 	var char_data: CreatureData = load(data_file)
 	char_data = char_data.duplicate(true)
+
 
 	var char_scene = load("res://entities/creature.tscn")
 	var character = char_scene.instantiate()
@@ -47,6 +49,11 @@ func spawn_character(data_file, coords: Vector3i, guardian: bool = true):
 	var weapons = character.get_weapons()
 	for weapon in weapons:
 		weapon.initialize_attack_modes()
+
+	if routine:
+		var char_routine: LocalRoutine = load(routine)
+		#char_routine = char_routine.duplicate(true) # Not needed for now
+		character.ai_controller.localai.routine = char_routine
 
 	return character
 

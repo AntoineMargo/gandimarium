@@ -12,15 +12,6 @@ var accel : float = 1500.0
 var wm = null
 var creature = null
 
-#func begin_path(new_path: Array):
-	#path = new_path
-	#path_index = 0
-	#active = true
-#
-	#if velocity == Vector2.ZERO:
-		#var coords = creature.get_coords()
-		#global_position = wm.tile_to_pixels(coords)
-
 func begin_path(new_path: Array):
 	var was_moving = active and path_index < path.size()
 	
@@ -71,7 +62,8 @@ func arrive_at_tile(point, old_point):
 	global_position = wm.tile_to_pixels(point)
 	creature.set_coords(point)
 	wm.try_move_char_abs(creature, old_point, point)
-	SignalBus.noticing_check.emit(point)
+	if creature.data.player_controlled:
+		SignalBus.noticing_check.emit(point)
 	path_index += 1
 
 func _on_stop_all_movement():

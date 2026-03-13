@@ -1,5 +1,4 @@
 extends Node
-
 class_name AIController
 
 var wm = null
@@ -24,6 +23,7 @@ func switch_state(new_state):
 	#current_state.set_physics_process(true)
 
 func _ready() -> void:
+	wm = Global.world_manager
 	creature = $".."
 	overmapai = $OvermapAI
 	localai = $LocalAI

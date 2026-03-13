@@ -3,6 +3,7 @@ class_name WorldManager
 
 var layers: Dictionary = {}
 var layer_links: Dictionary = {}
+var ai_zones: Dictionary = {}
 var current_tile_map_layer: TileMapLayer = null
 var current_level: int = 0
 var current_world: Node = null
@@ -202,6 +203,14 @@ func setup_ramps():
 							if not layer_links[z].has(pos):
 								layer_links[z][pos] = []
 							layer_links[z][pos].append([down_z, pos])
+
+func setup_ai_zones():
+	for layer in current_world.get_children():
+		if layer is TileMapLayer:
+			var id = layer.id
+			for child in layer.get_children():
+				if child is ZonePainter:
+					ai_zones[id] = child.zones
 
 func get_reachable_tiles_3D_with_diagonals(start: Vector3i, max_cost: float) -> Array[Vector3i]:
 	var visited: Dictionary = {}
@@ -662,14 +671,14 @@ func creatures_visible_if_on_layer():
 		for creature in current_world.creatures:
 			creature.visible = (creature.data.tile_z == current_level)
 
-func spawn_player():
-	spawner.spawn_character_player()
+#func spawn_player():
+	#spawner.spawn_character_player()
+	#
+#func spawn_enemy():
+	#spawner.spawn_character_enemy()
 	
-func spawn_enemy():
-	spawner.spawn_character_enemy()
-	
-func spawn_character(data_file, coords):
-	spawner.spawn_character(data_file, coords)
+func spawn_character(data_file: String, coords: Vector3i, routine: String = ""):
+	spawner.spawn_character(data_file, coords, routine)
 
 ## takes a tile's coords in either Vector3i or Vector2i format and returns them in pixel format
 func tile_to_pixels(coords) -> Vector2:
@@ -849,7 +858,7 @@ func _simple_interact_disambiguation(force_interact: bool = false):
 			return
 		var element = get_priority_element_on_tile(coords)
 		if element == null:
-			_interact_move(coords)
+			interact_move(Global.selected_char, coords)
 		elif element is Creature:
 			if force_interact:
 				Global.selected_char.perform_attack(element)
@@ -872,7 +881,7 @@ func get_close_to_target(creature: Creature, target: Vector3i, distance: int) ->
 		pass
 	else:
 		var path = path_to_adjacency(char_coords, target, distance)
-		_interact_move(path[1])
+		interact_move(creature, path[1])
 		if Global.selected_char.get_coords() != path[-1]:
 			return false
 	return true
@@ -899,7 +908,7 @@ func _on_world_interact():
 		if layers[current_level]["occupied"].get(layer_coords):
 			_interact_attack(coords)
 		else:
-			_interact_move(coords)
+			interact_move(Global.selected_char, coords)
 
 func _interact_attack(coords: Vector3i):
 	var layer_coords = Vector2i(coords.x, coords.y)
@@ -934,8 +943,8 @@ func calculate_ap_cost(cost: float, current_available_mp: float, mp_per_ap: floa
 		var ap_consumed = ap_used_after - ap_used_before
 		return ap_consumed
 
-func _interact_move(target: Vector3i):
-	var character = Global.focus_char
+func interact_move(character: Creature, target: Vector3i):
+	#var character = Global.focus_char
 	var origin = character.get_coords()
 	var layer_origin = Vector2i(origin.x, origin.y)
 	var layer_target = Vector2i(target.x, target.y)
@@ -1065,6 +1074,8 @@ func _on_world_quit():
 func time_effects_on_creatures(n):
 	for creature in current_world.creatures:
 		creature.decay_needs(n)
+		if not creature.data.player_controlled:
+			creature.ai_controller.localai.perform_routine()
 
 func _ready() -> void:
 	world_state = WorldState.new()
