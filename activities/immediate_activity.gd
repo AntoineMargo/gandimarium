@@ -24,7 +24,7 @@ func execute() -> void:
 	
 	match affected_type:
 		Enums.Affected.ENTITIES:
-			final_targets.append_array(WorldMath.get_creatures_from_tiles(target_points))
+			final_targets.append_array(WorldMath.get_entities_from_tiles(target_points))
 		Enums.Affected.TERRAIN:
 			final_targets.append_array(target_points)
 

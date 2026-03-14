@@ -1,4 +1,4 @@
-extends Node2D
+extends Entity
 class_name Prop
 
 @export var prop_name: String = "placehoder"
@@ -6,6 +6,7 @@ class_name Prop
 @export var scene: PackedScene
 @export var blocks_movement: bool = true
 @export var max_hp: int = 40
+@export var mat: Enums.Mat
 @export var is_runtime: bool = false
 
 @export var pos: Vector3i
@@ -33,6 +34,7 @@ func initialize() -> void:
 	if blocks_movement:
 		wm.layers[pos.z]["path_map"].set_point_solid(layer_coords, true)
 		wm.layers[pos.z]["occupied"][layer_coords] = true
+	apply_mat_resistances()
 	#if is_runtime:
 		#register()
 	register()
@@ -50,6 +52,20 @@ func make_delta() -> PropDelta:
 	prop_delta.pos = pos
 	prop_delta.hp = current_hp
 	return prop_delta
+
+func apply_mat_resistances():
+	match mat:
+		Enums.Mat.SOFT_WOOD:
+			heat = -10
+		Enums.Mat.HARD_WOOD:
+			physical = 10
+			heat = 0
+			cold = 10
+			electricity = 20
+			corrosion = 10
+			poison = 20
+			psychic = 100
+		
 
 func take_damage(damage: int, resistance: Enums.Resistance):
 	var value = get_resistance(resistance)

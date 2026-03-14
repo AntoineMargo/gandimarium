@@ -1,4 +1,4 @@
-extends Node2D
+extends Entity
 class_name Creature
 
 @export var data: CreatureData

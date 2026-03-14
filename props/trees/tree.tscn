@@ -5,7 +5,8 @@
 
 [node name="Tree" type="Node2D" unique_id=1134274281]
 script = ExtResource("1_k2g1p")
-max_hp = 100
+max_hp = 200
+mat = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1880953926]
 texture = ExtResource("2_id0rx")

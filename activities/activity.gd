@@ -96,10 +96,11 @@ func _roll(ctx):
 	ctx.target_roll = BasicMath.standard_roll()
 
 func _resolve(ctx):
-	ctx.result = BasicMath.make_opposed_check(ctx.user_stat, ctx.user_roll, ctx.target_stat, ctx.target_roll)
-	ctx.degree = BasicMath.determine_degree_success(ctx.result)
-	
+	if ctx.target is Prop:
+		ctx.degree = 2
 	if ctx.target is Creature:
+		ctx.result = BasicMath.make_opposed_check(ctx.user_stat, ctx.user_roll, ctx.target_stat, ctx.target_roll)
+		ctx.degree = BasicMath.determine_degree_success(ctx.result)
 		SignalBus.dialog_show_message.emit(
 			"%s rolled %d against %s's %d." % [ctx.user.data.name, ctx.user_stat+ctx.user_roll, ctx.target.data.name, ctx.target_stat+ctx.target_roll])
 

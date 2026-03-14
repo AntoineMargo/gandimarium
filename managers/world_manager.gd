@@ -108,6 +108,14 @@ func spawn_prop(scene: PackedScene, pos: Vector3i) -> Prop:
 	add_prop_to_delta(prop)
 	return prop
 
+func get_entity_at_pos(pos: Vector3i) -> Entity:
+	var layer_pos = Vector2i(pos.x, pos.y)
+	if layers[pos.z]["contents"].has(layer_pos):
+		for element in layers[pos.z]["contents"][layer_pos]:
+			if element is Entity:
+				return element
+	return null
+
 func get_prop_at_pos(pos: Vector3i) -> Prop:
 	var layer_pos = Vector2i(pos.x, pos.y)
 	if layers[pos.z]["contents"].has(layer_pos):
@@ -777,13 +785,13 @@ func try_move_char_abs(creature: Creature, origin: Vector3i, target: Vector3i):
 	add_to_tile(creature, target)
 	path_preview.clear_all()
 
-func find_creature_on_tile(coordinates: Vector3i) -> Creature:
-	var coords = Vector2i(coordinates.x, coordinates.y)
-	if layers[current_level]["contents"].has(coords):
-		for element in layers[current_level]["contents"][coords]:
-			if element is Creature:
-				return element
-	return null
+#func find_creature_on_tile(coordinates: Vector3i) -> Creature:
+	#var coords = Vector2i(coordinates.x, coordinates.y)
+	#if layers[current_level]["contents"].has(coords):
+		#for element in layers[current_level]["contents"][coords]:
+			#if element is Creature:
+				#return element
+	#return null
 
 func select_creature_on_tile(coordinates: Vector3i) -> bool:
 	var layer_coords = Vector2i(coordinates.x, coordinates.y)

@@ -163,7 +163,7 @@ func resolve_with_targets(targets: Array) -> void:
 
 	match affected_type:
 		Enums.Affected.ENTITIES:
-			final_targets.append_array(WorldMath.get_creatures_from_tiles(targets))
+			final_targets.append_array(WorldMath.get_entities_from_tiles(targets))
 		Enums.Affected.TERRAIN:
 			final_targets.append_array(targets)
 

@@ -80,8 +80,8 @@ func select_target():
 	var coords = wm.get_hovered_tile()
 	if is_valid_target_point(coords):
 		if targeting_type == Enums.Targeting.ENTITIES:
-			if not wm.find_creature_on_tile(coords):
-				SignalBus.dialog_show_message.emit("No creature there.")
+			if not wm.get_entity_at_pos(coords):
+				SignalBus.dialog_show_message.emit("No entity there.")
 				return
 		target_points.append(coords)
 		number_of_targets_left -= 1
@@ -124,7 +124,7 @@ func resolve_with_targets(targets: Array) -> void:
 		
 		match affected_type:
 			Enums.Affected.ENTITIES:
-				final_targets.append_array(WorldMath.get_creatures_from_tiles(affected_tiles))
+				final_targets.append_array(WorldMath.get_entities_from_tiles(affected_tiles))
 			Enums.Affected.TERRAIN:
 				final_targets.append_array(affected_tiles)
 	

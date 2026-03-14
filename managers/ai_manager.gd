@@ -11,7 +11,7 @@ func noticing_check(origin: Vector3i):
 			var self_coords = Global.world_manager.get_char_coords(creature)
 			if WorldMath.pos_in_range_weighted_3d(self_coords.vec3, origin, 40):
 				if creature.senses_check_on_tile(origin):
-					var potential_creature = wm.find_creature_on_tile(origin)
+					var potential_creature = wm.get_creature_at_pos(origin)
 					creature.discover_creature(potential_creature)
 					creature.evaluate_entering_crisis(potential_creature)
 					SignalBus.stop_all_movement.emit()

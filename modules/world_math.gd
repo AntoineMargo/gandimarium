@@ -183,6 +183,17 @@ static func get_burst_tiles(center: Vector3i, reach: float) -> Array[Vector3i]:
 	
 	return tiles
 
+static func get_entities_from_tiles(tiles: Array[Vector3i]) -> Array:
+	var wm = Global.world_manager
+	var target_entities = []
+	for tile in tiles:
+		var entity
+		entity = wm.get_entity_at_pos(tile)
+		if entity:
+			target_entities.append(entity)
+
+	return target_entities
+
 static func get_creatures_from_tiles(tiles: Array[Vector3i]) -> Array:
 	var wm = Global.world_manager
 	var target_creatures = []

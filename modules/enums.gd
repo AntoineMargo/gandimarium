@@ -8,6 +8,16 @@ enum ZoneTag {
 	GUARD
 }
 
+enum Mat {
+	SOFT_WOOD,
+	HARD_WOOD,
+	ROCK,
+	BRICK,
+	BRONZE,
+	IRON,
+	STEEL,
+}
+
 enum Cover {
 	NONE,
 	QUARTER,
