@@ -2,7 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://c071vi42b0xxf" path="res://props/containers/crate.tscn" id="1_ef5ns"]
 [ext_resource type="PackedScene" uid="uid://bkx2puqv0suly" path="res://props/beds/bed.tscn" id="2_0akgm"]
+[ext_resource type="PackedScene" uid="uid://cefhlfa4s5gnf" path="res://props/trees/tree.tscn" id="3_6d3hc"]
 [ext_resource type="PackedScene" uid="uid://dqu8pym5ac83l" path="res://props/special/spawner.tscn" id="3_p8k48"]
+[ext_resource type="PackedScene" uid="uid://cfnylo4mey3hn" path="res://props/doors/wooden_door.tscn" id="4_4i4lf"]
 [ext_resource type="Texture2D" uid="uid://cexhdafqfd4n0" path="res://art/tiles/16x16_tiles.png" id="6_ex8c5"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_mwy2k"]
@@ -24,6 +26,8 @@ tile_data = PackedInt32Array(0, 458757, 7, 65536, 458757, 7, 131072, 458757, 7, 
 resource_name = "props"
 scenes/1/scene = ExtResource("1_ef5ns")
 scenes/2/scene = ExtResource("2_0akgm")
+scenes/3/scene = ExtResource("3_6d3hc")
+scenes/4/scene = ExtResource("4_4i4lf")
 scenes/5/scene = ExtResource("3_p8k48")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7dkb5"]
