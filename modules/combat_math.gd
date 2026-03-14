@@ -1,4 +1,4 @@
-class_name CombatMath
+class_name BasicMath
 
 const CRITICAL_SUCCESS_THRESHOLD = 10
 const SUCCESS_THRESHOLD = 0

@@ -92,12 +92,12 @@ func _apply_post_mods(ctx):
 		modifier.apply_post_mods(ctx)
 
 func _roll(ctx):
-	ctx.user_roll = CombatMath.standard_roll()
-	ctx.target_roll = CombatMath.standard_roll()
+	ctx.user_roll = BasicMath.standard_roll()
+	ctx.target_roll = BasicMath.standard_roll()
 
 func _resolve(ctx):
-	ctx.result = CombatMath.make_opposed_check(ctx.user_stat, ctx.user_roll, ctx.target_stat, ctx.target_roll)
-	ctx.degree = CombatMath.determine_degree_success(ctx.result)
+	ctx.result = BasicMath.make_opposed_check(ctx.user_stat, ctx.user_roll, ctx.target_stat, ctx.target_roll)
+	ctx.degree = BasicMath.determine_degree_success(ctx.result)
 	
 	if ctx.target is Creature:
 		SignalBus.dialog_show_message.emit(

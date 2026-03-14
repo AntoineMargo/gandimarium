@@ -15,7 +15,7 @@ func apply(source, target, degree: int = 2) -> void:
 	var dice_n = dice_number
 	dice_n *= source.user.data.current_spell_rank
 
-	var total_damage = CombatMath.determine_damage(
+	var total_damage = BasicMath.determine_damage(
 		dice_n, damage_die,
 		damage_bonus, degree,
 		damage_pattern)

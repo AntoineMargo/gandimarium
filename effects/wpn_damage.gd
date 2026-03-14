@@ -27,7 +27,7 @@ func apply(source, target, degree: int = 2) -> void:
 	if damage_pattern == null:
 		damage_pattern = Library.get_dmg_pattern("default")
 	
-	var total_damage = CombatMath.determine_damage(
+	var total_damage = BasicMath.determine_damage(
 		dice_number, damage_die,
 		damage_bonus, degree,
 		damage_pattern)

@@ -9,6 +9,10 @@ var wm = null
 func handle_hover(tile: Vector3i) -> void:
 	var tiles = compute_affected_area(tile)
 	wm.clear_visualization(wm.preview_visualized_rects, wm.preview_visualized_lines)
+	if shape == Enums.Shape.BURST:
+		if not WorldMath.is_in_range(origin, tile, reach) or not WorldMath.has_line_of_sight_tile(origin, tile):
+			wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines, Color(255, 0, 0, 255))
+			return
 	wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines)
 
 func handle_input(event: InputEvent) -> void:
@@ -28,6 +32,7 @@ func _cleanup() -> void:
 	wm.target_highlights.clear()
 	cm = null
 	wm = null
+	origin = Vector3i(0, 0, 0)
 	SignalBus.update_ui_for_char.emit()
 
 func execute() -> void:
@@ -58,13 +63,13 @@ func cancel_activity():
 	_cleanup()
 
 func is_valid_target_point(point: Vector3i) -> bool:
-	var user_coords = user.get_coords()
+	origin = user.get_coords()
 
-	if not WorldMath.is_in_range(user_coords, point, reach):
+	if not WorldMath.is_in_range(origin, point, reach):
 		SignalBus.dialog_out_of_range.emit()
 		return false
 
-	if not WorldMath.has_line_of_sight_tile(user_coords, point):
+	if not WorldMath.has_line_of_sight_tile(origin, point):
 		SignalBus.dialog_no_line_of_sight.emit()
 		return false
 

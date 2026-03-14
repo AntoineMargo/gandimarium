@@ -35,12 +35,14 @@ enum ElementPriority {
 
 func _process(_delta):
 	if get_viewport().gui_get_hovered_control():
+		hover_tile.stop_drawing()
 		path_preview.clear_all()
 		return
 
 	if not current_world:
 		return
 
+	hover_tile.start_drawing()
 	var tile_under_cursor = get_hovered_tile()
 	Global.handle_world_hover(tile_under_cursor)
 	if Global.activity_handler:
@@ -999,7 +1001,7 @@ func flash_path(path: Array) -> void:
 			var point_coords = Vector2i(point[0], point[1])
 			flash_tile_overlay(point_coords)
 
-func visualize_area(tiles: Array[Vector3i], rect_container: Array, line_container: Array) -> void:
+func visualize_area(tiles: Array[Vector3i], rect_container: Array, line_container: Array, colour: Color = Color8(0, 255, 0, 255)) -> void:
 	# Convert tiles array to a set for fast lookup
 	var tile_set = {}
 	for tile in tiles:
@@ -1007,7 +1009,7 @@ func visualize_area(tiles: Array[Vector3i], rect_container: Array, line_containe
 	
 	for tile in tiles:
 		var rect = ColorRect.new()
-		rect.color = Color8(0, 255, 0, 100)
+		rect.color = Color(colour, 0.3)
 		rect.size = Vector2(Global.TILE_SIZE, Global.TILE_SIZE)
 		var pos = tile_to_pixels(tile)
 		@warning_ignore("integer_division")
@@ -1018,9 +1020,9 @@ func visualize_area(tiles: Array[Vector3i], rect_container: Array, line_containe
 		rect_container.append(rect)
 		
 		# Draw border lines where there's no adjacent tile
-		draw_tile_borders(tile, tile_set, pos, line_container)
+		draw_tile_borders(tile, tile_set, pos, line_container, colour)
 
-func draw_tile_borders(tile: Vector3i, tile_set: Dictionary, pixel_pos: Vector2, line_container: Array) -> void:
+func draw_tile_borders(tile: Vector3i, tile_set: Dictionary, pixel_pos: Vector2, line_container: Array, colour) -> void:
 	var directions = [
 		{"offset": Vector3i(-1, 0, 0), "start": Vector2(0, 0), "end": Vector2(0, Global.TILE_SIZE)},  # LEFT
 		{"offset": Vector3i(1, 0, 0), "start": Vector2(Global.TILE_SIZE, 0), "end": Vector2(Global.TILE_SIZE, Global.TILE_SIZE)},  # RIGHT
@@ -1039,7 +1041,8 @@ func draw_tile_borders(tile: Vector3i, tile_set: Dictionary, pixel_pos: Vector2,
 			line.add_point(base_pos + dir.start)
 			line.add_point(base_pos + dir.end)
 			line.width = 0.5
-			line.default_color = Color8(0, 255, 0, 255)  # Bright opaque green
+			line.default_color = colour
+			#line.default_color = Color8(0, 255, 0, 255)  # Bright opaque green
 			line.z_index = 1000
 			add_child(line)
 			line_container.append(line)  # Store for cleanup (change array type if needed)

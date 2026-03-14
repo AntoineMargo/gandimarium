@@ -65,13 +65,14 @@ func handle_world_hover(tile: Vector3i) -> void:
 	if tile == last_hovered_tile:
 		return
 
-	world_manager.hover_tile.set_tile(tile)
-
 	last_hovered_tile = tile
 
 	if activity_handler:
 		if activity_handler.has_method("handle_hover"):
 			activity_handler.handle_hover(tile)
+			return
+
+	world_manager.hover_tile.set_tile(tile)
 
 func save_current_map_delta():
 	var delta: MapDelta = world_manager.get_map_delta(world_manager.current_world.id)
