@@ -13,6 +13,7 @@ var cursor_manager = CursorManager.new()
 var uid_manager = UIDManager.new()
 var ai_manager = AIManager.new()
 var time_manager = TimeManager.new()
+var noise_manager = NoiseManager.new()
 
 var game_root = null
 
@@ -130,10 +131,13 @@ func _ready() -> void:
 	add_child(uid_manager)
 	add_child(ai_manager)
 	add_child(time_manager)
+	add_child(noise_manager)
+	
 	add_child(character_window)
 	add_child(inventory_window)
 	add_child(container_window)
 	add_child(world_info)
+	
 	inventory_window.visible = false
 	container_window.visible = false
 	character_window.visible = false

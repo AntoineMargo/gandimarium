@@ -9,20 +9,22 @@ enum ZoneTag {
 }
 
 enum Mat {
-	SOFT_WOOD,
-	HARD_WOOD,
-	ROCK,
-	BRICK,
-	BRONZE,
-	IRON,
-	STEEL,
+	AIR, #0
+	SOFT_WOOD, #1
+	HARD_WOOD, #2
+	ROCK, #3
+	BRICK, #4
+	BRONZE, #5
+	IRON, #6
+	STEEL, #7
 }
 
 enum Cover {
-	NONE,
-	QUARTER,
-	HALF,
-	FULL
+	NONE, #0
+	QUARTER, #1
+	HALF, #2
+	THREE_QUARTERS, #3
+	FULL #4
 }
 
 enum State {
@@ -114,6 +116,22 @@ enum Aptitude {
 	OFFENCE,
 	MELEE_DEFENCE,
 	RANGED_DEFENCE
+}
+
+enum Skill {
+	ARCANE,
+	ARTISTRY,
+	SOCIETY,
+	CRAFTSMANSHIP,
+	DECEPTION,
+	HISTORY,
+	LINGUISTICS,
+	MECHANICS,
+	MEDICINE,
+	NATURE,
+	PERSUASION,
+	THIEVERY,
+	STEALTH
 }
 
 enum Resistance {

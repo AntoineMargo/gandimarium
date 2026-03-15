@@ -10,6 +10,7 @@ var max_speed : float = 0.0
 var accel : float = 1500.0
 
 var wm = null
+var nm = null
 var creature = null
 
 func begin_path(new_path: Array):
@@ -87,5 +88,6 @@ func _physics_process(delta: float) -> void:
 
 func _ready() -> void:
 	wm = Global.world_manager
+	nm = Global.noise_manager
 	creature = get_parent()
 	SignalBus.stop_all_movement.connect(_on_stop_all_movement)

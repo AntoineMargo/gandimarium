@@ -49,6 +49,7 @@ signal crisis_state_changed()
 
 #AI
 signal noticing_check(coordinates)
+signal sight_check(pos)
 signal stop_all_movement()
 #signal resolve_damage(name, damage)
 

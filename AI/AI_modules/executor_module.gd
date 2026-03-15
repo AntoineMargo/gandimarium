@@ -21,6 +21,7 @@ func execute(planned_sequence):
 		else:
 			creature.perform_activity(planned_act.activity)
 			print("IMMEDIATE ACTIVITY")
+		await get_tree().create_timer(0.3).timeout
 
 func _ready() -> void:
 	creature = $"../../.."

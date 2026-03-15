@@ -22,6 +22,7 @@ func deferred_setup_layers():
 	Global.world_manager.setup_layers()
 	Global.world_manager.setup_ramps()
 	Global.world_manager.setup_ai_zones()
+	Global.world_manager.determine_find_dimensions()
 	#Global.world_manager.clear_current_map_delta()
 	SignalBus.world_ready.emit()
 	

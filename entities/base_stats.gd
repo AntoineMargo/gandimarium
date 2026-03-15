@@ -13,19 +13,18 @@ var melee_defence: int = 0
 var ranged_defence: int = 0
 
 # skills
+var arcane: int = 0
 var artistry: int = 0
-var civilization_knowledge: int = 0
+var society: int = 0
 var craftsmanship: int = 0
 var deception: int = 0
-var history_knowledge: int = 0
-var intimidation: int = 0
+var history: int = 0
 var linguistics: int = 0
-var power_knowledge: int = 0
-var mechanics_knowledge: int = 0
+var mechanics: int = 0
 var medicine: int = 0
-var nature_knowledge: int = 0
+var nature: int = 0
 var persuasion: int = 0
-var sleight_of_hand: int = 0
+var thievery: int = 0
 var stealth: int = 0
 
 var size: String = ""
@@ -39,4 +38,3 @@ var max_mp: int = 0
 
 var max_ap: int = 3
 var max_reactions: int = 1
-#var max_spell_rank: int = -1

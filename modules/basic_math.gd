@@ -4,6 +4,9 @@ const CRITICAL_SUCCESS_THRESHOLD = 10
 const SUCCESS_THRESHOLD = 0
 const FAILURE_THRESHOLD = -10
 
+static func noise():
+	pass
+
 ## straight check
 static func make_regular_check(stat: int, roll: int) -> int:
 	return  stat + roll

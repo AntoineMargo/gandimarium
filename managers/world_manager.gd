@@ -10,6 +10,9 @@ var current_world: Node = null
 var world_state = null
 var spawner: Spawner
 
+var map_width: int
+var map_height: int
+
 var world_ready: bool = false
 
 var target_highlights = []
@@ -139,6 +142,14 @@ func move_prop(old_pos: Vector3i, new_pos: Vector3i):
 	new_prop.is_active = old_prop.is_active
 	old_prop.destroy_self()
 
+func determine_find_dimensions():
+	for child in current_world.get_children():
+		if child is TileMapLayer:
+			var tile_map_limits = child.get_used_rect()
+			map_width = tile_map_limits.size.x
+			map_height = tile_map_limits.size.y
+			return
+
 func setup_layers():
 	layers.clear()
 	for child in current_world.get_children():
@@ -146,9 +157,6 @@ func setup_layers():
 			var layer = child
 			var id = layer.id
 			var astar = AStarGrid2D.new()
-			#var tile_map_limits = layer.get_used_rect()
-			#var width = tile_map_limits.size.x
-			#var height = tile_map_limits.size.y
 			var contents = {};
 			var occupied = {};
 			var cover = {};
@@ -252,13 +260,13 @@ func get_reachable_tiles_3D_with_diagonals(start: Vector3i, max_cost: float) -> 
 		reachable.append(pos)
 
 		var z := pos.z
-		var xy := Vector2i(pos.x, pos.y)
+		var xy: Vector2i = Vector2i(pos.x, pos.y)
 		var astar := layers[z]["path_map"] as AStarGrid2D
 
 		# Cardinal neighbors (1.0x cost)
 		for dir in cardinal_dirs:
 			var neighbor_xy = xy + dir
-			var neighbor := Vector3i(neighbor_xy.x, neighbor_xy.y, z)
+			var neighbor: Vector3i = Vector3i(neighbor_xy.x, neighbor_xy.y, z)
 
 			if not astar.region.has_point(neighbor_xy):
 				continue
@@ -276,15 +284,15 @@ func get_reachable_tiles_3D_with_diagonals(start: Vector3i, max_cost: float) -> 
 		# Diagonal neighbors (1.5x cost)
 		for dir in diagonal_dirs:
 			var neighbor_xy = xy + dir
-			var neighbor := Vector3i(neighbor_xy.x, neighbor_xy.y, z)
+			var neighbor: Vector3i = Vector3i(neighbor_xy.x, neighbor_xy.y, z)
 
 			if not astar.region.has_point(neighbor_xy):
 				continue
 			if astar.is_point_solid(neighbor_xy):
 				continue
 
-			var side1 := Vector2i(dir.x, 0)
-			var side2 := Vector2i(0, dir.y)
+			var side1: Vector2i = Vector2i(dir.x, 0)
+			var side2: Vector2i = Vector2i(0, dir.y)
 			if astar.is_point_solid(xy + side1) or astar.is_point_solid(xy + side2):
 				continue
 
@@ -301,7 +309,7 @@ func get_reachable_tiles_3D_with_diagonals(start: Vector3i, max_cost: float) -> 
 			for link in layer_links[z][xy]:
 				var new_z = link[0]
 				var new_xy = link[1]
-				var neighbor := Vector3i(new_xy.x, new_xy.y, new_z)
+				var neighbor: Vector3i = Vector3i(new_xy.x, new_xy.y, new_z)
 
 				var new_astar = layers[new_z]["path_map"]
 				if not new_astar.region.has_point(new_xy):
@@ -994,7 +1002,8 @@ func interact_move(character: Creature, target: Vector3i):
 		character.global_position = layers[target.z]["tile_map"].map_to_local(layer_target)
 		character.mover.position = Vector2.ZERO # Very necessary because of position/global_position mismatch during real-time move
 		flash_path(path)
-		SignalBus.noticing_check.emit(path[-1])
+		SignalBus.sight_check.emit(path[-1])
+		#SignalBus.noticing_check.emit(path[-1])
 	else: #New! For real time.
 		character.mover.begin_path(path)
 	

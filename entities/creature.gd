@@ -562,10 +562,9 @@ func add_casting_table(table: CastingTable):
 	data.casting_table = table
 
 func senses_check_on_tile(target_tile) -> bool: 
-	var origin_tile = Vector3i(data.tile_x, data.tile_y, data.tile_z)
-	if _hearing_check(origin_tile, target_tile):
+	if hearing_check(target_tile):
 		return true
-	if _sight_check(origin_tile, target_tile):
+	if sight_check(target_tile):
 		return true
 	return false
 
@@ -752,16 +751,25 @@ func turn_start():
 		#Global.focus_char = self
 		#ai_controller.crisisai.plan_turn() 
 
-func _sight_check(origin_tile, target_tile) -> bool: 
+func sight_check(target_tile) -> bool: 
+	var origin_tile = Vector3i(data.tile_x, data.tile_y, data.tile_z)
 	if WorldMath.pos_in_range_weighted_3d(origin_tile, target_tile, (data.base_stats.sense * 4)):
 		if WorldMath.has_line_of_sight_tile(origin_tile, target_tile):
 			return true
 	return false
 
-func _hearing_check(origin_tile, target_tile) -> bool: 
-	if WorldMath.pos_in_range_weighted_3d(origin_tile, target_tile, (data.base_stats.sense * 1)):
+func hearing_check(noise_value: int) -> bool: 
+	var acuity = data.attributes.acuity
+	var threshold = max(1, 13 - acuity)
+	if noise_value >= threshold:
 		return true
 	return false
+
+#func hearing_check(target_tile) -> bool: 
+	#var origin_tile = Vector3i(data.tile_x, data.tile_y, data.tile_z)
+	#if WorldMath.pos_in_range_weighted_3d(origin_tile, target_tile, (data.base_stats.sense * 1)):
+		#return true
+	#return false
 
 func _ensure_resource(res: Resource, ctor: Callable) -> Resource:
 	if res:
