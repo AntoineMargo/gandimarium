@@ -1,6 +1,74 @@
 extends Node
 class_name NoiseManager
 
+var wm = null
+
+func check_path_to_noise(origin: Vector3i, goal: Vector3i) -> float:
+	if origin.z != goal.z:
+		return 999
+		
+	var noise_map = wm.layers[origin.z]["noise_map"]
+	var tile_map = wm.layers[origin.z]["tile_map"]
+
+	var path: PackedVector2Array = noise_map.get_point_path(Vector2i(origin.x, origin.y), Vector2i(goal.x, goal.y))
+	if path:
+		return calculate_noise_path(path, tile_map)
+	return 999
+
+func calculate_noise_path(path, tile_map) -> float:
+	if path.size() <= 1:
+		return 0.0
+	
+	var total_cost = 0.0
+
+	for i in range(1, path.size()):
+		var prev = path[i - 1]
+		var curr = path[i]
+
+		var prev_tile = Vector2i(prev.x, prev.y)
+		var curr_tile = Vector2i(curr.x, curr.y)
+		var delta = curr_tile - prev_tile
+
+		var proper_curr_tile = wm.pixels_to_tile(curr_tile, 0)
+		var tile_data = tile_map.get_cell_tile_data(Vector2i(proper_curr_tile.x, proper_curr_tile.y))
+
+		var step_cost = 1.0
+		if tile_data:
+			if tile_data.get_custom_data("cover") == Enums.Cover.FULL:
+				step_cost = 10
+
+		var is_diagonal = abs(delta.x) == 1 and abs(delta.y) == 1
+		if is_diagonal:
+			step_cost *= 1.5
+
+		total_cost += step_cost
+	
+	return total_cost
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const DIRS = [
 	Vector3i(-1,0,0),
 	Vector3i(1,0,0),
@@ -12,8 +80,6 @@ const DIRS = [
 
 var sound_map = null
 var buckets = null
-
-var wm = null
 
 func setup_noise_manager() -> void:
 	create_sound_map()

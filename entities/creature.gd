@@ -561,12 +561,12 @@ func set_resistance(type: Enums.Resistance, value: int) -> void:
 func add_casting_table(table: CastingTable):
 	data.casting_table = table
 
-func senses_check_on_tile(target_tile) -> bool: 
-	if hearing_check(target_tile):
-		return true
-	if sight_check(target_tile):
-		return true
-	return false
+#func senses_check_on_tile(target_tile) -> bool: 
+	#if hearing_check(target_tile):
+		#return true
+	#if sight_check(target_tile):
+		#return true
+	#return false
 
 func discover_creature(creature):
 	var id = creature.data.id
@@ -758,12 +758,19 @@ func sight_check(target_tile) -> bool:
 			return true
 	return false
 
-func hearing_check(noise_value: int) -> bool: 
+func hearing_check(strength: int, difficulty_to_perceive: float) -> bool: 
 	var acuity = data.attributes.acuity
-	var threshold = max(1, 13 - acuity)
-	if noise_value >= threshold:
+	var threshold = difficulty_to_perceive - strength
+	if acuity >= threshold:
 		return true
 	return false
+
+#func hearing_check(noise_value: int) -> bool: 
+	#var acuity = data.attributes.acuity
+	#var threshold = max(1, 13 - acuity)
+	#if noise_value >= threshold:
+		#return true
+	#return false
 
 #func hearing_check(target_tile) -> bool: 
 	#var origin_tile = Vector3i(data.tile_x, data.tile_y, data.tile_z)

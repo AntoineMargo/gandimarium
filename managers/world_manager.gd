@@ -157,6 +157,7 @@ func setup_layers():
 			var layer = child
 			var id = layer.id
 			var astar = AStarGrid2D.new()
+			var noise_astar = AStarGrid2D.new()
 			var contents = {};
 			var occupied = {};
 			var cover = {};
@@ -166,6 +167,7 @@ func setup_layers():
 			layers[id] = {
 				"tile_map": layer,
 				"path_map": astar,
+				"noise_map": noise_astar,
 				"contents": contents,
 				"occupied": occupied,
 				"cover": cover,
@@ -178,6 +180,11 @@ func setup_layers():
 			astar.cell_size = Vector2(Global.TILE_SIZE, Global.TILE_SIZE)
 			astar.update()
 			
+			noise_astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
+			noise_astar.region = layer.get_used_rect()
+			noise_astar.cell_size = Vector2(Global.TILE_SIZE, Global.TILE_SIZE)
+			noise_astar.update()
+			
 			var rect = layer.get_used_rect()
 
 			for x in range(rect.position.x, rect.position.x + rect.size.x):
@@ -189,6 +196,7 @@ func setup_layers():
 						if tile_cover == 4:
 							layers[id]["cover"][coords] = Enums.Cover.FULL
 							astar.set_point_solid(coords, true)
+							noise_astar.set_point_weight_scale(coords, 10.0)
 
 	if not layers.is_empty():
 		current_level = 0
@@ -398,36 +406,36 @@ func change_level(direction: int):
 	selection_highlight.update_selection_highlight()
 	#SignalBus.refresh_reachable_tiles.emit()
 	print("Now showing layer %d" % current_level)
-
-func calculate_path_cost_3D(path: Array[Vector3i], tile_size: int = Global.TILE_SIZE) -> float:
-	if path.size() <= 1:
-		return 0.0
-	
-	var total_cost = 0.0
-
-	for i in range(1, path.size()):
-		var prev = path[i - 1]
-		var curr = path[i]
-
-		# Normalize to tile-space
-		var prev_tile = Vector2i(prev.x / tile_size, prev.y / tile_size)
-		var curr_tile = Vector2i(curr.x / tile_size, curr.y / tile_size)
-		var delta = curr_tile - prev_tile
-
-		var step_cost = 1.0
-		var is_diagonal = abs(delta.x) == 1 and abs(delta.y) == 1 and prev.z == curr.z
-		if is_diagonal:
-			step_cost = 1.5
-
-		# Optional: adjust cost for vertical movement
-		elif prev.z != curr.z:
-			step_cost = 1.0  # Or set to 2.0 if stairs are "harder"
-
-		#print("Step ", i, ": ", prev, " → ", curr, " | delta: ", delta, " | diagonal: ", is_diagonal, " | cost: ", step_cost)
-
-		total_cost += step_cost
-	
-	return total_cost
+#
+#func calculate_path_cost_3D(path: Array[Vector3i], tile_size: int = Global.TILE_SIZE) -> float:
+	#if path.size() <= 1:
+		#return 0.0
+	#
+	#var total_cost = 0.0
+#
+	#for i in range(1, path.size()):
+		#var prev = path[i - 1]
+		#var curr = path[i]
+#
+		## Normalize to tile-space
+		#var prev_tile = Vector2i(prev.x / tile_size, prev.y / tile_size)
+		#var curr_tile = Vector2i(curr.x / tile_size, curr.y / tile_size)
+		#var delta = curr_tile - prev_tile
+#
+		#var step_cost = 1.0
+		#var is_diagonal = abs(delta.x) == 1 and abs(delta.y) == 1 and prev.z == curr.z
+		#if is_diagonal:
+			#step_cost = 1.5
+#
+		## Optional: adjust cost for vertical movement
+		#elif prev.z != curr.z:
+			#step_cost = 1.0  # Or set to 2.0 if stairs are "harder"
+#
+		##print("Step ", i, ": ", prev, " → ", curr, " | delta: ", delta, " | diagonal: ", is_diagonal, " | cost: ", step_cost)
+#
+		#total_cost += step_cost
+	#
+	#return total_cost
 
 func turn_path_from_pixels_to_tiles(path: Array[Vector3i], tile_size: int = Global.TILE_SIZE):
 	var tile_path = []
@@ -837,8 +845,7 @@ func preview_path(to_tile: Vector3i) -> void:
 	if path.is_empty():
 		print("No path found!")
 		return
-	
-	#var tile_path = turn_path_from_pixels_to_tiles(path)
+
 	var costs = calculate_path_cost_3D_simple_with_segments(path)
 	path_preview.update_path(path, layers[current_level]["tile_map"], costs)
 
@@ -1003,8 +1010,7 @@ func interact_move(character: Creature, target: Vector3i):
 		character.mover.position = Vector2.ZERO # Very necessary because of position/global_position mismatch during real-time move
 		flash_path(path)
 		SignalBus.sight_check.emit(path[-1])
-		#SignalBus.noticing_check.emit(path[-1])
-	else: #New! For real time.
+	else:
 		character.mover.begin_path(path)
 	
 	creatures_visible_if_on_layer()
