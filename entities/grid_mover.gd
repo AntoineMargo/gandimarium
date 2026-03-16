@@ -39,10 +39,7 @@ func move_to_next_point(delta):
 	var old_point = creature.get_coords()
 	var point = path[path_index]
 
-	if point.z != wm.current_level:
-		wm.creatures_visible_if_on_layer()
-		#path_index += 1
-		#return
+	wm.creatures_visible_if_on_layer()
 
 	var target = wm.tile_to_pixels(point)
 

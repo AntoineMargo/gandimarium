@@ -1,5 +1,13 @@
 class_name Enums
 
+enum Routine {
+	NONE,
+	PATROL,
+	EAT,
+	SLEEP,
+	CHECK_SOUND
+}
+
 enum ZoneTag {
 	NONE,
 	MEETING,

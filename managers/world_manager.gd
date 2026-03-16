@@ -614,6 +614,21 @@ func get_multi_level_path(start: Vector3i, goal: Vector3i, allow_occupied_goal: 
 func get_creature_by_id(target_id) -> Creature:
 	return current_world.creatures_by_id.get(target_id, null)
 
+## Returns if a tile is occupied or not
+func get_tile_occupied(tile: Vector3i) -> bool:
+	var tile_coords: Vector2i = Vector2i(tile.x, tile.y)
+	var layer = layers.get(tile.z)
+	
+	if layer == null:
+		push_error("no layer")
+		return false
+	
+	var occupied = layer.get("occupied")
+	if occupied == null:
+		return false
+	
+	return occupied.get(tile_coords, false)
+
 func get_hovered_tile() -> Vector3i:
 	var screen_mouse_pos = get_viewport().get_mouse_position()
 	var canvas_transform = get_viewport().get_canvas_transform()
@@ -906,7 +921,8 @@ func get_close_to_target(creature: Creature, target: Vector3i, distance: int) ->
 		pass
 	else:
 		var path = path_to_adjacency(char_coords, target, distance)
-		interact_move(creature, path[1])
+		if path:
+			interact_move(creature, path[1])
 		if Global.selected_char.get_coords() != path[-1]:
 			return false
 	return true
@@ -1101,7 +1117,7 @@ func time_effects_on_creatures(n):
 	for creature in current_world.creatures:
 		creature.decay_needs(n)
 		if not creature.data.player_controlled:
-			creature.ai_controller.localai.perform_routine()
+			creature.ai_controller.localai.change_routine()
 
 func _ready() -> void:
 	world_state = WorldState.new()

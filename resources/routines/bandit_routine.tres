@@ -6,35 +6,35 @@
 [sub_resource type="Resource" id="Resource_42kqr"]
 script = ExtResource("1_42kqr")
 start_hour = 8
-undertaking = "patrol"
+behaviour = "patrol"
 location_tag = "patrol"
 metadata/_custom_type_script = "uid://c2kai5gky4sk8"
 
 [sub_resource type="Resource" id="Resource_ianpu"]
 script = ExtResource("1_42kqr")
 start_hour = 12
-undertaking = "eat"
+behaviour = "eat"
 location_tag = "meeting"
 metadata/_custom_type_script = "uid://c2kai5gky4sk8"
 
 [sub_resource type="Resource" id="Resource_k4c7i"]
 script = ExtResource("1_42kqr")
 start_hour = 14
-undertaking = "patrol"
+behaviour = "patrol"
 location_tag = "patrol"
 metadata/_custom_type_script = "uid://c2kai5gky4sk8"
 
 [sub_resource type="Resource" id="Resource_0cy7n"]
 script = ExtResource("1_42kqr")
 start_hour = 21
-undertaking = "eat"
+behaviour = "eat"
 location_tag = "meeting"
 metadata/_custom_type_script = "uid://c2kai5gky4sk8"
 
 [sub_resource type="Resource" id="Resource_bkgi1"]
 script = ExtResource("1_42kqr")
 start_hour = 23
-undertaking = "sleep"
+behaviour = "sleep"
 location_tag = "meeting"
 metadata/_custom_type_script = "uid://c2kai5gky4sk8"
 

@@ -12,10 +12,56 @@ func check_path_to_noise(origin: Vector3i, goal: Vector3i) -> float:
 
 	var path: PackedVector2Array = noise_map.get_point_path(Vector2i(origin.x, origin.y), Vector2i(goal.x, goal.y))
 	if path:
-		return calculate_noise_path(path, tile_map)
+		return calculate_noise_path_2D(path, tile_map)
 	return 999
 
-func calculate_noise_path(path, tile_map) -> float:
+func check_vertical_noise(origin: Vector3i, goal: Vector3i) -> float:
+	var path = WorldMath.bresenham_line_3d(origin.x, origin.y, origin.z, goal.x, goal.y, goal.z)
+	var cost = calculate_noise_path_3D(path)
+	return cost
+
+func calculate_noise_path_3D(path) -> float:
+	if path.size() <= 1:
+		return 0.0
+	
+	var total_cost = 0.0
+
+	for i in range(1, path.size()):
+		var prev = path[i - 1]
+		var curr = path[i]
+
+		var delta = curr - prev
+		
+		var prev_map = wm.layers[prev.z]["tile_map"]
+		var curr_map = wm.layers[curr.z]["tile_map"]
+		
+		var prev_tile_data = prev_map.get_cell_tile_data(Vector2i(prev.x, prev.y))
+		var curr_tile_data = curr_map.get_cell_tile_data(Vector2i(curr.x, curr.y))
+
+		var step_cost: float = 1.0
+
+		if delta.z == 1:
+			if curr_tile_data:
+				if curr_tile_data.get_custom_data("floor") == true:
+					step_cost += 10
+		elif delta.z == -1:
+			if prev_tile_data:
+				if prev_tile_data.get_custom_data("floor") == true:
+					step_cost += 10
+
+		if curr_tile_data:
+			if curr_tile_data.get_custom_data("cover") == Enums.Cover.FULL:
+				step_cost += 10
+
+		var is_diagonal = abs(delta.x) + abs(delta.y) == 2
+		if is_diagonal:
+			step_cost *= 1.5
+
+		total_cost += step_cost
+	
+	return total_cost
+
+func calculate_noise_path_2D(path, tile_map) -> float:
 	if path.size() <= 1:
 		return 0.0
 	
@@ -45,8 +91,12 @@ func calculate_noise_path(path, tile_map) -> float:
 	
 	return total_cost
 
-
-
+func get_sound_vector(origin: Vector3i, sound: Vector3i) -> Vector3i:
+	if origin == sound:
+		return Vector3i.ZERO
+	
+	var dir: Vector3i = sound - origin
+	return Vector3i(sign(dir.x), sign(dir.y), sign(dir.z))
 
 
 
