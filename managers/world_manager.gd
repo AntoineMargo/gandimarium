@@ -582,9 +582,18 @@ func path_to_target_adjacency(creature, target, distance):
 
 	return path
 
+func get_multi_level_path_for_creature(creature: Creature, goal: Vector3i, allow_occupied_goal: bool = false, easy_doors: bool = false) -> Array[Vector3i]:
+	if easy_doors:
+		Global.door_manager.prepare_doors_for_pathfinding()
+	var coords = creature.get_coords()
+	var path: Array[Vector3i] = get_multi_level_path(coords, goal, allow_occupied_goal)
+	if easy_doors:
+		Global.door_manager.reset_doors_to_previous_state()
+	return path
+
 ## returns path array of steps to goal tile by tile in (x, y) format BY PIXEL... Or not anymore? Not sure.
 func get_multi_level_path(start: Vector3i, goal: Vector3i, allow_occupied_goal: bool = false) -> Array[Vector3i]:
-	
+
 	var was_occupied = false
 	var goal_xy: Vector2i = Vector2i(goal.x, goal.y)
 
@@ -739,14 +748,11 @@ func pixels_to_tile(coords: Vector2, level: int = current_level) -> Vector3i:
 	return Vector3i(coords.x / Global.TILE_SIZE, coords.y / Global.TILE_SIZE, level)
 
 func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, visited: Dictionary) -> bool:
-	#print("==_find_recursive_path==")
 	var key = str(start)
 	if visited.has(key):
-		#print("	visited.has(key)")
 		return false
 	visited[key] = true
 	if start.z == goal.z:
-		#print("	start.z == goal.z")
 		var path2D: PackedVector2Array = layers[start.z]["path_map"].get_point_path(Vector2i(start.x, start.y), Vector2i(goal.x, goal.y))
 		if path2D.is_empty():
 			return false
@@ -767,17 +773,14 @@ func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, vi
 		var was_solid = pm.is_point_solid(start_2d)
 		if was_solid:
 			pm.set_point_solid(start_2d, false)
-			pm.update()
 		var path2ramp = pm.get_point_path(start_2d, ramp_xy, true)
 		if path2ramp.is_empty():
-			#print("	1 fail")
 			continue
 		# FIX: Godot 4.6 returns world coordinates, convert back to grid coordinates
 		@warning_ignore("integer_division")
 		var last_pos = Vector2i(int(path2ramp[-1].x) / Global.TILE_SIZE, int(path2ramp[-1].y) / Global.TILE_SIZE)
 		#print("path2ramp last =", last_pos, " expected =", ramp_xy)
 		if last_pos != ramp_xy:
-			#print("	2 fail")
 			continue
 		var path_3d: Array[Vector3i] = []
 		for p in path2ramp:
@@ -786,7 +789,6 @@ func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, vi
 			path_3d.append(Vector3i(int(p.x) / Global.TILE_SIZE, int(p.y) / Global.TILE_SIZE, start.z))
 		path_array.append(path_3d)
 		for link in layer_links[start.z][ramp_xy]:
-			#print("	looking at link")
 			var next_z: int = link[0]
 			var next_pos: Vector2i = link[1]
 			var new_start = Vector3i(next_pos.x, next_pos.y, next_z)
@@ -794,7 +796,6 @@ func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, vi
 				return true
 		# Backtrack if this ramp path didn't work out
 		path_array.pop_back()
-	#print("	final failure")
 	return false
 
 func try_move_char_abs(creature: Creature, origin: Vector3i, target: Vector3i):
@@ -923,8 +924,8 @@ func get_close_to_target(creature: Creature, target: Vector3i, distance: int) ->
 		var path = path_to_adjacency(char_coords, target, distance)
 		if path:
 			interact_move(creature, path[1])
-		if Global.selected_char.get_coords() != path[-1]:
-			return false
+			if Global.selected_char.get_coords() != path[-1]:
+				return false
 	return true
 
 func interact_operate(creature: Creature, element: Prop, coords: Vector3i):
@@ -1000,7 +1001,11 @@ func interact_move(character: Creature, target: Vector3i):
 	print("goal: %d/%d" % [target.x, target.y])
 
 	path_map.set_point_solid(layer_origin, false)
-	path = get_multi_level_path(origin, target)
+	if not character.data.player_controlled:
+		path = get_multi_level_path_for_creature(character, target, false, true)
+	else:
+		path = get_multi_level_path_for_creature(character, target)
+	#path = get_multi_level_path(origin, target)
 	if path.is_empty():
 		print("No path found!")
 		return
@@ -1029,7 +1034,7 @@ func interact_move(character: Creature, target: Vector3i):
 	else:
 		character.mover.begin_path(path)
 	
-	creatures_visible_if_on_layer()
+	character.visible = (character.data.tile_z == current_level)
 	SignalBus.update_ui_for_char.emit()
 	selection_highlight.update_selection_highlight()
 

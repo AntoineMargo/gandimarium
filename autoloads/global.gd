@@ -14,6 +14,7 @@ var uid_manager = UIDManager.new()
 var ai_manager = AIManager.new()
 var time_manager = TimeManager.new()
 var noise_manager = NoiseManager.new()
+var door_manager = DoorManager.new()
 
 var game_root = null
 
@@ -132,6 +133,7 @@ func _ready() -> void:
 	add_child(ai_manager)
 	add_child(time_manager)
 	add_child(noise_manager)
+	add_child(door_manager)
 	
 	add_child(character_window)
 	add_child(inventory_window)
