@@ -572,7 +572,6 @@ func update_char_info():
 	]
 
 func update_ui_for_char():
-	print("===update_ui_for_char called===")
 	if Global.selected_char == null or Global.selected_char != Global.focus_char:
 		return
 	update_char_info()

@@ -32,7 +32,6 @@ func get_coords() -> Vector3i:
 func initialize() -> void:
 	var layer_coords = Vector2i(pos.x, pos.y)
 	wm.add_to_tile(self, pos)
-	print("name: %s cover: %d" % [prop_name, cover])
 	wm.layers[pos.z]["cover"][layer_coords] = cover
 	if blocks_movement:
 		wm.layers[pos.z]["path_map"].set_point_solid(layer_coords, true)
