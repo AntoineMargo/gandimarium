@@ -5,7 +5,11 @@
 
 [node name="WoodenDoor" type="Node2D" unique_id=442380090]
 script = ExtResource("1_0rjo0")
+prop_name = "door"
+id = "wooden_door"
+max_hp = 60
 mat = 1
+cover = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2003257459]
 texture = ExtResource("2_cihw7")

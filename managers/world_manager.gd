@@ -336,6 +336,7 @@ func get_reachable_tiles_3D_with_diagonals(start: Vector3i, max_cost: float) -> 
 	reachable.erase(start)
 	return reachable
 
+## @deprecated: use get_tile_occupied(tile: Vector3i) instead
 func is_tile_occupied(coords):
 	if layers[current_level]["occupied"][coords.vec2]:
 		return true

@@ -1,12 +1,13 @@
 extends Entity
 class_name Prop
 
-@export var prop_name: String = "placehoder"
-@export var id: String = "placehoder"
+@export var prop_name: String = "prop"
+@export var id: String = "prop"
 @export var scene: PackedScene
 @export var blocks_movement: bool = true
 @export var max_hp: int = 40
 @export var mat: Enums.Mat
+@export var cover: Enums.Cover
 @export var is_runtime: bool = false
 
 @export var pos: Vector3i
@@ -31,6 +32,8 @@ func get_coords() -> Vector3i:
 func initialize() -> void:
 	var layer_coords = Vector2i(pos.x, pos.y)
 	wm.add_to_tile(self, pos)
+	print("name: %s cover: %d" % [prop_name, cover])
+	wm.layers[pos.z]["cover"][layer_coords] = cover
 	if blocks_movement:
 		wm.layers[pos.z]["path_map"].set_point_solid(layer_coords, true)
 		wm.layers[pos.z]["occupied"][layer_coords] = true

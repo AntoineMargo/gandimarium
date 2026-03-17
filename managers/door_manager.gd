@@ -3,14 +3,14 @@ class_name DoorManager
 
 var wm = null
 
-var doors: Array = []
+var doors: Array[Door] = []
 
-var changed: Array = []
+#var changed: Array = []
 
 #func get_door_at(pos: Vector3i) -> WoodenDoorProp:
 	#return doors.get(pos)
 
-func register_door(door: WoodenDoorProp) -> void:
+func register_door(door: Door) -> void:
 	doors.append(door)
 
 #func prepare_doors_for_creature(_creature):

@@ -409,21 +409,28 @@ func eat_food(food: Food) -> void:
 	SignalBus.update_inventory.emit()
 
 ## consumes AP and potentially associated MP if set to 'true'
-func consume_ap(number: int, mp_equivalent: bool = true):
-	data.current_ap -= number
-	if data.current_ap < 0:
-		data.current_ap = 0
-	if mp_equivalent:
-		data.current_mp -= number * get_stat("max_mp")
-		if data.current_mp < 0:
-			data.current_mp = 0
-		if Global.selected_char == self:
-			Global.world_manager.path_preview.get_char_data()
+func consume_ap(number: int, mp_equivalent: bool = true) -> bool:
+	if Global.crisis_manager.crisis_mode:
+		if data.current_ap - number < 0:
+			return false
+		data.current_ap -= number
+		if data.current_ap < 0:
+			data.current_ap = 0
+		if mp_equivalent:
+			data.current_mp -= number * get_stat("max_mp")
+			if data.current_mp < 0:
+				data.current_mp = 0
+			if Global.selected_char == self:
+				Global.world_manager.path_preview.get_char_data()
+	return true
 
-func consume_pp(number):
+func consume_pp(number) -> bool:
+	if data.current_pp - number < 0:
+			return false
 	data.current_pp -= number
 	if data.current_pp < 0:
 		data.current_pp = 0
+	return true
 
 func meets_brawn_requirements() -> bool:
 	var weapons = data.equipment.get_items_of_slot_type(Enums.SlotType.HAND)
@@ -481,7 +488,9 @@ func perform_attack(target):
 			perform_activity(attack_activity, target)
 
 func perform_operate(prop: Prop):
-	prop.operate(self)
+	if consume_ap(1):
+		prop.operate(self)
+		SignalBus.update_ui_for_char.emit()
 
 func get_all_equipped_items() -> Array:
 	return data.equipment.get_all_equipped_items()

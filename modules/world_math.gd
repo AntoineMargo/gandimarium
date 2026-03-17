@@ -265,6 +265,8 @@ static func has_line_of_sight_tile(origin_tile: Vector3i, target_tile: Vector3i)
 	return line_of_sight_exists(origin_tile.x, origin_tile.y, origin_tile.z, target_tile.x, target_tile.y, target_tile.z)
 
 static func line_of_sight_exists(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int) -> bool:
+	var wm = Global.world_manager
+	
 	var points = bresenham_line_3d(x1, y1, z1, x2, y2, z2)
 	for i in range(1, points.size() - 1): # Skip endpoints
 		var current = points[i]
@@ -284,7 +286,8 @@ static func line_of_sight_exists(x1: int, y1: int, z1: int, x2: int, y2: int, z2
 				return false
 		else:
 			# Horizontal — check passability
-			if tile == null or tile.get_custom_data("passable") == false:
+			#if tile == null or tile.get_custom_data("passable") == false:
+			if wm.layers[z]["cover"].get(Vector2i(x, y), 0) == 4:
 				return false
 
 	return true
