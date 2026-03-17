@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="TargetedActivity" load_steps=4 format=3 uid="uid://ppgt2tc0yg7o"]
+[gd_resource type="Resource" script_class="TargetedActivity" format=3 uid="uid://ppgt2tc0yg7o"]
 
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="2_o3pc4"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="3_kqdml"]
@@ -7,7 +7,5 @@
 [resource]
 script = ExtResource("4_cbold")
 number_of_targets = 3
-attacking_aptitude = "resolve"
-defending_aptitude = "ranged_defence"
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"

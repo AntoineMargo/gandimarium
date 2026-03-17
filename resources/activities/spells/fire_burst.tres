@@ -19,6 +19,7 @@ script = ExtResource("1_grf8i")
 name = "Fire Burst"
 id = "fire_burst"
 AP_cost = 2
+line_of_sight = false
 reach = 5
 spread = 5
 self_filters = Array[ExtResource("2_1bvg1")]([ExtResource("3_u1m7g"), ExtResource("4_c6nku"), ExtResource("5_lmnsn")])

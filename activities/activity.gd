@@ -10,6 +10,7 @@ class_name Activity
 @export var PP_cost: int = 0
 @export var EP_cost: int = 0
 @export var requires_concentration: bool = false
+@export var line_of_sight: bool = true
 @export var attacking_aptitude: Enums.Aptitude = Enums.Aptitude.WILL
 @export var defending_aptitude: Enums.Aptitude = Enums.Aptitude.WILL
 @export var reach: int = 0
@@ -137,14 +138,14 @@ func has_tag(tag: String) -> bool:
 func compute_affected_area(target_location: Vector3i) -> Array[Vector3i]:
 	match shape:
 		Enums.Shape.BURST:
-			return WorldMath.get_burst_tiles(target_location, spread)
+			return WorldMath.get_burst_tiles(target_location, spread, line_of_sight)
 		Enums.Shape.CONE:
-			return WorldMath.get_cone_tiles(origin, target_location, reach, spread)
+			return WorldMath.get_cone_tiles(origin, target_location, reach, spread, line_of_sight)
 		Enums.Shape.LINE:
 			var tiles = WorldMath.get_line_tiles(origin, target_location, reach)
 			tiles.pop_front()
 			return tiles
-	return WorldMath.get_burst_tiles(target_location, spread)
+	return WorldMath.get_burst_tiles(target_location, spread, line_of_sight)
 
 func _init():
 	if ai_hint:
