@@ -80,10 +80,11 @@ func save_current_map_delta():
 	var delta: MapDelta = world_manager.get_map_delta(world_manager.current_world.id)
 
 	var map_id = world_manager.current_world.id
-	var dir_path = "user://map_deltas"
+	
+	var dir_path = "res://saved/map_deltas" if OS.is_debug_build() else "user://map_deltas"
 	var path = "%s/%s.tres" % [dir_path, map_id]
 
-	var dir = DirAccess.open("user://")
+	var dir = DirAccess.open("res://saved/")
 	if not dir.dir_exists("map_deltas"):
 		dir.make_dir("map_deltas")
 

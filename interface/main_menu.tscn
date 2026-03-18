@@ -40,7 +40,7 @@ layout_mode = 2
 [node name="NameLabel" type="Label" parent="ColorRect/CenterContainer/VBoxContainer" unique_id=1766873460]
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 80
 text = "Andimarium"
 
 [node name="StartButton" type="Button" parent="ColorRect/CenterContainer/VBoxContainer" unique_id=599443735]
@@ -51,6 +51,14 @@ size_flags_vertical = 4
 theme_override_font_sizes/font_size = 50
 text = "Start Game"
 
+[node name="NewCharButton" type="Button" parent="ColorRect/CenterContainer/VBoxContainer" unique_id=1405463019]
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 50
+text = "New Character"
+
 [node name="ExitButton" type="Button" parent="ColorRect/CenterContainer/VBoxContainer" unique_id=451160831]
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
@@ -58,4 +66,5 @@ theme_override_font_sizes/font_size = 50
 text = "Exit"
 
 [connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/NewCharButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
