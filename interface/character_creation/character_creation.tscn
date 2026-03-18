@@ -1,5 +1,12 @@
 [gd_scene format=3 uid="uid://cxjtd2c06i785"]
 
+[ext_resource type="Script" uid="uid://cnl0toy8yhf5y" path="res://interface/character_creation/character_creation.gd" id="1_bir6x"]
+[ext_resource type="Script" uid="uid://kfqique2xoxh" path="res://interface/character_creation/primary_archetype.gd" id="2_syumy"]
+[ext_resource type="Script" uid="uid://bwfbic2jqegw3" path="res://interface/character_creation/finish.gd" id="3_yee37"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vkkue"]
+bg_color = Color(0.09620472, 0.09620475, 0.09620469, 1)
+
 [node name="CharacterCreation" type="Control" unique_id=1824261523]
 layout_mode = 3
 anchors_preset = 15
@@ -7,6 +14,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_bir6x")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1788575244]
 layout_mode = 1
@@ -15,34 +23,41 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
+color = Color(0.096204735, 0.09620475, 0.096204735, 1)
 
-[node name="TabContainer" type="TabContainer" parent="ColorRect" unique_id=1737868434]
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect" unique_id=2057826508]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="CreationTabs" type="TabContainer" parent="ColorRect/VBoxContainer" unique_id=1737868434]
+layout_mode = 2
+size_flags_vertical = 3
 theme_override_font_sizes/font_size = 32
 tab_alignment = 1
-current_tab = 0
+current_tab = 9
 tab_0/title = " Primary Archetype "
 tab_1/title = " Secondary Archetype "
 tab_2/title = " Origin "
 tab_3/title = " Aspects "
 tab_4/title = " Traits "
 tab_5/title = " Background "
+tab_5/hidden = true
 tab_6/title = " Attributes "
 tab_7/title = " Skills "
 tab_8/title = " Talents "
 
-[node name="PrimaryArchetype" type="Panel" parent="ColorRect/TabContainer" unique_id=1015797334]
+[node name="PrimaryArchetype" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=1015797334]
+visible = false
 layout_mode = 2
+script = ExtResource("2_syumy")
 metadata/_tab_index = 0
 metadata/_tab_name = " Primary Archetype "
 
-[node name="TabContainer" type="TabContainer" parent="ColorRect/TabContainer/PrimaryArchetype" unique_id=1198312870]
+[node name="ArchetypeTabs" type="TabContainer" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype" unique_id=1198312870]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -58,12 +73,12 @@ tab_1/title = " Discipline "
 tab_2/title = " Tradition "
 tab_2/hidden = true
 
-[node name="Archetype" type="Panel" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer" unique_id=459670328]
+[node name="Archetype" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs" unique_id=459670328]
 layout_mode = 2
 metadata/_tab_index = 0
 metadata/_tab_name = " Archetype "
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype" unique_id=408476771]
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype" unique_id=408476771]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -71,143 +86,257 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype/VBoxContainer" unique_id=2103483517]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer" unique_id=2103483517]
 layout_mode = 2
 
-[node name="Archetypes" type="VBoxContainer" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype/VBoxContainer/HBoxContainer" unique_id=1617347123]
+[node name="Archetypes" type="VBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer" unique_id=1617347123]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=271637229]
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=582487615]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="Paragon" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=271637229]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Paragon"
 
-[node name="Button2" type="Button" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1669337408]
+[node name="AspectedMage" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1669337408]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Aspected Mage"
 
-[node name="Button3" type="Button" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1720838550]
+[node name="Button3" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1720838550]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Stochastic Mage"
+text = "Scholastic Mage"
 
-[node name="Button4" type="Button" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=795496600]
+[node name="Button4" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=795496600]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Primordial Mage"
 
-[node name="Button5" type="Button" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=380746907]
+[node name="Button5" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=380746907]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Battle Mage"
 
-[node name="Button6" type="Button" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1158868948]
+[node name="Button6" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1158868948]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Legion"
 
-[node name="Button7" type="Button" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=875184089]
+[node name="Button7" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=875184089]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Conduit"
 
-[node name="Button8" type="Button" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1480529440]
+[node name="Button8" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1480529440]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Champion"
 
-[node name="Button9" type="Button" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1187646806]
+[node name="Button9" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1187646806]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Vessel / Scion"
 
-[node name="Button10" type="Button" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1847241079]
+[node name="Button10" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1847241079]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Trance Walker"
 
-[node name="Button11" type="Button" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=960605880]
+[node name="Button11" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=960605880]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Evoker"
 
-[node name="Button12" type="Button" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=224235763]
+[node name="Button12" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=224235763]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Soulbound"
 
-[node name="Button13" type="Button" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=858375672]
+[node name="Button13" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=858375672]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Exemplar"
 
-[node name="Button14" type="Button" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1777848908]
+[node name="Button14" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1777848908]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "V"
 
-[node name="Information" type="VBoxContainer" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer/Archetype/VBoxContainer/HBoxContainer" unique_id=1704758078]
+[node name="Information" type="VBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer" unique_id=1704758078]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Discipline" type="Panel" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer" unique_id=587697796]
+[node name="Discipline" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs" unique_id=587697796]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 metadata/_tab_name = " Discipline "
 
-[node name="Tradition" type="Panel" parent="ColorRect/TabContainer/PrimaryArchetype/TabContainer" unique_id=1954651718]
+[node name="Tradition" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs" unique_id=1954651718]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 metadata/_tab_name = " Tradition "
 
-[node name="SecondaryArchetype" type="Panel" parent="ColorRect/TabContainer" unique_id=487134417]
+[node name="SecondaryArchetype" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=487134417]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 metadata/_tab_name = " Secondary Archetype "
 
-[node name="Origin" type="Panel" parent="ColorRect/TabContainer" unique_id=211229863]
+[node name="Origin" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=211229863]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 metadata/_tab_name = " Origin "
 
-[node name="Aspects" type="Panel" parent="ColorRect/TabContainer" unique_id=1830105522]
+[node name="Aspects" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=1830105522]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 3
 metadata/_tab_name = " Aspects "
 
-[node name="Traits" type="Panel" parent="ColorRect/TabContainer" unique_id=766132785]
+[node name="Traits" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=766132785]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 4
 metadata/_tab_name = " Traits "
 
-[node name="Background" type="Panel" parent="ColorRect/TabContainer" unique_id=127249500]
+[node name="Background" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=127249500]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 5
 metadata/_tab_name = " Background "
 
-[node name="Attributes" type="Panel" parent="ColorRect/TabContainer" unique_id=1315635062]
+[node name="Attributes" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=1315635062]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 6
 metadata/_tab_name = " Attributes "
 
-[node name="Skills" type="Panel" parent="ColorRect/TabContainer" unique_id=534965100]
+[node name="Skills" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=534965100]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 7
 metadata/_tab_name = " Skills "
 
-[node name="Talents" type="Panel" parent="ColorRect/TabContainer" unique_id=1588368258]
+[node name="Talents" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=1588368258]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 8
 metadata/_tab_name = " Talents "
+
+[node name="Finish" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=1679341889]
+layout_mode = 2
+script = ExtResource("3_yee37")
+metadata/_tab_index = 9
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Finish" unique_id=2119817632]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginLeft" type="Control" parent="ColorRect/VBoxContainer/CreationTabs/Finish/HBoxContainer" unique_id=543673733]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Finish/HBoxContainer" unique_id=1530781593]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Finish/HBoxContainer/VBoxContainer" unique_id=82638826]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Finish/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=2115762932]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Name:"
+
+[node name="Control" type="Control" parent="ColorRect/VBoxContainer/CreationTabs/Finish/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=612871876]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="ColorRect/VBoxContainer/CreationTabs/Finish/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=145901708]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+placeholder_text = "name"
+max_length = 20
+
+[node name="MarginRight" type="Control" parent="ColorRect/VBoxContainer/CreationTabs/Finish/HBoxContainer" unique_id=989818475]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="ColorRect/VBoxContainer" unique_id=384071101]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_vkkue")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/VBoxContainer/Panel" unique_id=450834928]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="MarginLeft" type="Control" parent="ColorRect/VBoxContainer/Panel/HBoxContainer" unique_id=768370712]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="ReturnButton" type="Button" parent="ColorRect/VBoxContainer/Panel/HBoxContainer" unique_id=1513952348]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Return"
+
+[node name="Space1" type="Control" parent="ColorRect/VBoxContainer/Panel/HBoxContainer" unique_id=1781501812]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PreviousButton" type="Button" parent="ColorRect/VBoxContainer/Panel/HBoxContainer" unique_id=1022031398]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Previous"
+
+[node name="NextButton" type="Button" parent="ColorRect/VBoxContainer/Panel/HBoxContainer" unique_id=1804821754]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Next"
+
+[node name="Space2" type="Control" parent="ColorRect/VBoxContainer/Panel/HBoxContainer" unique_id=252024157]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SaveButton" type="Button" parent="ColorRect/VBoxContainer/Panel/HBoxContainer" unique_id=171381317]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Save"
+
+[node name="Space3" type="Control" parent="ColorRect/VBoxContainer/Panel/HBoxContainer" unique_id=1011433397]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="ContinueButton" type="Button" parent="ColorRect/VBoxContainer/Panel/HBoxContainer" unique_id=275318219]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Continue"
+
+[node name="MarginRight" type="Control" parent="ColorRect/VBoxContainer/Panel/HBoxContainer" unique_id=1827702947]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="Control" type="Control" parent="ColorRect/VBoxContainer" unique_id=1001764952]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2

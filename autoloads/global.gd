@@ -57,8 +57,9 @@ func _unhandled_input(event: InputEvent) -> void:
 						SignalBus.complex_interact.emit()
 
 func _process(_delta: float) -> void:
-	input_manager.BasicControls()
-	ui_manager.drag_fail_restore()
+	if Global.world_manager.current_world:
+		input_manager.BasicControls()
+		ui_manager.drag_fail_restore()
 
 #func _input(event: InputEvent) -> void:
 	#pass

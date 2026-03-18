@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="CreatureData" format=3]
+
+[ext_resource type="Script" path="res://activities/activity.gd" id="1_bia01"]
+[ext_resource type="Script" path="res://activity_modifiers/activity_modifier.gd" id="2_jgx6e"]
+[ext_resource type="Script" path="res://aspects/aspect.gd" id="3_v1o86"]
+[ext_resource type="Script" path="res://entities/attributes.gd" id="4_dixx4"]
+[ext_resource type="Script" path="res://entities/base_stats.gd" id="5_vbonw"]
+[ext_resource type="Script" path="res://abilities/concentration.gd" id="6_dur6v"]
+[ext_resource type="Script" path="res://conditions/condition.gd" id="7_aqjct"]
+[ext_resource type="Script" path="res://various/hand_set.gd" id="8_j4b5a"]
+[ext_resource type="Script" path="res://entities/equipment.gd" id="9_w360a"]
+[ext_resource type="Script" path="res://items/item.gd" id="10_rwv1r"]
+[ext_resource type="Script" path="res://entities/inventory.gd" id="11_2i18p"]
+[ext_resource type="Resource" path="res://resources/archetypes/paragon/paragon.tres" id="12_l4nn7"]
+[ext_resource type="Script" path="res://entities/personality.gd" id="13_r3od4"]
+[ext_resource type="Script" path="res://various/affiliation_entry.gd" id="14_xt5fj"]
+[ext_resource type="Script" path="res://various/reputation_entry.gd" id="15_icw16"]
+[ext_resource type="Script" path="res://entities/relationships.gd" id="16_jdyrd"]
+[ext_resource type="Script" path="res://various/tactical_relation_entry.gd" id="17_v1vag"]
+[ext_resource type="Script" path="res://entities/resistances.gd" id="18_3f5fn"]
+[ext_resource type="Script" path="res://entities/creature_data.gd" id="19_gb675"]
+[ext_resource type="Script" path="res://abilities/spell.gd" id="20_o6213"]
+[ext_resource type="Script" path="res://talents/talent.gd" id="21_bvm3g"]
+
+[sub_resource type="Resource" id="Resource_j66jn"]
+script = ExtResource("4_dixx4")
+
+[sub_resource type="Resource" id="Resource_qg813"]
+script = ExtResource("5_vbonw")
+
+[sub_resource type="Resource" id="Resource_ilm6j"]
+script = ExtResource("9_w360a")
+
+[sub_resource type="Resource" id="Resource_pqopc"]
+script = ExtResource("11_2i18p")
+
+[sub_resource type="Resource" id="Resource_jjuv7"]
+script = ExtResource("13_r3od4")
+
+[sub_resource type="Resource" id="Resource_270rc"]
+script = ExtResource("16_jdyrd")
+
+[sub_resource type="Resource" id="Resource_aoywe"]
+script = ExtResource("18_3f5fn")
+
+[resource]
+script = ExtResource("19_gb675")
+major_archetype = ExtResource("12_l4nn7")
+attributes = SubResource("Resource_j66jn")
+base_stats = SubResource("Resource_qg813")
+inventory = SubResource("Resource_pqopc")
+equipment = SubResource("Resource_ilm6j")
+resistances = SubResource("Resource_aoywe")
+relationships = SubResource("Resource_270rc")
+personality = SubResource("Resource_jjuv7")
+spells_ready = [ExtResource("20_o6213")]
+spells_available = [ExtResource("20_o6213")]
+conditions = [ExtResource("7_aqjct")]
+activity_modifiers = [ExtResource("2_jgx6e")]
+concentrations = [ExtResource("6_dur6v")]

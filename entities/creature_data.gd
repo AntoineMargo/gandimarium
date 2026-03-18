@@ -18,7 +18,6 @@ class_name CreatureData
 @export var equipment: Equipment = null
 @export var resistances: Resistances = null
 @export var relationships: Relationships = null
-
 @export var personality: Personality = null
 
 @export var aspects: Array[Aspect] = []
