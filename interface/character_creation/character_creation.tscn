@@ -38,7 +38,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 32
 tab_alignment = 1
-current_tab = 9
+current_tab = 0
 tab_0/title = " Primary Archetype "
 tab_1/title = " Secondary Archetype "
 tab_2/title = " Origin "
@@ -51,7 +51,6 @@ tab_7/title = " Skills "
 tab_8/title = " Talents "
 
 [node name="PrimaryArchetype" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=1015797334]
-visible = false
 layout_mode = 2
 script = ExtResource("2_syumy")
 metadata/_tab_index = 0
@@ -232,6 +231,7 @@ metadata/_tab_index = 8
 metadata/_tab_name = " Talents "
 
 [node name="Finish" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=1679341889]
+visible = false
 layout_mode = 2
 script = ExtResource("3_yee37")
 metadata/_tab_index = 9

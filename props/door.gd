@@ -50,6 +50,7 @@ func initialize() -> void:
 	#print_info()
 
 func _on_ready():
+	sm = Global.state_manager
 	wm = Global.world_manager
 	parent_layer = get_parent().get_parent()
 	current_hp = max_hp

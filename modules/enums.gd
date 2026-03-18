@@ -1,5 +1,11 @@
 class_name Enums
 
+enum UIDType {
+	CREATURE,
+	ROOM,
+	BUILDING
+	}
+
 enum Routine {
 	NONE,
 	PATROL,

@@ -7,7 +7,7 @@ var ai_zones: Dictionary = {}
 var current_tile_map_layer: TileMapLayer = null
 var current_level: int = 0
 var current_world: Node = null
-var world_state = null
+var map_state = null
 var spawner: Spawner
 
 var map_width: int
@@ -53,47 +53,6 @@ func _process(_delta):
 	if Global.crisis_manager.crisis_mode and Global.selected_char:
 		preview_path(tile_under_cursor)
 
-func get_map_delta(map_id: String) -> MapDelta:
-	if not world_state.map_deltas.has(map_id):
-		world_state.map_deltas[map_id] = MapDelta.new()
-	return world_state.map_deltas[map_id]
-
-func add_prop_to_delta(prop: Prop) -> void:
-	var map_delta = get_map_delta(current_world.id)
-	var prop_delta = prop.make_delta()
-	var key: String = str(prop.pos)
-
-	if map_delta.removed_props.has(key):
-		map_delta.removed_props.erase(key)
-
-	if map_delta.added_props.has(key):
-		return
-	else:
-		map_delta.added_props[key] = prop_delta
-
-func remove_prop_from_delta(prop: Prop) -> void:
-	var map_delta = get_map_delta(current_world.id)
-	var key: String = str(prop.pos)
-
-	if map_delta.added_props.has(key):
-		map_delta.added_props.erase(key)
-		return
-
-	# Cancel modification
-	if map_delta.modified_props.has(key):
-		map_delta.modified_props.erase(key)
-
-	map_delta.removed_props[key] = true
-
-func on_prop_modified(prop: Prop) -> void:
-	var map_delta = get_map_delta(current_world.id)
-	var key: String = str(prop.pos)
-
-	if map_delta.added_props.has(key):
-		map_delta.added_props[key] = prop.make_delta()
-	else:
-		map_delta.modified_props[key] = prop.make_delta()
-
 func spawn_prop(scene: PackedScene, pos: Vector3i) -> Prop:
 	var prop: Prop = scene.instantiate()
 	prop.scene = scene
@@ -108,7 +67,7 @@ func spawn_prop(scene: PackedScene, pos: Vector3i) -> Prop:
 			prop.initialize()
 			break
 
-	add_prop_to_delta(prop)
+	Global.state_manager.add_prop_to_delta(prop)
 	return prop
 
 func get_entity_at_pos(pos: Vector3i) -> Entity:
@@ -1126,7 +1085,7 @@ func time_effects_on_creatures(n):
 			creature.ai_controller.localai.change_routine()
 
 func _ready() -> void:
-	world_state = WorldState.new()
+	map_state = MapState.new()
 	spawner = Spawner.new()
 	spawner.wm = self
 	selection_highlight.update_selection_highlight()

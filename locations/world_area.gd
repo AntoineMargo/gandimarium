@@ -4,7 +4,7 @@ class_name WorldArea
 @export var id: String = "placeholder"
 @onready var current_tile_map_layer = $level0
 @onready var layers: Array[TileMapLayer] = [$level0]
-@onready var map_delta = Global.world_manager.get_map_delta(id)
+@onready var map_delta = Global.state_manager.get_map_delta(id)
 
 var creatures: Array[Creature] = []
 var creatures_by_id: Dictionary[int, Creature] = {}

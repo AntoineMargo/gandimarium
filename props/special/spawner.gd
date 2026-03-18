@@ -21,6 +21,7 @@ func initialize() -> void:
 	destroy_self()
 
 func _on_ready():
+	sm = Global.state_manager
 	wm = Global.world_manager
 	parent_layer = get_parent().get_parent()
 	prop_name = "spawner"

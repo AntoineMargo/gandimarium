@@ -24,6 +24,7 @@ class_name Prop
 
 
 var wm = null
+var sm = null
 var parent_layer = null
 
 func get_coords() -> Vector3i:
@@ -43,10 +44,10 @@ func initialize() -> void:
 	#print_info()
 
 func register() -> void:
-	wm.add_prop_to_delta(self)
+	sm.add_prop_to_delta(self)
 
 func unregister() -> void:
-	wm.remove_prop_from_delta(self)
+	sm.remove_prop_from_delta(self)
 
 func make_delta() -> PropDelta:
 	var prop_delta = PropDelta.new()
@@ -127,6 +128,7 @@ func print_info():
 	print("id: %s, pos: (%d, %d, %d)" % [id, pos.x, pos.y, pos.z])
 
 func _on_ready():
+	sm = Global.state_manager
 	wm = Global.world_manager
 	parent_layer = get_parent().get_parent()
 	current_hp = max_hp

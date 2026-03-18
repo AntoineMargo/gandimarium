@@ -30,6 +30,10 @@ class_name CreatureData
 @export var activity_modifiers: Array = [ActivityModifier]
 @export var concentrations: Array = [Concentration]
 
+# map ID String, Array of int UIDs
+@export var owned_rooms: Dictionary[String, Array] = {}
+@export var owned_buildings: Dictionary[String, Array] = {}
+
 @export var casting_table: CastingTable = null
 
 @export var current_hp: int = 0

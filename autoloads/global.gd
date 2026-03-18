@@ -3,6 +3,7 @@ extends Node
 #const TILE_SIZE = 40
 const TILE_SIZE = 16
 
+var state_manager = StateManager.new()
 var ui_manager = UIManager.new()
 var dialog_manager = DialogManager.new()
 var overworld_manager = OverworldManager.new()
@@ -61,9 +62,6 @@ func _process(_delta: float) -> void:
 		input_manager.BasicControls()
 		ui_manager.drag_fail_restore()
 
-#func _input(event: InputEvent) -> void:
-	#pass
-
 func handle_world_hover(tile: Vector3i) -> void:
 	if tile == last_hovered_tile:
 		return
@@ -76,25 +74,6 @@ func handle_world_hover(tile: Vector3i) -> void:
 			return
 
 	world_manager.hover_tile.set_tile(tile)
-
-func save_current_map_delta():
-	var delta: MapDelta = world_manager.get_map_delta(world_manager.current_world.id)
-
-	var map_id = world_manager.current_world.id
-	
-	var dir_path = "res://saved/map_deltas" if OS.is_debug_build() else "user://map_deltas"
-	var path = "%s/%s.tres" % [dir_path, map_id]
-
-	var dir = DirAccess.open("res://saved/")
-	if not dir.dir_exists("map_deltas"):
-		dir.make_dir("map_deltas")
-
-	var err = ResourceSaver.save(delta, path)
-
-	if err != OK:
-		push_error("Failed to save delta: %s" % err)
-	else:
-		print("SAVED!")
 
 func toggle_pause():
 	if pause_menu_active:
@@ -124,6 +103,7 @@ func wait_frame(amount: int = 1):
 
 func _ready() -> void:
 	randomize()
+	add_child(state_manager)
 	add_child(crisis_manager)
 	add_child(ui_manager)
 	add_child(dialog_manager)
@@ -137,10 +117,13 @@ func _ready() -> void:
 	add_child(noise_manager)
 	add_child(door_manager)
 	
+	await get_tree().create_timer(0.1).timeout
+	
 	add_child(character_window)
 	add_child(inventory_window)
 	add_child(container_window)
 	add_child(world_info)
+	
 	
 	inventory_window.visible = false
 	container_window.visible = false

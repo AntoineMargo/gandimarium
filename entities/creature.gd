@@ -624,7 +624,7 @@ func set_coords(new_coords: Vector3i):
 func initialise():
 	if not data.has_been_initialized:
 		if data.uid == 0:
-			data.id = Global.uid_manager.next_uid(UIDManager.Type.CREATURE)
+			data.id = Global.uid_manager.next_uid(Enums.UIDType.CREATURE)
 		if data.id == 0:
 			data.id = data.uid
 
