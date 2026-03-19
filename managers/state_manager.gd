@@ -11,7 +11,7 @@ func next_uid(type: Enums.UIDType) -> int:
 		return game_state.uid_state.get_room_next()
 	elif type == Enums.UIDType.BUILDING:
 		return game_state.uid_state.get_building_next()
-	push_error("Error: ID could not be successfully produced")
+	push_error("Error: ID could not be successfully produced.")
 	return -1
 
 func get_map_state(map_id: String) -> MapState:
@@ -96,9 +96,95 @@ func load_game_state() -> bool:
 	print("GAME STATE LOADED!")
 	return true
 
+const DIRS = [
+	Vector3i(-1,0,0),
+	Vector3i(1,0,0),
+	Vector3i(0,-1,0),
+	Vector3i(0,1,0),
+]
+
+func assign_tiles_to_rooms(map_id: String) -> void:
+	var wm = Global.world_manager
+	var map_state: MapState = get_map_state(map_id)
+	var tile_to_rooms = map_state.tile_to_rooms
+	var room_to_tiles = map_state.room_to_tiles
+	var chosen_layer: TileMapLayer = null
+	var start_tile: Vector3i
+	
+	for layer in wm.current_world.get_children():
+		if layer.id == 0:
+			chosen_layer = layer
+	
+	if chosen_layer:
+		for x in range(wm.map_width):
+			for y in range(wm.map_height):
+				var pos: Vector2i = Vector2i(x, y)
+				var tile_data = chosen_layer.get_cell_tile_data(pos)
+				if tile_data and tile_data.get_custom_data("inside") == true and tile_data.get_custom_data("cover") == 0:
+					start_tile = Vector3i(x, y, 0)
+					var prop = wm.get_prop_at_pos(start_tile)
+					if not tile_to_rooms.has(start_tile) and not (prop is Door):
+						_add_room_to_state(chosen_layer, start_tile, tile_to_rooms, room_to_tiles)
+
+func _add_room_to_state(chosen_layer, start_tile, tile_to_rooms, room_to_tiles) -> void:
+	var room_tiles: Array[Vector3i] = _flood_room(chosen_layer, start_tile)
+	
+	if room_tiles:
+		var room_uid = next_uid(Enums.UIDType.ROOM)
+		room_to_tiles[room_uid] = []
+
+		for tile in room_tiles:
+			if not tile_to_rooms.has(tile):
+				tile_to_rooms[tile] = []
+
+			tile_to_rooms[tile].append(room_uid)
+			room_to_tiles[room_uid].append(tile)
+
+func _flood_room(chosen_layer, start_tile: Vector3i) -> Array[Vector3i]:
+	var wm = Global.world_manager
+	var start_data = chosen_layer.get_cell_tile_data(Vector2i(start_tile.x, start_tile.y))
+	if not start_data or start_data.get_custom_data("cover") != 0:
+		return []
+	
+	var stack = [start_tile]
+	var visited: Dictionary[Vector3i, bool] = {}
+	var result: Array[Vector3i] = []
+
+	while stack.size() > 0:
+		var tile = stack.pop_back()
+
+		if visited.has(tile):
+			continue
+		visited[tile] = true
+
+		var tile_2d: Vector2i = Vector2i(tile.x, tile.y)
+		var tile_data = chosen_layer.get_cell_tile_data(tile_2d)
+		if not tile_data:
+			continue
+
+		var cover = tile_data.get_custom_data("cover")
+		var prop = wm.get_prop_at_pos(tile)
+
+		if cover == 0:
+			result.append(tile)
+
+			if prop is Door:
+				continue
+
+			for dir in DIRS:
+				stack.append(tile + dir)
+
+		elif cover > 0:
+			result.append(tile)
+
+	return result
+
 func _setup_map_state():
 	if Global.world_manager.current_world:
 		current_map_id = Global.world_manager.current_world.id
+	var map_state = get_map_state(current_map_id)
+	if map_state.data_dirty:
+		assign_tiles_to_rooms(current_map_id)
 
 func _ready():
 	if not load_game_state():

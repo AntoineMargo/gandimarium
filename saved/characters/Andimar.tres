@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="CreatureData" format=3 uid="uid://bi5scms3emy"]
+
+[ext_resource type="Script" uid="uid://chufkd7a0xqa0" path="res://activities/activity.gd" id="1_h5ugi"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/activity_modifier.gd" id="2_t1xx4"]
+[ext_resource type="Script" uid="uid://cubgbyndvs8t3" path="res://aspects/aspect.gd" id="3_nu26v"]
+[ext_resource type="Script" uid="uid://boxs05dhsll81" path="res://entities/attributes.gd" id="4_t21hf"]
+[ext_resource type="Script" uid="uid://bqbvgbqafpkej" path="res://entities/base_stats.gd" id="5_4gwwu"]
+[ext_resource type="Script" uid="uid://bajjyg2du7mri" path="res://abilities/concentration.gd" id="6_yf7v1"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="7_u2am1"]
+[ext_resource type="Script" uid="uid://dxofkj1ggocqb" path="res://various/hand_set.gd" id="8_lccan"]
+[ext_resource type="Script" uid="uid://cna3smanlwqkg" path="res://entities/equipment.gd" id="9_lj5re"]
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="10_3kbar"]
+[ext_resource type="Script" uid="uid://0hy8gde00nbx" path="res://entities/inventory.gd" id="11_7dfpn"]
+[ext_resource type="Script" uid="uid://d3sdrg6ues8pm" path="res://items/armour.gd" id="11_t1xx4"]
+[ext_resource type="Resource" uid="uid://c00teqpc3o5li" path="res://resources/archetypes/paragon/paragon.tres" id="12_vdk5q"]
+[ext_resource type="Script" uid="uid://bwpyc87wtxb7o" path="res://entities/personality.gd" id="13_h8m5f"]
+[ext_resource type="Script" uid="uid://cwy5ao2mmfqfh" path="res://various/affiliation_entry.gd" id="14_5yeut"]
+[ext_resource type="Script" uid="uid://ci8skyvllvl30" path="res://various/reputation_entry.gd" id="15_dmsc6"]
+[ext_resource type="Script" uid="uid://bucqf63xvppow" path="res://entities/relationships.gd" id="16_vxyqn"]
+[ext_resource type="Script" uid="uid://dlk8wy6dlqksm" path="res://various/tactical_relation_entry.gd" id="17_gmac4"]
+[ext_resource type="Script" uid="uid://2esemn7osq1o" path="res://entities/resistances.gd" id="18_bjj8k"]
+[ext_resource type="Script" uid="uid://dyp8klyosnw2y" path="res://entities/creature_data.gd" id="19_4ub3l"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell.gd" id="20_w7d34"]
+[ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="21_07mni"]
+
+[sub_resource type="Resource" id="Resource_7op48"]
+script = ExtResource("4_t21hf")
+
+[sub_resource type="Resource" id="Resource_68mj1"]
+script = ExtResource("5_4gwwu")
+
+[sub_resource type="Resource" id="Resource_22ept"]
+script = ExtResource("9_lj5re")
+
+[sub_resource type="Resource" id="Resource_nu26v"]
+script = ExtResource("11_t1xx4")
+owner = null
+metadata/_custom_type_script = "uid://d3sdrg6ues8pm"
+
+[sub_resource type="Resource" id="Resource_yg5bh"]
+script = ExtResource("11_7dfpn")
+list = Array[ExtResource("10_3kbar")]([SubResource("Resource_nu26v")])
+
+[sub_resource type="Resource" id="Resource_03ahb"]
+script = ExtResource("13_h8m5f")
+
+[sub_resource type="Resource" id="Resource_1wbmi"]
+script = ExtResource("16_vxyqn")
+
+[sub_resource type="Resource" id="Resource_hjcm8"]
+script = ExtResource("18_bjj8k")
+
+[resource]
+script = ExtResource("19_4ub3l")
+major_archetype = ExtResource("12_vdk5q")
+attributes = SubResource("Resource_7op48")
+base_stats = SubResource("Resource_68mj1")
+inventory = SubResource("Resource_yg5bh")
+equipment = SubResource("Resource_22ept")
+resistances = SubResource("Resource_hjcm8")
+relationships = SubResource("Resource_1wbmi")
+personality = SubResource("Resource_03ahb")
+spells_ready = [ExtResource("20_w7d34")]
+spells_available = [ExtResource("20_w7d34")]
+conditions = [ExtResource("7_u2am1")]
+activity_modifiers = [ExtResource("2_t1xx4")]
+concentrations = [ExtResource("6_yf7v1")]

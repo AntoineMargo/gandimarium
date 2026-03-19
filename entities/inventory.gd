@@ -1,7 +1,7 @@
 extends Resource
 class_name Inventory
 
-@export var list: Array = []
+@export var list: Array[Item] = []
 
 func get_inventory():
 	return list
