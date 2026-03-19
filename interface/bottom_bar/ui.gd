@@ -9,10 +9,6 @@ extends Control
 	"weapon2" = $PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2
 }
 
-# zzz
-
 func _ready() -> void:
 	Global.ui_log = $PanelContainer/VBoxContainer/HBoxContainer/ColorRect/Log
 	Global.ui_manager.set_ui_node(self)
-	print("here it be!")
-	print(nodes["grid"])

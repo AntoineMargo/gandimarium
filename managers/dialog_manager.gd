@@ -16,8 +16,9 @@ func add_log(text: String):
 func _on_show_message(text):
 	add_log(text)
 
-func _on_hostile_activity(user, target, user_stat, target_stat, user_roll, target_roll, degree_of_success):
-	pass
+#func _on_hostile_activity(user, target, user_stat, target_stat, user_roll, target_roll, degree_of_success):
+	#pass
+
 	#var message := "%s (%d + %d) vs %s (%d + %d)" % [
 		#user.data.name, user_roll, user.data.get(user_stat),
 		#target.data.name, target_roll, target.data.get(target_stat)]
@@ -34,11 +35,11 @@ func _on_hostile_activity(user, target, user_stat, target_stat, user_roll, targe
 	#Global.ui_log.text += "\n" + message
 	#Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()
 
-func _on_damage_taken(name, damage):
-	add_log("%s took %d damage." % [name, damage])
+func _on_damage_taken(char_name, damage):
+	add_log("%s took %d damage." % [char_name, damage])
 	
-func _on_healing_taken(name, healing):
-	add_log("%s healed %d damage." % [name, healing])
+func _on_healing_taken(char_name, healing):
+	add_log("%s healed %d damage." % [char_name, healing])
 
 func _on_selectable_targets(number):
 	add_log("Target(s) to be selected: %d" % [number])
@@ -78,7 +79,7 @@ func _ready() -> void:
 	SignalBus.dialog_damage_taken.connect(_on_damage_taken)
 	SignalBus.dialog_healing_taken.connect(_on_healing_taken)
 
-	SignalBus.dialog_hostile_activity.connect(_on_hostile_activity)
+	#SignalBus.dialog_hostile_activity.connect(_on_hostile_activity)
 	
 	SignalBus.dialog_start_crisis_mode.connect(_on_crisis_mode_starting)
 	SignalBus.dialog_end_crisis_mode.connect(_on_crisis_mode_ending)

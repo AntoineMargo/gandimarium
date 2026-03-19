@@ -3,9 +3,9 @@ class_name CursorManager
 
 var cursors := {}
 
-func set_cursor(name: String):
-	if name in cursors:
-		Input.set_custom_mouse_cursor(cursors[name], Input.CURSOR_ARROW, Vector2(0, 0))
+func set_cursor(cursor_name: String):
+	if cursor_name in cursors:
+		Input.set_custom_mouse_cursor(cursors[cursor_name], Input.CURSOR_ARROW, Vector2(0, 0))
 
 func _ready():
 	cursors["default"] = preload("res://art/interface/cursors/abstract/default.png")

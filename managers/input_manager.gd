@@ -34,7 +34,7 @@ func BasicControls():
 		print("Item just added to tile.")
 
 	if Input.is_action_just_pressed("G"):
-		Global.save_current_map_delta()
+		Global.state_manager.save_game_state()
 
 	if Input.is_action_just_pressed("R"):
 		var coords = wm.get_tile_coords()

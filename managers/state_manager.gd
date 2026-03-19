@@ -4,6 +4,16 @@ class_name StateManager
 var game_state = null
 var current_map_id = ""
 
+func next_uid(type: Enums.UIDType) -> int:
+	if type == Enums.UIDType.CREATURE:
+		return game_state.uid_state.get_creature_next()
+	elif type == Enums.UIDType.ROOM:
+		return game_state.uid_state.get_room_next()
+	elif type == Enums.UIDType.BUILDING:
+		return game_state.uid_state.get_building_next()
+	push_error("Error: ID could not be successfully produced")
+	return -1
+
 func get_map_state(map_id: String) -> MapState:
 	if not game_state.map_states.has(map_id):
 		game_state.map_states[map_id] = MapState.new()
@@ -63,16 +73,37 @@ func save_game_state():
 	if err != OK:
 		push_error("Failed to save game state: %s" % err)
 	else:
-		print("SAVED!")
+		print("GAME STATE SAVED!")
+
+func load_game_state() -> bool:
+	var path = "res://saved/game_state/game_state.tres"
+	
+	if not ResourceLoader.exists(path):
+		print("No save file found.")
+		return false
+	
+	var loaded_resource = ResourceLoader.load(path)
+	
+	if loaded_resource == null:
+		push_error("Failed to load game state.")
+		return false
+	
+	if loaded_resource is not GameState:
+		push_error("Loaded resource is not a GameState.")
+		return false
 		
-func load_game_state():
-	pass
+	game_state = loaded_resource
+	print("GAME STATE LOADED!")
+	return true
 
 func _setup_map_state():
 	if Global.world_manager.current_world:
 		current_map_id = Global.world_manager.current_world.id
 
 func _ready():
-	if not game_state:
+	if not load_game_state():
+		push_warning("USING NEW GAME STATE!")
 		game_state = GameState.new()
+		if not game_state.uid_state:
+			game_state.uid_state = UIDState.new()
 	SignalBus.world_ready.connect(_setup_map_state)

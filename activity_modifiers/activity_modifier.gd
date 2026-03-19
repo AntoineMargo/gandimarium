@@ -5,13 +5,13 @@ class_name ActivityModifier
 @export var id: String = "placeholder"
 
 # pre-runtime
-func modify_activity(activity: Activity):
+func modify_activity(_activity: Activity):
 	pass
 
 # runtime before resolution
-func apply_pre_mods(ctx: ActivityContext):
+func apply_pre_mods(_ctx: ActivityContext):
 	pass
 	
 # runtime after resolution
-func apply_post_mods(ctx: ActivityContext):
+func apply_post_mods(_ctx: ActivityContext):
 	pass

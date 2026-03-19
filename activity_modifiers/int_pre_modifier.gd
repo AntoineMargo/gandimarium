@@ -24,5 +24,5 @@ func apply_pre_mods(ctx: ActivityContext):
 					ctx.activity.set(property, current + delta)
 
 # runtime after resolution
-func apply_post_mods(ctx: ActivityContext):
+func apply_post_mods(_ctx: ActivityContext):
 	pass

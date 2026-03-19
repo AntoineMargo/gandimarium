@@ -12,9 +12,9 @@ var _tactical_map: Dictionary = {}
 
 var _hostile_ids: Dictionary[int, bool]
 var _fearful_ids: Dictionary[int, bool]
-var _suspicious_ids: Dictionary[int, bool]
-var _cooperative_ids: Dictionary[int, bool]
-var _protective_ids: Dictionary[int, bool]
+#var _suspicious_ids: Dictionary[int, bool]
+#var _cooperative_ids: Dictionary[int, bool]
+#var _protective_ids: Dictionary[int, bool]
 
 func build_tactical_map(): # to be built on init, for runtime use
 	_tactical_map.clear()

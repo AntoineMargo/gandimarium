@@ -21,7 +21,3 @@ class_name MapState
 func _init():
 	if not map_delta:
 		map_delta = MapDelta.new()
-
-#func _ready():
-	#if not map_delta:
-		#map_delta = MapDelta.new()

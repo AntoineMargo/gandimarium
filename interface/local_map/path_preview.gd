@@ -67,7 +67,7 @@ func update_ap_ticks():
 	var accumulated_mp = 0.0
 	
 	# Calculate how much MP we have left in the current AP
-	var mp_used_in_current_ap = mp_per_ap - current_available_mp
+	#var mp_used_in_current_ap = mp_per_ap - current_available_mp
 	# First threshold is when we need to spend our first NEW AP
 	var next_ap_threshold = current_available_mp - (max_available_ap * mp_per_ap)
 	var cutoff_mp = current_available_mp
