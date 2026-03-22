@@ -28,7 +28,7 @@ class_name Activity
 @export var shape: Enums.Shape = Enums.Shape.BURST
 @export var can_only_hit_once: bool = true
 
-@export var minimum_rank: int = 1
+#@export var minimum_rank: int = 1
 
 @export var requires_crisis: bool = true
 @export var requires_roll: bool = true

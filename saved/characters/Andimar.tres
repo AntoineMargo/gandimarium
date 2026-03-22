@@ -19,7 +19,7 @@
 [ext_resource type="Script" uid="uid://dlk8wy6dlqksm" path="res://various/tactical_relation_entry.gd" id="17_gmac4"]
 [ext_resource type="Script" uid="uid://2esemn7osq1o" path="res://entities/resistances.gd" id="18_bjj8k"]
 [ext_resource type="Script" uid="uid://dyp8klyosnw2y" path="res://entities/creature_data.gd" id="19_4ub3l"]
-[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell.gd" id="20_w7d34"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="20_w7d34"]
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="21_07mni"]
 
 [sub_resource type="Resource" id="Resource_7op48"]

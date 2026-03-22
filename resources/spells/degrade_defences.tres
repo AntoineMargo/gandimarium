@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="Spell" load_steps=3 format=3 uid="uid://tjtnr1pympae"]
+[gd_resource type="Resource" script_class="Spell" format=3 uid="uid://tjtnr1pympae"]
 
-[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell.gd" id="1_dxqv4"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="1_dxqv4"]
 [ext_resource type="Resource" uid="uid://4xmvyot42trc" path="res://resources/activities/degrade_defences.tres" id="1_t4yn8"]
 
 [resource]

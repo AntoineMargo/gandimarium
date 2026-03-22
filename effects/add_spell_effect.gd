@@ -1,7 +1,7 @@
 extends Effect
 class_name AddSpellEffect
 
-@export var spells: Array[Spell] = []
+@export var spells: Array[SpellContainer] = []
 
 func apply(_source, target, _degree: int = 2) -> void:
 	for spell in spells:

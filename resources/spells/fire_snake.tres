@@ -1,13 +1,13 @@
-[gd_resource type="Resource" script_class="Spell" format=3 uid="uid://bf6j3ey6d3cqu"]
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://bf6j3ey6d3cqu"]
 
 [ext_resource type="Script" uid="uid://chufkd7a0xqa0" path="res://activities/activity.gd" id="1_nmp4e"]
-[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell.gd" id="2_3aaf1"]
 [ext_resource type="Script" uid="uid://cg24svaiy2tg3" path="res://activities/snake_area_activity.gd" id="2_jou4c"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="3_dqt7u"]
 [ext_resource type="Script" uid="uid://bmyfmkog6abuh" path="res://filters/action_points.gd" id="4_cis7p"]
 [ext_resource type="Script" uid="uid://tw4lacdrgfs3" path="res://filters/power_points.gd" id="5_cx4c2"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_rx55l"]
 [ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damaging_effect.gd" id="7_b2gum"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="8_jou4c"]
 
 [sub_resource type="Resource" id="Resource_6th71"]
 script = ExtResource("4_cis7p")
@@ -36,7 +36,8 @@ is_spell = true
 metadata/_custom_type_script = "uid://cg24svaiy2tg3"
 
 [resource]
-script = ExtResource("2_3aaf1")
+script = ExtResource("8_jou4c")
 name = "Fire Snake"
 activities = Array[ExtResource("1_nmp4e")]([SubResource("Resource_d16s1")])
+minimum_rank = 7
 metadata/_custom_type_script = "uid://sg6vjj4j36i4"

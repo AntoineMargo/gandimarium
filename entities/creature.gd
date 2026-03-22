@@ -20,7 +20,7 @@ func add_activity(activity: Activity):
 	if activity not in data.activities:
 		data.activities.append(activity)
 
-func add_ready_spell(spell: Spell):
+func add_ready_spell(spell: SpellContainer):
 	if spell not in data.spells_ready:
 		data.spells_ready.append(spell)
 	

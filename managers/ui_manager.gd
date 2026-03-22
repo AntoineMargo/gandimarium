@@ -498,6 +498,7 @@ func update_spell_list():
 		separator.visible = false
 		slider.visible = false
 		return
+
 	spell_list.visible = true
 	scroll_container.visible = true
 	separator.visible = true
@@ -506,12 +507,11 @@ func update_spell_list():
 	slider.max_value = character.get_stat("max_spell_rank")
 	slider.value = character.get_stat("current_spell_rank")
 	for spell in character.data.spells_ready:
-		@warning_ignore("confusable_local_usage", "shadowed_variable")
-		var spell_button = spell_button.instantiate()
-		spell_button.spell = spell
-		spell_list.add_child(spell_button)
-		#spell_button.connect("pressed", Callable(self, "_on_spell_button_pressed").bind(spell_button))
-		#spell_button.pressed.connect(update_concentration_slots.bind(spell))
+		var button = spell_button.instantiate()
+		button.spell = spell
+		spell_list.add_child(button)
+		
+	#SignalBus.dialog_show_message.emit("updating spell list")
 
 func update_concentration_slots():
 	var character = Global.selected_char
@@ -644,6 +644,8 @@ func _on_crisis_state_changed():
 func _on_slider_value_changed(value):
 	var character = Global.selected_char.data
 	var slider = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/SpellRankSlider")
+	var spell_list = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/SpellList")
+	
 	character.current_spell_rank = value
 	slider.tooltip_text = "Spell rank selected: %d" % character.current_spell_rank
 	
@@ -654,12 +656,12 @@ func _on_slider_value_changed(value):
 	var cost = current_level_table.spell_costs[character.current_spell_rank]
 	character.derived_stats.current_spell_cost = cost
 	PP_bar_preview.value = character.current_pp - cost
-	#SignalBus.dialog_show_message.emit("PP bar value: %d" % PP_bar_preview.value)
-
-#func update_spell_rank_slider():
-	#var slider = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/SpellRankSlider")
-	#var PP_bar_preview = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar_wrapper/PP_bar_preview")
-	#PP_bar_preview.value = character.current_pp - current_spell_cost
+	
+	for child in spell_list.get_children():
+		if child.spell.minimum_rank > value:
+			child.visible = false
+		else:
+			child.visible = true
 
 func _ready() -> void:
 	SignalBus.update_inventory.connect(_on_update_inventory_window)

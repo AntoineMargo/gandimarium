@@ -1,11 +1,13 @@
-[gd_resource type="Resource" script_class="Spell" format=3 uid="uid://cvj66k14frhx0"]
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://cvj66k14frhx0"]
 
+[ext_resource type="Script" uid="uid://chufkd7a0xqa0" path="res://activities/activity.gd" id="1_5v5vl"]
 [ext_resource type="Resource" uid="uid://clulo2fci0s4q" path="res://resources/activities/spells/fireball.tres" id="1_6sfer"]
-[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell.gd" id="1_51cym"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="3_5v5vl"]
 
 [resource]
-script = ExtResource("1_51cym")
+script = ExtResource("3_5v5vl")
 name = "Fireball"
 description = "You hurl a tiny bead of swirling fire that detonates into a large burst at the designated location."
-activities = [ExtResource("1_6sfer")]
+activities = Array[ExtResource("1_5v5vl")]([ExtResource("1_6sfer")])
+minimum_rank = 3
 metadata/_custom_type_script = "uid://sg6vjj4j36i4"

@@ -1,9 +1,9 @@
 extends HBoxContainer
 class_name SpellButton
 
-var is_hovered := false
-var is_pressed := false
-@export var spell: Spell
+var is_hovered: bool = false
+var is_pressed: bool = false
+@export var spell: SpellContainer
 
 func _gui_input(event):
 	if event is InputEventMouseButton:

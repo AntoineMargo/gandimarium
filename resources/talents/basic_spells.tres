@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_02b7h"]
 [ext_resource type="Script" uid="uid://2oaio4mh2bc8" path="res://effects/add_spell_effect.gd" id="2_4m7g3"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_g3ytl"]
-[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell.gd" id="3_4eqj7"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="3_4eqj7"]
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="3_gjdx1"]
 [ext_resource type="Resource" uid="uid://c86q28w0pc8p2" path="res://resources/spells/firebolt.tres" id="4_7g3vd"]
 [ext_resource type="Resource" uid="uid://1bq4k4ctiqvj" path="res://resources/spells/fireray.tres" id="5_smms5"]

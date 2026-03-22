@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Spell" format=3 uid="uid://ceuyup5d4j2f"]
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://ceuyup5d4j2f"]
 
 [ext_resource type="Script" uid="uid://chufkd7a0xqa0" path="res://activities/activity.gd" id="1_8getf"]
 [ext_resource type="Script" uid="uid://bgx24o78uf4n3" path="res://activities/variable_area_activity.gd" id="2_mcysb"]
@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://tw4lacdrgfs3" path="res://filters/power_points.gd" id="5_cdcir"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_dbyep"]
 [ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damaging_effect.gd" id="7_36pk0"]
-[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell.gd" id="8_ud4is"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="8_8getf"]
 
 [sub_resource type="Resource" id="Resource_a6kr5"]
 script = ExtResource("4_b717v")
@@ -38,7 +38,8 @@ is_spell = true
 metadata/_custom_type_script = "uid://bgx24o78uf4n3"
 
 [resource]
-script = ExtResource("8_ud4is")
+script = ExtResource("8_8getf")
 name = "Bursts of Fire"
 activities = Array[ExtResource("1_8getf")]([SubResource("Resource_0ld5o")])
+minimum_rank = 6
 metadata/_custom_type_script = "uid://sg6vjj4j36i4"

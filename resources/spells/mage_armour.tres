@@ -2,7 +2,7 @@
 
 [ext_resource type="Resource" uid="uid://0p2c7pi86hj8" path="res://resources/activities/spells/mage_armour.tres" id="1_2jgme"]
 [ext_resource type="Script" uid="uid://chufkd7a0xqa0" path="res://activities/activity.gd" id="1_82q0i"]
-[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell.gd" id="1_vqmj1"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="1_vqmj1"]
 
 [resource]
 script = ExtResource("1_vqmj1")
