@@ -63,8 +63,7 @@ func _ready() -> void:
 	next_button.pressed.connect(_on_next_button_pressed)
 	
 	data = CreatureData.new()
-	data = data.duplicate(true)
-	print(data)
+	#data = data.duplicate(true)
 
 	data.derived_stats = DerivedStats.new()
 
@@ -72,9 +71,19 @@ func _ready() -> void:
 	data.attributes = Attributes.new()
 	data.base_stats = BaseStats.new()
 	data.inventory = Inventory.new()
-	data.equipment = Equipment.new()
+	data.equipment = load("res://resources/creatures/equipment/andimar_loadout.tres")
 	data.resistances = Resistances.new()
 	data.personality = Personality.new()
+	data.player_controlled = true
+
+	data.spells_available = []
+	data.spells_ready = []
+	data.conditions = []
+	data.activity_modifiers = []
+	data.concentrations = []
+	
+	for e in data.spells_available:
+		print(e, typeof(e), is_instance_valid(e))
 	
 	$ColorRect/VBoxContainer/CreationTabs/Skills.initialise()
 	$ColorRect/VBoxContainer/CreationTabs/Skills.update_all_option_buttons()

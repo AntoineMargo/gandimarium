@@ -48,7 +48,7 @@ func BasicControls():
 		if not wm.current_world:
 			return
 		var coords = wm.get_tile_coords_under_cursor()
-		wm.spawn_character("res://resources/creatures/data_andimar.tres", coords)
+		wm.spawn_character("res://saved/characters/Debug.tres", coords)
 		
 	if Input.is_action_just_pressed("Y"):
 		if not wm.current_world:

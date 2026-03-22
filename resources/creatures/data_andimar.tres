@@ -3,12 +3,14 @@
 [ext_resource type="Script" uid="uid://chufkd7a0xqa0" path="res://activities/activity.gd" id="1_j7btv"]
 [ext_resource type="Resource" uid="uid://bdi3ai1alxwrn" path="res://resources/activities/move.tres" id="2_j7btv"]
 [ext_resource type="Resource" uid="uid://bljt80d10kudf" path="res://resources/activities/other/oral_yell.tres" id="3_n2sep"]
+[ext_resource type="Script" uid="uid://cubgbyndvs8t3" path="res://aspects/aspect.gd" id="4_tmkg0"]
 [ext_resource type="Script" uid="uid://boxs05dhsll81" path="res://entities/attributes.gd" id="5_xy00l"]
 [ext_resource type="Script" uid="uid://bqbvgbqafpkej" path="res://entities/base_stats.gd" id="6_jgqia"]
 [ext_resource type="Resource" uid="uid://bllgi7mc7acsd" path="res://resources/creatures/equipment/andimar_loadout.tres" id="6_n2sep"]
 [ext_resource type="Resource" uid="uid://b4idr8vu54ox6" path="res://resources/items/weapons/bow/bow.tres" id="8_d00pt"]
 [ext_resource type="Resource" uid="uid://dif5f8s0c1c6x" path="res://resources/archetypes/mage/mage.tres" id="8_j7btv"]
 [ext_resource type="Script" uid="uid://0hy8gde00nbx" path="res://entities/inventory.gd" id="8_jm372"]
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="8_xy00l"]
 [ext_resource type="Script" uid="uid://2esemn7osq1o" path="res://entities/resistances.gd" id="10_nocd4"]
 [ext_resource type="Script" uid="uid://dyp8klyosnw2y" path="res://entities/creature_data.gd" id="11_mpyy1"]
 [ext_resource type="Resource" uid="uid://oe58h7tweyh7" path="res://resources/creatures/relationships/rel_andimar.tres" id="11_xy00l"]
@@ -17,7 +19,6 @@
 [sub_resource type="Resource" id="Resource_q1nu1"]
 script = ExtResource("5_xy00l")
 acuity = 7
-brawn = 6
 dexterity = 7
 metadata/_custom_type_script = "uid://boxs05dhsll81"
 
@@ -27,7 +28,7 @@ metadata/_custom_type_script = "uid://bqbvgbqafpkej"
 
 [sub_resource type="Resource" id="Resource_nykox"]
 script = ExtResource("8_jm372")
-list = [ExtResource("8_d00pt")]
+list = Array[ExtResource("8_xy00l")]([ExtResource("8_d00pt")])
 metadata/_custom_type_script = "uid://0hy8gde00nbx"
 
 [sub_resource type="Resource" id="Resource_iyfvo"]

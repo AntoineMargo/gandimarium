@@ -23,8 +23,8 @@ brawn_req_1h = 6
 brawn_req_2h = 3
 strike = ExtResource("9_hpb7o")
 throw = ExtResource("10_vo4vp")
-owner = null
 count = 15
+owner = null
 metadata/_custom_type_script = "uid://djeyifuagvkr6"
 
 [resource]

@@ -25,6 +25,5 @@ spread = 4
 self_filters = Array[ExtResource("2_sj88j")]([ExtResource("3_aq332"), ExtResource("4_avsiu"), ExtResource("5_rcmyh")])
 target_effects = Array[ExtResource("3_asvxf")]([SubResource("Resource_rcmyh")])
 targeting_type = 1
-minimum_rank = 10
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"

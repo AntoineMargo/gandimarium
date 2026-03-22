@@ -23,12 +23,10 @@ func spawn_character(data_file: String, coords: Vector3i, routine: String = "", 
 	var char_data: CreatureData = load(data_file)
 	char_data = char_data.duplicate(true)
 
-
 	var char_scene = load("res://entities/creature.tscn")
 	var character = char_scene.instantiate()
 	character.data = char_data
 
-	#var coords = wm.get_tile_coords_under_cursor()
 	var layer_coords = Vector2i(coords.x, coords.y)
 	character.data.tile_x = coords.x
 	character.data.tile_y = coords.y
@@ -43,12 +41,18 @@ func spawn_character(data_file: String, coords: Vector3i, routine: String = "", 
 	wm.add_to_tile(character, coords)
 	wm.layers[wm.current_level]["path_map"].set_point_solid(layer_coords, true)
 
+	#var conditions = character.data.conditions
+	#for condition in conditions:
+		#if not is_instance_valid(condition):
+			#print("Invalid entry detected")
+
 	character.initialise()
 	wm.current_world.register_creature(character)
 	character.apply_conditions_from_equipment()
 	var weapons = character.get_weapons()
 	for weapon in weapons:
-		weapon.initialize_attack_modes()
+		if weapon:
+			weapon.initialize_attack_modes()
 
 	if routine:
 		var char_routine: LocalRoutine = load(routine)
