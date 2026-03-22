@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CreatureData" format=3 uid="uid://bi5scms3emy"]
+[gd_resource type="Resource" script_class="CreatureData" format=3 uid="uid://bk7dujmygipv"]
 
 [ext_resource type="Script" uid="uid://chufkd7a0xqa0" path="res://activities/activity.gd" id="1_h5ugi"]
 [ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/activity_modifier.gd" id="2_t1xx4"]
@@ -11,7 +11,6 @@
 [ext_resource type="Script" uid="uid://cna3smanlwqkg" path="res://entities/equipment.gd" id="9_lj5re"]
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="10_3kbar"]
 [ext_resource type="Script" uid="uid://0hy8gde00nbx" path="res://entities/inventory.gd" id="11_7dfpn"]
-[ext_resource type="Script" uid="uid://d3sdrg6ues8pm" path="res://items/armour.gd" id="11_t1xx4"]
 [ext_resource type="Resource" uid="uid://c00teqpc3o5li" path="res://resources/archetypes/paragon/paragon.tres" id="12_vdk5q"]
 [ext_resource type="Script" uid="uid://bwpyc87wtxb7o" path="res://entities/personality.gd" id="13_h8m5f"]
 [ext_resource type="Script" uid="uid://cwy5ao2mmfqfh" path="res://various/affiliation_entry.gd" id="14_5yeut"]
@@ -25,21 +24,27 @@
 
 [sub_resource type="Resource" id="Resource_7op48"]
 script = ExtResource("4_t21hf")
+acuity = 8
+brawn = 8
+dexterity = 8
+resolve = 4
 
 [sub_resource type="Resource" id="Resource_68mj1"]
 script = ExtResource("5_4gwwu")
+society = 2
+craftsmanship = 6
+deception = 5
+mechanics = 4
+medicine = 1
+nature = 7
+persuasion = 8
+thievery = 3
 
 [sub_resource type="Resource" id="Resource_22ept"]
 script = ExtResource("9_lj5re")
 
-[sub_resource type="Resource" id="Resource_nu26v"]
-script = ExtResource("11_t1xx4")
-owner = null
-metadata/_custom_type_script = "uid://d3sdrg6ues8pm"
-
 [sub_resource type="Resource" id="Resource_yg5bh"]
 script = ExtResource("11_7dfpn")
-list = Array[ExtResource("10_3kbar")]([SubResource("Resource_nu26v")])
 
 [sub_resource type="Resource" id="Resource_03ahb"]
 script = ExtResource("13_h8m5f")

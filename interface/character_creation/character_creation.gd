@@ -2,9 +2,12 @@ extends Control
 
 var data: CreatureData = null
 
+
 @onready var creation_tabs = $ColorRect/VBoxContainer/CreationTabs
 
 @onready var primary_archetype = $ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype
+@onready var attributes = $ColorRect/VBoxContainer/CreationTabs/Attributes
+@onready var skills = $ColorRect/VBoxContainer/CreationTabs/Skills
 @onready var finish = $ColorRect/VBoxContainer/CreationTabs/Finish
 
 @onready var return_button = $ColorRect/VBoxContainer/Panel/HBoxContainer/ReturnButton
@@ -72,3 +75,6 @@ func _ready() -> void:
 	data.equipment = Equipment.new()
 	data.resistances = Resistances.new()
 	data.personality = Personality.new()
+	
+	$ColorRect/VBoxContainer/CreationTabs/Skills.initialise()
+	$ColorRect/VBoxContainer/CreationTabs/Skills.update_all_option_buttons()

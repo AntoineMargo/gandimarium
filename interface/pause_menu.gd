@@ -14,7 +14,7 @@ func _on_restart_button_pressed() -> void:
 	print("Restart button pressed")
 	Global.unpause_game()
 	#get_tree().change_scene_to_file("res://locations/test_location/region.tscn")
-	Global.game_root.load_map("res://locations/test_location/region.tscn")
+	Global.game_root.load_map("res://locations/test_location_2/region.scn")
 	
 func _on_exit_button_pressed() -> void:
 	print("exit button pressed")

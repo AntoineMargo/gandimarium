@@ -2,7 +2,10 @@
 
 [ext_resource type="Script" uid="uid://cnl0toy8yhf5y" path="res://interface/character_creation/character_creation.gd" id="1_bir6x"]
 [ext_resource type="Script" uid="uid://kfqique2xoxh" path="res://interface/character_creation/primary_archetype.gd" id="2_syumy"]
+[ext_resource type="Script" uid="uid://byyyc7rp3ghit" path="res://interface/character_creation/attributes.gd" id="3_aimbw"]
+[ext_resource type="Theme" uid="uid://b8fxogpgvasms" path="res://themes/character_creation.tres" id="3_vn4tv"]
 [ext_resource type="Script" uid="uid://bwfbic2jqegw3" path="res://interface/character_creation/finish.gd" id="3_yee37"]
+[ext_resource type="Script" uid="uid://c1irtv51vb3tp" path="res://interface/character_creation/skills.gd" id="5_apbxo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vkkue"]
 bg_color = Color(0.09620472, 0.09620475, 0.09620469, 1)
@@ -38,7 +41,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 32
 tab_alignment = 1
-current_tab = 0
+current_tab = 7
 tab_0/title = " Primary Archetype "
 tab_1/title = " Secondary Archetype "
 tab_2/title = " Origin "
@@ -51,6 +54,7 @@ tab_7/title = " Skills "
 tab_8/title = " Talents "
 
 [node name="PrimaryArchetype" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=1015797334]
+visible = false
 layout_mode = 2
 script = ExtResource("2_syumy")
 metadata/_tab_index = 0
@@ -215,14 +219,391 @@ metadata/_tab_name = " Background "
 [node name="Attributes" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=1315635062]
 visible = false
 layout_mode = 2
+script = ExtResource("3_aimbw")
 metadata/_tab_index = 6
 metadata/_tab_name = " Attributes "
 
-[node name="Skills" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=534965100]
-visible = false
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Attributes" unique_id=1926260848]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer" unique_id=447784533]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer" unique_id=932567024]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Control" type="Control" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer" unique_id=198327281]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer" unique_id=377356919]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Acuity" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=310204237]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer/VBoxContainer/Acuity" unique_id=413666277]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Acuity"
+
+[node name="SpinBox" type="SpinBox" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer/VBoxContainer/Acuity" unique_id=849915253]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+theme = ExtResource("3_vn4tv")
+theme_override_constants/field_and_buttons_separation = 5
+theme_override_constants/buttons_width = 40
+min_value = 1.0
+max_value = 12.0
+value = 6.0
+alignment = 1
+
+[node name="Brawn" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=144587122]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer/VBoxContainer/Brawn" unique_id=984023270]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Brawn"
+
+[node name="SpinBox" type="SpinBox" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer/VBoxContainer/Brawn" unique_id=2038348944]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+theme = ExtResource("3_vn4tv")
+theme_override_constants/field_and_buttons_separation = 5
+theme_override_constants/buttons_width = 40
+min_value = 1.0
+max_value = 12.0
+value = 6.0
+alignment = 1
+
+[node name="Dexterity" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=147687987]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer/VBoxContainer/Dexterity" unique_id=1617813802]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Dexterity"
+
+[node name="SpinBox" type="SpinBox" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer/VBoxContainer/Dexterity" unique_id=699167075]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+theme = ExtResource("3_vn4tv")
+theme_override_constants/field_and_buttons_separation = 5
+theme_override_constants/buttons_width = 40
+min_value = 1.0
+max_value = 12.0
+value = 6.0
+alignment = 1
+
+[node name="Resolve" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1959593017]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer/VBoxContainer/Resolve" unique_id=1097528539]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Resolve"
+
+[node name="SpinBox" type="SpinBox" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer/VBoxContainer/Resolve" unique_id=90997300]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+theme = ExtResource("3_vn4tv")
+theme_override_constants/field_and_buttons_separation = 5
+theme_override_constants/buttons_width = 40
+min_value = 1.0
+max_value = 12.0
+value = 6.0
+alignment = 1
+
+[node name="Control" type="Control" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1338152197]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=533702707]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=184482608]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Points left: "
+
+[node name="PointsLeft" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Attributes/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=840519667]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="Skills" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=534965100]
+layout_mode = 2
+script = ExtResource("5_apbxo")
 metadata/_tab_index = 7
 metadata/_tab_name = " Skills "
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills" unique_id=371189039]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Control" type="Control" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer" unique_id=1300580995]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer" unique_id=870027300]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer" unique_id=247366541]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer" unique_id=1592006014]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+
+[node name="Arcane" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1818638415]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Arcane" unique_id=591719484]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme_override_font_sizes/font_size = 24
+text = "Arcane"
+
+[node name="OptionButton" type="OptionButton" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Arcane" unique_id=270024940]
+layout_mode = 2
+size_flags_vertical = 5
+theme_override_constants/h_separation = 10
+theme_override_font_sizes/font_size = 18
+theme_override_constants/arrow_margin = 10
+
+[node name="Artistry" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1578669237]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Artistry" unique_id=236536153]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme_override_font_sizes/font_size = 24
+text = "Artistry"
+
+[node name="OptionButton" type="OptionButton" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Artistry" unique_id=499009747]
+layout_mode = 2
+size_flags_vertical = 5
+theme_override_constants/h_separation = 10
+theme_override_font_sizes/font_size = 18
+theme_override_constants/arrow_margin = 10
+
+[node name="Society" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=982239790]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Society" unique_id=1608674312]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme_override_font_sizes/font_size = 24
+text = "Society"
+
+[node name="OptionButton" type="OptionButton" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Society" unique_id=1341525735]
+layout_mode = 2
+size_flags_vertical = 5
+theme_override_constants/h_separation = 10
+theme_override_font_sizes/font_size = 18
+theme_override_constants/arrow_margin = 10
+
+[node name="Craftsmanship" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=573828686]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Craftsmanship" unique_id=271745752]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme_override_font_sizes/font_size = 24
+text = "Craftsmanship"
+
+[node name="OptionButton" type="OptionButton" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Craftsmanship" unique_id=1464080415]
+layout_mode = 2
+size_flags_vertical = 5
+theme_override_constants/h_separation = 10
+theme_override_font_sizes/font_size = 18
+theme_override_constants/arrow_margin = 10
+
+[node name="Deception" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=63912714]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Deception" unique_id=2134635254]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme_override_font_sizes/font_size = 24
+text = "Deception"
+
+[node name="OptionButton" type="OptionButton" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Deception" unique_id=719921711]
+layout_mode = 2
+size_flags_vertical = 5
+theme_override_constants/h_separation = 10
+theme_override_font_sizes/font_size = 18
+theme_override_constants/arrow_margin = 10
+
+[node name="History" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1869396320]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/History" unique_id=710915679]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme_override_font_sizes/font_size = 24
+text = "History"
+
+[node name="OptionButton" type="OptionButton" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/History" unique_id=951965569]
+layout_mode = 2
+size_flags_vertical = 5
+theme_override_constants/h_separation = 10
+theme_override_font_sizes/font_size = 18
+theme_override_constants/arrow_margin = 10
+
+[node name="Linguistics" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1116400800]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Linguistics" unique_id=320482652]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme_override_font_sizes/font_size = 24
+text = "Linguistics"
+
+[node name="OptionButton" type="OptionButton" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Linguistics" unique_id=766032574]
+layout_mode = 2
+size_flags_vertical = 5
+theme_override_constants/h_separation = 10
+theme_override_font_sizes/font_size = 18
+theme_override_constants/arrow_margin = 10
+
+[node name="Mechanics" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1850530334]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Mechanics" unique_id=803424140]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme_override_font_sizes/font_size = 24
+text = "Mechanics"
+
+[node name="OptionButton" type="OptionButton" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Mechanics" unique_id=1576724832]
+layout_mode = 2
+size_flags_vertical = 5
+theme_override_constants/h_separation = 10
+theme_override_font_sizes/font_size = 18
+theme_override_constants/arrow_margin = 10
+
+[node name="Medicine" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=873144600]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Medicine" unique_id=185134395]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme_override_font_sizes/font_size = 24
+text = "Medicine"
+
+[node name="OptionButton" type="OptionButton" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Medicine" unique_id=1919286344]
+layout_mode = 2
+size_flags_vertical = 5
+theme_override_constants/h_separation = 10
+theme_override_font_sizes/font_size = 18
+theme_override_constants/arrow_margin = 10
+
+[node name="Nature" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1720351568]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Nature" unique_id=246697033]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme_override_font_sizes/font_size = 24
+text = "Nature"
+
+[node name="OptionButton" type="OptionButton" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Nature" unique_id=437626050]
+layout_mode = 2
+size_flags_vertical = 5
+theme_override_constants/h_separation = 10
+theme_override_font_sizes/font_size = 18
+theme_override_constants/arrow_margin = 10
+
+[node name="Persuasion" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=909699755]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Persuasion" unique_id=677073947]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme_override_font_sizes/font_size = 24
+text = "Persuasion"
+
+[node name="OptionButton" type="OptionButton" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Persuasion" unique_id=463843944]
+layout_mode = 2
+size_flags_vertical = 5
+theme_override_constants/h_separation = 10
+theme_override_font_sizes/font_size = 18
+theme_override_constants/arrow_margin = 10
+
+[node name="Thievery" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=118060388]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Thievery" unique_id=1870564049]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme_override_font_sizes/font_size = 24
+text = "Thievery"
+
+[node name="OptionButton" type="OptionButton" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Thievery" unique_id=1778966025]
+layout_mode = 2
+size_flags_vertical = 5
+theme_override_constants/h_separation = 10
+theme_override_font_sizes/font_size = 18
+theme_override_constants/arrow_margin = 10
+
+[node name="Stealth" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1389196949]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Stealth" unique_id=639641901]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme_override_font_sizes/font_size = 24
+text = "Stealth"
+
+[node name="OptionButton" type="OptionButton" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer/VBoxContainer/Stealth" unique_id=961935682]
+layout_mode = 2
+size_flags_vertical = 5
+theme_override_constants/h_separation = 10
+theme_override_font_sizes/font_size = 18
+theme_override_constants/arrow_margin = 10
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer" unique_id=48993625]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer2" unique_id=754523225]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer2" unique_id=934840433]
+layout_mode = 2
+
+[node name="Control2" type="Control" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer2/VBoxContainer" unique_id=1612048526]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="PointsLeft" type="Label" parent="ColorRect/VBoxContainer/CreationTabs/Skills/VBoxContainer/HBoxContainer2/VBoxContainer" unique_id=314620545]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Skill ranks left: "
 
 [node name="Talents" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=1588368258]
 visible = false

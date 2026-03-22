@@ -4,37 +4,37 @@ class_name BaseStats
 var level_mod: int = 0
 
 # aptitudes
-var sense: int = 0
-var stamina: int = 0
-var agility: int = 0
-var will: int = 0
-var offence: int = 0
-var melee_defence: int = 0
-var ranged_defence: int = 0
+@export var sense: int = 0
+@export var stamina: int = 0
+@export var agility: int = 0
+@export var will: int = 0
+@export var offence: int = 0
+@export var melee_defence: int = 0
+@export var ranged_defence: int = 0
 
 # skills
-var arcane: int = 0
-var artistry: int = 0
-var society: int = 0
-var craftsmanship: int = 0
-var deception: int = 0
-var history: int = 0
-var linguistics: int = 0
-var mechanics: int = 0
-var medicine: int = 0
-var nature: int = 0
-var persuasion: int = 0
-var thievery: int = 0
-var stealth: int = 0
+@export var arcane: int = 0
+@export var artistry: int = 0
+@export var society: int = 0
+@export var craftsmanship: int = 0
+@export var deception: int = 0
+@export var history: int = 0
+@export var linguistics: int = 0
+@export var mechanics: int = 0
+@export var medicine: int = 0
+@export var nature: int = 0
+@export var persuasion: int = 0
+@export var thievery: int = 0
+@export var stealth: int = 0
 
-var size: String = ""
-var strength_bonus: int = 0
+@export var size: String = ""
+@export var strength_bonus: int = 0
 
-var max_hp: int = 0
-var max_pp: int = 0
-var max_ep: int = 0
+@export var max_hp: int = 0
+@export var max_pp: int = 0
+@export var max_ep: int = 0
 
-var max_mp: int = 0
+@export var max_mp: int = 0
 
-var max_ap: int = 3
-var max_reactions: int = 1
+@export var max_ap: int = 3
+@export var max_reactions: int = 1
