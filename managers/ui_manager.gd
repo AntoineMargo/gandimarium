@@ -511,7 +511,7 @@ func update_spell_list():
 		button.spell = spell
 		spell_list.add_child(button)
 		
-	#SignalBus.dialog_show_message.emit("updating spell list")
+	update_spell_list_for_chosen_rank()
 
 func update_concentration_slots():
 	var character = Global.selected_char
@@ -644,7 +644,6 @@ func _on_crisis_state_changed():
 func _on_slider_value_changed(value):
 	var character = Global.selected_char.data
 	var slider = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/SpellRankSlider")
-	var spell_list = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/SpellList")
 	
 	character.current_spell_rank = value
 	slider.tooltip_text = "Spell rank selected: %d" % character.current_spell_rank
@@ -657,11 +656,18 @@ func _on_slider_value_changed(value):
 	character.derived_stats.current_spell_cost = cost
 	PP_bar_preview.value = character.current_pp - cost
 	
+	update_spell_list_for_chosen_rank()
+	
+func update_spell_list_for_chosen_rank():
+	var spell_list = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/SpellList")
+	
 	for child in spell_list.get_children():
-		if child.spell.minimum_rank > value:
-			child.visible = false
+		if child.spell.minimum_rank > Global.selected_char.data.current_spell_rank:
+			child.modulate = Color(0.5, 0.5, 0.5, 1.0)
+			child.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		else:
-			child.visible = true
+			child.modulate = Color(1, 1, 1, 1.0)
+			child.mouse_filter = Control.MOUSE_FILTER_STOP
 
 func _ready() -> void:
 	SignalBus.update_inventory.connect(_on_update_inventory_window)
