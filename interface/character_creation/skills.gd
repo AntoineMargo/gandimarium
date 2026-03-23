@@ -91,7 +91,7 @@ func update_points_left_label(values):
 		points_left_label.text = text
 
 func export_skills_to_data():
-	var stats = root.data.base_stats
+	var stats = root.data.skills
 	
 	stats.arcane = assigned_values["arcane"]
 	stats.artistry = assigned_values["artistry"]

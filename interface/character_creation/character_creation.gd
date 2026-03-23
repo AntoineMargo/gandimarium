@@ -65,15 +65,19 @@ func _ready() -> void:
 	data = CreatureData.new()
 	#data = data.duplicate(true)
 
-	data.derived_stats = DerivedStats.new()
-
+	data.level = 12
+	
 	data.relationships = Relationships.new()
 	data.attributes = Attributes.new()
+	data.skills = Skills.new()
 	data.base_stats = BaseStats.new()
 	data.inventory = Inventory.new()
 	data.equipment = load("res://resources/creatures/equipment/andimar_loadout.tres")
 	data.resistances = Resistances.new()
 	data.personality = Personality.new()
+	
+	data.derived_stats = DerivedStats.new()
+	
 	data.player_controlled = true
 
 	data.spells_available = []

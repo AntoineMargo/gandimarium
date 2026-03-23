@@ -631,8 +631,9 @@ func initialise():
 		_duplicate_runtime_resources()
 		data.derived_stats = DerivedStats.new()
 
-		data.relationships = _ensure_resource(data.relationships, func(): return Relationships.new())
+		data.relationships  = _ensure_resource(data.relationships, func(): return Relationships.new())
 		data.attributes     = _ensure_resource(data.attributes, func(): return Attributes.new())
+		data.skills         =_ensure_resource(data.skills, func(): return Skills.new())
 		data.base_stats     = _ensure_resource(data.base_stats, func(): return BaseStats.new())
 		data.inventory      = _ensure_resource(data.inventory, func(): return Inventory.new())
 		data.equipment      = _ensure_resource(data.equipment, func(): return Equipment.new())
@@ -640,7 +641,7 @@ func initialise():
 		data.personality    = _ensure_resource(data.personality, func(): return Personality.new())
 
 		@warning_ignore("integer_division")
-		data.base_stats.level_mod = data.level / 2
+		data.base_stats.level_mod = max(1, data.level / 2)
 		data.base_stats.agility = data.attributes.dexterity + data.base_stats.level_mod
 		data.base_stats.will = data.attributes.resolve + data.base_stats.level_mod
 		data.base_stats.sense = data.attributes.acuity + data.base_stats.level_mod
@@ -649,7 +650,19 @@ func initialise():
 		data.base_stats.melee_defence = data.attributes.dexterity + data.base_stats.level_mod
 		data.base_stats.ranged_defence = data.attributes.dexterity + data.base_stats.level_mod
 
-		# skills not implemented yet
+		data.base_stats.arcane = data.skills.arcane + data.base_stats.level_mod
+		data.base_stats.artistry = data.skills.artistry + data.base_stats.level_mod
+		data.base_stats.society = data.skills.society + data.base_stats.level_mod
+		data.base_stats.craftsmanship = data.skills.craftsmanship + data.base_stats.level_mod
+		data.base_stats.deception = data.skills.deception + data.base_stats.level_mod
+		data.base_stats.history = data.skills.history + data.base_stats.level_mod
+		data.base_stats.linguistics = data.skills.linguistics + data.base_stats.level_mod
+		data.base_stats.mechanics = data.skills.mechanics + data.base_stats.level_mod
+		data.base_stats.medicine = data.skills.medicine + data.base_stats.level_mod
+		data.base_stats.nature = data.skills.nature + data.base_stats.level_mod
+		data.base_stats.persuasion = data.skills.persuasion + data.base_stats.level_mod
+		data.base_stats.thievery = data.skills.thievery + data.base_stats.level_mod
+		data.base_stats.stealth = data.skills.stealth + data.base_stats.level_mod
 
 		data.base_stats.strength_bonus = data.attributes.brawn
 		#data.base_stats.size = "medium"
@@ -686,6 +699,7 @@ func initialise():
 func update_stats():
 	if not stats_dirty:
 		return
+		
 	data.derived_stats.agility = data.base_stats.agility + data.derived_stats.vigour
 	data.derived_stats.will = data.base_stats.will + data.derived_stats.vigour
 	data.derived_stats.sense = data.base_stats.sense + data.derived_stats.vigour
@@ -694,7 +708,19 @@ func update_stats():
 	data.derived_stats.melee_defence = data.base_stats.melee_defence + data.derived_stats.vigour
 	data.derived_stats.ranged_defence = data.base_stats.ranged_defence + data.derived_stats.vigour
 	
-	# skills not implemented yet
+	data.derived_stats.arcane = data.base_stats.arcane + data.derived_stats.vigour
+	data.derived_stats.artistry = data.base_stats.artistry + data.derived_stats.vigour
+	data.derived_stats.society = data.base_stats.society + data.derived_stats.vigour
+	data.derived_stats.craftsmanship = data.base_stats.craftsmanship + data.derived_stats.vigour
+	data.derived_stats.deception = data.base_stats.deception + data.derived_stats.vigour
+	data.derived_stats.history = data.base_stats.history + data.derived_stats.vigour
+	data.derived_stats.linguistics = data.base_stats.linguistics + data.derived_stats.vigour
+	data.derived_stats.mechanics = data.base_stats.mechanics + data.derived_stats.vigour
+	data.derived_stats.medicine = data.base_stats.medicine + data.derived_stats.vigour
+	data.derived_stats.nature = data.base_stats.nature + data.derived_stats.vigour
+	data.derived_stats.persuasion = data.base_stats.persuasion + data.derived_stats.vigour
+	data.derived_stats.thievery = data.base_stats.thievery + data.derived_stats.vigour
+	data.derived_stats.stealth = data.base_stats.stealth + data.derived_stats.vigour
 	
 	data.derived_stats.strength_bonus = data.base_stats.strength_bonus
 	#data.base_stats.size = "medium"

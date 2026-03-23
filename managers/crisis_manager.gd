@@ -53,6 +53,7 @@ func handle_next_turn():
 func _end_player_turn():
 	if crisis_mode == true:
 		SignalBus.dialog_end_turn.emit()
+		Global.time_manager.skip_time(0, 0, 0, 6)
 		handle_next_turn()
 
 func request_toggle_crisis(creature):
@@ -94,7 +95,7 @@ func end_crisis(creature):
 		#initiative_order.clear()
 		current_index = -1
 		SignalBus.toggle_end_turn_button.emit()
-		SignalBus.dialog_end_crisis_mode.emit()
+		SignalBus.end_crisis_mode.emit(creature)
 		#SignalBus.refresh_reachable_tiles.emit()
 		SignalBus.update_ui_for_char.emit()
 		SignalBus.clear_path_preview.emit()
@@ -124,13 +125,9 @@ func enough_power_points_for_activity(activity):
 		return false
 	return true
 
-#func active_hostiles_changed(active_creatures):
-	#if active_creatures > 0:
-		#start_crisis
-
 func _ready() -> void:
 	SignalBus.start_crisis_mode.connect(start_crisis)
-	SignalBus.end_crisis_mode.connect(end_crisis)
+	#SignalBus.end_crisis_mode.connect(end_crisis)
 	SignalBus.toggle_crisis_mode.connect(toggle_crisis)
 	SignalBus.add_to_initiative.connect(_add_to_initiative_order)
 	SignalBus.request_toggle_crisis.connect(request_toggle_crisis)

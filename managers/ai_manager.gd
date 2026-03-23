@@ -62,7 +62,7 @@ func regular_checks(_days, _hours, _minutes, _seconds):
 	
 func perform_routines():
 	for creature in Global.world_manager.current_world.creatures:
-		if creature.data.player_controlled == false and not creature.mover.active:
+		if creature.data.player_controlled == false and creature.data.state == Enums.State.CONSCIOUS and not creature.mover.active:
 			creature.ai_controller.localai.perform_routine()
 	
 func delayed_check_setup():
