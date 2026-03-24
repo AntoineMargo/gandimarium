@@ -4,16 +4,19 @@ var root = null
 
 @onready var paragon_button = $ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes/Paragon
 @onready var aspected_mage_button = $ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes/AspectedMage
+@onready var scholastic_mage_button = $ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes/ScholasticMage
 
 func _on_paragon_button_pressed():
 	root.data.major_archetype = load("res://resources/archetypes/paragon/paragon.tres")
-	print("paragon!")
 
 func _on_aspected_mage_button_pressed():
 	root.data.major_archetype = load("res://resources/archetypes/mage/mage.tres")
-	print("mage!")
+	
+func _on_scholastic_mage_button_button_pressed():
+	root.data.major_archetype = load("res://resources/archetypes/mage/scholastic_mage.tres")
 
 func _ready() -> void:
 	root = $"../../../.."
 	paragon_button.pressed.connect(_on_paragon_button_pressed)
 	aspected_mage_button.pressed.connect(_on_aspected_mage_button_pressed)
+	scholastic_mage_button.pressed.connect(_on_scholastic_mage_button_button_pressed)

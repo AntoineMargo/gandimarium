@@ -1,12 +1,12 @@
-[gd_resource type="Resource" script_class="Spell" format=3 uid="uid://c50tk0l60a5qw"]
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://c50tk0l60a5qw"]
 
-[ext_resource type="Resource" uid="uid://0p2c7pi86hj8" path="res://resources/activities/spells/mage_armour.tres" id="1_2jgme"]
 [ext_resource type="Script" uid="uid://chufkd7a0xqa0" path="res://activities/activity.gd" id="1_82q0i"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="1_vqmj1"]
+[ext_resource type="Resource" uid="uid://bns16gt6wf8ux" path="res://resources/activities/spells/magic_armour.tres" id="2_dph2k"]
 
 [resource]
 script = ExtResource("1_vqmj1")
 name = "Mage Armour"
-description = "Adds armour to creature."
-activities = Array[ExtResource("1_82q0i")]([ExtResource("1_2jgme")])
+description = "You conjure a suit of extremely light, tranluscent armour."
+activities = Array[ExtResource("1_82q0i")]([ExtResource("2_dph2k")])
 metadata/_custom_type_script = "uid://sg6vjj4j36i4"

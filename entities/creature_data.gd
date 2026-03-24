@@ -9,6 +9,7 @@ class_name CreatureData
 @export var species: String = ""
 @export var major_archetype: Archetype = null
 @export var minor_archetype: Archetype = null
+@export var discipline = null
 
 @export var sprite: String = "res://art/characters/hooded_char.png"
 

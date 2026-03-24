@@ -7,7 +7,7 @@
 [ext_resource type="Resource" path="res://resources/creatures/equipment/andimar_loadout.tres" id="5_mpoef"]
 [ext_resource type="Script" path="res://items/item.gd" id="6_mav6v"]
 [ext_resource type="Script" path="res://entities/inventory.gd" id="7_dccdr"]
-[ext_resource type="Resource" path="res://resources/archetypes/mage/mage.tres" id="8_tru5k"]
+[ext_resource type="Resource" path="res://resources/archetypes/mage/scholastic_mage.tres" id="8_tru5k"]
 [ext_resource type="Script" path="res://entities/personality.gd" id="9_8honw"]
 [ext_resource type="Script" path="res://various/affiliation_entry.gd" id="10_elf0c"]
 [ext_resource type="Script" path="res://various/reputation_entry.gd" id="11_a7flv"]
@@ -20,9 +20,7 @@
 
 [sub_resource type="Resource" id="Resource_30uu3"]
 script = ExtResource("3_yllv8")
-acuity = 5
-brawn = 5
-resolve = 12
+resolve = 10
 
 [sub_resource type="Resource" id="Resource_slsgh"]
 script = ExtResource("4_lwos0")
@@ -41,17 +39,19 @@ script = ExtResource("14_s0cxt")
 
 [sub_resource type="Resource" id="Resource_uphen"]
 script = ExtResource("16_q51xt")
-arcane = 5
-society = 2
+arcane = 6
+society = 3
+history = 2
 linguistics = 1
-persuasion = 4
-stealth = 3
+persuasion = 5
+stealth = 4
 
 [resource]
 script = ExtResource("15_ivy2g")
 name = "Debug"
 level = 12
 major_archetype = ExtResource("8_tru5k")
+discipline = null
 attributes = SubResource("Resource_30uu3")
 skills = SubResource("Resource_uphen")
 base_stats = SubResource("Resource_slsgh")

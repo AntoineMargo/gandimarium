@@ -6,8 +6,8 @@
 
 [resource]
 script = ExtResource("3_vy8kk")
-name = "Magic Armour"
-id = "magic_armour"
+name = "Inertial Armour"
+id = "inertial_armour"
 description = "Shimmering intangible set of armour."
 weight = 0.0
 value = 0

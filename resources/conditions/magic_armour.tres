@@ -32,7 +32,7 @@ metadata/_custom_type_script = "uid://dxmd4au5mv1y0"
 
 [resource]
 script = ExtResource("3_cj5f0")
-name = "Magic Armour"
-id = "magic_armour"
+name = "Inertial Armour"
+id = "inertial_armour"
 effects = Array[ExtResource("1_ovfuq")]([SubResource("Resource_jc7fu"), SubResource("Resource_spr5c"), SubResource("Resource_s8iek")])
 metadata/_custom_type_script = "uid://dvi4ohsador2o"

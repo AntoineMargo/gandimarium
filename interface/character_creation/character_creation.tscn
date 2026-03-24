@@ -109,7 +109,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Aspected Mage"
 
-[node name="Button3" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1720838550]
+[node name="ScholasticMage" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1720838550]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Scholastic Mage"

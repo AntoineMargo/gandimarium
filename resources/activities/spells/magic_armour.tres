@@ -23,8 +23,9 @@ metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
 
 [resource]
 script = ExtResource("1_2s5jf")
-name = "Magic Armour"
-id = "magic_armour"
+name = "Inertial Armour"
+id = "inertial_armour"
+AP_cost = 3
 requires_concentration = true
 self_filters = Array[ExtResource("2_43yev")]([SubResource("Resource_17lpk"), SubResource("Resource_0vdfd")])
 target_effects = Array[ExtResource("3_u0rus")]([SubResource("Resource_4g858")])
@@ -32,5 +33,5 @@ requires_crisis = false
 requires_roll = false
 is_spell = true
 builds_condition = true
-condition_id = "magic_armour"
+condition_id = "inertial_armour"
 metadata/_custom_type_script = "uid://beq2nm7ovc2lf"

@@ -3,6 +3,8 @@ class_name SpellButton
 
 var is_hovered: bool = false
 var is_pressed: bool = false
+
+@onready var label = get_node_or_null("NameLabel")
 @export var spell: SpellContainer
 
 func _gui_input(event):
@@ -49,6 +51,7 @@ func _handle_right_click():
 	var um = Global.ui_manager
 	print("Right click on spell:", spell.name)
 	spell.cycle_activity()
+	label.text = spell.activities[spell.current_index].name
 	um.update_spell_list()
 
 func _ready():
@@ -58,7 +61,7 @@ func _ready():
 	connect("mouse_exited", Callable(self, "_on_mouse_exited"))
 	if spell:
 		#$IconRect.texture = load(spell.icon)
-		$NameLabel.text = spell.name
+		$NameLabel.text = spell.activities[spell.current_index].name
 		var spell_actions = spell.activities[spell.current_index].AP_cost
 		$ActionsLabel.text = "%dAP" % [spell_actions]
 

@@ -127,7 +127,6 @@ enum Targeting {
 enum Affected {
 	ENTITIES,
 	TERRAIN,
-	ENTITIES_OR_TERRAIN,
 	ENTITIES_AND_TERRAIN
 }
 

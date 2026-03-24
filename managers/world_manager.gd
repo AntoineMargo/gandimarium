@@ -366,36 +366,6 @@ func change_level(direction: int):
 	selection_highlight.update_selection_highlight()
 	#SignalBus.refresh_reachable_tiles.emit()
 	print("Now showing layer %d" % current_level)
-#
-#func calculate_path_cost_3D(path: Array[Vector3i], tile_size: int = Global.TILE_SIZE) -> float:
-	#if path.size() <= 1:
-		#return 0.0
-	#
-	#var total_cost = 0.0
-#
-	#for i in range(1, path.size()):
-		#var prev = path[i - 1]
-		#var curr = path[i]
-#
-		## Normalize to tile-space
-		#var prev_tile = Vector2i(prev.x / tile_size, prev.y / tile_size)
-		#var curr_tile = Vector2i(curr.x / tile_size, curr.y / tile_size)
-		#var delta = curr_tile - prev_tile
-#
-		#var step_cost = 1.0
-		#var is_diagonal = abs(delta.x) == 1 and abs(delta.y) == 1 and prev.z == curr.z
-		#if is_diagonal:
-			#step_cost = 1.5
-#
-		## Optional: adjust cost for vertical movement
-		#elif prev.z != curr.z:
-			#step_cost = 1.0  # Or set to 2.0 if stairs are "harder"
-#
-		##print("Step ", i, ": ", prev, " → ", curr, " | delta: ", delta, " | diagonal: ", is_diagonal, " | cost: ", step_cost)
-#
-		#total_cost += step_cost
-	#
-	#return total_cost
 
 func turn_path_from_pixels_to_tiles(path: Array[Vector3i], tile_size: int = Global.TILE_SIZE):
 	var tile_path = []
@@ -776,14 +746,6 @@ func try_move_char_abs(creature: Creature, origin: Vector3i, target: Vector3i):
 	layers[target.z]["path_map"].set_point_solid(layer_target, true)
 	add_to_tile(creature, target)
 	path_preview.clear_all()
-
-#func find_creature_on_tile(coordinates: Vector3i) -> Creature:
-	#var coords = Vector2i(coordinates.x, coordinates.y)
-	#if layers[current_level]["contents"].has(coords):
-		#for element in layers[current_level]["contents"][coords]:
-			#if element is Creature:
-				#return element
-	#return null
 
 func select_creature_on_tile(coordinates: Vector3i) -> bool:
 	var layer_coords = Vector2i(coordinates.x, coordinates.y)

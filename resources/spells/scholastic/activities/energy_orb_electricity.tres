@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="TargetedActivity" format=3 uid="uid://cpxkba6rc8pd5"]
+
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="1_glerg"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_pq5jc"]
+[ext_resource type="Script" uid="uid://bkpdgukx86gex" path="res://filters/crisis_mode_active.gd" id="3_61vf2"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="4_6b1pk"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="5_tu06r"]
+[ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damaging_effect.gd" id="6_gllfa"]
+
+[sub_resource type="Resource" id="Resource_lo7g8"]
+script = ExtResource("3_61vf2")
+metadata/_custom_type_script = "uid://bkpdgukx86gex"
+
+[sub_resource type="Resource" id="Resource_wamkk"]
+script = ExtResource("5_tu06r")
+pattern = [0, 0, 2, 3]
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_oreut"]
+script = ExtResource("6_gllfa")
+resistance = 4
+damage_pattern = SubResource("Resource_wamkk")
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[resource]
+script = ExtResource("1_glerg")
+name = "Energy Orb (electricity)"
+id = "energy_orb_electricity"
+AP_cost = 2
+defending_aptitude = 6
+reach = 20
+self_filters = Array[ExtResource("2_pq5jc")]([SubResource("Resource_lo7g8")])
+target_effects = Array[ExtResource("4_6b1pk")]([SubResource("Resource_oreut")])
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"

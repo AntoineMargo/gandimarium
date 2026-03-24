@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="SpellCosts" load_steps=2 format=3 uid="uid://bniaa8ovcvvgs"]
+[gd_resource type="Resource" script_class="SpellCosts" format=3 uid="uid://bniaa8ovcvvgs"]
 
 [ext_resource type="Script" uid="uid://ddmmsirmeo2fq" path="res://abilities/spell_costs.gd" id="1_aplcr"]
 

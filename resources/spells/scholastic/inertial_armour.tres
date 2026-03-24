@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://dh5wcefcr3klc"]
+
+[ext_resource type="Script" uid="uid://chufkd7a0xqa0" path="res://activities/activity.gd" id="1_ttyyr"]
+[ext_resource type="Resource" uid="uid://bns16gt6wf8ux" path="res://resources/activities/spells/magic_armour.tres" id="2_rna6g"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="3_i3km3"]
+
+[resource]
+script = ExtResource("3_i3km3")
+name = "Inertial Armour"
+description = "You conjure a suit of extremely light, tranluscent armour."
+activities = Array[ExtResource("1_ttyyr")]([ExtResource("2_rna6g")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
