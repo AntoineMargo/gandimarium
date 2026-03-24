@@ -19,6 +19,7 @@ var door_manager = DoorManager.new()
 var game_root = null
 
 @onready var menu_scene = preload("res://interface/pause_menu.tscn")
+@onready var all_info_window = preload("res://interface/all_char_info_window/all_char_info_window.tscn").instantiate()
 @onready var inventory_window = preload("res://interface/inventory_window/inventory.tscn").instantiate()
 @onready var character_window = preload("res://interface/character_window/character_info.tscn").instantiate()
 @onready var container_window = preload("res://interface/container_window/container_window.tscn").instantiate()
@@ -117,12 +118,13 @@ func _ready() -> void:
 	
 	await get_tree().create_timer(0.1).timeout
 	
+	add_child(all_info_window)
 	add_child(character_window)
 	add_child(inventory_window)
 	add_child(container_window)
 	add_child(world_info)
 	
-	
+	all_info_window.visible = false
 	inventory_window.visible = false
 	container_window.visible = false
 	character_window.visible = false

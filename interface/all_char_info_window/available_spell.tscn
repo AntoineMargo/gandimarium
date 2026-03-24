@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://c24v32ycsrtop"]
+
+[ext_resource type="Script" uid="uid://8srk4hw5ax51" path="res://interface/all_char_info_window/available_spell.gd" id="1_0ndni"]
+
+[node name="AvailableSpell" type="Control" unique_id=1983174737]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0ndni")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1016358357]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CheckButton" type="CheckButton" parent="HBoxContainer" unique_id=212723493]
+layout_mode = 2
+
+[node name="IconRect" type="TextureRect" parent="HBoxContainer" unique_id=2055622690]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=1677138196]
+layout_mode = 2

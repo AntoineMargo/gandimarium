@@ -23,6 +23,14 @@ func add_activity(activity: Activity):
 func add_ready_spell(spell: SpellContainer):
 	if spell not in data.spells_ready:
 		data.spells_ready.append(spell)
+
+func remove_ready_spell(spell: SpellContainer):
+	if spell in data.spells_ready:
+		data.spells_ready.erase(spell)
+
+func add_available_spell(spell: SpellContainer):
+	if spell not in data.spells_available:
+		data.spells_available.append(spell)
 	
 func add_concentration(concentration: Concentration):
 	data.concentrations.append(concentration)
@@ -676,6 +684,8 @@ func initialise():
 
 		data.base_stats.max_mp = data.attributes.dexterity
 
+		data.max_spells_ready = data.attributes.acuity
+
 		if data.major_archetype:
 			for entry in data.major_archetype.talents_by_level:
 				if entry.level <= data.level and entry.auto_talents:
@@ -690,6 +700,11 @@ func initialise():
 		if data.casting_table:
 			var current_level_table := data.casting_table.cost_table[data.level - 1]
 			data.max_spell_rank = current_level_table.spell_costs.keys().max()
+
+		data.spells_ready.clear()
+		if data.major_archetype and data.major_archetype.type == Enums.Archetype.ASPECTED_MAGE:
+			for spell in data.spells_available:
+				add_ready_spell(spell)
 
 		data.has_been_initialized = true
 		update_stats()

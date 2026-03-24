@@ -14,5 +14,6 @@ metadata/_custom_type_script = "uid://dnii5080nqn0s"
 
 [resource]
 script = ExtResource("1_lkmbs")
+type = 1
 talents_by_level = Array[ExtResource("2_pphpq")]([SubResource("Resource_xc8o4")])
 metadata/_custom_type_script = "uid://br3qyd4n7fm2f"

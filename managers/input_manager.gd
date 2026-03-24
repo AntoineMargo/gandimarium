@@ -208,6 +208,13 @@ func BasicControls():
 
 	if Input.is_action_just_pressed("Enter"):
 			SignalBus.end_crisis_turn.emit()
+			
+	if Input.is_action_just_pressed("S"):
+		var window = Global.all_info_window
+		if window.visible == false:
+			window.visible = true
+		else:
+			window.visible = false
 
 #func CharControls():
 	#if not Global.focus_char:

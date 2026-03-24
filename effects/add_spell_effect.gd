@@ -6,5 +6,11 @@ class_name AddSpellEffect
 func apply(_source, target, _degree: int = 2) -> void:
 	for spell in spells:
 		var new_spell = spell.duplicate()
-		if target.has_method("add_ready_spell"):
-			target.add_ready_spell(new_spell)
+		if target.has_method("add_available_spell"):
+			target.add_available_spell(new_spell)
+
+#func apply(_source, target, _degree: int = 2) -> void:
+	#for spell in spells:
+		#var new_spell = spell.duplicate()
+		#if target.has_method("add_ready_spell"):
+			#target.add_ready_spell(new_spell)

@@ -49,6 +49,7 @@ class_name CreatureData
 @export var current_reactions: int = 1
 @export var current_spell_rank: int = 1
 @export var max_spell_rank: int = 0
+@export var max_spells_ready: int = 0
 
 # AI Needs
 @export_range(0, 10000) var hunger: int = 10000

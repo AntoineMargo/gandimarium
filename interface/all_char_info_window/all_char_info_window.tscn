@@ -1,0 +1,112 @@
+[gd_scene format=3 uid="uid://3pjqljsb1657"]
+
+[ext_resource type="Script" uid="uid://gy1u5wwwbl5u" path="res://interface/all_char_info_window/all_char_info_window.gd" id="1_uemp0"]
+
+[node name="AllCharInfoWindow" type="CanvasLayer" unique_id=354679180]
+
+[node name="Control" type="Control" parent="." unique_id=449175128]
+custom_minimum_size = Vector2(500, 500)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -300.0
+offset_right = 300.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_uemp0")
+
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=1582668210]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7058824)
+
+[node name="VBox" type="VBoxContainer" parent="Control/ColorRect" unique_id=1948014497]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="Panel" parent="Control/ColorRect/VBox" unique_id=1122644939]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/ColorRect/VBox/TopBar" unique_id=2123907608]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Character Information"
+horizontal_alignment = 1
+
+[node name="ExitButton" type="Button" parent="Control/ColorRect/VBox/TopBar" unique_id=605897228]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -13.0
+offset_top = -10.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 8
+text = "X"
+
+[node name="Tabs" type="TabContainer" parent="Control/ColorRect/VBox" unique_id=1978769388]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 1
+
+[node name="Inventory" type="Panel" parent="Control/ColorRect/VBox/Tabs" unique_id=1099712994]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Spells" type="Panel" parent="Control/ColorRect/VBox/Tabs" unique_id=1323489672]
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="HBox" type="HBoxContainer" parent="Control/ColorRect/VBox/Tabs/Spells" unique_id=2131928932]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginLeft" type="Control" parent="Control/ColorRect/VBox/Tabs/Spells/HBox" unique_id=2062473264]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="Scroller" type="ScrollContainer" parent="Control/ColorRect/VBox/Tabs/Spells/HBox" unique_id=1256818901]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SpellList" type="VBoxContainer" parent="Control/ColorRect/VBox/Tabs/Spells/HBox/Scroller" unique_id=1593756639]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginRight" type="Control" parent="Control/ColorRect/VBox/Tabs/Spells/HBox" unique_id=471386089]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="MarginBottom" type="Control" parent="Control/ColorRect/VBox" unique_id=1023051102]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2

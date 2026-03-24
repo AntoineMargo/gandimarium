@@ -1,5 +1,20 @@
 class_name Enums
 
+enum Archetype {
+	NONE,
+	SCHOLASTIC_MAGE,
+	ASPECTED_MAGE,
+	PRIMAL_MAGE,
+	BATTLE_MAGE,
+	PARAGON,
+	LEGION,
+	CONDUIT,
+	CHAMPION,
+	TRANCE_WALKER,
+	VESSEL,
+	EVOKER
+	}
+
 enum UIDType {
 	CREATURE,
 	ROOM,

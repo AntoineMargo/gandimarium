@@ -42,8 +42,8 @@ size_flags_vertical = 3
 theme_override_font_sizes/font_size = 32
 tab_alignment = 1
 current_tab = 0
-tab_0/title = " Primary Archetype "
-tab_1/title = " Secondary Archetype "
+tab_0/title = " Major Archetype "
+tab_1/title = " Minor Archetype "
 tab_2/title = " Origin "
 tab_3/title = " Aspects "
 tab_4/title = " Traits "
@@ -57,7 +57,7 @@ tab_8/title = " Talents "
 layout_mode = 2
 script = ExtResource("2_syumy")
 metadata/_tab_index = 0
-metadata/_tab_name = " Primary Archetype "
+metadata/_tab_name = " Major Archetype "
 
 [node name="ArchetypeTabs" type="TabContainer" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype" unique_id=1198312870]
 layout_mode = 1
@@ -189,7 +189,7 @@ metadata/_tab_name = " Tradition "
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
-metadata/_tab_name = " Secondary Archetype "
+metadata/_tab_name = " Minor Archetype "
 
 [node name="Origin" type="Panel" parent="ColorRect/VBoxContainer/CreationTabs" unique_id=211229863]
 visible = false

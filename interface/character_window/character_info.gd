@@ -1,10 +1,30 @@
 extends CanvasLayer
 
+func get_archetype_name(archetype) -> String:
+	if archetype:
+		match archetype.type:
+			Enums.Archetype.NONE:
+				return "None"
+			Enums.Archetype.SCHOLASTIC_MAGE:
+				return "Scholastic Mage"
+			Enums.Archetype.ASPECTED_MAGE:
+				return "Aspected Mage"
+			Enums.Archetype.PRIMAL_MAGE:
+				return "Primal Mage"
+			Enums.Archetype.BATTLE_MAGE:
+				return "Battle Mage"
+			Enums.Archetype.PARAGON:
+				return "Paragon"
+			Enums.Archetype.LEGION:
+				return "Legion"
+	return "None"
+
+
 func update(character):
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values/Name.text = character.data.name
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values/Level.text = "%d" % character.get_final_stat("level")
-	#$Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values/MajorArchetype.text = character.get_final_stat("major_archetype")
-	#$Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values/MinorArchetype.text = character.get_final_stat("minor_archetype")
+	$Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values/MajorArchetype.text = get_archetype_name(character.data.major_archetype) 
+	$Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values/MinorArchetype.text = get_archetype_name(character.data.minor_archetype) 
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values/Vigour.text = "%d" % character.get_final_stat("vigour")
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values/Size.text = character.get_final_stat("size")
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Basics/values/StrengthBonus.text = "%d" % character.get_final_stat("strength_bonus")
