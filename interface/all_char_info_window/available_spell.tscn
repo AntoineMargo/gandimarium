@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://8srk4hw5ax51" path="res://interface/all_char_info_window/available_spell.gd" id="1_0ndni"]
 
 [node name="AvailableSpell" type="Control" unique_id=1983174737]
-custom_minimum_size = Vector2(0, 20)
+custom_minimum_size = Vector2(0, 25)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

@@ -797,7 +797,7 @@ func select_creature_on_tile(coordinates: Vector3i) -> bool:
 					SignalBus.update_inventory.emit()
 					SignalBus.update_character_info.emit()
 					SignalBus.update_ui_for_char.emit()
-					SignalBus.update_available_spells.emit(element)
+					SignalBus.update_character_window.emit(element)
 					print("Selected character: ", element.data.name)
 					return true
 	return false

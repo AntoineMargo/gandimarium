@@ -54,7 +54,6 @@ func _handle_right_click():
 func _ready():
 	set_process_unhandled_input(true)
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	#custom_minimum_size = Vector2(200, 40)
 	connect("mouse_entered", Callable(self, "_on_mouse_entered"))
 	connect("mouse_exited", Callable(self, "_on_mouse_exited"))
 	if spell:

@@ -62,7 +62,7 @@ signal drop_item_on_tile(character)
 signal update_ui_for_char()
 signal end_crisis_turn()
 
-signal update_available_spells(character: Creature)
+signal update_character_window(character: Creature)
 
 #World
 signal simple_interact()

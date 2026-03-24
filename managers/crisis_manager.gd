@@ -72,6 +72,7 @@ func toggle_crisis(creature):
 		start_crisis(creature)
 	else:
 		end_crisis(creature)
+	SignalBus.update_character_window.emit(creature)
 
 func start_crisis(creature):
 	if crisis_mode == false:

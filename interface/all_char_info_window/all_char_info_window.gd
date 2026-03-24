@@ -22,20 +22,18 @@ func _input(event):
 func _on_exit_pressed() -> void:
 	Global.all_info_window.visible = false
 
-#func _update_for_char(character: Creature):
-	#for spell in character.data.spells_available:
-		#var available_spell = spell_element.instantiate()
-		#available_spell.spell = spell
-		#spell_list.add_child(available_spell)
-		#if character.data.major_archetype.type != Enums.Archetype.SCHOLASTIC_MAGE:
-			#available_spell.check_button.visible = false
-
 func _update_for_char(character: Creature):
+	for child in spell_list.get_children():
+		child.queue_free()
+
 	for spell in character.data.spells_available:
 		var available_spell = spell_element.instantiate()
 		available_spell.spell = spell
 		available_spell.character = character
 		spell_list.add_child(available_spell)
+		if Global.crisis_manager.crisis_mode:
+			available_spell.modulate = Color(0.5, 0.5, 0.5, 1.0)
+			available_spell.check_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 		if character.data.major_archetype.type != Enums.Archetype.SCHOLASTIC_MAGE:
 			available_spell.check_button.visible = false
@@ -44,4 +42,4 @@ func _ready() -> void:
 	z_index = 2000
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	$ColorRect/VBox/TopBar/ExitButton.pressed.connect(_on_exit_pressed)
-	SignalBus.update_available_spells.connect(_update_for_char)
+	SignalBus.update_character_window.connect(_update_for_char)
