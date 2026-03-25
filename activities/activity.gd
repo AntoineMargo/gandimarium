@@ -17,6 +17,7 @@ class_name Activity
 @export var spread: int = 0
 @export var delay: int = 0
 
+@export var modifiers: Array[ActivityModifier] = []
 @export var self_filters: Array[Filter] = []
 @export var self_per_target_effects: Array[Effect] = []
 @export var self_final_effects: Array[Effect] = []
@@ -81,6 +82,9 @@ func _build_context(target = null):
 	return ctx
 
 func _apply_act_mods():
+	for modifier in self.modifiers:
+		modifier.modify_activity(self)
+	
 	for modifier in user.data.activity_modifiers:
 		modifier.modify_activity(self)
 

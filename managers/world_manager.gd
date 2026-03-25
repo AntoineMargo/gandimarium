@@ -908,8 +908,29 @@ func calculate_ap_cost(cost: float, current_available_mp: float, mp_per_ap: floa
 		var ap_consumed = ap_used_after - ap_used_before
 		return ap_consumed
 
+func teleport(character: Creature, target: Vector3i):
+	var origin = character.get_coords()
+	var layer_origin = Vector2i(origin.x, origin.y)
+	var layer_target = Vector2i(target.x, target.y)
+	var path_map = layers[target.z]["path_map"]
+	
+	if not path_map.region.has_point(layer_target) or path_map.is_point_solid(layer_target) or layers[target.z]["occupied"].get(layer_target):
+		print("Invalid target location.")
+		return
+	
+	character.global_position = layers[target.z]["tile_map"].map_to_local(layer_origin)
+	try_move_char_abs(character, origin, target)
+	character.global_position = layers[target.z]["tile_map"].map_to_local(layer_target)
+	character.mover.position = Vector2.ZERO # Very necessary because of position/global_position mismatch during real-time move
+	
+	character.mover._on_stop_all_movement()
+	
+	character.visible = (character.data.tile_z == current_level)
+	SignalBus.update_ui_for_char.emit()
+	selection_highlight.update_selection_highlight()
+	SignalBus.sight_check.emit(target)
+
 func interact_move(character: Creature, target: Vector3i):
-	#var character = Global.focus_char
 	var origin = character.get_coords()
 	var layer_origin = Vector2i(origin.x, origin.y)
 	var layer_target = Vector2i(target.x, target.y)
@@ -928,7 +949,6 @@ func interact_move(character: Creature, target: Vector3i):
 		path = get_multi_level_path_for_creature(character, target, false, true)
 	else:
 		path = get_multi_level_path_for_creature(character, target)
-	#path = get_multi_level_path(origin, target)
 	if path.is_empty():
 		print("No path found!")
 		return

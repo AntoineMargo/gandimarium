@@ -41,10 +41,20 @@ func _draw():
 		color = Color(0.2, 0.2, 0.2, 0.5)
 	draw_rect(Rect2(Vector2.ZERO, size), color)
 
+#func _handle_left_click():
+	#var cm = Global.crisis_manager
+	#print("Left click on spell:", spell.name)
+	#print(Global.focus_char.data.current_ap)
+	#cm.try_perform_activity(spell.activities[spell.current_index])
+
 func _handle_left_click():
 	var cm = Global.crisis_manager
+	var um = Global.ui_manager
 	print("Left click on spell:", spell.name)
-	print(Global.focus_char.data.current_ap)
+	if Global.activity_handler:
+		spell.cycle_activity()
+		label.text = spell.activities[spell.current_index].name
+		um.update_spell_list()
 	cm.try_perform_activity(spell.activities[spell.current_index])
 
 func _handle_right_click():

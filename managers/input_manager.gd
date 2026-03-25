@@ -105,16 +105,8 @@ func BasicControls():
 	if Input.is_action_just_pressed("O"):
 		if not Global.selected_char:
 			return
-		SignalBus.dialog_show_message.emit("Current spell rank: %d" % Global.selected_char.data.current_spell_rank)
-		SignalBus.dialog_show_message.emit("Max spell rank: %d" % Global.selected_char.data.max_spell_rank)
-
-		#var char_coords = Global.get_char_coords(Global.focus_char)
-#
-		#var reachable_tiles = Global.get_reachable_tiles_with_diagonals(Global.layers[Global.current_level]["path_map"], char_coords, 10)
-		#if reachable_tiles:
-			#Global.clear_reachable_tiles()
-		#Global.show_reachable_tiles(reachable_tiles)
-		#print("Showing reachable tiles.")
+		var coords = wm.get_tile_coords_under_cursor()
+		wm.teleport(Global.selected_char, coords)
 
 	if Input.is_action_just_pressed("P"):
 		if not Global.selected_char:
