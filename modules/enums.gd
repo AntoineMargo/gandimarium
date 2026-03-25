@@ -1,5 +1,22 @@
 class_name Enums
 
+enum ConstructionState {
+	INTACT,
+	DAMAGED,
+	DESTROYED
+}
+
+enum RoomType {
+	UNDEFINED,
+	DORMITORY,
+	BEDROOM,
+	KITCHEN,
+	STORAGE,
+	LIBRARY,
+	LIVING,
+	TEMPLE,
+	}
+
 enum Archetype {
 	NONE,
 	SCHOLASTIC_MAGE,

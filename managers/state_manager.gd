@@ -98,35 +98,14 @@ func load_game_state() -> bool:
 	print("GAME STATE LOADED!")
 	return true
 
+
+
 const DIRS = [
 	Vector3i(-1,0,0),
 	Vector3i(1,0,0),
 	Vector3i(0,-1,0),
 	Vector3i(0,1,0),
 ]
-
-#func assign_tiles_to_rooms(map_id: String) -> void:
-	#var wm = Global.world_manager
-	#var map_state: MapState = get_map_state(map_id)
-	#var tile_to_rooms = map_state.tile_to_rooms
-	#var room_to_tiles = map_state.room_to_tiles
-	#var chosen_layer: TileMapLayer = null
-	#var start_tile: Vector3i
-	#
-	#for layer in wm.current_world.get_children():
-		#if layer.id == 0:
-			#chosen_layer = layer
-	#
-	#if chosen_layer:
-		#for x in range(wm.map_width):
-			#for y in range(wm.map_height):
-				#var pos: Vector2i = Vector2i(x, y)
-				#var tile_data = chosen_layer.get_cell_tile_data(pos)
-				#if tile_data and tile_data.get_custom_data("inside") == true and tile_data.get_custom_data("cover") == 0:
-					#start_tile = Vector3i(x, y, 0)
-					#var prop = wm.get_prop_at_pos(start_tile)
-					#if not tile_to_rooms.has(start_tile) and not (prop is Door):
-						#_add_room_to_state(chosen_layer, start_tile, tile_to_rooms, room_to_tiles)
 
 func get_layer_by_id(id: int) -> TileMapLayer:
 	for layer in wm.current_world.get_children():
@@ -159,34 +138,59 @@ func add_rooms_to_state_in_map(map_id: String, start_layer_id: int) -> void:
 func _add_rooms_to_state_in_layer(map_state: MapState, layer: TileMapLayer) -> bool:
 	var layer_has_rooms: bool = false
 	var tile_to_rooms = map_state.tile_to_rooms
-	var room_to_tiles = map_state.room_to_tiles
 
 	for x in range(wm.map_width):
 		for y in range(wm.map_height):
 			var start_tile: Vector3i = Vector3i(x, y, layer.id)
 			var tile_data = layer.get_cell_tile_data(Vector2i(x, y))
-			if tile_data and tile_data.get_custom_data("inside") == true and tile_data.get_custom_data("cover") == 0:
+
+			if tile_data \
+			and tile_data.get_custom_data("inside") == true \
+			and tile_data.get_custom_data("cover") == 0:
+
 				var prop = wm.get_prop_at_pos(start_tile)
+
 				if not tile_to_rooms.has(start_tile) and not (prop is Door):
-					_add_room_to_state(layer, start_tile, tile_to_rooms, room_to_tiles)
+					_add_room_to_state(map_state, layer, start_tile)
 					layer_has_rooms = true
-	if layer_has_rooms:
-		return true
-	return false
 
-func _add_room_to_state(chosen_layer, start_tile, tile_to_rooms, room_to_tiles) -> void:
-	var room_tiles: Array[Vector3i] = _flood_room(chosen_layer, start_tile)
-	
-	if room_tiles:
-		var room_uid = next_uid(Enums.UIDType.ROOM)
-		room_to_tiles[room_uid] = []
+	return layer_has_rooms
 
-		for tile in room_tiles:
-			if not tile_to_rooms.has(tile):
-				tile_to_rooms[tile] = []
+func _add_room_to_state(map_state: MapState, layer: TileMapLayer, start_tile: Vector3i) -> void:
+	var room_tiles: Array[Vector3i] = _flood_room(layer, start_tile)
 
-			tile_to_rooms[tile].append(room_uid)
-			room_to_tiles[room_uid].append(tile)
+	if room_tiles.is_empty():
+		return
+
+	var room_uid = next_uid(Enums.UIDType.ROOM)
+
+	var room: Room = Room.new()
+	room.uid = room_uid
+	room.tiles = room_tiles
+	room.owner_uid = -1
+	room.building_uid = -1
+	room.state = Enums.ConstructionState.INTACT
+	room.room_type = Enums.RoomType.UNDEFINED
+	room.prop_locations = []
+	room.value = 0
+
+	map_state.rooms[room_uid] = room
+
+	for tile in room_tiles:
+		var tile_data = layer.get_cell_tile_data(Vector2i(tile.x, tile.y))
+		if not tile_data:
+			continue
+
+		var cover = tile_data.get_custom_data("cover")
+
+		if cover == 0:
+			# floor tiles are exclusive
+			map_state.tile_to_rooms[tile] = [room_uid]
+		else:
+			# wall tiles can be shared
+			if not map_state.tile_to_rooms.has(tile):
+				map_state.tile_to_rooms[tile] = []
+			map_state.tile_to_rooms[tile].append(room_uid)
 
 func _flood_room(chosen_layer, start_tile: Vector3i) -> Array[Vector3i]:
 	var start_data = chosen_layer.get_cell_tile_data(Vector2i(start_tile.x, start_tile.y))
