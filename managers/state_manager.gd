@@ -98,13 +98,20 @@ func load_game_state() -> bool:
 	print("GAME STATE LOADED!")
 	return true
 
-
-
 const DIRS = [
 	Vector3i(-1,0,0),
 	Vector3i(1,0,0),
 	Vector3i(0,-1,0),
 	Vector3i(0,1,0),
+]
+
+const DIRS_3D = [
+	Vector3i(-1,0,0),
+	Vector3i(1,0,0),
+	Vector3i(0,-1,0),
+	Vector3i(0,1,0),
+	Vector3i(0,0,-1),
+	Vector3i(0,0,1)
 ]
 
 func get_layer_by_id(id: int) -> TileMapLayer:
@@ -113,7 +120,84 @@ func get_layer_by_id(id: int) -> TileMapLayer:
 			return layer
 	return null
 
-func add_rooms_to_state_in_map(map_id: String, start_layer_id: int) -> void:
+func build_buildings(map_id: String) -> void:
+	var map_state: MapState = get_map_state(map_id)
+	for room_uid in map_state.rooms:
+		var room = map_state.rooms[room_uid]
+
+		if room.building_uid != -1:
+			continue
+
+		_create_building_from_room(map_state, room_uid)
+
+func _create_building_from_room(map_state: MapState, original_room_uid: int) -> void:
+	var building_uid = next_uid(Enums.UIDType.BUILDING)
+
+	var building: Building = Building.new()
+	building.uid = building_uid
+	building.rooms = []
+
+	var visited: Dictionary[Vector3i, bool] = {}
+	var stack: Array[Vector3i] = []
+	var building_tiles = building.tiles
+
+	# We start the building by appending a single tile from a room
+	stack.append(map_state.rooms[original_room_uid].tiles[0])
+
+	while stack.size() > 0:
+		var tile: Vector3i = stack.pop_back()
+
+		if visited.has(tile):
+			continue
+		visited[tile] = true
+
+		var tile_data = wm.get_tile_data(tile)
+		if not tile_data or not tile_data.get_custom_data("constructed"):
+			continue
+
+		building_tiles.append(tile)
+
+		for dir in DIRS_3D:
+			stack.append(tile + dir)
+
+	map_state.buildings[building_uid] = building
+	add_all_rooms_to_building(map_state, building)
+
+func add_all_rooms_to_building(map_state: MapState, building: Building):
+
+	var perimeter_uid = next_uid(Enums.UIDType.ROOM)
+
+	var perimeter: Room = Room.new()
+	perimeter.uid = perimeter_uid
+	perimeter.owner_uid = -1
+	perimeter.building_uid = building.uid
+	perimeter.state = Enums.ConstructionState.INTACT
+	perimeter.room_type = Enums.RoomType.PERIMETER
+	perimeter.prop_locations = []
+	perimeter.value = 0
+
+	var added_rooms: Dictionary[int, bool] = {}
+
+	for tile in building.tiles:
+		if not map_state.tile_to_rooms.has(tile):
+			perimeter.tiles.append(tile)
+			map_state.tile_to_rooms[tile] = [perimeter_uid]
+		else:
+			for room_uid in map_state.tile_to_rooms[tile]:
+				var room = map_state.rooms[room_uid]
+
+				if room.building_uid == -1:
+					room.building_uid = building.uid
+
+				if not added_rooms.has(room_uid):
+					added_rooms[room_uid] = true
+					building.rooms.append(room_uid)
+
+	if not perimeter.tiles.is_empty():
+		map_state.rooms[perimeter_uid] = perimeter
+		building.rooms.append(perimeter_uid)
+
+func build_rooms(map_id: String, start_layer_id: int) -> void:
 	var map_state: MapState = get_map_state(map_id)
 	var current_layer_id: int = start_layer_id
 	var current_layer: TileMapLayer = get_layer_by_id(start_layer_id)
@@ -132,8 +216,6 @@ func add_rooms_to_state_in_map(map_id: String, start_layer_id: int) -> void:
 			current_layer = get_layer_by_id(current_layer_id)
 			if not current_layer or not _add_rooms_to_state_in_layer(map_state, current_layer):
 				break
-		
-		print("Rooms found and added to state!")
 
 func _add_rooms_to_state_in_layer(map_state: MapState, layer: TileMapLayer) -> bool:
 	var layer_has_rooms: bool = false
@@ -145,7 +227,7 @@ func _add_rooms_to_state_in_layer(map_state: MapState, layer: TileMapLayer) -> b
 			var tile_data = layer.get_cell_tile_data(Vector2i(x, y))
 
 			if tile_data \
-			and tile_data.get_custom_data("inside") == true \
+			and tile_data.get_custom_data("constructed") == true \
 			and tile_data.get_custom_data("cover") == 0:
 
 				var prop = wm.get_prop_at_pos(start_tile)
@@ -213,7 +295,7 @@ func _flood_room(chosen_layer, start_tile: Vector3i) -> Array[Vector3i]:
 		if not tile_data:
 			continue
 
-		if not tile_data.get_custom_data("inside"):
+		if not tile_data.get_custom_data("constructed"):
 			continue
 
 		var cover = tile_data.get_custom_data("cover")
@@ -238,7 +320,9 @@ func _setup_map_state():
 		current_map_id = Global.world_manager.current_world.id
 	var map_state = get_map_state(current_map_id)
 	if map_state.data_dirty:
-		add_rooms_to_state_in_map(current_map_id, 0)
+		build_rooms(current_map_id, 0)
+		build_buildings(current_map_id)
+		print("Rooms and buildings added to state!")
 
 func _ready():
 	wm = Global.world_manager

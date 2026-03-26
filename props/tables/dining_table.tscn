@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dqsacoj6uprva"]
+
+[ext_resource type="Script" uid="uid://dl6ntb8hg3ocm" path="res://props/tables/dining_table.gd" id="1_d4r7s"]
+
+[node name="DiningTable" type="Node2D" unique_id=1591529960]
+script = ExtResource("1_d4r7s")
+prop_name = "Dining Table"
+id = "dining_table"
+scene = null
+max_hp = 120
+mat = 1
+cover = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1460996170]

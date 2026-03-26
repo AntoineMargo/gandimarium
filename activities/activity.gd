@@ -116,8 +116,7 @@ func _apply_effects(ctx):
 		#effect.apply(ctx)
 
 func _consume_ap(ctx):
-	if requires_crisis and Global.crisis_manager.crisis_mode:
-		ctx.user.consume_ap(AP_cost)
+	ctx.user.consume_ap(AP_cost)
 
 func _consume_pp(ctx):
 	if is_spell:

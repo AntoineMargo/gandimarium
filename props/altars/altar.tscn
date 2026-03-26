@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cj3bgjlrvtx2b"]
+
+[ext_resource type="Script" uid="uid://b6o66ao58uymn" path="res://props/altars/altar.gd" id="1_oyg83"]
+[ext_resource type="Texture2D" uid="uid://b6bu3wq3yd2wl" path="res://art/props/tile_placeholder.png" id="2_gcjtt"]
+
+[node name="Altar" type="Node2D" unique_id=1772139896]
+script = ExtResource("1_oyg83")
+prop_name = "Altar"
+id = "altar"
+scene = null
+max_hp = 150
+mat = 3
+cover = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1909552401]
+texture = ExtResource("2_gcjtt")

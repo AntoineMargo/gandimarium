@@ -8,6 +8,7 @@ enum ConstructionState {
 
 enum RoomType {
 	UNDEFINED,
+	PERIMETER,
 	DORMITORY,
 	BEDROOM,
 	KITCHEN,

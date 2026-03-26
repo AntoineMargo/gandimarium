@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bh23htxbrjyp8"]
+
+[ext_resource type="Script" uid="uid://crea7ko8gwtd1" path="res://props/bookshelves/bookcase.gd" id="1_ggidf"]
+[ext_resource type="Texture2D" uid="uid://b6bu3wq3yd2wl" path="res://art/props/tile_placeholder.png" id="2_adnmo"]
+
+[node name="Bookshelves" type="Node2D" unique_id=1564477573]
+script = ExtResource("1_ggidf")
+prop_name = "Bookcase"
+id = "bookcase"
+scene = null
+max_hp = 100
+mat = 1
+cover = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1994995279]
+texture = ExtResource("2_adnmo")

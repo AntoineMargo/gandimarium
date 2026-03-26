@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dyvs814q5sarn"]
+
+[ext_resource type="Script" uid="uid://b33k3edh0egcy" path="res://props/tables/study.gd" id="1_lywvj"]
+[ext_resource type="Texture2D" uid="uid://b6bu3wq3yd2wl" path="res://art/props/tile_placeholder.png" id="2_po8mn"]
+
+[node name="Study" type="Node2D" unique_id=1915628634]
+script = ExtResource("1_lywvj")
+prop_name = "Study"
+id = "study"
+scene = null
+max_hp = 160
+mat = 1
+cover = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=519637327]
+texture = ExtResource("2_po8mn")

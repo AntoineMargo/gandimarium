@@ -109,6 +109,9 @@ func determine_find_dimensions():
 			map_height = tile_map_limits.size.y
 			return
 
+func get_tile_data(tile: Vector3i):
+	return layers[tile.z]["tile_map"].get_cell_tile_data(Vector2i(tile.x, tile.y))
+
 func setup_layers():
 	layers.clear()
 	for child in current_world.get_children():

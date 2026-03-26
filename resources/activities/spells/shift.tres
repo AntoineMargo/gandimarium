@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="TargetedActivity" format=3 uid="uid://c1v700pfl5oew"]
+
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/activity_modifier.gd" id="1_h2iaq"]
+[ext_resource type="Script" uid="uid://dg81sce5vqo66" path="res://activity_modifiers/spell_start_modifier.gd" id="2_7aowt"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="3_mwqkd"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_558vt"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="5_5s5dt"]
+[ext_resource type="Script" uid="uid://d4jeevooo13o3" path="res://effects/teleport_effect.gd" id="6_vvfhk"]
+
+[sub_resource type="Resource" id="Resource_1660l"]
+script = ExtResource("2_7aowt")
+override = true
+property = "reach"
+metadata/_custom_type_script = "uid://dg81sce5vqo66"
+
+[sub_resource type="Resource" id="Resource_ffesx"]
+script = ExtResource("6_vvfhk")
+metadata/_custom_type_script = "uid://d4jeevooo13o3"
+
+[resource]
+script = ExtResource("3_mwqkd")
+name = "Shift"
+id = "scholastic_shift"
+description = "You shift from one location to another in sight nearby."
+reach = 1
+modifiers = Array[ExtResource("1_h2iaq")]([SubResource("Resource_1660l")])
+self_filters = Array[ExtResource("4_558vt")]([null])
+target_effects = Array[ExtResource("5_5s5dt")]([SubResource("Resource_ffesx")])
+targeting_type = 1
+affected_type = 1
+requires_roll = false
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
