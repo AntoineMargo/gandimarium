@@ -13,7 +13,7 @@ class_name Activity
 @export var line_of_sight: bool = true
 @export var attacking_aptitude: Enums.Aptitude = Enums.Aptitude.WILL
 @export var defending_aptitude: Enums.Aptitude = Enums.Aptitude.WILL
-@export var reach: int = 0
+@export var reach: int = 1
 @export var spread: int = 0
 @export var delay: int = 0
 

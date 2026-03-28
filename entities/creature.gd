@@ -5,6 +5,7 @@ class_name Creature
 @export var health_bar_scene: PackedScene
 
 @onready var sprite_node = $Mover/Sprite2D
+@onready var vfx_container = $Mover/VFXContainer
 @onready var ai_controller = $AIController
 
 @onready var mover = $Mover

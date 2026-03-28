@@ -83,6 +83,12 @@ var _char_sprites = {
 	
 }
 
+var _proj_sprites = {
+	"bolt" = "res://art/objects/bolt.png",
+	"big_bolt" = "res://art/objects/big_bolt.png",
+	"magic_bolt" = "res://art/objects/mbolt.png"
+}
+
 func get_map(id: String) -> Resource:
 	return _get_from(_maps, id)
 
@@ -106,6 +112,9 @@ func get_dmg_pattern(id: String) -> Resource:
 
 func get_char_sprite(id: String) -> Resource:
 	return _get_from(_char_sprites, id)
+	
+func get_proj_sprite(id: String) -> Resource:
+	return _get_from(_proj_sprites, id)
 
 func get_prop(id: String) -> Resource:
 	return _get_from(_props, id)

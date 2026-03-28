@@ -1,23 +1,22 @@
-[gd_resource type="Resource" script_class="WeaponThrow" load_steps=11 format=3 uid="uid://ds2e0ntbdxsjg"]
+[gd_resource type="Resource" script_class="WeaponThrow" format=3 uid="uid://ds2e0ntbdxsjg"]
 
 [ext_resource type="Resource" uid="uid://clmi1ceueqlw1" path="res://resources/items/weapons/longsword/longsword_throw_ai.tres" id="1_mc5ic"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_q2ftp"]
 [ext_resource type="Resource" uid="uid://lowvjn23gb1u" path="res://resources/damage_patterns/slash.tres" id="3_mc5ic"]
 [ext_resource type="Script" uid="uid://bkxicxp8ud7lk" path="res://activities/wpn_throw.gd" id="4_2k1ub"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/activity_modifier.gd" id="4_jnp4e"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="5_i3xcq"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="6_be7cl"]
-[ext_resource type="Resource" uid="uid://rsyurje8uegc" path="res://resources/filters/crisis_mode.tres" id="7_uq2lv"]
 [ext_resource type="Resource" uid="uid://b4wcicn6nxx3e" path="res://resources/filters/enough_brawn.tres" id="8_77yho"]
-[ext_resource type="Resource" uid="uid://bhdp23fjgy1bl" path="res://resources/filters/enough_ap.tres" id="9_wsxfb"]
 [ext_resource type="Resource" uid="uid://bsg7n0m5e01di" path="res://resources/effects/weapon_damage/damage_2d10.tres" id="10_f7ayv"]
 
 [resource]
 script = ExtResource("4_2k1ub")
 attack_types = Array[ExtResource("2_q2ftp")]([ExtResource("3_mc5ic")])
 name = "longsword_throw"
-attacking_aptitude = "offence"
-defending_aptitude = "ranged_defence"
-self_filters = Array[ExtResource("6_be7cl")]([ExtResource("7_uq2lv"), ExtResource("8_77yho"), ExtResource("9_wsxfb")])
+attacking_aptitude = 4
+defending_aptitude = 6
+self_filters = Array[ExtResource("6_be7cl")]([ExtResource("8_77yho")])
 target_effects = Array[ExtResource("5_i3xcq")]([ExtResource("10_f7ayv")])
 ai_hint = ExtResource("1_mc5ic")
 metadata/_custom_type_script = "uid://bkxicxp8ud7lk"

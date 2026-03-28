@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bm40yjohcu4wn"]
+
+[ext_resource type="Script" uid="uid://bqn6moayd3kvg" path="res://VFX/projectile.gd" id="1_lxgyi"]
+
+[node name="Projectile" type="Node2D" unique_id=745868710]
+script = ExtResource("1_lxgyi")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1414165549]
+z_index = 200
+
+[node name="Line2D" type="Line2D" parent="." unique_id=326785909]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1113089344]

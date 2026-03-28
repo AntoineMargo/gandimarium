@@ -1,0 +1,102 @@
+[gd_resource type="Resource" script_class="Inventory" format=3 uid="uid://bn8k72l1kwsjl"]
+
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="1_3q4fo"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="2_81n0v"]
+[ext_resource type="Script" uid="uid://0hy8gde00nbx" path="res://entities/inventory.gd" id="2_okqk0"]
+[ext_resource type="Script" uid="uid://djeyifuagvkr6" path="res://items/weapon_res.gd" id="3_vvucl"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="4_qthc3"]
+[ext_resource type="Resource" uid="uid://b6lwaevovr35s" path="res://resources/damage_patterns/pierce.tres" id="5_db0aq"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/activity_modifier.gd" id="6_csge3"]
+[ext_resource type="Script" uid="uid://slgpne4ixmcv" path="res://activities/wpn_strike.gd" id="7_sg8py"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="8_absex"]
+[ext_resource type="Script" uid="uid://ba0laem1chg82" path="res://filters/brawn_to_use_weapon.gd" id="9_cku8j"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="10_jn8bc"]
+[ext_resource type="Script" uid="uid://jtk6vp2fcxdf" path="res://effects/wpn_damage.gd" id="11_844we"]
+[ext_resource type="Script" uid="uid://bkxicxp8ud7lk" path="res://activities/wpn_throw.gd" id="12_rygi6"]
+[ext_resource type="Script" uid="uid://5p63q28tlgwq" path="res://items/food.gd" id="13_f7rul"]
+[ext_resource type="Resource" uid="uid://7wax86x3q1hj" path="res://resources/activities/weapons/wpn_strike.tres" id="14_g846o"]
+[ext_resource type="Resource" uid="uid://vtijt8upywt0" path="res://resources/activities/weapons/wpn_throw.tres" id="15_628y3"]
+[ext_resource type="Resource" uid="uid://hct0622s1i7r" path="res://resources/conditions/crossguarded.tres" id="16_udx3r"]
+[ext_resource type="Resource" uid="uid://dudethai3b4r7" path="res://resources/items/weapons/longsword/longsword_strike.tres" id="17_phvf0"]
+[ext_resource type="Resource" uid="uid://ds2e0ntbdxsjg" path="res://resources/items/weapons/longsword/longsword_throw.tres" id="18_pdvkq"]
+
+[sub_resource type="Resource" id="Resource_v00m7"]
+script = ExtResource("9_cku8j")
+metadata/_custom_type_script = "uid://ba0laem1chg82"
+
+[sub_resource type="Resource" id="Resource_sqxyt"]
+script = ExtResource("11_844we")
+damage_die = 8
+metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
+
+[sub_resource type="Resource" id="Resource_uxa7x"]
+script = ExtResource("7_sg8py")
+attack_types = Array[ExtResource("4_qthc3")]([ExtResource("5_db0aq")])
+attacking_aptitude = 4
+defending_aptitude = 5
+reach = 2
+self_filters = Array[ExtResource("8_absex")]([SubResource("Resource_v00m7")])
+target_effects = Array[ExtResource("10_jn8bc")]([SubResource("Resource_sqxyt")])
+metadata/_custom_type_script = "uid://slgpne4ixmcv"
+
+[sub_resource type="Resource" id="Resource_7emck"]
+script = ExtResource("9_cku8j")
+metadata/_custom_type_script = "uid://ba0laem1chg82"
+
+[sub_resource type="Resource" id="Resource_8nei2"]
+script = ExtResource("11_844we")
+damage_die = 8
+metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
+
+[sub_resource type="Resource" id="Resource_w7h05"]
+script = ExtResource("12_rygi6")
+attack_types = Array[ExtResource("4_qthc3")]([ExtResource("5_db0aq")])
+attacking_aptitude = 4
+defending_aptitude = 6
+reach = 3
+self_filters = Array[ExtResource("8_absex")]([SubResource("Resource_7emck")])
+target_effects = Array[ExtResource("10_jn8bc")]([SubResource("Resource_8nei2")])
+metadata/_custom_type_script = "uid://bkxicxp8ud7lk"
+
+[sub_resource type="Resource" id="Resource_nkx3n"]
+script = ExtResource("3_vvucl")
+name = "Short Spear"
+id = "wpn_short_spear"
+value = 20
+slot_type = 12
+strike = SubResource("Resource_uxa7x")
+throw = SubResource("Resource_w7h05")
+count = 5
+owner = null
+metadata/_custom_type_script = "uid://djeyifuagvkr6"
+
+[sub_resource type="Resource" id="Resource_nlyb1"]
+script = ExtResource("13_f7rul")
+food_value = 2500
+name = "Bread"
+id = "food_bread"
+description = "Oh, delicious fluffy white bread!"
+value = 2
+strike = ExtResource("14_g846o")
+throw = ExtResource("15_628y3")
+owner = null
+metadata/_custom_type_script = "uid://5p63q28tlgwq"
+
+[sub_resource type="Resource" id="Resource_qm0kl"]
+script = ExtResource("3_vvucl")
+name = "Long sword"
+id = "long_sword"
+value = 100
+conditions = Array[ExtResource("2_81n0v")]([ExtResource("16_udx3r")])
+slot_type = 12
+brawn_req_1h = 6
+brawn_req_2h = 3
+strike = ExtResource("17_phvf0")
+throw = ExtResource("18_pdvkq")
+owner = null
+metadata/_custom_type_script = "uid://djeyifuagvkr6"
+
+[resource]
+script = ExtResource("2_okqk0")
+list = Array[ExtResource("1_3q4fo")]([SubResource("Resource_nkx3n"), SubResource("Resource_nlyb1"), SubResource("Resource_qm0kl")])
+metadata/_custom_type_script = "uid://0hy8gde00nbx"

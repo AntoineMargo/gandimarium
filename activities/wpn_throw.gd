@@ -1,7 +1,7 @@
 extends WeaponActivity
 class_name WeaponThrow
 
-@export var reach_mult: int = 1
+#@export var reach_mult: int = 1
 
 func drop_item_on_target(target):
 	var item_in_inventory: bool = false
@@ -18,7 +18,8 @@ func drop_item_on_target(target):
 	wm.add_item_visual(coords)
 
 func execute() -> void:
-	reach = user.data.attributes.brawn * reach_mult
+	#reach = user.data.attributes.brawn * reach_mult
+	var final_reach = reach * user.data.attributes.brawn
 	_apply_act_mods()
 	var self_ctx = _build_context(user)
 	for filter in self_filters:
@@ -30,7 +31,7 @@ func execute() -> void:
 		return
 	for target in target_entities:
 		var ctx = _build_context(target)
-		if not WorldMath.char_in_range(ctx.origin, ctx.target, reach):
+		if not WorldMath.char_in_range(ctx.origin, ctx.target, final_reach):
 			SignalBus.dialog_out_of_range.emit()
 			continue
 		if not WorldMath.has_line_of_sight(ctx.origin, ctx.target):

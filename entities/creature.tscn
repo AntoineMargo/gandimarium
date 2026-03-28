@@ -61,6 +61,8 @@ z_index = 2
 material = SubResource("ShaderMaterial_7mdsa")
 texture = ExtResource("4_4w7f4")
 
+[node name="VFXContainer" type="Node2D" parent="Mover" unique_id=355354990]
+
 [node name="Shader" type="Sprite2D" parent="Mover" unique_id=1809589512]
 visible = false
 z_index = 3

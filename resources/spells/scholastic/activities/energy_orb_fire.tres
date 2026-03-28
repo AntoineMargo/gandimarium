@@ -7,6 +7,10 @@
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="4_ndrvo"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="5_wwa0k"]
 [ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damaging_effect.gd" id="6_6aep6"]
+[ext_resource type="PackedScene" uid="uid://bm40yjohcu4wn" path="res://VFX/projectile.tscn" id="8_ndrvo"]
+[ext_resource type="Script" uid="uid://c87bku6q55ul5" path="res://VFX/projectile_config.gd" id="8_wwa0k"]
+[ext_resource type="Texture2D" uid="uid://wd28jvjuhp1y" path="res://art/objects/mbolt.png" id="9_6aep6"]
+[ext_resource type="Script" uid="uid://b7tjqqmnvivdt" path="res://effects/proj_vfx_effect.gd" id="9_wwa0k"]
 
 [sub_resource type="Resource" id="Resource_lo7g8"]
 script = ExtResource("3_x2n7g")
@@ -23,6 +27,19 @@ resistance = 2
 damage_pattern = SubResource("Resource_wamkk")
 metadata/_custom_type_script = "uid://otrxaros8gk8"
 
+[sub_resource type="Resource" id="Resource_klmoe"]
+script = ExtResource("8_wwa0k")
+texture = ExtResource("9_6aep6")
+speed = 600.0
+color = Color(1, 0, 0, 1)
+metadata/_custom_type_script = "uid://c87bku6q55ul5"
+
+[sub_resource type="Resource" id="Resource_6aep6"]
+script = ExtResource("9_wwa0k")
+projectile_scene = ExtResource("8_ndrvo")
+config = SubResource("Resource_klmoe")
+metadata/_custom_type_script = "uid://b7tjqqmnvivdt"
+
 [resource]
 script = ExtResource("1_5aasb")
 name = "Energy Orb (fire)"
@@ -31,6 +48,6 @@ AP_cost = 2
 defending_aptitude = 6
 reach = 20
 self_filters = Array[ExtResource("2_bgo8f")]([SubResource("Resource_lo7g8")])
-target_effects = Array[ExtResource("4_ndrvo")]([SubResource("Resource_oreut")])
+target_effects = Array[ExtResource("4_ndrvo")]([SubResource("Resource_oreut"), SubResource("Resource_6aep6")])
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"

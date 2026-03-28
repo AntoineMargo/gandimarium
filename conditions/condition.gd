@@ -11,6 +11,7 @@ class_name Condition
 @export var duration: int = -1 # in seconds
 @export var toggle: bool = false
 @export var is_visible: bool = true
+@export var vfx_scene: PackedScene
 
 var linked_items: Array[Item] = []
 var linked_modifiers: Array[ModifierEntry] = []

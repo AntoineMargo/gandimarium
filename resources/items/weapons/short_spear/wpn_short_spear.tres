@@ -1,22 +1,62 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3 uid="uid://c0vrb0pdo8efg"]
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://5bt2m6n0nfej"]
 
-[ext_resource type="Script" uid="uid://ci7mep1f0lce0" path="res://deprecated/condition_res.gd" id="1_745hu"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_808mq"]
 [ext_resource type="Script" uid="uid://djeyifuagvkr6" path="res://items/weapon_res.gd" id="2_p0ojl"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="3_25vd3"]
+[ext_resource type="Resource" uid="uid://b6lwaevovr35s" path="res://resources/damage_patterns/pierce.tres" id="4_3uxfw"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/activity_modifier.gd" id="5_injki"]
+[ext_resource type="Script" uid="uid://slgpne4ixmcv" path="res://activities/wpn_strike.gd" id="6_yoclj"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="7_lihd4"]
+[ext_resource type="Script" uid="uid://ba0laem1chg82" path="res://filters/brawn_to_use_weapon.gd" id="8_p16xl"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="9_ku7yn"]
+[ext_resource type="Script" uid="uid://jtk6vp2fcxdf" path="res://effects/wpn_damage.gd" id="10_5cko6"]
+[ext_resource type="Script" uid="uid://bkxicxp8ud7lk" path="res://activities/wpn_throw.gd" id="11_d73ug"]
+
+[sub_resource type="Resource" id="Resource_v00m7"]
+script = ExtResource("8_p16xl")
+metadata/_custom_type_script = "uid://ba0laem1chg82"
+
+[sub_resource type="Resource" id="Resource_sqxyt"]
+script = ExtResource("10_5cko6")
+damage_die = 8
+metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
+
+[sub_resource type="Resource" id="Resource_uxa7x"]
+script = ExtResource("6_yoclj")
+attack_types = Array[ExtResource("3_25vd3")]([ExtResource("4_3uxfw")])
+attacking_aptitude = 4
+defending_aptitude = 5
+reach = 2
+self_filters = Array[ExtResource("7_lihd4")]([SubResource("Resource_v00m7")])
+target_effects = Array[ExtResource("9_ku7yn")]([SubResource("Resource_sqxyt")])
+metadata/_custom_type_script = "uid://slgpne4ixmcv"
+
+[sub_resource type="Resource" id="Resource_7emck"]
+script = ExtResource("8_p16xl")
+metadata/_custom_type_script = "uid://ba0laem1chg82"
+
+[sub_resource type="Resource" id="Resource_8nei2"]
+script = ExtResource("10_5cko6")
+damage_die = 8
+metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
+
+[sub_resource type="Resource" id="Resource_w7h05"]
+script = ExtResource("11_d73ug")
+attack_types = Array[ExtResource("3_25vd3")]([ExtResource("4_3uxfw")])
+attacking_aptitude = 4
+defending_aptitude = 6
+reach = 3
+self_filters = Array[ExtResource("7_lihd4")]([SubResource("Resource_7emck")])
+target_effects = Array[ExtResource("9_ku7yn")]([SubResource("Resource_8nei2")])
+metadata/_custom_type_script = "uid://bkxicxp8ud7lk"
 
 [resource]
 script = ExtResource("2_p0ojl")
-dice_number = 1
-damage_die = 10
-melee_range = 2
-damage_bonus = 0
-throw_increment = 20
-brawn_req_1h = 4
-brawn_req_2h = 2
-attack_type = [2, 4]
 name = "Short Spear"
-description = ""
-icon = ""
-weight = 1.0
-value = 10
-conditions = Array[ExtResource("1_745hu")]([])
+id = "wpn_short_spear"
+value = 20
+slot_type = 12
+strike = SubResource("Resource_uxa7x")
+throw = SubResource("Resource_w7h05")
+owner = null
 metadata/_custom_type_script = "uid://djeyifuagvkr6"

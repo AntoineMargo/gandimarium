@@ -1,65 +1,62 @@
 [gd_resource type="Resource" script_class="CreatureData" format=3]
 
-[ext_resource type="Script" path="res://activities/activity.gd" id="1_1jor4"]
-[ext_resource type="Script" path="res://aspects/aspect.gd" id="2_6qfyl"]
-[ext_resource type="Script" path="res://entities/attributes.gd" id="3_yllv8"]
-[ext_resource type="Script" path="res://entities/base_stats.gd" id="4_lwos0"]
-[ext_resource type="Resource" path="res://resources/creatures/equipment/andimar_loadout.tres" id="5_mpoef"]
-[ext_resource type="Script" path="res://items/item.gd" id="6_mav6v"]
-[ext_resource type="Script" path="res://entities/inventory.gd" id="7_dccdr"]
-[ext_resource type="Resource" path="res://resources/archetypes/mage/scholastic_mage.tres" id="8_tru5k"]
-[ext_resource type="Script" path="res://entities/personality.gd" id="9_8honw"]
-[ext_resource type="Script" path="res://various/affiliation_entry.gd" id="10_elf0c"]
-[ext_resource type="Script" path="res://various/reputation_entry.gd" id="11_a7flv"]
-[ext_resource type="Script" path="res://entities/relationships.gd" id="12_l67qo"]
-[ext_resource type="Script" path="res://various/tactical_relation_entry.gd" id="13_r5xsn"]
-[ext_resource type="Script" path="res://entities/resistances.gd" id="14_s0cxt"]
-[ext_resource type="Script" path="res://entities/creature_data.gd" id="15_ivy2g"]
-[ext_resource type="Script" path="res://entities/skills.gd" id="16_q51xt"]
-[ext_resource type="Script" path="res://talents/talent.gd" id="17_auotn"]
+[ext_resource type="Script" path="res://activities/activity.gd" id="1_jojnb"]
+[ext_resource type="Script" path="res://aspects/aspect.gd" id="2_1jor4"]
+[ext_resource type="Script" path="res://entities/attributes.gd" id="3_6qfyl"]
+[ext_resource type="Script" path="res://entities/base_stats.gd" id="4_yllv8"]
+[ext_resource type="Resource" path="res://resources/creatures/equipment/start_equipment.tres" id="5_lwos0"]
+[ext_resource type="Resource" path="res://resources/creatures/inventory/start_inventory.tres" id="6_mpoef"]
+[ext_resource type="Resource" path="res://resources/archetypes/mage/scholastic_mage.tres" id="7_mav6v"]
+[ext_resource type="Script" path="res://entities/personality.gd" id="8_dccdr"]
+[ext_resource type="Script" path="res://various/affiliation_entry.gd" id="9_tru5k"]
+[ext_resource type="Script" path="res://various/reputation_entry.gd" id="10_8honw"]
+[ext_resource type="Script" path="res://entities/relationships.gd" id="11_elf0c"]
+[ext_resource type="Script" path="res://various/tactical_relation_entry.gd" id="12_a7flv"]
+[ext_resource type="Script" path="res://entities/resistances.gd" id="13_l67qo"]
+[ext_resource type="Script" path="res://entities/creature_data.gd" id="14_r5xsn"]
+[ext_resource type="Script" path="res://entities/skills.gd" id="15_s0cxt"]
+[ext_resource type="Script" path="res://talents/talent.gd" id="16_ivy2g"]
+
+[sub_resource type="Resource" id="Resource_q51xt"]
+script = ExtResource("3_6qfyl")
+acuity = 5
+dexterity = 5
+resolve = 12
+
+[sub_resource type="Resource" id="Resource_auotn"]
+script = ExtResource("4_yllv8")
 
 [sub_resource type="Resource" id="Resource_30uu3"]
-script = ExtResource("3_yllv8")
-resolve = 10
+script = ExtResource("8_dccdr")
 
 [sub_resource type="Resource" id="Resource_slsgh"]
-script = ExtResource("4_lwos0")
+script = ExtResource("11_elf0c")
 
 [sub_resource type="Resource" id="Resource_wm7g2"]
-script = ExtResource("7_dccdr")
+script = ExtResource("13_l67qo")
 
 [sub_resource type="Resource" id="Resource_nbrs0"]
-script = ExtResource("9_8honw")
-
-[sub_resource type="Resource" id="Resource_0ykj1"]
-script = ExtResource("12_l67qo")
-
-[sub_resource type="Resource" id="Resource_k4nig"]
-script = ExtResource("14_s0cxt")
-
-[sub_resource type="Resource" id="Resource_uphen"]
-script = ExtResource("16_q51xt")
-arcane = 6
-society = 3
-history = 2
+script = ExtResource("15_s0cxt")
+arcane = 5
+society = 2
 linguistics = 1
-persuasion = 5
-stealth = 4
+persuasion = 4
+stealth = 3
 
 [resource]
-script = ExtResource("15_ivy2g")
+script = ExtResource("14_r5xsn")
 name = "Debug"
 level = 12
-major_archetype = ExtResource("8_tru5k")
+major_archetype = ExtResource("7_mav6v")
 discipline = null
-attributes = SubResource("Resource_30uu3")
-skills = SubResource("Resource_uphen")
-base_stats = SubResource("Resource_slsgh")
-inventory = SubResource("Resource_wm7g2")
-equipment = ExtResource("5_mpoef")
-resistances = SubResource("Resource_k4nig")
-relationships = SubResource("Resource_0ykj1")
-personality = SubResource("Resource_nbrs0")
+attributes = SubResource("Resource_q51xt")
+skills = SubResource("Resource_nbrs0")
+base_stats = SubResource("Resource_auotn")
+inventory = ExtResource("6_mpoef")
+equipment = ExtResource("5_lwos0")
+resistances = SubResource("Resource_wm7g2")
+relationships = SubResource("Resource_slsgh")
+personality = SubResource("Resource_30uu3")
 spells_ready = []
 spells_available = []
 conditions = []
