@@ -29,7 +29,7 @@ class_name Activity
 @export var shape: Enums.Shape = Enums.Shape.BURST
 @export var can_only_hit_once: bool = true
 
-#@export var minimum_rank: int = 1
+@export var projectile_effect: ProjVFXEffect = null
 
 @export var requires_crisis: bool = true
 @export var requires_roll: bool = true
@@ -44,7 +44,7 @@ var origin: Vector3i
 var concentration = null
 
 var target_points: Array[Vector3i] = []
-var target_entities = []
+var target_entities: Array = []
 
 func _setup_concentration():
 	if requires_concentration:
@@ -58,7 +58,7 @@ func _finalize_concentration():
 		else:
 			concentration.cancel()
 
-func _build_context(target = null):
+func _build_context(target = null, already_hit = null):
 	var ctx = ActivityContext.new()
 	ctx.activity = self
 	ctx.id = id
@@ -66,6 +66,8 @@ func _build_context(target = null):
 	ctx.origin = user
 	
 	ctx.target = target
+	
+	ctx.already_hit = already_hit
 	
 	ctx.current_spell_rank = user.get_final_stat("current_spell_rank")
 	ctx.concentration = concentration

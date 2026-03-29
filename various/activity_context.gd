@@ -14,5 +14,8 @@ var degree: int = 0
 
 var created_items: Array[Item] = []
 
+var delayed_calls: Array[Callable] = []
+var already_hit = null
+
 var current_spell_rank: int = 0
 var concentration: Concentration = null

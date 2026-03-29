@@ -4,6 +4,8 @@ class_name Projectile
 @export var sprite: String
 @export var hit_effect_scene: PackedScene
 @export var speed: float = 300.0
+var payload: Array[Callable] = []
+var already_hit: Dictionary[Node, bool] = {}
 
 func setup(config: ProjectileConfig):
 	$Sprite2D.texture = config.texture
@@ -20,11 +22,20 @@ func spawn_hit_effect(pos):
 func _on_hit(target_pos):
 	spawn_hit_effect(target_pos)
 
+	if payload:
+		for effect_call in payload:
+			effect_call.call()
+
 	if has_node("GPUParticles2D"):
 		$GPUParticles2D.emitting = false
 
 	#await get_tree().create_timer(0.2).timeout
 	queue_free()
+
+func launch_with_payload(from, to, calls: Array, already_hit_targets):
+	payload = calls
+	already_hit = already_hit_targets
+	launch(from, to)
 
 func launch(from: Vector2, to: Vector2):
 	global_position = from

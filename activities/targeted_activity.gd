@@ -109,6 +109,7 @@ func resolve_with_targets(targets: Array) -> void:
 		return
 
 	_setup_concentration()
+	var already_hit: Dictionary[Node, bool] = {}
 	var self_ctx = _build_context(user)
 
 	for filter in self_filters:
@@ -117,50 +118,56 @@ func resolve_with_targets(targets: Array) -> void:
 				_cleanup()
 				return
 
-	var final_targets = []
-
 	for target in targets:
 		var affected_tiles = compute_affected_area(target)
+		
+		var final_targets = []
 		
 		match affected_type:
 			Enums.Affected.ENTITIES:
 				final_targets.append_array(WorldMath.get_entities_from_tiles(affected_tiles))
 			Enums.Affected.TERRAIN:
 				final_targets.append_array(affected_tiles)
-	
-	if can_only_hit_once:
-		final_targets = make_targets_unique(final_targets)
 
-	for final_target in final_targets:
-		var ctx = _build_context(final_target)
-		var passes_all_filters = true
-		for filter in target_filters:
-			if filter is Filter:
-				if not filter.is_satisfied(ctx):
-					passes_all_filters = false
-					break
-		if not passes_all_filters:
-			continue
+		for final_target in final_targets:
 
-		_apply_pre_mods(ctx)
-		_roll(ctx)
-		_apply_post_mods(ctx)
-		if requires_roll:
-			_resolve(ctx)
+			var ctx = _build_context(final_target, already_hit)
+			var passes_all_filters = true
+			for filter in target_filters:
+				if filter is Filter:
+					if not filter.is_satisfied(ctx):
+						passes_all_filters = false
+						break
+			if not passes_all_filters:
+				continue
 
-		for effect in target_effects:
-			if effect is Effect:
-				if effect.has_method("apply_context"):
-					effect.apply_context(ctx)
-				else:
-					effect.apply(self, ctx.target, ctx.degree)
+			_apply_pre_mods(ctx)
+			_roll(ctx)
+			_apply_post_mods(ctx)
+			if requires_roll:
+				_resolve(ctx)
+				
+			var frozen_ctx = ctx
 
-		for effect in self_per_target_effects:
-			if effect is Effect:
-				if effect.has_method("apply_context"):
-					effect.apply_context(ctx)
-				else:
-					effect.apply(self, ctx.user, ctx.degree)
+			for effect in target_effects:
+				if effect is Effect:
+					if effect.has_method("apply_context"):
+						frozen_ctx.delayed_calls.append(func(): effect.apply_context(frozen_ctx))
+					else:
+						frozen_ctx.delayed_calls.append(func(): effect.apply(self, frozen_ctx.target, frozen_ctx.degree))
+
+			for effect in self_per_target_effects:
+				if effect is Effect:
+					if effect.has_method("apply_context"):
+						frozen_ctx.delayed_calls.append(func(): effect.apply_context(frozen_ctx))
+					else:
+						frozen_ctx.delayed_calls.append(func(): effect.apply(self, frozen_ctx.user, frozen_ctx.degree))
+
+			if projectile_effect:
+				projectile_effect.apply_context(frozen_ctx)
+			else:
+				for delayed_call in frozen_ctx.delayed_calls:
+					delayed_call.call()
 
 	for effect in self_final_effects:
 		if effect is Effect:
