@@ -96,12 +96,12 @@ func select_target():
 	else:
 		SignalBus.dialog_show_message.emit("Invalid target.")
 
-func make_targets_unique(targets: Array) -> Array:
-			var tile_set := {}
-			for target in targets:
-				tile_set[target] = true
-
-			return tile_set.keys()
+#func make_targets_unique(targets: Array) -> Array:
+			#var tile_set := {}
+			#for target in targets:
+				#tile_set[target] = true
+#
+			#return tile_set.keys()
 
 func resolve_with_targets(targets: Array) -> void:
 	if targets.is_empty():
@@ -109,8 +109,9 @@ func resolve_with_targets(targets: Array) -> void:
 		return
 
 	_setup_concentration()
-	var already_hit: Dictionary[Node, bool] = {}
 	var self_ctx = _build_context(user)
+
+	var already_hit: Dictionary[Node, bool] = {}
 
 	for filter in self_filters:
 		if filter is Filter:
@@ -130,8 +131,11 @@ func resolve_with_targets(targets: Array) -> void:
 				final_targets.append_array(affected_tiles)
 
 		for final_target in final_targets:
-
-			var ctx = _build_context(final_target, already_hit)
+			var ctx = null
+			if can_only_hit_once:
+				ctx = _build_context(final_target, already_hit)
+			else:
+				ctx = _build_context(final_target)
 			var passes_all_filters = true
 			for filter in target_filters:
 				if filter is Filter:

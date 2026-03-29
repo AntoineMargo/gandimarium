@@ -22,5 +22,6 @@ func apply_context(ctx: ActivityContext) -> void:
 	#var parent = source.get_tree().current_scene
 	var parent = ctx.user.get_parent()
 	parent.add_child(proj)
-
-	proj.launch_with_payload(ctx.user.global_position, ctx.target.global_position, ctx.delayed_calls, ctx.already_hit)
+	
+	proj.launch_with_payload(ctx)
+	#proj.launch_with_payload(ctx.user.global_position, ctx.target.global_position, ctx.delayed_calls, ctx.already_hit)
