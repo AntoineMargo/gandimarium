@@ -30,6 +30,7 @@ class_name Activity
 @export var can_only_hit_once: bool = true
 
 @export var projectile_effect: ProjVFXEffect = null
+@export var projectile_batch_mode: bool = true
 
 @export var requires_crisis: bool = true
 @export var requires_roll: bool = true

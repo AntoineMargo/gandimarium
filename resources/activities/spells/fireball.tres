@@ -1,12 +1,28 @@
 [gd_resource type="Resource" script_class="TargetedActivity" format=3 uid="uid://clulo2fci0s4q"]
 
 [ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="1_nams5"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/activity_modifier.gd" id="1_pbkoh"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_sj88j"]
+[ext_resource type="Script" uid="uid://c87bku6q55ul5" path="res://VFX/projectile_config.gd" id="2_sk7dc"]
 [ext_resource type="Resource" uid="uid://rsyurje8uegc" path="res://resources/filters/crisis_mode.tres" id="3_aq332"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="3_asvxf"]
+[ext_resource type="Texture2D" uid="uid://c2t1lfcbbsmda" path="res://art/objects/bolt.png" id="3_eqknl"]
 [ext_resource type="Resource" uid="uid://bhdp23fjgy1bl" path="res://resources/filters/enough_ap.tres" id="4_avsiu"]
+[ext_resource type="PackedScene" uid="uid://bm40yjohcu4wn" path="res://VFX/projectile.tscn" id="4_ktiyx"]
+[ext_resource type="Script" uid="uid://b7tjqqmnvivdt" path="res://effects/proj_vfx_effect.gd" id="5_me5ny"]
 [ext_resource type="Resource" uid="uid://dxhi3w7coy3mv" path="res://resources/filters/enough_pp.tres" id="5_rcmyh"]
 [ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damaging_effect.gd" id="7_avsiu"]
+
+[sub_resource type="Resource" id="Resource_y8hmq"]
+script = ExtResource("2_sk7dc")
+texture = ExtResource("3_eqknl")
+metadata/_custom_type_script = "uid://c87bku6q55ul5"
+
+[sub_resource type="Resource" id="Resource_mbfgl"]
+script = ExtResource("5_me5ny")
+projectile_scene = ExtResource("4_ktiyx")
+config = SubResource("Resource_y8hmq")
+metadata/_custom_type_script = "uid://b7tjqqmnvivdt"
 
 [sub_resource type="Resource" id="Resource_rcmyh"]
 script = ExtResource("7_avsiu")
@@ -15,7 +31,6 @@ metadata/_custom_type_script = "uid://otrxaros8gk8"
 
 [resource]
 script = ExtResource("1_nams5")
-number_of_targets = 3
 name = "Fireball"
 id = "fireball"
 AP_cost = 2
@@ -25,5 +40,6 @@ spread = 4
 self_filters = Array[ExtResource("2_sj88j")]([ExtResource("3_aq332"), ExtResource("4_avsiu"), ExtResource("5_rcmyh")])
 target_effects = Array[ExtResource("3_asvxf")]([SubResource("Resource_rcmyh")])
 targeting_type = 1
+projectile_effect = SubResource("Resource_mbfgl")
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"

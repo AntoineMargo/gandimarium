@@ -96,13 +96,6 @@ func select_target():
 	else:
 		SignalBus.dialog_show_message.emit("Invalid target.")
 
-#func make_targets_unique(targets: Array) -> Array:
-			#var tile_set := {}
-			#for target in targets:
-				#tile_set[target] = true
-#
-			#return tile_set.keys()
-
 func resolve_with_targets(targets: Array) -> void:
 	if targets.is_empty():
 		_cleanup()
@@ -111,7 +104,7 @@ func resolve_with_targets(targets: Array) -> void:
 	_setup_concentration()
 	var self_ctx = _build_context(user)
 
-	var already_hit: Dictionary[Node, bool] = {}
+	var already_hit = {}
 
 	for filter in self_filters:
 		if filter is Filter:
@@ -120,8 +113,11 @@ func resolve_with_targets(targets: Array) -> void:
 				return
 
 	for target in targets:
-		var affected_tiles = compute_affected_area(target)
+		var batch_payload: Array[Callable] = []
+		var batch_ctx = _build_context(target, already_hit)
+		batch_ctx.delayed_calls = batch_payload
 		
+		var affected_tiles = compute_affected_area(target)
 		var final_targets = []
 		
 		match affected_type:
@@ -168,10 +164,17 @@ func resolve_with_targets(targets: Array) -> void:
 						frozen_ctx.delayed_calls.append(func(): effect.apply(self, frozen_ctx.user, frozen_ctx.degree))
 
 			if projectile_effect:
-				projectile_effect.apply_context(frozen_ctx)
+				if projectile_batch_mode:
+					for delayed_call in frozen_ctx.delayed_calls:
+						batch_payload.append(delayed_call)
+				else:
+					projectile_effect.apply_context(frozen_ctx)
 			else:
 				for delayed_call in frozen_ctx.delayed_calls:
 					delayed_call.call()
+
+		if projectile_effect and not batch_payload.is_empty():
+			projectile_effect.apply_context(batch_ctx)
 
 	for effect in self_final_effects:
 		if effect is Effect:

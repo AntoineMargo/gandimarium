@@ -77,12 +77,13 @@ func toggle_crisis(creature):
 func start_crisis(creature):
 	if crisis_mode == false:
 		SignalBus.stop_all_movement.emit()
-		SignalBus.dialog_show_message.emit("Crisis started by %s." % creature.data.name)
+		if creature:
+			SignalBus.dialog_show_message.emit("Crisis started by %s." % creature.data.name)
+			if creature.data.crisis_ai_active:
+				SignalBus.crisis_state_changed.emit()
 		crisis_mode = true
 		crisis_round = 0
 		SignalBus.toggle_end_turn_button.emit()
-		if creature.data.crisis_ai_active:
-			SignalBus.crisis_state_changed.emit()
 		SignalBus.dialog_start_crisis_mode.emit()
 		SignalBus.on_start_crisis.emit()
 		SignalBus.update_ui_for_char.emit()
