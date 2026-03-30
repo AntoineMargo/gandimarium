@@ -1,29 +1,5 @@
 class_name WorldMath
 
-#static func get_line_tiles(origin: Vector3i, target: Vector3i) -> Array[Vector3i]:
-	#var points = bresenham_line_3d(origin.x, origin.y, origin.z, target.x, target.y, target.z)
-	#
-	#return points
-
-#static func get_line_tiles(origin: Vector3i, target: Vector3i, reach: float, LOS: bool = true) -> Array[Vector3i]:
-	#var line: Array[Vector3i] = bresenham_line_3d(origin.x, origin.y, origin.z, target.x, target.y, target.z)
-	#
-	#var tiles: Array[Vector3i] = []
-	#
-	#for i in range(0, line.size()): # skip origin
-		#var p: Vector3i = line[i]
-		#
-		#var dx: int = p.x - origin.x
-		#var dy: int = p.y - origin.y
-		#var dist: float = sqrt(dx * dx + dy * dy)
-		#
-		#if dist > reach:
-			#break
-		#
-		#tiles.append(p)
-#
-	#return tiles
-
 static func get_line_tiles(origin: Vector3i, target: Vector3i, reach: float, LOS: bool = true) -> Array[Vector3i]:
 	var wm = Global.world_manager
 	var line: Array[Vector3i] = bresenham_line_3d(origin.x, origin.y, origin.z, target.x, target.y, target.z)

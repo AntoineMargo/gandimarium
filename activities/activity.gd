@@ -29,7 +29,7 @@ class_name Activity
 @export var shape: Enums.Shape = Enums.Shape.BURST
 @export var can_only_hit_once: bool = true
 
-@export var projectile_effect: ProjVFXEffect = null
+@export var projectile: ProjVFXEffect = null
 @export var projectile_batch_mode: bool = true
 
 @export var requires_crisis: bool = true
@@ -64,7 +64,8 @@ func _build_context(target = null, already_hit = null):
 	ctx.activity = self
 	ctx.id = id
 	ctx.user = user
-	ctx.origin = user
+	#ctx.origin = user
+	ctx.origin = user.get_coords()
 	
 	ctx.target = target
 	

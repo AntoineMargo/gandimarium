@@ -1,15 +1,9 @@
 extends Node2D
 class_name Projectile
 
-enum DeliveryMode {
-	ON_HIT,
-	ON_TRAVEL
-}
-
 @export var sprite: String
 @export var hit_effect_scene: PackedScene
 @export var speed: float = 300.0
-@export var delivery_mode: DeliveryMode = DeliveryMode.ON_HIT
 
 var target = null
 var payload: Array[Callable] = []
@@ -17,22 +11,48 @@ var activity_already_hit = null
 var proj_already_hit: Dictionary = {}
 var prev_position: Vector2
 
-func _process(delta):
-	if delivery_mode != DeliveryMode.ON_TRAVEL:
-		return
-
-	_check_traversal_hits(prev_position, global_position)
-	prev_position = global_position
-
-func _check_traversal_hits(from: Vector2, to: Vector2):
-	pass
-	#var tiles = WorldMath.get_tiles_along_line(from, to)
+#func _schedule_hits(from_pos: Vector2):
+	#for entry in payload:
+		#var target = entry.target
+		#var delayed_call = entry.call
 #
-	#for tile in tiles:
-		#var entities = WorldMath.get_entities_on_tile(tile)
+		#var target_pos = target.global_position
+		#var dist = from_pos.distance_to(target_pos)
+		#var delay = dist / speed
 #
-		#for entity in entities:
-			#_try_hit(entity)
+		#_schedule_single_hit(delay, target, call, already_hit)
+
+#func _process(delta):
+	#if delivery_mode != DeliveryMode.ON_TRAVEL:
+		#return
+#
+	#_check_traversal_hits(prev_position, global_position)
+	#prev_position = global_position
+#
+#func _check_traversal_hits(from: Vector2, to: Vector2):
+	#pass
+	##var tiles = WorldMath.get_tiles_along_line(from, to)
+##
+	##for tile in tiles:
+		##var entities = WorldMath.get_entities_on_tile(tile)
+##
+		##for entity in entities:
+			##_try_hit(entity)
+
+#func _try_hit(target):
+	#if proj_already_hit.has(target):
+		#return
+#
+	#if activity_already_hit != null and activity_already_hit.has(target):
+		#return
+#
+	#proj_already_hit[target] = true
+#
+	#if activity_already_hit != null:
+		#activity_already_hit[target] = true
+#
+	#for effect_call in payload:
+		#effect_call.call()
 
 func setup(config: ProjectileConfig):
 	$Sprite2D.texture = config.texture
@@ -45,22 +65,6 @@ func spawn_hit_effect(pos):
 		var fx = hit_effect_scene.instantiate()
 		fx.global_position = pos
 		get_parent().add_child(fx)
-
-func _try_hit(target):
-	if proj_already_hit.has(target):
-		return
-
-	if activity_already_hit != null and activity_already_hit.has(target):
-		return
-
-	proj_already_hit[target] = true
-
-	if activity_already_hit != null:
-		activity_already_hit[target] = true
-
-	for effect_call in payload:
-		effect_call.call()
-
 
 func _on_hit(target_pos):
 	spawn_hit_effect(target_pos)

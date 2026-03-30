@@ -13,11 +13,11 @@ func execute() -> void:
 		return
 	for target in target_entities:
 		var ctx = _build_context(target)
-		if not WorldMath.char_in_range(ctx.origin, ctx.target, reach):
+		if not WorldMath.char_in_range(ctx.user, ctx.target, reach):
 			SignalBus.dialog_out_of_range.emit()
 			continue
 			#return
-		if not WorldMath.has_line_of_sight(ctx.origin, ctx.target):
+		if not WorldMath.has_line_of_sight(ctx.user, ctx.target):
 			SignalBus.dialog_no_line_of_sight.emit()
 			continue
 			#return

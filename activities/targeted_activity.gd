@@ -96,6 +96,32 @@ func select_target():
 	else:
 		SignalBus.dialog_show_message.emit("Invalid target.")
 
+func compute_hit_delay(final_target, batch_ctx: ActivityContext) -> float:
+	var target_pos: Vector3i
+	if final_target is Entity:
+		target_pos = final_target.get_coords()
+	else:
+		target_pos = final_target
+
+	var dist = WorldMath.dist_weighted_3d(batch_ctx.origin, target_pos)
+	var speed_tiles = projectile.config.speed / Global.TILE_SIZE
+
+	return dist / speed_tiles
+
+func _schedule_call(delayed_call: Callable, call_delay: float, already_hit, target):
+	_run_scheduled(delayed_call, call_delay, already_hit, target)
+
+func _run_scheduled(delayed_call: Callable, call_delay: float, already_hit, target) -> void:
+	await user.get_tree().create_timer(call_delay).timeout
+
+	if already_hit != null and already_hit.has(target):
+		return
+
+	if already_hit != null:
+		already_hit[target] = true
+
+	delayed_call.call()
+
 func resolve_with_targets(targets: Array) -> void:
 	if targets.is_empty():
 		_cleanup()
@@ -163,18 +189,31 @@ func resolve_with_targets(targets: Array) -> void:
 					else:
 						frozen_ctx.delayed_calls.append(func(): effect.apply(self, frozen_ctx.user, frozen_ctx.degree))
 
-			if projectile_effect:
-				if projectile_batch_mode:
+			if projectile:
+				if shape == Enums.Shape.BURST:
+					if projectile_batch_mode:
+						for delayed_call in frozen_ctx.delayed_calls:
+							# adding the call (effects to target) to the batch
+							batch_payload.append(delayed_call)
+					else:
+						# firing the projectile at that target
+						projectile.apply_context(frozen_ctx)
+				elif shape == Enums.Shape.LINE:
+					var call_delay = compute_hit_delay(frozen_ctx.target, batch_ctx)
+
 					for delayed_call in frozen_ctx.delayed_calls:
-						batch_payload.append(delayed_call)
-				else:
-					projectile_effect.apply_context(frozen_ctx)
+						_schedule_call(delayed_call, call_delay, already_hit, frozen_ctx.target)
 			else:
 				for delayed_call in frozen_ctx.delayed_calls:
 					delayed_call.call()
 
-		if projectile_effect and not batch_payload.is_empty():
-			projectile_effect.apply_context(batch_ctx)
+		if projectile:
+			if shape == Enums.Shape.BURST and not batch_payload.is_empty():
+				# firing a single projectile for all the calls (effects to targets) loaded into batch_ctx
+				projectile.apply_context(batch_ctx)
+			elif shape == Enums.Shape.LINE:
+				# firing the "empty" projectile (calls are delayed separately and already)
+				projectile.apply_context(batch_ctx)
 
 	for effect in self_final_effects:
 		if effect is Effect:

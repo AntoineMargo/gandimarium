@@ -3,7 +3,7 @@ class_name Context
 
 var id: String = ""
 var user: Node = null
-var origin: Node = null
+var origin = null
 
 var target = null
 
