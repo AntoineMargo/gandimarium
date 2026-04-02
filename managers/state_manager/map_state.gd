@@ -13,6 +13,8 @@ class_name MapState
 
 @export var parties_by_uid: Dictionary = {}     # uid -> PartyData
 
+@export var area_conditions: Dictionary = {}    # uid -> Condition
+
 @export var data_dirty: bool = true
 
 func assign_room_to_building(room_uid, building_uid):

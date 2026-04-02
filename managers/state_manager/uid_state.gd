@@ -4,6 +4,7 @@ class_name UIDState
 @export var creature_uid: int = 0
 @export var room_uid: int = 0
 @export var building_uid: int = 0
+@export var condition_uid: int = 0
 
 func get_creature_next() -> int:
 	creature_uid += 1
@@ -16,3 +17,7 @@ func get_room_next() -> int:
 func get_building_next() -> int:
 	building_uid += 1
 	return building_uid
+
+func get_condition_next() -> int:
+	condition_uid += 1
+	return condition_uid

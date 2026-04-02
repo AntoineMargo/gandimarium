@@ -14,12 +14,12 @@ func _build_context(target = null):
 	return ctx
 
 func apply_context(ctx: Context) -> void:
-	ctx.target.toggle_condition(condition, ctx)
+	ctx.target.toggle_condition(ctx)
 
 func operate(creature: Creature):
 	#if creature.feels_safe():
 	var ctx = _build_context(creature)
-	ctx.target.toggle_condition(condition, ctx)
+	ctx.target.toggle_condition(ctx)
 	if Global.selected_char == creature:
 		SignalBus.dialog_show_message.emit("You start sleeping")
 		Global.time_manager.skip_time(0, 8)

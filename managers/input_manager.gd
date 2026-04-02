@@ -66,17 +66,18 @@ func BasicControls():
 		SignalBus.dialog_show_message.emit("Creature: %s" % [creature.data.name if creature else "None"])
 		
 
-		print("Current location: (%d:%d)" % [hovered_tile.x, hovered_tile.y])
-
+		print("-= (%d:%d) =-" % [hovered_tile.x, hovered_tile.y])
 		if wm.layers[hovered_tile.z]["contents"].has(layer_tile):
 			print("Contents: ")
 			for element in wm.layers[hovered_tile.z]["contents"][layer_tile]:
 				if element is Item:
-					print("	%s" % element.name)
+					print("	%s (item)" % element.name)
 				elif element is Creature:
-					print("	%s" % element.data.name)
+					print("	%s (creature)" % element.data.name)
 				elif element is Prop:
-					print("	%s" % element.id)
+					print("	%s (prop)" % element.id)
+				elif element is AreaCondition:
+					print("	%s (Condition)" % element.id)
 
 		var pm: AStarGrid2D = wm.layers[wm.current_level]["path_map"]
 

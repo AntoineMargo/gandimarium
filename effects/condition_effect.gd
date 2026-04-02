@@ -7,4 +7,5 @@ func apply(_source, _target, _degree: int = 2) -> void:
 	pass
 
 func apply_context(ctx: ActivityContext) -> void:
-	ctx.target.toggle_condition(condition, ctx)
+	ctx.condition = condition
+	ctx.target.toggle_condition(ctx)

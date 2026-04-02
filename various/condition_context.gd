@@ -1,0 +1,2 @@
+extends Context
+class_name ConditionContext

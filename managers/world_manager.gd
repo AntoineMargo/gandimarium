@@ -980,9 +980,18 @@ func interact_move(character: Creature, target: Vector3i):
 	else:
 		character.mover.begin_path(path)
 	
+	handle_path_conditions(path, character)
 	character.visible = (character.data.tile_z == current_level)
 	SignalBus.update_ui_for_char.emit()
 	selection_highlight.update_selection_highlight()
+
+func handle_path_conditions(path: Array[Vector3i], creature: Creature):
+	for tile in path:
+		var layer_tile: Vector2i = Vector2i(tile.x, tile.y)
+		if layers[tile.z]["contents"].has(layer_tile):
+			for element in layers[tile.z]["contents"][layer_tile]:
+				if element is AreaCondition and element.trigger == Enums.AreaConditionTrigger.ENTER:
+					element.apply_to_entity(creature)
 
 func flash_path(path: Array) -> void:
 	for point in path:

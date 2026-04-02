@@ -27,19 +27,6 @@ var sources = {}
 var start_time: int
 var end_time: int
 
-#var start_time: Dictionary[String, int] = {
-	#"days" = 0,
-	#"hours" = 0,
-	#"minutes" = 0,
-	#"seconds" = 0,
-#}
-#var end_time: Dictionary[String, int] = {
-	#"days" = 0,
-	#"hours" = 0,
-	#"minutes" = 0,
-	#"seconds" = 0,
-#}
-
 func is_active() -> bool:
 	return not sources.is_empty()
 
@@ -47,13 +34,18 @@ func initialize(ctx: Context) -> void:
 	self.target = ctx.target
 	self.user = ctx.user
 	if user is Creature:
-		self.user_uid = user.get_final_stat("uid")
-	self.target_uid = target.get_final_stat("uid")
+		self.user_uid = user.data.uid
+	self.target_uid = target.data.uid
 	ctx.condition = self
 	if ctx is ActivityContext:
 		self.spell_rank = ctx.current_spell_rank
 		if ctx.concentration:
-			ctx.concentration.linked_conditions.append(self)
+			ctx.concentration.register_condition(self)
+	for filter in filters:
+		if filter is Filter:
+			if not filter.is_satisfied(ctx):
+				dispose()
+				return
 	for effect in effects:
 		if effect.has_method("apply_context"):
 			effect.apply_context(ctx)
@@ -63,7 +55,6 @@ func initialize(ctx: Context) -> void:
 	if duration > 0:
 		end_time = start_time + duration
 		SignalBus.time_changed.connect(verify_expired)
-		
 
 func verify_expired(_days, _hours, _minutes, _seconds):
 	if Global.time_manager.get_total_seconds() >= end_time:

@@ -100,101 +100,36 @@ func get_condition_by_id(condition_id) -> Condition:
 			return condition
 	return null
 
-func toggle_condition(cond: Condition, ctx: Context):
-	var existing = get_condition_by_id(cond.id)
+## Returns 'true' on adding the condition, 'false' on removing it
+func toggle_condition(ctx: Context) -> bool:
+	var existing = get_condition_by_id(ctx.condition.id)
 
 	if existing:
 		existing.remove_source(ctx.id)
+		return false
 	else:
-		add_condition_from(ctx, cond)
+		add_condition_from(ctx)
+		return true
 
-func add_condition_from(ctx: Context, cond: Condition):
-	var existing = get_condition_by_id(cond.id)
+func add_condition_from(ctx: Context):
+	var existing = get_condition_by_id(ctx.condition.id)
 
 	if existing:
 		existing.add_source(ctx.id)
 		return
 
-	for weaker_cond in cond.supplanted:
+	for weaker_cond in ctx.condition.supplanted:
 		if has_condition(weaker_cond.id):
 			remove_condition(weaker_cond)
 	for existing_cond in data.conditions:
 		for weaker_cond in existing_cond.supplanted:
-			if cond.id == weaker_cond.id:
+			if ctx.condition.id == weaker_cond.id:
 				return
 
-	var inst = cond.duplicate(true)
+	var inst = ctx.condition.duplicate(true)
 	inst.add_source(ctx.id)
 	data.conditions.append(inst)
 	inst.initialize(ctx)
-
-#func add_condition_from(source, cond: Condition):
-	#var existing = get_condition_by_id(cond.id)
-#
-	#if existing:
-		#existing.add_source(source.id)
-		#return
-#
-	#for weaker_cond in cond.supplanted:
-		#if has_condition(weaker_cond.id):
-			#remove_condition(weaker_cond)
-	#for existing_cond in data.conditions:
-		#for weaker_cond in existing_cond.supplanted:
-			#if cond.id == weaker_cond.id:
-				#return
-#
-	#var inst = cond.duplicate(true)
-	#inst.add_source(source.id)
-	#data.conditions.append(inst)
-	#inst.initialize(self, source)
-
-#func add_condition(condition: Condition):
-	#if has_condition(condition.id):
-		#return
-	#for weaker_cond in condition.supplanted:
-		#if has_condition(weaker_cond.id):
-			#remove_condition(weaker_cond)
-	#for existing_cond in data.conditions:
-		#for weaker_cond in existing_cond.supplanted:
-			#if condition.id == weaker_cond.id:
-				#return
-	#data.conditions.append(condition)
-	#condition.initialize(self)
-	#stats_dirty = true
-
-## Unused?
-#func remove_condition_from(source, id: String):
-	#var cond = get_condition_by_id(id)
-	#if not cond:
-		#return
-#
-	#cond.remove_source(source.id)
-#
-	#if not cond.has_sources():
-		#remove_condition(cond)
-
-#func make_active_set(number):
-	#if number not in [0, 1]:
-		#return
-	#remove_conditions_from_equipment()
-	#data.equipment.active_set = number
-	#apply_conditions_from_equipment()
-
-#func get_active_weapons():
-	#return data.equipment.get_active_weapons()
-
-#func get_active_strike_type():
-	#return data.equipment.get_active_strike_type()
-
-#func get_active_set():
-	#return data.equipment.active_set
-
-#func set_active_set(number: int):
-	#if number == 0 or number == 1:
-		#data.equipment.active_set = number
-
-#func get_weapon_slot(slot):
-	#return data.equipment.get_weapon_slot(slot)
 
 func remove_condition_by_id(condition_id: String):
 	var condition = null
@@ -226,7 +161,8 @@ func add_item_conditions(item):
 			ctx.user = self
 			ctx.origin = self
 			ctx.target = self
-			add_condition_from(ctx, instance)
+			ctx.condition = instance
+			add_condition_from(ctx)
 		else:
 			push_error("Item condition is not a Condition resource: " + str(condition))
 
@@ -587,17 +523,17 @@ func add_casting_table(table: CastingTable):
 	#return false
 
 func discover_creature(creature):
-	var id = creature.data.id
+	var uid = creature.data.uid
 
-	if not data.relationships._tactical_map.has(id):
+	if not data.relationships._tactical_map.has(uid):
 		var entry = TacticalRelationEntry.new()
-		entry.target_id = id
+		entry.target_id = uid
 		entry.last_updated_turn = Global.crisis_manager.crisis_round
-		data.relationships._tactical_map[id] = entry
-		set_hostile(id, 100)
+		data.relationships._tactical_map[uid] = entry
+		set_hostile(uid, 100)
 		for affiliation in creature.data.relationships.affiliations:
 			if affiliation.faction == "bandits":
-				set_hostile(id, 0)
+				set_hostile(uid, 0)
 
 func evaluate_entering_crisis(creature):
 	var rel_entry = get_tactical(creature.data.id)
@@ -633,7 +569,7 @@ func set_coords(new_coords: Vector3i):
 func initialise():
 	if not data.has_been_initialized:
 		if data.uid == 0:
-			data.id = Global.state_manager.next_uid(Enums.UIDType.CREATURE)
+			data.uid = Global.state_manager.next_uid(Enums.UIDType.CREATURE)
 		if data.id == 0:
 			data.id = data.uid
 
@@ -778,6 +714,9 @@ func turn_start():
 		set_stat("current_ap", 0)
 		set_stat("current_mp", 0)
 	Global.focus_char = self
+	
+	handle_tile_conditions()
+	
 	if data.player_controlled:
 		print("played controlled")
 		Global.selected_char = self
@@ -794,6 +733,14 @@ func turn_start():
 		else:
 			# character does their real time routine in turn by turn
 			SignalBus.turn_ends.emit()
+
+func handle_tile_conditions():
+	var wm = Global.world_manager
+	var layer_tile: Vector2i = Vector2i(data.tile_x, data.tile_y)
+	if wm.layers[data.tile_z]["contents"].has(layer_tile):
+		for element in wm.layers[data.tile_z]["contents"][layer_tile]:
+			if element is AreaCondition and element.trigger == Enums.AreaConditionTrigger.TURN_START:
+				element.apply_to_entity(self)
 
 #func _on_end_turn():
 	#data.current_ap = data.derived_stats.max_ap

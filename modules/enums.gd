@@ -1,5 +1,10 @@
 class_name Enums
 
+enum AreaConditionTrigger {
+	ENTER,
+	TURN_START
+}
+
 enum ConstructionState {
 	INTACT,
 	DAMAGED,
@@ -36,7 +41,8 @@ enum Archetype {
 enum UIDType {
 	CREATURE,
 	ROOM,
-	BUILDING
+	BUILDING,
+	CONDITION
 	}
 
 enum Routine {

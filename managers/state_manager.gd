@@ -13,6 +13,8 @@ func next_uid(type: Enums.UIDType) -> int:
 		return game_state.uid_state.get_room_next()
 	elif type == Enums.UIDType.BUILDING:
 		return game_state.uid_state.get_building_next()
+	elif type == Enums.UIDType.CONDITION:
+		return game_state.uid_state.get_condition_next()
 	push_error("Error: ID could not be successfully produced.")
 	return -1
 
