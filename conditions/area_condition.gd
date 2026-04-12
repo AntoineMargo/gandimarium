@@ -32,7 +32,7 @@ func register_linked_condition(condition: Condition):
 func cancel_linked_conditions():
 	for condition in linked_conditions:
 		if is_instance_valid(condition):
-			condition.dispose()
+			#condition.dispose()
 			condition.remove_source(self.id)
 	linked_conditions.clear()
 
@@ -64,23 +64,22 @@ func remove_from_entity(entity):
 	ctx.condition = applied_condition
 	if ctx.target.has_condition(condition.id):
 		ctx.target.toggle_condition(ctx)
-	#condition.remove_source(self.id)
 	
 	affected_entities.erase(entity)
 
 func clear_tiles():
 	var wm = Global.world_manager
 	for tile in affected_tiles:
-		for element in wm.layers["content"][tile]:
+		var layer_tile = Vector2i(tile.x, tile.y)
+		for element in wm.layers[tile.z]["contents"][layer_tile]:
 			if element == self:
-				wm.layers["content"][tile].erase(element)
+				wm.layers[tile.z]["contents"][layer_tile].erase(element)
 				break
 
 func dispose():
 	destroy_children()
 	cancel_linked_conditions()
 	clear_tiles()
-	target.remove_condition(self)
 	for entity in affected_entities.keys():
 		remove_from_entity(entity)
 	affected_entities.clear()

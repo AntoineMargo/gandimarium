@@ -5,6 +5,8 @@
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_fhw7o"]
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/modifier_effect.gd" id="3_32htc"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="3_62ys3"]
+[ext_resource type="Script" uid="uid://xmmm7k813g3b" path="res://effects/static_vfx_effect.gd" id="4_32htc"]
+[ext_resource type="PackedScene" uid="uid://cmtrlumwbt1av" path="res://VFX/static/placeholder.tscn" id="7_trysa"]
 
 [sub_resource type="Resource" id="Resource_trysa"]
 script = ExtResource("2_62ys3")
@@ -17,10 +19,16 @@ script = ExtResource("3_32htc")
 modifiers = Array[ExtResource("2_62ys3")]([SubResource("Resource_trysa")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
+[sub_resource type="Resource" id="Resource_16eg3"]
+script = ExtResource("4_32htc")
+vfx_scene = ExtResource("7_trysa")
+use_global_position = false
+metadata/_custom_type_script = "uid://xmmm7k813g3b"
+
 [resource]
 script = ExtResource("3_62ys3")
 name = "Magically Armoured"
 id = "magically_armoured"
-effects = Array[ExtResource("1_ei24s")]([SubResource("Resource_kncgj")])
-is_visible = false
+effects = Array[ExtResource("1_ei24s")]([SubResource("Resource_kncgj"), SubResource("Resource_16eg3")])
+vfx_scene = ExtResource("7_trysa")
 metadata/_custom_type_script = "uid://dvi4ohsador2o"

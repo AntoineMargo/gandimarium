@@ -144,7 +144,15 @@ func remove_condition_by_id(condition_id: String):
 
 func remove_condition(condition: Condition):
 	for effect in condition.effects:
-		effect.remove(self, self, -1)
+		if effect.has_method("remove_context"):
+			var ctx = Context.new()
+			ctx.user = self
+			ctx.origin = self
+			ctx.target = self
+			ctx.condition = condition
+			effect.remove_context(ctx)
+		else:
+			effect.remove(self, self, -1)
 	for existing_cond in data.conditions:
 		if existing_cond.id == condition.id:
 			data.conditions.erase(existing_cond)

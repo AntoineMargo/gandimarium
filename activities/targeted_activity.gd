@@ -128,7 +128,8 @@ func resolve_with_targets(targets: Array) -> void:
 		return
 
 	_setup_concentration()
-	var self_ctx = _build_context(user)
+	var shared_ctx = _build_shared_context()
+	var self_ctx = _build_context(shared_ctx, user.get_coords())
 
 	var already_hit = {}
 
@@ -138,9 +139,16 @@ func resolve_with_targets(targets: Array) -> void:
 				_cleanup()
 				return
 
+	for effect in self_prior_effects:
+		if effect is Effect:
+			if effect.has_method("apply_context"):
+				effect.apply_context(self_ctx)
+			else:
+				effect.apply(self, self_ctx.user, self_ctx.degree)
+
 	for target in targets:
 		var batch_payload: Array[Callable] = []
-		var batch_ctx = _build_context(target, already_hit)
+		var batch_ctx = _build_context(shared_ctx, target, already_hit)
 		batch_ctx.delayed_calls = batch_payload
 		
 		var affected_tiles = compute_affected_area(target)
@@ -155,9 +163,9 @@ func resolve_with_targets(targets: Array) -> void:
 		for final_target in final_targets:
 			var ctx = null
 			if can_only_hit_once:
-				ctx = _build_context(final_target, already_hit)
+				ctx = _build_context(shared_ctx, final_target, already_hit)
 			else:
-				ctx = _build_context(final_target)
+				ctx = _build_context(shared_ctx, final_target)
 			var passes_all_filters = true
 			for filter in target_filters:
 				if filter is Filter:

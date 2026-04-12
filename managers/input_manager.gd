@@ -64,7 +64,6 @@ func BasicControls():
 		var creature = wm.get_creature_at_pos(hovered_tile)
 		SignalBus.dialog_show_message.emit("Tile: (%d, %d, %d)" % [hovered_tile.x, hovered_tile.y, hovered_tile.z])
 		SignalBus.dialog_show_message.emit("Creature: %s" % [creature.data.name if creature else "None"])
-		
 
 		print("-= (%d:%d) =-" % [hovered_tile.x, hovered_tile.y])
 		if wm.layers[hovered_tile.z]["contents"].has(layer_tile):

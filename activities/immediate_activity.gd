@@ -13,7 +13,8 @@ func execute() -> void:
 
 	target_points.clear()
 
-	var self_ctx = _build_context(user.get_coords())
+	var shared_ctx = _build_shared_context()
+	var self_ctx = _build_context(shared_ctx, user.get_coords())
 
 	if spread == 0:
 		target_points.append(self_ctx.origin)
@@ -34,11 +35,18 @@ func execute() -> void:
 		if filter is Filter:
 			if not filter.is_satisfied(self_ctx):
 				return
+	
+	for effect in self_prior_effects:
+		if effect is Effect:
+			if effect.has_method("apply_context"):
+				effect.apply_context(self_ctx)
+			else:
+				effect.apply(self, self_ctx.user, self_ctx.degree)
 
 	if final_targets.is_empty():
 		return
 	for target in final_targets:
-		var ctx = _build_context(target)
+		var ctx = _build_context(shared_ctx, target)
 		var passes_all_filters = true
 		for filter in target_filters:
 			if filter is Filter:

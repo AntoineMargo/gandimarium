@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="ImmediateActivity" format=3 uid="uid://4xmvyot42trc"]
 
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/activity_modifier.gd" id="1_bkb7n"]
 [ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="1_hgdxv"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="2_nx6a8"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="3_hg2gv"]

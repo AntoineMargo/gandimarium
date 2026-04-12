@@ -21,7 +21,8 @@ func execute() -> void:
 	#reach = user.data.attributes.brawn * reach_mult
 	var final_reach = reach * user.data.attributes.brawn
 	_apply_act_mods()
-	var self_ctx = _build_context(user)
+	var shared_ctx = _build_shared_context()
+	var self_ctx = _build_context(shared_ctx, user)
 	for filter in self_filters:
 		if filter is Filter:
 			if not filter.is_satisfied(self_ctx):
@@ -30,7 +31,7 @@ func execute() -> void:
 	if target_entities.is_empty():
 		return
 	for target in target_entities:
-		var ctx = _build_context(target)
+		var ctx = _build_context(shared_ctx, target)
 		if not WorldMath.char_in_range(ctx.origin, ctx.target, final_reach):
 			SignalBus.dialog_out_of_range.emit()
 			continue

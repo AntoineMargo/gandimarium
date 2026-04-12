@@ -27,16 +27,6 @@ shader_parameter/wounded_strength = 1.5
 shader_parameter/hit_intensity = 0.0
 shader_parameter/hit_color = Vector3(1, 0.1, 0.1)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vm3c7"]
-resource_local_to_scene = true
-shader = ExtResource("7_vsju1")
-shader_parameter/grayscale_amount = 0.0
-shader_parameter/wounded_amount = 1.0
-shader_parameter/wounded_color = Vector3(1, 0.1, 0.1)
-shader_parameter/wounded_strength = 1.0000000475
-shader_parameter/hit_intensity = 0.0
-shader_parameter/hit_color = Vector3(255, 0, 0)
-
 [sub_resource type="Curve" id="Curve_l4b1g"]
 _data = [Vector2(0, 0.002162218), 0.0, 0.0, 0, 0, Vector2(0.060773477, 0.9929729), 0.0, 0.0, 0, 0, Vector2(0.8950276, 0), 0.0, 0.0, 0, 0]
 point_count = 3
@@ -63,19 +53,11 @@ texture = ExtResource("4_4w7f4")
 
 [node name="VFXContainer" type="Node2D" parent="Mover" unique_id=355354990]
 
-[node name="Shader" type="Sprite2D" parent="Mover" unique_id=1809589512]
-visible = false
-z_index = 3
-material = SubResource("ShaderMaterial_vm3c7")
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("4_4w7f4")
-
 [node name="DamageVisual" type="Node" parent="Mover" unique_id=764338575]
 script = ExtResource("5_l4b1g")
 hit_curve = SubResource("Curve_l4b1g")
 
 [node name="Outline" type="Sprite2D" parent="Mover" unique_id=1303741388]
-visible = false
 modulate = Color(1, 1, 0, 1)
 self_modulate = Color(1, 1, 0, 1)
 z_index = 1

@@ -31,9 +31,10 @@ var committed_visualized_lines: Array[Line2D] = []
 @onready var hover_tile = load("res://interface/local_map/hover_tile_indicator/hover_tile_indicator.tscn").instantiate()
 
 enum ElementPriority {
-	CREATURE = 3,
-	ITEM = 2,
-	PROP = 1
+	CREATURE = 4,
+	ITEM = 3,
+	PROP = 2,
+	AREA_CONDITION = 1
 }
 
 func _process(_delta):
@@ -798,6 +799,8 @@ func _get_element_priority(element) -> int:
 		return ElementPriority.ITEM
 	if element is Prop:
 		return ElementPriority.PROP
+	if element is AreaCondition:
+		return ElementPriority.AREA_CONDITION
 	return 0
 
 func get_priority_element_on_tile(coords: Vector3i):
@@ -825,6 +828,8 @@ func _simple_interact_disambiguation(force_interact: bool = false):
 			return
 		var element = get_priority_element_on_tile(coords)
 		if element == null:
+			interact_move(Global.selected_char, coords)
+		elif element is AreaCondition:
 			interact_move(Global.selected_char, coords)
 		elif element is Creature:
 			if force_interact:

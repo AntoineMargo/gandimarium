@@ -19,6 +19,7 @@ class_name Activity
 
 @export var modifiers: Array[ActivityModifier] = []
 @export var self_filters: Array[Filter] = []
+@export var self_prior_effects: Array[Effect] = []
 @export var self_per_target_effects: Array[Effect] = []
 @export var self_final_effects: Array[Effect] = []
 
@@ -59,8 +60,14 @@ func _finalize_concentration():
 		else:
 			concentration.cancel()
 
-func _build_context(target = null, already_hit = null):
+func _build_shared_context():
+	var shared_ctx = SharedContext.new()
+	return shared_ctx
+
+func _build_context(shared_ctx = null, target = null, already_hit = null):
 	var ctx = ActivityContext.new()
+	if shared_ctx:
+		ctx.shared_context = shared_ctx
 	ctx.activity = self
 	ctx.id = id
 	ctx.user = user

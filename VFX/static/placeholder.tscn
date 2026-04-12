@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://cmtrlumwbt1av"]
+
+[ext_resource type="Texture2D" uid="uid://ccxyws517w61c" path="res://art/map_objects/black_placeholder.png" id="1_a1oy5"]
+
+[node name="Placeholder" type="Node2D" unique_id=1793129387]
+z_index = 300
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=740857132]
+texture = ExtResource("1_a1oy5")

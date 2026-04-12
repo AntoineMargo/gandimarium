@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="ImmediateActivity" format=3 uid="uid://bns16gt6wf8ux"]
 
 [ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="1_2s5jf"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/activity_modifier.gd" id="1_d15b5"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_43yev"]
 [ext_resource type="Script" uid="uid://tw4lacdrgfs3" path="res://filters/power_points.gd" id="3_7p654"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="3_u0rus"]

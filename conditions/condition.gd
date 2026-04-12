@@ -9,10 +9,11 @@ class_name Condition
 @export var effects: Array[Effect] = []
 @export var supplanted: Array[Condition] = []
 @export var duration: int = -1 # in seconds
-@export var toggle: bool = false
+#@export var toggle: bool = false
 @export var is_visible: bool = true
 @export var vfx_scene: PackedScene
 
+var vfx_instance: Node = null
 var linked_items: Array[Item] = []
 var linked_modifiers: Array[ModifierEntry] = []
 
