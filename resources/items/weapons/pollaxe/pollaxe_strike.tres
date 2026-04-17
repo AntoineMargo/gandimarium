@@ -16,6 +16,8 @@
 script = ExtResource("6_1l81a")
 attack_types = Array[ExtResource("2_c00ss")]([ExtResource("3_1t5px"), ExtResource("4_ouq61"), ExtResource("5_mxovm")])
 name = "pollaxe_strike"
+attacking_aptitude = 4
+defending_aptitude = 6
 reach = 2
 self_filters = Array[ExtResource("8_gq1ah")]([ExtResource("11_0kllt")])
 target_effects = Array[ExtResource("7_qyfvj")]([ExtResource("12_1t5px")])

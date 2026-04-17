@@ -33,6 +33,7 @@ func _cleanup() -> void:
 	cm = null
 	wm = null
 	origin = Vector3i(0, 0, 0)
+	target_points.clear()
 	SignalBus.update_ui_for_char.emit()
 
 func execute() -> void:
@@ -40,16 +41,13 @@ func execute() -> void:
 	wm = Global.world_manager
 	origin = user.get_coords()
 	_apply_act_mods()
-	if user.data.player_controlled:
-		execute_player()
-		Global.last_hovered_tile = Vector3i(-1,-1,-1)
+	if target_points:
+		resolve_with_targets(target_points)
 	else:
-		execute_ai()
+		Global.last_hovered_tile = Vector3i(-1,-1,-1)
+		resolve_ui()
 
-func execute_ai() -> void:
-	resolve_with_targets(target_points)
-
-func execute_player() -> void:
+func resolve_ui() -> void:
 	SignalBus.dialog_show_message.emit("Waiting for target(s) of activity...")
 	Global.activity_handler = self
 	self.user = user
@@ -122,7 +120,7 @@ func _run_scheduled(delayed_call: Callable, call_delay: float, already_hit, targ
 
 	delayed_call.call()
 
-func resolve_with_targets(targets: Array) -> void:
+func resolve_with_targets(targets: Array[Vector3i]) -> void:
 	if targets.is_empty():
 		_cleanup()
 		return

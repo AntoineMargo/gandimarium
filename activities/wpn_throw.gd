@@ -1,8 +1,6 @@
 extends WeaponActivity
 class_name WeaponThrow
 
-#@export var reach_mult: int = 1
-
 func drop_item_on_target(target):
 	var item_in_inventory: bool = false
 	for item in user.data.inventory.list:
@@ -32,10 +30,10 @@ func execute() -> void:
 		return
 	for target in target_entities:
 		var ctx = _build_context(shared_ctx, target)
-		if not WorldMath.char_in_range(ctx.origin, ctx.target, final_reach):
+		if not WorldMath.char_in_range(ctx.user, ctx.target, final_reach):
 			SignalBus.dialog_out_of_range.emit()
 			continue
-		if not WorldMath.has_line_of_sight(ctx.origin, ctx.target):
+		if not WorldMath.has_line_of_sight(ctx.user, ctx.target):
 			SignalBus.dialog_no_line_of_sight.emit()
 			continue
 		var passes_all_filters = true

@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="WeaponStrike" load_steps=10 format=3 uid="uid://s55aqyl4etow"]
+[gd_resource type="Resource" script_class="WeaponStrike" format=3 uid="uid://s55aqyl4etow"]
 
 [ext_resource type="Resource" uid="uid://dayhp0iufoj40" path="res://resources/items/weapons/fist/fist_strike_ai.tres" id="1_18eoe"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_g7g36"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/activity_modifier.gd" id="4_8ovp5"]
 [ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="5_dqov2"]
 [ext_resource type="Script" uid="uid://slgpne4ixmcv" path="res://activities/wpn_strike.gd" id="6_4o2pa"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="7_s0q6p"]
@@ -14,9 +15,8 @@
 script = ExtResource("6_4o2pa")
 attack_types = Array[ExtResource("2_g7g36")]([ExtResource("5_dqov2")])
 name = "fist_strike"
-attacking_aptitude = "offence"
-defending_aptitude = "melee_defence"
-reach = 1
+attacking_aptitude = 4
+defending_aptitude = 5
 self_filters = Array[ExtResource("8_uedhv")]([ExtResource("9_o7ttv"), ExtResource("10_l8hte")])
 target_effects = Array[ExtResource("7_s0q6p")]([ExtResource("11_m88jq")])
 ai_hint = ExtResource("1_18eoe")

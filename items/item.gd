@@ -20,7 +20,8 @@ class_name Item
 @export var throw: WeaponThrow = null
 
 @export var count: int = 1
-@export var selected_attacks: Dictionary[Enums.AttackCategory, Enums.AttackType] = {}
+
+var selected_attacks: Dictionary[Enums.AttackCategory, Enums.AttackType] = {}
 
 @export_storage var owner = null # Creature/ContainerProp/tile
 

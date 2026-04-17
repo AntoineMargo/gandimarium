@@ -4,8 +4,6 @@
 [ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/activity_modifier.gd" id="1_og7ga"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_og7ga"]
 [ext_resource type="Resource" uid="uid://rsyurje8uegc" path="res://resources/filters/crisis_mode.tres" id="3_twg2q"]
-[ext_resource type="Resource" uid="uid://bhdp23fjgy1bl" path="res://resources/filters/enough_ap.tres" id="4_jf354"]
-[ext_resource type="Resource" uid="uid://dxhi3w7coy3mv" path="res://resources/filters/enough_pp.tres" id="5_mqn1y"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_t1oup"]
 [ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damaging_effect.gd" id="7_yutk5"]
 
@@ -19,7 +17,7 @@ number_of_targets = 3
 name = "Firebolt"
 id = "firebolt"
 reach = 12
-self_filters = Array[ExtResource("2_og7ga")]([ExtResource("3_twg2q"), ExtResource("4_jf354"), ExtResource("5_mqn1y")])
+self_filters = Array[ExtResource("2_og7ga")]([ExtResource("3_twg2q")])
 target_effects = Array[ExtResource("6_t1oup")]([SubResource("Resource_mit2j")])
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"

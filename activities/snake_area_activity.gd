@@ -103,6 +103,7 @@ func _cleanup() -> void:
 	for hl in wm.target_highlights:
 		hl.queue_free()
 	wm.target_highlights.clear()
+	target_points.clear()
 	cm = null
 	wm = null
 	SignalBus.update_ui_for_char.emit()
@@ -112,16 +113,13 @@ func execute() -> void:
 	wm = Global.world_manager
 	origin = user.get_coords()
 	_apply_act_mods()
-	if user.data.player_controlled:
-		execute_player()
-		Global.last_hovered_tile = Vector3i(-1,-1,-1)
+	if target_points:
+		resolve_with_targets(target_points)
 	else:
-		execute_ai()
+		Global.last_hovered_tile = Vector3i(-1,-1,-1)
+		resolve_ui()
 
-func execute_ai() -> void:
-	resolve_with_targets(target_points)
-
-func execute_player() -> void:
+func resolve_ui() -> void:
 	SignalBus.dialog_show_message.emit("Waiting for target(s) of activity...")
 	Global.activity_handler = self
 	self.user = user
@@ -160,7 +158,8 @@ func resolve_with_targets(targets: Array) -> void:
 		return
 
 	_setup_concentration()
-	var self_ctx = _build_context(user)
+	var shared_ctx = _build_shared_context()
+	var self_ctx = _build_context(shared_ctx, user.get_coords())
 
 	for filter in self_filters:
 		if filter is Filter:
@@ -180,7 +179,7 @@ func resolve_with_targets(targets: Array) -> void:
 		final_targets = make_targets_unique(final_targets)
 
 	for final_target in final_targets:
-		var ctx = _build_context(final_target)
+		var ctx = _build_context(shared_ctx, final_target)
 		var passes_all_filters = true
 		for filter in target_filters:
 			if filter is Filter:

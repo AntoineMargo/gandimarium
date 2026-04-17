@@ -11,7 +11,7 @@ func execute() -> void:
 	_apply_act_mods()
 	_setup_concentration()
 
-	target_points.clear()
+	#target_points.clear()
 
 	var shared_ctx = _build_shared_context()
 	var self_ctx = _build_context(shared_ctx, user.get_coords())
@@ -86,4 +86,5 @@ func execute() -> void:
 	_consume_ap(self_ctx)
 	_consume_pp(self_ctx)
 	_finalize_concentration()
+	target_points.clear()
 	SignalBus.update_ui_for_char.emit()

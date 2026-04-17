@@ -14,6 +14,8 @@
 script = ExtResource("2_b5lty")
 attack_types = Array[ExtResource("2_bldbt")]([ExtResource("5_fcm7j")])
 name = "pollaxe_throw"
+attacking_aptitude = 4
+defending_aptitude = 6
 self_filters = Array[ExtResource("8_saf20")]([ExtResource("11_hcw60")])
 target_effects = Array[ExtResource("7_3nj5e")]([ExtResource("12_k3s6l")])
 ai_hint = ExtResource("1_23wxu")

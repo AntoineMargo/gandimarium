@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="WeaponDamageEffect" load_steps=2 format=3 uid="uid://bsg7n0m5e01di"]
+[gd_resource type="Resource" script_class="WeaponDamageEffect" format=3 uid="uid://bsg7n0m5e01di"]
 
 [ext_resource type="Script" uid="uid://jtk6vp2fcxdf" path="res://effects/wpn_damage.gd" id="1_4xu2o"]
 

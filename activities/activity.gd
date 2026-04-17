@@ -64,7 +64,7 @@ func _build_shared_context():
 	var shared_ctx = SharedContext.new()
 	return shared_ctx
 
-func _build_context(shared_ctx = null, target = null, already_hit = null):
+func _build_context(shared_ctx: SharedContext = null, target = null, already_hit = null):
 	var ctx = ActivityContext.new()
 	if shared_ctx:
 		ctx.shared_context = shared_ctx

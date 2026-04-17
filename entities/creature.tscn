@@ -58,6 +58,7 @@ script = ExtResource("5_l4b1g")
 hit_curve = SubResource("Curve_l4b1g")
 
 [node name="Outline" type="Sprite2D" parent="Mover" unique_id=1303741388]
+visible = false
 modulate = Color(1, 1, 0, 1)
 self_modulate = Color(1, 1, 0, 1)
 z_index = 1

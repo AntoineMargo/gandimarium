@@ -1,9 +1,10 @@
-[gd_resource type="Resource" script_class="WeaponStrike" load_steps=11 format=3 uid="uid://dm73fyw1ejgq0"]
+[gd_resource type="Resource" script_class="WeaponStrike" format=3 uid="uid://dm73fyw1ejgq0"]
 
 [ext_resource type="Resource" uid="uid://kkqpdyerhodk" path="res://resources/items/weapons/bow/bow_throw_ai.tres" id="1_lwobe"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_lwobe"]
 [ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="3_brjw5"]
 [ext_resource type="Script" uid="uid://slgpne4ixmcv" path="res://activities/wpn_strike.gd" id="4_06pmt"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/activity_modifier.gd" id="4_brjw5"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="5_8orsa"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="6_lmcro"]
 [ext_resource type="Resource" uid="uid://rsyurje8uegc" path="res://resources/filters/crisis_mode.tres" id="7_uhl0g"]
@@ -15,9 +16,8 @@
 script = ExtResource("4_06pmt")
 attack_types = Array[ExtResource("2_lwobe")]([ExtResource("3_brjw5")])
 name = "bow_throw"
-attacking_aptitude = "offence"
-defending_aptitude = "ranged_defence"
-reach = 1
+attacking_aptitude = 4
+defending_aptitude = 6
 self_filters = Array[ExtResource("6_lmcro")]([ExtResource("7_uhl0g"), ExtResource("8_brjw5"), ExtResource("8_71hhu")])
 target_effects = Array[ExtResource("5_8orsa")]([ExtResource("9_1h51v")])
 ai_hint = ExtResource("1_lwobe")
