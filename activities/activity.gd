@@ -36,14 +36,17 @@ class_name Activity
 @export var requires_crisis: bool = true
 @export var requires_roll: bool = true
 @export var is_invisible: bool = false
+@export var is_melee: bool = false
 @export var is_spell: bool = false
 @export var builds_condition: bool = false
 @export var condition_id: String = ""
+@export var attack_types: Array[DamagePattern]
 @export var ai_hint: AIHint
 
 var user = null
 var origin: Vector3i
 var concentration = null
+var weapon: Item = null
 
 var target_points: Array[Vector3i] = []
 var target_entities: Array = []
@@ -126,6 +129,17 @@ func _apply_effects(ctx):
 		pass
 		#effect.apply(ctx)
 
+func _has_enough_ap_and_pp(ctx):
+	if not ctx.user.has_enough_ap(AP_cost):
+		return false
+	if is_spell:
+		if not ctx.user.has_enough_pp(ctx.user.get_stat("current_spell_cost")):
+			return false
+	else:
+		if not ctx.user.has_enough_pp(PP_cost):
+			return false
+	return true
+
 func _consume_ap(ctx):
 	ctx.user.consume_ap(AP_cost)
 
@@ -148,6 +162,24 @@ func can_execute() -> bool:
 
 func has_tag(tag: String) -> bool:
 	return tags.has(tag)
+
+func is_valid_target_point(point: Vector3i) -> bool:
+	origin = user.get_coords()
+
+	if not WorldMath.is_in_range(origin, point, reach):
+		SignalBus.dialog_out_of_range.emit()
+		return false
+
+	if not WorldMath.has_line_of_sight_tile(origin, point):
+		SignalBus.dialog_no_line_of_sight.emit()
+		return false
+
+	return true
+
+func remove_invalid_points(targets: Array[Vector3i]):
+	for i in range(targets.size() - 1, -1, -1):
+		if not is_valid_target_point(targets[i]):
+			targets.remove_at(i)
 
 func compute_affected_area(target_location: Vector3i) -> Array[Vector3i]:
 	match shape:

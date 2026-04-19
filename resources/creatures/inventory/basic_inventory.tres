@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Inventory" format=3 uid="uid://b1s146xyl580x"]
+
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="1_lvnn5"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="2_8as4m"]
+[ext_resource type="Script" uid="uid://0hy8gde00nbx" path="res://entities/inventory.gd" id="2_43dtw"]
+[ext_resource type="Script" uid="uid://5p63q28tlgwq" path="res://items/food.gd" id="3_hvu0r"]
+
+[sub_resource type="Resource" id="Resource_pu1i0"]
+script = ExtResource("3_hvu0r")
+food_value = 2500
+name = "Bread"
+id = "food_bread"
+description = "Oh, delicious fluffy white bread!"
+value = 2
+count = 10
+owner = null
+metadata/_custom_type_script = "uid://5p63q28tlgwq"
+
+[resource]
+script = ExtResource("2_43dtw")
+list = Array[ExtResource("1_lvnn5")]([SubResource("Resource_pu1i0")])
+metadata/_custom_type_script = "uid://0hy8gde00nbx"

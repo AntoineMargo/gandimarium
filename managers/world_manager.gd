@@ -833,17 +833,17 @@ func _simple_interact_disambiguation(force_interact: bool = false):
 			interact_move(Global.selected_char, coords)
 		elif element is Creature:
 			if force_interact:
-				Global.selected_char.perform_attack(element)
+				Global.selected_char.perform_attack(coords)
 			else:
-				Global.selected_char.perform_attack(element)
+				Global.selected_char.perform_attack(coords)
 		elif element is Item:
 			if force_interact:
-				Global.selected_char.perform_attack(element)
+				Global.selected_char.perform_attack(coords)
 			else:
 				interact_grab(Global.selected_char, element, coords)
 		elif element is Prop:
 			if force_interact:
-				Global.selected_char.perform_attack(element)
+				Global.selected_char.perform_attack(coords)
 			else:
 				interact_operate(Global.selected_char, element, coords)
 

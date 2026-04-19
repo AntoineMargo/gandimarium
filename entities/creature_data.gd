@@ -24,13 +24,13 @@ class_name CreatureData
 
 @export var aspects: Array[Aspect] = []
 @export var talents: Array[Talent] = []
-@export var activities: Array[Activity] = []
-@export var spells_ready: Array = [SpellContainer]
-@export var spells_available: Array = [SpellContainer]
+@export var activities: Array[ActivityContainer] = []
+@export var spells_ready: Array[SpellContainer] = []
+@export var spells_available: Array[SpellContainer] = []
 @export var reactions: Array = []
-@export var conditions: Array = [Condition]
-@export var activity_modifiers: Array = [ActivityModifier]
-@export var concentrations: Array = [Concentration]
+@export var conditions: Array[Condition] = []
+@export var activity_modifiers: Array[ActivityModifier] = []
+@export var concentrations: Array[Concentration] = []
 
 # map ID String, Array of int UIDs
 @export var owned_rooms: Dictionary[String, Array] = {}

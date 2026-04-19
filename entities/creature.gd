@@ -361,6 +361,17 @@ func eat_food(food: Food) -> void:
 	SignalBus.dialog_show_message.emit("Your hunger is now: %d" % [data.hunger])
 	SignalBus.update_inventory.emit()
 
+func has_enough_ap(number: int) -> bool:
+	if Global.crisis_manager.crisis_mode:
+		if data.current_ap - number < 0:
+			return false
+	return true
+	
+func has_enough_pp(number: int) -> bool:
+	if data.current_pp - number < 0:
+			return false
+	return true
+
 ## consumes AP and potentially associated MP if set to 'true'
 func consume_ap(number: int, mp_equivalent: bool = true) -> bool:
 	if Global.crisis_manager.crisis_mode:
@@ -404,22 +415,30 @@ func meets_brawn_requirements() -> bool:
 
 	return false
 
-func get_modified_activity(base_activity: Activity) -> Activity:
-	var result = base_activity.duplicate(true)
+func get_modified_activity(activity_variant: ActivityVariant) -> Activity:
+	var instance = activity_variant.produce(self)
 
 	for modifier in data.activity_modifiers:
-		result = modifier.modify_activity(result)
+		if modifier is BeforeModifier:
+			modifier.modify_activity(instance)
+		else:
+			instance.modifiers.append(modifier)
 
-	return result
+	return instance
 
-func perform_activity(activity: Activity, target: Node = null):
-	var final = get_modified_activity(activity)
-	final.user = self
-	if final is WeaponActivity:
-		final.weapon = activity.weapon
+func perform_activity_variant(activity_variant: ActivityVariant, target: Node = null):
+	var activity = get_modified_activity(activity_variant)
+	activity.user = self
 	if target:
-		final.target_entities.append(target)
-	final.execute()
+		activity.target_entities.append(target)
+	activity.execute()
+
+func perform_activity(activity: Activity, target = null):
+	activity.user = self
+	if target:
+		activity.target_points.append(target)
+		#activity.target_entities.append(target)
+	activity.execute()
 
 func perform_attack(target):
 	var weapons = get_weapons()
@@ -428,15 +447,18 @@ func perform_attack(target):
 	var selected_weapon = weapons[hand]
 	if selected_weapon:
 		if category == Enums.AttackCategory.STRIKE and selected_weapon.strike:
-			var attack_activity = selected_weapon.strike.duplicate(true)
+			#var attack_activity = selected_weapon.strike.produce()
+			var attack_activity = get_modified_activity(selected_weapon.strike)
 			attack_activity.weapon = selected_weapon
 			perform_activity(attack_activity, target)
 		elif category == Enums.AttackCategory.SHOOT and selected_weapon.shoot:
-			var attack_activity = selected_weapon.shoot.duplicate(true)
+			#var attack_activity = selected_weapon.shoot.produce()
+			var attack_activity = get_modified_activity(selected_weapon.shoot)
 			attack_activity.weapon = selected_weapon
 			perform_activity(attack_activity, target)
 		elif category == Enums.AttackCategory.THROW and selected_weapon.throw:
-			var attack_activity = selected_weapon.throw.duplicate(true)
+			#var attack_activity = selected_weapon.throw.produce()
+			var attack_activity = get_modified_activity(selected_weapon.throw)
 			attack_activity.weapon = selected_weapon
 			perform_activity(attack_activity, target)
 

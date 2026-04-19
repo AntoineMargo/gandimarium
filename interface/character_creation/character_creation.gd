@@ -71,8 +71,8 @@ func _ready() -> void:
 	data.attributes = Attributes.new()
 	data.skills = Skills.new()
 	data.base_stats = BaseStats.new()
-	data.inventory = load("res://resources/creatures/inventory/start_inventory.tres")
-	data.equipment = load("res://resources/creatures/equipment/start_equipment.tres")
+	data.inventory = load("res://resources/creatures/inventory/basic_inventory.tres")
+	data.equipment = load("res://resources/creatures/equipment/basic_loadout.tres")
 	data.resistances = Resistances.new()
 	data.personality = Personality.new()
 	

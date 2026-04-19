@@ -40,17 +40,18 @@ func get_all_activity_entries():
 	return entries
 
 func add_activity_entries(entries):
-	for activity in creature.data.activities:
-		var entry = ActivityEntry.new()
-		entry.activity = creature.get_modified_activity(activity)
-		entry.hint = entry.activity.ai_hint
-		entries.append(entry)
+	for activity_container in creature.data.activities:
+		for activity_variant in activity_container.activities:
+			var entry = ActivityEntry.new()
+			entry.activity = creature.get_modified_activity(activity_variant)
+			entry.hint = entry.activity.ai_hint
+			entries.append(entry)
 		
 func add_spell_entries(entries):
-	for spell in creature.data.spells_ready:
-		for activity in spell.activities:
+	for spell_container in creature.data.spells_ready:
+		for activity_variant in spell_container.activities:
 			var entry = ActivityEntry.new()
-			entry.activity = creature.get_modified_activity(activity)
+			entry.activity = creature.get_modified_activity(activity_variant)
 			entry.hint = entry.activity.ai_hint
 			entries.append(entry)
 

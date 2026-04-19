@@ -192,17 +192,17 @@ func update_active_attack_buttons():
 		var attack_types = null
 		if category == 0:
 			if left_weapon.strike:
-				attack_types = left_weapon.strike.attack_types
+				attack_types = left_weapon.strike.activity.attack_types
 			else:
 				attack_types = []
 		elif category == 1:
 			if left_weapon.shoot:
-				attack_types = left_weapon.shoot.attack_types
+				attack_types = left_weapon.shoot.activity.attack_types
 			else:
 				attack_types = []
 		elif category == 2:
 			if left_weapon.throw:
-				attack_types = left_weapon.throw.attack_types
+				attack_types = left_weapon.throw.activity.attack_types
 			else:
 				attack_types = []
 
@@ -223,17 +223,17 @@ func update_active_attack_buttons():
 		var attack_types = null
 		if category == 0:
 			if right_weapon.strike:
-				attack_types = right_weapon.strike.attack_types
+				attack_types = right_weapon.strike.activity.attack_types
 			else:
 				attack_types = []
 		elif category == 1:
 			if right_weapon.shoot:
-				attack_types = right_weapon.shoot.attack_types
+				attack_types = right_weapon.shoot.activity.attack_types
 			else:
 				attack_types = []
 		elif category == 2:
 			if right_weapon.throw:
-				attack_types = right_weapon.throw.attack_types
+				attack_types = right_weapon.throw.activity.attack_types
 			else:
 				attack_types = []
 

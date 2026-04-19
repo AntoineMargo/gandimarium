@@ -5,22 +5,11 @@
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_g3ytl"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="3_4eqj7"]
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="3_gjdx1"]
-[ext_resource type="Resource" uid="uid://c86q28w0pc8p2" path="res://resources/spells/firebolt.tres" id="4_7g3vd"]
-[ext_resource type="Resource" uid="uid://1bq4k4ctiqvj" path="res://resources/spells/fireray.tres" id="5_smms5"]
-[ext_resource type="Resource" uid="uid://tjtnr1pympae" path="res://resources/spells/degrade_defences.tres" id="6_kpcy5"]
-[ext_resource type="Resource" uid="uid://cvj66k14frhx0" path="res://resources/spells/fireball.tres" id="8_7g3vd"]
-[ext_resource type="Resource" uid="uid://bdfg8nvw2c1k4" path="res://resources/spells/fire_burst.tres" id="9_smms5"]
-[ext_resource type="Resource" uid="uid://c50tk0l60a5qw" path="res://resources/spells/mage_armour.tres" id="10_kpcy5"]
-[ext_resource type="Resource" uid="uid://c27hc6u5j6gv" path="res://resources/spells/lightning_bolt.tres" id="11_bddu2"]
-[ext_resource type="Resource" uid="uid://usx0qt1e57vs" path="res://resources/spells/fire_cone.tres" id="12_vsy8l"]
-[ext_resource type="Resource" uid="uid://bvq0ddohlrly8" path="res://resources/spells/walls_of_fire.tres" id="13_wpwdu"]
-[ext_resource type="Resource" uid="uid://ceuyup5d4j2f" path="res://resources/spells/bursts_of_fire.tres" id="14_eyh6d"]
-[ext_resource type="Resource" uid="uid://bf6j3ey6d3cqu" path="res://resources/spells/fire_snake.tres" id="15_hl15b"]
-[ext_resource type="Resource" uid="uid://bqrfnrleeyx1t" path="res://resources/spells/debug_ground_defense.tres" id="15_j7505"]
+[ext_resource type="Resource" uid="uid://cjt36fxtrkb2d" path="res://resources/spell_containers/energy_bolt.tres" id="4_gsdqv"]
 
 [sub_resource type="Resource" id="Resource_bddu2"]
 script = ExtResource("2_4m7g3")
-spells = Array[ExtResource("3_4eqj7")]([ExtResource("4_7g3vd"), ExtResource("5_smms5"), ExtResource("6_kpcy5"), ExtResource("10_kpcy5"), ExtResource("8_7g3vd"), ExtResource("9_smms5"), ExtResource("10_kpcy5"), ExtResource("11_bddu2"), ExtResource("12_vsy8l"), ExtResource("13_wpwdu"), ExtResource("14_eyh6d"), ExtResource("15_hl15b"), ExtResource("15_j7505")])
+spells = Array[ExtResource("3_4eqj7")]([ExtResource("4_gsdqv")])
 metadata/_custom_type_script = "uid://2oaio4mh2bc8"
 
 [resource]

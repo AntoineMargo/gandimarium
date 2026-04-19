@@ -22,14 +22,14 @@ func _gui_input(event):
 
 func _on_mouse_entered():
 	is_hovered = true
-	if spell.activities[spell.current_index] is ImmediateActivity:
+	if spell.activities[spell.current_index].activity is ImmediateActivity:
 		spell.activities[spell.current_index].preview_area(Global.selected_char.get_coords())
 	queue_redraw()
 
 func _on_mouse_exited():
 	is_hovered = false
 	is_pressed = false
-	if spell.activities[spell.current_index] is ImmediateActivity:
+	if spell.activities[spell.current_index].activity is ImmediateActivity:
 		Global.world_manager.clear_all_visualizations()
 	queue_redraw()
 
@@ -53,15 +53,15 @@ func _handle_left_click():
 	print("Left click on spell:", spell.name)
 	if Global.activity_handler:
 		spell.cycle_activity()
-		label.text = spell.activities[spell.current_index].name
+		label.text = spell.activities[spell.current_index].activity.name
 		um.update_spell_list()
-	cm.try_perform_activity(spell.activities[spell.current_index])
+	cm.try_perform_activity(spell.activities[spell.current_index].activity)
 
 func _handle_right_click():
 	var um = Global.ui_manager
 	print("Right click on spell:", spell.name)
 	spell.cycle_activity()
-	label.text = spell.activities[spell.current_index].name
+	label.text = spell.activities[spell.current_index].activity.name
 	um.update_spell_list()
 
 func _ready():
@@ -71,8 +71,8 @@ func _ready():
 	connect("mouse_exited", Callable(self, "_on_mouse_exited"))
 	if spell:
 		#$IconRect.texture = load(spell.icon)
-		$NameLabel.text = spell.activities[spell.current_index].name
-		var spell_actions = spell.activities[spell.current_index].AP_cost
+		$NameLabel.text = spell.activities[spell.current_index].activity.name
+		var spell_actions = spell.activities[spell.current_index].activity.AP_cost
 		$ActionsLabel.text = "%dAP" % [spell_actions]
 
 #func _pressed():

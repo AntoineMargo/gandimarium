@@ -33,12 +33,12 @@ metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
 
 [resource]
 script = ExtResource("2_kggaa")
-attack_types = Array[ExtResource("1_s4gyy")]([ExtResource("5_yn2i8")])
 name = "wpn_throw"
 attacking_aptitude = 4
 defending_aptitude = 6
 reach = 5
 self_filters = Array[ExtResource("4_ctg66")]([ExtResource("9_423j3"), ExtResource("10_r5262"), ExtResource("11_m7h48")])
 target_effects = Array[ExtResource("3_xlcii")]([SubResource("Resource_s5u73")])
+attack_types = Array[ExtResource("1_s4gyy")]([ExtResource("5_yn2i8")])
 ai_hint = SubResource("Resource_bsvo2")
 metadata/_custom_type_script = "uid://bkxicxp8ud7lk"

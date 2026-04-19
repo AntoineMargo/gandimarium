@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="Equipment" format=3 uid="uid://ddwvf0nog3kqk"]
+[gd_resource type="Resource" script_class="Equipment" format=3 uid="uid://tb0qrirf41um"]
 
 [ext_resource type="Script" uid="uid://cna3smanlwqkg" path="res://entities/equipment.gd" id="1_13mkk"]
 [ext_resource type="Script" uid="uid://dxofkj1ggocqb" path="res://various/hand_set.gd" id="1_pj7j4"]
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="3_bc6dv"]
 [ext_resource type="Resource" uid="uid://dwt64w3wubcci" path="res://resources/items/armours/ar_light.tres" id="4_rrf6b"]
-[ext_resource type="Resource" uid="uid://cngw3i2m4xinc" path="res://resources/items/weapons/pollaxe/pollaxe.tres" id="5_jwymd"]
-[ext_resource type="Resource" uid="uid://dglbdcuhxwnx0" path="res://resources/items/weapons/fist/wpn_fist.tres" id="6_v82o4"]
+[ext_resource type="Resource" uid="uid://bcqbs3c34d6lr" path="res://resources/items/weapons/wpn_pole_axe.tres" id="5_rrf6b"]
+[ext_resource type="Resource" uid="uid://dso2ca1rnk6p0" path="res://resources/items/weapons/wpn_fist.tres" id="6_jwymd"]
 
 [resource]
 script = ExtResource("1_13mkk")
@@ -27,9 +27,8 @@ slots = Dictionary[int, ExtResource("3_bc6dv")]({
 14: null,
 15: null,
 16: null,
-17: ExtResource("5_jwymd"),
+17: ExtResource("5_rrf6b"),
 18: null,
-19: ExtResource("6_v82o4"),
-20: ExtResource("6_v82o4")
+19: ExtResource("6_jwymd")
 })
 metadata/_custom_type_script = "uid://cna3smanlwqkg"

@@ -15,9 +15,9 @@ class_name Item
 @export var brawn_req_1h: int = 4
 @export var brawn_req_2h: int = 2
 
-@export var strike: WeaponStrike = null
-@export var shoot: WeaponShoot = null
-@export var throw: WeaponThrow = null
+@export var strike: ActivityVariant = null
+@export var shoot: ActivityVariant = null
+@export var throw: ActivityVariant = null
 
 @export var count: int = 1
 
@@ -28,13 +28,13 @@ var selected_attacks: Dictionary[Enums.AttackCategory, Enums.AttackType] = {}
 func initialize_attack_modes():
 	if strike:
 		@warning_ignore("int_as_enum_without_cast")
-		selected_attacks[Enums.AttackCategory.STRIKE] = strike.attack_types[0].id
+		selected_attacks[Enums.AttackCategory.STRIKE] = strike.activity.attack_types[0].id
 	if shoot:
 		@warning_ignore("int_as_enum_without_cast")
-		selected_attacks[Enums.AttackCategory.SHOOT] = shoot.attack_types[0].id
+		selected_attacks[Enums.AttackCategory.SHOOT] = shoot.activity.attack_types[0].id
 	if throw:
 		@warning_ignore("int_as_enum_without_cast")
-		selected_attacks[Enums.AttackCategory.THROW] = throw.attack_types[0].id
+		selected_attacks[Enums.AttackCategory.THROW] = throw.activity.attack_types[0].id
 
 func destroy():
 	if owner and owner.has_method("remove_item"):

@@ -5,13 +5,11 @@
 [ext_resource type="Script" uid="uid://2oaio4mh2bc8" path="res://effects/add_spell_effect.gd" id="2_m11lv"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="3_glfbk"]
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="3_m11lv"]
-[ext_resource type="Resource" uid="uid://dh5wcefcr3klc" path="res://resources/spells/scholastic/inertial_armour.tres" id="4_glfbk"]
-[ext_resource type="Resource" uid="uid://cgaiak4xckwa8" path="res://resources/spells/scholastic/energy_orb.tres" id="5_wqd4r"]
-[ext_resource type="Resource" uid="uid://u72fop7mxaoj" path="res://resources/spells/scholastic/shift.tres" id="6_kblj4"]
+[ext_resource type="Resource" uid="uid://cjt36fxtrkb2d" path="res://resources/spell_containers/energy_bolt.tres" id="4_glfbk"]
 
 [sub_resource type="Resource" id="Resource_wqd4r"]
 script = ExtResource("2_m11lv")
-spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk"), ExtResource("5_wqd4r"), ExtResource("6_kblj4")])
+spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk")])
 metadata/_custom_type_script = "uid://2oaio4mh2bc8"
 
 [resource]

@@ -31,11 +31,11 @@ func produce_report(entries) -> Dictionary:
 	return report
 
 func find_best_ranged_attack(entries):
-	var favored_ranged_attack: WeaponShoot = null
+	var favored_ranged_attack: Activity = null
 	var highest_brawn_requirement: int = 0
 	
 	for i in range(2):
-		if entries[i].activity is WeaponShoot:
+		if entries[i].activity.weapon and not entries[i].activity.is_melee:
 			if entries[i].activity.weapon.brawn_req_2h > highest_brawn_requirement:
 				favored_ranged_attack = entries[i].activity
 				highest_brawn_requirement = entries[i].activity.weapon.brawn_req_2h
@@ -45,12 +45,12 @@ func find_best_ranged_attack(entries):
 
 func find_best_melee_attack(entries):
 	print("=== find_best_melee_attack ===")
-	var favored_melee_attack: WeaponStrike = null
+	var favored_melee_attack: Activity = null
 	var highest_brawn_requirement: int = 0
 	
 	for i in range(2):
 		print("activity name: ", entries[i].activity.name)
-		if entries[i].activity is WeaponStrike:
+		if entries[i].activity.weapon and entries[i].activity.is_melee:
 			if entries[i].activity.weapon.brawn_req_2h >= highest_brawn_requirement:
 				favored_melee_attack = entries[i].activity
 				highest_brawn_requirement = entries[i].activity.weapon.brawn_req_2h

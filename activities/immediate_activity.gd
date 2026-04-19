@@ -31,6 +31,9 @@ func execute() -> void:
 
 	self_ctx.target = user
 
+	if not _has_enough_ap_and_pp(self_ctx):
+		return
+
 	for filter in self_filters:
 		if filter is Filter:
 			if not filter.is_satisfied(self_ctx):

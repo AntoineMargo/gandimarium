@@ -1,0 +1,55 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://cjt36fxtrkb2d"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_11ikn"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="2_bkqr6"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/activity_modifier.gd" id="2_kjn0r"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_v4h7r"]
+[ext_resource type="Script" uid="uid://c87bku6q55ul5" path="res://VFX/projectile_config.gd" id="3_54ecm"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="3_jr8kt"]
+[ext_resource type="PackedScene" uid="uid://bm40yjohcu4wn" path="res://VFX/projectile.tscn" id="4_031e7"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_33165"]
+[ext_resource type="Texture2D" uid="uid://dut3pnkt23f7h" path="res://art/objects/mbolt2.png" id="4_v4h7r"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="5_50c75"]
+[ext_resource type="Script" uid="uid://b7tjqqmnvivdt" path="res://effects/proj_vfx_effect.gd" id="5_v4h7r"]
+[ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="9_krp7k"]
+[ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damaging_effect.gd" id="10_trqrd"]
+
+[sub_resource type="Resource" id="Resource_pbdor"]
+script = ExtResource("3_54ecm")
+texture = ExtResource("4_v4h7r")
+metadata/_custom_type_script = "uid://c87bku6q55ul5"
+
+[sub_resource type="Resource" id="Resource_sjvhk"]
+script = ExtResource("5_v4h7r")
+projectile_scene = ExtResource("4_031e7")
+config = SubResource("Resource_pbdor")
+metadata/_custom_type_script = "uid://b7tjqqmnvivdt"
+
+[sub_resource type="Resource" id="Resource_bvycv"]
+script = ExtResource("10_trqrd")
+damage_die = 4
+resistance = 1
+damage_pattern = ExtResource("9_krp7k")
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_x10mh"]
+script = ExtResource("3_jr8kt")
+name = "Energy Bolt"
+id = "energy_bolt"
+defending_aptitude = 6
+reach = 20
+target_effects = Array[ExtResource("5_50c75")]([SubResource("Resource_bvycv")])
+projectile = SubResource("Resource_sjvhk")
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_54ecm"]
+script = ExtResource("1_11ikn")
+activity = SubResource("Resource_x10mh")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("2_bkqr6")
+name = "Energy Bolt"
+activities = Array[ExtResource("1_11ikn")]([SubResource("Resource_54ecm")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
