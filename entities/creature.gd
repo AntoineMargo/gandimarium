@@ -447,17 +447,14 @@ func perform_attack(target):
 	var selected_weapon = weapons[hand]
 	if selected_weapon:
 		if category == Enums.AttackCategory.STRIKE and selected_weapon.strike:
-			#var attack_activity = selected_weapon.strike.produce()
 			var attack_activity = get_modified_activity(selected_weapon.strike)
 			attack_activity.weapon = selected_weapon
 			perform_activity(attack_activity, target)
 		elif category == Enums.AttackCategory.SHOOT and selected_weapon.shoot:
-			#var attack_activity = selected_weapon.shoot.produce()
 			var attack_activity = get_modified_activity(selected_weapon.shoot)
 			attack_activity.weapon = selected_weapon
 			perform_activity(attack_activity, target)
 		elif category == Enums.AttackCategory.THROW and selected_weapon.throw:
-			#var attack_activity = selected_weapon.throw.produce()
 			var attack_activity = get_modified_activity(selected_weapon.throw)
 			attack_activity.weapon = selected_weapon
 			perform_activity(attack_activity, target)

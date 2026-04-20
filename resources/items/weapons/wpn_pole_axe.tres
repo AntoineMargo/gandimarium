@@ -12,11 +12,11 @@
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="10_k8xhw"]
 [ext_resource type="Script" uid="uid://jtk6vp2fcxdf" path="res://effects/wpn_damage.gd" id="11_yoxxa"]
 [ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="12_5uvg8"]
-[ext_resource type="Script" uid="uid://bsjm45antx32g" path="res://activity_modifiers/before_modifier_throw.gd" id="13_d33rq"]
 [ext_resource type="Script" uid="uid://c87bku6q55ul5" path="res://VFX/projectile_config.gd" id="13_ffqtg"]
 [ext_resource type="Texture2D" uid="uid://cp5pv7gwp78ne" path="res://art/objects/bolt3.png" id="14_pfjud"]
 [ext_resource type="PackedScene" uid="uid://bm40yjohcu4wn" path="res://VFX/projectile.tscn" id="15_i3ngn"]
 [ext_resource type="Script" uid="uid://b7tjqqmnvivdt" path="res://effects/proj_vfx_effect.gd" id="16_vb0bw"]
+[ext_resource type="Script" uid="uid://bsu4c08c52n7w" path="res://activities/targeted_throw_activity.gd" id="17_ffqtg"]
 
 [sub_resource type="Resource" id="Resource_ljo7m"]
 script = ExtResource("11_yoxxa")
@@ -30,7 +30,6 @@ attacking_aptitude = 4
 defending_aptitude = 5
 reach = 2
 target_effects = Array[ExtResource("10_k8xhw")]([SubResource("Resource_ljo7m")])
-is_melee = true
 attack_types = Array[ExtResource("3_bwtky")]([ExtResource("4_ajovb"), ExtResource("5_ffqtg"), ExtResource("6_pfjud")])
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 
@@ -39,41 +38,36 @@ script = ExtResource("12_5uvg8")
 activity = SubResource("Resource_4ui3d")
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
-[sub_resource type="Resource" id="Resource_dbtu7"]
+[sub_resource type="Resource" id="Resource_pfjud"]
 script = ExtResource("13_ffqtg")
 texture = ExtResource("14_pfjud")
 metadata/_custom_type_script = "uid://c87bku6q55ul5"
 
-[sub_resource type="Resource" id="Resource_k8xhw"]
+[sub_resource type="Resource" id="Resource_i3ngn"]
 script = ExtResource("16_vb0bw")
 projectile_scene = ExtResource("15_i3ngn")
-config = SubResource("Resource_dbtu7")
+config = SubResource("Resource_pfjud")
 metadata/_custom_type_script = "uid://b7tjqqmnvivdt"
 
-[sub_resource type="Resource" id="Resource_k1exx"]
+[sub_resource type="Resource" id="Resource_vb0bw"]
 script = ExtResource("11_yoxxa")
 damage_die = 8
 resistance = 1
 metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
 
-[sub_resource type="Resource" id="Resource_bnsk5"]
-script = ExtResource("8_vb0bw")
+[sub_resource type="Resource" id="Resource_dbtu7"]
+script = ExtResource("17_ffqtg")
 attacking_aptitude = 4
 defending_aptitude = 6
-target_effects = Array[ExtResource("10_k8xhw")]([SubResource("Resource_k1exx")])
-projectile = SubResource("Resource_k8xhw")
+target_effects = Array[ExtResource("10_k8xhw")]([SubResource("Resource_vb0bw")])
+projectile = SubResource("Resource_i3ngn")
+triggers_reaction = true
 attack_types = Array[ExtResource("3_bwtky")]([ExtResource("4_ajovb"), ExtResource("6_pfjud")])
-metadata/_custom_type_script = "uid://bxau8hir6ormb"
-
-[sub_resource type="Resource" id="Resource_bickb"]
-script = ExtResource("13_d33rq")
-tag_override = true
-metadata/_custom_type_script = "uid://bsjm45antx32g"
+metadata/_custom_type_script = "uid://bsu4c08c52n7w"
 
 [sub_resource type="Resource" id="Resource_dshra"]
 script = ExtResource("12_5uvg8")
-activity = SubResource("Resource_bnsk5")
-modifiers = Array[ExtResource("7_i3ngn")]([SubResource("Resource_bickb")])
+activity = SubResource("Resource_dbtu7")
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
 [resource]

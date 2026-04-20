@@ -1,10 +1,20 @@
-extends Activity
-class_name TargetedActivity
+extends TargetedActivity
+class_name TargetedThrowActivity
 
-@export var number_of_targets: int = 1
-var number_of_targets_left = 0
-var cm = null
-var wm = null
+var final_reach: int = 0
+
+func is_valid_target_point(point: Vector3i) -> bool:
+	origin = user.get_coords()
+
+	if not WorldMath.is_in_range(origin, point, final_reach):
+		SignalBus.dialog_out_of_range.emit()
+		return false
+
+	if not WorldMath.has_line_of_sight_tile(origin, point):
+		SignalBus.dialog_no_line_of_sight.emit()
+		return false
+
+	return true
 
 func handle_hover(tile: Vector3i) -> void:
 	var tiles = compute_affected_area(tile)
@@ -15,31 +25,11 @@ func handle_hover(tile: Vector3i) -> void:
 			return
 	wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines)
 
-func handle_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed:
-		match event.button_index:
-			MOUSE_BUTTON_LEFT:
-				select_target()
-			MOUSE_BUTTON_RIGHT:
-				cancel_activity()
-
-func _cleanup() -> void:
-	SignalBus.change_cursor.emit("default")
-	Global.activity_handler = null
-	wm.clear_all_visualizations()
-	for hl in wm.target_highlights:
-		hl.queue_free()
-	wm.target_highlights.clear()
-	cm = null
-	wm = null
-	origin = Vector3i(0, 0, 0)
-	target_points.clear()
-	SignalBus.update_ui_for_char.emit()
-
 func execute() -> void:
 	cm = Global.crisis_manager
 	wm = Global.world_manager
 	origin = user.get_coords()
+	final_reach = reach * user.data.attributes.brawn
 	_apply_act_mods()
 	if target_points:
 		resolve_with_targets(target_points)
@@ -47,65 +37,18 @@ func execute() -> void:
 		Global.last_hovered_tile = Vector3i(-1,-1,-1)
 		resolve_ui()
 
-func resolve_ui() -> void:
-	SignalBus.dialog_show_message.emit("Waiting for target(s) of activity...")
-	Global.activity_handler = self
-	self.user = user
-	number_of_targets_left = number_of_targets
-	SignalBus.dialog_selectable_targets.emit(number_of_targets_left)
-	target_points.clear()
-	SignalBus.change_cursor.emit("select2")
-
-func cancel_activity():
-	SignalBus.dialog_show_message.emit("Canceling activity.")
-	_cleanup()
-
-func select_target():
-	print("number_of_targets_left: ", number_of_targets_left)
-	var coords = wm.get_hovered_tile()
-	if is_valid_target_point(coords):
-		if targeting_type == Enums.Targeting.ENTITIES:
-			if not wm.get_entity_at_pos(coords):
-				SignalBus.dialog_show_message.emit("No entity there.")
-				return
-		target_points.append(coords)
-		number_of_targets_left -= 1
-
-		if number_of_targets_left > 0:
-			var tiles = compute_affected_area(coords)
-			wm.visualize_area(tiles, wm.committed_visualized_rects, wm.committed_visualized_lines)
-			SignalBus.dialog_selectable_targets.emit(number_of_targets_left)
-
-		if number_of_targets_left == 0:
-			resolve_with_targets(target_points)
-	else:
-		SignalBus.dialog_show_message.emit("Invalid target.")
-
-func compute_hit_delay(final_target, batch_ctx: ActivityContext) -> float:
-	var target_pos: Vector3i
-	if final_target is Entity:
-		target_pos = final_target.get_coords()
-	else:
-		target_pos = final_target
-
-	var dist = WorldMath.dist_weighted_3d(batch_ctx.origin, target_pos)
-	var speed_tiles = projectile.config.speed / Global.TILE_SIZE
-
-	return dist / speed_tiles
-
-func _schedule_call(delayed_call: Callable, call_delay: float, already_hit, target):
-	_run_scheduled(delayed_call, call_delay, already_hit, target)
-
-func _run_scheduled(delayed_call: Callable, call_delay: float, already_hit, target) -> void:
-	await user.get_tree().create_timer(call_delay).timeout
-
-	if already_hit != null and already_hit.has(target):
-		return
-
-	if already_hit != null:
-		already_hit[target] = true
-
-	delayed_call.call()
+func drop_item_on_target(target):
+	var item_in_inventory: bool = false
+	for item in user.data.inventory.list:
+		if item.id == weapon.id:
+			user.data.inventory.remove_item(item)
+			item_in_inventory = true
+			break
+	if not item_in_inventory:
+		user.data.equipment.remove_item(weapon)
+	#var coords = target.get_coords()
+	wm.add_to_tile(weapon, target)
+	wm.add_item_visual(target)
 
 func resolve_with_targets(targets: Array[Vector3i]) -> void:
 	remove_invalid_points(targets)
@@ -211,6 +154,8 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 			elif shape == Enums.Shape.LINE:
 				# firing the "empty" projectile (calls are delayed separately and already)
 				projectile.apply_context(batch_ctx)
+
+		drop_item_on_target(target)
 
 	for effect in self_final_effects:
 		if effect is Effect:
