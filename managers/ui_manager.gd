@@ -508,6 +508,7 @@ func update_spell_list():
 	slider.value = character.get_stat("current_spell_rank")
 	for spell in character.data.spells_ready:
 		var button = spell_button.instantiate()
+		button.user = character
 		button.spell = spell
 		spell_list.add_child(button)
 		

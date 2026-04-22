@@ -987,7 +987,7 @@ func interact_move(character: Creature, target: Vector3i):
 	
 	handle_path_conditions(path, character)
 	character.visible = (character.data.tile_z == current_level)
-	SignalBus.update_ui_for_char.emit()
+	#SignalBus.update_ui_for_char.emit()
 	selection_highlight.update_selection_highlight()
 
 func handle_path_conditions(path: Array[Vector3i], creature: Creature):

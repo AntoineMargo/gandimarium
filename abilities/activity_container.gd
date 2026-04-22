@@ -16,3 +16,4 @@ func get_current_activity(user: Entity) -> Activity:
 
 func cycle_activity():
 	current_index = (current_index + 1) % activities.size()
+	print("current index: %d" % [current_index])

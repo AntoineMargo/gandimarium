@@ -7,6 +7,9 @@ var is_pressed: bool = false
 @onready var label = get_node_or_null("NameLabel")
 @export var spell: SpellContainer
 
+var user: Entity = null
+var final_activity: Activity = null
+
 func _gui_input(event):
 	if event is InputEventMouseButton:
 		if event.pressed:
@@ -22,14 +25,14 @@ func _gui_input(event):
 
 func _on_mouse_entered():
 	is_hovered = true
-	if spell.activities[spell.current_index].activity is ImmediateActivity:
-		spell.activities[spell.current_index].preview_area(Global.selected_char.get_coords())
+	if final_activity is ImmediateActivity:
+		final_activity.preview_area(Global.selected_char.get_coords())
 	queue_redraw()
 
 func _on_mouse_exited():
 	is_hovered = false
 	is_pressed = false
-	if spell.activities[spell.current_index].activity is ImmediateActivity:
+	if final_activity is ImmediateActivity:
 		Global.world_manager.clear_all_visualizations()
 	queue_redraw()
 
@@ -53,16 +56,21 @@ func _handle_left_click():
 	print("Left click on spell:", spell.name)
 	if Global.activity_handler:
 		spell.cycle_activity()
-		label.text = spell.activities[spell.current_index].activity.name
+		final_activity = spell.get_current_activity(user)
 		um.update_spell_list()
-	cm.try_perform_activity(spell.activities[spell.current_index].activity)
+		Global.activity_handler.cancel_activity()
+	cm.try_perform_activity(final_activity)
 
 func _handle_right_click():
+	var cm = Global.crisis_manager
 	var um = Global.ui_manager
 	print("Right click on spell:", spell.name)
 	spell.cycle_activity()
-	label.text = spell.activities[spell.current_index].activity.name
+	final_activity = spell.get_current_activity(user)
 	um.update_spell_list()
+	if Global.activity_handler:
+		Global.activity_handler.cancel_activity()
+		cm.try_perform_activity(final_activity)
 
 func _ready():
 	set_process_unhandled_input(true)
@@ -70,9 +78,10 @@ func _ready():
 	connect("mouse_entered", Callable(self, "_on_mouse_entered"))
 	connect("mouse_exited", Callable(self, "_on_mouse_exited"))
 	if spell:
-		#$IconRect.texture = load(spell.icon)
-		$NameLabel.text = spell.activities[spell.current_index].activity.name
-		var spell_actions = spell.activities[spell.current_index].activity.AP_cost
+		final_activity = spell.get_current_activity(user)
+		#$IconRect.texture = load(final_activity.icon)
+		$NameLabel.text = final_activity.name
+		var spell_actions = final_activity.AP_cost
 		$ActionsLabel.text = "%dAP" % [spell_actions]
 
 #func _pressed():
