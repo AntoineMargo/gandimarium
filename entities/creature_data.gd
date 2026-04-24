@@ -29,7 +29,7 @@ class_name CreatureData
 @export var spells_available: Array[SpellContainer] = []
 @export var reactions: Array = []
 @export var conditions: Array[Condition] = []
-@export var activity_modifiers: Array[ActivityModifier] = []
+@export var activity_modifiers: Array[Modifier] = []
 @export var concentrations: Array[Concentration] = []
 
 # map ID String, Array of int UIDs

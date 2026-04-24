@@ -1,7 +1,7 @@
 extends Effect
 class_name ActivityModifierEffect
 
-@export var modifier: ActivityModifier = null
+@export var modifier: Modifier = null
 
 func apply(_source, target, _degree: int = 2) -> void:
 	var new_modifier = modifier.duplicate()

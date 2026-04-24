@@ -1,14 +1,14 @@
-extends ActivityModifier
+extends Resource
 class_name SpellStartModifier
 
-@export var override: bool = false
+@export var tag_override: bool = false
 @export var tag: String = ""
 @export var property: String = ""
 @export var delta: int = 0
 
 # pre-runtime
 func modify_activity(activity: Activity):
-	if not override:
+	if not tag_override:
 		if not activity.has_tag(tag):
 			return
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dyp8klyosnw2y" path="res://entities/creature_data.gd" id="1_5j1ub"]
 [ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="1_j8ykb"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/activity_modifier.gd" id="2_qqsho"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="2_qqsho"]
 [ext_resource type="Script" uid="uid://boxs05dhsll81" path="res://entities/attributes.gd" id="2_qxrml"]
 [ext_resource type="Script" uid="uid://cubgbyndvs8t3" path="res://aspects/aspect.gd" id="3_f7kd1"]
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="4_brg24"]

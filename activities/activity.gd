@@ -17,7 +17,7 @@ class_name Activity
 @export var spread: int = 0
 @export var delay: int = 0
 
-@export var modifiers: Array[ActivityModifier] = []
+@export var modifiers: Array[Modifier] = []
 @export var self_filters: Array[Filter] = []
 @export var self_prior_effects: Array[Effect] = []
 @export var self_per_target_effects: Array[Effect] = []
@@ -51,6 +51,8 @@ var weapon: Item = null
 var target_points: Array[Vector3i] = []
 var target_entities: Array = []
 
+var pre_execution_modified: bool = false
+
 func _setup_concentration():
 	if requires_concentration:
 		concentration = Concentration.new()
@@ -74,7 +76,6 @@ func _build_context(shared_ctx: SharedContext = null, target = null, already_hit
 	ctx.activity = self
 	ctx.id = id
 	ctx.user = user
-	#ctx.origin = user
 	ctx.origin = user.get_coords()
 	
 	ctx.target = target
@@ -95,20 +96,55 @@ func _build_context(shared_ctx: SharedContext = null, target = null, already_hit
 
 	return ctx
 
-func _apply_act_mods():
-	for modifier in self.modifiers:
-		modifier.modify_activity(self)
+func modify_value(value, value_type: Enums.ValueType, ctx: Context, stage: Enums.ActivityStage):
+	for modifier in modifiers:
+		if not modifier.matches(value_type, stage):
+			continue
+
+		if not modifier.applies(ctx):
+			continue
+
+		value = modifier.modify(value, ctx)
 	
-	for modifier in user.data.activity_modifiers:
-		modifier.modify_activity(self)
+	return value
 
-func _apply_pre_mods(ctx):
-	for modifier in user.data.activity_modifiers:
-		modifier.apply_pre_mods(ctx)
+func pre_execution_bundle_modify(ctx: Context):
+	AP_cost = modify_value(AP_cost, Enums.ValueType.AP_COST, ctx, Enums.ActivityStage.PRE_EXECUTION)
+	PP_cost = modify_value(PP_cost, Enums.ValueType.PP_COST, ctx, Enums.ActivityStage.PRE_EXECUTION)
+	EP_cost = modify_value(EP_cost, Enums.ValueType.EP_COST, ctx, Enums.ActivityStage.PRE_EXECUTION)
+	
+	attacking_aptitude = modify_value(attacking_aptitude, Enums.ValueType.ATTACKING_APTITUDE, ctx, Enums.ActivityStage.PRE_EXECUTION)
+	defending_aptitude = modify_value(defending_aptitude, Enums.ValueType.DEFENDING_APTITUDE, ctx, Enums.ActivityStage.PRE_EXECUTION)
+	
+	reach = modify_value(reach, Enums.ValueType.REACH, ctx, Enums.ActivityStage.PRE_EXECUTION)
+	spread = modify_value(spread, Enums.ValueType.SPREAD, ctx, Enums.ActivityStage.PRE_EXECUTION)
+	delay = modify_value(delay, Enums.ValueType.DELAY, ctx, Enums.ActivityStage.PRE_EXECUTION)
+	
+	line_of_sight = modify_value(line_of_sight, Enums.ValueType.LINE_OF_SIGHT, ctx, Enums.ActivityStage.PRE_EXECUTION)
+	can_only_hit_once = modify_value(can_only_hit_once, Enums.ValueType.CAN_ONLY_HIT_ONCE, ctx, Enums.ActivityStage.PRE_EXECUTION)
+	triggers_reaction = modify_value(triggers_reaction, Enums.ValueType.TRIGGERS_REACTION, ctx, Enums.ActivityStage.PRE_EXECUTION)
+	
+	shape = modify_value(shape, Enums.ValueType.SHAPE, ctx, Enums.ActivityStage.PRE_EXECUTION)
+	origin = modify_value(origin, Enums.ValueType.ORIGIN, ctx, Enums.ActivityStage.PRE_EXECUTION)
+	weapon = modify_value(weapon, Enums.ValueType.WEAPON, ctx, Enums.ActivityStage.PRE_EXECUTION)
 
-func _apply_post_mods(ctx):
-	for modifier in user.data.activity_modifiers:
-		modifier.apply_post_mods(ctx)
+func pre_roll_bundle_modify(ctx: ActivityContext):
+	ctx.user_roll = modify_value(ctx.user_roll, Enums.ValueType.USER_ROLL, ctx, Enums.ActivityStage.PRE_ROLL)
+	ctx.target_roll = modify_value(ctx.target_roll, Enums.ValueType.TARGET_ROLL, ctx, Enums.ActivityStage.PRE_ROLL)
+
+func post_roll_bundle_modify(ctx: ActivityContext):
+	ctx.user_roll = modify_value(ctx.user_roll, Enums.ValueType.USER_ROLL, ctx, Enums.ActivityStage.POST_ROLL)
+	ctx.target_roll = modify_value(ctx.target_roll, Enums.ValueType.TARGET_ROLL, ctx, Enums.ActivityStage.POST_ROLL)
+
+func post_resolution_bundle_modify(ctx: ActivityContext):
+	ctx.result = modify_value(ctx.result, Enums.ValueType.RESULT_ROLL, ctx, Enums.ActivityStage.POST_RESOLUTION)
+	ctx.degree = modify_value(ctx.degree, Enums.ValueType.DEGREE, ctx, Enums.ActivityStage.POST_RESOLUTION)
+
+#func effect_bundle_modify(ctx: ActivityContext):
+	#ctx.result = modify_value(ctx.result, Enums.ValueType.RESULT_ROLL, ctx, Enums.ActivityStage.POST_RESOLUTION)
+	#ctx.degree = modify_value(ctx.degree, Enums.ValueType.DEGREE, ctx, Enums.ActivityStage.POST_RESOLUTION)
+
+
 
 func _roll(ctx):
 	ctx.user_roll = BasicMath.standard_roll()

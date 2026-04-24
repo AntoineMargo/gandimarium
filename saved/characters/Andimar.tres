@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CreatureData" format=3 uid="uid://bk7dujmygipv"]
 
 [ext_resource type="Script" uid="uid://chufkd7a0xqa0" path="res://activities/activity.gd" id="1_h5ugi"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/activity_modifier.gd" id="2_t1xx4"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="2_t1xx4"]
 [ext_resource type="Script" uid="uid://cubgbyndvs8t3" path="res://aspects/aspect.gd" id="3_nu26v"]
 [ext_resource type="Script" uid="uid://boxs05dhsll81" path="res://entities/attributes.gd" id="4_t21hf"]
 [ext_resource type="Script" uid="uid://bqbvgbqafpkej" path="res://entities/base_stats.gd" id="5_4gwwu"]
@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://cna3smanlwqkg" path="res://entities/equipment.gd" id="9_lj5re"]
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="10_3kbar"]
 [ext_resource type="Script" uid="uid://0hy8gde00nbx" path="res://entities/inventory.gd" id="11_7dfpn"]
-[ext_resource type="Resource" uid="uid://c00teqpc3o5li" path="res://resources/archetypes/paragon/paragon.tres" id="12_vdk5q"]
+[ext_resource type="Resource" uid="uid://c00teqpc3o5li" path="res://resources/archetypes/paragon.tres" id="12_vdk5q"]
 [ext_resource type="Script" uid="uid://bwpyc87wtxb7o" path="res://entities/personality.gd" id="13_h8m5f"]
 [ext_resource type="Script" uid="uid://cwy5ao2mmfqfh" path="res://various/affiliation_entry.gd" id="14_5yeut"]
 [ext_resource type="Script" uid="uid://ci8skyvllvl30" path="res://various/reputation_entry.gd" id="15_dmsc6"]

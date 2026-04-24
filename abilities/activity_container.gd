@@ -14,6 +14,9 @@ func get_current_activity_variant() -> ActivityVariant:
 func get_current_activity(user: Entity) -> Activity:
 	return activities[current_index].produce(user)
 
+func query_current_activity(user: Entity) -> Activity:
+	return activities[current_index].pre_execute(user)
+
 func cycle_activity():
 	current_index = (current_index + 1) % activities.size()
 	print("current index: %d" % [current_index])

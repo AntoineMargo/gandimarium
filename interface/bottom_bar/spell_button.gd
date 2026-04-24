@@ -44,16 +44,9 @@ func _draw():
 		color = Color(0.2, 0.2, 0.2, 0.5)
 	draw_rect(Rect2(Vector2.ZERO, size), color)
 
-#func _handle_left_click():
-	#var cm = Global.crisis_manager
-	#print("Left click on spell:", spell.name)
-	#print(Global.focus_char.data.current_ap)
-	#cm.try_perform_activity(spell.activities[spell.current_index])
-
 func _handle_left_click():
 	var cm = Global.crisis_manager
 	var um = Global.ui_manager
-	print("Left click on spell:", spell.name)
 	if Global.activity_handler:
 		spell.cycle_activity()
 		final_activity = spell.get_current_activity(user)
@@ -64,7 +57,6 @@ func _handle_left_click():
 func _handle_right_click():
 	var cm = Global.crisis_manager
 	var um = Global.ui_manager
-	print("Right click on spell:", spell.name)
 	spell.cycle_activity()
 	final_activity = spell.get_current_activity(user)
 	um.update_spell_list()
@@ -79,9 +71,10 @@ func _ready():
 	connect("mouse_exited", Callable(self, "_on_mouse_exited"))
 	if spell:
 		final_activity = spell.get_current_activity(user)
+		var button_activity = spell.query_current_activity(user)
 		#$IconRect.texture = load(final_activity.icon)
-		$NameLabel.text = final_activity.name
-		var spell_actions = final_activity.AP_cost
+		$NameLabel.text = button_activity.name
+		var spell_actions = button_activity.AP_cost
 		$ActionsLabel.text = "%dAP" % [spell_actions]
 
 #func _pressed():

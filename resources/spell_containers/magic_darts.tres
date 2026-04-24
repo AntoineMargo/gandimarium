@@ -2,17 +2,15 @@
 
 [ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_0hifr"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_jiqyk"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/activity_modifier.gd" id="3_0ay6q"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="3_0ay6q"]
 [ext_resource type="Script" uid="uid://c87bku6q55ul5" path="res://VFX/projectile_config.gd" id="4_idjkp"]
-[ext_resource type="Texture2D" uid="uid://dut3pnkt23f7h" path="res://art/objects/mbolt2.png" id="5_q8cho"]
-[ext_resource type="PackedScene" uid="uid://bm40yjohcu4wn" path="res://VFX/projectile.tscn" id="6_ty6kg"]
 [ext_resource type="Script" uid="uid://b7tjqqmnvivdt" path="res://effects/proj_vfx_effect.gd" id="7_m7sha"]
 [ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="8_mfknl"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="9_e6eo3"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="10_y8cri"]
 [ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damaging_effect.gd" id="11_4je1x"]
-[ext_resource type="Script" uid="uid://nu2nga5cjrwe" path="res://activity_modifiers/before_modifier.gd" id="12_0ay6q"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="12_274on"]
+[ext_resource type="Script" uid="uid://kalwpa2j0ckf" path="res://activity_modifiers/addition_num_modifier.gd" id="13_0ay6q"]
 [ext_resource type="Script" uid="uid://bqn6moayd3kvg" path="res://VFX/projectile.gd" id="13_idjkp"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0ay6q"]
@@ -47,12 +45,11 @@ metadata/_custom_type_script = "uid://b7tjqqmnvivdt"
 
 [sub_resource type="Resource" id="Resource_e6eo3"]
 script = ExtResource("2_jiqyk")
-pattern = [0, 0, 3, 3]
+pattern = [0, 1, 1, 1]
 metadata/_custom_type_script = "uid://rltw2jbxjfsu"
 
 [sub_resource type="Resource" id="Resource_w0uwh"]
 script = ExtResource("11_4je1x")
-damage_die = 4
 damage_pattern = SubResource("Resource_e6eo3")
 metadata/_custom_type_script = "uid://otrxaros8gk8"
 
@@ -75,136 +72,38 @@ script = ExtResource("1_0hifr")
 activity = SubResource("Resource_errbm")
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
-[sub_resource type="Resource" id="Resource_v8q0s"]
-script = ExtResource("4_idjkp")
-texture = ExtResource("5_q8cho")
-speed = 800.0
-metadata/_custom_type_script = "uid://c87bku6q55ul5"
-
-[sub_resource type="Resource" id="Resource_w56er"]
-script = ExtResource("7_m7sha")
-projectile_scene = ExtResource("6_ty6kg")
-config = SubResource("Resource_v8q0s")
-metadata/_custom_type_script = "uid://b7tjqqmnvivdt"
-
-[sub_resource type="Resource" id="Resource_ij5f0"]
-script = ExtResource("2_jiqyk")
-pattern = [0, 0, 3, 3]
-metadata/_custom_type_script = "uid://rltw2jbxjfsu"
-
-[sub_resource type="Resource" id="Resource_aw7y6"]
-script = ExtResource("11_4je1x")
-damage_die = 4
-damage_pattern = SubResource("Resource_ij5f0")
-metadata/_custom_type_script = "uid://otrxaros8gk8"
-
-[sub_resource type="Resource" id="Resource_fw2i4"]
-script = ExtResource("8_mfknl")
-name = "Magic Darts"
-id = "magic_darts"
-defending_aptitude = 6
-reach = 20
-target_effects = Array[ExtResource("10_y8cri")]([SubResource("Resource_aw7y6")])
-can_only_hit_once = false
-projectile = SubResource("Resource_w56er")
-projectile_batch_mode = false
-triggers_reaction = true
-is_spell = true
-metadata/_custom_type_script = "uid://bxau8hir6ormb"
-
 [sub_resource type="Resource" id="Resource_q8cho"]
-script = ExtResource("12_0ay6q")
-tag_override = true
-property = "AP_cost"
-delta = 1
-metadata/_custom_type_script = "uid://nu2nga5cjrwe"
+script = ExtResource("13_0ay6q")
+to_add = 1
+metadata/_custom_type_script = "uid://kalwpa2j0ckf"
 
 [sub_resource type="Resource" id="Resource_ty6kg"]
-script = ExtResource("12_0ay6q")
-tag_override = true
-property = "number_of_targets"
-delta = 1
-metadata/_custom_type_script = "uid://nu2nga5cjrwe"
+script = ExtResource("13_0ay6q")
+to_add = 1
+value_type = 25
+metadata/_custom_type_script = "uid://kalwpa2j0ckf"
 
 [sub_resource type="Resource" id="Resource_tmley"]
 script = ExtResource("1_0hifr")
-activity = SubResource("Resource_fw2i4")
+activity = SubResource("Resource_errbm")
 modifiers = Array[ExtResource("3_0ay6q")]([SubResource("Resource_q8cho"), SubResource("Resource_ty6kg")])
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_m7sha"]
-load_path = "res://.godot/imported/mbolt2.png-a1a0ed283511ee043231a974535fffac.ctex"
-
-[sub_resource type="Resource" id="Resource_mfknl"]
-script = ExtResource("4_idjkp")
-texture = SubResource("CompressedTexture2D_m7sha")
-speed = 800.0
-metadata/_custom_type_script = "uid://c87bku6q55ul5"
-
-[sub_resource type="PackedScene" id="PackedScene_e6eo3"]
-_bundled = {
-"conn_count": 0,
-"conns": PackedInt32Array(),
-"editable_instances": [],
-"id_paths": [PackedInt32Array(), PackedInt32Array(), PackedInt32Array()],
-"names": PackedStringArray("Projectile", "Node2D", "script", "Sprite2D", "Sprite2D", "z_index", "Line2D", "Line2D", "GPUParticles2D", "GPUParticles2D"),
-"node_count": 4,
-"node_ids": PackedInt32Array(745868710, 1414165549, 326785909, 1113089344),
-"node_paths": [NodePath("."), NodePath("."), NodePath(".")],
-"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 1, 2, 0, 0, 1073741824, 0, 4, 3, -1, 1, 5, 1, 0, 1073741825, 0, 7, 6, -1, 0, 0, 1073741826, 0, 9, 8, -1, 0, 0),
-"variants": [ExtResource("13_idjkp"), 200],
-"version": 3
-}
-
-[sub_resource type="Resource" id="Resource_y8cri"]
-script = ExtResource("7_m7sha")
-projectile_scene = SubResource("PackedScene_e6eo3")
-config = SubResource("Resource_mfknl")
-metadata/_custom_type_script = "uid://b7tjqqmnvivdt"
-
-[sub_resource type="Resource" id="Resource_4je1x"]
-script = ExtResource("2_jiqyk")
-pattern = [0, 0, 3, 3]
-metadata/_custom_type_script = "uid://rltw2jbxjfsu"
-
-[sub_resource type="Resource" id="Resource_274on"]
-script = ExtResource("11_4je1x")
-damage_die = 4
-damage_pattern = SubResource("Resource_4je1x")
-metadata/_custom_type_script = "uid://otrxaros8gk8"
-
-[sub_resource type="Resource" id="Resource_uur3o"]
-script = ExtResource("8_mfknl")
-name = "Magic Darts"
-id = "magic_darts"
-defending_aptitude = 6
-reach = 20
-target_effects = Array[ExtResource("10_y8cri")]([SubResource("Resource_274on")])
-can_only_hit_once = false
-projectile = SubResource("Resource_y8cri")
-projectile_batch_mode = false
-triggers_reaction = true
-is_spell = true
-metadata/_custom_type_script = "uid://bxau8hir6ormb"
+[sub_resource type="Resource" id="Resource_0ay6q"]
+script = ExtResource("13_0ay6q")
+to_add = 2
+metadata/_custom_type_script = "uid://kalwpa2j0ckf"
 
 [sub_resource type="Resource" id="Resource_1s1xs"]
-script = ExtResource("12_0ay6q")
-tag_override = true
-property = "AP_cost"
-delta = 2
-metadata/_custom_type_script = "uid://nu2nga5cjrwe"
-
-[sub_resource type="Resource" id="Resource_i8xcc"]
-script = ExtResource("12_0ay6q")
-tag_override = true
-property = "number_of_targets"
-delta = 2
-metadata/_custom_type_script = "uid://nu2nga5cjrwe"
+script = ExtResource("13_0ay6q")
+to_add = 2
+value_type = 25
+metadata/_custom_type_script = "uid://kalwpa2j0ckf"
 
 [sub_resource type="Resource" id="Resource_sl7wx"]
 script = ExtResource("1_0hifr")
-activity = SubResource("Resource_uur3o")
-modifiers = Array[ExtResource("3_0ay6q")]([SubResource("Resource_1s1xs"), SubResource("Resource_i8xcc")])
+activity = SubResource("Resource_errbm")
+modifiers = Array[ExtResource("3_0ay6q")]([SubResource("Resource_0ay6q"), SubResource("Resource_1s1xs")])
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
 [resource]

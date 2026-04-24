@@ -6,6 +6,11 @@ var number_of_targets_left = 0
 var cm = null
 var wm = null
 
+
+func pre_execution_bundle_modify(ctx: Context):
+	super.pre_execution_bundle_modify(ctx)
+	number_of_targets = modify_value(number_of_targets, Enums.ValueType.NUMBER_OF_TARGETS, ctx, Enums.ActivityStage.PRE_EXECUTION)
+
 func handle_hover(tile: Vector3i) -> void:
 	var tiles = compute_affected_area(tile)
 	wm.clear_visualization(wm.preview_visualized_rects, wm.preview_visualized_lines)
@@ -40,7 +45,8 @@ func execute() -> void:
 	cm = Global.crisis_manager
 	wm = Global.world_manager
 	origin = user.get_coords()
-	_apply_act_mods()
+	var pre_ctx = _build_context()
+	pre_execution_bundle_modify(pre_ctx)
 	if target_points:
 		resolve_with_targets(target_points)
 	else:
@@ -164,11 +170,12 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 			if not passes_all_filters:
 				continue
 
-			_apply_pre_mods(ctx)
+			pre_roll_bundle_modify(ctx)
 			_roll(ctx)
-			_apply_post_mods(ctx)
+			post_roll_bundle_modify(ctx)
 			if requires_roll:
 				_resolve(ctx)
+			post_resolution_bundle_modify(ctx)
 				
 			var frozen_ctx = ctx
 

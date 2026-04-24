@@ -8,13 +8,17 @@ func preview_area(tile):
 	wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines)
 
 func execute() -> void:
-	_apply_act_mods()
 	_setup_concentration()
 
 	#target_points.clear()
+	
+	var pre_ctx = _build_context()
+	pre_execution_bundle_modify(pre_ctx)
 
 	var shared_ctx = _build_shared_context()
 	var self_ctx = _build_context(shared_ctx, user.get_coords())
+	
+
 
 	if spread == 0:
 		target_points.append(self_ctx.origin)
@@ -59,11 +63,12 @@ func execute() -> void:
 		if not passes_all_filters:
 			continue
 
-		_apply_pre_mods(ctx)
+		pre_roll_bundle_modify(ctx)
 		_roll(ctx)
-		_apply_post_mods(ctx)
+		post_roll_bundle_modify(ctx)
 		if requires_roll:
 			_resolve(ctx)
+		post_resolution_bundle_modify(ctx)
 
 		for effect in target_effects:
 			if effect is Effect:

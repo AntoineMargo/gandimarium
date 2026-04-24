@@ -27,19 +27,20 @@ func remove_from_initiative_order(creature):
 		initiative_order.erase(creature)
 		SignalBus.dialog_show_message.emit("%s removed from the initiative order." % [creature.data.name])
 
-func try_perform_activity(activity):
+func try_perform_activity(activity) -> bool:
 	if activity.requires_crisis and not crisis_mode:
 		SignalBus.dialog_show_message.emit("You are not in crisis mode!")
-		return
+		return false
 	if not Global.focus_char:
-		return
+		return false
 	
 	if not enough_action_points_for_activity(activity):
-		return
+		return false
 	if not enough_power_points_for_activity(activity):
-		return
+		return false
 	Global.focus_char.perform_activity(activity)
 	SignalBus.update_ui_for_char.emit()
+	return true
 
 func handle_next_turn():
 	if initiative_order:

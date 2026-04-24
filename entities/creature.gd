@@ -37,18 +37,18 @@ func add_concentration(concentration: Concentration):
 	data.concentrations.append(concentration)
 	SignalBus.update_ui_for_char.emit()
 
-func toggle_activity_modifier(modifier: ActivityModifier) -> void:
+func toggle_activity_modifier(modifier: Modifier) -> void:
 	for existing_mod in data.activity_modifiers:
 		if existing_mod.id == modifier.id:
 			data.activity_modifiers.erase(existing_mod)
 		else:
 			data.activity_modifiers.append(modifier)
 
-func add_activity_modifier(modifier: ActivityModifier) -> void:
+func add_activity_modifier(modifier: Modifier) -> void:
 	data.activity_modifiers.append(modifier)
 	SignalBus.update_ui_for_char.emit()
 
-func remove_activity_modifier(modifier: ActivityModifier) -> void:
+func remove_activity_modifier(modifier: Modifier) -> void:
 	for existing_mod in data.activity_modifiers:
 		if existing_mod.id == modifier.id:
 			data.conditions.erase(existing_mod)
@@ -419,9 +419,6 @@ func get_modified_activity(activity_variant: ActivityVariant) -> Activity:
 	var instance = activity_variant.produce(self)
 
 	for modifier in data.activity_modifiers:
-		if modifier is BeforeModifier:
-			modifier.modify_activity(instance)
-		else:
 			instance.modifiers.append(modifier)
 
 	return instance
@@ -440,24 +437,46 @@ func perform_activity(activity: Activity, target = null):
 		#activity.target_entities.append(target)
 	activity.execute()
 
-func perform_attack(target):
+func get_selected_weapon_activity() -> Activity:
 	var weapons = get_weapons()
 	var hand = data.equipment.active_hand
 	var category = data.equipment.active_category
 	var selected_weapon = weapons[hand]
+	var attack_activity: Activity = null
 	if selected_weapon:
 		if category == Enums.AttackCategory.STRIKE and selected_weapon.strike:
-			var attack_activity = get_modified_activity(selected_weapon.strike)
+			attack_activity = get_modified_activity(selected_weapon.strike)
 			attack_activity.weapon = selected_weapon
-			perform_activity(attack_activity, target)
 		elif category == Enums.AttackCategory.SHOOT and selected_weapon.shoot:
-			var attack_activity = get_modified_activity(selected_weapon.shoot)
+			attack_activity = get_modified_activity(selected_weapon.shoot)
 			attack_activity.weapon = selected_weapon
-			perform_activity(attack_activity, target)
 		elif category == Enums.AttackCategory.THROW and selected_weapon.throw:
-			var attack_activity = get_modified_activity(selected_weapon.throw)
+			attack_activity = get_modified_activity(selected_weapon.throw)
 			attack_activity.weapon = selected_weapon
-			perform_activity(attack_activity, target)
+	return attack_activity
+
+func perform_attack(target):
+	var attack_activity: Activity = get_selected_weapon_activity()
+	perform_activity(attack_activity, target)
+
+#func perform_attack(target):
+	#var weapons = get_weapons()
+	#var hand = data.equipment.active_hand
+	#var category = data.equipment.active_category
+	#var selected_weapon = weapons[hand]
+	#if selected_weapon:
+		#if category == Enums.AttackCategory.STRIKE and selected_weapon.strike:
+			#var attack_activity = get_modified_activity(selected_weapon.strike)
+			#attack_activity.weapon = selected_weapon
+			#perform_activity(attack_activity, target)
+		#elif category == Enums.AttackCategory.SHOOT and selected_weapon.shoot:
+			#var attack_activity = get_modified_activity(selected_weapon.shoot)
+			#attack_activity.weapon = selected_weapon
+			#perform_activity(attack_activity, target)
+		#elif category == Enums.AttackCategory.THROW and selected_weapon.throw:
+			#var attack_activity = get_modified_activity(selected_weapon.throw)
+			#attack_activity.weapon = selected_weapon
+			#perform_activity(attack_activity, target)
 
 func perform_operate(prop: Prop):
 	if consume_ap(1):

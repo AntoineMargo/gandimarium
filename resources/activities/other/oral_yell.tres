@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ImmediateActivity" format=3 uid="uid://bljt80d10kudf"]
 
 [ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="1_0mnqb"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/activity_modifier.gd" id="1_5xub5"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="1_5xub5"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_sovki"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="3_dh45m"]
 [ext_resource type="Resource" uid="uid://ct023ctlxw1di" path="res://resources/activity_modifiers/casting_tradition_oral.tres" id="4_dh45m"]
