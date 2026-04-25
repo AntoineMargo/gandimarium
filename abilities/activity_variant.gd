@@ -5,18 +5,25 @@ class_name ActivityVariant
 @export var modifiers: Array[Modifier] = []
 
 func pre_execute(user: Entity) -> Activity:
-	var instance = activity.duplicate(true)
-	
+	var instance: Activity = null
+	if activity is DerivedActivity:
+		instance = activity.pre_execute(user)
+	else:
+		instance = activity.duplicate(true)
+
+	var instance_modifiers = instance.modifiers
 	instance.user = user
 	
 	if modifiers:
 		for modifier in modifiers:
-			instance.modifiers.append(modifier)
+			instance_modifiers.append(modifier)
 
 		var pre_ctx = instance._build_context()
 		instance.pre_execution_bundle_modify(pre_ctx)
-
-	instance.pre_execution_modified = true
+		
+		for i in range(instance_modifiers.size() - 1, -1, -1):
+			if instance_modifiers[i].stage == Enums.ActivityStage.PRE_EXECUTION:
+				instance_modifiers.remove_at(i)
 
 	return instance
 

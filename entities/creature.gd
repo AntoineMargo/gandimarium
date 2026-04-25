@@ -17,7 +17,7 @@ var reachable_tiles = []
 var stats_dirty = true
 var active_right_click: Activity
 
-func add_activity(activity: Activity):
+func add_activity(activity: ActivityContainer):
 	if activity not in data.activities:
 		data.activities.append(activity)
 

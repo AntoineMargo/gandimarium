@@ -1,31 +1,32 @@
 [gd_resource type="Resource" script_class="CreatureData" format=3]
 
-[ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="1_lwos0"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="2_mpoef"]
-[ext_resource type="Script" uid="uid://cubgbyndvs8t3" path="res://aspects/aspect.gd" id="3_mav6v"]
-[ext_resource type="Script" uid="uid://boxs05dhsll81" path="res://entities/attributes.gd" id="4_dccdr"]
-[ext_resource type="Script" uid="uid://bqbvgbqafpkej" path="res://entities/base_stats.gd" id="5_tru5k"]
-[ext_resource type="Script" uid="uid://bajjyg2du7mri" path="res://abilities/concentration.gd" id="6_8honw"]
-[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="7_elf0c"]
-[ext_resource type="Resource" uid="uid://tb0qrirf41um" path="res://resources/creatures/equipment/basic_loadout.tres" id="8_a7flv"]
-[ext_resource type="Resource" uid="uid://b1s146xyl580x" path="res://resources/creatures/inventory/basic_inventory.tres" id="9_l67qo"]
-[ext_resource type="Resource" uid="uid://dif5f8s0c1c6x" path="res://resources/archetypes/mage.tres" id="10_r5xsn"]
-[ext_resource type="Script" uid="uid://bwpyc87wtxb7o" path="res://entities/personality.gd" id="11_s0cxt"]
-[ext_resource type="Script" uid="uid://cwy5ao2mmfqfh" path="res://various/affiliation_entry.gd" id="12_ivy2g"]
-[ext_resource type="Script" uid="uid://ci8skyvllvl30" path="res://various/reputation_entry.gd" id="13_q51xt"]
-[ext_resource type="Script" uid="uid://bucqf63xvppow" path="res://entities/relationships.gd" id="14_auotn"]
-[ext_resource type="Script" uid="uid://dlk8wy6dlqksm" path="res://various/tactical_relation_entry.gd" id="15_30uu3"]
-[ext_resource type="Script" uid="uid://2esemn7osq1o" path="res://entities/resistances.gd" id="16_slsgh"]
-[ext_resource type="Script" uid="uid://dyp8klyosnw2y" path="res://entities/creature_data.gd" id="17_wm7g2"]
-[ext_resource type="Script" uid="uid://8r6ieycv16pt" path="res://entities/skills.gd" id="18_nbrs0"]
-[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="19_0ykj1"]
-[ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="20_k4nig"]
+[ext_resource type="Script" path="res://abilities/activity_container.gd" id="1_lwos0"]
+[ext_resource type="Script" path="res://activity_modifiers/modifier.gd" id="2_mpoef"]
+[ext_resource type="Script" path="res://aspects/aspect.gd" id="3_mav6v"]
+[ext_resource type="Script" path="res://entities/attributes.gd" id="4_dccdr"]
+[ext_resource type="Script" path="res://entities/base_stats.gd" id="5_tru5k"]
+[ext_resource type="Script" path="res://abilities/concentration.gd" id="6_8honw"]
+[ext_resource type="Script" path="res://conditions/condition.gd" id="7_elf0c"]
+[ext_resource type="Resource" path="res://resources/creatures/equipment/basic_loadout.tres" id="8_a7flv"]
+[ext_resource type="Resource" path="res://resources/creatures/inventory/basic_inventory.tres" id="9_l67qo"]
+[ext_resource type="Resource" path="res://resources/archetypes/paragon.tres" id="10_r5xsn"]
+[ext_resource type="Script" path="res://entities/personality.gd" id="11_s0cxt"]
+[ext_resource type="Script" path="res://various/affiliation_entry.gd" id="12_ivy2g"]
+[ext_resource type="Script" path="res://various/reputation_entry.gd" id="13_q51xt"]
+[ext_resource type="Script" path="res://entities/relationships.gd" id="14_auotn"]
+[ext_resource type="Script" path="res://various/tactical_relation_entry.gd" id="15_30uu3"]
+[ext_resource type="Script" path="res://entities/resistances.gd" id="16_slsgh"]
+[ext_resource type="Script" path="res://entities/creature_data.gd" id="17_wm7g2"]
+[ext_resource type="Script" path="res://entities/skills.gd" id="18_nbrs0"]
+[ext_resource type="Script" path="res://abilities/spell_container.gd" id="19_0ykj1"]
+[ext_resource type="Script" path="res://talents/talent.gd" id="20_k4nig"]
 
 [sub_resource type="Resource" id="Resource_uphen"]
 script = ExtResource("4_dccdr")
-acuity = 5
-brawn = 5
-resolve = 12
+acuity = 8
+brawn = 8
+dexterity = 8
+resolve = 4
 
 [sub_resource type="Resource" id="Resource_jjbag"]
 script = ExtResource("5_tru5k")

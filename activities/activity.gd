@@ -51,8 +51,6 @@ var weapon: Item = null
 var target_points: Array[Vector3i] = []
 var target_entities: Array = []
 
-var pre_execution_modified: bool = false
-
 func _setup_concentration():
 	if requires_concentration:
 		concentration = Concentration.new()

@@ -428,7 +428,7 @@ func update_action_pips():
 			pip.modulate = Color(0.5, 0.5, 0.5, 0.7)
 
 func update_activity_buttons():
-	#var char = Global.selected_char
+	var character = Global.selected_char
 	var activities = Global.selected_char.data.activities
 	
 	var node_grid = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Activities")
@@ -438,15 +438,12 @@ func update_activity_buttons():
 
 	var count = min(activities.size(), MAX_ACTIVITIES)
 	for i in count:
-		if activities[i].is_invisible == false:
-			_create_activity_button(activities[i], node_grid)
+		var final_activity = activities[i].query_current_activity(character)
+		if final_activity.is_invisible == false:
+			_create_activity_button(final_activity, node_grid)
 
 func _set_button_active(button: TextureButton, active: bool) -> void:
-	var icon := button.get_node("Icon") as TextureRect
-	if not icon:
-		return
-
-	var mat = icon.material as ShaderMaterial
+	var mat = button.material as ShaderMaterial
 	if not mat:
 		return
 
@@ -454,8 +451,7 @@ func _set_button_active(button: TextureButton, active: bool) -> void:
 
 func _create_activity_button(activity, node_grid):
 	var button = activity_button.instantiate() as TextureButton
-	var icon = button.get_node("Icon") as TextureRect
-	icon.texture = load(activity.icon)
+	button.texture_normal = load(activity.icon)
 
 	button.set_meta("activity", activity)
 	node_grid.add_child(button)
@@ -580,10 +576,10 @@ func update_ui_for_char():
 	update_weapon_buttons_text()
 	update_active_category_buttons()
 	update_active_attack_buttons()
-	update_activity_buttons()
 	update_action_pips()
 	update_spell_list()
 	update_concentration_slots()
+	update_activity_buttons()
 	await get_tree().process_frame
 	#Global.ui_log.scroll_vertical = Global.ui_log.get_line_count()
 

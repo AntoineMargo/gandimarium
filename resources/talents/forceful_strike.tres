@@ -9,6 +9,20 @@
 [ext_resource type="Script" uid="uid://g1muvdggkxqa" path="res://effects/add_activity_effect.gd" id="4_qeqaa"]
 [ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="5_86ttj"]
 [ext_resource type="Script" uid="uid://dqlf6j78n0780" path="res://activities/derived_activity.gd" id="6_n23tq"]
+[ext_resource type="Script" uid="uid://cbnvjqqt0pmfb" path="res://activity_modifiers/multiply_num_modifier.gd" id="7_86ttj"]
+[ext_resource type="Script" uid="uid://kalwpa2j0ckf" path="res://activity_modifiers/addition_num_modifier.gd" id="8_xfge3"]
+
+[sub_resource type="Resource" id="Resource_wn6mx"]
+script = ExtResource("7_86ttj")
+multiply_by = 2
+value_type = 21
+stage = 4
+metadata/_custom_type_script = "uid://cbnvjqqt0pmfb"
+
+[sub_resource type="Resource" id="Resource_cexfp"]
+script = ExtResource("8_xfge3")
+to_add = 1
+metadata/_custom_type_script = "uid://kalwpa2j0ckf"
 
 [sub_resource type="Resource" id="Resource_xfge3"]
 script = ExtResource("6_n23tq")
@@ -16,6 +30,8 @@ get_selected_weapon_attack = true
 name = "Forceful Strike"
 id = "act_forceful_strike"
 description = "You strike with all your strength; doubling the brawn damage bonus but increasing the AP cost by 1."
+icon = "res://art/icons/wave-strike.svg"
+modifiers = Array[ExtResource("5_86ttj")]([SubResource("Resource_wn6mx"), SubResource("Resource_cexfp")])
 metadata/_custom_type_script = "uid://dqlf6j78n0780"
 
 [sub_resource type="Resource" id="Resource_1left"]
