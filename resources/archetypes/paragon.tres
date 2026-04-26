@@ -10,6 +10,14 @@
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/modifier_effect.gd" id="8_h0lsc"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="9_83l8a"]
 [ext_resource type="Resource" uid="uid://e8j7xmpe3hr8" path="res://resources/talents/forceful_strike.tres" id="10_ecqxw"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="11_nu4v8"]
+[ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="11_nwjpq"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/condition_effect.gd" id="12_ntw0w"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="12_w78cu"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="13_ytmud"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="14_voqpl"]
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="15_hq2xi"]
+[ext_resource type="Script" uid="uid://g1muvdggkxqa" path="res://effects/add_activity_effect.gd" id="18_a5v03"]
 
 [sub_resource type="Resource" id="Resource_cdkcb"]
 script = ExtResource("7_q7p8u")
@@ -65,9 +73,75 @@ description = "The paragon benefits from extraordinary vigour and can perform vi
 effects = Array[ExtResource("4_3bq5y")]([SubResource("Resource_15jjh")])
 metadata/_custom_type_script = "uid://c5ijx7qo7jak"
 
+[sub_resource type="Resource" id="Resource_xec6w"]
+script = ExtResource("5_711h4")
+stat = "max_reactions"
+amount = 1
+metadata/_custom_type_script = "uid://ik0hrifgbwa4"
+
+[sub_resource type="Resource" id="Resource_uh3c4"]
+script = ExtResource("8_h0lsc")
+modifiers = Array[ExtResource("5_711h4")]([SubResource("Resource_xec6w")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_nihs2"]
+script = ExtResource("11_nu4v8")
+name = "Fast Reflexes"
+id = "cond_fast_reflexes"
+description = "You have trained your reflexes to such an extent that you may use two Reactions per turn."
+icon = "res://art/icons/deadly-strike.svg"
+effects = Array[ExtResource("4_3bq5y")]([SubResource("Resource_uh3c4")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_lq284"]
+script = ExtResource("12_ntw0w")
+condition = SubResource("Resource_nihs2")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_n0w5p"]
+script = ExtResource("15_hq2xi")
+name = "Fast Reflexes"
+id = "act_fast_reflexes"
+description = "You have trained your reflexes to such an extent that you may use two Reactions per turn."
+icon = "res://art/icons/deadly-strike.svg"
+AP_cost = 0
+reach = 0
+self_final_effects = Array[ExtResource("4_3bq5y")]([SubResource("Resource_lq284")])
+requires_crisis = false
+requires_roll = false
+toggleable = true
+builds_condition = true
+condition_id = "cond_fast_reflexes"
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_ywmks"]
+script = ExtResource("12_w78cu")
+activity = SubResource("Resource_n0w5p")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_lprig"]
+script = ExtResource("11_nwjpq")
+name = "Fast Reflexes"
+description = "You have trained your reflexes to such an extent that you may use two Reactions per turn."
+icon = "res://art/icons/deadly-strike.svg"
+activities = Array[ExtResource("12_w78cu")]([SubResource("Resource_ywmks")])
+metadata/_custom_type_script = "uid://covfnqv811mqd"
+
+[sub_resource type="Resource" id="Resource_8cvgv"]
+script = ExtResource("18_a5v03")
+activities = Array[ExtResource("11_nwjpq")]([SubResource("Resource_lprig")])
+metadata/_custom_type_script = "uid://g1muvdggkxqa"
+
+[sub_resource type="Resource" id="Resource_1i8ne"]
+script = ExtResource("3_r4bqb")
+name = "Fast Reflexes"
+description = "You have trained your reflexes to such an extent that you may use two Reactions per turn."
+effects = Array[ExtResource("4_3bq5y")]([SubResource("Resource_8cvgv")])
+metadata/_custom_type_script = "uid://c5ijx7qo7jak"
+
 [sub_resource type="Resource" id="Resource_c1k8j"]
 script = ExtResource("2_swb77")
-auto_talents = Array[ExtResource("3_r4bqb")]([SubResource("Resource_hsr4a"), ExtResource("10_ecqxw")])
+auto_talents = Array[ExtResource("3_r4bqb")]([SubResource("Resource_hsr4a"), ExtResource("10_ecqxw"), SubResource("Resource_1i8ne")])
 metadata/_custom_type_script = "uid://dnii5080nqn0s"
 
 [resource]

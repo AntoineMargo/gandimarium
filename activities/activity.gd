@@ -38,6 +38,7 @@ class_name Activity
 @export var is_invisible: bool = false
 @export var triggers_reaction: bool = false
 @export var is_spell: bool = false
+@export var toggleable: bool = false
 @export var builds_condition: bool = false
 @export var condition_id: String = ""
 @export var attack_types: Array[DamagePattern]
@@ -201,11 +202,9 @@ func is_valid_target_point(point: Vector3i) -> bool:
 	origin = user.get_coords()
 
 	if not WorldMath.is_in_range(origin, point, reach):
-		SignalBus.dialog_out_of_range.emit()
 		return false
 
 	if not WorldMath.has_line_of_sight_tile(origin, point):
-		SignalBus.dialog_no_line_of_sight.emit()
 		return false
 
 	return true

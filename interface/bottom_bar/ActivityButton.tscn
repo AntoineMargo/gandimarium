@@ -1,8 +1,16 @@
 [gd_scene format=3 uid="uid://dj5yyj3iy7dip"]
 
 [ext_resource type="Script" uid="uid://wkrfh501y2qo" path="res://interface/bottom_bar/activity_button.gd" id="1_c2af4"]
+[ext_resource type="Shader" uid="uid://d3bhdpwfbbg1x" path="res://shaders/outline.gdshader" id="1_rt8ac"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e8146"]
+shader = ExtResource("1_rt8ac")
+shader_parameter/allow_out_of_bounds = false
+shader_parameter/outline_thickness = 2.0
+shader_parameter/outline_color = Color(1, 1, 0, 1)
 
 [node name="ActivityButton" type="TextureButton" unique_id=168495364]
+material = SubResource("ShaderMaterial_e8146")
 custom_minimum_size = Vector2(40, 40)
 anchors_preset = 8
 anchor_left = 0.5

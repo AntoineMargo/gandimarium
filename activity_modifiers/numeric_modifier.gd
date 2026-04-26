@@ -2,5 +2,5 @@
 extends Modifier
 class_name NumericModifier
 
-func modify(value: int, ctx: Context):
+func modify(_value: int, _ctx: Context):
 	pass

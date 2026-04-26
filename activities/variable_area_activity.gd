@@ -124,19 +124,6 @@ func cancel_activity():
 	SignalBus.dialog_show_message.emit("Canceling activity.")
 	_cleanup()
 
-#func is_valid_target_point(point: Vector3i) -> bool:
-	#var user_coords = user.get_coords()
-#
-	#if not WorldMath.is_in_range(user_coords, point, reach):
-		#SignalBus.dialog_out_of_range.emit()
-		#return false
-#
-	#if not WorldMath.has_line_of_sight_tile(user_coords, point):
-		#SignalBus.dialog_no_line_of_sight.emit()
-		#return false
-#
-	#return true
-
 func make_targets_unique(targets: Array) -> Array:
 			var tile_set := {}
 			for target in targets:
