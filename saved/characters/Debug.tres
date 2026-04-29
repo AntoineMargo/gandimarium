@@ -9,7 +9,7 @@
 [ext_resource type="Script" path="res://conditions/condition.gd" id="7_elf0c"]
 [ext_resource type="Resource" path="res://resources/creatures/equipment/basic_loadout.tres" id="8_a7flv"]
 [ext_resource type="Resource" path="res://resources/creatures/inventory/basic_inventory.tres" id="9_l67qo"]
-[ext_resource type="Resource" path="res://resources/archetypes/paragon.tres" id="10_r5xsn"]
+[ext_resource type="Resource" path="res://resources/archetypes/scholastic_mage.tres" id="10_r5xsn"]
 [ext_resource type="Script" path="res://entities/personality.gd" id="11_s0cxt"]
 [ext_resource type="Script" path="res://various/affiliation_entry.gd" id="12_ivy2g"]
 [ext_resource type="Script" path="res://various/reputation_entry.gd" id="13_q51xt"]
@@ -23,10 +23,9 @@
 
 [sub_resource type="Resource" id="Resource_uphen"]
 script = ExtResource("4_dccdr")
-acuity = 8
-brawn = 8
-dexterity = 8
-resolve = 4
+acuity = 5
+brawn = 5
+resolve = 12
 
 [sub_resource type="Resource" id="Resource_jjbag"]
 script = ExtResource("5_tru5k")
@@ -42,6 +41,11 @@ script = ExtResource("16_slsgh")
 
 [sub_resource type="Resource" id="Resource_hr011"]
 script = ExtResource("18_nbrs0")
+arcane = 5
+deception = 1
+medicine = 2
+persuasion = 4
+stealth = 3
 
 [resource]
 script = ExtResource("17_wm7g2")

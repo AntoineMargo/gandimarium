@@ -3,6 +3,7 @@ class_name Concentration
 
 var source = null
 @export var linked_conditions: Array = []
+@export var PP_cost: int = 0
 
 func register_condition(condition: Condition):
 	if not linked_conditions.has(condition):

@@ -462,7 +462,7 @@ func _create_activity_button(activity, node_grid):
 		push_error("Activity %s builds condition but has no condition_id" % activity.name)
 
 	#if activity.builds_condition:
-	if activity.toggleable:
+	if activity.toggleable and activity.builds_condition:
 		button.toggle_mode = true
 
 		var active = character.has_condition(activity.condition_id)

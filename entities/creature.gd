@@ -56,6 +56,8 @@ func remove_activity_modifier(modifier: Modifier) -> void:
 
 func remove_concentration(concentration: Concentration):
 	data.concentrations.erase(concentration)
+	SignalBus.update_character_info.emit()
+	SignalBus.update_ui_for_char.emit()
 
 func add_talent(talent: Talent):
 	for weaker_talent in talent.supplanted:
@@ -130,6 +132,9 @@ func add_condition_from(ctx: Context):
 	inst.add_source(ctx.id)
 	data.conditions.append(inst)
 	inst.initialize(ctx)
+	if Global.selected_char == self:
+		SignalBus.update_ui_for_char.emit()
+		SignalBus.update_character_info.emit()
 
 func remove_condition_by_id(condition_id: String):
 	var condition = null
@@ -156,7 +161,9 @@ func remove_condition(condition: Condition):
 	for existing_cond in data.conditions:
 		if existing_cond.id == condition.id:
 			data.conditions.erase(existing_cond)
-	stats_dirty = true
+	if Global.selected_char == self:
+		SignalBus.update_inventory.emit()
+		SignalBus.update_character_info.emit()
 
 func add_item_conditions(item):
 	if not item or not item.conditions:

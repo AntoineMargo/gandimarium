@@ -1,15 +1,16 @@
 extends Condition
 class_name AreaCondition
 
-@export var uid: int
 @export var applied_condition: Condition
 @export var trigger: Enums.AreaConditionTrigger
 
-@export var linked_conditions: Array = []
-@export var affected_tiles: Array[Vector3i] = []
-
+var uid: int
+var linked_conditions: Array = []
+var affected_tiles: Array[Vector3i] = []
 var affected_entities: Dictionary[Entity, Condition] = {} # Node, bool
 #var affected_entities: Dictionary[int, bool] = {} # UID, bool
+
+var is_finalized: bool = false
 
 func initialize(ctx: Context) -> void:
 	self.user = ctx.user
@@ -24,6 +25,22 @@ func initialize(ctx: Context) -> void:
 	if duration > 0:
 		end_time = start_time + duration
 		SignalBus.time_changed.connect(verify_expired)
+
+func finalize():
+	if is_finalized:
+		return
+
+	is_finalized = true
+	
+	if affected_tiles.is_empty():
+		return
+
+	if vfx_scene:
+		vfx_instance = vfx_scene.instantiate()
+		vfx_instance.setup(self)
+
+		Global.add_child(vfx_instance)
+		Global.world_manager.VFX_scenes.append(vfx_instance)
 
 func register_linked_condition(condition: Condition):
 	if not linked_conditions.has(condition):

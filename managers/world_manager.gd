@@ -26,6 +26,7 @@ var preview_visualized_lines: Array[Line2D] = []
 var committed_visualized_rects: Array[ColorRect] = []
 var committed_visualized_lines: Array[Line2D] = []
 
+var VFX_scenes: Array = []
 
 @onready var selection_highlight = load("res://interface/local_map/selection_highlight/selection_highlight.tscn").instantiate()
 @onready var hover_tile = load("res://interface/local_map/hover_tile_indicator/hover_tile_indicator.tscn").instantiate()

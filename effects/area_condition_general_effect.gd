@@ -17,6 +17,3 @@ func apply_context(ctx: ActivityContext) -> void:
 	instance.initialize(ctx)
 	
 	ctx.shared_context.created_area_conditions.append(instance)
-
-	#ctx.created_conditions.append(instance)
-	#ctx.target.toggle_condition(ctx) # makes no sense as the target is the map state

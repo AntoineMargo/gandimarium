@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cewqwbv1wbl5j"]
+
+[ext_resource type="Script" uid="uid://d4jorudoxgkiw" path="res://VFX/area/area_condition_vfx.gd" id="1_mqqb4"]
+
+[node name="AreaConditionVFX" type="Node2D" unique_id=1027615607]
+script = ExtResource("1_mqqb4")
+
+[node name="MultiMeshInstance2D" type="MultiMeshInstance2D" parent="." unique_id=1975999521]

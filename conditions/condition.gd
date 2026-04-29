@@ -64,9 +64,9 @@ func verify_expired(_days, _hours, _minutes, _seconds):
 func dispose():
 	destroy_children()
 	target.remove_condition(self)
-	if Global.selected_char == target:
-		SignalBus.update_inventory.emit()
-		SignalBus.update_character_info.emit()
+	#if Global.selected_char == target:
+		#SignalBus.update_inventory.emit()
+		#SignalBus.update_character_info.emit()
 
 func destroy_children():
 	for item in linked_items:
