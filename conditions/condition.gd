@@ -17,6 +17,8 @@ var vfx_instance: Node = null
 var linked_items: Array[Item] = []
 var linked_modifiers: Array[ModifierEntry] = []
 
+var testvar
+
 var user = null
 var target = null
 var user_uid = null
