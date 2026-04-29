@@ -19,7 +19,8 @@ func setup(condition: AreaCondition):
 	mm.mesh = quad
 
 	$MultiMeshInstance2D.multimesh = mm
-	$MultiMeshInstance2D.z_index = 1
+	$MultiMeshInstance2D.z_index = 10
+	$MultiMeshInstance2D.modulate = Color(0.7, 0.85, 1.0, 0.5)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

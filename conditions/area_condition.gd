@@ -100,6 +100,7 @@ func dispose():
 	for entity in affected_entities.keys():
 		remove_from_entity(entity)
 	affected_entities.clear()
+	vfx_instance.queue_free()
 	if Global.selected_char == target:
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()
