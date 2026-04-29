@@ -86,7 +86,8 @@ func start_crisis(creature):
 		crisis_round = 0
 		SignalBus.toggle_end_turn_button.emit()
 		SignalBus.dialog_start_crisis_mode.emit()
-		SignalBus.on_start_crisis.emit()
+		SignalBus.start_crisis_mode.emit(creature)
+		#SignalBus.on_start_crisis.emit()
 		SignalBus.update_ui_for_char.emit()
 		handle_next_turn()
 

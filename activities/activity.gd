@@ -40,6 +40,7 @@ class_name Activity
 @export var is_spell: bool = false
 @export var toggleable: bool = false
 @export var builds_condition: bool = false
+@export var per_round_drain: bool = false
 @export var condition_id: String = ""
 @export var attack_types: Array[DamagePattern]
 @export var ai_hint: AIHint
@@ -55,7 +56,7 @@ var target_entities: Array = []
 func _setup_concentration():
 	if requires_concentration:
 		concentration = Concentration.new()
-		concentration.source = self
+		concentration.setup(self, per_round_drain)
 
 func _finalize_concentration():
 	if requires_concentration:

@@ -62,6 +62,7 @@ requires_crisis = false
 is_spell = true
 toggleable = true
 builds_condition = true
+per_round_drain = true
 condition_id = "area_cond_solid_fog"
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 

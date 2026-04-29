@@ -754,7 +754,7 @@ func update_stats():
 	SignalBus.add_to_initiative.emit(self)
 	SignalBus.update_ui_for_char.emit()
 
-func _on_start_crisis():
+func _on_start_crisis(_creature):
 	update_stats()
 	data.current_ap = data.derived_stats.max_ap
 	data.current_mp = 0
@@ -889,6 +889,6 @@ func _ready():
 	health_bar_instance = health_bar_scene.instantiate()
 	$Mover.add_child(health_bar_instance)
 	mover.position = Vector2.ZERO
-	SignalBus.on_start_crisis.connect(_on_start_crisis)
+	SignalBus.start_crisis_mode.connect(_on_start_crisis)
 	$Mover/DamageVisual.hit_material = sprite_node.material as ShaderMaterial
 	

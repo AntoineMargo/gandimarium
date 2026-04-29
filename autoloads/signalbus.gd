@@ -34,7 +34,7 @@ signal turn_ends()
 signal toggle_end_turn_button()
 signal toggle_crisis_button()
 signal weapon_attack(target)
-signal on_start_crisis()
+#signal on_start_crisis()
 signal add_to_initiative(creature)
 
 signal ai_became_active(creature)

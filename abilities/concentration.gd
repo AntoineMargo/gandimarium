@@ -1,15 +1,43 @@
 extends Resource
 class_name Concentration
 
-var source = null
 @export var linked_conditions: Array = []
-@export var PP_cost: int = 0
+
+var source = null
+var start_time: int
+var PP_consumed: int = 0
+
+func setup(src, drain: bool = false):
+	source = src
+	start_time = Global.time_manager.get_total_seconds()
+	
+	if drain:
+		if not SignalBus.time_changed.is_connected(tick_tock):
+			SignalBus.time_changed.connect(tick_tock)
+
+func tick_tock(_days, _hours, _minutes, _seconds):
+	var current_time: int = Global.time_manager.get_total_seconds()
+	@warning_ignore("integer_division")
+	var elapsed_rounds: int = (current_time - start_time) / 6
+	
+	var rounds_to_charge = elapsed_rounds - PP_consumed
+	if rounds_to_charge <= 0:
+		return
+
+	for i in range(rounds_to_charge):
+		if not source.user.consume_pp(1):
+			cancel()
+			return
+		PP_consumed += 1
+		SignalBus.update_ui_for_char.emit()
 
 func register_condition(condition: Condition):
 	if not linked_conditions.has(condition):
 		linked_conditions.append(condition)
 
 func cancel():
+	if SignalBus.time_changed.is_connected(tick_tock):
+		SignalBus.time_changed.disconnect(tick_tock)
 	for condition in linked_conditions:
 		if is_instance_valid(condition):
 			condition.remove_source(source.id)
