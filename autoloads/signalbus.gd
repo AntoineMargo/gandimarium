@@ -47,6 +47,9 @@ signal crisis_state_changed()
 
 #signal active_hostiles_changed(active_creatures)
 
+#Projectile
+signal projectile_finished(projectile)
+
 #AI
 signal noticing_check(coordinates)
 signal sight_check(pos)

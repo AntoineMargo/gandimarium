@@ -12,9 +12,10 @@ var target_roll: int = 0
 var result: int = 0
 var degree: int = 0
 
+var projectile_instance: Projectile = null
+
 var shared_context: SharedContext = null
 
-#var created_conditions: Array[AreaCondition] = []
 var created_items: Array[Item] = []
 
 var delayed_calls: Array[Callable] = []
