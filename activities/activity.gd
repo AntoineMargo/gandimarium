@@ -10,7 +10,8 @@ class_name Activity
 @export var PP_cost: int = 0
 @export var EP_cost: int = 0
 @export var requires_concentration: bool = false
-@export var line_of_sight: bool = true
+@export var reach_requires_LOS: bool = true
+@export var spread_requires_LOS: bool = true
 @export var attacking_aptitude: Enums.Aptitude = Enums.Aptitude.WILL
 @export var defending_aptitude: Enums.Aptitude = Enums.Aptitude.WILL
 @export var reach: int = 1
@@ -120,7 +121,8 @@ func pre_execution_bundle_modify(ctx: Context):
 	spread = modify_value(spread, Enums.ValueType.SPREAD, ctx, Enums.ActivityStage.PRE_EXECUTION)
 	delay = modify_value(delay, Enums.ValueType.DELAY, ctx, Enums.ActivityStage.PRE_EXECUTION)
 	
-	line_of_sight = modify_value(line_of_sight, Enums.ValueType.LINE_OF_SIGHT, ctx, Enums.ActivityStage.PRE_EXECUTION)
+	reach_requires_LOS = modify_value(reach_requires_LOS, Enums.ValueType.REACH_LOS, ctx, Enums.ActivityStage.PRE_EXECUTION)
+	spread_requires_LOS = modify_value(spread_requires_LOS, Enums.ValueType.SPREAD_LOS, ctx, Enums.ActivityStage.PRE_EXECUTION)
 	can_only_hit_once = modify_value(can_only_hit_once, Enums.ValueType.CAN_ONLY_HIT_ONCE, ctx, Enums.ActivityStage.PRE_EXECUTION)
 	triggers_reaction = modify_value(triggers_reaction, Enums.ValueType.TRIGGERS_REACTION, ctx, Enums.ActivityStage.PRE_EXECUTION)
 	
@@ -199,33 +201,33 @@ func can_execute() -> bool:
 func has_tag(tag: String) -> bool:
 	return tags.has(tag)
 
-func is_valid_target_point(point: Vector3i) -> bool:
+func is_valid_target_point(point: Vector3i, requires_los: bool = true) -> bool:
 	origin = user.get_coords()
 
 	if not WorldMath.is_in_range(origin, point, reach):
 		return false
 
-	if not WorldMath.has_line_of_sight_tile(origin, point):
+	if requires_los and not WorldMath.has_line_of_sight_tile(origin, point):
 		return false
 
 	return true
 
 func remove_invalid_points(targets: Array[Vector3i]):
 	for i in range(targets.size() - 1, -1, -1):
-		if not is_valid_target_point(targets[i]):
+		if not is_valid_target_point(targets[i], reach_requires_LOS):
 			targets.remove_at(i)
 
 func compute_affected_area(target_location: Vector3i) -> Array[Vector3i]:
 	match shape:
 		Enums.Shape.BURST:
-			return WorldMath.get_burst_tiles(target_location, spread, line_of_sight)
+			return WorldMath.get_burst_tiles(target_location, spread, spread_requires_LOS)
 		Enums.Shape.CONE:
-			return WorldMath.get_cone_tiles(origin, target_location, reach, spread, line_of_sight)
+			return WorldMath.get_cone_tiles(origin, target_location, reach, spread, spread_requires_LOS)
 		Enums.Shape.LINE:
 			var tiles = WorldMath.get_line_tiles(origin, target_location, reach)
 			tiles.pop_front()
 			return tiles
-	return WorldMath.get_burst_tiles(target_location, spread, line_of_sight)
+	return WorldMath.get_burst_tiles(target_location, spread, spread_requires_LOS)
 
 func _init():
 	if ai_hint:

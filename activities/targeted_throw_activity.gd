@@ -3,24 +3,11 @@ class_name TargetedThrowActivity
 
 var final_reach: int = 0
 
-func is_valid_target_point(point: Vector3i) -> bool:
-	origin = user.get_coords()
-
-	if not WorldMath.is_in_range(origin, point, final_reach):
-		SignalBus.dialog_out_of_range.emit()
-		return false
-
-	if not WorldMath.has_line_of_sight_tile(origin, point):
-		SignalBus.dialog_no_line_of_sight.emit()
-		return false
-
-	return true
-
 func handle_hover(tile: Vector3i) -> void:
 	var tiles = compute_affected_area(tile)
 	wm.clear_visualization(wm.preview_visualized_rects, wm.preview_visualized_lines)
 	if shape == Enums.Shape.BURST:
-		if not is_valid_target_point(tile):
+		if not is_valid_target_point(tile, reach_requires_LOS):
 			wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines, Color(255, 0, 0, 255))
 			return
 	wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines)

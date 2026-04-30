@@ -48,9 +48,9 @@ metadata/_custom_type_script = "uid://62ayu2esarc8"
 [sub_resource type="Resource" id="Resource_k724e"]
 script = ExtResource("9_2x3kp")
 name = "Solid Fog"
+id = "spell_solid_fog"
 AP_cost = 2
 requires_concentration = true
-line_of_sight = false
 reach = 20
 spread = 8
 self_prior_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_j8ccw")])

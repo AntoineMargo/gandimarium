@@ -31,7 +31,7 @@ func compute_affected_area(target_location: Vector3i) -> Array[Vector3i]:
 
 func start_drag():
 	var hovered_tile = wm.get_hovered_tile()
-	if not is_valid_target_point(hovered_tile):
+	if not is_valid_target_point(hovered_tile, reach_requires_LOS):
 		return
 	start_tile = hovered_tile
 	is_dragging = true
