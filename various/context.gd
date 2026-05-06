@@ -2,7 +2,7 @@ extends RefCounted
 class_name Context
 
 var id: String = ""
-var user: Node = null
+var user: Entity = null
 var origin = null
 
 var target = null
@@ -12,3 +12,10 @@ var condition: Condition = null
 var tile_spawned_on: Vector3i = Vector3i(0, 0, 0)
 
 var info = {}
+
+static func movement(u, o, t) -> Context:
+	var context = Context.new()
+	context.user = u
+	context.origin = o
+	context.target = t
+	return context

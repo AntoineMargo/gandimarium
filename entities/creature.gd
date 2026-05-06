@@ -102,23 +102,33 @@ func get_condition_by_id(condition_id) -> Condition:
 			return condition
 	return null
 
-## Returns 'true' on adding the condition, 'false' on removing it
-func toggle_condition(ctx: Context) -> bool:
+## Returns the new condition instance on adding the condition, null on removing it
+func toggle_condition(ctx: Context) -> Condition:
 	var existing = get_condition_by_id(ctx.condition.id)
 
 	if existing:
 		existing.remove_source(ctx.id)
-		return false
+		return null
 	else:
-		add_condition_from(ctx)
-		return true
+		return add_condition_from(ctx)
 
-func add_condition_from(ctx: Context):
+### Returns 'true' on adding the condition, 'false' on removing it
+#func toggle_condition(ctx: Context) -> bool:
+	#var existing = get_condition_by_id(ctx.condition.id)
+#
+	#if existing:
+		#existing.remove_source(ctx.id)
+		#return false
+	#else:
+		#add_condition_from(ctx)
+		#return true
+
+func add_condition_from(ctx: Context) -> Condition:
 	var existing = get_condition_by_id(ctx.condition.id)
 
 	if existing:
 		existing.add_source(ctx.id)
-		return
+		return existing
 
 	for weaker_cond in ctx.condition.supplanted:
 		if has_condition(weaker_cond.id):
@@ -126,7 +136,7 @@ func add_condition_from(ctx: Context):
 	for existing_cond in data.conditions:
 		for weaker_cond in existing_cond.supplanted:
 			if ctx.condition.id == weaker_cond.id:
-				return
+				return existing_cond
 
 	var inst = ctx.condition.duplicate(true)
 	inst.add_source(ctx.id)
@@ -135,6 +145,7 @@ func add_condition_from(ctx: Context):
 	if Global.selected_char == self:
 		SignalBus.update_ui_for_char.emit()
 		SignalBus.update_character_info.emit()
+	return inst
 
 func remove_condition_by_id(condition_id: String):
 	var condition = null

@@ -134,6 +134,8 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 				_cleanup()
 				return
 
+	SignalBus.event.emit(ReactionEvent.activity_started(self_ctx))
+
 	for effect in self_prior_effects:
 		if effect is Effect:
 			if effect.has_method("apply_context"):

@@ -7,7 +7,7 @@ class_name AreaCondition
 var uid: int
 var linked_conditions: Array = []
 var affected_tiles: Array[Vector3i] = []
-var affected_entities: Dictionary[Entity, Condition] = {} # Node, bool
+var affected_entities: Dictionary[Entity, Condition] = {} # Node, Condition
 #var affected_entities: Dictionary[int, bool] = {} # UID, bool
 
 var is_finalized: bool = false
@@ -25,6 +25,7 @@ func initialize(ctx: Context) -> void:
 	if duration > 0:
 		end_time = start_time + duration
 		SignalBus.time_changed.connect(verify_expired)
+	SignalBus.event.connect(handle_area_exit)
 
 func finalize():
 	if is_finalized:
@@ -62,12 +63,13 @@ func apply_to_entity(entity):
 	ctx.target = entity
 	ctx.condition = applied_condition
 
-	if not ctx.target.has_condition(applied_condition.id):
-		ctx.target.toggle_condition(ctx)
-
 	if entity is Creature:
-		affected_entities[entity] = applied_condition
-		#affected_entities[entity.data.uid] = true
+		var instance: Condition
+		if not ctx.target.has_condition(applied_condition.id):
+			instance = ctx.target.toggle_condition(ctx)
+			affected_entities[entity] = instance
+			#affected_entities[entity.data.uid] = true
+			instance.freeze()
 
 func remove_from_entity(entity):
 	if not affected_entities.has(entity):
@@ -83,6 +85,16 @@ func remove_from_entity(entity):
 		ctx.target.toggle_condition(ctx)
 	
 	affected_entities.erase(entity)
+
+func handle_area_exit(reaction_event: ReactionEvent):
+	var entity = reaction_event.context.user
+	if affected_entities.has(entity):
+		var pos = entity.get_coords()
+		if pos not in affected_tiles:
+			if applied_condition.duration == -1:
+				remove_from_entity(entity)
+			else:
+				affected_entities[entity].unfreeze()
 
 func clear_tiles():
 	var wm = Global.world_manager

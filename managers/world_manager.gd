@@ -733,7 +733,40 @@ func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, vi
 		path_array.pop_back()
 	return false
 
-func try_move_char_abs(creature: Creature, origin: Vector3i, target: Vector3i):
+func move_char_along_path(creature: Creature, path: Array[Vector3i]):
+	path_preview.make_inactive()
+	for i in range(path.size() - 1):
+		var current_tile = path[i]
+		var layer_current_tile = Vector2i(current_tile.x, current_tile.y)
+		var next_tile = path[i + 1]
+		var layer_next_tile = Vector2i(next_tile.x, next_tile.y)
+
+		layers[current_tile.z]["cover"][layer_current_tile] = Enums.Cover.NONE
+		layers[current_tile.z]["occupied"][layer_current_tile] = false
+		layers[current_tile.z]["path_map"].set_point_solid(layer_current_tile, false)
+		remove_from_tile(creature, current_tile)
+
+		creature.data.tile_x = next_tile.x
+		creature.data.tile_y = next_tile.y
+		creature.data.tile_z = next_tile.z
+
+		layers[next_tile.z]["cover"][layer_next_tile] = Enums.Cover.QUARTER
+		layers[next_tile.z]["occupied"][layer_next_tile] = true
+		layers[next_tile.z]["path_map"].set_point_solid(layer_next_tile, true)
+		add_to_tile(creature, next_tile)
+		creature.visible = (creature.data.tile_z == current_level)
+		creature.global_position = layers[next_tile.z]["tile_map"].map_to_local(layer_next_tile)
+		creature.mover.position = Vector2.ZERO # Very necessary because of position/global_position mismatch during real-time move
+		handle_tile_conditions(next_tile, creature)
+		selection_highlight.update_selection_highlight()
+		SignalBus.sight_check.emit(next_tile)
+		SignalBus.event.emit(ReactionEvent.movement(Context.movement(creature, current_tile, next_tile)))
+		flash_path([current_tile])
+		await get_tree().create_timer(0.05).timeout
+	path_preview.make_active()
+
+func move_char_to_tile(creature: Creature, origin: Vector3i, target: Vector3i):
+	path_preview.clear_all()
 	var layer_origin = Vector2i(origin.x, origin.y)
 	var layer_target = Vector2i(target.x, target.y)
 	
@@ -750,7 +783,9 @@ func try_move_char_abs(creature: Creature, origin: Vector3i, target: Vector3i):
 	layers[target.z]["occupied"][layer_target] = true
 	layers[target.z]["path_map"].set_point_solid(layer_target, true)
 	add_to_tile(creature, target)
-	path_preview.clear_all()
+
+func try_move_char_abs(creature: Creature, origin: Vector3i, target: Vector3i):
+	move_char_to_tile(creature, origin, target)
 
 func select_creature_on_tile(coordinates: Vector3i) -> bool:
 	var layer_coords = Vector2i(coordinates.x, coordinates.y)
@@ -977,27 +1012,27 @@ func interact_move(character: Creature, target: Vector3i):
 		var ap_cost = calculate_ap_cost(cost, current_available_mp, mp_per_ap, total_mp)
 		character.consume_ap(ap_cost, false)
 		path_preview.get_char_data()
-		character.global_position = layers[target.z]["tile_map"].map_to_local(layer_origin)
-		try_move_char_abs(character, origin, target)
-		character.global_position = layers[target.z]["tile_map"].map_to_local(layer_target)
-		character.mover.position = Vector2.ZERO # Very necessary because of position/global_position mismatch during real-time move
-		flash_path(path)
-		SignalBus.sight_check.emit(path[-1])
+		move_char_along_path(character, path)
 	else:
 		character.mover.begin_path(path)
-	
-	handle_path_conditions(path, character)
 	character.visible = (character.data.tile_z == current_level)
 	SignalBus.update_ui_for_char.emit()
 	selection_highlight.update_selection_highlight()
 
-func handle_path_conditions(path: Array[Vector3i], creature: Creature):
-	for tile in path:
-		var layer_tile: Vector2i = Vector2i(tile.x, tile.y)
-		if layers[tile.z]["contents"].has(layer_tile):
-			for element in layers[tile.z]["contents"][layer_tile]:
-				if element is AreaCondition and element.trigger == Enums.AreaConditionTrigger.ENTER:
-					element.apply_to_entity(creature)
+func handle_tile_conditions(tile: Vector3i, creature: Creature):
+	var layer_tile: Vector2i = Vector2i(tile.x, tile.y)
+	if layers[tile.z]["contents"].has(layer_tile):
+		for element in layers[tile.z]["contents"][layer_tile]:
+			if element is AreaCondition and element.trigger == Enums.AreaConditionTrigger.ENTER:
+				element.apply_to_entity(creature)
+
+#func handle_path_conditions(path: Array[Vector3i], creature: Creature):
+	#for tile in path:
+		#var layer_tile: Vector2i = Vector2i(tile.x, tile.y)
+		#if layers[tile.z]["contents"].has(layer_tile):
+			#for element in layers[tile.z]["contents"][layer_tile]:
+				#if element is AreaCondition and element.trigger == Enums.AreaConditionTrigger.ENTER:
+					#element.apply_to_entity(creature)
 
 func flash_path(path: Array) -> void:
 	for point in path:

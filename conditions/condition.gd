@@ -25,8 +25,10 @@ var tile_spawned_on: Vector3i = Vector3i(0, 0, 0)
 var spell_rank: int = 0
 var sources = {}
 
+var frozen: bool = false
 var start_time: int
 var end_time: int
+var remaining_time: int
 
 func is_active() -> bool:
 	return not sources.is_empty()
@@ -58,8 +60,28 @@ func initialize(ctx: Context) -> void:
 		SignalBus.time_changed.connect(verify_expired)
 
 func verify_expired(_days, _hours, _minutes, _seconds):
+	if frozen:
+		return
+
 	if Global.time_manager.get_total_seconds() >= end_time:
 		dispose()
+
+func freeze():
+	if frozen:
+		return
+	
+	frozen = true
+	var current_time = Global.time_manager.get_total_seconds()
+	remaining_time = end_time - current_time
+	
+func unfreeze():
+	if not frozen:
+		return
+	
+	var current_time = Global.time_manager.get_total_seconds()
+	if end_time - current_time != remaining_time:
+		end_time = current_time + remaining_time
+	frozen = false
 
 func dispose():
 	destroy_children()

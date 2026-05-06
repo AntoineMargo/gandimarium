@@ -85,7 +85,9 @@ func arrive_at_tile(point, old_point, next_point):
 	
 	global_position = wm.tile_to_pixels(point)
 	creature.set_coords(point)
-	wm.try_move_char_abs(creature, old_point, point)
+	wm.move_char_to_tile(creature, old_point, point)
+	wm.handle_tile_conditions(point, creature)
+	SignalBus.event.emit(ReactionEvent.movement(Context.movement(creature, old_point, point)))
 	if creature.data.player_controlled:
 		SignalBus.noticing_check.emit(point)
 	path_index += 1

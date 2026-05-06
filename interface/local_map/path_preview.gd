@@ -10,6 +10,8 @@ extends Node2D
 @export var max_available_ap: float = 0.0
 @export var current_available_mp: float = 0
 
+var active: bool = true
+
 var path_points: Array = []
 var segment_costs: Array = []
 
@@ -20,6 +22,12 @@ var tick_template: Node2D
 var tick_main: Line2D
 var tick_shadow: Line2D
 
+func make_active():
+	active = true
+
+func make_inactive():
+	active = false
+
 func get_char_data():
 	var character = Global.selected_char
 
@@ -28,9 +36,12 @@ func get_char_data():
 	current_available_mp = character.get_stat("current_mp")
 
 func update_path(path: Array, tilemap: TileMapLayer, costs: Array) -> void:
-	path_points.clear()
-	segment_costs.clear()
-	
+	clear_all()
+	#path_points.clear()
+	#segment_costs.clear()
+
+	if not active:
+		return
 
 	var current_level = Global.world_manager.current_level
 

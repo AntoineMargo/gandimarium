@@ -11,6 +11,13 @@ enum ConstructionState {
 	DESTROYED
 }
 
+enum EventType {
+	MOVEMENT,
+	ACTIVITY_STARTED,
+	ACTIVITY_SUCCESS,
+	ACTIVITY_FAILURE
+	}
+
 enum RoomType {
 	UNDEFINED,
 	PERIMETER,
