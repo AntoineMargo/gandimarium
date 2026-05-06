@@ -1,0 +1,74 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://doajwn5ekt1qw"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_t6m65"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_13wjb"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="3_kgc52"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="4_mpnnx"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_78q6f"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_wrc7h"]
+[ext_resource type="Script" uid="uid://cfpj1qbuyeinb" path="res://effects/finalize_are_condition_effect.gd" id="7_5cwtd"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="8_v53se"]
+[ext_resource type="Script" uid="uid://ckh556ahfopjg" path="res://conditions/area_condition.gd" id="9_vuhvc"]
+[ext_resource type="PackedScene" uid="uid://cewqwbv1wbl5j" path="res://VFX/area/area_condition_VFX.tscn" id="10_6rj0j"]
+[ext_resource type="Script" uid="uid://dwlhkak5s0ikl" path="res://effects/area_condition_general_effect.gd" id="11_0qi3v"]
+[ext_resource type="Script" uid="uid://62ayu2esarc8" path="res://effects/area_condition_tile_effect.gd" id="12_mm3b5"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="13_gjpf7"]
+
+[sub_resource type="Resource" id="Resource_2x3kp"]
+script = ExtResource("7_5cwtd")
+metadata/_custom_type_script = "uid://cfpj1qbuyeinb"
+
+[sub_resource type="Resource" id="Resource_b3iya"]
+script = ExtResource("8_v53se")
+name = "Solid Fog"
+id = "cond_solid_fog"
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_fm8u5"]
+script = ExtResource("9_vuhvc")
+applied_condition = SubResource("Resource_b3iya")
+name = "Solid Fog"
+id = "area_cond_solid_fog"
+vfx_scene = ExtResource("10_6rj0j")
+metadata/_custom_type_script = "uid://ckh556ahfopjg"
+
+[sub_resource type="Resource" id="Resource_j8ccw"]
+script = ExtResource("11_0qi3v")
+condition = SubResource("Resource_fm8u5")
+metadata/_custom_type_script = "uid://dwlhkak5s0ikl"
+
+[sub_resource type="Resource" id="Resource_n5vkd"]
+script = ExtResource("12_mm3b5")
+metadata/_custom_type_script = "uid://62ayu2esarc8"
+
+[sub_resource type="Resource" id="Resource_k724e"]
+script = ExtResource("4_mpnnx")
+name = "Solid Fog"
+id = "spell_solid_fog"
+AP_cost = 2
+requires_concentration = true
+reach = 20
+spread = 8
+self_prior_effects = Array[ExtResource("6_wrc7h")]([SubResource("Resource_j8ccw")])
+self_final_effects = Array[ExtResource("6_wrc7h")]([SubResource("Resource_2x3kp")])
+target_effects = Array[ExtResource("6_wrc7h")]([SubResource("Resource_n5vkd")])
+targeting_type = 1
+affected_type = 1
+requires_crisis = false
+is_spell = true
+toggleable = true
+builds_condition = true
+per_round_drain = true
+condition_id = "area_cond_solid_fog"
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_2uh2x"]
+script = ExtResource("1_t6m65")
+activity = SubResource("Resource_k724e")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("13_gjpf7")
+name = "Solid Fog"
+activities = Array[ExtResource("1_t6m65")]([SubResource("Resource_2uh2x")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://b3ew6mq242tql"]
+
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_0b2ed"]
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_jxasv"]
+
+[resource]
+script = ExtResource("2_jxasv")
+name = "Spell Armour"
+id = "itm_spell_armour"
+description = "A shimmering, translucent suit of armour."
+icon = "res://art/icons/items/chest-armor.svg"
+weight = 0.0
+value = 0
+slot_type = 4
+can_be_removed = false
+brawn_req_1h = 0
+brawn_req_2h = 0
+owner = null
+metadata/_custom_type_script = "uid://c22428ggciyyj"

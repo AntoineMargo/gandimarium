@@ -114,6 +114,24 @@ func determine_find_dimensions():
 func get_tile_data(tile: Vector3i):
 	return layers[tile.z]["tile_map"].get_cell_tile_data(Vector2i(tile.x, tile.y))
 
+func get_tile_move_cost(tile: Vector3i) -> float:
+	return layers[tile.z]["move_cost"].get(Vector2i(tile.x, tile.y), 1)
+
+func get_tile_contents(tile: Vector3i) -> Array:
+	var layer_tile = Vector2i(tile.x, tile.y)
+	var contents = layers[tile.z]["contents"]
+
+	var result = contents.get(layer_tile)
+	if result == null:
+		result = []
+		contents[layer_tile] = result
+
+	return result
+
+func change_tile_move_cost(tile: Vector3i, new_cost: float) -> void:
+	var layer_tile = Vector2i(tile.x, tile.y)
+	layers[tile.z]["move_cost"][layer_tile] = new_cost
+
 func setup_layers():
 	layers.clear()
 	for child in current_world.get_children():
@@ -125,6 +143,7 @@ func setup_layers():
 			var contents = {};
 			var occupied = {};
 			var cover = {};
+			var move_cost = {};
 			var hit_points = {};
 			var item_visual = {};
 
@@ -135,6 +154,7 @@ func setup_layers():
 				"contents": contents,
 				"occupied": occupied,
 				"cover": cover,
+				"move_cost": move_cost,
 				"hit_points": hit_points,
 				"item_visual": item_visual
 			}
@@ -390,26 +410,26 @@ func calculate_path_cost_3D_simple(path) -> float:
 		var prev = path[i - 1]
 		var curr = path[i]
 
-		# Normalize to tile-space
 		var prev_tile = Vector2i(prev.x, prev.y)
 		var curr_tile = Vector2i(curr.x, curr.y)
 		var delta = curr_tile - prev_tile
 
-		var step_cost = 1.0
+		var step_cost: float = get_tile_move_cost(curr)
 		var is_diagonal = abs(delta.x) == 1 and abs(delta.y) == 1 and prev.z == curr.z
 		if is_diagonal:
-			step_cost = 1.5
+			step_cost *= 1.5
 
-		# Optional: adjust cost for vertical movement
+		# vertical movement
 		elif prev.z != curr.z:
-			step_cost = 1.0  # Or set to 2.0 if stairs are "harder"
+			step_cost *= 2.0
 
 		total_cost += step_cost
 	
 	return total_cost
 
-func calculate_path_cost_3D_simple_with_segments(path: Array) -> Array:
-	# Returns an array of floats: movement cost per segment
+## Returns an array of floats: movement cost per segment
+func turn_path_array_into_cost_array(path: Array) -> Array:
+	
 	var segment_costs: Array = []
 
 	if path.size() <= 1:
@@ -419,21 +439,18 @@ func calculate_path_cost_3D_simple_with_segments(path: Array) -> Array:
 		var prev = path[i - 1]
 		var curr = path[i]
 
-		# Tile-space coordinates for XY
 		var prev_tile = Vector2i(prev.x, prev.y)
 		var curr_tile = Vector2i(curr.x, curr.y)
 		var delta = curr_tile - prev_tile
 
-		var step_cost = 1.0
-
-		# diagonal movement on the same level
+		var step_cost: float = get_tile_move_cost(curr)
 		var is_diagonal = abs(delta.x) == 1 and abs(delta.y) == 1 and prev.z == curr.z
 		if is_diagonal:
-			step_cost = 1.5
+			step_cost *= 1.5
 
-		# vertical movement (up/down stairs, ramps)
+		# vertical movement
 		elif prev.z != curr.z:
-			step_cost = 1.0  # or 2.0 if you want stairs/ramps cost more
+			step_cost *= 2.0
 
 		segment_costs.append(step_cost)
 
@@ -825,7 +842,7 @@ func preview_path(to_tile: Vector3i) -> void:
 		print("No path found!")
 		return
 
-	var costs = calculate_path_cost_3D_simple_with_segments(path)
+	var costs = turn_path_array_into_cost_array(path)
 	path_preview.update_path(path, layers[current_level]["tile_map"], costs)
 
 func _get_element_priority(element) -> int:
@@ -1025,14 +1042,6 @@ func handle_tile_conditions(tile: Vector3i, creature: Creature):
 		for element in layers[tile.z]["contents"][layer_tile]:
 			if element is AreaCondition and element.trigger == Enums.AreaConditionTrigger.ENTER:
 				element.apply_to_entity(creature)
-
-#func handle_path_conditions(path: Array[Vector3i], creature: Creature):
-	#for tile in path:
-		#var layer_tile: Vector2i = Vector2i(tile.x, tile.y)
-		#if layers[tile.z]["contents"].has(layer_tile):
-			#for element in layers[tile.z]["contents"][layer_tile]:
-				#if element is AreaCondition and element.trigger == Enums.AreaConditionTrigger.ENTER:
-					#element.apply_to_entity(creature)
 
 func flash_path(path: Array) -> void:
 	for point in path:
