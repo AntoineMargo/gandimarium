@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="Condition" load_steps=7 format=3 uid="uid://b2ju5x76n1p2j"]
+[gd_resource type="Resource" script_class="Condition" format=3 uid="uid://b2ju5x76n1p2j"]
 
-[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/modifier_effect.gd" id="2_pqs0c"]
+[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="2_pqs0c"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="3_qttnd"]
 [ext_resource type="Resource" uid="uid://hct0622s1i7r" path="res://resources/conditions/crossguarded.tres" id="5_b424p"]
 [ext_resource type="Resource" uid="uid://c2b3pnf7kl01v" path="res://resources/conditions/shielded1.tres" id="6_7xmvc"]

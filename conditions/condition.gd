@@ -15,7 +15,7 @@ class_name Condition
 
 var vfx_instance: Node = null
 var linked_items: Array[Item] = []
-var linked_modifiers: Array[ModifierEntry] = []
+var linked_modifiers: Array[ChangeStatEffect] = []
 
 var user = null
 var target = null

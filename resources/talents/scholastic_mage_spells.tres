@@ -12,22 +12,22 @@
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="7_vhpwo"]
 [ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="8_n5vkd"]
 [ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="10_ylomr"]
-[ext_resource type="Resource" uid="uid://b3ew6mq242tql" path="res://resources/items/armours/itm_spell_armour.tres" id="12_fm8u5"]
+[ext_resource type="Script" uid="uid://bedukehjeunck" path="res://filters/slot_empty.gd" id="12_j8ccw"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="12_rqpy1"]
 [ext_resource type="Script" uid="uid://d3y8y4l4xgjbd" path="res://effects/create_item.gd" id="13_j8ccw"]
-[ext_resource type="Script" uid="uid://do65om3llmjke" path="res://various/spell_modifier_entry.gd" id="14_k724e"]
-[ext_resource type="Script" uid="uid://8u1mf484l0nx" path="res://effects/modify_item.gd" id="15_2uh2x"]
+[ext_resource type="Resource" uid="uid://b3ew6mq242tql" path="res://resources/items/armours/item_spell_armour.tres" id="13_s1sgk"]
 [ext_resource type="Script" uid="uid://dxmd4au5mv1y0" path="res://effects/equip_item.gd" id="16_smut8"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/condition_effect.gd" id="18_dva2d"]
 
+[sub_resource type="Resource" id="Resource_k724e"]
+script = ExtResource("12_j8ccw")
+slot = 2
+metadata/_custom_type_script = "uid://bedukehjeunck"
+
 [sub_resource type="Resource" id="Resource_a3m6j"]
 script = ExtResource("13_j8ccw")
-item = ExtResource("12_fm8u5")
+item = ExtResource("13_s1sgk")
 metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
-
-[sub_resource type="Resource" id="Resource_tem51"]
-script = ExtResource("15_2uh2x")
-metadata/_custom_type_script = "uid://8u1mf484l0nx"
 
 [sub_resource type="Resource" id="Resource_5dmfs"]
 script = ExtResource("16_smut8")
@@ -39,7 +39,7 @@ name = "Spell Armour"
 id = "act_spell_armour"
 description = "You conjure a complete suit of shimmering armour out of the aether."
 icon = "res://art/icons/items/chest-armor.svg"
-effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_a3m6j"), SubResource("Resource_tem51"), SubResource("Resource_5dmfs")])
+effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_a3m6j"), SubResource("Resource_5dmfs")])
 metadata/_custom_type_script = "uid://dvi4ohsador2o"
 
 [sub_resource type="Resource" id="Resource_adgnr"]
@@ -58,7 +58,8 @@ requires_concentration = true
 reach_requires_LOS = false
 spread_requires_LOS = false
 reach = 0
-self_prior_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_adgnr")])
+self_filters = Array[ExtResource("2_eyq6g")]([SubResource("Resource_k724e")])
+self_final_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_adgnr")])
 requires_crisis = false
 requires_roll = false
 is_spell = true

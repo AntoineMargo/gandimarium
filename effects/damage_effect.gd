@@ -1,6 +1,6 @@
 extends Effect
 
-class_name DamagingEffect
+class_name DamageEffect
 
 @export var dice_number: int = 2
 @export var damage_die: int = 10

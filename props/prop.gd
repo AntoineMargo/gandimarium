@@ -68,7 +68,6 @@ func apply_mat_resistances():
 			corrosion = 10
 			poison = 20
 			psychic = 100
-		
 
 func take_damage(damage: int, resistance: Enums.Resistance):
 	var value = get_resistance(resistance)

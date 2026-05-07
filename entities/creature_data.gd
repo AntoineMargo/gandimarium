@@ -52,7 +52,7 @@ class_name CreatureData
 @export var max_spell_rank: int = 0
 @export var max_spells_ready: int = 0
 
-# AI Needs
+# Needs
 @export_range(0, 10000) var hunger: int = 10000
 @export_range(0, 10000) var sleep: int = 10000
 @export_range(0, 10000) var social: int = 10000

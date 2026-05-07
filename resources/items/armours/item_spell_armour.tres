@@ -1,0 +1,45 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://b3ew6mq242tql"]
+
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_rbbdi"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="2_01dd0"]
+[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="3_r0big"]
+[ext_resource type="Script" uid="uid://va2witn0s23o" path="res://various/stat_resistance_entry.gd" id="4_egja4"]
+[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="5_jdpfn"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="6_a4vmi"]
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="7_0t3kt"]
+
+[sub_resource type="Resource" id="Resource_f28xi"]
+script = ExtResource("4_egja4")
+stat = 1
+amount = 3
+multiplier = 1
+metadata/_custom_type_script = "uid://va2witn0s23o"
+
+[sub_resource type="Resource" id="Resource_ykpp3"]
+script = ExtResource("5_jdpfn")
+modifiers = Array[ExtResource("3_r0big")]([SubResource("Resource_f28xi")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_kmkm1"]
+script = ExtResource("1_rbbdi")
+name = "Spell Armour (derived)"
+id = "cond_spell_armour_derived"
+effects = Array[ExtResource("2_01dd0")]([SubResource("Resource_ykpp3")])
+is_visible = false
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[resource]
+script = ExtResource("7_0t3kt")
+name = "Spell Armour"
+id = "itm_spell_armour"
+description = "A shimmering, translucent suit of armour."
+icon = "res://art/icons/items/chest-armor.svg"
+weight = 0.0
+value = 0
+conditions = Array[ExtResource("1_rbbdi")]([SubResource("Resource_kmkm1")])
+slot_type = 4
+can_be_removed = false
+brawn_req_1h = 0
+brawn_req_2h = 0
+owner = null
+metadata/_custom_type_script = "uid://c22428ggciyyj"

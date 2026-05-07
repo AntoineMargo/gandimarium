@@ -1,14 +1,13 @@
 [gd_resource type="Resource" script_class="Talent" format=3 uid="uid://baywu0uay66gw"]
 
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_w5gyu"]
-[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/modifier_entry.gd" id="2_1tkqd"]
+[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="2_1tkqd"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_i1u3y"]
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="3_1tkqd"]
-[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/modifier_effect.gd" id="3_qjfva"]
+[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="3_qjfva"]
 
 [sub_resource type="Resource" id="Resource_a5f58"]
 script = ExtResource("2_1tkqd")
-stat = "vigour"
 amount = 6
 metadata/_custom_type_script = "uid://ik0hrifgbwa4"
 

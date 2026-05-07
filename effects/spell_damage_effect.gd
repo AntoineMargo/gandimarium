@@ -1,6 +1,6 @@
 extends Effect
 
-class_name SpellDamagingEffect
+class_name SpellDamageEffect
 
 @export var die_number: int = 1
 @export var die_size: int = 8

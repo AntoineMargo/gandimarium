@@ -35,6 +35,5 @@ var level_mod: int = 0
 @export var max_ep: int = 0
 
 @export var max_mp: int = 0
-
 @export var max_ap: int = 3
 @export var max_reactions: int = 1

@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="Condition" format=3 uid="uid://c2b3pnf7kl01v"]
 
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_2wpmx"]
-[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/modifier_effect.gd" id="2_ijbyg"]
-[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/modifier_entry.gd" id="2_qgqiw"]
+[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="2_ijbyg"]
+[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="2_qgqiw"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="3_ijbyg"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_d8eai"]
 [ext_resource type="Resource" uid="uid://hct0622s1i7r" path="res://resources/conditions/crossguarded.tres" id="5_2gsjg"]

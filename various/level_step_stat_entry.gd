@@ -1,5 +1,5 @@
-extends ModifierEntry
-class_name LevelStepModifierEntry
+extends StatEntry
+class_name LevelStepStatEntry
 
 @export var steps: Array[LevelStep] = []
 

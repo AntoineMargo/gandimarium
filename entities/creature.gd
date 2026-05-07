@@ -559,6 +559,29 @@ func set_stat(stat, value):
 	else:
 		push_error("Could not find stat: ", stat)
 
+func change_stat_enum(type: Enums.StatType, stat: int, delta):
+	match type:
+		Enums.StatType.ATTRIBUTE:
+			pass
+		Enums.StatType.APTITUDE:
+			var current = data.derived_stats.get_aptitude(stat)
+			data.derived_stats.set_aptitude(stat, current + delta)
+		Enums.StatType.SKILL:
+			var current = data.derived_stats.get_skill(stat)
+			data.derived_stats.set_skill(stat, current + delta)
+		Enums.StatType.POINT:
+			var current = data.derived_stats.get_points(stat)
+			data.derived_stats.set_points(stat, current + delta)
+		Enums.StatType.SIZE:
+			pass
+		Enums.StatType.RESISTANCE:
+			var current = data.derived_stats.get_resistance(stat)
+			data.derived_stats.set_resistance(stat, current + delta)
+			# To remove once I've fully moved towards using derived_stats:
+			current = data.resistances.get_resistance(stat)
+			data.resistances.set_resistance(stat, current + delta)
+
+## @deprecated: use change_stat_enum() instead
 func change_stat(stat: StringName, delta):
 	var current = get_final_stat(stat)
 	if current != null:

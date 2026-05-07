@@ -1,26 +1,28 @@
 [gd_resource type="Resource" script_class="Condition" format=3 uid="uid://3xw0lplsohmg"]
 
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_fihoc"]
-[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/modifier_effect.gd" id="1_nvvfr"]
-[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/modifier_entry.gd" id="1_rpkks"]
+[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="1_nvvfr"]
+[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="1_rpkks"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="2_ounh6"]
+[ext_resource type="Script" uid="uid://va2witn0s23o" path="res://various/stat_resistance_entry.gd" id="3_2l2ph"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_7lxxv"]
+[ext_resource type="Script" uid="uid://cp1x0k5fsy1j5" path="res://various/stat_points_entry.gd" id="4_8qkso"]
 
-[sub_resource type="Resource" id="Resource_jkjq1"]
-script = ExtResource("1_rpkks")
-stat = "physical"
+[sub_resource type="Resource" id="Resource_rd8m6"]
+script = ExtResource("3_2l2ph")
+stat = 1
 amount = 8
-metadata/_custom_type_script = "uid://ik0hrifgbwa4"
+metadata/_custom_type_script = "uid://va2witn0s23o"
 
-[sub_resource type="Resource" id="Resource_fihoc"]
-script = ExtResource("1_rpkks")
-stat = "vigour"
+[sub_resource type="Resource" id="Resource_4is16"]
+script = ExtResource("4_8qkso")
+stat = 6
 amount = -1
-metadata/_custom_type_script = "uid://ik0hrifgbwa4"
+metadata/_custom_type_script = "uid://cp1x0k5fsy1j5"
 
 [sub_resource type="Resource" id="Resource_ns0ch"]
 script = ExtResource("1_nvvfr")
-modifiers = Array[ExtResource("1_rpkks")]([SubResource("Resource_jkjq1"), SubResource("Resource_fihoc")])
+modifiers = Array[ExtResource("1_rpkks")]([SubResource("Resource_rd8m6"), SubResource("Resource_4is16")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
 [resource]

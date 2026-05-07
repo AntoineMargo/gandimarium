@@ -204,6 +204,13 @@ enum Shape {
 	LINE,
 }
 
+enum Attribute {
+	ACUITY,
+	BRAWN,
+	DEXTERITY,
+	RESOLVE
+}
+
 enum Aptitude {
 	SENSE,
 	STAMINA,
@@ -239,4 +246,30 @@ enum Resistance {
 	CORROSION,
 	POISON,
 	PSYCHIC
+}
+
+enum Size {
+	SMALL,
+	MEDIUM,
+	LARGE
+}
+
+enum Point {
+	MAX_HP,
+	MAX_PP,
+	MAX_EP,
+	MAX_MP,
+	MAX_AP,
+	MAX_RP,
+	VIGOUR,
+	STRENGTH
+}
+
+enum StatType {
+	ATTRIBUTE,
+	APTITUDE,
+	SKILL,
+	POINT,
+	SIZE,
+	RESISTANCE
 }

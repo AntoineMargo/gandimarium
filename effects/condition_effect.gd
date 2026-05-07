@@ -1,5 +1,5 @@
 extends Effect
-class_name ConditionEffect
+class_name AddConditionEffect
 
 @export var condition: Condition = null
 
