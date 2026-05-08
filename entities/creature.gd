@@ -399,9 +399,7 @@ func consume_ap(number: int, mp_equivalent: bool = true) -> bool:
 		if data.current_ap < 0:
 			data.current_ap = 0
 		if mp_equivalent:
-			data.current_mp -= number * get_stat("max_mp")
-			if data.current_mp < 0:
-				data.current_mp = 0
+			consume_mp(number * get_stat("max_mp"))
 			if Global.selected_char == self:
 				Global.world_manager.path_preview.get_char_data()
 	return true
@@ -412,6 +410,14 @@ func consume_pp(number) -> bool:
 	data.current_pp -= number
 	if data.current_pp < 0:
 		data.current_pp = 0
+	return true
+
+func consume_mp(number) -> bool:
+	if data.current_mp - number < 0:
+			return false
+	data.current_mp -= number
+	if data.current_mp < 0:
+		data.current_mp = 0
 	return true
 
 func meets_brawn_requirements() -> bool:
@@ -652,6 +658,18 @@ func set_coords(new_coords: Vector3i):
 	data.tile_y = new_coords.y
 	data.tile_z = new_coords.z
 
+func get_current_spell_rank_table():
+	@warning_ignore("integer_division")
+	return data.casting_table.cost_table[(data.level - 1) / 2]
+
+func set_max_spell_rank() -> void:
+	@warning_ignore("integer_division")
+	var current_spell_rank_table = get_current_spell_rank_table()
+	data.max_spell_rank = current_spell_rank_table.spell_costs.keys().max()
+
+func get_current_spell_cost() -> int:
+	return get_current_spell_rank_table().spell_costs[data.current_spell_rank]
+
 ## This initalises the base stats, meant to be used on spawn and at every level-up, and not accessed from outside the class
 func initialise():
 	if not data.has_been_initialized:
@@ -722,8 +740,7 @@ func initialise():
 						add_talent(talent)
 
 		if data.casting_table:
-			var current_level_table := data.casting_table.cost_table[data.level - 1]
-			data.max_spell_rank = current_level_table.spell_costs.keys().max()
+			set_max_spell_rank()
 
 		data.spells_ready.clear()
 		if data.major_archetype and data.major_archetype.type == Enums.Archetype.ASPECTED_MAGE:
@@ -774,11 +791,6 @@ func update_stats():
 	data.derived_stats.max_reactions = data.base_stats.max_reactions
 	
 	data.derived_stats.tie_breaker = randf()
-
-	#if data.casting_table:
-		#var current_level_table = data.casting_table.cost_table[get_stat("level") - 1]
-		#var cost = current_level_table.spell_costs[data.current_spell_rank]
-		#data.derived_stats.current_spell_cost = cost
 	
 	stats_dirty = false
 	sprite_node.texture = load(data.sprite)
@@ -787,11 +799,6 @@ func update_stats():
 	$Mover.max_speed = get_stat("max_mp") * Global.TILE_SIZE * 0.5
 	SignalBus.add_to_initiative.emit(self)
 	SignalBus.update_ui_for_char.emit()
-
-func _on_start_crisis(_creature):
-	update_stats()
-	data.current_ap = data.derived_stats.max_ap
-	data.current_mp = 0
 
 func turn_start():
 	if data.state == Enums.State.CONSCIOUS:
@@ -923,6 +930,5 @@ func _ready():
 	health_bar_instance = health_bar_scene.instantiate()
 	$Mover.add_child(health_bar_instance)
 	mover.position = Vector2.ZERO
-	SignalBus.start_crisis_mode.connect(_on_start_crisis)
 	$Mover/DamageVisual.hit_material = sprite_node.material as ShaderMaterial
 	

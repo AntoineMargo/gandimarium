@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://bajjyg2du7mri" path="res://abilities/concentration.gd" id="6_rtfxi"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="7_g7eh2"]
 [ext_resource type="Resource" uid="uid://tb0qrirf41um" path="res://resources/creatures/equipment/basic_loadout.tres" id="7_j8ykb"]
+[ext_resource type="Script" uid="uid://c5qobce0uj7dq" path="res://activities/reaction.gd" id="9_qqsho"]
 [ext_resource type="Resource" uid="uid://ce1yneg2dwyxq" path="res://resources/creatures/relationships/rel_bandit.tres" id="9_rtfxi"]
 [ext_resource type="Script" uid="uid://2esemn7osq1o" path="res://entities/resistances.gd" id="10_g7eh2"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="12_8d3d6"]
@@ -17,7 +18,9 @@
 [sub_resource type="Resource" id="Resource_q1nu1"]
 script = ExtResource("2_qxrml")
 acuity = 7
+brawn = 7
 dexterity = 7
+resolve = 7
 metadata/_custom_type_script = "uid://boxs05dhsll81"
 
 [sub_resource type="Resource" id="Resource_8d3d6"]

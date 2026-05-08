@@ -16,6 +16,7 @@ name = "Fist"
 id = "wpn_fist"
 attacking_aptitude = 4
 defending_aptitude = 5
+triggers_reaction = false
 attack_types = Array[ExtResource("3_lpxtt")]([ExtResource("4_guo6k")])
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 

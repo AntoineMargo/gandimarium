@@ -11,7 +11,7 @@
 [sub_resource type="Resource" id="Resource_f28xi"]
 script = ExtResource("4_egja4")
 stat = 1
-amount = 3
+amount = 2
 multiplier = 1
 metadata/_custom_type_script = "uid://va2witn0s23o"
 

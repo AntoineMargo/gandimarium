@@ -980,7 +980,7 @@ func teleport(character: Creature, target: Vector3i):
 		return
 	
 	character.global_position = layers[target.z]["tile_map"].map_to_local(layer_origin)
-	try_move_char_abs(character, origin, target)
+	move_char_to_tile(character, origin, target)
 	character.global_position = layers[target.z]["tile_map"].map_to_local(layer_target)
 	character.mover.position = Vector2.ZERO # Very necessary because of position/global_position mismatch during real-time move
 	
@@ -1016,16 +1016,17 @@ func interact_move(character: Creature, target: Vector3i):
 	cost = calculate_path_cost_3D_simple(path)
 	
 	if Global.crisis_manager.crisis_mode:
-		if cost > character.data.current_mp:
+		var current_available_mp = character.get_stat("current_mp")
+		if cost > current_available_mp:
 			SignalBus.dialog_show_message.emit("You do not have enough movements points.")
 			return
 		else:
-			character.change_stat("current_mp", -cost)
-		var current_available_mp = character.get_stat("current_mp")
+			character.consume_mp(cost)
 		var max_ap = character.get_stat("max_ap")
 		var mp_per_ap = character.get_stat("max_mp")
 		var total_mp = mp_per_ap * max_ap
 		
+		current_available_mp = character.get_stat("current_mp")
 		var ap_cost = calculate_ap_cost(cost, current_available_mp, mp_per_ap, total_mp)
 		character.consume_ap(ap_cost, false)
 		path_preview.get_char_data()

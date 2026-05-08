@@ -118,8 +118,7 @@ func enough_power_points_for_activity(activity):
 	var character = Global.focus_char
 	var cost = 0
 	if character.data.casting_table:
-		var current_level_table = character.data.casting_table.cost_table[character.get_stat("level") - 1]
-		cost = current_level_table.spell_costs[character.data.current_spell_rank]
+		cost = character.get_current_spell_cost()
 	else:
 		cost = activity.EP_cost
 	

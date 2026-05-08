@@ -551,8 +551,7 @@ func update_char_info():
 	pp_bar_proj.max_value = character.get_stat("max_pp")
 	
 	if character.data.casting_table:
-		var current_level_table = character.data.casting_table.cost_table[character.get_stat("level") - 1]
-		var current_spell_cost = current_level_table.spell_costs[character.data.current_spell_rank]
+		var current_spell_cost = character.get_current_spell_cost()
 		pp_bar_proj.value = character.get_stat("current_pp") - current_spell_cost
 	else:
 		pp_bar_proj.value     = character.get_stat("current_pp")
@@ -619,19 +618,18 @@ func _on_crisis_state_changed():
 	crisis_button.set_pressed_no_signal(Global.crisis_manager.crisis_mode)
 
 func _on_slider_value_changed(value):
-	var character = Global.selected_char.data
+	var character = Global.selected_char
 	var slider = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/SpellRankSlider")
 	
-	character.current_spell_rank = value
-	slider.tooltip_text = "Spell rank selected: %d" % character.current_spell_rank
+	character.data.current_spell_rank = value
+	slider.tooltip_text = "Spell rank selected: %d" % character.data.current_spell_rank
 	
 	var PP_bar_preview = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar_wrapper/PP_bar_preview")
 	PP_bar_preview.visible = true
 	
-	var current_level_table = character.casting_table.cost_table[character.level - 1]
-	var cost = current_level_table.spell_costs[character.current_spell_rank]
-	character.derived_stats.current_spell_cost = cost
-	PP_bar_preview.value = character.current_pp - cost
+	var cost = character.get_current_spell_cost()
+	character.data.derived_stats.current_spell_cost = cost
+	PP_bar_preview.value = character.data.current_pp - cost
 	
 	update_spell_list_for_chosen_rank()
 	

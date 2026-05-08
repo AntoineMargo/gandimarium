@@ -1,0 +1,77 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://bsf4t887n3rh6"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_gbdga"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_ub7f8"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="3_4k35v"]
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="4_cp1ca"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_yve2c"]
+[ext_resource type="Script" uid="uid://bedukehjeunck" path="res://filters/slot_empty.gd" id="6_spsr2"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="7_wcrj1"]
+[ext_resource type="Resource" uid="uid://b3ew6mq242tql" path="res://resources/items/armours/item_spell_armour.tres" id="8_fiub3"]
+[ext_resource type="Script" uid="uid://d3y8y4l4xgjbd" path="res://effects/create_item.gd" id="9_mt5s0"]
+[ext_resource type="Script" uid="uid://dxmd4au5mv1y0" path="res://effects/equip_item.gd" id="10_yy57a"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="11_jhqkl"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/condition_effect.gd" id="12_lx46t"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="13_sh6hg"]
+
+[sub_resource type="Resource" id="Resource_k724e"]
+script = ExtResource("6_spsr2")
+slot = 2
+metadata/_custom_type_script = "uid://bedukehjeunck"
+
+[sub_resource type="Resource" id="Resource_a3m6j"]
+script = ExtResource("9_mt5s0")
+item = ExtResource("8_fiub3")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_5dmfs"]
+script = ExtResource("10_yy57a")
+metadata/_custom_type_script = "uid://dxmd4au5mv1y0"
+
+[sub_resource type="Resource" id="Resource_gobpa"]
+script = ExtResource("11_jhqkl")
+name = "Spell Armour"
+id = "act_spell_armour"
+description = "You conjure a complete suit of shimmering armour out of the aether."
+icon = "res://art/icons/items/chest-armor.svg"
+effects = Array[ExtResource("7_wcrj1")]([SubResource("Resource_a3m6j"), SubResource("Resource_5dmfs")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_adgnr"]
+script = ExtResource("12_lx46t")
+condition = SubResource("Resource_gobpa")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_v5jdu"]
+script = ExtResource("4_cp1ca")
+name = "Spell Armour"
+id = "act_spell_armour"
+description = "You conjure a complete suit of shimmering armour out of the aether."
+icon = "res://art/icons/items/chest-armor.svg"
+AP_cost = 3
+requires_concentration = true
+reach_requires_LOS = false
+spread_requires_LOS = false
+reach = 0
+self_filters = Array[ExtResource("5_yve2c")]([SubResource("Resource_k724e")])
+self_final_effects = Array[ExtResource("7_wcrj1")]([SubResource("Resource_adgnr")])
+requires_crisis = false
+requires_roll = false
+is_spell = true
+toggleable = true
+builds_condition = true
+condition_id = "cond_spell_armour"
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_j0ybq"]
+script = ExtResource("1_gbdga")
+activity = SubResource("Resource_v5jdu")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("13_sh6hg")
+name = "Spell Armour"
+description = "You conjure a complete suit of shimmering armour out of the aether."
+icon = "res://art/icons/items/chest-armor.svg"
+activities = Array[ExtResource("1_gbdga")]([SubResource("Resource_j0ybq")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

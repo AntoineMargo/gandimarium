@@ -4,87 +4,8 @@
 [ext_resource type="Script" uid="uid://dxofkj1ggocqb" path="res://various/hand_set.gd" id="1_pj7j4"]
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="3_bc6dv"]
 [ext_resource type="Resource" uid="uid://dwt64w3wubcci" path="res://resources/items/armours/ar_light.tres" id="4_rrf6b"]
-[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="5_w7o6s"]
+[ext_resource type="Resource" uid="uid://bcqbs3c34d6lr" path="res://resources/items/weapons/wpn_pole_axe.tres" id="5_rrf6b"]
 [ext_resource type="Resource" uid="uid://dso2ca1rnk6p0" path="res://resources/items/weapons/wpn_fist.tres" id="6_jwymd"]
-[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="6_rvs8n"]
-[ext_resource type="Resource" uid="uid://lowvjn23gb1u" path="res://resources/damage_patterns/slash.tres" id="7_4yxhi"]
-[ext_resource type="Resource" uid="uid://b6lwaevovr35s" path="res://resources/damage_patterns/pierce.tres" id="8_6po76"]
-[ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="9_qom72"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="10_7uroc"]
-[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="11_43nle"]
-[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="12_n5s5x"]
-[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="13_2la7i"]
-[ext_resource type="Script" uid="uid://jtk6vp2fcxdf" path="res://effects/wpn_damage.gd" id="14_pvgjy"]
-[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="15_132qx"]
-[ext_resource type="Script" uid="uid://c87bku6q55ul5" path="res://VFX/projectile_config.gd" id="16_h0yiv"]
-[ext_resource type="Texture2D" uid="uid://cp5pv7gwp78ne" path="res://art/objects/bolt3.png" id="17_2kmdr"]
-[ext_resource type="PackedScene" uid="uid://bm40yjohcu4wn" path="res://VFX/projectile.tscn" id="18_53gfq"]
-[ext_resource type="Script" uid="uid://b7tjqqmnvivdt" path="res://effects/proj_vfx_effect.gd" id="19_3ewde"]
-[ext_resource type="Script" uid="uid://bsu4c08c52n7w" path="res://activities/targeted_throw_activity.gd" id="20_bv75v"]
-
-[sub_resource type="Resource" id="Resource_ljo7m"]
-script = ExtResource("14_pvgjy")
-damage_die = 8
-resistance = 1
-metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
-
-[sub_resource type="Resource" id="Resource_4ui3d"]
-script = ExtResource("11_43nle")
-attacking_aptitude = 4
-defending_aptitude = 5
-reach = 2
-target_effects = Array[ExtResource("13_2la7i")]([SubResource("Resource_ljo7m")])
-attack_types = Array[ExtResource("6_rvs8n")]([ExtResource("7_4yxhi"), ExtResource("8_6po76"), ExtResource("9_qom72")])
-metadata/_custom_type_script = "uid://bxau8hir6ormb"
-
-[sub_resource type="Resource" id="Resource_jdaye"]
-script = ExtResource("15_132qx")
-activity = SubResource("Resource_4ui3d")
-metadata/_custom_type_script = "uid://buw2ftcnsdqla"
-
-[sub_resource type="Resource" id="Resource_pfjud"]
-script = ExtResource("16_h0yiv")
-texture = ExtResource("17_2kmdr")
-metadata/_custom_type_script = "uid://c87bku6q55ul5"
-
-[sub_resource type="Resource" id="Resource_i3ngn"]
-script = ExtResource("19_3ewde")
-projectile_scene = ExtResource("18_53gfq")
-config = SubResource("Resource_pfjud")
-metadata/_custom_type_script = "uid://b7tjqqmnvivdt"
-
-[sub_resource type="Resource" id="Resource_vb0bw"]
-script = ExtResource("14_pvgjy")
-damage_die = 8
-resistance = 1
-metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
-
-[sub_resource type="Resource" id="Resource_dbtu7"]
-script = ExtResource("20_bv75v")
-attacking_aptitude = 4
-defending_aptitude = 6
-target_effects = Array[ExtResource("13_2la7i")]([SubResource("Resource_vb0bw")])
-projectile = SubResource("Resource_i3ngn")
-triggers_reaction = true
-attack_types = Array[ExtResource("6_rvs8n")]([ExtResource("7_4yxhi"), ExtResource("9_qom72")])
-metadata/_custom_type_script = "uid://bsu4c08c52n7w"
-
-[sub_resource type="Resource" id="Resource_dshra"]
-script = ExtResource("15_132qx")
-activity = SubResource("Resource_dbtu7")
-metadata/_custom_type_script = "uid://buw2ftcnsdqla"
-
-[sub_resource type="Resource" id="Resource_uaik6"]
-script = ExtResource("3_bc6dv")
-name = "Pole-Axe"
-id = "wpn_pole_axe"
-slot_type = 12
-brawn_req_1h = 8
-brawn_req_2h = 4
-strike = SubResource("Resource_jdaye")
-throw = SubResource("Resource_dshra")
-owner = null
-metadata/_custom_type_script = "uid://c22428ggciyyj"
 
 [resource]
 script = ExtResource("1_13mkk")
@@ -106,7 +27,7 @@ slots = Dictionary[int, ExtResource("3_bc6dv")]({
 14: null,
 15: null,
 16: null,
-17: SubResource("Resource_uaik6"),
+17: ExtResource("5_rrf6b"),
 18: null,
 19: ExtResource("6_jwymd")
 })

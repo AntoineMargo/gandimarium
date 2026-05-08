@@ -7,83 +7,15 @@
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="3_m11lv"]
 [ext_resource type="Resource" uid="uid://cjt36fxtrkb2d" path="res://resources/spell_containers/energy_bolt.tres" id="4_glfbk"]
 [ext_resource type="Resource" uid="uid://c47a3yydtpnfp" path="res://resources/spell_containers/magic_darts.tres" id="5_wqd4r"]
-[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="6_b3iya"]
 [ext_resource type="Resource" uid="uid://doajwn5ekt1qw" path="res://resources/spell_containers/solid_fog.tres" id="6_rqpy1"]
-[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="7_vhpwo"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="8_n5vkd"]
-[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="10_ylomr"]
-[ext_resource type="Script" uid="uid://bedukehjeunck" path="res://filters/slot_empty.gd" id="12_j8ccw"]
-[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="12_rqpy1"]
-[ext_resource type="Script" uid="uid://d3y8y4l4xgjbd" path="res://effects/create_item.gd" id="13_j8ccw"]
-[ext_resource type="Resource" uid="uid://b3ew6mq242tql" path="res://resources/items/armours/item_spell_armour.tres" id="13_s1sgk"]
-[ext_resource type="Script" uid="uid://dxmd4au5mv1y0" path="res://effects/equip_item.gd" id="16_smut8"]
-[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/condition_effect.gd" id="18_dva2d"]
-
-[sub_resource type="Resource" id="Resource_k724e"]
-script = ExtResource("12_j8ccw")
-slot = 2
-metadata/_custom_type_script = "uid://bedukehjeunck"
-
-[sub_resource type="Resource" id="Resource_a3m6j"]
-script = ExtResource("13_j8ccw")
-item = ExtResource("13_s1sgk")
-metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
-
-[sub_resource type="Resource" id="Resource_5dmfs"]
-script = ExtResource("16_smut8")
-metadata/_custom_type_script = "uid://dxmd4au5mv1y0"
-
-[sub_resource type="Resource" id="Resource_gobpa"]
-script = ExtResource("12_rqpy1")
-name = "Spell Armour"
-id = "act_spell_armour"
-description = "You conjure a complete suit of shimmering armour out of the aether."
-icon = "res://art/icons/items/chest-armor.svg"
-effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_a3m6j"), SubResource("Resource_5dmfs")])
-metadata/_custom_type_script = "uid://dvi4ohsador2o"
-
-[sub_resource type="Resource" id="Resource_adgnr"]
-script = ExtResource("18_dva2d")
-condition = SubResource("Resource_gobpa")
-metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
-
-[sub_resource type="Resource" id="Resource_v5jdu"]
-script = ExtResource("10_ylomr")
-name = "Spell Armour"
-id = "act_spell_armour"
-description = "You conjure a complete suit of shimmering armour out of the aether."
-icon = "res://art/icons/items/chest-armor.svg"
-AP_cost = 3
-requires_concentration = true
-reach_requires_LOS = false
-spread_requires_LOS = false
-reach = 0
-self_filters = Array[ExtResource("2_eyq6g")]([SubResource("Resource_k724e")])
-self_final_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_adgnr")])
-requires_crisis = false
-requires_roll = false
-is_spell = true
-toggleable = true
-builds_condition = true
-condition_id = "cond_spell_armour"
-metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
-
-[sub_resource type="Resource" id="Resource_j0ybq"]
-script = ExtResource("6_b3iya")
-activity = SubResource("Resource_v5jdu")
-metadata/_custom_type_script = "uid://buw2ftcnsdqla"
-
-[sub_resource type="Resource" id="Resource_4ay3v"]
-script = ExtResource("3_glfbk")
-name = "Spell Armour"
-description = "You conjure a complete suit of shimmering armour out of the aether."
-icon = "res://art/icons/items/chest-armor.svg"
-activities = Array[ExtResource("6_b3iya")]([SubResource("Resource_j0ybq")])
-metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+[ext_resource type="Resource" uid="uid://bsf4t887n3rh6" path="res://resources/spell_containers/spell_armour.tres" id="7_b2hvq"]
+[ext_resource type="Resource" uid="uid://vb1b8pg4f7r1" path="res://resources/spell_containers/shift.tres" id="8_u81v1"]
+[ext_resource type="Resource" uid="uid://xpqvtc5htx4o" path="res://resources/spell_containers/far_shift.tres" id="9_frlgl"]
+[ext_resource type="Resource" uid="uid://cpjo0jyfn3vdr" path="res://resources/spell_containers/short_teleport.tres" id="10_eubeo"]
 
 [sub_resource type="Resource" id="Resource_wqd4r"]
 script = ExtResource("2_m11lv")
-spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk"), ExtResource("5_wqd4r"), ExtResource("6_rqpy1"), SubResource("Resource_4ay3v")])
+spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk"), ExtResource("5_wqd4r"), ExtResource("6_rqpy1"), ExtResource("7_b2hvq"), ExtResource("8_u81v1"), ExtResource("9_frlgl"), ExtResource("10_eubeo")])
 metadata/_custom_type_script = "uid://2oaio4mh2bc8"
 
 [resource]

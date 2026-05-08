@@ -63,7 +63,6 @@ target_effects = Array[ExtResource("10_y8cri")]([SubResource("Resource_w0uwh")])
 can_only_hit_once = false
 projectile = SubResource("Resource_m7sha")
 projectile_batch_mode = false
-triggers_reaction = true
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 
@@ -80,7 +79,7 @@ metadata/_custom_type_script = "uid://kalwpa2j0ckf"
 [sub_resource type="Resource" id="Resource_ty6kg"]
 script = ExtResource("13_0ay6q")
 to_add = 1
-value_type = 25
+value_type = 26
 metadata/_custom_type_script = "uid://kalwpa2j0ckf"
 
 [sub_resource type="Resource" id="Resource_tmley"]
@@ -97,7 +96,7 @@ metadata/_custom_type_script = "uid://kalwpa2j0ckf"
 [sub_resource type="Resource" id="Resource_1s1xs"]
 script = ExtResource("13_0ay6q")
 to_add = 2
-value_type = 25
+value_type = 26
 metadata/_custom_type_script = "uid://kalwpa2j0ckf"
 
 [sub_resource type="Resource" id="Resource_sl7wx"]

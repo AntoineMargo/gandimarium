@@ -37,7 +37,8 @@ func _on_hit(target_pos):
 		queue_free()
 		return
 
-	activity_already_hit[target] = true
+	if activity_already_hit:
+		activity_already_hit[target] = true
 
 	if payload:
 		for effect_call in payload:
