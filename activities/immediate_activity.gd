@@ -93,6 +93,6 @@ func execute() -> void:
 
 	_consume_ap(self_ctx)
 	_consume_pp(self_ctx)
-	_finalize_concentration()
+	_finalize_concentration(self_ctx)
 	target_points.clear()
 	SignalBus.update_ui_for_char.emit()

@@ -105,7 +105,7 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 			
 			var current = ctx.target
 			var visited = {}
-			var origin_position = current.get_coords()
+			#var origin_position = current.get_coords()
 
 			for i in max_jumps:
 				if current == null:
@@ -120,8 +120,8 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 
 				visited[current] = true
 
-				if is_instance_valid(current):
-					origin_position = current.get_coords()
+				#if is_instance_valid(current):
+					#origin_position = current.get_coords()
 
 				current = find_next_target(step_ctx)
 
@@ -134,5 +134,5 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 
 	_consume_ap(self_ctx)
 	_consume_pp(self_ctx)
-	_finalize_concentration()
+	_finalize_concentration(self_ctx)
 	_cleanup()

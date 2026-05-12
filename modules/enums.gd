@@ -1,5 +1,10 @@
 class_name Enums
 
+enum Identity {
+	USER,
+	TARGET
+}
+
 enum AreaConditionTrigger {
 	ENTER,
 	TURN_START
@@ -14,8 +19,7 @@ enum ConstructionState {
 enum EventType {
 	MOVEMENT,
 	ACTIVITY_STARTED,
-	ACTIVITY_SUCCESS,
-	ACTIVITY_FAILURE
+	ACTIVITY_COMPLETED,
 	}
 
 enum RoomType {
@@ -124,6 +128,28 @@ enum ActivityStage {
 	POST_RESOLUTION,
 	EFFECT
 }
+
+enum Capability {
+	NIL,
+	LOW,
+	NORMAL,
+	HIGH
+}
+
+#enum Audibility {
+	#NIL,
+	#LOW,
+	#NORMAL,
+	#HIGH
+#}
+#
+#enum Visibility {
+	#NIL,
+	#LOW,
+	#NORMAL,
+	#HIGH
+#}
+
 enum State {
 	CONSCIOUS,
 	SLEEP,

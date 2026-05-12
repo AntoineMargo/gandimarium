@@ -1,7 +1,7 @@
 extends Resource
 class_name Concentration
 
-@export var linked_conditions: Array = []
+@export var linked_conditions: Array[Condition] = []
 
 var source = null
 var start_time: int
@@ -14,6 +14,11 @@ func setup(src, drain: bool = false):
 	if drain:
 		if not SignalBus.time_changed.is_connected(tick_tock):
 			SignalBus.time_changed.connect(tick_tock)
+
+func finalize_setup():
+	for condition in linked_conditions:
+		if not condition.ended.is_connected(cancel):
+			condition.ended.connect(cancel)
 
 func tick_tock(_days, _hours, _minutes, _seconds):
 	var current_time: int = Global.time_manager.get_total_seconds()
@@ -40,6 +45,8 @@ func cancel():
 		SignalBus.time_changed.disconnect(tick_tock)
 	for condition in linked_conditions:
 		if is_instance_valid(condition):
+			if condition.ended.is_connected(cancel):
+				condition.ended.disconnect(cancel)
 			condition.remove_source(source.id)
 	linked_conditions.clear()
 	if source and source.user and source.user.data.concentrations.has(self):

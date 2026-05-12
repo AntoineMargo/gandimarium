@@ -1,17 +1,25 @@
 extends Resource
 class_name Condition
 
+signal ended
+
+# === Definition ===
+
 @export var name: String = "placeholder"
 @export var id: String = "placeholder"
 @export var description: String = "This is a placeholder description."
 @export var icon: String
 @export var filters: Array[Filter] = []
 @export var effects: Array[Effect] = []
+@export var end_requirements: Array[ConditionEndRequirement] = []
 @export var supplanted: Array[Condition] = []
 @export var duration: int = -1 # in seconds
 #@export var toggle: bool = false
 @export var is_visible: bool = true
-@export var vfx_scene: PackedScene
+
+var vfx_scene: PackedScene
+
+# === Runtime ===
 
 var vfx_instance: Node = null
 var linked_items: Array[Item] = []
@@ -54,6 +62,9 @@ func initialize(ctx: Context) -> void:
 			effect.apply_context(ctx)
 		else:
 			effect.apply(self, ctx.target)
+	for end_requirement in end_requirements:
+		end_requirement.setup(self)
+		#end_requirement.completed.connect(dispose)
 	start_time = Global.time_manager.get_total_seconds()
 	if duration > 0:
 		end_time = start_time + duration
@@ -65,6 +76,9 @@ func verify_expired(_days, _hours, _minutes, _seconds):
 
 	if Global.time_manager.get_total_seconds() >= end_time:
 		dispose()
+
+func request_cancel() -> void:
+	ended.emit()
 
 func freeze():
 	if frozen:
@@ -86,6 +100,7 @@ func unfreeze():
 func dispose():
 	destroy_children()
 	target.remove_condition(self)
+	ended.emit()
 	#if Global.selected_char == target:
 		#SignalBus.update_inventory.emit()
 		#SignalBus.update_character_info.emit()

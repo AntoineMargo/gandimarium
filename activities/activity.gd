@@ -48,7 +48,7 @@ class_name Activity
 
 var user = null
 var origin: Vector3i
-var concentration = null
+var concentration: Concentration = null
 var weapon: Item = null
 
 var target_points: Array[Vector3i] = []
@@ -59,10 +59,19 @@ func _setup_concentration():
 		concentration = Concentration.new()
 		concentration.setup(self, per_round_drain)
 
-func _finalize_concentration():
+#func _finalize_concentration():
+	#if requires_concentration:
+		#if concentration.linked_conditions.size() > 0:
+			#user.add_concentration(concentration)
+		#else:
+			#concentration.cancel()
+
+func _finalize_concentration(_context: ActivityContext):
 	if requires_concentration:
 		if concentration.linked_conditions.size() > 0:
 			user.add_concentration(concentration)
+			concentration.finalize_setup()
+			
 		else:
 			concentration.cancel()
 

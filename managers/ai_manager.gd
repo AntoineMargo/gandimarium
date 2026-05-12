@@ -15,13 +15,13 @@ func sight_check(origin: Vector3i):
 		if creature.data.player_controlled == false and creature.data.state == Enums.State.CONSCIOUS:
 			var creature_coords = creature.get_coords()
 			if WorldMath.pos_in_range_weighted_3d(creature_coords, origin, 40): # Fast check to make sure we're in the same general area
-				if creature.sight_check(origin):
-					var potential_creature = wm.get_creature_at_pos(origin)
+				var potential_creature = wm.get_creature_at_pos(origin)
+				if creature.sight_check(origin, potential_creature):
 					creature.discover_creature(potential_creature)
 					creature.evaluate_entering_crisis(potential_creature)
 					SignalBus.stop_all_movement.emit()
 
-func noise_check(origin: Vector3i, strength: int):
+func hearing_check(origin: Vector3i, strength: int):
 	for creature in Global.world_manager.current_world.creatures:
 		if creature.data.player_controlled == false and creature.data.state == Enums.State.CONSCIOUS:
 			var creature_coords = creature.get_coords()
@@ -47,7 +47,8 @@ func regular_sight_checks():
 func move_hearing_checks():
 	for creature in Global.world_manager.current_world.creatures:
 		if creature.data.player_controlled == true and creature.mover.active:
-			noise_check(creature.get_coords(), 5)
+			if creature.perceive_audibility() >= Enums.Capability.NORMAL:
+				hearing_check(creature.get_coords(), 5)
 
 func regular_checks(_days, _hours, _minutes, _seconds):
 	if Global.crisis_manager.crisis_mode:

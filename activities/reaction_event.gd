@@ -18,3 +18,9 @@ static func activity_started(ctx: Context) -> ReactionEvent:
 	event.type = Enums.EventType.ACTIVITY_STARTED
 	event.context = ctx
 	return event
+
+static func activity_completed(ctx: Context) -> ReactionEvent:
+	var event = ReactionEvent.new()
+	event.type = Enums.EventType.ACTIVITY_COMPLETED
+	event.context = ctx
+	return event

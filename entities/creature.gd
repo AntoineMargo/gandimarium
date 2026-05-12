@@ -345,6 +345,12 @@ func health_status_change():
 		print("character is dead!")
 		$Mover/DamageVisual.set_dead_tint()
 
+func perceive_audibility() -> Enums.Capability:
+	return data.audibility
+
+func perceive_visibility() -> Enums.Capability:
+	return data.visibility
+
 func perceive_level():
 	return data.level
 
@@ -836,19 +842,32 @@ func handle_tile_conditions():
 			if element is AreaCondition and element.trigger == Enums.AreaConditionTrigger.TURN_START:
 				element.apply_to_entity(self)
 
-#func _on_end_turn():
-	#data.current_ap = data.derived_stats.max_ap
-	#data.current_mp = 0
-	#if not data.player_controlled and data.crisis_ai_active:
-		#Global.focus_char = self
-		#ai_controller.crisisai.plan_turn() 
-
-func sight_check(target_tile) -> bool: 
+func sight_check(target_tile: Vector3i, creature: Creature = null) -> bool: 
 	var origin_tile = Vector3i(data.tile_x, data.tile_y, data.tile_z)
 	if WorldMath.pos_in_range_weighted_3d(origin_tile, target_tile, (data.base_stats.sense * 4)):
 		if WorldMath.has_line_of_sight_tile(origin_tile, target_tile):
-			return true
+			var sight = creature.data.sight
+			var creature_visibility = creature.perceive_visibility()
+			match sight:
+				Enums.Capability.NIL:
+					return false
+				Enums.Capability.LOW:
+					return true if creature_visibility == Enums.Capability.HIGH else false
+				Enums.Capability.NORMAL:
+					return true if creature_visibility >= Enums.Capability.NORMAL else false
+				Enums.Capability.HIGH:
+					return true if creature_visibility >= Enums.Capability.LOW else false
+			if creature.data.sight >= Enums.Capability.LOW and creature.perceive_visibility() >= Enums.Capability.LOW:
+				return true
 	return false
+
+#func sight_check(target_tile: Vector3i, creature: Creature = null) -> bool: 
+	#var origin_tile = Vector3i(data.tile_x, data.tile_y, data.tile_z)
+	#if WorldMath.pos_in_range_weighted_3d(origin_tile, target_tile, (data.base_stats.sense * 4)):
+		#if WorldMath.has_line_of_sight_tile(origin_tile, target_tile):
+			#if creature and creature.perceive_visibility() >= Enums.Capability.LOW:
+				#return true
+	#return false
 
 func hearing_check(strength: int, difficulty_to_perceive: float) -> bool: 
 	var acuity = data.attributes.acuity
@@ -856,6 +875,26 @@ func hearing_check(strength: int, difficulty_to_perceive: float) -> bool:
 	if acuity >= threshold:
 		return true
 	return false
+
+#func hearing_check(strength: int, difficulty_to_perceive: float, creature: Creature = null) -> bool: 
+	#var acuity: int = data.attributes.acuity
+	#var creature_audibility = creature.perceive_audibility()
+	#var audibility_modifier: float
+	#match creature_audibility:
+		#Enums.Capability.NIL:
+			#audibility_modifier = 0
+		#Enums.Capability.LOW:
+			#audibility_modifier = 0.5
+		#Enums.Capability.NORMAL:
+			#audibility_modifier = 1
+		#Enums.Capability.HIGH:
+			#audibility_modifier = 2
+	#@warning_ignore("narrowing_conversion")
+	#strength *= audibility_modifier
+	#var threshold = difficulty_to_perceive - strength
+	#if acuity >= threshold:
+		#return true
+	#return false
 
 #func hearing_check(noise_value: int) -> bool: 
 	#var acuity = data.attributes.acuity

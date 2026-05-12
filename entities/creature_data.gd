@@ -67,6 +67,13 @@ class_name CreatureData
 @export var player_controlled: bool = false
 @export var crisis_ai_active: bool = false
 @export var alive: bool = true
+
+@export var sight: Enums.Capability = Enums.Capability.NORMAL
+@export var hearing: Enums.Capability = Enums.Capability.NORMAL
+
+@export var visibility: Enums.Capability = Enums.Capability.NORMAL
+@export var audibility: Enums.Capability = Enums.Capability.NORMAL
+
 @export var state: Enums.State = Enums.State.CONSCIOUS
 @export var initiative: int = -1
 

@@ -7,9 +7,9 @@
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_78q6f"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_wrc7h"]
 [ext_resource type="Script" uid="uid://cfpj1qbuyeinb" path="res://effects/finalize_are_condition_effect.gd" id="7_5cwtd"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="8_t6m65"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="8_v53se"]
 [ext_resource type="Script" uid="uid://ckh556ahfopjg" path="res://conditions/area_condition.gd" id="9_vuhvc"]
-[ext_resource type="PackedScene" uid="uid://cewqwbv1wbl5j" path="res://VFX/area/area_condition_VFX.tscn" id="10_6rj0j"]
 [ext_resource type="Script" uid="uid://dwlhkak5s0ikl" path="res://effects/area_condition_general_effect.gd" id="11_0qi3v"]
 [ext_resource type="Script" uid="uid://62ayu2esarc8" path="res://effects/area_condition_tile_effect.gd" id="12_mm3b5"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="13_gjpf7"]
@@ -29,7 +29,6 @@ script = ExtResource("9_vuhvc")
 applied_condition = SubResource("Resource_b3iya")
 name = "Solid Fog"
 id = "area_cond_solid_fog"
-vfx_scene = ExtResource("10_6rj0j")
 metadata/_custom_type_script = "uid://ckh556ahfopjg"
 
 [sub_resource type="Resource" id="Resource_j8ccw"]

@@ -26,13 +26,13 @@ func elicit_reaction(reaction_event, creature) -> void:
 				creature.data.current_reactions -= 1
 				return
 
-func handle_events(reaction_event) -> void:
+func handle_event(reaction_event: ReactionEvent) -> void:
 	var nearby_creatures = get_nearby_creatures(reaction_event)
 	for creature in nearby_creatures:
 		elicit_reaction(reaction_event, creature)
 
 func _ready() -> void:
-	SignalBus.event.connect(handle_events)
+	SignalBus.event.connect(handle_event)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
