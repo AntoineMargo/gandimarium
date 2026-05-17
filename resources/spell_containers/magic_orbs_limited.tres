@@ -1,0 +1,117 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://dnes1gf7ba3gd"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_i4bnl"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_550b7"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="3_bqpix"]
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="4_5jd78"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_e7nj5"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_grgs3"]
+[ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="7_bqpix"]
+[ext_resource type="Script" uid="uid://d3y8y4l4xgjbd" path="res://effects/create_item.gd" id="8_2py32"]
+[ext_resource type="Resource" uid="uid://dy8k5b35wfqw0" path="res://resources/items/weapons/wpn_magic_orb_indiv.tres" id="8_5jd78"]
+[ext_resource type="Script" uid="uid://dxmd4au5mv1y0" path="res://effects/equip_item.gd" id="9_aev6v"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="10_j16nr"]
+[ext_resource type="Script" uid="uid://chstd6fotuqn6" path="res://effects/store_item.gd" id="11_5jd78"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="11_f3gq4"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/condition_effect.gd" id="12_0gf8e"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="13_ui1ai"]
+[ext_resource type="Script" uid="uid://g1muvdggkxqa" path="res://effects/add_activity_effect.gd" id="14_e7nj5"]
+
+[sub_resource type="Resource" id="Resource_grgs3"]
+script = ExtResource("8_2py32")
+item = ExtResource("8_5jd78")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_avbmm"]
+script = ExtResource("9_aev6v")
+metadata/_custom_type_script = "uid://dxmd4au5mv1y0"
+
+[sub_resource type="Resource" id="Resource_e7nj5"]
+script = ExtResource("8_2py32")
+item = ExtResource("8_5jd78")
+count = 3
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_xsd4j"]
+script = ExtResource("11_5jd78")
+metadata/_custom_type_script = "uid://chstd6fotuqn6"
+
+[sub_resource type="Resource" id="Resource_2py32"]
+script = ExtResource("11_f3gq4")
+name = "Conjure Orbs"
+id = "cond_conjure_orbs"
+effects = Array[ExtResource("6_grgs3")]([SubResource("Resource_grgs3"), SubResource("Resource_avbmm"), SubResource("Resource_e7nj5"), SubResource("Resource_xsd4j")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_aev6v"]
+script = ExtResource("12_0gf8e")
+behaviour = 1
+condition = SubResource("Resource_2py32")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_j16nr"]
+script = ExtResource("4_5jd78")
+name = "Conjure Orbs"
+id = "act_conjure_orbs"
+icon = "res://art/icons/concentration-orb.svg"
+AP_cost = 3
+reach = 0
+target_effects = Array[ExtResource("6_grgs3")]([SubResource("Resource_aev6v")])
+requires_crisis = false
+requires_roll = false
+builds_condition = true
+condition_id = "cond_conjure_orbs"
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_f3gq4"]
+script = ExtResource("1_i4bnl")
+activity = SubResource("Resource_j16nr")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_0gf8e"]
+script = ExtResource("7_bqpix")
+name = "Conjure Orbs"
+activities = Array[ExtResource("1_i4bnl")]([SubResource("Resource_f3gq4")])
+metadata/_custom_type_script = "uid://covfnqv811mqd"
+
+[sub_resource type="Resource" id="Resource_ui1ai"]
+script = ExtResource("14_e7nj5")
+activities = Array[ExtResource("7_bqpix")]([SubResource("Resource_0gf8e")])
+metadata/_custom_type_script = "uid://g1muvdggkxqa"
+
+[sub_resource type="Resource" id="Resource_a3m6j"]
+script = ExtResource("11_f3gq4")
+name = "Magic Orbs"
+id = "cond_magic_orbs"
+re_apply_effects = false
+effects = Array[ExtResource("6_grgs3")]([SubResource("Resource_ui1ai")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_adgnr"]
+script = ExtResource("12_0gf8e")
+condition = SubResource("Resource_a3m6j")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_tem51"]
+script = ExtResource("4_5jd78")
+name = "Magic Orbs"
+id = "act_magic_orbs"
+AP_cost = 2
+requires_concentration = true
+target_effects = Array[ExtResource("6_grgs3")]([SubResource("Resource_adgnr")])
+requires_crisis = false
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_5dmfs"]
+script = ExtResource("1_i4bnl")
+activity = SubResource("Resource_tem51")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("13_ui1ai")
+minimum_rank = 3
+name = "Magic Orbs"
+activities = Array[ExtResource("1_i4bnl")]([SubResource("Resource_5dmfs")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

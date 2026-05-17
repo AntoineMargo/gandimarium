@@ -25,6 +25,7 @@ metadata/_custom_type_script = "uid://cpuyout31r1c5"
 script = ExtResource("1_rbbdi")
 name = "Spell Armour (derived)"
 id = "cond_spell_armour_derived"
+persistent = false
 effects = Array[ExtResource("2_01dd0")]([SubResource("Resource_ykpp3")])
 is_visible = false
 metadata/_custom_type_script = "uid://dvi4ohsador2o"

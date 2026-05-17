@@ -46,9 +46,9 @@ func spawn_character(data_file: String, coords: Vector3i, routine: String = "", 
 		#if not is_instance_valid(condition):
 			#print("Invalid entry detected")
 
-	character.initialise()
+	character.build_stats()
 	wm.current_world.register_creature(character)
-	character.apply_conditions_from_equipment()
+	#character.apply_conditions_from_equipment()
 	var weapons = character.get_weapons()
 	for weapon in weapons:
 		if weapon:

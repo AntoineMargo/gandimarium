@@ -9,6 +9,8 @@ var target = null
 
 var condition: Condition = null
 
+var created_items: Array[Item] = []
+
 var tile_spawned_on: Vector3i = Vector3i(0, 0, 0)
 
 var info = {}

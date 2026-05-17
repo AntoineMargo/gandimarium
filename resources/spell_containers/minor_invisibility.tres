@@ -1,0 +1,72 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://dcjfheh0xrw65"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_ja085"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_5y5lw"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="3_c62sf"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="4_vngne"]
+[ext_resource type="Script" uid="uid://c20e6vg8wsl4e" path="res://activity_modifiers/spell_rank_num_modifier.gd" id="5_5y5lw"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_55p3g"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_4m1a2"]
+[ext_resource type="Script" uid="uid://bexiblxwp7bqt" path="res://various/status_entry.gd" id="7_qmkiv"]
+[ext_resource type="Script" uid="uid://417qkf3j2ise" path="res://effects/change_status_effect.gd" id="8_yhe1j"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="9_ijcrj"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="10_dqnu5"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/condition_effect.gd" id="11_1814x"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="12_dfo0a"]
+
+[sub_resource type="Resource" id="Resource_c62sf"]
+script = ExtResource("5_5y5lw")
+starting_amount = -3
+value_type = 26
+metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
+
+[sub_resource type="Resource" id="Resource_k724e"]
+script = ExtResource("7_qmkiv")
+type = 3
+metadata/_custom_type_script = "uid://bexiblxwp7bqt"
+
+[sub_resource type="Resource" id="Resource_gobpa"]
+script = ExtResource("8_yhe1j")
+modifiers = Array[ExtResource("7_qmkiv")]([SubResource("Resource_k724e")])
+metadata/_custom_type_script = "uid://417qkf3j2ise"
+
+[sub_resource type="Resource" id="Resource_smut8"]
+script = ExtResource("10_dqnu5")
+name = "Minor Invisibility"
+id = "cond_minor_invisibility"
+description = "You are inivisible."
+effects = Array[ExtResource("6_4m1a2")]([SubResource("Resource_gobpa")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_dva2d"]
+script = ExtResource("11_1814x")
+condition = SubResource("Resource_smut8")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_a3m6j"]
+script = ExtResource("4_vngne")
+name = "Minor Invisibility"
+id = "act_minor_invisibility"
+description = "The targeted creature becomes invisible."
+AP_cost = 2
+requires_concentration = true
+reach = 10
+modifiers = Array[ExtResource("3_c62sf")]([SubResource("Resource_c62sf")])
+target_effects = Array[ExtResource("6_4m1a2")]([SubResource("Resource_dva2d")])
+requires_crisis = false
+requires_roll = false
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_tem51"]
+script = ExtResource("1_ja085")
+activity = SubResource("Resource_a3m6j")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("12_dfo0a")
+minimum_rank = 4
+name = "Minor Invisibility"
+activities = Array[ExtResource("1_ja085")]([SubResource("Resource_tem51")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

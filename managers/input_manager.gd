@@ -97,7 +97,7 @@ func BasicControls():
 	if Input.is_action_just_pressed("C"):
 		if not Global.selected_char:
 			return
-		Global.selected_char.update_stats()
+		#Global.selected_char.update_stats()
 		SignalBus.update_character_info.emit()
 		Global.character_window.visible = not Global.character_window.visible
 		print("Toggling character info.")

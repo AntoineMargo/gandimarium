@@ -1,0 +1,65 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://4u87cyjkyxqo"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_v6uro"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_4sqjy"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="3_ioeq3"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="4_ps8aj"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_e762e"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_eq4pf"]
+[ext_resource type="Script" uid="uid://c20e6vg8wsl4e" path="res://activity_modifiers/spell_rank_num_modifier.gd" id="7_7pglk"]
+[ext_resource type="Script" uid="uid://dywclcl7k47vv" path="res://effects/activity_modifier_effect.gd" id="8_whltq"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="9_xf80q"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="10_0mgtr"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/condition_effect.gd" id="11_sucgs"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="12_yn7wu"]
+
+[sub_resource type="Resource" id="Resource_j8ccw"]
+script = ExtResource("7_7pglk")
+choice = 1
+multiplied_amount = 0.25
+value_type = 19
+stage = 4
+metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
+
+[sub_resource type="Resource" id="Resource_a3m6j"]
+script = ExtResource("8_whltq")
+modifier = SubResource("Resource_j8ccw")
+metadata/_custom_type_script = "uid://dywclcl7k47vv"
+
+[sub_resource type="Resource" id="Resource_tem51"]
+script = ExtResource("10_0mgtr")
+name = "Weapon Infusion"
+id = "cond_weapon_infusion"
+effects = Array[ExtResource("6_eq4pf")]([SubResource("Resource_a3m6j")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_5dmfs"]
+script = ExtResource("11_sucgs")
+condition = SubResource("Resource_tem51")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_gobpa"]
+script = ExtResource("4_ps8aj")
+name = "Weapon Infusion"
+id = "act_power_infusion"
+description = "You infuse the weapons of a creature with arcane power."
+AP_cost = 2
+reach = 20
+target_effects = Array[ExtResource("6_eq4pf")]([SubResource("Resource_5dmfs")])
+requires_crisis = false
+requires_roll = false
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_adgnr"]
+script = ExtResource("1_v6uro")
+activity = SubResource("Resource_gobpa")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("12_yn7wu")
+minimum_rank = 4
+name = "Weapon Infusion"
+activities = Array[ExtResource("1_v6uro")]([SubResource("Resource_adgnr")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

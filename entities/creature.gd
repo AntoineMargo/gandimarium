@@ -13,9 +13,24 @@ class_name Creature
 var health_bar_instance: Node
 
 # Meta utility 
-var reachable_tiles = []
-var stats_dirty = true
+var reachable_tiles: Array = []
+var stats_dirty: bool = true
+var mutation_depth: int = 0
 var active_right_click: Activity
+
+func start_mutation():
+	stats_dirty = true
+	mutation_depth += 1
+	
+func end_mutation():
+	mutation_depth -= 1
+	
+	if mutation_depth < 0:
+		push_error("Mutation depth below zero!")
+		mutation_depth = 0
+
+	if mutation_depth == 0:
+		update_stats()
 
 func add_activity(activity: ActivityContainer):
 	if activity not in data.activities:
@@ -72,10 +87,11 @@ func add_talent(talent: Talent):
 	stats_dirty = true
 
 func remove_talent(talent: Talent):
+	start_mutation()
 	for existing_talent in data.talents:
 		if existing_talent.name == talent.name:
 			data.talents.erase(existing_talent)
-	stats_dirty = true
+	end_mutation()
 
 func has_talent_named(talent_name: String) -> bool:
 	for talent in data.talents:
@@ -107,21 +123,12 @@ func toggle_condition(ctx: Context) -> Condition:
 	var existing = get_condition_by_id(ctx.condition.id)
 
 	if existing:
+		start_mutation()
 		existing.remove_source(ctx.id)
+		end_mutation()
 		return null
 	else:
 		return add_condition_from(ctx)
-
-### Returns 'true' on adding the condition, 'false' on removing it
-#func toggle_condition(ctx: Context) -> bool:
-	#var existing = get_condition_by_id(ctx.condition.id)
-#
-	#if existing:
-		#existing.remove_source(ctx.id)
-		#return false
-	#else:
-		#add_condition_from(ctx)
-		#return true
 
 func add_condition_from(ctx: Context) -> Condition:
 	var existing = get_condition_by_id(ctx.condition.id)
@@ -148,6 +155,7 @@ func add_condition_from(ctx: Context) -> Condition:
 	return inst
 
 func remove_condition_by_id(condition_id: String):
+	start_mutation()
 	var condition = null
 	for existing_cond in data.conditions:
 		if existing_cond.id == condition_id:
@@ -157,24 +165,35 @@ func remove_condition_by_id(condition_id: String):
 	for effect in condition.effects:
 		effect.remove(self, self)
 	data.conditions.erase(condition)
+	end_mutation()
 
 func remove_condition(condition: Condition):
-	for effect in condition.effects:
-		if effect.has_method("remove_context"):
-			var ctx = Context.new()
-			ctx.user = self
-			ctx.origin = self
-			ctx.target = self
-			ctx.condition = condition
-			effect.remove_context(ctx)
-		else:
-			effect.remove(self, self, -1)
+	start_mutation()
 	for existing_cond in data.conditions:
 		if existing_cond.id == condition.id:
 			data.conditions.erase(existing_cond)
+	end_mutation()
 	if Global.selected_char == self:
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()
+
+#func remove_condition(condition: Condition):
+	#for effect in condition.effects:
+		#if effect.has_method("remove_context"):
+			#var ctx = Context.new()
+			#ctx.user = self
+			#ctx.origin = self
+			#ctx.target = self
+			#ctx.condition = condition
+			#effect.remove_context(ctx)
+		#else:
+			#effect.remove(self, self, -1)
+	#for existing_cond in data.conditions:
+		#if existing_cond.id == condition.id:
+			#data.conditions.erase(existing_cond)
+	#if Global.selected_char == self:
+		#SignalBus.update_inventory.emit()
+		#SignalBus.update_character_info.emit()
 
 func add_item_conditions(item):
 	if not item or not item.conditions:
@@ -193,6 +212,7 @@ func add_item_conditions(item):
 			push_error("Item condition is not a Condition resource: " + str(condition))
 
 func remove_item_conditions(item):
+	start_mutation()
 	if not item or not item.conditions:
 		return
 	for item_condition in item.conditions:
@@ -200,12 +220,15 @@ func remove_item_conditions(item):
 			var cond = data.conditions[i]
 			if cond.name == item_condition.name:
 				remove_condition(cond)
+	end_mutation()
 
 func remove_conditions_from_equipment():
+	start_mutation()
 	var collection = data.equipment.get_all_equipped_items()
 	if collection:
 		for item in collection:
 			remove_item_conditions(item)
+	end_mutation()
 
 func apply_conditions_from_equipment():
 	var collection = data.equipment.get_all_equipped_items()
@@ -239,53 +262,60 @@ func get_item_in_slot(slot):
 	return data.equipment.get_item_in_slot(slot)
 
 func reload_equipment():
+	start_mutation()
 	remove_conditions_from_equipment()
 	apply_conditions_from_equipment()
+	end_mutation()
 
 func initialize_item(item: Item):
 	item.initialize_attack_modes()
 
 func equip_item(item: Item) -> bool:
 	initialize_item(item)
-	remove_conditions_from_equipment()
-	if not data.equipment.equip_item(item):
-		apply_conditions_from_equipment()
-		return false
+	#remove_conditions_from_equipment()
+	#if not data.equipment.equip_item(item):
+		#apply_conditions_from_equipment()
+		#return false
 	item.owner = self
-	apply_conditions_from_equipment()
-	update_stats()
+	#apply_conditions_from_equipment()
+	#update_stats()
+	if data.equipment.equip_item(item):
+		add_item_conditions(item)
 	if Global.selected_char == self:
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()
 	return true
 
 func equip_item_in_slot(item: Item, slot: Enums.EquipmentSlot, force: bool = false) -> bool:
+	start_mutation()
 	initialize_item(item)
-	remove_conditions_from_equipment()
+	#remove_conditions_from_equipment()
 	if data.equipment.get_item_in_slot(slot):
 		if force:
 			var old_item: Item = data.equipment.free_slot(slot)
 			data.inventory.add_item(old_item)
 		else:
-			apply_conditions_from_equipment()
+			#apply_conditions_from_equipment()
+			end_mutation()
 			return false
 	data.equipment.equip_item_in_slot(item, slot)
-	apply_conditions_from_equipment()
+	#apply_conditions_from_equipment()
 	item.owner = self
-	update_stats()
+	end_mutation()
 	if Global.selected_char == self:
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()
 	return true
 
 func unequip_slot(slot) -> Item:
-	remove_conditions_from_equipment()
+	start_mutation()
+	#remove_conditions_from_equipment()
 	var item: Item = data.equipment.free_slot(slot)
-	apply_conditions_from_equipment()
+	#apply_conditions_from_equipment()
+	end_mutation()
 	if Global.selected_char == self:
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()
-	update_stats()
 	return item
 
 func remove_item(item: Item) -> Item:
@@ -293,16 +323,26 @@ func remove_item(item: Item) -> Item:
 	if item in inventory:
 		inventory.remove_from_inventory(item)
 	else:
-		remove_conditions_from_equipment()
+		#remove_conditions_from_equipment()
+		start_mutation()
 		data.equipment.remove_item(item)
-		apply_conditions_from_equipment()
+		#apply_conditions_from_equipment()
+		end_mutation()
 		if Global.selected_char == self:
 			SignalBus.update_inventory.emit()
 			SignalBus.update_character_info.emit()
 	return item
 
 func remove_item_from_slot(slot) -> Item:
-	return data.equipment.remove_item_from_slot(slot)
+	start_mutation()
+	var item = data.equipment.remove_item_from_slot(slot)
+	end_mutation()
+	return item
+
+#func remove_item_from_slot(slot) -> Item:
+	#var item: Item = data.equipment.remove_item_from_slot(slot)
+	#update_stats()
+	#return item
 
 ## Used when something (usually an activity) deals damage to a creature
 func take_damage(damage: int, resistance: Enums.Resistance):
@@ -487,26 +527,8 @@ func get_selected_weapon_activity() -> Activity:
 
 func perform_attack(target):
 	var attack_activity: Activity = get_selected_weapon_activity()
-	perform_activity(attack_activity, target)
-
-#func perform_attack(target):
-	#var weapons = get_weapons()
-	#var hand = data.equipment.active_hand
-	#var category = data.equipment.active_category
-	#var selected_weapon = weapons[hand]
-	#if selected_weapon:
-		#if category == Enums.AttackCategory.STRIKE and selected_weapon.strike:
-			#var attack_activity = get_modified_activity(selected_weapon.strike)
-			#attack_activity.weapon = selected_weapon
-			#perform_activity(attack_activity, target)
-		#elif category == Enums.AttackCategory.SHOOT and selected_weapon.shoot:
-			#var attack_activity = get_modified_activity(selected_weapon.shoot)
-			#attack_activity.weapon = selected_weapon
-			#perform_activity(attack_activity, target)
-		#elif category == Enums.AttackCategory.THROW and selected_weapon.throw:
-			#var attack_activity = get_modified_activity(selected_weapon.throw)
-			#attack_activity.weapon = selected_weapon
-			#perform_activity(attack_activity, target)
+	if attack_activity:
+		perform_activity(attack_activity, target)
 
 func perform_operate(prop: Prop):
 	if consume_ap(1):
@@ -571,6 +593,19 @@ func set_stat(stat, value):
 	else:
 		push_error("Could not find stat: ", stat)
 
+func change_status(type: Enums.Status, new_status: int):
+	match type:
+		Enums.Status.STATE:
+			data.state = new_status as Enums.State
+		Enums.Status.SIGHT:
+			data.sight = new_status as Enums.Capability
+		Enums.Status.HEARING:
+			data.hearing = new_status as Enums.Capability
+		Enums.Status.VISIBILITY:
+			data.visibility = new_status as Enums.Capability
+		Enums.Status.AUDIBILITY:
+			data.audibility = new_status as Enums.Capability
+
 func change_stat_enum(type: Enums.StatType, stat: int, delta):
 	match type:
 		Enums.StatType.ATTRIBUTE:
@@ -587,11 +622,20 @@ func change_stat_enum(type: Enums.StatType, stat: int, delta):
 		Enums.StatType.SIZE:
 			pass
 		Enums.StatType.RESISTANCE:
-			var current = data.derived_stats.get_resistance(stat)
-			data.derived_stats.set_resistance(stat, current + delta)
+			#var current = data.derived_stats.get_resistance(stat)
+			#data.derived_stats.set_resistance(stat, current + delta)
 			# To remove once I've fully moved towards using derived_stats:
-			current = data.resistances.get_resistance(stat)
+			var current = data.resistances.get_resistance(stat)
 			data.resistances.set_resistance(stat, current + delta)
+		#Enums.StatType.PROPERTY:
+			#if stat == Enums.Property.SIGHT:
+				#data.sight = delta
+			#elif stat == Enums.Property.HEARING:
+				#data.hearing = delta
+			#elif stat == Enums.Property.VISIBILITY:
+				#data.visibility = delta
+			#elif stat == Enums.Property.AUDIBILITY:
+				#data.audibility = delta
 
 ## @deprecated: use change_stat_enum() instead
 func change_stat(stat: StringName, delta):
@@ -677,7 +721,7 @@ func get_current_spell_cost() -> int:
 	return get_current_spell_rank_table().spell_costs[data.current_spell_rank]
 
 ## This initalises the base stats, meant to be used on spawn and at every level-up, and not accessed from outside the class
-func initialise():
+func build_stats():
 	if not data.has_been_initialized:
 		if data.uid == 0:
 			data.uid = Global.state_manager.next_uid(Enums.UIDType.CREATURE)
@@ -759,8 +803,8 @@ func initialise():
 
 ## This builds the final usable stats; to be used directly for activities and from outside the class
 func update_stats():
-	if not stats_dirty:
-		return
+	#if not stats_dirty:
+		#return
 		
 	data.derived_stats.agility = data.base_stats.agility + data.derived_stats.vigour
 	data.derived_stats.will = data.base_stats.will + data.derived_stats.vigour
@@ -785,6 +829,7 @@ func update_stats():
 	data.derived_stats.stealth = data.base_stats.stealth + data.derived_stats.vigour
 	
 	data.derived_stats.strength_bonus = data.base_stats.strength_bonus
+	data.derived_stats.vigour = 0
 	#data.base_stats.size = "medium"
 	
 	data.derived_stats.max_hp = data.base_stats.max_hp
@@ -797,6 +842,35 @@ func update_stats():
 	data.derived_stats.max_reactions = data.base_stats.max_reactions
 	
 	data.derived_stats.tie_breaker = randf()
+	
+	data.resistances.physical = 0
+	data.resistances.heat = 0
+	data.resistances.cold = 0
+	data.resistances.electricity = 0
+	data.resistances.corrosion = 0
+	data.resistances.poison = 0
+	data.resistances.psychic = 0
+	
+	data.sight = Enums.Capability.NORMAL
+	data.hearing = Enums.Capability.NORMAL
+
+	data.visibility = Enums.Capability.NORMAL
+	data.audibility = Enums.Capability.NORMAL
+
+	data.state = Enums.State.CONSCIOUS
+	
+	data.targetable = true
+	
+	var conditions = data.conditions
+	for i in range(conditions.size() - 1, -1, -1):
+		var condition = conditions[i]
+		if condition.persistent:
+			if condition.re_apply_effects:
+				condition.apply_effects()
+		else:
+			conditions.remove_at(i)
+	
+	apply_conditions_from_equipment()
 	
 	stats_dirty = false
 	sprite_node.texture = load(data.sprite)

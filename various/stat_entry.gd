@@ -3,7 +3,7 @@ extends Resource
 class_name StatEntry
 
 @export var amount: int = 0
-@export var multiplier: int = 0
+@export var multiplier: float = 0
 
 func get_type() -> Enums.StatType:
 	@warning_ignore("int_as_enum_without_match", "int_as_enum_without_cast")

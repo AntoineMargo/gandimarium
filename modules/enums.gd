@@ -297,5 +297,13 @@ enum StatType {
 	SKILL,
 	POINT,
 	SIZE,
-	RESISTANCE
+	RESISTANCE,
+}
+
+enum Status {
+	STATE,
+	SIGHT,
+	HEARING,
+	VISIBILITY,
+	AUDIBILITY
 }

@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="4_b41ce"]
 [ext_resource type="Script" uid="uid://dxmd4au5mv1y0" path="res://effects/equip_item.gd" id="5_b41ce"]
 [ext_resource type="Script" uid="uid://8u1mf484l0nx" path="res://effects/modify_item.gd" id="5_wndbx"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="7_jocpq"]
 
 [sub_resource type="Resource" id="Resource_jc7fu"]
 script = ExtResource("3_b41ce")
@@ -27,5 +28,6 @@ metadata/_custom_type_script = "uid://dxmd4au5mv1y0"
 script = ExtResource("3_cj5f0")
 name = "Inertial Armour"
 id = "inertial_armour"
+persistent = false
 effects = Array[ExtResource("1_ovfuq")]([SubResource("Resource_jc7fu"), SubResource("Resource_spr5c"), SubResource("Resource_s8iek")])
 metadata/_custom_type_script = "uid://dvi4ohsador2o"

@@ -19,6 +19,11 @@ func finalize_setup():
 	for condition in linked_conditions:
 		if not condition.ended.is_connected(cancel):
 			condition.ended.connect(cancel)
+		#if not condition.update_info.is_connected(update_info):
+			#condition.update_info.connect(update_info)
+
+func update_info(info):
+	pass
 
 func tick_tock(_days, _hours, _minutes, _seconds):
 	var current_time: int = Global.time_manager.get_total_seconds()

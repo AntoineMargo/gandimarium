@@ -16,8 +16,6 @@ var projectile_instance: Projectile = null
 
 var shared_context: SharedContext = null
 
-var created_items: Array[Item] = []
-
 var delayed_calls: Array[Callable] = []
 var already_hit = null
 

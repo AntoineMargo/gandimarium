@@ -1,7 +1,7 @@
 extends Effect
 class_name EquipItemEffect
 
-func apply_context(ctx: ActivityContext) -> void:
+func apply_context(ctx: Context) -> void:
 	for item in ctx.created_items:
 		if ctx.target is Creature:
 			if ctx.target.equip_item(item):

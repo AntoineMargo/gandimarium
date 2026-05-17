@@ -9,6 +9,9 @@ signal ended
 @export var id: String = "placeholder"
 @export var description: String = "This is a placeholder description."
 @export var icon: String
+## Survives creature stats rebuild; not for items.
+@export var persistent: bool = true
+@export var re_apply_effects: bool = true
 @export var filters: Array[Filter] = []
 @export var effects: Array[Effect] = []
 @export var end_requirements: Array[ConditionEndRequirement] = []
@@ -17,7 +20,7 @@ signal ended
 #@export var toggle: bool = false
 @export var is_visible: bool = true
 
-var vfx_scene: PackedScene
+@export var vfx_scene: PackedScene
 
 # === Runtime ===
 
@@ -52,6 +55,23 @@ func initialize(ctx: Context) -> void:
 		self.spell_rank = ctx.current_spell_rank
 		if ctx.concentration:
 			ctx.concentration.register_condition(self)
+
+	apply_effects(ctx)
+
+	for end_requirement in end_requirements:
+		end_requirement.setup(self)
+	start_time = Global.time_manager.get_total_seconds()
+	if duration > 0:
+		end_time = start_time + duration
+		SignalBus.time_changed.connect(verify_expired)
+
+func apply_effects(ctx: Context = null) -> void:
+	if not ctx:
+		ctx = Context.new()
+		ctx.user = user
+		ctx.origin = user.get_coords()
+		ctx.target = target
+		ctx.condition = self
 	for filter in filters:
 		if filter is Filter:
 			if not filter.is_satisfied(ctx):
@@ -62,13 +82,6 @@ func initialize(ctx: Context) -> void:
 			effect.apply_context(ctx)
 		else:
 			effect.apply(self, ctx.target)
-	for end_requirement in end_requirements:
-		end_requirement.setup(self)
-		#end_requirement.completed.connect(dispose)
-	start_time = Global.time_manager.get_total_seconds()
-	if duration > 0:
-		end_time = start_time + duration
-		SignalBus.time_changed.connect(verify_expired)
 
 func verify_expired(_days, _hours, _minutes, _seconds):
 	if frozen:
@@ -98,16 +111,20 @@ func unfreeze():
 	frozen = false
 
 func dispose():
-	destroy_children()
 	target.remove_condition(self)
+	destroy_children()
 	ended.emit()
 	#if Global.selected_char == target:
 		#SignalBus.update_inventory.emit()
 		#SignalBus.update_character_info.emit()
 
+#func destroy_children():
+	#for item in linked_items:
+		#item.destroy()
+
 func destroy_children():
-	for item in linked_items:
-		item.destroy()
+	for i in range(linked_items.size() - 1, -1, -1):
+		linked_items[i].destroy()
 
 func add_source(identifier: String):
 	if not sources.has(identifier):

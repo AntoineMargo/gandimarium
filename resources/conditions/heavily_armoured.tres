@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://va2witn0s23o" path="res://various/stat_resistance_entry.gd" id="3_kucn4"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_6xee6"]
 [ext_resource type="Script" uid="uid://cp1x0k5fsy1j5" path="res://various/stat_points_entry.gd" id="4_7eevp"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="6_7eevp"]
 
 [sub_resource type="Resource" id="Resource_c2bek"]
 script = ExtResource("3_kucn4")
@@ -29,4 +30,5 @@ metadata/_custom_type_script = "uid://cpuyout31r1c5"
 script = ExtResource("2_j85to")
 name = "Heavily armoured"
 id = "heavily_armoured"
+persistent = false
 effects = Array[ExtResource("1_potkk")]([SubResource("Resource_ns0ch")])

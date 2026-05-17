@@ -12,101 +12,46 @@
 [ext_resource type="Resource" uid="uid://vb1b8pg4f7r1" path="res://resources/spell_containers/shift.tres" id="8_u81v1"]
 [ext_resource type="Resource" uid="uid://xpqvtc5htx4o" path="res://resources/spell_containers/far_shift.tres" id="9_frlgl"]
 [ext_resource type="Resource" uid="uid://cpjo0jyfn3vdr" path="res://resources/spell_containers/short_teleport.tres" id="10_eubeo"]
-[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="11_n5vkd"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="13_s1sgk"]
-[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="14_rqpy1"]
-[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="16_k724e"]
-[ext_resource type="Script" uid="uid://w8o4jtjlvkjh" path="res://various/stat_aptitude_entry.gd" id="17_2uh2x"]
-[ext_resource type="Script" uid="uid://dl10wytkh5ohd" path="res://conditions/end_requirements/activities_completed.gd" id="17_j8ccw"]
-[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="18_smut8"]
-[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="19_dva2d"]
-[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="21_tem51"]
-[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/condition_effect.gd" id="22_5dmfs"]
+[ext_resource type="Resource" uid="uid://baaac0cm78h2j" path="res://resources/spell_containers/true_strike.tres" id="11_j8ccw"]
+[ext_resource type="Resource" uid="uid://4u87cyjkyxqo" path="res://resources/spell_containers/weapon_infusion.tres" id="12_k724e"]
+[ext_resource type="Resource" uid="uid://dcjfheh0xrw65" path="res://resources/spell_containers/minor_invisibility.tres" id="13_j8ccw"]
+[ext_resource type="Resource" uid="uid://dnes1gf7ba3gd" path="res://resources/spell_containers/magic_orbs_limited.tres" id="14_n5vkd"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="15_ylomr"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="16_fm8u5"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="17_j8ccw"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="18_k724e"]
 
-[sub_resource type="Resource" id="Resource_gobpa"]
-script = ExtResource("17_2uh2x")
-stat = 4
-amount = 10
-metadata/_custom_type_script = "uid://w8o4jtjlvkjh"
-
-[sub_resource type="Resource" id="Resource_adgnr"]
-script = ExtResource("18_smut8")
-modifiers = Array[ExtResource("16_k724e")]([SubResource("Resource_gobpa")])
-metadata/_custom_type_script = "uid://cpuyout31r1c5"
-
-[sub_resource type="Resource" id="Resource_k724e"]
-script = ExtResource("17_j8ccw")
-event_types = Array[int]([2])
-counter = 1
-metadata/_custom_type_script = "uid://dl10wytkh5ohd"
-
-[sub_resource type="Resource" id="Resource_j0ybq"]
-script = ExtResource("21_tem51")
-name = "True Strike"
-id = "cond_true_strike"
-effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_adgnr")])
-end_requirements = Array[ExtResource("19_dva2d")]([SubResource("Resource_k724e")])
-metadata/_custom_type_script = "uid://dvi4ohsador2o"
-
-[sub_resource type="Resource" id="Resource_4ay3v"]
-script = ExtResource("22_5dmfs")
-condition = SubResource("Resource_j0ybq")
-metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
-
-[sub_resource type="Resource" id="Resource_ylomr"]
-script = ExtResource("14_rqpy1")
-number_of_targets = null
-name = "True Strike"
-id = "act_true_strike"
-description = null
-icon = null
-tags = null
+[sub_resource type="Resource" id="Resource_2uh2x"]
+script = ExtResource("18_k724e")
+name = "Impervious Sphere"
+id = "act_impervious_sphere"
+description = "You wrap an impenetrable sphere around the target."
 AP_cost = 2
-PP_cost = null
-EP_cost = null
 requires_concentration = true
-reach_requires_LOS = null
-spread_requires_LOS = null
-defending_aptitude = null
-reach = null
-spread = null
-delay = null
-modifiers = null
-self_filters = null
-self_prior_effects = null
-self_per_target_effects = null
-self_final_effects = null
-target_filters = null
-target_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_4ay3v")])
-targeting_type = null
-affected_type = null
-shape = null
-can_only_hit_once = null
-projectile_batch_mode = null
+reach = 20
+target_effects = Array[ExtResource("1_3uv03")]([null])
 requires_crisis = false
-requires_roll = false
-is_invisible = null
 is_spell = true
-toggleable = null
 builds_condition = true
-per_round_drain = null
-attack_types = null
+per_round_drain = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 
-[sub_resource type="Resource" id="Resource_fm8u5"]
-script = ExtResource("11_n5vkd")
-activity = SubResource("Resource_ylomr")
+[sub_resource type="Resource" id="Resource_smut8"]
+script = ExtResource("15_ylomr")
+activity = SubResource("Resource_2uh2x")
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
-[sub_resource type="Resource" id="Resource_j8ccw"]
+[sub_resource type="Resource" id="Resource_dva2d"]
 script = ExtResource("3_glfbk")
-name = "True Strike"
-activities = Array[ExtResource("11_n5vkd")]([SubResource("Resource_fm8u5")])
+minimum_rank = 5
+name = "Impervious Sphere"
+icon = "res://art/icons/holosphere.svg"
+activities = Array[ExtResource("15_ylomr")]([SubResource("Resource_smut8")])
 metadata/_custom_type_script = "uid://sg6vjj4j36i4"
 
 [sub_resource type="Resource" id="Resource_wqd4r"]
 script = ExtResource("2_m11lv")
-spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk"), ExtResource("5_wqd4r"), ExtResource("6_rqpy1"), ExtResource("7_b2hvq"), ExtResource("8_u81v1"), ExtResource("9_frlgl"), ExtResource("10_eubeo"), SubResource("Resource_j8ccw")])
+spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk"), ExtResource("5_wqd4r"), ExtResource("6_rqpy1"), ExtResource("7_b2hvq"), ExtResource("8_u81v1"), ExtResource("9_frlgl"), ExtResource("10_eubeo"), ExtResource("11_j8ccw"), ExtResource("12_k724e"), ExtResource("13_j8ccw"), ExtResource("14_n5vkd"), SubResource("Resource_dva2d")])
 metadata/_custom_type_script = "uid://2oaio4mh2bc8"
 
 [resource]

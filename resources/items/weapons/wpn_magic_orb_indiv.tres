@@ -1,0 +1,45 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://dy8k5b35wfqw0"]
+
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_gch4a"]
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_qsnij"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="3_12mfh"]
+[ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="4_m3r1x"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="5_a78w2"]
+[ext_resource type="Script" uid="uid://bsu4c08c52n7w" path="res://activities/targeted_throw_activity.gd" id="6_kbc46"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="6_n0fmo"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="13_quroa"]
+[ext_resource type="Script" uid="uid://jtk6vp2fcxdf" path="res://effects/wpn_damage.gd" id="14_1fxxm"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="15_bxv6j"]
+
+[sub_resource type="Resource" id="Resource_dovup"]
+script = ExtResource("14_1fxxm")
+resistance = 1
+metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
+
+[sub_resource type="Resource" id="Resource_4a4dd"]
+script = ExtResource("6_kbc46")
+name = "Throw Magic Orb"
+id = "act_throw_magic_orb"
+attacking_aptitude = 4
+defending_aptitude = 6
+reach = 10
+target_effects = Array[ExtResource("13_quroa")]([SubResource("Resource_dovup")])
+attack_types = Array[ExtResource("3_12mfh")]([ExtResource("4_m3r1x")])
+metadata/_custom_type_script = "uid://bsu4c08c52n7w"
+
+[sub_resource type="Resource" id="Resource_h628p"]
+script = ExtResource("15_bxv6j")
+activity = SubResource("Resource_4a4dd")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("2_qsnij")
+name = "Magic Orb"
+id = "item_magic_orb"
+slot_type = 12
+can_be_removed = false
+brawn_req_1h = 0
+brawn_req_2h = 0
+throw = SubResource("Resource_h628p")
+owner = null
+metadata/_custom_type_script = "uid://c22428ggciyyj"
