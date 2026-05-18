@@ -29,6 +29,7 @@ class_name Activity
 @export var targeting_type: Enums.Targeting = Enums.Targeting.ENTITIES
 @export var affected_type: Enums.Affected = Enums.Affected.ENTITIES
 @export var shape: Enums.Shape = Enums.Shape.BURST
+@export var barrier_interaction: Enums.BarrierInteraction = Enums.BarrierInteraction.IGNORE
 @export var can_only_hit_once: bool = true
 
 @export var projectile: ProjVFXEffect = null

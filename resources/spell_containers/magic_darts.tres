@@ -60,6 +60,7 @@ id = "magic_darts"
 defending_aptitude = 6
 reach = 20
 target_effects = Array[ExtResource("10_y8cri")]([SubResource("Resource_w0uwh")])
+barrier_interaction = 1
 can_only_hit_once = false
 projectile = SubResource("Resource_m7sha")
 projectile_batch_mode = false

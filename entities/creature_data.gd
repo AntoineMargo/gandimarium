@@ -31,6 +31,7 @@ class_name CreatureData
 @export var conditions: Array[Condition] = []
 @export var activity_modifiers: Array[Modifier] = []
 @export var concentrations: Array[Concentration] = []
+@export var barriers: Array[Barrier] = []
 
 # map ID String, Array of int UIDs
 @export var owned_rooms: Dictionary[String, Array] = {}

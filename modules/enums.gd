@@ -16,6 +16,23 @@ enum ConstructionState {
 	DESTROYED
 }
 
+enum BarrierDirection {
+	INBOUND,
+	OUTBOUND,
+	BOTH
+}
+
+enum BarrierInteraction {
+	IGNORE,
+	STOP,
+}
+
+enum BarrierDurabilityType {
+	HP_BLOCKING,
+	HP_NON_BLOCKING,
+	CHARGES
+}
+
 enum EventType {
 	MOVEMENT,
 	ACTIVITY_STARTED,

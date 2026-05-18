@@ -74,6 +74,20 @@ func remove_concentration(concentration: Concentration):
 	SignalBus.update_character_info.emit()
 	SignalBus.update_ui_for_char.emit()
 
+func add_barrier(barrier: Barrier, ctx: Context) -> void:
+	var instance = barrier.duplicate(true)
+	instance.parent_creature = self
+	instance.parent_condition = ctx.condition
+	var barriers: Array[Barrier] = data.barriers
+	barriers.append(instance)
+	barriers.sort_custom(func(a, b): return a.priority < b.priority)
+
+func process_barriers(ctx: ActivityContext) -> void:
+	var barriers: Array[Barrier] = data.barriers
+	for barrier in barriers:
+		if barrier.handle_activity(ctx):
+			return
+
 func add_talent(talent: Talent):
 	for weaker_talent in talent.supplanted:
 		if has_talent_named(weaker_talent.name):

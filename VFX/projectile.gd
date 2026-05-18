@@ -55,6 +55,11 @@ func launch_with_payload(ctx: ActivityContext):
 		activity_already_hit = ctx.already_hit
 	if target is Entity:
 		launch(ctx.user.get_coords(), ctx.target.get_coords())
+	elif target is Barrier:
+		launch(ctx.user.get_coords(), ctx.target.parent_creature.get_coords())
+		#var original_target = ctx.target.original_target
+		#var original_coords = original_target.get_coords()
+		#launch(ctx.user.get_coords(), ctx.target.original_target.get_coords())
 	else:
 		launch(ctx.user.get_coords(), ctx.target)
 

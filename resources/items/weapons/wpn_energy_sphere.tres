@@ -43,12 +43,13 @@ metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
 
 [sub_resource type="Resource" id="Resource_eabbd"]
 script = ExtResource("8_rh4j7")
-name = "Throw Magic Orb"
-id = "act_throw_magic_orb"
+name = "Throw Energy Sphere"
+id = "act_throw_energy_sphere"
 defending_aptitude = 6
 reach = 20
 modifiers = Array[ExtResource("7_rr0rn")]([SubResource("Resource_ud8em")])
 target_effects = Array[ExtResource("10_qbpgc")]([SubResource("Resource_ure84")])
+barrier_interaction = 1
 projectile = SubResource("Resource_14yg4")
 attack_types = Array[ExtResource("3_14yg4")]([ExtResource("6_h628p")])
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
@@ -60,8 +61,8 @@ metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
 [resource]
 script = ExtResource("2_bcc3r")
-name = "Magic Orb"
-id = "item_magic_orb"
+name = "Energy Sphere"
+id = "item_energy_sphere"
 slot_type = 12
 can_be_removed = false
 brawn_req_1h = 0

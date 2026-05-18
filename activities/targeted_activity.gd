@@ -178,7 +178,12 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 			if requires_roll:
 				_resolve(ctx)
 			post_resolution_bundle_modify(ctx)
-				
+		
+			if barrier_interaction == Enums.BarrierInteraction.STOP:
+				var ctx_target = ctx.target
+				if ctx_target is Entity and ctx.target.has_method("process_barriers"):
+					ctx_target.process_barriers(ctx)
+
 			var frozen_ctx = ctx
 
 			for effect in target_effects:

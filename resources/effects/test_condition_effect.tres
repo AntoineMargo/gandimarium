@@ -2,7 +2,7 @@
 
 [ext_resource type="Resource" uid="uid://doepjn57ch0xy" path="res://resources/conditions/degraded_defence.tres" id="1_45jni"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_w8fk8"]
-[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/condition_effect.gd" id="2_3gp4s"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="2_3gp4s"]
 
 [resource]
 script = ExtResource("2_3gp4s")

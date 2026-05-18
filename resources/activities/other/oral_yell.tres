@@ -7,7 +7,7 @@
 [ext_resource type="Resource" uid="uid://ct023ctlxw1di" path="res://resources/activity_modifiers/casting_tradition_oral.tres" id="4_dh45m"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="4_jm6kp"]
 [ext_resource type="Script" uid="uid://dywclcl7k47vv" path="res://effects/activity_modifier_effect.gd" id="4_sovki"]
-[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/condition_effect.gd" id="7_5xub5"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="7_5xub5"]
 
 [sub_resource type="Resource" id="Resource_jm6kp"]
 script = ExtResource("4_sovki")
