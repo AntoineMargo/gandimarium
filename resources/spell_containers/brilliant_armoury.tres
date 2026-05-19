@@ -1,0 +1,251 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://bt6smdb70e63v"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_rmex2"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_nd6ys"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="3_05ov3"]
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="4_31eeq"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_sltj7"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_jj7h7"]
+[ext_resource type="Resource" uid="uid://6vdpy040npbr" path="res://resources/items/armours/item_brilliant_armour.tres" id="7_wsi06"]
+[ext_resource type="Script" uid="uid://d3y8y4l4xgjbd" path="res://effects/create_item.gd" id="8_x4vgu"]
+[ext_resource type="Resource" uid="uid://bn24ohvtsmnpq" path="res://resources/items/weapons/wpn_brilliant_sword.tres" id="9_3prxf"]
+[ext_resource type="Resource" uid="uid://bsscufvwbapne" path="res://resources/items/weapons/wpn_brilliant_shield.tres" id="10_g017g"]
+[ext_resource type="Script" uid="uid://dxmd4au5mv1y0" path="res://effects/equip_item.gd" id="11_g4exr"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="12_3nfx6"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="13_lsx82"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="14_mf0pw"]
+[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="15_7qnbu"]
+[ext_resource type="Script" uid="uid://va2witn0s23o" path="res://various/stat_resistance_entry.gd" id="16_vyfgi"]
+[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="17_uggdp"]
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="18_il85p"]
+[ext_resource type="Resource" uid="uid://b52u1hbdkg54v" path="res://resources/items/weapons/wpn_brilliant_javelin.tres" id="19_hyygo"]
+[ext_resource type="Script" uid="uid://w8o4jtjlvkjh" path="res://various/stat_aptitude_entry.gd" id="20_wgkjg"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="21_g551v"]
+[ext_resource type="Script" uid="uid://jtk6vp2fcxdf" path="res://effects/wpn_damage.gd" id="22_7pi6c"]
+[ext_resource type="Script" uid="uid://3t3dwtov2mvp" path="res://filters/not_self.gd" id="23_17fdb"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="24_sivpm"]
+
+[sub_resource type="Resource" id="Resource_4ay3v"]
+script = ExtResource("8_x4vgu")
+item = ExtResource("7_wsi06")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_2mmfy"]
+script = ExtResource("8_x4vgu")
+item = ExtResource("9_3prxf")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_13mnf"]
+script = ExtResource("8_x4vgu")
+item = ExtResource("10_g017g")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_uu5mt"]
+script = ExtResource("11_g4exr")
+metadata/_custom_type_script = "uid://dxmd4au5mv1y0"
+
+[sub_resource type="Resource" id="Resource_ynu1s"]
+script = ExtResource("13_lsx82")
+name = "Brilliant Armoury (Sword)"
+id = "cond_brilliant_armoury_sword"
+re_apply_effects = false
+effects = Array[ExtResource("6_jj7h7")]([SubResource("Resource_4ay3v"), SubResource("Resource_2mmfy"), SubResource("Resource_13mnf"), SubResource("Resource_uu5mt")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_wcg80"]
+script = ExtResource("14_mf0pw")
+condition = SubResource("Resource_ynu1s")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_o6cqi"]
+script = ExtResource("4_31eeq")
+name = "Brilliant Armoury (Sword)"
+id = "act_brilliant_armoury_sword"
+description = "You conjure an entire set of powerful armour and weapons from the aether."
+AP_cost = 3
+requires_concentration = true
+reach = 20
+target_effects = Array[ExtResource("6_jj7h7")]([SubResource("Resource_wcg80")])
+requires_crisis = false
+requires_roll = false
+is_spell = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_hblds"]
+script = ExtResource("1_rmex2")
+activity = SubResource("Resource_o6cqi")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_45i0g"]
+script = ExtResource("16_vyfgi")
+stat = 1
+amount = 5
+multiplier = 1
+metadata/_custom_type_script = "uid://va2witn0s23o"
+
+[sub_resource type="Resource" id="Resource_c5il8"]
+script = ExtResource("17_uggdp")
+modifiers = Array[ExtResource("15_7qnbu")]([SubResource("Resource_45i0g")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_0ppgo"]
+script = ExtResource("13_lsx82")
+name = "Brilliant Armour (derived)"
+id = "cond_brilliant_armour_derived"
+persistent = false
+effects = Array[ExtResource("6_jj7h7")]([SubResource("Resource_c5il8")])
+is_visible = false
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_lijod"]
+script = ExtResource("18_il85p")
+name = "Brilliant Armour"
+id = "item_brilliant_armour"
+description = "A shimmering, translucent suit of nearly impervious armour."
+icon = "res://art/icons/items/chest-armor.svg"
+weight = 0.0
+value = 0
+conditions = Array[ExtResource("13_lsx82")]([SubResource("Resource_0ppgo")])
+slot_type = 4
+can_be_removed = false
+brawn_req_1h = 0
+brawn_req_2h = 0
+owner = null
+metadata/_custom_type_script = "uid://c22428ggciyyj"
+
+[sub_resource type="Resource" id="Resource_mc5au"]
+script = ExtResource("8_x4vgu")
+item = SubResource("Resource_lijod")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_apscq"]
+script = ExtResource("8_x4vgu")
+item = ExtResource("19_hyygo")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_j5kdn"]
+script = ExtResource("20_wgkjg")
+stat = 5
+amount = 3
+metadata/_custom_type_script = "uid://w8o4jtjlvkjh"
+
+[sub_resource type="Resource" id="Resource_3k8ai"]
+script = ExtResource("17_uggdp")
+modifiers = Array[ExtResource("15_7qnbu")]([SubResource("Resource_j5kdn")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_kodm0"]
+script = ExtResource("20_wgkjg")
+stat = 6
+amount = 6
+metadata/_custom_type_script = "uid://w8o4jtjlvkjh"
+
+[sub_resource type="Resource" id="Resource_jgtpb"]
+script = ExtResource("17_uggdp")
+modifiers = Array[ExtResource("15_7qnbu")]([SubResource("Resource_kodm0")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_s8bqb"]
+script = ExtResource("13_lsx82")
+name = "Shielded (heavy)"
+id = "cond_shielded_heavy"
+description = "You are heavily shielded."
+persistent = false
+effects = Array[ExtResource("6_jj7h7")]([SubResource("Resource_3k8ai"), SubResource("Resource_jgtpb")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_hh0ht"]
+script = ExtResource("2_nd6ys")
+id = 2
+name = "crush"
+pattern = [0, 0, 3, 3]
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_2mcys"]
+script = ExtResource("22_7pi6c")
+resistance = 1
+metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
+
+[sub_resource type="Resource" id="Resource_mctsj"]
+script = ExtResource("23_17fdb")
+metadata/_custom_type_script = "uid://3t3dwtov2mvp"
+
+[sub_resource type="Resource" id="Resource_h3362"]
+script = ExtResource("21_g551v")
+attacking_aptitude = 4
+defending_aptitude = 5
+spread = 2
+target_filters = Array[ExtResource("5_sltj7")]([SubResource("Resource_mctsj")])
+target_effects = Array[ExtResource("6_jj7h7")]([SubResource("Resource_2mcys")])
+targeting_type = 1
+barrier_interaction = 1
+triggers_reaction = false
+attack_types = Array[ExtResource("2_nd6ys")]([SubResource("Resource_hh0ht")])
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_gyib4"]
+script = ExtResource("1_rmex2")
+activity = SubResource("Resource_h3362")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_6tpmh"]
+script = ExtResource("18_il85p")
+name = "Brilliant Shield"
+id = "wpn_brilliant_shield"
+weight = 0.0
+value = 0
+conditions = Array[ExtResource("13_lsx82")]([SubResource("Resource_s8bqb")])
+slot_type = 12
+can_be_removed = false
+brawn_req_1h = 0
+brawn_req_2h = 0
+strike = SubResource("Resource_gyib4")
+owner = null
+metadata/_custom_type_script = "uid://c22428ggciyyj"
+
+[sub_resource type="Resource" id="Resource_sqphr"]
+script = ExtResource("8_x4vgu")
+item = SubResource("Resource_6tpmh")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_ncuwk"]
+script = ExtResource("11_g4exr")
+metadata/_custom_type_script = "uid://dxmd4au5mv1y0"
+
+[sub_resource type="Resource" id="Resource_40qv7"]
+script = ExtResource("13_lsx82")
+name = "Brilliant Armoury (Javelin)"
+id = "cond_brilliant_armoury_javelin"
+re_apply_effects = false
+effects = Array[ExtResource("6_jj7h7")]([SubResource("Resource_mc5au"), SubResource("Resource_apscq"), SubResource("Resource_sqphr"), SubResource("Resource_ncuwk")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_0p4o7"]
+script = ExtResource("14_mf0pw")
+condition = SubResource("Resource_40qv7")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_mhg82"]
+script = ExtResource("4_31eeq")
+name = "Brilliant Armoury (Javelin)"
+id = "act_brilliant_armoury_javelin"
+description = "You conjure an entire set of powerful armour and weapons from the aether."
+AP_cost = 3
+requires_concentration = true
+reach = 20
+target_effects = Array[ExtResource("6_jj7h7")]([SubResource("Resource_0p4o7")])
+requires_crisis = false
+requires_roll = false
+is_spell = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_c17f0"]
+script = ExtResource("1_rmex2")
+activity = SubResource("Resource_mhg82")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("24_sivpm")
+name = "Brilliant Armoury"
+activities = Array[ExtResource("1_rmex2")]([SubResource("Resource_hblds"), SubResource("Resource_c17f0")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

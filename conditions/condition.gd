@@ -26,6 +26,7 @@ signal ended
 
 var vfx_instance: Node = null
 var linked_items: Array[Item] = []
+var linked_props: Array[Prop] = []
 var linked_modifiers: Array[ChangeStatEffect] = []
 
 var user = null
@@ -118,13 +119,11 @@ func dispose():
 		#SignalBus.update_inventory.emit()
 		#SignalBus.update_character_info.emit()
 
-#func destroy_children():
-	#for item in linked_items:
-		#item.destroy()
-
 func destroy_children():
 	for i in range(linked_items.size() - 1, -1, -1):
 		linked_items[i].destroy()
+	for i in range(linked_props.size() - 1, -1, -1):
+		linked_props[i].destroy_self()
 
 func add_source(identifier: String):
 	if not sources.has(identifier):

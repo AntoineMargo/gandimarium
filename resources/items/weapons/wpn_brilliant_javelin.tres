@@ -1,0 +1,98 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://b52u1hbdkg54v"]
+
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_csxcd"]
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_valiw"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="3_vbjuh"]
+[ext_resource type="Resource" uid="uid://b6lwaevovr35s" path="res://resources/damage_patterns/pierce.tres" id="4_csxcd"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="5_7wwi8"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="6_86r6d"]
+[ext_resource type="Script" uid="uid://c87bku6q55ul5" path="res://VFX/projectile_config.gd" id="8_k0cej"]
+[ext_resource type="PackedScene" uid="uid://bm40yjohcu4wn" path="res://VFX/projectile.tscn" id="10_lmdce"]
+[ext_resource type="Script" uid="uid://3t3dwtov2mvp" path="res://filters/not_self.gd" id="10_valiw"]
+[ext_resource type="Script" uid="uid://b7tjqqmnvivdt" path="res://effects/proj_vfx_effect.gd" id="11_02e3t"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="12_bfjqt"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="13_mhgsp"]
+[ext_resource type="Texture2D" uid="uid://b7vb23kfup0lx" path="res://art/objects/big_bolt.png" id="13_vbjuh"]
+[ext_resource type="Script" uid="uid://jtk6vp2fcxdf" path="res://effects/wpn_damage.gd" id="14_e06yw"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="15_dt4ws"]
+
+[sub_resource type="Resource" id="Resource_286cv"]
+script = ExtResource("14_e06yw")
+die_size = 12
+resistance = 1
+metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
+
+[sub_resource type="Resource" id="Resource_7wwi8"]
+script = ExtResource("10_valiw")
+metadata/_custom_type_script = "uid://3t3dwtov2mvp"
+
+[sub_resource type="Resource" id="Resource_86r6d"]
+script = ExtResource("12_bfjqt")
+attacking_aptitude = 4
+defending_aptitude = 5
+spread = 1
+target_filters = Array[ExtResource("6_86r6d")]([SubResource("Resource_7wwi8")])
+target_effects = Array[ExtResource("13_mhgsp")]([SubResource("Resource_286cv")])
+targeting_type = 1
+barrier_interaction = 1
+triggers_reaction = false
+attack_types = Array[ExtResource("3_vbjuh")]([ExtResource("4_csxcd")])
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_5ibjv"]
+script = ExtResource("15_dt4ws")
+activity = SubResource("Resource_86r6d")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_bcc3r"]
+script = ExtResource("8_k0cej")
+texture = ExtResource("13_vbjuh")
+speed = 800.0
+metadata/_custom_type_script = "uid://c87bku6q55ul5"
+
+[sub_resource type="Resource" id="Resource_14yg4"]
+script = ExtResource("11_02e3t")
+projectile_scene = ExtResource("10_lmdce")
+config = SubResource("Resource_bcc3r")
+metadata/_custom_type_script = "uid://b7tjqqmnvivdt"
+
+[sub_resource type="Resource" id="Resource_ure84"]
+script = ExtResource("14_e06yw")
+die_size = 12
+resistance = 1
+metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
+
+[sub_resource type="Resource" id="Resource_eabbd"]
+script = ExtResource("12_bfjqt")
+name = "Throw Brilliant Javelin"
+id = "act_throw_brilliant_javelin"
+attacking_aptitude = 4
+defending_aptitude = 6
+reach = 15
+target_effects = Array[ExtResource("13_mhgsp")]([SubResource("Resource_ure84")])
+targeting_type = 1
+shape = 2
+barrier_interaction = 1
+projectile = SubResource("Resource_14yg4")
+attack_types = Array[ExtResource("3_vbjuh")]([ExtResource("4_csxcd")])
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_h628p"]
+script = ExtResource("15_dt4ws")
+activity = SubResource("Resource_eabbd")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("2_valiw")
+name = "Brilliant Javelin"
+id = "item_brilliant_javelin"
+weight = 0.0
+value = 0
+slot_type = 12
+can_be_removed = false
+brawn_req_1h = 0
+brawn_req_2h = 0
+strike = SubResource("Resource_5ibjv")
+throw = SubResource("Resource_h628p")
+owner = null
+metadata/_custom_type_script = "uid://c22428ggciyyj"

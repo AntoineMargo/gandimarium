@@ -1,0 +1,94 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://bnskhsl8i4qch"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_ssfdp"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_5lj23"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="3_5yjvg"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="4_8yu3l"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_0q8wj"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_wo4ym"]
+[ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damage_effect.gd" id="7_0rc2u"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="8_an8fw"]
+
+[sub_resource type="Resource" id="Resource_5dmfs"]
+script = ExtResource("7_0rc2u")
+die_size = 6
+resistance = 2
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_gobpa"]
+script = ExtResource("4_8yu3l")
+number_of_targets = 3
+name = "Energy Bursts (Fire)"
+id = "act_energy_bursts_fire"
+AP_cost = 3
+defending_aptitude = 2
+reach = 20
+spread = 2
+target_effects = Array[ExtResource("6_wo4ym")]([SubResource("Resource_5dmfs")])
+targeting_type = 1
+barrier_interaction = 1
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_adgnr"]
+script = ExtResource("1_ssfdp")
+activity = SubResource("Resource_gobpa")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_v5jdu"]
+script = ExtResource("7_0rc2u")
+die_size = 6
+resistance = 4
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_j0ybq"]
+script = ExtResource("4_8yu3l")
+number_of_targets = 3
+name = "Energy Bursts (Electricity)"
+id = "act_energy_bursts_electricity"
+AP_cost = 3
+defending_aptitude = 2
+reach = 20
+spread = 2
+target_effects = Array[ExtResource("6_wo4ym")]([SubResource("Resource_v5jdu")])
+targeting_type = 1
+barrier_interaction = 1
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_4ay3v"]
+script = ExtResource("1_ssfdp")
+activity = SubResource("Resource_j0ybq")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_o6cqi"]
+script = ExtResource("7_0rc2u")
+die_size = 6
+resistance = 3
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_v3vy8"]
+script = ExtResource("4_8yu3l")
+number_of_targets = 3
+name = "Energy Bursts (Cold)"
+id = "act_energy_bursts_cold"
+AP_cost = 3
+defending_aptitude = 2
+reach = 20
+spread = 2
+target_effects = Array[ExtResource("6_wo4ym")]([SubResource("Resource_o6cqi")])
+targeting_type = 1
+barrier_interaction = 1
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_k7lab"]
+script = ExtResource("1_ssfdp")
+activity = SubResource("Resource_v3vy8")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("8_an8fw")
+name = "Energy Bursts"
+activities = Array[ExtResource("1_ssfdp")]([SubResource("Resource_adgnr"), SubResource("Resource_4ay3v"), SubResource("Resource_k7lab")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

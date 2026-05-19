@@ -1,0 +1,95 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://0auwss8gmkxb"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_ubhhv"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_mifry"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="3_k8bif"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="4_isfvo"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_wrax6"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_p8cla"]
+[ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damage_effect.gd" id="7_cxlbj"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="8_moa2d"]
+
+[sub_resource type="Resource" id="Resource_k724e"]
+script = ExtResource("7_cxlbj")
+die_size = 6
+resistance = 2
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_2uh2x"]
+script = ExtResource("4_isfvo")
+name = "Energy Blast (Fire)"
+id = "act_energy_blast_fire"
+description = "You produce a blast of energy in the designated area."
+AP_cost = 2
+defending_aptitude = 2
+reach = 30
+spread = 5
+target_effects = Array[ExtResource("6_p8cla")]([SubResource("Resource_k724e")])
+targeting_type = 1
+barrier_interaction = 1
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_smut8"]
+script = ExtResource("1_ubhhv")
+activity = SubResource("Resource_2uh2x")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_dva2d"]
+script = ExtResource("7_cxlbj")
+die_size = 6
+resistance = 4
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_a3m6j"]
+script = ExtResource("4_isfvo")
+name = "Energy Blast (Electricity)"
+id = "act_energy_blast_electricity"
+description = "You produce a blast of energy in the designated area."
+AP_cost = 2
+defending_aptitude = 2
+reach = 30
+spread = 5
+target_effects = Array[ExtResource("6_p8cla")]([SubResource("Resource_dva2d")])
+targeting_type = 1
+barrier_interaction = 1
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_tem51"]
+script = ExtResource("1_ubhhv")
+activity = SubResource("Resource_a3m6j")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_2mmfy"]
+script = ExtResource("7_cxlbj")
+die_size = 6
+resistance = 3
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_13mnf"]
+script = ExtResource("4_isfvo")
+name = "Energy Blast (Cold)"
+id = "act_energy_blast_cold"
+description = "You produce a blast of energy in the designated area."
+AP_cost = 2
+defending_aptitude = 2
+reach = 30
+spread = 5
+target_effects = Array[ExtResource("6_p8cla")]([SubResource("Resource_2mmfy")])
+targeting_type = 1
+barrier_interaction = 1
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_uu5mt"]
+script = ExtResource("1_ubhhv")
+activity = SubResource("Resource_13mnf")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("8_moa2d")
+minimum_rank = 3
+name = "Energy Blast"
+activities = Array[ExtResource("1_ubhhv")]([SubResource("Resource_smut8"), SubResource("Resource_tem51"), SubResource("Resource_uu5mt")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

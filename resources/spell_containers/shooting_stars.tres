@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://bafu2jwhid654"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_4you6"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_hdqpx"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="3_6yjqv"]
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="4_8p3ls"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_7scka"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_vjfsp"]
+[ext_resource type="Resource" uid="uid://8oxnowamilka" path="res://resources/items/weapons/wpn_shooting_star.tres" id="7_02ovm"]
+[ext_resource type="Script" uid="uid://d3y8y4l4xgjbd" path="res://effects/create_item.gd" id="8_wejsn"]
+[ext_resource type="Script" uid="uid://dxmd4au5mv1y0" path="res://effects/equip_item.gd" id="9_ot1vi"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="10_hrirj"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="11_qt5ax"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="12_g4pcp"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="13_ph0a7"]
+
+[sub_resource type="Resource" id="Resource_smut8"]
+script = ExtResource("8_wejsn")
+item = ExtResource("7_02ovm")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_dva2d"]
+script = ExtResource("9_ot1vi")
+metadata/_custom_type_script = "uid://dxmd4au5mv1y0"
+
+[sub_resource type="Resource" id="Resource_a3m6j"]
+script = ExtResource("11_qt5ax")
+name = "Shooting Stars"
+id = "cond_shooting_stars"
+effects = Array[ExtResource("6_vjfsp")]([SubResource("Resource_smut8"), SubResource("Resource_dva2d")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_adgnr"]
+script = ExtResource("12_g4pcp")
+condition = SubResource("Resource_a3m6j")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_tem51"]
+script = ExtResource("4_8p3ls")
+name = "Shooting Stars"
+id = "act_shooting_stars"
+AP_cost = 2
+requires_concentration = true
+target_effects = Array[ExtResource("6_vjfsp")]([SubResource("Resource_adgnr")])
+requires_crisis = false
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_5dmfs"]
+script = ExtResource("1_4you6")
+activity = SubResource("Resource_tem51")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("13_ph0a7")
+minimum_rank = 3
+name = "Shooting Stars"
+activities = Array[ExtResource("1_4you6")]([SubResource("Resource_5dmfs")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

@@ -34,38 +34,24 @@ func handle_activity(ctx: ActivityContext) -> bool:
 
 func take_damage(damage: int, resistance: Enums.Resistance):
 	var final_damage = damage
-	if final_damage < 0:
+	if final_damage <= 0:
 		final_damage = 0
+		return
 	else:
 		if durability_type == Enums.BarrierDurabilityType.CHARGES:
 			durability -= 1
-			SignalBus.dialog_show_message.emit("Barrier took the damage instead of %s!" % [original_target.data.name])
+			SignalBus.dialog_show_message.emit("%s absorbed %d damage for %s!" % [parent_condition.name, final_damage, original_target.data.name])
 		else:
 			durability -= final_damage
 			var remaining_damage: int = abs(final_damage)
 			if durability <= 0:
-				SignalBus.dialog_show_message.emit("Barrier took %d damage instead of %s!" % [final_damage, original_target.data.name])
+				SignalBus.dialog_show_message.emit("%s took %d damage instead of %s!" % [parent_condition.name, (final_damage - remaining_damage), original_target.data.name])
 				if durability_type == Enums.BarrierDurabilityType.HP_NON_BLOCKING:
 					original_target.take_damage(remaining_damage, resistance)
+			else:
+				SignalBus.dialog_show_message.emit("%s took %d damage instead of %s!" % [parent_condition.name, final_damage, original_target.data.name])
 	if durability <= 0:
 		parent_condition.dispose()
-
-
-#func handle_activity(ctx: ActivityContext) -> bool:
-	#var original_target: Entity = ctx.target
-	#if ctx.activity.barrier_interaction == Enums.BarrierInteraction.STOP:
-		#if direction == Enums.BarrierDirection.BOTH:
-			#ctx.target = self
-			#return true
-		#if ctx.target == parent:
-			#if direction == Enums.BarrierDirection.INBOUND:
-				#ctx.target = self
-				#return true
-		#elif ctx.user == parent:
-			#if direction == Enums.BarrierDirection.OUTBOUND:
-				#ctx.target = self
-				#return true
-	#return false
 
 #func setup -> void:
 	#pass

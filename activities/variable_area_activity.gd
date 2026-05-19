@@ -179,6 +179,8 @@ func resolve_with_targets(targets: Array) -> void:
 			_resolve(ctx)
 		post_resolution_bundle_modify(ctx)
 
+		process_barriers(ctx)
+
 		for effect in target_effects:
 			if effect is Effect:
 				if effect.has_method("apply_context"):

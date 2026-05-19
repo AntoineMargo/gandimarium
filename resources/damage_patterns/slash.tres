@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="DamagePattern" load_steps=2 format=3 uid="uid://lowvjn23gb1u"]
+[gd_resource type="Resource" script_class="DamagePattern" format=3 uid="uid://lowvjn23gb1u"]
 
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="1_y86nx"]
 

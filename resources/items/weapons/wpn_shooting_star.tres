@@ -1,0 +1,72 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://8oxnowamilka"]
+
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_mb6sn"]
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_opt7e"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="3_6yf3p"]
+[ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="4_k57go"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="5_3qp1f"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="6_yxu0r"]
+[ext_resource type="Script" uid="uid://c20e6vg8wsl4e" path="res://activity_modifiers/spell_rank_num_modifier.gd" id="7_hamaf"]
+[ext_resource type="Script" uid="uid://c87bku6q55ul5" path="res://VFX/projectile_config.gd" id="8_f7rh1"]
+[ext_resource type="Texture2D" uid="uid://gxqp74h8oe0u" path="res://art/objects/magic_bolt.png" id="9_1iaq6"]
+[ext_resource type="PackedScene" uid="uid://bm40yjohcu4wn" path="res://VFX/projectile.tscn" id="10_bwkhb"]
+[ext_resource type="Script" uid="uid://b7tjqqmnvivdt" path="res://effects/proj_vfx_effect.gd" id="11_xk3i8"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="12_x53uf"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="13_ibo35"]
+[ext_resource type="Script" uid="uid://jtk6vp2fcxdf" path="res://effects/wpn_damage.gd" id="14_wupjk"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="15_4v1tt"]
+
+[sub_resource type="Resource" id="Resource_ud8em"]
+script = ExtResource("7_hamaf")
+choice = 1
+value_type = 22
+stage = 4
+metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
+
+[sub_resource type="Resource" id="Resource_bcc3r"]
+script = ExtResource("8_f7rh1")
+texture = ExtResource("9_1iaq6")
+speed = 800.0
+metadata/_custom_type_script = "uid://c87bku6q55ul5"
+
+[sub_resource type="Resource" id="Resource_14yg4"]
+script = ExtResource("11_xk3i8")
+projectile_scene = ExtResource("10_bwkhb")
+config = SubResource("Resource_bcc3r")
+metadata/_custom_type_script = "uid://b7tjqqmnvivdt"
+
+[sub_resource type="Resource" id="Resource_ure84"]
+script = ExtResource("14_wupjk")
+die_size = 6
+resistance = 1
+metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
+
+[sub_resource type="Resource" id="Resource_eabbd"]
+script = ExtResource("12_x53uf")
+name = "Throw Shooting Star"
+id = "act_throw_shooting_star"
+defending_aptitude = 6
+reach = 20
+modifiers = Array[ExtResource("5_3qp1f")]([SubResource("Resource_ud8em")])
+target_effects = Array[ExtResource("13_ibo35")]([SubResource("Resource_ure84")])
+barrier_interaction = 1
+projectile = SubResource("Resource_14yg4")
+attack_types = Array[ExtResource("3_6yf3p")]([ExtResource("4_k57go")])
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_h628p"]
+script = ExtResource("15_4v1tt")
+activity = SubResource("Resource_eabbd")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("2_opt7e")
+name = "Shooting Star"
+id = "item_shooting_star"
+slot_type = 12
+can_be_removed = false
+brawn_req_1h = 0
+brawn_req_2h = 0
+throw = SubResource("Resource_h628p")
+owner = null
+metadata/_custom_type_script = "uid://c22428ggciyyj"

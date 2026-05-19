@@ -1,0 +1,90 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://bsscufvwbapne"]
+
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_uqfiw"]
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_ger7p"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="3_a4a16"]
+[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="3_ikw2a"]
+[ext_resource type="Script" uid="uid://w8o4jtjlvkjh" path="res://various/stat_aptitude_entry.gd" id="4_qgfpp"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="4_y6wg7"]
+[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="5_5gup1"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="5_ikw2a"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="6_pawbx"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="6_qgfpp"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="7_5gup1"]
+[ext_resource type="Script" uid="uid://jtk6vp2fcxdf" path="res://effects/wpn_damage.gd" id="8_pawbx"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="9_3jruu"]
+[ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="10_3jruu"]
+[ext_resource type="Script" uid="uid://3t3dwtov2mvp" path="res://filters/not_self.gd" id="14_tt153"]
+
+[sub_resource type="Resource" id="Resource_bbche"]
+script = ExtResource("4_qgfpp")
+stat = 5
+amount = 3
+metadata/_custom_type_script = "uid://w8o4jtjlvkjh"
+
+[sub_resource type="Resource" id="Resource_g1wo7"]
+script = ExtResource("5_5gup1")
+modifiers = Array[ExtResource("3_ikw2a")]([SubResource("Resource_bbche")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_yvysv"]
+script = ExtResource("4_qgfpp")
+stat = 6
+amount = 6
+metadata/_custom_type_script = "uid://w8o4jtjlvkjh"
+
+[sub_resource type="Resource" id="Resource_ba5ok"]
+script = ExtResource("5_5gup1")
+modifiers = Array[ExtResource("3_ikw2a")]([SubResource("Resource_yvysv")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_vypww"]
+script = ExtResource("1_uqfiw")
+name = "Shielded (heavy)"
+id = "cond_shielded_heavy"
+description = "You are heavily shielded."
+persistent = false
+effects = Array[ExtResource("7_5gup1")]([SubResource("Resource_g1wo7"), SubResource("Resource_ba5ok")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_ljo7m"]
+script = ExtResource("8_pawbx")
+resistance = 1
+metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
+
+[sub_resource type="Resource" id="Resource_xfa36"]
+script = ExtResource("14_tt153")
+metadata/_custom_type_script = "uid://3t3dwtov2mvp"
+
+[sub_resource type="Resource" id="Resource_4ui3d"]
+script = ExtResource("5_ikw2a")
+attacking_aptitude = 4
+defending_aptitude = 5
+spread = 2
+target_filters = Array[ExtResource("6_qgfpp")]([SubResource("Resource_xfa36")])
+target_effects = Array[ExtResource("7_5gup1")]([SubResource("Resource_ljo7m")])
+targeting_type = 1
+barrier_interaction = 1
+triggers_reaction = false
+attack_types = Array[ExtResource("3_a4a16")]([ExtResource("10_3jruu")])
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_jdaye"]
+script = ExtResource("9_3jruu")
+activity = SubResource("Resource_4ui3d")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("2_ger7p")
+name = "Brilliant Shield"
+id = "wpn_brilliant_shield"
+weight = 0.0
+value = 0
+conditions = Array[ExtResource("1_uqfiw")]([SubResource("Resource_vypww")])
+slot_type = 12
+can_be_removed = false
+brawn_req_1h = 0
+brawn_req_2h = 0
+strike = SubResource("Resource_jdaye")
+owner = null
+metadata/_custom_type_script = "uid://c22428ggciyyj"

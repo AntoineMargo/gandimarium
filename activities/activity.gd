@@ -211,6 +211,12 @@ func can_execute() -> bool:
 func has_tag(tag: String) -> bool:
 	return tags.has(tag)
 
+func process_barriers(ctx: ActivityContext) -> void:
+	if barrier_interaction == Enums.BarrierInteraction.STOP:
+		var ctx_target = ctx.target
+		if ctx_target is Entity and ctx.target.has_method("process_barriers"):
+			ctx_target.process_barriers(ctx)
+
 func is_valid_target_point(point: Vector3i, requires_los: bool = true) -> bool:
 	origin = user.get_coords()
 

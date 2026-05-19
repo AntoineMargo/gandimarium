@@ -29,6 +29,7 @@ attacking_aptitude = 4
 defending_aptitude = 5
 reach = 2
 target_effects = Array[ExtResource("10_k8xhw")]([SubResource("Resource_ljo7m")])
+barrier_interaction = 1
 triggers_reaction = false
 attack_types = Array[ExtResource("3_bwtky")]([ExtResource("4_ajovb"), ExtResource("5_ffqtg"), ExtResource("6_pfjud")])
 metadata/_custom_type_script = "uid://bxau8hir6ormb"

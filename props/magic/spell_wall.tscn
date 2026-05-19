@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cb6kn76wup6qr"]
+
+[ext_resource type="Script" uid="uid://c8akwr31enxsi" path="res://props/magic/spell_wall.gd" id="1_jc5si"]
+[ext_resource type="Texture2D" uid="uid://b6bu3wq3yd2wl" path="res://art/props/tile_placeholder.png" id="2_7m8t1"]
+
+[node name="SpellWall" type="Node2D" unique_id=1772139896]
+script = ExtResource("1_jc5si")
+prop_name = "Spell Wall"
+id = "spell_wall"
+scene = null
+max_hp = 150
+mat = 7
+cover = 4
+is_runtime = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1909552401]
+texture = ExtResource("2_7m8t1")

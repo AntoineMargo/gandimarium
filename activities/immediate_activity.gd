@@ -69,6 +69,8 @@ func execute() -> void:
 		if requires_roll:
 			_resolve(ctx)
 		post_resolution_bundle_modify(ctx)
+		
+		process_barriers(ctx)
 
 		for effect in target_effects:
 			if effect is Effect:
