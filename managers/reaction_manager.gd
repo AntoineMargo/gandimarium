@@ -2,7 +2,12 @@ extends Node
 class_name ReactionManager
 
 func get_nearby_creatures(reaction_event: ReactionEvent) -> Array:
-	var location = reaction_event.context.target
+	var target = reaction_event.context.target
+	var location: Vector3i
+	if target is Entity:
+		location = target.get_coords()
+	else:
+		location = target
 	var area_tiles = WorldMath.get_burst_tiles(location, 12)
 	var area_entities = WorldMath.get_entities_from_tiles(area_tiles)
 	for i in range(area_entities.size() - 1, -1, -1):

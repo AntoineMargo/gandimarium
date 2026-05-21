@@ -26,7 +26,23 @@
 [ext_resource type="Resource" uid="uid://da5dn0brd85su" path="res://resources/spell_containers/lightning_arc.tres" id="21_2uh2x"]
 [ext_resource type="Script" uid="uid://bgx24o78uf4n3" path="res://activities/variable_area_activity.gd" id="23_dva2d"]
 [ext_resource type="PackedScene" uid="uid://cb6kn76wup6qr" path="res://props/magic/spell_wall.tscn" id="25_a3m6j"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="25_gobpa"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="26_adgnr"]
 [ext_resource type="Script" uid="uid://dk2ibknskb7og" path="res://effects/create_prop_effect.gd" id="26_tem51"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="27_v5jdu"]
+
+[sub_resource type="Resource" id="Resource_j0ybq"]
+script = ExtResource("26_adgnr")
+name = "Spell Wall"
+id = "cond_spell_wall"
+description = "Holds spell wall tile instance references."
+is_visible = false
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_4ay3v"]
+script = ExtResource("27_v5jdu")
+condition = SubResource("Resource_j0ybq")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
 
 [sub_resource type="Resource" id="Resource_gobpa"]
 script = ExtResource("26_tem51")
@@ -38,8 +54,10 @@ script = ExtResource("23_dva2d")
 name = "Spell Wall"
 id = "act_spell_wall"
 AP_cost = 2
+requires_concentration = true
 reach = 20
-spread = 8
+spread = 12
+self_prior_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_4ay3v")])
 target_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_gobpa")])
 targeting_type = 1
 affected_type = 1

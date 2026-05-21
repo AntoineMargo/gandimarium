@@ -7,7 +7,6 @@
 script = ExtResource("1_jc5si")
 prop_name = "Spell Wall"
 id = "spell_wall"
-scene = null
 max_hp = 150
 mat = 7
 cover = 4

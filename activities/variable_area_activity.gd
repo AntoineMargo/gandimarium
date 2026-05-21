@@ -139,7 +139,8 @@ func resolve_with_targets(targets: Array) -> void:
 
 	_setup_concentration()
 	var shared_ctx = _build_shared_context()
-	var self_ctx = _build_context(shared_ctx, user.get_coords())
+	var self_ctx = _build_context(shared_ctx, user)
+	#var self_ctx = _build_context(shared_ctx, user.get_coords())
 
 	if not _has_enough_ap_and_pp(self_ctx):
 		return
@@ -149,6 +150,15 @@ func resolve_with_targets(targets: Array) -> void:
 			if not filter.is_satisfied(self_ctx):
 				_cleanup()
 				return
+
+	SignalBus.event.emit(ReactionEvent.activity_started(self_ctx))
+
+	for effect in self_prior_effects:
+		if effect is Effect:
+			if effect.has_method("apply_context"):
+				effect.apply_context(self_ctx)
+			else:
+				effect.apply(self, self_ctx.user, self_ctx.degree)
 
 	var final_targets = []
 

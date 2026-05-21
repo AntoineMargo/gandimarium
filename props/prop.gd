@@ -108,6 +108,7 @@ func get_resistance(type: Enums.Resistance) -> int:
 
 func destroy_self():
 	var layer_coords = Vector2i(pos.x, pos.y)
+	wm.layers[pos.z]["cover"][layer_coords] = 0
 	if blocks_movement:
 		wm.layers[pos.z]["path_map"].set_point_solid(layer_coords, false)
 		wm.layers[pos.z]["occupied"][layer_coords] = false

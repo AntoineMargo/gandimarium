@@ -35,7 +35,7 @@ class_name Activity
 @export var projectile: ProjVFXEffect = null
 @export var projectile_batch_mode: bool = true
 
-@export var requires_crisis: bool = true
+@export var requires_crisis: bool = false
 @export var requires_roll: bool = true
 @export var is_invisible: bool = false
 @export var triggers_reaction: bool = true
