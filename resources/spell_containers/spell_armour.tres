@@ -56,7 +56,6 @@ spread_requires_LOS = false
 reach = 0
 self_filters = Array[ExtResource("5_yve2c")]([SubResource("Resource_k724e")])
 self_final_effects = Array[ExtResource("7_wcrj1")]([SubResource("Resource_adgnr")])
-requires_crisis = false
 requires_roll = false
 is_spell = true
 toggleable = true

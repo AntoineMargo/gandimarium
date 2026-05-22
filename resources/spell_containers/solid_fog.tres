@@ -56,7 +56,6 @@ self_final_effects = Array[ExtResource("6_wrc7h")]([SubResource("Resource_2x3kp"
 target_effects = Array[ExtResource("6_wrc7h")]([SubResource("Resource_n5vkd")])
 targeting_type = 1
 affected_type = 1
-requires_crisis = false
 is_spell = true
 toggleable = true
 builds_condition = true

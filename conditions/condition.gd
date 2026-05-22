@@ -19,6 +19,7 @@ signal ended
 @export var duration: int = -1 # in seconds
 #@export var toggle: bool = false
 @export var is_visible: bool = true
+@export var generate_semi_unique_id: bool = false
 
 @export var vfx_scene: PackedScene
 
@@ -48,6 +49,8 @@ func is_active() -> bool:
 func initialize(ctx: Context) -> void:
 	self.target = ctx.target
 	self.user = ctx.user
+	if generate_semi_unique_id:
+		id = make_semi_unique_id(id, target)
 	if user is Creature:
 		self.user_uid = user.data.uid
 	self.target_uid = target.data.uid
@@ -110,6 +113,15 @@ func unfreeze():
 	if end_time - current_time != remaining_time:
 		end_time = current_time + remaining_time
 	frozen = false
+
+func make_semi_unique_id(base_id: String, character) -> String:
+	var i: int = 1
+	var candidate: String = base_id
+
+	while character.has_condition(candidate):
+		candidate = "%s_%d" % [base_id, i]
+		i += 1
+	return candidate
 
 func dispose():
 	target.remove_condition(self)

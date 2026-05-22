@@ -65,7 +65,6 @@ affected_type = null
 shape = null
 can_only_hit_once = null
 projectile_batch_mode = null
-requires_crisis = false
 requires_roll = false
 is_invisible = null
 is_spell = true

@@ -1,0 +1,64 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://bcjf02n2qgykc"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_j4rry"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_q1chu"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="3_dgmhv"]
+[ext_resource type="Script" uid="uid://bgx24o78uf4n3" path="res://activities/variable_area_activity.gd" id="4_6d8dk"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_p8jt8"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_j1ayf"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="7_uta8l"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="8_cllko"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="9_qrex1"]
+[ext_resource type="PackedScene" uid="uid://cb6kn76wup6qr" path="res://props/magic/spell_wall.tscn" id="10_hv3xr"]
+[ext_resource type="Script" uid="uid://dk2ibknskb7og" path="res://effects/create_prop_effect.gd" id="11_k1nwd"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="12_s5anw"]
+
+[sub_resource type="Resource" id="Resource_j0ybq"]
+script = ExtResource("8_cllko")
+name = "Spell Wall"
+id = "cond_spell_wall"
+description = "Holds spell wall tile instance references."
+is_visible = false
+generate_semi_unique_id = true
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_4ay3v"]
+script = ExtResource("9_qrex1")
+condition = SubResource("Resource_j0ybq")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_gobpa"]
+script = ExtResource("11_k1nwd")
+prop = ExtResource("10_hv3xr")
+metadata/_custom_type_script = "uid://dk2ibknskb7og"
+
+[sub_resource type="Resource" id="Resource_a3m6j"]
+script = ExtResource("4_6d8dk")
+name = "Spell Wall"
+id = "act_spell_wall"
+AP_cost = 2
+requires_concentration = true
+reach_requires_LOS = false
+spread_requires_LOS = false
+reach = 20
+spread = 12
+self_prior_effects = Array[ExtResource("6_j1ayf")]([SubResource("Resource_4ay3v")])
+target_effects = Array[ExtResource("6_j1ayf")]([SubResource("Resource_gobpa")])
+targeting_type = 1
+affected_type = 1
+shape = 2
+requires_roll = false
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bgx24o78uf4n3"
+
+[sub_resource type="Resource" id="Resource_tem51"]
+script = ExtResource("1_j4rry")
+activity = SubResource("Resource_a3m6j")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("12_s5anw")
+name = "Spell Wall"
+activities = Array[ExtResource("1_j4rry")]([SubResource("Resource_tem51")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

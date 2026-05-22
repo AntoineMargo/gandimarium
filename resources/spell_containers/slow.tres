@@ -1,0 +1,71 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://bcd1walu2whvs"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_aveoc"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_8tw48"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="3_tr5wd"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_ohw4g"]
+[ext_resource type="Script" uid="uid://c20e6vg8wsl4e" path="res://activity_modifiers/spell_rank_num_modifier.gd" id="5_bpa8w"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="6_0kkne"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="7_rbaud"]
+[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="8_5adk5"]
+[ext_resource type="Script" uid="uid://cp1x0k5fsy1j5" path="res://various/stat_points_entry.gd" id="9_cxhjt"]
+[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="10_c82ij"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="11_rqagr"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="12_2sgcs"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="13_peqxd"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="14_5y761"]
+
+[sub_resource type="Resource" id="Resource_4ay3v"]
+script = ExtResource("5_bpa8w")
+starting_amount = -2
+value_type = 26
+metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
+
+[sub_resource type="Resource" id="Resource_uu5mt"]
+script = ExtResource("9_cxhjt")
+stat = 4
+amount = -1
+metadata/_custom_type_script = "uid://cp1x0k5fsy1j5"
+
+[sub_resource type="Resource" id="Resource_ynu1s"]
+script = ExtResource("10_c82ij")
+modifiers = Array[ExtResource("8_5adk5")]([SubResource("Resource_uu5mt")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_wcg80"]
+script = ExtResource("12_2sgcs")
+name = "Slow"
+id = "cond_slow"
+effects = Array[ExtResource("7_rbaud")]([SubResource("Resource_ynu1s")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_o6cqi"]
+script = ExtResource("13_peqxd")
+condition = SubResource("Resource_wcg80")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_hblds"]
+script = ExtResource("6_0kkne")
+name = "Slow"
+id = "act_slow"
+AP_cost = 2
+requires_concentration = true
+reach = 20
+modifiers = Array[ExtResource("3_tr5wd")]([SubResource("Resource_4ay3v")])
+target_effects = Array[ExtResource("7_rbaud")]([SubResource("Resource_o6cqi")])
+is_spell = true
+builds_condition = true
+per_round_drain = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_v3vy8"]
+script = ExtResource("1_aveoc")
+activity = SubResource("Resource_hblds")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("14_5y761")
+minimum_rank = 4
+name = "Slow"
+activities = Array[ExtResource("1_aveoc")]([SubResource("Resource_v3vy8")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

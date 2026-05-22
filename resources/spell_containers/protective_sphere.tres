@@ -49,7 +49,6 @@ AP_cost = 2
 requires_concentration = true
 reach = 20
 target_effects = Array[ExtResource("6_q8axl")]([SubResource("Resource_v5jdu")])
-requires_crisis = false
 is_spell = true
 builds_condition = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"

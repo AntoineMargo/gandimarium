@@ -1,0 +1,64 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://c72ysf48v4wgh"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_my0n7"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_ai1xq"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="3_5gjh8"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="4_hrhew"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_dsm25"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_s6jws"]
+[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="7_d5cvt"]
+[ext_resource type="Script" uid="uid://cp1x0k5fsy1j5" path="res://various/stat_points_entry.gd" id="8_wavgo"]
+[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="9_17pay"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="10_w5ipq"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="11_wsh08"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="12_mb7yc"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="13_rybuj"]
+
+[sub_resource type="Resource" id="Resource_1ierb"]
+script = ExtResource("8_wavgo")
+stat = 4
+amount = 1
+metadata/_custom_type_script = "uid://cp1x0k5fsy1j5"
+
+[sub_resource type="Resource" id="Resource_l65ly"]
+script = ExtResource("9_17pay")
+modifiers = Array[ExtResource("7_d5cvt")]([SubResource("Resource_1ierb")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_rmdib"]
+script = ExtResource("11_wsh08")
+name = "Haste"
+id = "cond_haste"
+effects = Array[ExtResource("6_s6jws")]([SubResource("Resource_l65ly")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_ony64"]
+script = ExtResource("12_mb7yc")
+condition = SubResource("Resource_rmdib")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_kfd5f"]
+script = ExtResource("4_hrhew")
+name = "Haste"
+id = "act_haste"
+AP_cost = 2
+requires_concentration = true
+reach = 20
+target_effects = Array[ExtResource("6_s6jws")]([SubResource("Resource_ony64")])
+requires_roll = false
+is_spell = true
+builds_condition = true
+per_round_drain = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_pjx05"]
+script = ExtResource("1_my0n7")
+activity = SubResource("Resource_kfd5f")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("13_rybuj")
+minimum_rank = 6
+name = "Haste"
+activities = Array[ExtResource("1_my0n7")]([SubResource("Resource_pjx05")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

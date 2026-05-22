@@ -17,70 +17,19 @@
 [ext_resource type="Resource" uid="uid://dcjfheh0xrw65" path="res://resources/spell_containers/minor_invisibility.tres" id="13_j8ccw"]
 [ext_resource type="Resource" uid="uid://bafu2jwhid654" path="res://resources/spell_containers/shooting_stars.tres" id="14_dva2d"]
 [ext_resource type="Resource" uid="uid://b3dod7nkjmu2s" path="res://resources/spell_containers/protective_sphere.tres" id="15_s1sgk"]
-[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="15_ylomr"]
-[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="16_k724e"]
 [ext_resource type="Resource" uid="uid://0auwss8gmkxb" path="res://resources/spell_containers/energy_blast.tres" id="17_5dmfs"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="17_j8ccw"]
 [ext_resource type="Resource" uid="uid://bnskhsl8i4qch" path="res://resources/spell_containers/energy_bursts.tres" id="18_gobpa"]
 [ext_resource type="Resource" uid="uid://bt6smdb70e63v" path="res://resources/spell_containers/brilliant_armoury.tres" id="19_smut8"]
+[ext_resource type="Resource" uid="uid://bcjf02n2qgykc" path="res://resources/spell_containers/spell_wall.tres" id="20_v5jdu"]
 [ext_resource type="Resource" uid="uid://da5dn0brd85su" path="res://resources/spell_containers/lightning_arc.tres" id="21_2uh2x"]
-[ext_resource type="Script" uid="uid://bgx24o78uf4n3" path="res://activities/variable_area_activity.gd" id="23_dva2d"]
-[ext_resource type="PackedScene" uid="uid://cb6kn76wup6qr" path="res://props/magic/spell_wall.tscn" id="25_a3m6j"]
-[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="25_gobpa"]
-[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="26_adgnr"]
-[ext_resource type="Script" uid="uid://dk2ibknskb7og" path="res://effects/create_prop_effect.gd" id="26_tem51"]
-[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="27_v5jdu"]
-
-[sub_resource type="Resource" id="Resource_j0ybq"]
-script = ExtResource("26_adgnr")
-name = "Spell Wall"
-id = "cond_spell_wall"
-description = "Holds spell wall tile instance references."
-is_visible = false
-metadata/_custom_type_script = "uid://dvi4ohsador2o"
-
-[sub_resource type="Resource" id="Resource_4ay3v"]
-script = ExtResource("27_v5jdu")
-condition = SubResource("Resource_j0ybq")
-metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
-
-[sub_resource type="Resource" id="Resource_gobpa"]
-script = ExtResource("26_tem51")
-prop = ExtResource("25_a3m6j")
-metadata/_custom_type_script = "uid://dk2ibknskb7og"
-
-[sub_resource type="Resource" id="Resource_a3m6j"]
-script = ExtResource("23_dva2d")
-name = "Spell Wall"
-id = "act_spell_wall"
-AP_cost = 2
-requires_concentration = true
-reach = 20
-spread = 12
-self_prior_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_4ay3v")])
-target_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_gobpa")])
-targeting_type = 1
-affected_type = 1
-shape = 2
-requires_roll = false
-is_spell = true
-builds_condition = true
-metadata/_custom_type_script = "uid://bgx24o78uf4n3"
-
-[sub_resource type="Resource" id="Resource_tem51"]
-script = ExtResource("15_ylomr")
-activity = SubResource("Resource_a3m6j")
-metadata/_custom_type_script = "uid://buw2ftcnsdqla"
-
-[sub_resource type="Resource" id="Resource_5dmfs"]
-script = ExtResource("3_glfbk")
-name = "Spell Wall"
-activities = Array[ExtResource("15_ylomr")]([SubResource("Resource_tem51")])
-metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+[ext_resource type="Resource" uid="uid://bcd1walu2whvs" path="res://resources/spell_containers/slow.tres" id="21_j0ybq"]
+[ext_resource type="Resource" uid="uid://c72ysf48v4wgh" path="res://resources/spell_containers/haste.tres" id="22_4ay3v"]
+[ext_resource type="Resource" uid="uid://c60jx06w6ypb5" path="res://resources/spell_containers/sleep.tres" id="23_dva2d"]
+[ext_resource type="Resource" uid="uid://l4lhhumt3wvd" path="res://resources/spell_containers/slumber.tres" id="24_a3m6j"]
 
 [sub_resource type="Resource" id="Resource_wqd4r"]
 script = ExtResource("2_m11lv")
-spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk"), ExtResource("5_wqd4r"), ExtResource("6_rqpy1"), ExtResource("7_b2hvq"), ExtResource("8_u81v1"), ExtResource("9_frlgl"), ExtResource("10_eubeo"), ExtResource("11_j8ccw"), ExtResource("12_k724e"), ExtResource("13_j8ccw"), ExtResource("14_dva2d"), ExtResource("15_s1sgk"), ExtResource("21_2uh2x"), ExtResource("17_5dmfs"), ExtResource("18_gobpa"), ExtResource("19_smut8"), SubResource("Resource_5dmfs")])
+spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk"), ExtResource("5_wqd4r"), ExtResource("6_rqpy1"), ExtResource("7_b2hvq"), ExtResource("8_u81v1"), ExtResource("9_frlgl"), ExtResource("10_eubeo"), ExtResource("11_j8ccw"), ExtResource("12_k724e"), ExtResource("13_j8ccw"), ExtResource("14_dva2d"), ExtResource("15_s1sgk"), ExtResource("21_2uh2x"), ExtResource("17_5dmfs"), ExtResource("18_gobpa"), ExtResource("19_smut8"), ExtResource("20_v5jdu"), ExtResource("21_j0ybq"), ExtResource("22_4ay3v"), ExtResource("23_dva2d"), ExtResource("24_a3m6j")])
 metadata/_custom_type_script = "uid://2oaio4mh2bc8"
 
 [resource]

@@ -7,13 +7,24 @@ var is_dragging: bool = false
 #func handle_hover(_tile: Vector3i) -> void:
 	#pass
 
+#func handle_hover(tile: Vector3i) -> void:
+	#var tiles: Array[Vector3i] = [tile]
+	#wm.clear_visualization(wm.preview_visualized_rects, wm.preview_visualized_lines)
+	#if not WorldMath.is_in_range(origin, tile, reach) or not WorldMath.has_line_of_sight_tile(origin, tile):
+		#wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines, Color(255, 0, 0, 255))
+		#return
+	#wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines)
+
 func handle_hover(tile: Vector3i) -> void:
 	var tiles: Array[Vector3i] = [tile]
 	wm.clear_visualization(wm.preview_visualized_rects, wm.preview_visualized_lines)
-	if not WorldMath.is_in_range(origin, tile, reach) or not WorldMath.has_line_of_sight_tile(origin, tile):
-		wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines, Color(255, 0, 0, 255))
-		return
+	if not is_valid_target_point(tile, reach_requires_LOS):
+				wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines, Color(255, 0, 0, 255))
+				return
 	wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines)
+
+
+
 
 func compute_affected_area(target_location: Vector3i) -> Array[Vector3i]:
 	var tiles: Array[Vector3i] = []

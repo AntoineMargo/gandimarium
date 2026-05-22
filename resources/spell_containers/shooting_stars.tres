@@ -42,7 +42,6 @@ id = "act_shooting_stars"
 AP_cost = 2
 requires_concentration = true
 target_effects = Array[ExtResource("6_vjfsp")]([SubResource("Resource_adgnr")])
-requires_crisis = false
 is_spell = true
 builds_condition = true
 metadata/_custom_type_script = "uid://beq2nm7ovc2lf"

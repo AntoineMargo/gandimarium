@@ -53,7 +53,6 @@ requires_concentration = true
 reach = 10
 modifiers = Array[ExtResource("3_c62sf")]([SubResource("Resource_c62sf")])
 target_effects = Array[ExtResource("6_4m1a2")]([SubResource("Resource_dva2d")])
-requires_crisis = false
 requires_roll = false
 is_spell = true
 builds_condition = true

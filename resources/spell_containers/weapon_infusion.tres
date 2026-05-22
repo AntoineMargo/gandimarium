@@ -46,7 +46,6 @@ description = "You infuse the weapons of a creature with arcane power."
 AP_cost = 2
 reach = 20
 target_effects = Array[ExtResource("6_eq4pf")]([SubResource("Resource_5dmfs")])
-requires_crisis = false
 requires_roll = false
 is_spell = true
 builds_condition = true

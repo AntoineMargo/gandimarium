@@ -28,7 +28,6 @@ modifiers = Array[ExtResource("3_jq168")]([SubResource("Resource_404nw")])
 target_effects = Array[ExtResource("6_hrocc")]([SubResource("Resource_l3860")])
 targeting_type = 1
 affected_type = 1
-requires_crisis = false
 requires_roll = false
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"

@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://c60jx06w6ypb5"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_r8o5p"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_p3avp"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="3_wrjaj"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="4_j8aw6"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_02dkt"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_d7cwv"]
+[ext_resource type="Script" uid="uid://bexiblxwp7bqt" path="res://various/status_entry.gd" id="7_d2vou"]
+[ext_resource type="Script" uid="uid://417qkf3j2ise" path="res://effects/change_status_effect.gd" id="8_2fup2"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="9_6383o"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="10_2wh1n"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="11_x4l4m"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="12_v6nj4"]
+
+[sub_resource type="Resource" id="Resource_uu5mt"]
+script = ExtResource("7_d2vou")
+value = 1
+metadata/_custom_type_script = "uid://bexiblxwp7bqt"
+
+[sub_resource type="Resource" id="Resource_ynu1s"]
+script = ExtResource("8_2fup2")
+modifiers = Array[ExtResource("7_d2vou")]([SubResource("Resource_uu5mt")])
+metadata/_custom_type_script = "uid://417qkf3j2ise"
+
+[sub_resource type="Resource" id="Resource_wcg80"]
+script = ExtResource("10_2wh1n")
+name = "Sleep"
+id = "cond_sleep"
+effects = Array[ExtResource("6_d7cwv")]([SubResource("Resource_ynu1s")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_o6cqi"]
+script = ExtResource("11_x4l4m")
+condition = SubResource("Resource_wcg80")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_hblds"]
+script = ExtResource("4_j8aw6")
+name = "Sleep"
+id = "act_sleep"
+AP_cost = 2
+requires_concentration = true
+reach = 20
+target_effects = Array[ExtResource("6_d7cwv")]([SubResource("Resource_o6cqi")])
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_v3vy8"]
+script = ExtResource("1_r8o5p")
+activity = SubResource("Resource_hblds")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("12_v6nj4")
+minimum_rank = 2
+name = "Sleep"
+activities = Array[ExtResource("1_r8o5p")]([SubResource("Resource_v3vy8")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

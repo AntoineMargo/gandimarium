@@ -1,0 +1,61 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://l4lhhumt3wvd"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_2wq5q"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_pssu5"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="3_mrq3i"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="4_31eoa"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_2ppaq"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_rc5a5"]
+[ext_resource type="Script" uid="uid://bexiblxwp7bqt" path="res://various/status_entry.gd" id="7_8csmh"]
+[ext_resource type="Script" uid="uid://417qkf3j2ise" path="res://effects/change_status_effect.gd" id="8_aauh2"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="9_mfkba"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="10_ejimf"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="11_lp12k"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="12_36nec"]
+
+[sub_resource type="Resource" id="Resource_utcnt"]
+script = ExtResource("7_8csmh")
+value = 2
+metadata/_custom_type_script = "uid://bexiblxwp7bqt"
+
+[sub_resource type="Resource" id="Resource_64til"]
+script = ExtResource("8_aauh2")
+modifiers = Array[ExtResource("7_8csmh")]([SubResource("Resource_utcnt")])
+metadata/_custom_type_script = "uid://417qkf3j2ise"
+
+[sub_resource type="Resource" id="Resource_o6t8j"]
+script = ExtResource("10_ejimf")
+name = "Slumber"
+id = "cond_slumber"
+effects = Array[ExtResource("6_rc5a5")]([SubResource("Resource_64til")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_h33oj"]
+script = ExtResource("11_lp12k")
+condition = SubResource("Resource_o6t8j")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_3eduh"]
+script = ExtResource("4_31eoa")
+name = "Slumber"
+id = "act_slumber"
+AP_cost = 2
+requires_concentration = true
+reach = 20
+target_effects = Array[ExtResource("6_rc5a5")]([SubResource("Resource_h33oj")])
+is_spell = true
+builds_condition = true
+per_round_drain = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_5n0cy"]
+script = ExtResource("1_2wq5q")
+activity = SubResource("Resource_3eduh")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("12_36nec")
+minimum_rank = 4
+name = "Slumber"
+activities = Array[ExtResource("1_2wq5q")]([SubResource("Resource_5n0cy")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
