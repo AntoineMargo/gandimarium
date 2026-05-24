@@ -15,3 +15,5 @@ func apply_context(ctx: ActivityContext) -> void:
 			wm.layers[pos.z]["contents"][layer_pos].append(area_condition)
 
 			area_condition.affected_tiles.append(pos)
+			var entity_on_tile = wm.get_entity_at_pos(pos)
+			wm.handle_tile_conditions(pos, entity_on_tile)

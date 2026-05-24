@@ -1050,6 +1050,17 @@ func decay_needs(n):
 		if data.social < 0:
 			data.social = 0
 
+func destroy_self():
+	var wm = Global.world_manager
+	var layer_coords = Vector2i(data.tile_x, data.tile_y)
+	wm.layers[data.tile_z]["path_map"].set_point_solid(layer_coords, false)
+	wm.layers[data.tile_z]["cover"][layer_coords] = Enums.Cover.NONE
+	wm.layers[data.tile_z]["occupied"][layer_coords] = false
+	wm.remove_from_tile(self, get_coords())
+	wm.current_world.unregister_creature(self)
+	Global.crisis_manager.remove_from_initiative_order(self)
+	queue_free()
+
 func _ready():
 	print("Creature getting ready!")
 	if not health_bar_scene:

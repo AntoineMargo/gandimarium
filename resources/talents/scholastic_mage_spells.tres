@@ -26,10 +26,11 @@
 [ext_resource type="Resource" uid="uid://c72ysf48v4wgh" path="res://resources/spell_containers/haste.tres" id="22_4ay3v"]
 [ext_resource type="Resource" uid="uid://c60jx06w6ypb5" path="res://resources/spell_containers/sleep.tres" id="23_dva2d"]
 [ext_resource type="Resource" uid="uid://l4lhhumt3wvd" path="res://resources/spell_containers/slumber.tres" id="24_a3m6j"]
+[ext_resource type="Resource" uid="uid://d3y5wm4fptiym" path="res://resources/spell_containers/full_image.tres" id="25_a3m6j"]
 
 [sub_resource type="Resource" id="Resource_wqd4r"]
 script = ExtResource("2_m11lv")
-spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk"), ExtResource("5_wqd4r"), ExtResource("6_rqpy1"), ExtResource("7_b2hvq"), ExtResource("8_u81v1"), ExtResource("9_frlgl"), ExtResource("10_eubeo"), ExtResource("11_j8ccw"), ExtResource("12_k724e"), ExtResource("13_j8ccw"), ExtResource("14_dva2d"), ExtResource("15_s1sgk"), ExtResource("21_2uh2x"), ExtResource("17_5dmfs"), ExtResource("18_gobpa"), ExtResource("19_smut8"), ExtResource("20_v5jdu"), ExtResource("21_j0ybq"), ExtResource("22_4ay3v"), ExtResource("23_dva2d"), ExtResource("24_a3m6j")])
+spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk"), ExtResource("5_wqd4r"), ExtResource("6_rqpy1"), ExtResource("7_b2hvq"), ExtResource("8_u81v1"), ExtResource("9_frlgl"), ExtResource("10_eubeo"), ExtResource("11_j8ccw"), ExtResource("12_k724e"), ExtResource("13_j8ccw"), ExtResource("14_dva2d"), ExtResource("15_s1sgk"), ExtResource("21_2uh2x"), ExtResource("17_5dmfs"), ExtResource("18_gobpa"), ExtResource("19_smut8"), ExtResource("20_v5jdu"), ExtResource("21_j0ybq"), ExtResource("22_4ay3v"), ExtResource("23_dva2d"), ExtResource("24_a3m6j"), ExtResource("25_a3m6j")])
 metadata/_custom_type_script = "uid://2oaio4mh2bc8"
 
 [resource]

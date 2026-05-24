@@ -15,8 +15,8 @@ func _guardian():
 		return false
 	return true
 
-func spawn_character(data_file: String, coords: Vector3i, routine: String = "", guardian: bool = true):
-	# Don't use guardian for scene tile spawners
+## Don't use guardian for scene tile spawners
+func spawn_character(data_file: String, coords: Vector3i, routine: String = "", guardian: bool = true) -> Creature:
 	if guardian and not _guardian():
 		return null
 
@@ -41,14 +41,8 @@ func spawn_character(data_file: String, coords: Vector3i, routine: String = "", 
 	wm.add_to_tile(character, coords)
 	wm.layers[wm.current_level]["path_map"].set_point_solid(layer_coords, true)
 
-	#var conditions = character.data.conditions
-	#for condition in conditions:
-		#if not is_instance_valid(condition):
-			#print("Invalid entry detected")
-
 	character.build_stats()
 	wm.current_world.register_creature(character)
-	#character.apply_conditions_from_equipment()
 	var weapons = character.get_weapons()
 	for weapon in weapons:
 		if weapon:

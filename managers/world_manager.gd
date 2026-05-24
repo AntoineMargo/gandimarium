@@ -6,7 +6,7 @@ var layer_links: Dictionary = {}
 var ai_zones: Dictionary = {}
 var current_tile_map_layer: TileMapLayer = null
 var current_level: int = 0
-var current_world: Node = null
+var current_world: WorldArea = null
 var map_state = null
 var spawner: Spawner
 
@@ -673,14 +673,8 @@ func creatures_visible_if_on_layer():
 		for creature in current_world.creatures:
 			creature.visible = (creature.data.tile_z == current_level)
 
-#func spawn_player():
-	#spawner.spawn_character_player()
-	#
-#func spawn_enemy():
-	#spawner.spawn_character_enemy()
-	
-func spawn_character(data_file: String, coords: Vector3i, routine: String = ""):
-	spawner.spawn_character(data_file, coords, routine)
+func spawn_character(data_file: String, coords: Vector3i, routine: String = "") -> Creature:
+	return spawner.spawn_character(data_file, coords, routine)
 
 ## takes a tile's coords in either Vector3i or Vector2i format and returns them in pixel format
 func tile_to_pixels(coords) -> Vector2:
@@ -1037,12 +1031,12 @@ func interact_move(character: Creature, target: Vector3i):
 	SignalBus.update_ui_for_char.emit()
 	selection_highlight.update_selection_highlight()
 
-func handle_tile_conditions(tile: Vector3i, creature: Creature):
+func handle_tile_conditions(tile: Vector3i, entity: Entity):
 	var layer_tile: Vector2i = Vector2i(tile.x, tile.y)
 	if layers[tile.z]["contents"].has(layer_tile):
 		for element in layers[tile.z]["contents"][layer_tile]:
 			if element is AreaCondition and element.trigger == Enums.AreaConditionTrigger.ENTER:
-				element.apply_to_entity(creature)
+				element.apply_to_entity(entity)
 
 func flash_path(path: Array) -> void:
 	for point in path:

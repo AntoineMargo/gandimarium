@@ -28,6 +28,7 @@ signal ended
 var vfx_instance: Node = null
 var linked_items: Array[Item] = []
 var linked_props: Array[Prop] = []
+var linked_creatures: Array[Creature] = []
 var linked_modifiers: Array[ChangeStatEffect] = []
 
 var user = null
@@ -47,13 +48,18 @@ func is_active() -> bool:
 	return not sources.is_empty()
 
 func initialize(ctx: Context) -> void:
-	self.target = ctx.target
+	if ctx.condition_recipient:
+		self.target = ctx.condition_recipient
+		self.target_uid = ctx.condition_recipient.data.uid
+	else:
+		self.target = ctx.target
+		self.target_uid = target.data.uid
 	self.user = ctx.user
 	if generate_semi_unique_id:
-		id = make_semi_unique_id(id, target)
+		id = make_semi_unique_id(id, ctx.condition_recipient)
 	if user is Creature:
 		self.user_uid = user.data.uid
-	self.target_uid = target.data.uid
+
 	ctx.condition = self
 	if ctx is ActivityContext:
 		self.spell_rank = ctx.current_spell_rank
@@ -114,11 +120,11 @@ func unfreeze():
 		end_time = current_time + remaining_time
 	frozen = false
 
-func make_semi_unique_id(base_id: String, character) -> String:
+func make_semi_unique_id(base_id: String, entity: Entity) -> String:
 	var i: int = 1
 	var candidate: String = base_id
 
-	while character.has_condition(candidate):
+	while entity.has_condition(candidate):
 		candidate = "%s_%d" % [base_id, i]
 		i += 1
 	return candidate
@@ -136,6 +142,8 @@ func destroy_children():
 		linked_items[i].destroy()
 	for i in range(linked_props.size() - 1, -1, -1):
 		linked_props[i].destroy_self()
+	for i in range(linked_creatures.size() - 1, -1, -1):
+		linked_creatures[i].destroy_self()
 
 func add_source(identifier: String):
 	if not sources.has(identifier):

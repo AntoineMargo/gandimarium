@@ -1,0 +1,61 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://d3y5wm4fptiym"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_b7v1y"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_el6mn"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="3_saqbt"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="4_wrfn4"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_pyxg7"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_uw0fy"]
+[ext_resource type="Script" uid="uid://ch87mhboh4iu6" path="res://effects/create_creature_effect.gd" id="7_ggsl8"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="8_q5ksq"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="9_h7ok6"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="10_3ij01"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="11_yep3n"]
+
+[sub_resource type="Resource" id="Resource_v3vy8"]
+script = ExtResource("7_ggsl8")
+creature_data_path = "res://saved/characters/Debug.tres"
+metadata/_custom_type_script = "uid://ch87mhboh4iu6"
+
+[sub_resource type="Resource" id="Resource_5fu76"]
+script = ExtResource("9_h7ok6")
+name = "Full Image"
+id = "cond_full_image"
+re_apply_effects = false
+effects = Array[ExtResource("6_uw0fy")]([SubResource("Resource_v3vy8")])
+is_visible = false
+generate_semi_unique_id = true
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_xjtne"]
+script = ExtResource("10_3ij01")
+recipient = 1
+condition = SubResource("Resource_5fu76")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_y0xrv"]
+script = ExtResource("4_wrfn4")
+name = "full Image"
+id = "act_full_image"
+AP_cost = 2
+requires_concentration = true
+reach = 5
+target_effects = Array[ExtResource("6_uw0fy")]([SubResource("Resource_xjtne")])
+targeting_type = 1
+affected_type = 1
+requires_roll = false
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_fnnw1"]
+script = ExtResource("1_b7v1y")
+activity = SubResource("Resource_y0xrv")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("11_yep3n")
+minimum_rank = 6
+name = "Full Image"
+activities = Array[ExtResource("1_b7v1y")]([SubResource("Resource_fnnw1")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
