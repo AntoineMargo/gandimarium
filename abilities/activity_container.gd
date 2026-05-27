@@ -10,10 +10,12 @@ var current_index: int = 0
 
 func get_current_activity_variant() -> ActivityVariant:
 	return activities[current_index]
-	
+
+## Does NOT apply execution modifiers
 func get_current_activity(user: Entity) -> Activity:
 	return activities[current_index].produce(user)
 
+## Applies execution modifiers
 func query_current_activity(user: Entity) -> Activity:
 	return activities[current_index].pre_execute(user)
 

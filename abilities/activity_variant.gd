@@ -19,6 +19,7 @@ func pre_execute(user: Entity) -> Activity:
 			instance_modifiers.append(modifier)
 
 		var pre_ctx = instance._build_context()
+		instance.compute_spell_reach() # Could be after pre_execution_bundle_modify()
 		instance.pre_execution_bundle_modify(pre_ctx)
 		
 		for i in range(instance_modifiers.size() - 1, -1, -1):
@@ -35,6 +36,8 @@ func produce(user: Entity) -> Activity:
 	if modifiers:
 		for modifier in modifiers:
 			instance.modifiers.append(modifier)
+
+	instance.compute_spell_reach()
 
 	return instance
 

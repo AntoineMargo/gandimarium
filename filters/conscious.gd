@@ -3,7 +3,7 @@ class_name ConsciousFilter
 
 @export var reverse: bool = false
 
-func is_satisfied(context: ActivityContext) -> bool:
+func is_satisfied(context: Context) -> bool:
 	if context.target.data.state > Enums.State.CONSCIOUS:
 		if reverse:
 			return true

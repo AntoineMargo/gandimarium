@@ -30,6 +30,9 @@ func elicit_reaction(reaction_event, creature) -> void:
 				creature.perform_activity(activity, target)
 				creature.data.current_reactions -= 1
 				return
+	for condition in creature.data.conditions:
+		for trigger in condition.triggers:
+			pass
 
 func handle_event(reaction_event: ReactionEvent) -> void:
 	var nearby_creatures = get_nearby_creatures(reaction_event)

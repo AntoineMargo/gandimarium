@@ -5,7 +5,7 @@ class_name StatRequirementFilter
 @export var stat: String = ""
 @export var value: int = 0
 
-func is_satisfied(context: ActivityContext) -> bool:
+func is_satisfied(context: Context) -> bool:
 	if not context.target:
 		return false
 

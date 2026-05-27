@@ -2,7 +2,7 @@ extends Filter
 
 class_name ActionPointsFilter
 
-func is_satisfied(context: ActivityContext) -> bool:
+func is_satisfied(context: Context) -> bool:
 	if not context.target:
 		return false
 

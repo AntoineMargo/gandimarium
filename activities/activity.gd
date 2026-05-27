@@ -60,13 +60,6 @@ func _setup_concentration():
 		concentration = Concentration.new()
 		concentration.setup(self, per_round_drain)
 
-#func _finalize_concentration():
-	#if requires_concentration:
-		#if concentration.linked_conditions.size() > 0:
-			#user.add_concentration(concentration)
-		#else:
-			#concentration.cancel()
-
 func _finalize_concentration(_context: ActivityContext):
 	if requires_concentration:
 		if concentration.linked_conditions.size() > 0:
@@ -118,6 +111,12 @@ func modify_value(value, value_type: Enums.ValueType, ctx: Context, stage: Enums
 		value = modifier.modify(value, ctx)
 	
 	return value
+
+func compute_spell_reach():
+	if is_spell:
+		var acuity = user.get_final_stat("acuity")
+		reach *= acuity
+		#reach = reach + acuity
 
 func pre_execution_bundle_modify(ctx: Context):
 	AP_cost = modify_value(AP_cost, Enums.ValueType.AP_COST, ctx, Enums.ActivityStage.PRE_EXECUTION)

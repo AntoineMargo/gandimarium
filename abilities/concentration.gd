@@ -56,3 +56,4 @@ func cancel():
 	linked_conditions.clear()
 	if source and source.user and source.user.data.concentrations.has(self):
 		source.user.remove_concentration(self)
+	SignalBus.update_ui_for_char.emit()

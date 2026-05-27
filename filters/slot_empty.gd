@@ -4,7 +4,7 @@ class_name SlotEmptyFilter
 @export var slot: Enums.EquipmentSlot
 @export var reverse: bool = false
 
-func is_satisfied(context: ActivityContext) -> bool:
+func is_satisfied(context: Context) -> bool:
 	if not context.target:
 		return false
 

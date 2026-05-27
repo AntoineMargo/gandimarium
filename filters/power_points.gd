@@ -2,7 +2,7 @@ extends Filter
 
 class_name PowerPointsFilter
 
-func is_satisfied(ctx: ActivityContext) -> bool:
+func is_satisfied(ctx: Context) -> bool:
 	if not ctx.target:
 		return false
 

@@ -651,6 +651,33 @@ func change_stat_enum(type: Enums.StatType, stat: int, delta):
 			#elif stat == Enums.Property.AUDIBILITY:
 				#data.audibility = delta
 
+func replace_stat_enum(type: Enums.StatType, stat: int, value):
+	match type:
+		Enums.StatType.ATTRIBUTE:
+			pass
+		Enums.StatType.APTITUDE:
+			data.derived_stats.set_aptitude(stat, value)
+		Enums.StatType.SKILL:
+			data.derived_stats.set_skill(stat, value)
+		Enums.StatType.POINT:
+			data.derived_stats.set_points(stat, value)
+		Enums.StatType.SIZE:
+			pass
+		Enums.StatType.RESISTANCE:
+			#var current = data.derived_stats.get_resistance(stat)
+			#data.derived_stats.set_resistance(stat, current + delta)
+			# To remove once I've fully moved towards using derived_stats:
+			data.resistances.set_resistance(stat, value)
+		#Enums.StatType.PROPERTY:
+			#if stat == Enums.Property.SIGHT:
+				#data.sight = delta
+			#elif stat == Enums.Property.HEARING:
+				#data.hearing = delta
+			#elif stat == Enums.Property.VISIBILITY:
+				#data.visibility = delta
+			#elif stat == Enums.Property.AUDIBILITY:
+				#data.audibility = delta
+
 ## @deprecated: use change_stat_enum() instead
 func change_stat(stat: StringName, delta):
 	var current = get_final_stat(stat)

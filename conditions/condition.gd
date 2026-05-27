@@ -9,11 +9,12 @@ signal ended
 @export var id: String = "placeholder"
 @export var description: String = "This is a placeholder description."
 @export var icon: String
-## Survives creature stats rebuild; not for items.
+## Survives entity's stats rebuild; not for anything spawned (items, props, creatures).
 @export var persistent: bool = true
 @export var re_apply_effects: bool = true
 @export var filters: Array[Filter] = []
 @export var effects: Array[Effect] = []
+@export var triggers: Array[Trigger] = []
 @export var end_requirements: Array[ConditionEndRequirement] = []
 @export var supplanted: Array[Condition] = []
 @export var duration: int = -1 # in seconds

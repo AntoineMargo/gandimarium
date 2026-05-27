@@ -324,3 +324,11 @@ enum Status {
 	VISIBILITY,
 	AUDIBILITY
 }
+
+enum Tag {
+	SPELL,
+	MELEE,
+	RANGED,
+	HARMLESS,
+	HOSTILE
+}
