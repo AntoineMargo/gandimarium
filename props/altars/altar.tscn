@@ -7,7 +7,6 @@
 script = ExtResource("1_oyg83")
 prop_name = "Altar"
 id = "altar"
-scene = null
 max_hp = 150
 mat = 3
 cover = 2

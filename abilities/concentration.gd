@@ -22,7 +22,7 @@ func finalize_setup():
 		#if not condition.update_info.is_connected(update_info):
 			#condition.update_info.connect(update_info)
 
-func update_info(info):
+func update_info(_info):
 	pass
 
 func tick_tock(_days, _hours, _minutes, _seconds):

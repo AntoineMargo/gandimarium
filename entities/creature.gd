@@ -607,6 +607,43 @@ func set_stat(stat, value):
 	else:
 		push_error("Could not find stat: ", stat)
 
+func get_stat_enum(type: Enums.StatType, stat: int) -> int:
+	match type:
+		Enums.StatType.ATTRIBUTE:
+			return data.attributes.get_attribute(stat)
+		Enums.StatType.APTITUDE:
+			return data.derived_stats.get_aptitude(stat)
+		Enums.StatType.SKILL:
+			return data.derived_stats.get_skill(stat)
+		Enums.StatType.POINT:
+			return data.derived_stats.get_points(stat)
+		Enums.StatType.RESISTANCE:
+			return data.resistances.get_resistance(stat)
+	return 0
+
+func set_stat_enum(type: Enums.StatType, stat: int, value: int) -> void:
+	match type:
+		Enums.StatType.ATTRIBUTE:
+			data.attributes.set_attribute(stat, value)
+		Enums.StatType.APTITUDE:
+			data.derived_stats.set_aptitude(stat, value)
+		Enums.StatType.SKILL:
+			data.derived_stats.set_skill(stat, value)
+		Enums.StatType.POINT:
+			data.derived_stats.set_points(stat, value)
+		Enums.StatType.RESISTANCE:
+			data.resistances.set_resistance(stat, value)
+
+func modify_stat(operation: Enums.Operation, type: Enums.StatType, stat: int, value: int) -> void:
+	var current_value = get_stat_enum(type, stat)
+	match operation:
+		Enums.Operation.ADD:
+			set_stat_enum(type, stat, current_value + value)
+		Enums.Operation.MULTIPLY:
+			set_stat_enum(type, stat, current_value * value)
+		Enums.Operation.REPLACE:
+			set_stat_enum(type, stat, value)
+
 func change_status(type: Enums.Status, new_status: int):
 	match type:
 		Enums.Status.STATE:
@@ -633,23 +670,14 @@ func change_stat_enum(type: Enums.StatType, stat: int, delta):
 		Enums.StatType.POINT:
 			var current = data.derived_stats.get_points(stat)
 			data.derived_stats.set_points(stat, current + delta)
-		Enums.StatType.SIZE:
-			pass
+			if stat == Enums.Point.MAX_MP:
+				update_mover_speed()
 		Enums.StatType.RESISTANCE:
 			#var current = data.derived_stats.get_resistance(stat)
 			#data.derived_stats.set_resistance(stat, current + delta)
 			# To remove once I've fully moved towards using derived_stats:
 			var current = data.resistances.get_resistance(stat)
 			data.resistances.set_resistance(stat, current + delta)
-		#Enums.StatType.PROPERTY:
-			#if stat == Enums.Property.SIGHT:
-				#data.sight = delta
-			#elif stat == Enums.Property.HEARING:
-				#data.hearing = delta
-			#elif stat == Enums.Property.VISIBILITY:
-				#data.visibility = delta
-			#elif stat == Enums.Property.AUDIBILITY:
-				#data.audibility = delta
 
 func replace_stat_enum(type: Enums.StatType, stat: int, value):
 	match type:
@@ -661,22 +689,35 @@ func replace_stat_enum(type: Enums.StatType, stat: int, value):
 			data.derived_stats.set_skill(stat, value)
 		Enums.StatType.POINT:
 			data.derived_stats.set_points(stat, value)
-		Enums.StatType.SIZE:
-			pass
+			if stat == Enums.Point.MAX_MP:
+				update_mover_speed()
 		Enums.StatType.RESISTANCE:
 			#var current = data.derived_stats.get_resistance(stat)
 			#data.derived_stats.set_resistance(stat, current + delta)
 			# To remove once I've fully moved towards using derived_stats:
 			data.resistances.set_resistance(stat, value)
-		#Enums.StatType.PROPERTY:
-			#if stat == Enums.Property.SIGHT:
-				#data.sight = delta
-			#elif stat == Enums.Property.HEARING:
-				#data.hearing = delta
-			#elif stat == Enums.Property.VISIBILITY:
-				#data.visibility = delta
-			#elif stat == Enums.Property.AUDIBILITY:
-				#data.audibility = delta
+
+func multiply_stat_enum(type: Enums.StatType, stat: int, factor):
+	match type:
+		Enums.StatType.ATTRIBUTE:
+			pass
+		Enums.StatType.APTITUDE:
+			var current = data.derived_stats.get_aptitude(stat)
+			data.derived_stats.set_aptitude(stat, current * factor)
+		Enums.StatType.SKILL:
+			var current = data.derived_stats.get_skill(stat)
+			data.derived_stats.set_skill(stat, current * factor)
+		Enums.StatType.POINT:
+			var current = data.derived_stats.get_points(stat)
+			data.derived_stats.set_points(stat, current * factor)
+			if stat == Enums.Point.MAX_MP:
+				update_mover_speed()
+		Enums.StatType.RESISTANCE:
+			#var current = data.derived_stats.get_resistance(stat)
+			#data.derived_stats.set_resistance(stat, current + delta)
+			# To remove once I've fully moved towards using derived_stats:
+			var current = data.resistances.get_resistance(stat)
+			data.resistances.set_resistance(stat, current * factor)
 
 ## @deprecated: use change_stat_enum() instead
 func change_stat(stat: StringName, delta):
@@ -844,9 +885,6 @@ func build_stats():
 
 ## This builds the final usable stats; to be used directly for activities and from outside the class
 func update_stats():
-	#if not stats_dirty:
-		#return
-		
 	data.derived_stats.agility = data.base_stats.agility + data.derived_stats.vigour
 	data.derived_stats.will = data.base_stats.will + data.derived_stats.vigour
 	data.derived_stats.sense = data.base_stats.sense + data.derived_stats.vigour
@@ -917,9 +955,12 @@ func update_stats():
 	sprite_node.texture = load(data.sprite)
 	build_tactical_map()
 	set_stat("current_ap", get_stat("max_ap"))
-	$Mover.max_speed = get_stat("max_mp") * Global.TILE_SIZE * 0.5
+	update_mover_speed()
 	SignalBus.add_to_initiative.emit(self)
 	SignalBus.update_ui_for_char.emit()
+
+func update_mover_speed() -> void:
+	$Mover.max_speed = get_stat("max_mp") * Global.TILE_SIZE * 0.5
 
 func turn_start():
 	if data.state == Enums.State.CONSCIOUS:

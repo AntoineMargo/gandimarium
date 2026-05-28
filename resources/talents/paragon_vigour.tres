@@ -4,16 +4,17 @@
 [ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="2_1tkqd"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_i1u3y"]
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="3_1tkqd"]
+[ext_resource type="Script" uid="uid://cp1x0k5fsy1j5" path="res://various/stat_points_entry.gd" id="3_a5f58"]
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="3_qjfva"]
 
-[sub_resource type="Resource" id="Resource_a5f58"]
-script = ExtResource("2_1tkqd")
-amount = 6
-metadata/_custom_type_script = "uid://ik0hrifgbwa4"
+[sub_resource type="Resource" id="Resource_oqrvk"]
+script = ExtResource("3_a5f58")
+stat = 6
+metadata/_custom_type_script = "uid://cp1x0k5fsy1j5"
 
 [sub_resource type="Resource" id="Resource_6vtn5"]
 script = ExtResource("3_qjfva")
-modifiers = Array[ExtResource("2_1tkqd")]([SubResource("Resource_a5f58")])
+modifiers = Array[ExtResource("2_1tkqd")]([SubResource("Resource_oqrvk")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
 [resource]

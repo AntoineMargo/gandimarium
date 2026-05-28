@@ -313,7 +313,6 @@ enum StatType {
 	APTITUDE,
 	SKILL,
 	POINT,
-	SIZE,
 	RESISTANCE,
 }
 
@@ -323,6 +322,12 @@ enum Status {
 	HEARING,
 	VISIBILITY,
 	AUDIBILITY
+}
+
+enum Operation {
+	ADD,
+	MULTIPLY,
+	REPLACE
 }
 
 enum Tag {
