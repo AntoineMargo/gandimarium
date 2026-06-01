@@ -157,6 +157,8 @@ func resolve_with_targets(targets: Array) -> void:
 			if not filter.is_satisfied(self_ctx):
 				_cleanup()
 				return
+				
+	SignalBus.event.emit(ReactionEvent.activity_started(self_ctx))
 
 	var final_targets = []
 
@@ -215,3 +217,5 @@ func resolve_with_targets(targets: Array) -> void:
 	_finalize_concentration(self_ctx)
 	_cleanup()
 	#SignalBus.dialog_show_message.emit("Activity effects released.")
+	
+	SignalBus.event.emit(ReactionEvent.activity_completed(self_ctx))

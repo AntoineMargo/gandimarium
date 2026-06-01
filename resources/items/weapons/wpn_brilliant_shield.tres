@@ -3,8 +3,7 @@
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_uqfiw"]
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_ger7p"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="3_a4a16"]
-[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="3_ikw2a"]
-[ext_resource type="Script" uid="uid://w8o4jtjlvkjh" path="res://various/stat_aptitude_entry.gd" id="4_qgfpp"]
+[ext_resource type="Script" uid="uid://18l4gn7hleqe" path="res://various/abstract_stat_entry_container.gd" id="3_ikw2a"]
 [ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="4_y6wg7"]
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="5_5gup1"]
 [ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="5_ikw2a"]
@@ -17,26 +16,12 @@
 [ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="10_3jruu"]
 [ext_resource type="Script" uid="uid://3t3dwtov2mvp" path="res://filters/not_self.gd" id="14_tt153"]
 
-[sub_resource type="Resource" id="Resource_bbche"]
-script = ExtResource("4_qgfpp")
-stat = 5
-amount = 3
-metadata/_custom_type_script = "uid://w8o4jtjlvkjh"
-
 [sub_resource type="Resource" id="Resource_g1wo7"]
 script = ExtResource("5_5gup1")
-modifiers = Array[ExtResource("3_ikw2a")]([SubResource("Resource_bbche")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
-
-[sub_resource type="Resource" id="Resource_yvysv"]
-script = ExtResource("4_qgfpp")
-stat = 6
-amount = 6
-metadata/_custom_type_script = "uid://w8o4jtjlvkjh"
 
 [sub_resource type="Resource" id="Resource_ba5ok"]
 script = ExtResource("5_5gup1")
-modifiers = Array[ExtResource("3_ikw2a")]([SubResource("Resource_yvysv")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
 [sub_resource type="Resource" id="Resource_vypww"]

@@ -15,12 +15,10 @@
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="13_lsx82"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="14_mf0pw"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="14_nd6ys"]
-[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="15_7qnbu"]
-[ext_resource type="Script" uid="uid://va2witn0s23o" path="res://various/stat_resistance_entry.gd" id="16_vyfgi"]
+[ext_resource type="Script" uid="uid://18l4gn7hleqe" path="res://various/abstract_stat_entry_container.gd" id="16_685vv"]
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="17_uggdp"]
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="18_il85p"]
 [ext_resource type="Resource" uid="uid://b52u1hbdkg54v" path="res://resources/items/weapons/wpn_brilliant_javelin.tres" id="19_hyygo"]
-[ext_resource type="Script" uid="uid://w8o4jtjlvkjh" path="res://various/stat_aptitude_entry.gd" id="20_wgkjg"]
 [ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="21_g551v"]
 [ext_resource type="Script" uid="uid://jtk6vp2fcxdf" path="res://effects/wpn_damage.gd" id="22_7pi6c"]
 [ext_resource type="Script" uid="uid://3t3dwtov2mvp" path="res://filters/not_self.gd" id="23_17fdb"]
@@ -76,16 +74,8 @@ script = ExtResource("1_rmex2")
 activity = SubResource("Resource_o6cqi")
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
-[sub_resource type="Resource" id="Resource_45i0g"]
-script = ExtResource("16_vyfgi")
-stat = 1
-amount = 5
-multiplier = 1
-metadata/_custom_type_script = "uid://va2witn0s23o"
-
 [sub_resource type="Resource" id="Resource_c5il8"]
 script = ExtResource("17_uggdp")
-modifiers = Array[ExtResource("15_7qnbu")]([SubResource("Resource_45i0g")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
 [sub_resource type="Resource" id="Resource_0ppgo"]
@@ -123,26 +113,12 @@ script = ExtResource("8_x4vgu")
 item = ExtResource("19_hyygo")
 metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
 
-[sub_resource type="Resource" id="Resource_j5kdn"]
-script = ExtResource("20_wgkjg")
-stat = 5
-amount = 3
-metadata/_custom_type_script = "uid://w8o4jtjlvkjh"
-
 [sub_resource type="Resource" id="Resource_3k8ai"]
 script = ExtResource("17_uggdp")
-modifiers = Array[ExtResource("15_7qnbu")]([SubResource("Resource_j5kdn")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
-
-[sub_resource type="Resource" id="Resource_kodm0"]
-script = ExtResource("20_wgkjg")
-stat = 6
-amount = 6
-metadata/_custom_type_script = "uid://w8o4jtjlvkjh"
 
 [sub_resource type="Resource" id="Resource_jgtpb"]
 script = ExtResource("17_uggdp")
-modifiers = Array[ExtResource("15_7qnbu")]([SubResource("Resource_kodm0")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
 [sub_resource type="Resource" id="Resource_s8bqb"]

@@ -1,0 +1,78 @@
+[gd_resource type="Resource" script_class="Talent" format=3 uid="uid://bf844od6srore"]
+
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_8105b"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="2_ari6j"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="3_e4pro"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="4_dykan"]
+[ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="5_bqpvq"]
+[ext_resource type="Script" uid="uid://kalwpa2j0ckf" path="res://activity_modifiers/addition_num_modifier.gd" id="6_pitiq"]
+[ext_resource type="Script" uid="uid://dywclcl7k47vv" path="res://effects/activity_modifier_effect.gd" id="7_nfkax"]
+[ext_resource type="Script" uid="uid://dl10wytkh5ohd" path="res://conditions/end_requirements/activities_completed.gd" id="8_8r1c4"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="9_8hab2"]
+[ext_resource type="Script" uid="uid://br0lrdyqciudd" path="res://filters/trigger_filter.gd" id="10_s5fac"]
+[ext_resource type="Script" uid="uid://b856khisxbu0g" path="res://filters/trigger_filters/activity_by_self.gd" id="11_t2uct"]
+[ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="12_f6mn2"]
+
+[sub_resource type="Resource" id="Resource_jijnf"]
+script = ExtResource("6_pitiq")
+to_add = -1
+name = "-1 AP cost mod"
+id = "mod_martial_casting"
+tags = Array[int]([0])
+metadata/_custom_type_script = "uid://kalwpa2j0ckf"
+
+[sub_resource type="Resource" id="Resource_oujlw"]
+script = ExtResource("7_nfkax")
+modifier = SubResource("Resource_jijnf")
+metadata/_custom_type_script = "uid://dywclcl7k47vv"
+
+[sub_resource type="Resource" id="Resource_cadlq"]
+script = ExtResource("8_8r1c4")
+event_types = Array[int]([2])
+counter = 1
+metadata/_custom_type_script = "uid://dl10wytkh5ohd"
+
+[sub_resource type="Resource" id="Resource_4otkm"]
+script = ExtResource("4_dykan")
+name = "Martial Casting (derived)"
+id = "cond_martial_casting (derived)"
+re_apply_effects = false
+effects = Array[ExtResource("1_8105b")]([SubResource("Resource_oujlw")])
+end_requirements = Array[ExtResource("2_ari6j")]([SubResource("Resource_cadlq")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_jhsv6"]
+script = ExtResource("9_8hab2")
+condition = SubResource("Resource_4otkm")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_aufvm"]
+script = ExtResource("11_t2uct")
+metadata/_custom_type_script = "uid://b856khisxbu0g"
+
+[sub_resource type="Resource" id="Resource_63s3q"]
+script = ExtResource("5_bqpvq")
+event_filters = Array[ExtResource("10_s5fac")]([SubResource("Resource_aufvm")])
+effects = Array[ExtResource("1_8105b")]([SubResource("Resource_jhsv6")])
+metadata/_custom_type_script = "uid://ckotia3crvrnt"
+
+[sub_resource type="Resource" id="Resource_wx1ce"]
+script = ExtResource("4_dykan")
+name = "Martial Casting"
+id = "cond_martial_casting"
+re_apply_effects = false
+triggers = Array[ExtResource("5_bqpvq")]([SubResource("Resource_63s3q")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_wbubi"]
+script = ExtResource("9_8hab2")
+recipient = 1
+condition = SubResource("Resource_wx1ce")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[resource]
+script = ExtResource("12_f6mn2")
+name = "Martial Casting"
+effects = Array[ExtResource("1_8105b")]([SubResource("Resource_wbubi")])
+re_apply_effects = true
+metadata/_custom_type_script = "uid://c5ijx7qo7jak"

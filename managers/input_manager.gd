@@ -163,10 +163,12 @@ func BasicControls():
 				return
 
 	if Input.is_action_just_pressed("M"):
-		if Global.crisis_manager.crisis_mode:
-			SignalBus.dialog_show_message.emit("Crisis mode: Active")
-		else:
-			SignalBus.dialog_show_message.emit("Crisis mode: Inactive")
+		if not Global.selected_char:
+			return
+		var character = Global.selected_char
+		SignalBus.dialog_show_message.emit("Current AP: %s" % [character.data.current_ap])
+		for modifier in character.data.activity_modifiers:
+			SignalBus.dialog_show_message.emit("Modifier: %s" % [modifier.name])
 
 	if Input.is_action_just_pressed("N"):
 		var hovered_tile = Global.world_manager.get_hovered_tile()

@@ -538,12 +538,16 @@ layout_mode = 2
 mouse_filter = 0
 text = "Talents: "
 
+[node name="TalentContainer" type="HFlowContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer" unique_id=1451218996]
+layout_mode = 2
+mouse_filter = 0
+
 [node name="Conditions" type="Label" parent="Character/ColorRect/HBoxContainer/VBoxContainer" unique_id=35382186]
 layout_mode = 2
 mouse_filter = 0
 text = "Conditions: "
 
-[node name="HFlowContainer" type="HFlowContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer" unique_id=339618311]
+[node name="ConditionContainer" type="HFlowContainer" parent="Character/ColorRect/HBoxContainer/VBoxContainer" unique_id=339618311]
 layout_mode = 2
 mouse_filter = 0
 

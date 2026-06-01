@@ -35,8 +35,8 @@ func _update_for_char(character: Creature):
 			available_spell.modulate = Color(0.5, 0.5, 0.5, 1.0)
 			available_spell.check_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-		if character.data.major_archetype.type != Enums.Archetype.SCHOLASTIC_MAGE:
-			available_spell.check_button.visible = false
+		#if character.data.major_archetype.type != Enums.Archetype.SCHOLASTIC_MAGE:
+			#available_spell.check_button.visible = false
 
 func _ready() -> void:
 	z_index = 2000

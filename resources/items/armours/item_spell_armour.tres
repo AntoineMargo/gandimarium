@@ -2,24 +2,30 @@
 
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_rbbdi"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="2_01dd0"]
-[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="3_r0big"]
+[ext_resource type="Script" uid="uid://18l4gn7hleqe" path="res://various/abstract_stat_entry_container.gd" id="3_egja4"]
 [ext_resource type="Script" uid="uid://va2witn0s23o" path="res://various/stat_resistance_entry.gd" id="4_egja4"]
+[ext_resource type="Script" uid="uid://5c3jlvd4s3cf" path="res://various/stat_entry_container.gd" id="5_a4vmi"]
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="5_jdpfn"]
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="6_01dd0"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="6_a4vmi"]
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="7_0t3kt"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="8_r0big"]
 
-[sub_resource type="Resource" id="Resource_f28xi"]
+[sub_resource type="Resource" id="Resource_0t3kt"]
 script = ExtResource("4_egja4")
 stat = 1
-amount = 2
-multiplier = 1
+amount = 3.0
+spell_rank_multiplier = 1.0
 metadata/_custom_type_script = "uid://va2witn0s23o"
+
+[sub_resource type="Resource" id="Resource_f28xi"]
+script = ExtResource("5_a4vmi")
+entry = SubResource("Resource_0t3kt")
+metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
 
 [sub_resource type="Resource" id="Resource_ykpp3"]
 script = ExtResource("5_jdpfn")
-modifiers = Array[ExtResource("3_r0big")]([SubResource("Resource_f28xi")])
+entry_containers = Array[ExtResource("3_egja4")]([SubResource("Resource_f28xi")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
 [sub_resource type="Resource" id="Resource_kmkm1"]

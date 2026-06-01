@@ -1,11 +1,5 @@
-extends StatEntry
+extends Resource
 class_name LevelStepStatEntry
 
-@export var steps: Array[LevelStep] = []
-
-func get_amount(_source, target) -> int:
-	for i in range(steps.size() - 1, -1, -1):
-		var step = steps[i]
-		if target.data.level >= step.min_level:
-			return step.value
-	return amount # default value
+@export var entry: StatEntry
+@export var level: int = 0

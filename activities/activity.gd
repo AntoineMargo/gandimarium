@@ -5,7 +5,7 @@ class_name Activity
 @export var id: String = "placeholder"
 @export var description: String = "This is a placeholder description."
 @export var icon: String = "res://art/interface/activities/placeholder1.png"
-@export var tags: Array[String] = []
+@export var tags: Array[Enums.Tag] = []
 @export var AP_cost: int = 1
 @export var PP_cost: int = 0
 @export var EP_cost: int = 0
@@ -207,7 +207,7 @@ func can_execute() -> bool:
 				return false
 	return true
 
-func has_tag(tag: String) -> bool:
+func has_tag(tag: Enums.Tag) -> bool:
 	return tags.has(tag)
 
 func process_barriers(ctx: ActivityContext) -> void:

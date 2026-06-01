@@ -138,3 +138,5 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 	_consume_pp(self_ctx)
 	_finalize_concentration(self_ctx)
 	_cleanup()
+	
+	SignalBus.event.emit(ReactionEvent.activity_completed(self_ctx))

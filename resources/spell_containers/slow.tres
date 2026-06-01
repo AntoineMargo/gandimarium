@@ -7,8 +7,7 @@
 [ext_resource type="Script" uid="uid://c20e6vg8wsl4e" path="res://activity_modifiers/spell_rank_num_modifier.gd" id="5_bpa8w"]
 [ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="6_0kkne"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="7_rbaud"]
-[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="8_5adk5"]
-[ext_resource type="Script" uid="uid://cp1x0k5fsy1j5" path="res://various/stat_points_entry.gd" id="9_cxhjt"]
+[ext_resource type="Script" uid="uid://18l4gn7hleqe" path="res://various/abstract_stat_entry_container.gd" id="8_aveoc"]
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="10_c82ij"]
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="11_rqagr"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="12_2sgcs"]
@@ -22,15 +21,8 @@ starting_amount = -2
 value_type = 26
 metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
 
-[sub_resource type="Resource" id="Resource_uu5mt"]
-script = ExtResource("9_cxhjt")
-stat = 4
-amount = -1
-metadata/_custom_type_script = "uid://cp1x0k5fsy1j5"
-
 [sub_resource type="Resource" id="Resource_ynu1s"]
 script = ExtResource("10_c82ij")
-modifiers = Array[ExtResource("8_5adk5")]([SubResource("Resource_uu5mt")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
 [sub_resource type="Resource" id="Resource_wcg80"]

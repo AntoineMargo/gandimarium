@@ -30,7 +30,7 @@ var vfx_instance: Node = null
 var linked_items: Array[Item] = []
 var linked_props: Array[Prop] = []
 var linked_creatures: Array[Creature] = []
-var linked_modifiers: Array[ChangeStatEffect] = []
+var linked_modifiers: Array[Modifier] = []
 
 var user = null
 var target = null
@@ -145,6 +145,8 @@ func destroy_children():
 		linked_props[i].destroy_self()
 	for i in range(linked_creatures.size() - 1, -1, -1):
 		linked_creatures[i].destroy_self()
+	for i in range(linked_modifiers.size() - 1, -1, -1):
+		linked_modifiers[i].destroy()
 
 func add_source(identifier: String):
 	if not sources.has(identifier):

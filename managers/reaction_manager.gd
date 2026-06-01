@@ -1,6 +1,23 @@
 extends Node
 class_name ReactionManager
 
+#func get_nearby_creatures(reaction_event: ReactionEvent) -> Array:
+	#var target = reaction_event.context.target
+	#var location: Vector3i
+	#if target is Entity:
+		#location = target.get_coords()
+	#else:
+		#location = target
+	#var area_tiles = WorldMath.get_burst_tiles(location, 12)
+	#var area_entities = WorldMath.get_entities_from_tiles(area_tiles)
+	#for i in range(area_entities.size() - 1, -1, -1):
+		#if area_entities[i] is not Creature \
+		#or area_entities[i] == reaction_event.context.user \
+		#or area_entities[i].data.current_reactions <= 0 \
+		#or not area_entities[i].data.reactions:
+			#area_entities.remove_at(i)
+	#return area_entities
+
 func get_nearby_creatures(reaction_event: ReactionEvent) -> Array:
 	var target = reaction_event.context.target
 	var location: Vector3i
@@ -11,14 +28,20 @@ func get_nearby_creatures(reaction_event: ReactionEvent) -> Array:
 	var area_tiles = WorldMath.get_burst_tiles(location, 12)
 	var area_entities = WorldMath.get_entities_from_tiles(area_tiles)
 	for i in range(area_entities.size() - 1, -1, -1):
-		if area_entities[i] is not Creature \
-		or area_entities[i] == reaction_event.context.user \
-		or area_entities[i].data.current_reactions <= 0 \
-		or not area_entities[i].data.reactions:
+		if area_entities[i] is not Creature:
 			area_entities.remove_at(i)
 	return area_entities
 
 func elicit_reaction(reaction_event, creature) -> void:
+	for condition in creature.data.conditions:
+		for trigger in condition.triggers:
+			trigger.process_trigger(reaction_event, creature)
+
+	if creature == reaction_event.context.user \
+	or creature.data.current_reactions <= 0 \
+	or not creature.data.reactions:
+		return
+
 	for reaction in creature.data.reactions:
 		if reaction.enabled == false:
 			continue
@@ -30,9 +53,7 @@ func elicit_reaction(reaction_event, creature) -> void:
 				creature.perform_activity(activity, target)
 				creature.data.current_reactions -= 1
 				return
-	for condition in creature.data.conditions:
-		for trigger in condition.triggers:
-			pass
+
 
 func handle_event(reaction_event: ReactionEvent) -> void:
 	var nearby_creatures = get_nearby_creatures(reaction_event)

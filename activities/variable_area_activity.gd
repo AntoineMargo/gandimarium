@@ -228,3 +228,5 @@ func resolve_with_targets(targets: Array) -> void:
 	_finalize_concentration(self_ctx)
 	_cleanup()
 	#SignalBus.dialog_show_message.emit("Activity effects released.")
+	
+	SignalBus.event.emit(ReactionEvent.activity_completed(self_ctx))

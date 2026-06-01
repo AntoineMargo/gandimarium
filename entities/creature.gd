@@ -66,7 +66,7 @@ func add_activity_modifier(modifier: Modifier) -> void:
 func remove_activity_modifier(modifier: Modifier) -> void:
 	for existing_mod in data.activity_modifiers:
 		if existing_mod.id == modifier.id:
-			data.conditions.erase(existing_mod)
+			data.activity_modifiers.erase(existing_mod)
 			return
 
 func remove_concentration(concentration: Concentration):
@@ -98,7 +98,7 @@ func add_talent(talent: Talent):
 				return
 	data.talents.append(talent)
 	talent.initialize(self)
-	stats_dirty = true
+	#stats_dirty = true
 
 func remove_talent(talent: Talent):
 	start_mutation()
@@ -858,8 +858,12 @@ func build_stats():
 
 		data.base_stats.max_mp = data.attributes.dexterity
 
-		data.max_spells_ready = data.attributes.acuity
+		if data.major_archetype and data.major_archetype.type == Enums.Archetype.SCHOLASTIC_MAGE:
+			data.max_spells_ready = data.attributes.acuity
+		else:
+			data.max_spells_ready = 999
 
+		data.talents.clear()
 		if data.major_archetype:
 			for entry in data.major_archetype.talents_by_level:
 				if entry.level <= data.level and entry.auto_talents:
@@ -875,9 +879,9 @@ func build_stats():
 			set_max_spell_rank()
 
 		data.spells_ready.clear()
-		if data.major_archetype and data.major_archetype.type == Enums.Archetype.ASPECTED_MAGE:
-			for spell in data.spells_available:
-				add_ready_spell(spell)
+		#if data.major_archetype and data.major_archetype.type == Enums.Archetype.ASPECTED_MAGE:
+			#for spell in data.spells_available:
+				#add_ready_spell(spell)
 
 		data.has_been_initialized = true
 		update_stats()
@@ -940,6 +944,12 @@ func update_stats():
 	
 	data.targetable = true
 	
+	#var talents = data.talents
+	#for i in range(talents.size() - 1, -1, -1):
+		#var talent: Talent = talents[i]
+		#if talent.re_apply_effects:
+			#talent.initialize(self)
+	
 	var conditions = data.conditions
 	for i in range(conditions.size() - 1, -1, -1):
 		var condition = conditions[i]
@@ -954,7 +964,7 @@ func update_stats():
 	stats_dirty = false
 	sprite_node.texture = load(data.sprite)
 	build_tactical_map()
-	set_stat("current_ap", get_stat("max_ap"))
+	#set_stat("current_ap", get_stat("max_ap"))
 	update_mover_speed()
 	SignalBus.add_to_initiative.emit(self)
 	SignalBus.update_ui_for_char.emit()

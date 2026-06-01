@@ -330,6 +330,13 @@ enum Operation {
 	REPLACE
 }
 
+#enum Involvement {
+	#NONE,
+	#EITHER,
+	#USER,
+	#TARGET
+#}
+
 enum Tag {
 	SPELL,
 	MELEE,

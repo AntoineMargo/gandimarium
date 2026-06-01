@@ -42,6 +42,8 @@ func execute() -> void:
 		if filter is Filter:
 			if not filter.is_satisfied(self_ctx):
 				return
+				
+	SignalBus.event.emit(ReactionEvent.activity_started(self_ctx))
 	
 	for effect in self_prior_effects:
 		if effect is Effect:
@@ -98,3 +100,5 @@ func execute() -> void:
 	_finalize_concentration(self_ctx)
 	target_points.clear()
 	SignalBus.update_ui_for_char.emit()
+	
+	SignalBus.event.emit(ReactionEvent.activity_completed(self_ctx))

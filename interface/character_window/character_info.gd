@@ -53,10 +53,23 @@ func update(character):
 	# Talents
 	$Character/ColorRect/HBoxContainer/VBoxContainer/Talents.text = "Talents: " + ""
 
+	var tal_container = $Character/ColorRect/HBoxContainer/VBoxContainer/TalentContainer
+	for child in tal_container.get_children():
+		child.queue_free()
+
+	for talent in character.data.talents:
+		
+		#if talent.is_visible:
+		var lbl := Label.new()
+		lbl.text = talent.name
+		lbl.tooltip_text = talent.description
+		lbl.mouse_filter = Control.MOUSE_FILTER_STOP
+		tal_container.add_child(lbl)
+
 	# Conditions
 	
-	var container = $Character/ColorRect/HBoxContainer/VBoxContainer/HFlowContainer
-	for child in container.get_children():
+	var cond_container = $Character/ColorRect/HBoxContainer/VBoxContainer/ConditionContainer
+	for child in cond_container.get_children():
 		child.queue_free()
 
 	for condition in character.data.conditions:
@@ -66,7 +79,7 @@ func update(character):
 			lbl.text = condition.name
 			lbl.tooltip_text = condition.description
 			lbl.mouse_filter = Control.MOUSE_FILTER_STOP
-			container.add_child(lbl)
+			cond_container.add_child(lbl)
 
 func _on_exit_pressed() -> void:
 	Global.character_window.visible = false

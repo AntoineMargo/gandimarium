@@ -5,8 +5,7 @@
 [ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="3_0i8jn"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_b7f1w"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="5_mhqyj"]
-[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="6_u44my"]
-[ext_resource type="Script" uid="uid://w8o4jtjlvkjh" path="res://various/stat_aptitude_entry.gd" id="7_0dv1b"]
+[ext_resource type="Script" uid="uid://18l4gn7hleqe" path="res://various/abstract_stat_entry_container.gd" id="6_pxdml"]
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="8_lqjs6"]
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="9_7j608"]
 [ext_resource type="Script" uid="uid://dl10wytkh5ohd" path="res://conditions/end_requirements/activities_completed.gd" id="10_3lmte"]
@@ -15,16 +14,8 @@
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="12_mh4b1"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="13_ogsmh"]
 
-[sub_resource type="Resource" id="Resource_gobpa"]
-script = ExtResource("7_0dv1b")
-stat = 4
-amount = 4
-multiplier = 1.0
-metadata/_custom_type_script = "uid://w8o4jtjlvkjh"
-
 [sub_resource type="Resource" id="Resource_adgnr"]
 script = ExtResource("8_lqjs6")
-modifiers = Array[ExtResource("6_u44my")]([SubResource("Resource_gobpa")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
 [sub_resource type="Resource" id="Resource_k724e"]

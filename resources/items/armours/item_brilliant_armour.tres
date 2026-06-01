@@ -2,24 +2,15 @@
 
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_7n0qi"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="2_434vm"]
-[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="3_xo1qx"]
-[ext_resource type="Script" uid="uid://va2witn0s23o" path="res://various/stat_resistance_entry.gd" id="4_qelap"]
+[ext_resource type="Script" uid="uid://18l4gn7hleqe" path="res://various/abstract_stat_entry_container.gd" id="3_7n0qi"]
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="5_4hy05"]
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="6_hsc0c"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="7_sm0tq"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="8_434vm"]
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="8_bjf8k"]
 
-[sub_resource type="Resource" id="Resource_f28xi"]
-script = ExtResource("4_qelap")
-stat = 1
-amount = 5
-multiplier = 1
-metadata/_custom_type_script = "uid://va2witn0s23o"
-
 [sub_resource type="Resource" id="Resource_ykpp3"]
 script = ExtResource("5_4hy05")
-modifiers = Array[ExtResource("3_xo1qx")]([SubResource("Resource_f28xi")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
 [sub_resource type="Resource" id="Resource_kmkm1"]

@@ -7,4 +7,4 @@ func get_stat() -> Enums.Size:
 	return stat
 
 func get_type() -> Enums.StatType:
-	return Enums.StatType.SIZE
+	return Enums.StatType.APTITUDE

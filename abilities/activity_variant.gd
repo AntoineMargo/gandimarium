@@ -14,6 +14,9 @@ func pre_execute(user: Entity) -> Activity:
 	var instance_modifiers = instance.modifiers
 	instance.user = user
 	
+	for modifier in user.data.activity_modifiers:
+		instance_modifiers.append(modifier)
+	
 	if modifiers:
 		for modifier in modifiers:
 			instance_modifiers.append(modifier)
@@ -31,11 +34,15 @@ func pre_execute(user: Entity) -> Activity:
 func produce(user: Entity) -> Activity:
 	var instance = activity.duplicate(true)
 	
+	var instance_modifiers = instance.modifiers
 	instance.user = user
+	
+	for modifier in user.data.activity_modifiers:
+		instance_modifiers.append(modifier)
 	
 	if modifiers:
 		for modifier in modifiers:
-			instance.modifiers.append(modifier)
+			instance_modifiers.append(modifier)
 
 	instance.compute_spell_reach()
 

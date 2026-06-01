@@ -114,57 +114,57 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Scholastic Mage"
 
-[node name="Button4" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=795496600]
+[node name="PrimordialMage" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=795496600]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Primordial Mage"
 
-[node name="Button5" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=380746907]
+[node name="WarMage" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=380746907]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Battle Mage"
+text = "War Mage"
 
-[node name="Button6" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1158868948]
+[node name="Legion" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1158868948]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Legion"
 
-[node name="Button7" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=875184089]
+[node name="Conduit" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=875184089]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Conduit"
 
-[node name="Button8" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1480529440]
+[node name="Champion" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1480529440]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Champion"
 
-[node name="Button9" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1187646806]
+[node name="Vessel" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1187646806]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Vessel / Scion"
 
-[node name="Button10" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1847241079]
+[node name="TranceWalker" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1847241079]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Trance Walker"
 
-[node name="Button11" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=960605880]
+[node name="Evoker" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=960605880]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Evoker"
 
-[node name="Button12" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=224235763]
+[node name="Soulbound" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=224235763]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Soulbound"
 
-[node name="Button13" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=858375672]
+[node name="Exemplar" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=858375672]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Exemplar"
 
-[node name="Button14" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1777848908]
+[node name="V" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1777848908]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "V"

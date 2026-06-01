@@ -7,11 +7,10 @@
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_78q6f"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_wrc7h"]
 [ext_resource type="Script" uid="uid://cfpj1qbuyeinb" path="res://effects/finalize_are_condition_effect.gd" id="7_5cwtd"]
-[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="8_78q6f"]
+[ext_resource type="Script" uid="uid://18l4gn7hleqe" path="res://various/abstract_stat_entry_container.gd" id="8_5cwtd"]
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="8_t6m65"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="8_v53se"]
 [ext_resource type="Script" uid="uid://ckh556ahfopjg" path="res://conditions/area_condition.gd" id="9_vuhvc"]
-[ext_resource type="Script" uid="uid://cp1x0k5fsy1j5" path="res://various/stat_points_entry.gd" id="9_wrc7h"]
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="10_5cwtd"]
 [ext_resource type="PackedScene" uid="uid://cewqwbv1wbl5j" path="res://VFX/area/area_condition_VFX.tscn" id="10_13wjb"]
 [ext_resource type="Script" uid="uid://dwlhkak5s0ikl" path="res://effects/area_condition_general_effect.gd" id="11_0qi3v"]
@@ -25,16 +24,9 @@
 script = ExtResource("7_5cwtd")
 metadata/_custom_type_script = "uid://cfpj1qbuyeinb"
 
-[sub_resource type="Resource" id="Resource_78q6f"]
-script = ExtResource("9_wrc7h")
-stat = 3
-amount = 1
-metadata/_custom_type_script = "uid://cp1x0k5fsy1j5"
-
 [sub_resource type="Resource" id="Resource_vuhvc"]
 script = ExtResource("10_5cwtd")
 type = 1
-modifiers = Array[ExtResource("8_78q6f")]([SubResource("Resource_78q6f")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
 [sub_resource type="Resource" id="Resource_6rj0j"]

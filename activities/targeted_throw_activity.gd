@@ -58,6 +58,8 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 			if not filter.is_satisfied(self_ctx):
 				_cleanup()
 				return
+				
+	SignalBus.event.emit(ReactionEvent.activity_started(self_ctx))
 
 	for effect in self_prior_effects:
 		if effect is Effect:
@@ -160,3 +162,5 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 	_finalize_concentration(self_ctx)
 	_cleanup()
 	#SignalBus.dialog_show_message.emit("Activity effects released.")
+	
+	SignalBus.event.emit(ReactionEvent.activity_completed(self_ctx))
