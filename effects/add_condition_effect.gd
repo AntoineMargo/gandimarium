@@ -25,8 +25,10 @@ func apply_context(ctx: Context) -> void:
 		ctx.condition_recipient = ctx.user
 	ctx.condition = condition
 	if behaviour == Behaviour.RE_APPLY and ctx.condition_recipient.get_condition_by_id(condition.id):
-		ctx.condition_recipient.toggle_condition(ctx)
-	var instance = ctx.condition_recipient.toggle_condition(ctx)
+		ctx.condition_recipient.add_condition_from(ctx)
+		#ctx.condition_recipient.toggle_condition(ctx)
+	var instance = ctx.condition_recipient.add_condition_from(ctx)
+	#var instance = ctx.condition_recipient.toggle_condition(ctx)
 	if ctx is ActivityContext and ctx.shared_context:
 		ctx.shared_context.created_conditions.append(instance)
 

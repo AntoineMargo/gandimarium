@@ -17,10 +17,10 @@ func pre_execute(user: Entity) -> Activity:
 	for modifier in user.data.activity_modifiers:
 		instance_modifiers.append(modifier)
 	
-	if modifiers:
-		for modifier in modifiers:
-			instance_modifiers.append(modifier)
-
+	for modifier in modifiers:
+		instance_modifiers.append(modifier)
+	
+	if instance_modifiers:
 		var pre_ctx = instance._build_context()
 		instance.compute_spell_reach() # Could be after pre_execution_bundle_modify()
 		instance.pre_execution_bundle_modify(pre_ctx)

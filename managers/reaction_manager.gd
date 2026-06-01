@@ -34,6 +34,8 @@ func get_nearby_creatures(reaction_event: ReactionEvent) -> Array:
 
 func elicit_reaction(reaction_event, creature) -> void:
 	for condition in creature.data.conditions:
+		for end_requirement in condition.end_requirements:
+			end_requirement.handle_event(reaction_event)
 		for trigger in condition.triggers:
 			trigger.process_trigger(reaction_event, creature)
 
