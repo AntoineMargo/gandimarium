@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CreatureData" format=3 uid="uid://bihond6x2e5k"]
 
 [ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="1_d00pt"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="2_tmkg0"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/value_modifier.gd" id="2_tmkg0"]
 [ext_resource type="Script" uid="uid://cubgbyndvs8t3" path="res://aspects/aspect.gd" id="4_tmkg0"]
 [ext_resource type="Script" uid="uid://boxs05dhsll81" path="res://entities/attributes.gd" id="5_xy00l"]
 [ext_resource type="Script" uid="uid://bqbvgbqafpkej" path="res://entities/base_stats.gd" id="6_jgqia"]

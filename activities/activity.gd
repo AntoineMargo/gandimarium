@@ -55,6 +55,8 @@ var weapon: Item = null
 var target_points: Array[Vector3i] = []
 var target_entities: Array = []
 
+var imported_context: ActivityContext = null
+
 func _setup_concentration():
 	if requires_concentration:
 		concentration = Concentration.new()
@@ -72,6 +74,13 @@ func _finalize_concentration(_context: ActivityContext):
 func _build_shared_context():
 	var shared_ctx = SharedContext.new()
 	return shared_ctx
+
+func _import_context():
+	if imported_context:
+		user = imported_context.user
+		origin = imported_context.origin
+		if imported_context.concentration:
+			concentration = imported_context.concentration
 
 func _build_context(shared_ctx: SharedContext = null, target = null, already_hit = null):
 	var ctx = ActivityContext.new()
@@ -102,6 +111,9 @@ func _build_context(shared_ctx: SharedContext = null, target = null, already_hit
 
 func modify_value(value, value_type: Enums.ValueType, ctx: Context, stage: Enums.ActivityStage):
 	for modifier in modifiers:
+		if modifier is not ValueModifier:
+			continue
+
 		if not modifier.matches(value_type, stage):
 			continue
 
@@ -118,7 +130,14 @@ func compute_spell_reach():
 		reach *= acuity
 		#reach = reach + acuity
 
+func apply_effect_modifiers():
+	for modifier in modifiers:
+		if modifier is EffectModifier:
+			modifier.modify(self)
+
 func pre_execution_bundle_modify(ctx: Context):
+	apply_effect_modifiers()
+
 	AP_cost = modify_value(AP_cost, Enums.ValueType.AP_COST, ctx, Enums.ActivityStage.PRE_EXECUTION)
 	PP_cost = modify_value(PP_cost, Enums.ValueType.PP_COST, ctx, Enums.ActivityStage.PRE_EXECUTION)
 	EP_cost = modify_value(EP_cost, Enums.ValueType.EP_COST, ctx, Enums.ActivityStage.PRE_EXECUTION)
@@ -156,19 +175,22 @@ func post_resolution_bundle_modify(ctx: ActivityContext):
 	#ctx.degree = modify_value(ctx.degree, Enums.ValueType.DEGREE, ctx, Enums.ActivityStage.POST_RESOLUTION)
 
 
-
 func _roll(ctx):
 	ctx.user_roll = BasicMath.standard_roll()
 	ctx.target_roll = BasicMath.standard_roll()
 
 func _resolve(ctx):
-	if ctx.target is Prop:
-		ctx.degree = 2
-	if ctx.target is Creature:
-		ctx.result = BasicMath.make_opposed_check(ctx.user_stat, ctx.user_roll, ctx.target_stat, ctx.target_roll)
-		ctx.degree = BasicMath.determine_degree_success(ctx.result)
-		SignalBus.dialog_show_message.emit(
-			"%s rolled %d against %s's %d." % [ctx.user.data.name, ctx.user_stat+ctx.user_roll, ctx.target.data.name, ctx.target_stat+ctx.target_roll])
+	if imported_context and imported_context.reuse_resolution:
+		ctx.result = imported_context.result
+		ctx.degree = imported_context.degree
+	else:
+		if ctx.target is Prop:
+			ctx.degree = 2
+		if ctx.target is Creature:
+			ctx.result = BasicMath.make_opposed_check(ctx.user_stat, ctx.user_roll, ctx.target_stat, ctx.target_roll)
+			ctx.degree = BasicMath.determine_degree_success(ctx.result)
+			SignalBus.dialog_show_message.emit(
+				"%s rolled %d against %s's %d." % [ctx.user.data.name, ctx.user_stat+ctx.user_roll, ctx.target.data.name, ctx.target_stat+ctx.target_roll])
 
 @warning_ignore("unused_parameter")
 func _apply_effects(ctx):

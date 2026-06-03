@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="3_wykmt"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="4_n23tq"]
 [ext_resource type="Script" uid="uid://g1muvdggkxqa" path="res://effects/add_activity_effect.gd" id="4_qeqaa"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="5_86ttj"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/value_modifier.gd" id="5_86ttj"]
 [ext_resource type="Script" uid="uid://dqlf6j78n0780" path="res://activities/derived_activity.gd" id="6_n23tq"]
 [ext_resource type="Script" uid="uid://cbnvjqqt0pmfb" path="res://activity_modifiers/multiply_num_modifier.gd" id="7_86ttj"]
 [ext_resource type="Script" uid="uid://kalwpa2j0ckf" path="res://activity_modifiers/addition_num_modifier.gd" id="8_xfge3"]

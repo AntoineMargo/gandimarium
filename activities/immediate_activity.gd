@@ -9,8 +9,7 @@ func preview_area(tile):
 
 func execute() -> void:
 	_setup_concentration()
-
-	#target_points.clear()
+	_import_context()
 	
 	var pre_ctx = _build_context()
 	pre_execution_bundle_modify(pre_ctx)

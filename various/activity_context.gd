@@ -21,3 +21,6 @@ var already_hit = null
 
 var current_spell_rank: int = 0
 var concentration: Concentration = null
+
+## For activities created through the ExecuteActivityEffect.
+var reuse_resolution: bool = false

@@ -857,6 +857,8 @@ func build_stats():
 		data.current_ep = data.base_stats.max_ep
 
 		data.base_stats.max_mp = data.attributes.dexterity
+		
+		data.current_ap = data.base_stats.max_mp
 
 		if data.major_archetype and data.major_archetype.type == Enums.Archetype.SCHOLASTIC_MAGE:
 			data.max_spells_ready = data.attributes.acuity

@@ -12,13 +12,12 @@
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="10_s6fj8"]
 [ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="11_5qhpn"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="12_vyktp"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="13_d03et"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="13_6blrw"]
 [ext_resource type="Script" uid="uid://c87bku6q55ul5" path="res://VFX/projectile_config.gd" id="14_65itr"]
 [ext_resource type="Script" uid="uid://bqn6moayd3kvg" path="res://VFX/projectile.gd" id="15_4tmkt"]
 [ext_resource type="Script" uid="uid://b7tjqqmnvivdt" path="res://effects/proj_vfx_effect.gd" id="16_e5gs5"]
 [ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="17_6ht8l"]
 [ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damage_effect.gd" id="18_6uvd7"]
-[ext_resource type="Script" uid="uid://kalwpa2j0ckf" path="res://activity_modifiers/addition_num_modifier.gd" id="19_c5eq7"]
 [ext_resource type="Script" uid="uid://cfpj1qbuyeinb" path="res://effects/finalize_are_condition_effect.gd" id="20_ku6jf"]
 [ext_resource type="Script" uid="uid://18l4gn7hleqe" path="res://various/abstract_stat_entry_container.gd" id="21_8ryec"]
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="22_p01ju"]
@@ -51,7 +50,8 @@
 [ext_resource type="Texture2D" uid="uid://ossw83egde8f" path="res://art/props/spell_wall.png" id="49_3kw88"]
 [ext_resource type="Script" uid="uid://dk2ibknskb7og" path="res://effects/create_prop_effect.gd" id="50_c3pqw"]
 [ext_resource type="Script" uid="uid://ch87mhboh4iu6" path="res://effects/create_creature_effect.gd" id="51_7gmii"]
-[ext_resource type="Resource" uid="uid://bf844od6srore" path="res://test/martial_spellcasting.tres" id="52_xcjy0"]
+[ext_resource type="Script" uid="uid://bwfaipulxr7tq" path="res://effects/damage_effect.gd" id="51_xcjy0"]
+[ext_resource type="Script" uid="uid://cmhyhgvqkynx1" path="res://activity_modifiers/effect_modifier.gd" id="52_k1hes"]
 
 [sub_resource type="Resource" id="Resource_2imaj"]
 script = ExtResource("6_hx4fy")
@@ -530,21 +530,9 @@ projectile_batch_mode = false
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 
-[sub_resource type="Resource" id="Resource_j3jdq"]
-script = ExtResource("19_c5eq7")
-to_add = 1
-metadata/_custom_type_script = "uid://kalwpa2j0ckf"
-
-[sub_resource type="Resource" id="Resource_vndd1"]
-script = ExtResource("19_c5eq7")
-to_add = 1
-value_type = 26
-metadata/_custom_type_script = "uid://kalwpa2j0ckf"
-
 [sub_resource type="Resource" id="Resource_i22tl"]
 script = ExtResource("11_5qhpn")
 activity = SubResource("Resource_s7x2o")
-modifiers = Array[ExtResource("13_d03et")]([SubResource("Resource_j3jdq"), SubResource("Resource_vndd1")])
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_w8roi"]
@@ -601,21 +589,9 @@ projectile_batch_mode = false
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 
-[sub_resource type="Resource" id="Resource_3nx0e"]
-script = ExtResource("19_c5eq7")
-to_add = 2
-metadata/_custom_type_script = "uid://kalwpa2j0ckf"
-
-[sub_resource type="Resource" id="Resource_f4lgn"]
-script = ExtResource("19_c5eq7")
-to_add = 2
-value_type = 26
-metadata/_custom_type_script = "uid://kalwpa2j0ckf"
-
 [sub_resource type="Resource" id="Resource_5xqga"]
 script = ExtResource("11_5qhpn")
 activity = SubResource("Resource_y0hkq")
-modifiers = Array[ExtResource("13_d03et")]([SubResource("Resource_3nx0e"), SubResource("Resource_f4lgn")])
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
 [sub_resource type="Resource" id="Resource_kajin"]
@@ -816,11 +792,6 @@ icon = "res://art/icons/items/chest-armor.svg"
 activities = Array[ExtResource("11_5qhpn")]([SubResource("Resource_x65d4")])
 metadata/_custom_type_script = "uid://sg6vjj4j36i4"
 
-[sub_resource type="Resource" id="Resource_qkvo1"]
-script = ExtResource("39_axoba")
-value_type = 7
-metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
-
 [sub_resource type="Resource" id="Resource_1auki"]
 script = ExtResource("40_j7ka2")
 metadata/_custom_type_script = "uid://d4jeevooo13o3"
@@ -830,7 +801,6 @@ script = ExtResource("17_6ht8l")
 name = "Shift"
 id = "act_shift"
 description = "You very quickly shift to a nearby space in sight."
-modifiers = Array[ExtResource("13_d03et")]([SubResource("Resource_qkvo1")])
 target_effects = Array[ExtResource("4_aqhgn")]([SubResource("Resource_1auki")])
 targeting_type = 1
 affected_type = 1
@@ -850,11 +820,6 @@ name = "Shift"
 activities = Array[ExtResource("11_5qhpn")]([SubResource("Resource_22h46")])
 metadata/_custom_type_script = "uid://sg6vjj4j36i4"
 
-[sub_resource type="Resource" id="Resource_0egde"]
-script = ExtResource("39_axoba")
-value_type = 7
-metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
-
 [sub_resource type="Resource" id="Resource_y38jl"]
 script = ExtResource("40_j7ka2")
 metadata/_custom_type_script = "uid://d4jeevooo13o3"
@@ -865,7 +830,6 @@ name = "Far Shift"
 id = "act_far_shift"
 description = "You shift from one space to another of your choice in sight."
 AP_cost = 2
-modifiers = Array[ExtResource("13_d03et")]([SubResource("Resource_0egde")])
 target_effects = Array[ExtResource("4_aqhgn")]([SubResource("Resource_y38jl")])
 targeting_type = 1
 affected_type = 1
@@ -885,11 +849,6 @@ name = "Far Shift"
 activities = Array[ExtResource("11_5qhpn")]([SubResource("Resource_an3cu")])
 metadata/_custom_type_script = "uid://sg6vjj4j36i4"
 
-[sub_resource type="Resource" id="Resource_1b618"]
-script = ExtResource("39_axoba")
-value_type = 7
-metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
-
 [sub_resource type="Resource" id="Resource_jiwe3"]
 script = ExtResource("40_j7ka2")
 metadata/_custom_type_script = "uid://d4jeevooo13o3"
@@ -903,7 +862,6 @@ AP_cost = 3
 reach_requires_LOS = false
 spread_requires_LOS = false
 reach = 200
-modifiers = Array[ExtResource("13_d03et")]([SubResource("Resource_1b618")])
 target_effects = Array[ExtResource("4_aqhgn")]([SubResource("Resource_jiwe3")])
 targeting_type = 1
 affected_type = 1
@@ -974,8 +932,6 @@ metadata/_custom_type_script = "uid://sg6vjj4j36i4"
 script = ExtResource("39_axoba")
 choice = 1
 multiplied_amount = 0.25
-value_type = 19
-stage = 4
 metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
 
 [sub_resource type="Resource" id="Resource_w3pej"]
@@ -1020,12 +976,6 @@ name = "Weapon Infusion"
 activities = Array[ExtResource("11_5qhpn")]([SubResource("Resource_esoii")])
 metadata/_custom_type_script = "uid://sg6vjj4j36i4"
 
-[sub_resource type="Resource" id="Resource_ea0pt"]
-script = ExtResource("39_axoba")
-starting_amount = -3
-value_type = 26
-metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
-
 [sub_resource type="Resource" id="Resource_ootle"]
 script = ExtResource("23_r5on8")
 type = 3
@@ -1057,7 +1007,6 @@ description = "The targeted creature becomes invisible."
 AP_cost = 2
 requires_concentration = true
 reach = 10
-modifiers = Array[ExtResource("13_d03et")]([SubResource("Resource_ea0pt")])
 target_effects = Array[ExtResource("4_aqhgn")]([SubResource("Resource_p0xcu")])
 requires_roll = false
 is_spell = true
@@ -1082,13 +1031,6 @@ id = 2
 name = "crush"
 pattern = [0, 0, 3, 3]
 metadata/_custom_type_script = "uid://rltw2jbxjfsu"
-
-[sub_resource type="Resource" id="Resource_63gc1"]
-script = ExtResource("39_axoba")
-choice = 1
-value_type = 22
-stage = 4
-metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vv2og"]
 load_path = "res://.godot/imported/magic_bolt.png-bdd3432e3c2e8564edb865a7fdc701a4.ctex"
@@ -1132,7 +1074,6 @@ name = "Throw Shooting Star"
 id = "act_throw_shooting_star"
 defending_aptitude = 6
 reach = 20
-modifiers = Array[ExtResource("13_d03et")]([SubResource("Resource_63gc1")])
 target_effects = Array[ExtResource("4_aqhgn")]([SubResource("Resource_cql3d")])
 barrier_interaction = 1
 projectile = SubResource("Resource_c31te")
@@ -2008,12 +1949,6 @@ name = "Spell Wall"
 activities = Array[ExtResource("11_5qhpn")]([SubResource("Resource_v10gr")])
 metadata/_custom_type_script = "uid://sg6vjj4j36i4"
 
-[sub_resource type="Resource" id="Resource_eip10"]
-script = ExtResource("39_axoba")
-starting_amount = -2
-value_type = 26
-metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
-
 [sub_resource type="Resource" id="Resource_8kyxh"]
 script = ExtResource("22_p01ju")
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
@@ -2037,7 +1972,6 @@ id = "act_slow"
 AP_cost = 2
 requires_concentration = true
 reach = 20
-modifiers = Array[ExtResource("13_d03et")]([SubResource("Resource_eip10")])
 target_effects = Array[ExtResource("4_aqhgn")]([SubResource("Resource_w5vnf")])
 is_spell = true
 builds_condition = true
@@ -2251,9 +2185,52 @@ description = "The array of spells a scholastic mage can eventually cast."
 effects = Array[ExtResource("4_aqhgn")]([SubResource("Resource_o1egw")])
 metadata/_custom_type_script = "uid://c5ijx7qo7jak"
 
+[sub_resource type="Resource" id="Resource_1lfls"]
+script = ExtResource("12_vyktp")
+pattern = [0, 1, 1, 1]
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_e0y7q"]
+script = ExtResource("51_xcjy0")
+dice_number = 10
+damage_bonus = 20
+resistance = 2
+damage_pattern = SubResource("Resource_1lfls")
+metadata/_custom_type_script = "uid://bwfaipulxr7tq"
+
+[sub_resource type="Resource" id="Resource_aqhgn"]
+script = ExtResource("52_k1hes")
+effects_to_append = Array[ExtResource("4_aqhgn")]([SubResource("Resource_e0y7q")])
+metadata/_custom_type_script = "uid://cmhyhgvqkynx1"
+
+[sub_resource type="Resource" id="Resource_hp61a"]
+script = ExtResource("42_n4igs")
+modifier = SubResource("Resource_aqhgn")
+metadata/_custom_type_script = "uid://dywclcl7k47vv"
+
+[sub_resource type="Resource" id="Resource_6blrw"]
+script = ExtResource("26_ef4sd")
+name = "Fire Attacks"
+id = "cond_fire_attacks"
+re_apply_effects = false
+effects = Array[ExtResource("4_aqhgn")]([SubResource("Resource_hp61a")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_xcjy0"]
+script = ExtResource("38_ppl0o")
+recipient = 1
+condition = SubResource("Resource_6blrw")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_k1hes"]
+script = ExtResource("3_e0y7q")
+name = "Fire Attacks"
+effects = Array[ExtResource("4_aqhgn")]([SubResource("Resource_xcjy0")])
+metadata/_custom_type_script = "uid://c5ijx7qo7jak"
+
 [sub_resource type="Resource" id="Resource_irhy6"]
 script = ExtResource("2_1lfls")
-auto_talents = Array[ExtResource("3_e0y7q")]([SubResource("Resource_sgmcf"), SubResource("Resource_5dsti"), ExtResource("52_xcjy0")])
+auto_talents = Array[ExtResource("3_e0y7q")]([SubResource("Resource_sgmcf"), SubResource("Resource_5dsti"), SubResource("Resource_k1hes")])
 metadata/_custom_type_script = "uid://dnii5080nqn0s"
 
 [resource]

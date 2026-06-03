@@ -13,17 +13,17 @@
 [ext_resource type="Script" uid="uid://b856khisxbu0g" path="res://filters/trigger_filters/activity_by_self.gd" id="11_t2uct"]
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="12_f6mn2"]
 
-[sub_resource type="Resource" id="Resource_jijnf"]
+[sub_resource type="Resource" id="Resource_8105b"]
 script = ExtResource("6_pitiq")
 to_add = -1
 name = "-1 AP cost mod"
-id = "mod_martial_casting"
+id = "mod_martial_spellcasting"
 tags = Array[int]([0])
 metadata/_custom_type_script = "uid://kalwpa2j0ckf"
 
 [sub_resource type="Resource" id="Resource_oujlw"]
 script = ExtResource("7_nfkax")
-modifier = SubResource("Resource_jijnf")
+modifier = SubResource("Resource_8105b")
 metadata/_custom_type_script = "uid://dywclcl7k47vv"
 
 [sub_resource type="Resource" id="Resource_cadlq"]

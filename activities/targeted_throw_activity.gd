@@ -15,6 +15,7 @@ func handle_hover(tile: Vector3i) -> void:
 func execute() -> void:
 	cm = Global.crisis_manager
 	wm = Global.world_manager
+	_import_context()
 	origin = user.get_coords()
 	final_reach = reach * user.data.attributes.brawn
 	var pre_ctx = _build_context()

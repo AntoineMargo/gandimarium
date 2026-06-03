@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://activities/wpn_throw.gd" id="2_kggaa"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="3_xlcii"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_ctg66"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/modifier.gd" id="4_t20h8"]
+[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/value_modifier.gd" id="4_t20h8"]
 [ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="5_yn2i8"]
 [ext_resource type="Resource" uid="uid://rsyurje8uegc" path="res://resources/filters/crisis_mode.tres" id="9_423j3"]
 [ext_resource type="Resource" uid="uid://bhdp23fjgy1bl" path="res://resources/filters/enough_ap.tres" id="10_r5262"]

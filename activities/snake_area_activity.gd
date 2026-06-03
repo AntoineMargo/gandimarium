@@ -111,6 +111,7 @@ func _cleanup() -> void:
 func execute() -> void:
 	cm = Global.crisis_manager
 	wm = Global.world_manager
+	_import_context()
 	origin = user.get_coords()
 	var pre_ctx = _build_context()
 	pre_execution_bundle_modify(pre_ctx)
