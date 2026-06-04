@@ -11,12 +11,11 @@
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="9_17pay"]
 [ext_resource type="Script" uid="uid://5c3jlvd4s3cf" path="res://various/stat_entry_container.gd" id="9_dsm25"]
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="10_w5ipq"]
-[ext_resource type="Script" uid="uid://d4aijp35wwgvn" path="res://effects/vfx_effect.gd" id="11_dsm25"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="11_wsh08"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="12_ai1xq"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="12_mb7yc"]
-[ext_resource type="PackedScene" uid="uid://cmtrlumwbt1av" path="res://VFX/static/placeholder.tscn" id="12_s6jws"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="13_rybuj"]
+[ext_resource type="PackedScene" uid="uid://shycfg3x2og6" path="res://VFX/static/silhouette.tscn" id="14_hrhew"]
 
 [sub_resource type="Resource" id="Resource_s6jws"]
 script = ExtResource("8_hrhew")
@@ -34,16 +33,12 @@ script = ExtResource("9_17pay")
 entry_containers = Array[ExtResource("7_my0n7")]([SubResource("Resource_d5cvt")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
-[sub_resource type="Resource" id="Resource_dsm25"]
-script = ExtResource("11_dsm25")
-vfx_scene = ExtResource("12_s6jws")
-metadata/_custom_type_script = "uid://d4aijp35wwgvn"
-
 [sub_resource type="Resource" id="Resource_rmdib"]
 script = ExtResource("11_wsh08")
 name = "Haste"
 id = "cond_haste"
-effects = Array[ExtResource("6_s6jws")]([SubResource("Resource_l65ly"), SubResource("Resource_dsm25")])
+effects = Array[ExtResource("6_s6jws")]([SubResource("Resource_l65ly")])
+vfx_scenes = Array[PackedScene]([ExtResource("14_hrhew")])
 metadata/_custom_type_script = "uid://dvi4ohsador2o"
 
 [sub_resource type="Resource" id="Resource_ony64"]

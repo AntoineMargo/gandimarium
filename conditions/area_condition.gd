@@ -36,12 +36,32 @@ func finalize():
 	if affected_tiles.is_empty():
 		return
 
-	if vfx_scene:
-		vfx_instance = vfx_scene.instantiate()
-		vfx_instance.setup(self)
+	if vfx_scenes.is_empty():
+		return
+		
+	for vfx_scene in vfx_scenes:
+		var vfx = vfx_scene.instantiate()
+		vfx.setup(self)
 
-		Global.add_child(vfx_instance)
-		Global.world_manager.VFX_scenes.append(vfx_instance)
+		Global.add_child(vfx)
+		#Global.world_manager.VFX_scenes.append(vfx)
+		vfx_instances.append(vfx)
+
+#func finalize():
+	#if is_finalized:
+		#return
+#
+	#is_finalized = true
+	#
+	#if affected_tiles.is_empty():
+		#return
+#
+	#if vfx_scene:
+		#vfx_instance = vfx_scene.instantiate()
+		#vfx_instance.setup(self)
+#
+		#Global.add_child(vfx_instance)
+		#Global.world_manager.VFX_scenes.append(vfx_instance)
 
 func register_linked_condition(condition: Condition):
 	if not linked_conditions.has(condition):
@@ -107,12 +127,13 @@ func clear_tiles():
 
 func dispose():
 	destroy_children()
+	clear_vfx()
 	cancel_linked_conditions()
 	clear_tiles()
 	for entity in affected_entities.keys():
 		remove_from_entity(entity)
 	affected_entities.clear()
-	vfx_instance.queue_free()
+	#vfx_instance.queue_free()
 	if Global.selected_char == target:
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()

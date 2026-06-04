@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://shycfg3x2og6"]
+
+[ext_resource type="Script" uid="uid://db1r0rmun61tr" path="res://VFX/static/silhouette.gd" id="1_3rdk4"]
+
+[node name="Silhouette" type="Node2D" unique_id=1793129387]
+z_index = 300
+script = ExtResource("1_3rdk4")

@@ -22,11 +22,11 @@ signal ended
 @export var is_visible: bool = true
 @export var generate_semi_unique_id: bool = false
 
-@export var vfx_scene: PackedScene
+@export var vfx_scenes: Array[PackedScene]
 
 # === Runtime ===
 
-var vfx_instance: Node = null
+var vfx_instances: Array[Node] = []
 var linked_items: Array[Item] = []
 var linked_props: Array[Prop] = []
 var linked_creatures: Array[Creature] = []
@@ -44,6 +44,41 @@ var frozen: bool = false
 var start_time: int
 var end_time: int
 var remaining_time: int
+
+func apply_vfx() -> void:
+	clear_vfx()
+	
+	if vfx_scenes.is_empty():
+		return
+	
+	for vfx_scene in vfx_scenes:
+		var vfx = vfx_scene.instantiate()
+		#vfx.modulate = Color(0.5, 0.5, 0.5, 0.5)
+
+		target.vfx_container.add_child(vfx)
+		vfx_instances.append(vfx)
+		if vfx.has_method("setup"):
+			vfx.setup(target)
+
+func clear_vfx() -> void:
+	for vfx_instance in vfx_instances:
+		if is_instance_valid(vfx_instance):
+			vfx_instance.queue_free()
+			vfx_instance = null
+	
+	vfx_instances.clear()
+
+#func apply_vfx() -> void:
+	#if not vfx_scene:
+		#return
+#
+	#var vfx = vfx_scene.instantiate()
+	#vfx.modulate = Color(0.5, 0.5, 0.5, 0.5)
+#
+	#target.vfx_container.add_child(vfx)
+#
+	##vfx.global_position = target.global_position
+	#vfx_instance = vfx
 
 func is_active() -> bool:
 	return not sources.is_empty()
@@ -68,6 +103,7 @@ func initialize(ctx: Context) -> void:
 			ctx.concentration.register_condition(self)
 
 	apply_effects(ctx)
+	apply_vfx()
 
 	for end_requirement in end_requirements:
 		end_requirement.setup(self)
@@ -134,6 +170,7 @@ func make_semi_unique_id(base_id: String, entity: Entity) -> String:
 func dispose():
 	target.remove_condition(self)
 	destroy_children()
+	clear_vfx()
 	ended.emit()
 	if Global.selected_char == target:
 		SignalBus.update_ui_for_char.emit()
@@ -149,9 +186,6 @@ func destroy_children():
 		linked_creatures[i].destroy_self()
 	for i in range(linked_modifiers.size() - 1, -1, -1):
 		linked_modifiers[i].destroy()
-	if is_instance_valid(vfx_instance):
-		vfx_instance.queue_free()
-		vfx_instance = null
 
 func add_source(identifier: String):
 	if not sources.has(identifier):
