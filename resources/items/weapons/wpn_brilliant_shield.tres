@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_ger7p"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="3_a4a16"]
 [ext_resource type="Script" uid="uid://18l4gn7hleqe" path="res://various/abstract_stat_entry_container.gd" id="3_ikw2a"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/value_modifier.gd" id="4_y6wg7"]
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="5_5gup1"]
 [ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="5_ikw2a"]
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="6_pawbx"]
@@ -14,6 +13,7 @@
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="8_qgfpp"]
 [ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="9_3jruu"]
 [ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="10_3jruu"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="11_ikw2a"]
 [ext_resource type="Script" uid="uid://3t3dwtov2mvp" path="res://filters/not_self.gd" id="14_tt153"]
 
 [sub_resource type="Resource" id="Resource_g1wo7"]

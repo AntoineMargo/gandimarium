@@ -8,7 +8,7 @@ class_name DamageEffect
 @export var resistance: Enums.Resistance = Enums.Resistance.NONE
 @export var damage_pattern: DamagePattern = null
 
-func apply(source, target, degree: int = 2) -> void:
+func apply(_source, target, degree: int = 2) -> void:
 	if damage_pattern == null:
 		damage_pattern = Library.get_dmg_pattern("default")
 	var total_damage = BasicMath.determine_damage(

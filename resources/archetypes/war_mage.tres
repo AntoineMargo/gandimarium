@@ -51,6 +51,7 @@
 [ext_resource type="Script" uid="uid://dk2ibknskb7og" path="res://effects/create_prop_effect.gd" id="50_c3pqw"]
 [ext_resource type="Script" uid="uid://ch87mhboh4iu6" path="res://effects/create_creature_effect.gd" id="51_7gmii"]
 [ext_resource type="Script" uid="uid://bwfaipulxr7tq" path="res://effects/damage_effect.gd" id="51_xcjy0"]
+[ext_resource type="Script" uid="uid://xtxqaeee6rvn" path="res://effects/execute_activity_effect.gd" id="52_1lfls"]
 [ext_resource type="Script" uid="uid://cmhyhgvqkynx1" path="res://activity_modifiers/effect_modifier.gd" id="52_k1hes"]
 
 [sub_resource type="Resource" id="Resource_2imaj"]
@@ -2185,22 +2186,38 @@ description = "The array of spells a scholastic mage can eventually cast."
 effects = Array[ExtResource("4_aqhgn")]([SubResource("Resource_o1egw")])
 metadata/_custom_type_script = "uid://c5ijx7qo7jak"
 
-[sub_resource type="Resource" id="Resource_1lfls"]
-script = ExtResource("12_vyktp")
-pattern = [0, 1, 1, 1]
-metadata/_custom_type_script = "uid://rltw2jbxjfsu"
-
 [sub_resource type="Resource" id="Resource_e0y7q"]
 script = ExtResource("51_xcjy0")
-dice_number = 10
-damage_bonus = 20
+dice_number = 5
 resistance = 2
-damage_pattern = SubResource("Resource_1lfls")
 metadata/_custom_type_script = "uid://bwfaipulxr7tq"
+
+[sub_resource type="Resource" id="Resource_xwtph"]
+script = ExtResource("46_xnnag")
+metadata/_custom_type_script = "uid://3t3dwtov2mvp"
+
+[sub_resource type="Resource" id="Resource_hx4fy"]
+script = ExtResource("17_6ht8l")
+name = "On Top fireball"
+id = "act_on_top_fireball"
+AP_cost = 0
+reach = 5
+spread = 3
+target_filters = Array[ExtResource("8_riw0s")]([SubResource("Resource_xwtph")])
+target_effects = Array[ExtResource("4_aqhgn")]([SubResource("Resource_e0y7q")])
+targeting_type = 1
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_wv2fi"]
+script = ExtResource("52_1lfls")
+reuse_resolution = true
+activity = SubResource("Resource_hx4fy")
+metadata/_custom_type_script = "uid://xtxqaeee6rvn"
 
 [sub_resource type="Resource" id="Resource_aqhgn"]
 script = ExtResource("52_k1hes")
-effects_to_append = Array[ExtResource("4_aqhgn")]([SubResource("Resource_e0y7q")])
+effects_to_append = Array[ExtResource("4_aqhgn")]([SubResource("Resource_wv2fi")])
 metadata/_custom_type_script = "uid://cmhyhgvqkynx1"
 
 [sub_resource type="Resource" id="Resource_hp61a"]

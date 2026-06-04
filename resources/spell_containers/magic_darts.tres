@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_0hifr"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_jiqyk"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/value_modifier.gd" id="3_0ay6q"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="3_0hifr"]
 [ext_resource type="Script" uid="uid://c87bku6q55ul5" path="res://VFX/projectile_config.gd" id="4_idjkp"]
 [ext_resource type="Script" uid="uid://b7tjqqmnvivdt" path="res://effects/proj_vfx_effect.gd" id="7_m7sha"]
 [ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="8_mfknl"]
@@ -86,7 +86,7 @@ metadata/_custom_type_script = "uid://kalwpa2j0ckf"
 [sub_resource type="Resource" id="Resource_tmley"]
 script = ExtResource("1_0hifr")
 activity = SubResource("Resource_errbm")
-modifiers = Array[ExtResource("3_0ay6q")]([SubResource("Resource_q8cho"), SubResource("Resource_ty6kg")])
+modifiers = Array[ExtResource("3_0hifr")]([SubResource("Resource_q8cho"), SubResource("Resource_ty6kg")])
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
 [sub_resource type="Resource" id="Resource_0ay6q"]
@@ -103,7 +103,7 @@ metadata/_custom_type_script = "uid://kalwpa2j0ckf"
 [sub_resource type="Resource" id="Resource_sl7wx"]
 script = ExtResource("1_0hifr")
 activity = SubResource("Resource_errbm")
-modifiers = Array[ExtResource("3_0ay6q")]([SubResource("Resource_0ay6q"), SubResource("Resource_1s1xs")])
+modifiers = Array[ExtResource("3_0hifr")]([SubResource("Resource_0ay6q"), SubResource("Resource_1s1xs")])
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
 [resource]

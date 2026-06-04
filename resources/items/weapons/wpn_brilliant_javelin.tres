@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_valiw"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="3_vbjuh"]
 [ext_resource type="Resource" uid="uid://b6lwaevovr35s" path="res://resources/damage_patterns/pierce.tres" id="4_csxcd"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/value_modifier.gd" id="5_7wwi8"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="5_csxcd"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="6_86r6d"]
 [ext_resource type="Script" uid="uid://c87bku6q55ul5" path="res://VFX/projectile_config.gd" id="8_k0cej"]
 [ext_resource type="PackedScene" uid="uid://bm40yjohcu4wn" path="res://VFX/projectile.tscn" id="10_lmdce"]

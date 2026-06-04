@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_opt7e"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="3_6yf3p"]
 [ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="4_k57go"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/value_modifier.gd" id="5_3qp1f"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="5_mb6sn"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="6_yxu0r"]
 [ext_resource type="Script" uid="uid://c20e6vg8wsl4e" path="res://activity_modifiers/spell_rank_num_modifier.gd" id="7_hamaf"]
 [ext_resource type="Script" uid="uid://c87bku6q55ul5" path="res://VFX/projectile_config.gd" id="8_f7rh1"]
@@ -47,7 +47,7 @@ name = "Throw Shooting Star"
 id = "act_throw_shooting_star"
 defending_aptitude = 6
 reach = 20
-modifiers = Array[ExtResource("5_3qp1f")]([SubResource("Resource_ud8em")])
+modifiers = Array[ExtResource("5_mb6sn")]([SubResource("Resource_ud8em")])
 target_effects = Array[ExtResource("13_ibo35")]([SubResource("Resource_ure84")])
 barrier_interaction = 1
 projectile = SubResource("Resource_14yg4")

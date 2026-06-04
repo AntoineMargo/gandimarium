@@ -149,6 +149,9 @@ func destroy_children():
 		linked_creatures[i].destroy_self()
 	for i in range(linked_modifiers.size() - 1, -1, -1):
 		linked_modifiers[i].destroy()
+	if is_instance_valid(vfx_instance):
+		vfx_instance.queue_free()
+		vfx_instance = null
 
 func add_source(identifier: String):
 	if not sources.has(identifier):
