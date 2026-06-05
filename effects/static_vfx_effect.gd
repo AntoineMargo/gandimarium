@@ -5,9 +5,10 @@ class_name StaticVFXEffect
 
 @export var use_global_position: bool = true
 
-func apply_context(ctx: Context) -> void:
+func apply_context(ctx: Context) -> bool:
 	if not vfx_scene:
-		return
+		push_error("No VFX scene inside StaticVFXEffect!")
+		return true
 
 	var vfx = vfx_scene.instantiate()
 	vfx.modulate = Color(0.5, 0.5, 0.5, 0.5)
@@ -18,6 +19,7 @@ func apply_context(ctx: Context) -> void:
 		vfx.global_position = ctx.target.global_position
 
 	ctx.condition.vfx_instance = vfx
+	return true
 
 func remove_context(ctx: Context):
 	if is_instance_valid(ctx.condition.vfx_instance):

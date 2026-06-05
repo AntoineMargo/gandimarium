@@ -1,7 +1,7 @@
 extends Effect
 class_name EquipItemEffect
 
-func apply_context(ctx: Context) -> void:
+func apply_context(ctx: Context) -> bool:
 	var success: bool = false
 	for item in ctx.created_items:
 		if ctx.target is Creature:
@@ -12,6 +12,7 @@ func apply_context(ctx: Context) -> void:
 		SignalBus.dialog_show_message.emit("Spell has succeeded!")
 	else:
 		SignalBus.dialog_show_message.emit("Spell has failed.")
+	return true
 
 func remove(_source, _target, _degree):
 	pass

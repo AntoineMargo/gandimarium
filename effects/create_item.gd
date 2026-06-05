@@ -4,7 +4,7 @@ class_name CreateItemEffect
 @export var item: Item = null
 @export var count: int = 1
 
-func apply_context(ctx: Context) -> void:
+func apply_context(ctx: Context) -> bool:
 	var new_item = item.duplicate(true)
 	new_item.count = count
 	if count == -1:
@@ -13,6 +13,7 @@ func apply_context(ctx: Context) -> void:
 	if ctx.condition == null:
 		push_error("Items must be created from inside a condition!")
 	ctx.condition.linked_items.append(new_item)
+	return true
 
 func remove(_source, _target, _degree):
 	pass

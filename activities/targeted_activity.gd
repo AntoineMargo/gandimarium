@@ -72,8 +72,9 @@ func select_target():
 	var coords = wm.get_hovered_tile()
 	if is_valid_target_point(coords, reach_requires_LOS):
 		if targeting_type == Enums.Targeting.ENTITIES:
-			if not wm.get_entity_at_pos(coords):
-				SignalBus.dialog_show_message.emit("No entity there.")
+			var entity = wm.get_entity_at_pos(coords)
+			if not entity or not validate_condition_absence(entity):
+				SignalBus.dialog_show_message.emit("No valid entity there.")
 				return
 		target_points.append(coords)
 		number_of_targets_left -= 1

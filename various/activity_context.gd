@@ -10,7 +10,7 @@ var user_roll: int = 0
 var target_roll: int = 0
 
 var result: int = 0
-var degree: int = 0
+#var degree: int = 0
 
 var projectile_instance: Projectile = null
 

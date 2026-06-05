@@ -5,10 +5,11 @@
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="3_sfept"]
 [ext_resource type="Resource" uid="uid://rn0a3hnwu3o1" path="res://resources/talents/mage_casting.tres" id="4_culw1"]
 [ext_resource type="Resource" uid="uid://152l5p4f6j5l" path="res://resources/talents/scholastic_mage_spells.tres" id="5_culw1"]
+[ext_resource type="Resource" uid="uid://dudvmrqg7csas" path="res://resources/talents/frost_attacks.tres" id="6_bg2u4"]
 
 [sub_resource type="Resource" id="Resource_ssk5f"]
 script = ExtResource("2_ybfg1")
-auto_talents = Array[ExtResource("3_sfept")]([ExtResource("4_culw1"), ExtResource("5_culw1")])
+auto_talents = Array[ExtResource("3_sfept")]([ExtResource("4_culw1"), ExtResource("5_culw1"), ExtResource("6_bg2u4")])
 metadata/_custom_type_script = "uid://dnii5080nqn0s"
 
 [resource]

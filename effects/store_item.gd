@@ -1,10 +1,11 @@
 extends Effect
 class_name StoreItemEffect
 
-func apply_context(ctx: ActivityContext) -> void:
+func apply_context(ctx: Context) -> bool:
 	for item in ctx.created_items:
 		if ctx.target is Creature or ctx.target is ContainerProp:
 			ctx.target.add_item_to_inventory(item)
+	return true
 
 func remove(_source, _target, _degree):
 	pass

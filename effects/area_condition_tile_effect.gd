@@ -4,7 +4,7 @@ class_name AreaConditionTileEffect
 func apply(_source, _target, _degree: int = 2) -> void:
 	pass
 
-func apply_context(ctx: ActivityContext) -> void:
+func apply_context(ctx: Context) -> bool:
 	var wm = Global.world_manager
 	var pos = ctx.target
 	var layer_pos = Vector2i(pos.x, pos.y)
@@ -17,3 +17,4 @@ func apply_context(ctx: ActivityContext) -> void:
 			area_condition.affected_tiles.append(pos)
 			var entity_on_tile = wm.get_entity_at_pos(pos)
 			wm.handle_tile_conditions(pos, entity_on_tile)
+	return true

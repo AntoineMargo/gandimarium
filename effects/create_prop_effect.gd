@@ -4,7 +4,7 @@ class_name CreatePropEffect
 
 @export var prop: PackedScene = null
 
-func apply_context(ctx: Context) -> void:
+func apply_context(ctx: Context) -> bool:
 	var prop_instance: Prop = null
 	if ctx.target is Vector3i:
 		prop_instance = Global.world_manager.spawn_prop(prop, ctx.target)
@@ -17,3 +17,4 @@ func apply_context(ctx: Context) -> void:
 		print("Prop added!")
 	else:
 		push_error("Prop couldn't be added: target is not Vector3i.")
+	return true

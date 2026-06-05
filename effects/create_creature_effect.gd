@@ -5,7 +5,7 @@ class_name CreateCreatureEffect
 @export var creature_data_path: String = ""
 #@export var creature_data: CreatureData = null
 
-func apply_context(ctx: Context) -> void:
+func apply_context(ctx: Context) -> bool:
 	var wm = Global.world_manager
 	var creature_instance: Creature = wm.spawn_character(creature_data_path, ctx.target)
 	ctx.created_creatures.append(creature_instance)
@@ -14,3 +14,4 @@ func apply_context(ctx: Context) -> void:
 	if ctx.shared_context and not ctx.shared_context.created_conditions.is_empty():
 		for condition in ctx.shared_context.created_conditions:
 			condition.linked_creatures.append(creature_instance)
+	return true

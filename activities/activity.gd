@@ -40,9 +40,8 @@ class_name Activity
 @export var is_invisible: bool = false
 @export var triggers_reaction: bool = true
 @export var is_spell: bool = false
-@export var toggleable: bool = false
-@export var builds_condition: bool = false
 @export var per_round_drain: bool = false
+@export var builds_condition: bool = false
 @export var condition_id: String = ""
 @export var attack_types: Array[DamagePattern]
 @export var ai_hint: AIHint
@@ -237,6 +236,12 @@ func process_barriers(ctx: ActivityContext) -> void:
 		var ctx_target = ctx.target
 		if ctx_target is Entity and ctx.target.has_method("process_barriers"):
 			ctx_target.process_barriers(ctx)
+
+func validate_condition_absence(entity: Entity) -> bool:
+	if condition_id:
+		if entity.get_condition_by_id(condition_id):
+			return false
+	return true
 
 func is_valid_target_point(point: Vector3i, requires_los: bool = true) -> bool:
 	origin = user.get_coords()

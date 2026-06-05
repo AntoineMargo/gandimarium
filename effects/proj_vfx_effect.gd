@@ -4,7 +4,7 @@ class_name ProjVFXEffect
 @export var projectile_scene: PackedScene
 @export var config: ProjectileConfig
 
-func apply_context(ctx: ActivityContext) -> void:
+func apply_context(ctx: Context) -> bool:
 	var proj = projectile_scene.instantiate()
 	proj.setup(config)
 
@@ -14,4 +14,4 @@ func apply_context(ctx: ActivityContext) -> void:
 	ctx.projectile_instance = proj
 	
 	proj.launch_with_payload(ctx)
-	
+	return true

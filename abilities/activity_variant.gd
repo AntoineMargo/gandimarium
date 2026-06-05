@@ -20,13 +20,15 @@ func pre_execute(user: Entity) -> Activity:
 	for modifier in modifiers:
 		instance_modifiers.append(modifier)
 	
+	var pre_ctx = instance._build_context()
+	instance.compute_spell_reach() # Could be after pre_execution_bundle_modify()
+	instance.pre_execution_bundle_modify(pre_ctx)
+	
 	if instance_modifiers:
-		var pre_ctx = instance._build_context()
-		instance.compute_spell_reach() # Could be after pre_execution_bundle_modify()
-		instance.pre_execution_bundle_modify(pre_ctx)
-		
 		for i in range(instance_modifiers.size() - 1, -1, -1):
-			if instance_modifiers[i].stage == Enums.ActivityStage.PRE_EXECUTION:
+			if instance_modifiers[i] is EffectModifier:
+				instance_modifiers.remove_at(i)
+			elif instance_modifiers[i] is ValueModifier and instance_modifiers[i].stage == Enums.ActivityStage.PRE_EXECUTION:
 				instance_modifiers.remove_at(i)
 
 	return instance

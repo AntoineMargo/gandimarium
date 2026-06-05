@@ -11,7 +11,7 @@ class_name SpellDamageEffect
 func apply(_source, _target, _degree: int = 2) -> void:
 	pass
 
-func apply_context(ctx: ActivityContext) -> void:
+func apply_context(ctx: Context) -> bool:
 	if damage_pattern == null:
 		damage_pattern = Library.get_dmg_pattern("default")
 	var user = ctx.user
@@ -33,3 +33,4 @@ func apply_context(ctx: ActivityContext) -> void:
 
 	if ctx.target and ctx.target.has_method("take_damage"):
 		ctx.target.take_damage(final_total_damage, final_resistance)
+	return true

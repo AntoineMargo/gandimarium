@@ -5,7 +5,7 @@ class_name ModifyItemEffect
 @export var condition_id: String = ""
 @export var entries: Array[StatEntry] = []
 
-func apply_context(ctx: ActivityContext) -> void:
+func apply_context(ctx: Context) -> bool:
 	for item in ctx.created_items:
 		for condition in item.conditions:
 			if condition.id != condition_id:
@@ -27,6 +27,4 @@ func apply_context(ctx: ActivityContext) -> void:
 						#for entry in entries:
 							#if modifier_entry.stat == entry.stat:
 								#modifier_entry.amount = entry.get_amount(ctx, null)
-
-func remove(_source, _target, _degree):
-	pass
+	return true

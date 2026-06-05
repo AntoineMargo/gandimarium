@@ -3,6 +3,6 @@ class_name AddBarrierEffect
 
 @export var barrier: Barrier = null
 
-func apply_context(ctx: Context) -> void:
+func apply_context(ctx: Context) -> bool:
 	ctx.target.add_barrier(barrier, ctx)
-	print("Barrier added!")
+	return true

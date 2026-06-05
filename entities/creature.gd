@@ -176,10 +176,11 @@ func remove_condition_by_id(condition_id: String):
 			condition = existing_cond
 	if not condition:
 		return
-	for effect in condition.effects:
-		effect.remove(self, self)
 	data.conditions.erase(condition)
 	end_mutation()
+	if Global.selected_char == self:
+		SignalBus.update_inventory.emit()
+		SignalBus.update_character_info.emit()
 
 func remove_condition(condition: Condition):
 	start_mutation()

@@ -1,47 +1,23 @@
 extends Effect
 class_name AddConditionEffect
 
-enum Behaviour {
-	TOGGLE,
-	RE_APPLY
-}
-
 enum Recipient {
 	TARGET,
 	USER
 }
 
-@export var behaviour: Behaviour = Behaviour.TOGGLE
 @export var recipient: Recipient = Recipient.TARGET
 @export var condition: Condition = null
 
-#func apply(_source, _target, _degree: int = 2) -> void:
-	#pass
-
-func apply_context(ctx: Context) -> void:
+func apply_context(ctx: Context) -> bool:
 	if recipient == Recipient.TARGET:
 		ctx.condition_recipient = ctx.target
 	elif recipient == Recipient.USER:
 		ctx.condition_recipient = ctx.user
 	ctx.condition = condition
-	if behaviour == Behaviour.RE_APPLY and ctx.condition_recipient.get_condition_by_id(condition.id):
-		ctx.condition_recipient.add_condition_from(ctx)
-		#ctx.condition_recipient.toggle_condition(ctx)
+	if ctx.condition_recipient.get_condition_by_id(condition.id):
+			return false
 	var instance = ctx.condition_recipient.add_condition_from(ctx)
-	#var instance = ctx.condition_recipient.toggle_condition(ctx)
 	if ctx is ActivityContext and ctx.shared_context:
 		ctx.shared_context.created_conditions.append(instance)
-
-#func apply_context(ctx: ActivityContext) -> void:
-	#ctx.shared_context.created_conditions.append(condition)
-	#ctx.condition = condition
-	#if behaviour == Behaviour.RE_APPLY and ctx.target.get_condition_by_id(condition.id):
-		#ctx.target.toggle_condition(ctx)
-	#ctx.target.toggle_condition(ctx)
-
-#func apply_context(ctx: ActivityContext) -> void:
-	#if behaviour == Behaviour.RE_APPLY and ctx.target.get_condition_by_id(condition.id):
-		#ctx.target.toggle_condition(ctx)
-	#var instance = ctx.target.toggle_condition(ctx)
-	#ctx.shared_context.created_conditions.append(instance)
-	#ctx.condition = instance
+	return true

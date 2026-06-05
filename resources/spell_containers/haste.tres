@@ -58,6 +58,7 @@ requires_roll = false
 is_spell = true
 builds_condition = true
 per_round_drain = true
+condition_id = "cond_haste"
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 
 [sub_resource type="Resource" id="Resource_pjx05"]

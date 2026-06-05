@@ -1,0 +1,91 @@
+[gd_resource type="Resource" script_class="Talent" format=3 uid="uid://dudvmrqg7csas"]
+
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_hsfwt"]
+[ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="2_07aps"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="3_adws7"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="4_0pg2y"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="5_b8r46"]
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="6_0pbip"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="7_2ql8d"]
+[ext_resource type="Script" uid="uid://bwfaipulxr7tq" path="res://effects/damage_effect.gd" id="8_uvj51"]
+[ext_resource type="Script" uid="uid://cmhyhgvqkynx1" path="res://activity_modifiers/effect_modifier.gd" id="9_xqoaa"]
+[ext_resource type="Script" uid="uid://dywclcl7k47vv" path="res://effects/activity_modifier_effect.gd" id="10_liks1"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="11_36oo3"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="12_siitb"]
+[ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="13_6spon"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="14_algh0"]
+[ext_resource type="Script" uid="uid://g1muvdggkxqa" path="res://effects/add_activity_effect.gd" id="15_njava"]
+[ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="16_1dea1"]
+
+[sub_resource type="Resource" id="Resource_6do6a"]
+script = ExtResource("4_0pg2y")
+pattern = [0, 1, 1, 1]
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_6bqxs"]
+script = ExtResource("8_uvj51")
+dice_number = 10
+resistance = 3
+damage_pattern = SubResource("Resource_6do6a")
+metadata/_custom_type_script = "uid://bwfaipulxr7tq"
+
+[sub_resource type="Resource" id="Resource_i1vai"]
+script = ExtResource("9_xqoaa")
+effects_to_append = Array[ExtResource("1_hsfwt")]([SubResource("Resource_6bqxs")])
+metadata/_custom_type_script = "uid://cmhyhgvqkynx1"
+
+[sub_resource type="Resource" id="Resource_0f87m"]
+script = ExtResource("10_liks1")
+modifier = SubResource("Resource_i1vai")
+metadata/_custom_type_script = "uid://dywclcl7k47vv"
+
+[sub_resource type="Resource" id="Resource_lg18g"]
+script = ExtResource("12_siitb")
+name = "Frost Attacks"
+id = "cond_frost_attacks"
+re_apply_effects = false
+effects = Array[ExtResource("1_hsfwt")]([SubResource("Resource_0f87m")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_a1dd3"]
+script = ExtResource("14_algh0")
+recipient = 1
+condition = SubResource("Resource_lg18g")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_2pi6g"]
+script = ExtResource("6_0pbip")
+name = "Frost Attacks"
+id = "act_frost_attacks"
+AP_cost = 0
+reach_requires_LOS = false
+spread_requires_LOS = false
+reach = 0
+self_final_effects = Array[ExtResource("1_hsfwt")]([SubResource("Resource_a1dd3")])
+requires_roll = false
+toggleable = true
+builds_condition = true
+condition_id = "cond_frost_attacks"
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_fy8mk"]
+script = ExtResource("3_adws7")
+activity = SubResource("Resource_2pi6g")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_6xrao"]
+script = ExtResource("2_07aps")
+name = "Frost Attacks"
+activities = Array[ExtResource("3_adws7")]([SubResource("Resource_fy8mk")])
+metadata/_custom_type_script = "uid://covfnqv811mqd"
+
+[sub_resource type="Resource" id="Resource_2c6da"]
+script = ExtResource("15_njava")
+activities = Array[ExtResource("2_07aps")]([SubResource("Resource_6xrao")])
+metadata/_custom_type_script = "uid://g1muvdggkxqa"
+
+[resource]
+script = ExtResource("16_1dea1")
+name = "Frost Attacks"
+effects = Array[ExtResource("1_hsfwt")]([SubResource("Resource_2c6da")])
+metadata/_custom_type_script = "uid://c5ijx7qo7jak"

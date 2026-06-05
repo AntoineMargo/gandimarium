@@ -7,6 +7,8 @@ var origin = null
 
 var target = null
 
+var degree: int = 0
+
 var condition: Condition = null
 var condition_recipient: Entity = null
 

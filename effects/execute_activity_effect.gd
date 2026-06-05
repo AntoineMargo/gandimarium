@@ -18,7 +18,7 @@ func clone_context(ctx: ActivityContext) -> ActivityContext:
 		new_ctx.reuse_resolution = true
 	return new_ctx
 
-func apply_context(ctx: Context) -> void:
+func apply_context(ctx: Context) -> bool:
 	var new_context: ActivityContext = clone_context(ctx)
 	var instance = activity.duplicate(true)
 	instance.imported_context = new_context
@@ -29,3 +29,4 @@ func apply_context(ctx: Context) -> void:
 		target_point = ctx.target.get_coords()
 	instance.target_points.append(target_point)
 	instance.execute()
+	return true

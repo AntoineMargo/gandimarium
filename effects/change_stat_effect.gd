@@ -20,17 +20,3 @@ func apply(source, target, _degree: int = 2):
 				target.replace_stat_enum(entry.get_type(), entry.get_stat(), entry.get_amount(source, target))
 			Type.MULTIPLY:
 				target.multiply_stat_enum(entry.get_type(), entry.get_stat(), entry.get_amount(source, target))
-
-
-#@export var type: Type = Type.ADD
-#@export var entries: Array[StatEntry] = []
-#
-#func apply(source, target, _degree: int = 2):
-	#for entry in entries:
-		#match type:
-			#Type.ADD:
-				#target.change_stat_enum(entry.get_type(), entry.get_stat(), entry.get_amount(source, target))
-			#Type.REPLACE:
-				#target.replace_stat_enum(entry.get_type(), entry.get_stat(), entry.get_amount(source, target))
-			#Type.MULTIPLY:
-				#target.multiply_stat_enum(entry.get_type(), entry.get_stat(), entry.get_amount(source, target))
