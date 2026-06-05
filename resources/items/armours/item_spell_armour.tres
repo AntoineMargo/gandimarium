@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="6_a4vmi"]
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="7_0t3kt"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="8_r0big"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://conditions/shader_effect.gd" id="9_jdpfn"]
 
 [sub_resource type="Resource" id="Resource_0t3kt"]
 script = ExtResource("4_egja4")
@@ -28,6 +29,12 @@ script = ExtResource("5_jdpfn")
 entry_containers = Array[ExtResource("3_egja4")]([SubResource("Resource_f28xi")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
+[sub_resource type="Resource" id="Resource_a4vmi"]
+script = ExtResource("9_jdpfn")
+parameter_name = "aura_amount"
+value = 0.5
+metadata/_custom_type_script = "uid://cphr788gebsk2"
+
 [sub_resource type="Resource" id="Resource_kmkm1"]
 script = ExtResource("1_rbbdi")
 name = "Spell Armour (derived)"
@@ -35,6 +42,7 @@ id = "cond_spell_armour_derived"
 persistent = false
 effects = Array[ExtResource("2_01dd0")]([SubResource("Resource_ykpp3")])
 is_visible = false
+shader_effects = Array[ExtResource("9_jdpfn")]([SubResource("Resource_a4vmi")])
 metadata/_custom_type_script = "uid://dvi4ohsador2o"
 
 [resource]

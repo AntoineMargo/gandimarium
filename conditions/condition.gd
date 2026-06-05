@@ -23,6 +23,7 @@ signal ended
 @export var generate_semi_unique_id: bool = false
 
 @export var vfx_scenes: Array[PackedScene]
+@export var shader_effects: Array[ShaderEffect]
 
 # === Runtime ===
 

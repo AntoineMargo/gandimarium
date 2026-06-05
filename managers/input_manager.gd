@@ -178,7 +178,11 @@ func BasicControls():
 			SignalBus.dialog_show_message.emit("	%s" % [target.data.name])
 
 	if Input.is_action_just_pressed("E"):
-		pass
+		if not Global.selected_char:
+			return
+		var character = Global.selected_char
+		character.rebuild_shader()
+		SignalBus.dialog_show_message.emit("Shader for selected creature has been rebuilt!")
 
 	if Input.is_action_just_pressed("B"):
 		if not Global.selected_char:

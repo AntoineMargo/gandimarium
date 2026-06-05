@@ -1142,6 +1142,48 @@ func destroy_self():
 	Global.crisis_manager.remove_from_initiative_order(self)
 	queue_free()
 
+func rebuild_shader():
+	var shader_mat = sprite_node.material as ShaderMaterial
+	if shader_mat == null:
+		return
+
+	# Base values reset
+	shader_mat.set_shader_parameter("grayscale_amount", 0.0)
+	shader_mat.set_shader_parameter("wounded_amount", 0.0)
+	shader_mat.set_shader_parameter("hit_intensity", 0.0)
+
+	shader_mat.set_shader_parameter("aura_amount", 0.0)
+	shader_mat.set_shader_parameter("aura_color", Color(0.7, 0.85, 1.0))
+
+	var accum: Dictionary = {}
+
+	for condition in data.conditions:
+		for effect in condition.shader_effects:
+
+			var key = effect.parameter_name
+			var value = effect.value
+
+			if not accum.has(key):
+				accum[key] = value
+			else:
+				accum[key] = max(accum[key], value)
+
+	for key in accum:
+		shader_mat.set_shader_parameter(key, accum[key])
+
+#func rebuild_shader():
+	#var shader_mat = sprite_node.material as ShaderMaterial
+	#if shader_mat == null:
+		#return
+#
+	#for condition in data.conditions:
+		#for effect in condition.shader_effects:
+#
+			#var parameter_name = effect.parameter_name
+			#var value = effect.value
+#
+			#shader_mat.set_shader_parameter(parameter_name, value)
+
 func _ready():
 	print("Creature getting ready!")
 	if not health_bar_scene:

@@ -3,13 +3,13 @@
 [ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creature.gd" id="1_ss4pg"]
 [ext_resource type="PackedScene" uid="uid://wqxs6c21eg4g" path="res://interface/local_map/health_bar/health_bar.tscn" id="2_w4hkv"]
 [ext_resource type="Texture2D" uid="uid://bcjmxhgemswtr" path="res://art/characters/hooded_char.png" id="4_4w7f4"]
+[ext_resource type="Shader" uid="uid://cxw8dhhjld7uv" path="res://shaders/creature_general.gdshader" id="4_vsju1"]
 [ext_resource type="Script" uid="uid://bufus6wx0rpcx" path="res://entities/hit_flash.gd" id="5_l4b1g"]
 [ext_resource type="Script" uid="uid://b52a57vjokam7" path="res://AI/ai_controller.gd" id="5_ud2rd"]
 [ext_resource type="Script" uid="uid://dtu6ryfnfv5lx" path="res://entities/outline.gd" id="6_7srhi"]
 [ext_resource type="Script" uid="uid://d34g8yxog7bux" path="res://AI/overmap_ai.gd" id="6_jjh6p"]
 [ext_resource type="Shader" uid="uid://d3bhdpwfbbg1x" path="res://shaders/outline.gdshader" id="6_puink"]
 [ext_resource type="Script" uid="uid://c322dqhnn6or0" path="res://AI/local_ai.gd" id="7_dlu0d"]
-[ext_resource type="Shader" uid="uid://d3fol7vawwuyd" path="res://shaders/damaged_combined.gdshader" id="7_vsju1"]
 [ext_resource type="Script" uid="uid://0c01n60cxt6k" path="res://AI/crisis_ai.gd" id="8_7mdsa"]
 [ext_resource type="Script" uid="uid://dbqssotspewok" path="res://AI/AI_modules/situation_module.gd" id="8_dlu0d"]
 [ext_resource type="Script" uid="uid://1k1qnfgd0xpj" path="res://entities/grid_mover.gd" id="8_vsju1"]
@@ -19,13 +19,17 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7mdsa"]
 resource_local_to_scene = true
-shader = ExtResource("7_vsju1")
+shader = ExtResource("4_vsju1")
+shader_parameter/melt_amount = 0.0
 shader_parameter/grayscale_amount = 0.0
 shader_parameter/wounded_amount = 0.0
 shader_parameter/wounded_color = Vector3(1, 0.1, 0.1)
 shader_parameter/wounded_strength = 1.5
 shader_parameter/hit_intensity = 0.0
 shader_parameter/hit_color = Vector3(1, 0.1, 0.1)
+shader_parameter/aura_amount = 0.0
+shader_parameter/aura_color = Vector3(0.7, 0.85, 1)
+shader_parameter/fade_amount = 0.0
 
 [sub_resource type="Curve" id="Curve_l4b1g"]
 _data = [Vector2(0, 0.002162218), 0.0, 0.0, 0, 0, Vector2(0.060773477, 0.9929729), 0.0, 0.0, 0, 0, Vector2(0.8950276, 0), 0.0, 0.0, 0, 0]
