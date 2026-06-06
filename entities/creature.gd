@@ -971,6 +971,7 @@ func update_stats():
 	update_mover_speed()
 	SignalBus.add_to_initiative.emit(self)
 	SignalBus.update_ui_for_char.emit()
+	rebuild_shader()
 
 func update_mover_speed() -> void:
 	$Mover.max_speed = get_stat("max_mp") * Global.TILE_SIZE * 0.5
@@ -1155,6 +1156,10 @@ func rebuild_shader():
 	shader_mat.set_shader_parameter("aura_amount", 0.0)
 	shader_mat.set_shader_parameter("aura_color", Color(0.7, 0.85, 1.0))
 
+	shader_mat.set_shader_parameter("pulse_speed", 0.0)
+	shader_mat.set_shader_parameter("pulse_offset", 0.0)
+	shader_mat.set_shader_parameter("pulse_sharpness", 0.0)
+
 	var accum: Dictionary = {}
 
 	for condition in data.conditions:
@@ -1167,6 +1172,11 @@ func rebuild_shader():
 				accum[key] = value
 			else:
 				accum[key] = max(accum[key], value)
+				
+			if effect.pulse != null:
+				shader_mat.set_shader_parameter("pulse_speed", effect.pulse.speed)
+				shader_mat.set_shader_parameter("pulse_offset", effect.pulse.offset)
+				shader_mat.set_shader_parameter("pulse_sharpness", effect.pulse.sharpness)
 
 	for key in accum:
 		shader_mat.set_shader_parameter(key, accum[key])

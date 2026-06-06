@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="11_1814x"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="12_c62sf"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="12_dfo0a"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="12_vngne"]
 
 [sub_resource type="Resource" id="Resource_c62sf"]
 script = ExtResource("5_5y5lw")

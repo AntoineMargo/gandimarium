@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="8_lqjs6"]
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="9_7j608"]
 [ext_resource type="Script" uid="uid://dl10wytkh5ohd" path="res://conditions/end_requirements/activities_completed.gd" id="10_3lmte"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="11_fxw60"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="11_p86pi"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="12_fxw60"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="12_mh4b1"]
@@ -60,9 +61,8 @@ projectile_batch_mode = null
 requires_roll = false
 is_invisible = null
 is_spell = true
-toggleable = null
-builds_condition = true
 per_round_drain = true
+builds_condition = true
 attack_types = null
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 

@@ -10,7 +10,8 @@
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="6_a4vmi"]
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="7_0t3kt"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="8_r0big"]
-[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://conditions/shader_effect.gd" id="9_jdpfn"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="9_jdpfn"]
+[ext_resource type="Script" uid="uid://l76qcdu2mdkb" path="res://VFX/pulse_profile.gd" id="10_a4vmi"]
 
 [sub_resource type="Resource" id="Resource_0t3kt"]
 script = ExtResource("4_egja4")
@@ -29,10 +30,21 @@ script = ExtResource("5_jdpfn")
 entry_containers = Array[ExtResource("3_egja4")]([SubResource("Resource_f28xi")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
+[sub_resource type="Resource" id="Resource_wrxiw"]
+script = ExtResource("10_a4vmi")
+metadata/_custom_type_script = "uid://l76qcdu2mdkb"
+
 [sub_resource type="Resource" id="Resource_a4vmi"]
 script = ExtResource("9_jdpfn")
 parameter_name = "aura_amount"
-value = 0.5
+value = 1.5
+pulse = SubResource("Resource_wrxiw")
+metadata/_custom_type_script = "uid://cphr788gebsk2"
+
+[sub_resource type="Resource" id="Resource_q2i6h"]
+script = ExtResource("9_jdpfn")
+parameter_name = "aura_color"
+value = Vector3(0, 0.75, 0.8)
 metadata/_custom_type_script = "uid://cphr788gebsk2"
 
 [sub_resource type="Resource" id="Resource_kmkm1"]
@@ -42,7 +54,7 @@ id = "cond_spell_armour_derived"
 persistent = false
 effects = Array[ExtResource("2_01dd0")]([SubResource("Resource_ykpp3")])
 is_visible = false
-shader_effects = Array[ExtResource("9_jdpfn")]([SubResource("Resource_a4vmi")])
+shader_effects = Array[ExtResource("9_jdpfn")]([SubResource("Resource_a4vmi"), SubResource("Resource_q2i6h")])
 metadata/_custom_type_script = "uid://dvi4ohsador2o"
 
 [resource]

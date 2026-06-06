@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://62ayu2esarc8" path="res://effects/area_condition_tile_effect.gd" id="12_mm3b5"]
 [ext_resource type="Script" uid="uid://417qkf3j2ise" path="res://effects/change_status_effect.gd" id="12_v53se"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="13_gjpf7"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="14_v53se"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="15_v53se"]
 
 [sub_resource type="Resource" id="Resource_2x3kp"]
@@ -83,9 +84,8 @@ target_effects = Array[ExtResource("6_wrc7h")]([SubResource("Resource_n5vkd")])
 targeting_type = 1
 affected_type = 1
 is_spell = true
-toggleable = true
-builds_condition = true
 per_round_drain = true
+builds_condition = true
 condition_id = "area_cond_solid_fog"
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 

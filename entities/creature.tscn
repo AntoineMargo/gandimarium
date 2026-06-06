@@ -30,6 +30,9 @@ shader_parameter/hit_color = Vector3(1, 0.1, 0.1)
 shader_parameter/aura_amount = 0.0
 shader_parameter/aura_color = Vector3(0.7, 0.85, 1)
 shader_parameter/fade_amount = 0.0
+shader_parameter/pulse_speed = 2.0
+shader_parameter/pulse_offset = 0.0
+shader_parameter/pulse_sharpness = 0.0
 
 [sub_resource type="Curve" id="Curve_l4b1g"]
 _data = [Vector2(0, 0.002162218), 0.0, 0.0, 0, 0, Vector2(0.060773477, 0.9929729), 0.0, 0.0, 0, 0, Vector2(0.8950276, 0), 0.0, 0.0, 0, 0]

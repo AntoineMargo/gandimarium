@@ -62,7 +62,6 @@ uniform vec3 hit_color = vec3(1.0, 1.0, 0.0);
 uniform float aura_amount : hint_range(0.0, 1.0) = 0.0;
 uniform vec3 aura_color = vec3(0.7, 0.85, 1.0);
 
-
 /* ============================================================
  * ALPHA / MASK STAGE
  * ============================================================
@@ -127,6 +126,27 @@ vec3 process_color(vec3 color) {
 	return color;
 }
 
+/* ============================================================
+ * PULSE
+ * ============================================================
+ */
+
+uniform float pulse_speed = 2.0;
+uniform float pulse_offset = 0.0;
+uniform float pulse_sharpness = 0.0;
+
+float pulse(float t, float speed, float offset, float sharpness) {
+
+	float x = sin(t * speed + offset);
+
+	x = x * 0.5 + 0.5;
+
+	if (sharpness > 0.0) {
+		x = pow(x, mix(1.0, 6.0, sharpness));
+	}
+
+	return x;
+}
 
 /* ============================================================
  * EMISSION PROCESSING
@@ -135,11 +155,16 @@ vec3 process_color(vec3 color) {
 
 vec3 process_emission(vec3 color) {
 
-	/* Mage armour glow */
+	float p = pulse(
+		TIME,
+		pulse_speed,
+		pulse_offset,
+		pulse_sharpness
+	);
 
-	color += aura_color * aura_amount;
+	float aura_strength = aura_amount * mix(0.75, 1.5, p);
 
-	/* Hit flash remains dominant */
+	color += aura_color * aura_strength * 0.25;
 
 	color = mix(
 		color,
@@ -149,7 +174,6 @@ vec3 process_emission(vec3 color) {
 
 	return clamp(color, 0.0, 1.0);
 }
-
 
 /* ============================================================
  * ALPHA PROCESSING

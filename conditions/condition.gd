@@ -69,18 +69,6 @@ func clear_vfx() -> void:
 	
 	vfx_instances.clear()
 
-#func apply_vfx() -> void:
-	#if not vfx_scene:
-		#return
-#
-	#var vfx = vfx_scene.instantiate()
-	#vfx.modulate = Color(0.5, 0.5, 0.5, 0.5)
-#
-	#target.vfx_container.add_child(vfx)
-#
-	##vfx.global_position = target.global_position
-	#vfx_instance = vfx
-
 func is_active() -> bool:
 	return not sources.is_empty()
 
@@ -112,6 +100,8 @@ func initialize(ctx: Context) -> void:
 	if duration > 0:
 		end_time = start_time + duration
 		SignalBus.time_changed.connect(verify_expired)
+	
+	target.rebuild_shader()
 
 func apply_effects(ctx: Context = null) -> void:
 	if not ctx:

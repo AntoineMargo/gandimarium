@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="9_mfkba"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="10_ejimf"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="11_lp12k"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="11_mrq3i"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="11_pssu5"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="12_36nec"]
 
@@ -45,8 +46,8 @@ requires_concentration = true
 reach = 20
 target_effects = Array[ExtResource("6_rc5a5")]([SubResource("Resource_h33oj")])
 is_spell = true
-builds_condition = true
 per_round_drain = true
+builds_condition = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 
 [sub_resource type="Resource" id="Resource_5n0cy"]

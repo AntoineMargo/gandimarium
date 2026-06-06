@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="11_wsh08"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="12_ai1xq"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="12_mb7yc"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="13_dsm25"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="13_rybuj"]
 [ext_resource type="PackedScene" uid="uid://shycfg3x2og6" path="res://VFX/static/silhouette.tscn" id="14_hrhew"]
 
@@ -56,8 +57,8 @@ reach = 20
 target_effects = Array[ExtResource("6_s6jws")]([SubResource("Resource_ony64")])
 requires_roll = false
 is_spell = true
-builds_condition = true
 per_round_drain = true
+builds_condition = true
 condition_id = "cond_haste"
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 
