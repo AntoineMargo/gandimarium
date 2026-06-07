@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+@onready var control = get_node_or_null("Character")
+
 func get_archetype_name(archetype) -> String:
 	if archetype:
 		match archetype.type:

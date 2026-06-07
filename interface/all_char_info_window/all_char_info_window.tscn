@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://gy1u5wwwbl5u" path="res://interface/all_char_info_window/all_char_info_window.gd" id="1_uemp0"]
 
 [node name="AllCharInfoWindow" type="CanvasLayer" unique_id=354679180]
+script = ExtResource("1_uemp0")
 
 [node name="Control" type="Control" parent="." unique_id=449175128]
 custom_minimum_size = Vector2(500, 500)
@@ -18,7 +19,6 @@ offset_right = 300.0
 offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_uemp0")
 
 [node name="ColorRect" type="ColorRect" parent="Control" unique_id=1582668210]
 layout_mode = 1

@@ -27,6 +27,7 @@ var game_root = null
 
 @onready var world_info = preload("res://interface/screen/world_info.tscn").instantiate()
 
+var active_window: Node = all_info_window
 var ui_log: RichTextLabel = null
 var menu_instance: Node = null
 var items_list: VBoxContainer = null
@@ -101,6 +102,18 @@ func create_player_party():
 func wait_frame(amount: int = 1):
 	for i in range(amount):
 		await get_tree().process_frame
+
+func set_active_window(window: Node) -> void:
+	if active_window == window:
+		return
+	all_info_window.layer = 100
+	character_window.layer = 100
+	container_window.layer = 100
+	inventory_window.layer = 100
+
+	active_window = window
+	active_window.layer = 200
+	#SignalBus.dialog_show_message.emit("all_info_window z-level: %d" % [all_info_window.control.z_index])
 
 func _ready() -> void:
 	randomize()

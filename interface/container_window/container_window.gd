@@ -3,6 +3,8 @@ class_name ContainerWindow
 
 var current_container: ContainerProp = null
 
+@onready var control = get_node_or_null("Control")
+
 func _on_update_container(container_prop: ContainerProp = current_container) -> void:
 	if container_prop:
 		current_container = container_prop

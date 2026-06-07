@@ -18,5 +18,5 @@ func _input(event):
 		global_position = get_global_mouse_position() - drag_offset
 
 func _ready() -> void:
-	z_index = 2000
+	z_index = 100
 	mouse_filter = Control.MOUSE_FILTER_PASS

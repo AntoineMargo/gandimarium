@@ -4,18 +4,19 @@ var dragging := false
 var drag_offset := Vector2.ZERO
 
 func _input(event):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed:
-				# Check if we clicked the title bar area
-				if $MainVBox/TopBar.get_global_rect().has_point(get_global_mouse_position()):
-					dragging = true
-					drag_offset = get_global_mouse_position() - global_position
-			else:
-				dragging = false
+	if visible:
+		if event is InputEventMouseButton:
+			if event.button_index == MOUSE_BUTTON_LEFT:
+				if event.pressed:
+					# Check if we clicked the title bar area
+					if $MainVBox/TopBar.get_global_rect().has_point(get_global_mouse_position()):
+						dragging = true
+						drag_offset = get_global_mouse_position() - global_position
+				else:
+					dragging = false
 
-	elif event is InputEventMouseMotion and dragging:
-		global_position = get_global_mouse_position() - drag_offset
+		elif event is InputEventMouseMotion and dragging:
+			global_position = get_global_mouse_position() - drag_offset
 
 
 func _on_exit_pressed() -> void:
