@@ -19,7 +19,7 @@ func _on_update_container(container_prop: ContainerProp = current_container) -> 
 
 	var items = container_prop.inventory.list
 	for i in range(items.size()):
-		var element = preload("res://interface/inventory_window/inventory_element.tscn").instantiate()
+		var element = preload("res://interface/inventory_element/inventory_element.tscn").instantiate()
 		element.items_interface = Enums.ItemsList.CONTAINER
 		element.index = i
 		element.item = items[i]

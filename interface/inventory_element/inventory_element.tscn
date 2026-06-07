@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cclh5qj1d70yt"]
 
-[ext_resource type="Script" uid="uid://cshqa15xf6uqg" path="res://interface/inventory_window/inventory_element.gd" id="1_turg8"]
+[ext_resource type="Script" uid="uid://cshqa15xf6uqg" path="res://interface/inventory_element/inventory_element.gd" id="1_turg8"]
 
 [node name="InventoryElement" type="HBoxContainer" unique_id=1768787366]
 custom_minimum_size = Vector2(0, 20)

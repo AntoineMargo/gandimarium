@@ -649,7 +649,7 @@ func update_spell_list_for_chosen_rank():
 
 func _ready() -> void:
 	#SignalBus.update_inventory.connect(_on_update_inventory_window)
-	SignalBus.update_character_info.connect(_on_update_character_info)
+	#SignalBus.update_character_info.connect(_on_update_character_info)
 	SignalBus.drop_item_on_tile.connect(_on_drop_item_on_tile)
 	SignalBus.update_ui_for_char.connect(update_ui_for_char)
 	SignalBus.toggle_end_turn_button.connect(_on_toggle_end_turn_button)

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://gy1u5wwwbl5u" path="res://interface/all_char_info_window/all_char_info_window.gd" id="1_uemp0"]
 [ext_resource type="Script" uid="uid://vvd83c1xoqoa" path="res://interface/all_char_info_window/spells.gd" id="2_5vfer"]
+[ext_resource type="Script" uid="uid://cihphtrwm2lr5" path="res://interface/all_char_info_window/general.gd" id="2_e5lpw"]
 [ext_resource type="Script" uid="uid://dbcqmy76hs28h" path="res://interface/inventory_window/items_list.gd" id="2_mkriu"]
 [ext_resource type="Script" uid="uid://c0bpxwuw1t8pf" path="res://interface/all_char_info_window/inventory.gd" id="2_yooj1"]
 [ext_resource type="Script" uid="uid://kqor18rqe4vo" path="res://interface/inventory_window/equipmentslot.gd" id="3_yooj1"]
@@ -10,17 +11,16 @@
 script = ExtResource("1_uemp0")
 
 [node name="Control" type="Control" parent="." unique_id=449175128]
-custom_minimum_size = Vector2(500, 500)
+custom_minimum_size = Vector2(700, 700)
 layout_mode = 3
-anchors_preset = 8
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 0.4
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -300.0
-offset_top = -300.0
-offset_right = 300.0
-offset_bottom = 300.0
+anchor_bottom = 0.4
+offset_left = -350.0
+offset_top = -350.0
+offset_right = 350.0
+offset_bottom = 350.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -91,22 +91,510 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
-current_tab = 1
+current_tab = 0
 
 [node name="General" type="Panel" parent="Control/ColorRect/VBox/HBoxContainer/Tabs" unique_id=155822177]
-visible = false
 layout_mode = 2
 mouse_filter = 2
+script = ExtResource("2_e5lpw")
 metadata/_tab_index = 0
 
-[node name="Label" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General" unique_id=1148486015]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "QSDFJdfsgjuhdfighujbji"
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General" unique_id=600065911]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="Basics" type="HBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer" unique_id=1187883962]
+layout_mode = 2
+mouse_filter = 0
+
+[node name="Keys" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics" unique_id=1778534051]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="Name" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/Keys" unique_id=780765428]
+layout_mode = 2
+mouse_filter = 0
+text = "Name:"
+
+[node name="Level" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/Keys" unique_id=877655431]
+layout_mode = 2
+tooltip_text = "LALALALALALALALALA"
+mouse_filter = 0
+text = "Level:"
+
+[node name="MajorArchetype" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/Keys" unique_id=607679180]
+layout_mode = 2
+mouse_filter = 0
+text = "Major Archetype:"
+
+[node name="MinorArchetype" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/Keys" unique_id=1357623491]
+layout_mode = 2
+mouse_filter = 0
+text = "Minor Archetype:"
+
+[node name="Size" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/Keys" unique_id=2047234311]
+layout_mode = 2
+mouse_filter = 0
+text = "Size:"
+
+[node name="Vigour" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/Keys" unique_id=1206939520]
+layout_mode = 2
+mouse_filter = 0
+text = "Vigour:"
+
+[node name="StrengthBonus" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/Keys" unique_id=2096083332]
+layout_mode = 2
+mouse_filter = 0
+text = "Strength Bonus:"
+
+[node name="Speed" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/Keys" unique_id=934107200]
+layout_mode = 2
+mouse_filter = 0
+text = "Speed:"
+
+[node name="Reactions" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/Keys" unique_id=760830346]
+layout_mode = 2
+mouse_filter = 0
+text = "Reactions:"
+
+[node name="values" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics" unique_id=1312718531]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="Name" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/values" unique_id=1649496226]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+
+[node name="Level" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/values" unique_id=388215248]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "lulululululu"
+mouse_filter = 0
+
+[node name="MajorArchetype" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/values" unique_id=1684473643]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+
+[node name="MinorArchetype" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/values" unique_id=716165618]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+
+[node name="Size" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/values" unique_id=2108326161]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+
+[node name="Vigour" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/values" unique_id=2025197888]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+
+[node name="StrengthBonus" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/values" unique_id=195029144]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+
+[node name="Speed" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/values" unique_id=1853722066]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+
+[node name="Reactions" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/values" unique_id=1352017127]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics" unique_id=325727429]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+mouse_filter = 0
+
+[node name="Separator" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/VBoxContainer" unique_id=1020829421]
+layout_mode = 2
+mouse_filter = 0
+
+[node name="Attributes" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/VBoxContainer" unique_id=1940705832]
+layout_mode = 2
+mouse_filter = 0
+text = "Attributes                             "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/VBoxContainer" unique_id=447652599]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 0
+
+[node name="Keys" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/VBoxContainer/HBoxContainer" unique_id=804521250]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 0
+
+[node name="Acuity" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Keys" unique_id=1442496210]
+layout_mode = 2
+mouse_filter = 0
+text = "Acuity: "
+
+[node name="Brawn" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Keys" unique_id=2013636612]
+layout_mode = 2
+mouse_filter = 0
+text = "Brawn: "
+
+[node name="Dexterity" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Keys" unique_id=434819081]
+layout_mode = 2
+mouse_filter = 0
+text = "Dexterity: "
+
+[node name="Resolve" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Keys" unique_id=706498240]
+layout_mode = 2
+mouse_filter = 0
+text = "Resolve: "
+
+[node name="Values" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/VBoxContainer/HBoxContainer" unique_id=1783920704]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 0
+
+[node name="Acuity" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values" unique_id=1577343179]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+
+[node name="Brawn" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values" unique_id=1238963094]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+
+[node name="Dexterity" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values" unique_id=237914872]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+
+[node name="Resolve" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Basics/VBoxContainer/HBoxContainer/Values" unique_id=698040980]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+
+[node name="Separation" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer" unique_id=87995664]
+layout_mode = 2
+mouse_filter = 0
+
+[node name="AptitudesTitle" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer" unique_id=2134752531]
+layout_mode = 2
+mouse_filter = 0
+text = "Aptitudes"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Aptitudes" type="HBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer" unique_id=1502705771]
+layout_mode = 2
+mouse_filter = 0
+
+[node name="Agility" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes" unique_id=412096880]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="Key" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes/Agility" unique_id=1479586850]
+layout_mode = 2
+mouse_filter = 0
+text = "Agility"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes/Agility" unique_id=1194283970]
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Will" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes" unique_id=1588939179]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="Key" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes/Will" unique_id=1979598183]
+layout_mode = 2
+mouse_filter = 0
+text = "Will"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes/Will" unique_id=555470297]
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sense" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes" unique_id=838074272]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="Key" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes/Sense" unique_id=1277854112]
+layout_mode = 2
+mouse_filter = 0
+text = "Sense"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes/Sense" unique_id=1811486234]
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Stamina" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes" unique_id=710506519]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="Key" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes/Stamina" unique_id=951226145]
+layout_mode = 2
+mouse_filter = 0
+text = "Stamina"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes/Stamina" unique_id=1913459075]
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Offence" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes" unique_id=1838631443]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="Key" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes/Offence" unique_id=1563291156]
+layout_mode = 2
+mouse_filter = 0
+text = "Offence"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes/Offence" unique_id=1366306097]
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MeleeDefence" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes" unique_id=1113255594]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="Key" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes/MeleeDefence" unique_id=1910220659]
+layout_mode = 2
+mouse_filter = 0
+text = "Melee D."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes/MeleeDefence" unique_id=1595449485]
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RangedDefence" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes" unique_id=2046917335]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="Key" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes/RangedDefence" unique_id=1172425698]
+layout_mode = 2
+mouse_filter = 0
+text = "Ranged D."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Aptitudes/RangedDefence" unique_id=770380772]
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Separation2" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer" unique_id=1341274786]
+layout_mode = 2
+mouse_filter = 0
+
+[node name="ResistancesTitle" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer" unique_id=216358212]
+layout_mode = 2
+mouse_filter = 0
+text = "Resistances"
+horizontal_alignment = 1
+
+[node name="Resistances" type="HBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer" unique_id=1240614309]
+layout_mode = 2
+mouse_filter = 0
+
+[node name="Physical" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances" unique_id=1990302959]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="Key" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances/Physical" unique_id=327101041]
+layout_mode = 2
+mouse_filter = 0
+text = "Physical"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances/Physical" unique_id=342010526]
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Heat" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances" unique_id=784827837]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="Key" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances/Heat" unique_id=1479184106]
+layout_mode = 2
+mouse_filter = 0
+text = "Heat"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances/Heat" unique_id=951778119]
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cold" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances" unique_id=1916406618]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="Key" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances/Cold" unique_id=311322437]
+layout_mode = 2
+mouse_filter = 0
+text = "Cold"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances/Cold" unique_id=336225904]
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Electricity" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances" unique_id=1127702575]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="Key" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances/Electricity" unique_id=1717397622]
+layout_mode = 2
+mouse_filter = 0
+text = "Electri."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances/Electricity" unique_id=2030489534]
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Corrosion" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances" unique_id=1808204946]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="Key" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances/Corrosion" unique_id=1415788797]
+layout_mode = 2
+mouse_filter = 0
+text = "Corros."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances/Corrosion" unique_id=1452585947]
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Poison" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances" unique_id=1616937208]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="Key" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances/Poison" unique_id=1578827524]
+layout_mode = 2
+mouse_filter = 0
+text = "Poison"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances/Poison" unique_id=1496447652]
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Psychic" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances" unique_id=1518603095]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+
+[node name="Key" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances/Psychic" unique_id=1678895734]
+layout_mode = 2
+mouse_filter = 0
+text = "Psychic"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer/Resistances/Psychic" unique_id=762570361]
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Separation3" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer" unique_id=998887956]
+layout_mode = 2
+mouse_filter = 0
+
+[node name="Talents" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer" unique_id=1020381229]
+layout_mode = 2
+mouse_filter = 0
+text = "Talents: "
+
+[node name="TalentContainer" type="HFlowContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer" unique_id=859464712]
+layout_mode = 2
+mouse_filter = 0
+
+[node name="Conditions" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer" unique_id=1185971427]
+layout_mode = 2
+mouse_filter = 0
+text = "Conditions: "
+
+[node name="ConditionContainer" type="HFlowContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General/VBoxContainer" unique_id=1927158021]
+layout_mode = 2
+mouse_filter = 0
 
 [node name="Inventory" type="Panel" parent="Control/ColorRect/VBox/HBoxContainer/Tabs" unique_id=1099712994]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("2_yooj1")

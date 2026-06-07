@@ -14,7 +14,7 @@ func _on_update_inventory_window() -> void:
 		return
 	var items = character.get_inventory()
 	for i in range(items.size()):
-		var element = preload("res://interface/inventory_window/inventory_element.tscn").instantiate()
+		var element = preload("res://interface/inventory_element/inventory_element.tscn").instantiate()
 		element.items_interface = Enums.ItemsList.INVENTORY
 		element.index = i
 		element.item = items[i]

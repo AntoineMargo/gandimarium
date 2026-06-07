@@ -99,10 +99,14 @@ func BasicControls():
 	if Input.is_action_just_pressed("C"):
 		if not Global.selected_char:
 			return
-		#Global.selected_char.update_stats()
 		SignalBus.update_character_info.emit()
-		Global.character_window.visible = not Global.character_window.visible
-		print("Toggling character info.")
+		SignalBus.update_inventory.emit()
+		var window = Global.all_info_window
+		window.tabs.set_current_tab(0)
+		if window.visible == false:
+			window.visible = true
+		else:
+			window.visible = false
 
 	if Input.is_action_just_pressed("O"):
 		if not Global.selected_char:
