@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://3pjqljsb1657"]
 
 [ext_resource type="Script" uid="uid://gy1u5wwwbl5u" path="res://interface/all_char_info_window/all_char_info_window.gd" id="1_uemp0"]
+[ext_resource type="Script" uid="uid://vvd83c1xoqoa" path="res://interface/all_char_info_window/spells.gd" id="2_5vfer"]
 
 [node name="AllCharInfoWindow" type="CanvasLayer" unique_id=354679180]
 script = ExtResource("1_uemp0")
@@ -19,6 +20,7 @@ offset_right = 300.0
 offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="ColorRect" type="ColorRect" parent="Control" unique_id=1582668210]
 layout_mode = 1
@@ -27,6 +29,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0, 0, 0, 0.7058824)
 
 [node name="VBox" type="VBoxContainer" parent="Control/ColorRect" unique_id=1948014497]
@@ -36,10 +39,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="TopBar" type="Panel" parent="Control/ColorRect/VBox" unique_id=1122644939]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="Control/ColorRect/VBox/TopBar" unique_id=2123907608]
 layout_mode = 1
@@ -48,65 +55,102 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Character Information"
+text = "Character"
 horizontal_alignment = 1
 
 [node name="ExitButton" type="Button" parent="Control/ColorRect/VBox/TopBar" unique_id=605897228]
+unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 6
+anchors_preset = 1
 anchor_left = 1.0
-anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -13.0
-offset_top = -10.0
-offset_bottom = 10.0
+offset_left = -18.0
+offset_bottom = 20.0
 grow_horizontal = 0
-grow_vertical = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 8
 text = " X "
 
-[node name="Tabs" type="TabContainer" parent="Control/ColorRect/VBox" unique_id=1978769388]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/ColorRect/VBox" unique_id=2002573878]
 layout_mode = 2
 size_flags_vertical = 3
-current_tab = 1
+mouse_filter = 2
 
-[node name="Inventory" type="Panel" parent="Control/ColorRect/VBox/Tabs" unique_id=1099712994]
-visible = false
+[node name="LeftMargin" type="Control" parent="Control/ColorRect/VBox/HBoxContainer" unique_id=755354988]
+custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
+mouse_filter = 2
+
+[node name="Tabs" type="TabContainer" parent="Control/ColorRect/VBox/HBoxContainer" unique_id=1978769388]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+current_tab = 0
+
+[node name="General" type="Panel" parent="Control/ColorRect/VBox/HBoxContainer/Tabs" unique_id=155822177]
+layout_mode = 2
+mouse_filter = 2
 metadata/_tab_index = 0
 
-[node name="Spells" type="Panel" parent="Control/ColorRect/VBox/Tabs" unique_id=1323489672]
+[node name="Label" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/General" unique_id=1148486015]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "QSDFJdfsgjuhdfighujbji"
+
+[node name="Inventory" type="Panel" parent="Control/ColorRect/VBox/HBoxContainer/Tabs" unique_id=1099712994]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
+mouse_filter = 2
 metadata/_tab_index = 1
 
-[node name="HBox" type="HBoxContainer" parent="Control/ColorRect/VBox/Tabs/Spells" unique_id=2131928932]
+[node name="Spells" type="Panel" parent="Control/ColorRect/VBox/HBoxContainer/Tabs" unique_id=1323489672]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("2_5vfer")
+metadata/_tab_index = 2
+
+[node name="HBox" type="HBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Spells" unique_id=2131928932]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
-[node name="MarginLeft" type="Control" parent="Control/ColorRect/VBox/Tabs/Spells/HBox" unique_id=2062473264]
+[node name="MarginLeft" type="Control" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Spells/HBox" unique_id=2062473264]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
+mouse_filter = 2
 
-[node name="Scroller" type="ScrollContainer" parent="Control/ColorRect/VBox/Tabs/Spells/HBox" unique_id=1256818901]
+[node name="Scroller" type="ScrollContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Spells/HBox" unique_id=1256818901]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SpellList" type="VBoxContainer" parent="Control/ColorRect/VBox/Tabs/Spells/HBox/Scroller" unique_id=1593756639]
+[node name="SpellList" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Spells/HBox/Scroller" unique_id=1593756639]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 
-[node name="MarginRight" type="Control" parent="Control/ColorRect/VBox/Tabs/Spells/HBox" unique_id=471386089]
+[node name="MarginRight" type="Control" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Spells/HBox" unique_id=471386089]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
+mouse_filter = 2
 
-[node name="MarginBottom" type="Control" parent="Control/ColorRect/VBox" unique_id=1023051102]
+[node name="RightMargin" type="Control" parent="Control/ColorRect/VBox/HBoxContainer" unique_id=491715802]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BottomMargin" type="Control" parent="Control/ColorRect/VBox" unique_id=1023051102]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
+mouse_filter = 2
