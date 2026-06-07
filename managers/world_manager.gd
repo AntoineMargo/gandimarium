@@ -52,7 +52,7 @@ func _process(_delta):
 	Global.handle_world_hover(tile_under_cursor)
 	if Global.activity_handler:
 		return
-	if Global.crisis_manager.crisis_mode and Global.selected_char:
+	if Global.crisis_manager.crisis_mode and Global.selected_char == Global.focus_char:
 		preview_path(tile_under_cursor)
 
 func spawn_prop(scene: PackedScene, pos: Vector3i) -> Prop:
@@ -743,36 +743,81 @@ func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, vi
 		path_array.pop_back()
 	return false
 
+#func move_char_along_path(creature: Creature, path: Array[Vector3i]):
+	#path_preview.make_inactive()
+	#for i in range(path.size() - 1):
+		#var current_tile = path[i]
+		#var layer_current_tile = Vector2i(current_tile.x, current_tile.y)
+		#var next_tile = path[i + 1]
+		#var layer_next_tile = Vector2i(next_tile.x, next_tile.y)
+#
+		#layers[current_tile.z]["cover"][layer_current_tile] = Enums.Cover.NONE
+		#layers[current_tile.z]["occupied"][layer_current_tile] = false
+		#layers[current_tile.z]["path_map"].set_point_solid(layer_current_tile, false)
+		#remove_from_tile(creature, current_tile)
+#
+		#creature.data.tile_x = next_tile.x
+		#creature.data.tile_y = next_tile.y
+		#creature.data.tile_z = next_tile.z
+#
+		#layers[next_tile.z]["cover"][layer_next_tile] = Enums.Cover.QUARTER
+		#layers[next_tile.z]["occupied"][layer_next_tile] = true
+		#layers[next_tile.z]["path_map"].set_point_solid(layer_next_tile, true)
+		#add_to_tile(creature, next_tile)
+		#creature.visible = (creature.data.tile_z == current_level)
+		#creature.global_position = layers[next_tile.z]["tile_map"].map_to_local(layer_next_tile)
+		#creature.mover.position = Vector2.ZERO # Very necessary because of position/global_position mismatch during real-time move
+		#handle_tile_conditions(next_tile, creature)
+		#selection_highlight.update_selection_highlight()
+		#SignalBus.sight_check.emit(next_tile)
+		#SignalBus.event.emit(ReactionEvent.movement(Context.movement(creature, current_tile, next_tile)))
+		#flash_path([current_tile])
+		#await get_tree().create_timer(0.05).timeout
+	#path_preview.make_active()
+
+func _apply_step_side_effects(creature: Creature, current_tile: Vector3i, next_tile: Vector3i):
+	handle_tile_conditions(next_tile, creature)
+	selection_highlight.update_selection_highlight()
+
+	SignalBus.sight_check.emit(next_tile)
+	SignalBus.event.emit(ReactionEvent.movement(Context.movement(creature, current_tile, next_tile)))
+
+	flash_path([current_tile])
+
+func _apply_step_state(creature: Creature, current_tile: Vector3i, next_tile: Vector3i):
+	var layer_current_tile = Vector2i(current_tile.x, current_tile.y)
+	var layer_next_tile = Vector2i(next_tile.x, next_tile.y)
+
+	layers[current_tile.z]["cover"][layer_current_tile] = Enums.Cover.NONE
+	layers[current_tile.z]["occupied"][layer_current_tile] = false
+	layers[current_tile.z]["path_map"].set_point_solid(layer_current_tile, false)
+	remove_from_tile(creature, current_tile)
+
+	creature.data.tile_x = next_tile.x
+	creature.data.tile_y = next_tile.y
+	creature.data.tile_z = next_tile.z
+
+	layers[next_tile.z]["cover"][layer_next_tile] = Enums.Cover.QUARTER
+	layers[next_tile.z]["occupied"][layer_next_tile] = true
+	layers[next_tile.z]["path_map"].set_point_solid(layer_next_tile, true)
+	add_to_tile(creature, next_tile)
+
+	creature.visible = (creature.data.tile_z == current_level)
+	creature.global_position = layers[next_tile.z]["tile_map"].map_to_local(layer_next_tile)
+	creature.mover.position = Vector2.ZERO
+
 func move_char_along_path(creature: Creature, path: Array[Vector3i]):
 	path_preview.make_inactive()
+
 	for i in range(path.size() - 1):
 		var current_tile = path[i]
-		var layer_current_tile = Vector2i(current_tile.x, current_tile.y)
 		var next_tile = path[i + 1]
-		var layer_next_tile = Vector2i(next_tile.x, next_tile.y)
 
-		layers[current_tile.z]["cover"][layer_current_tile] = Enums.Cover.NONE
-		layers[current_tile.z]["occupied"][layer_current_tile] = false
-		layers[current_tile.z]["path_map"].set_point_solid(layer_current_tile, false)
-		remove_from_tile(creature, current_tile)
+		_apply_step_state(creature, current_tile, next_tile)
+		_apply_step_side_effects(creature, current_tile, next_tile)
+		
+		await get_tree().create_timer(0.04).timeout
 
-		creature.data.tile_x = next_tile.x
-		creature.data.tile_y = next_tile.y
-		creature.data.tile_z = next_tile.z
-
-		layers[next_tile.z]["cover"][layer_next_tile] = Enums.Cover.QUARTER
-		layers[next_tile.z]["occupied"][layer_next_tile] = true
-		layers[next_tile.z]["path_map"].set_point_solid(layer_next_tile, true)
-		add_to_tile(creature, next_tile)
-		creature.visible = (creature.data.tile_z == current_level)
-		creature.global_position = layers[next_tile.z]["tile_map"].map_to_local(layer_next_tile)
-		creature.mover.position = Vector2.ZERO # Very necessary because of position/global_position mismatch during real-time move
-		handle_tile_conditions(next_tile, creature)
-		selection_highlight.update_selection_highlight()
-		SignalBus.sight_check.emit(next_tile)
-		SignalBus.event.emit(ReactionEvent.movement(Context.movement(creature, current_tile, next_tile)))
-		flash_path([current_tile])
-		await get_tree().create_timer(0.05).timeout
 	path_preview.make_active()
 
 func move_char_to_tile(creature: Creature, origin: Vector3i, target: Vector3i):
@@ -802,7 +847,7 @@ func select_creature_on_tile(coordinates: Vector3i) -> bool:
 	if layers[current_level]["contents"].has(layer_coords):
 		for element in layers[current_level]["contents"][layer_coords]:
 			if element is Creature:
-				if element.data.player_controlled:
+				if not Global.character_lock and element.data.player_controlled:
 					Global.selected_char = element
 					Global.focus_char = element
 					selection_highlight.update_selection_highlight()
@@ -865,6 +910,9 @@ func get_priority_element_on_tile(coords: Vector3i):
 	return best
 
 func _simple_interact_disambiguation(force_interact: bool = false):
+	if Global.simulation_lock:
+		return
+
 	var coords = get_tile_coords_under_cursor()
 	if select_creature_on_tile(coords):
 		return
@@ -920,14 +968,14 @@ func _on_world_select():
 	var coords = get_tile_coords()
 	select_creature_on_tile(coords.vec3)
 
-func _on_world_interact():
-	var coords = get_tile_coords_under_cursor()
-	var layer_coords = Vector2i(coords.x, coords.y)
-	if Global.selected_char:
-		if layers[current_level]["occupied"].get(layer_coords):
-			_interact_attack(coords)
-		else:
-			interact_move(Global.selected_char, coords)
+#func _on_world_interact():
+	#var coords = get_tile_coords_under_cursor()
+	#var layer_coords = Vector2i(coords.x, coords.y)
+	#if Global.selected_char:
+		#if layers[current_level]["occupied"].get(layer_coords):
+			#_interact_attack(coords)
+		#else:
+			#interact_move(Global.selected_char, coords)
 
 func _interact_attack(coords: Vector3i):
 	var layer_coords = Vector2i(coords.x, coords.y)

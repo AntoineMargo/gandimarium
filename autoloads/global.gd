@@ -35,6 +35,8 @@ var camera: Camera2D = null
 
 var pause_menu_active: bool = false
 
+var simulation_lock: bool = false
+var character_lock: bool = false
 var focus_char: Creature
 var selected_char: Creature
 var active_party: PartyData
@@ -109,7 +111,6 @@ func set_active_window(window: Node) -> void:
 
 	active_window = window
 	active_window.layer = 200
-	#SignalBus.dialog_show_message.emit("all_info_window z-level: %d" % [all_info_window.control.z_index])
 
 func _ready() -> void:
 	randomize()

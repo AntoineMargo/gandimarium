@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://gy1u5wwwbl5u" path="res://interface/all_char_info_window/all_char_info_window.gd" id="1_uemp0"]
 [ext_resource type="Script" uid="uid://vvd83c1xoqoa" path="res://interface/all_char_info_window/spells.gd" id="2_5vfer"]
 [ext_resource type="Script" uid="uid://cihphtrwm2lr5" path="res://interface/all_char_info_window/general.gd" id="2_e5lpw"]
-[ext_resource type="Script" uid="uid://dbcqmy76hs28h" path="res://interface/inventory_window/items_list.gd" id="2_mkriu"]
+[ext_resource type="Script" uid="uid://dbcqmy76hs28h" path="res://interface/all_char_info_window/items_list.gd" id="2_mkriu"]
 [ext_resource type="Script" uid="uid://c0bpxwuw1t8pf" path="res://interface/all_char_info_window/inventory.gd" id="2_yooj1"]
-[ext_resource type="Script" uid="uid://kqor18rqe4vo" path="res://interface/inventory_window/equipmentslot.gd" id="3_yooj1"]
+[ext_resource type="Script" uid="uid://kqor18rqe4vo" path="res://interface/all_char_info_window/equipmentslot.gd" id="3_yooj1"]
 
 [node name="AllCharInfoWindow" type="CanvasLayer" unique_id=354679180]
 script = ExtResource("1_uemp0")

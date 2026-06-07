@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="11_36oo3"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="12_siitb"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="13_6spon"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="13_07aps"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="14_algh0"]
 [ext_resource type="Script" uid="uid://g1muvdggkxqa" path="res://effects/add_activity_effect.gd" id="15_njava"]
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="16_1dea1"]
@@ -63,7 +64,6 @@ spread_requires_LOS = false
 reach = 0
 self_final_effects = Array[ExtResource("1_hsfwt")]([SubResource("Resource_a1dd3")])
 requires_roll = false
-toggleable = true
 builds_condition = true
 condition_id = "cond_frost_attacks"
 metadata/_custom_type_script = "uid://beq2nm7ovc2lf"

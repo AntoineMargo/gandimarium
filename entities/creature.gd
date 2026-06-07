@@ -994,12 +994,13 @@ func turn_start():
 		SignalBus.update_ui_for_char.emit()
 		Global.world_manager.path_preview.get_char_data()
 	else:
+		Global.focus_char = null
 		print("AI controlled")
 		if data.crisis_ai_active:
 			print("AI active")
 			SignalBus.dialog_show_message.emit("%s is acting." % self.data.name)
 			ai_controller.crisisai.plan_turn() 
-			SignalBus.turn_ends.emit()
+			#SignalBus.turn_ends.emit()
 		else:
 			# character does their real time routine in turn by turn
 			SignalBus.turn_ends.emit()

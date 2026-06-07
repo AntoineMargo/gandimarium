@@ -9,6 +9,7 @@ func execute(planned_sequence):
 	if !planned_sequence:
 		push_warning("No activity could be produced!")
 		return
+	Global.simulation_lock = true
 	for planned_act in planned_sequence:
 		if planned_act.activity.name == "Move":
 			print("MOVE ACTIVITY")
@@ -18,11 +19,12 @@ func execute(planned_sequence):
 		elif planned_act.target_creature:
 			print("TARGETED ACTIVITY")
 			creature.perform_activity(planned_act.activity, planned_act.target_creature.get_coords())
-			#creature.perform_activity(planned_act.activity, planned_act.target_creature)
 		else:
 			creature.perform_activity(planned_act.activity)
 			print("IMMEDIATE ACTIVITY")
-		await get_tree().create_timer(0.3).timeout
+		await get_tree().create_timer(0.2).timeout
+	Global.simulation_lock = false
+	SignalBus.turn_ends.emit()
 
 func _ready() -> void:
 	creature = $"../../.."
