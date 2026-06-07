@@ -633,7 +633,6 @@ func add_to_tile(element, coords: Vector3i):
 		layers[coords.z]["contents"][layer_coords] = []
 	if element is Item:
 		element = element.duplicate(true)
-		element.count = 1
 	layers[coords.z]["contents"][layer_coords].append(element)
 
 func remove_from_tile(element, coords: Vector3i):

@@ -20,10 +20,10 @@ var reaction_manager = ReactionManager.new()
 var game_root = null
 
 @onready var menu_scene = preload("res://interface/pause_menu.tscn")
-@onready var all_info_window = preload("res://interface/all_char_info_window/all_char_info_window.tscn").instantiate()
-@onready var inventory_window = preload("res://interface/inventory_window/inventory.tscn").instantiate()
+#@onready var inventory_window = preload("res://interface/inventory_window/inventory.tscn").instantiate()
 @onready var character_window = preload("res://interface/character_window/character_info.tscn").instantiate()
 @onready var container_window = preload("res://interface/container_window/container_window.tscn").instantiate()
+@onready var all_info_window = preload("res://interface/all_char_info_window/all_char_info_window.tscn").instantiate()
 
 @onready var world_info = preload("res://interface/screen/world_info.tscn").instantiate()
 
@@ -109,7 +109,7 @@ func set_active_window(window: Node) -> void:
 	all_info_window.layer = 100
 	character_window.layer = 100
 	container_window.layer = 100
-	inventory_window.layer = 100
+	#inventory_window.layer = 100
 
 	active_window = window
 	active_window.layer = 200
@@ -135,16 +135,16 @@ func _ready() -> void:
 	
 	add_child(all_info_window)
 	add_child(character_window)
-	add_child(inventory_window)
+	#add_child(inventory_window)
 	add_child(container_window)
 	add_child(world_info)
 	
 	all_info_window.visible = false
-	inventory_window.visible = false
+	#inventory_window.visible = false
 	container_window.visible = false
 	character_window.visible = false
 	world_info.visible = false
-	items_list = inventory_window.get_node("Inventory/MainVBox/SeparHBox/Scroller/ItemsList")
+	items_list = all_info_window.get_node("%ItemsList")
 	container_list = container_window.get_node("Control/ColorRect/VBoxContainer/ScrollContainer/ItemList")
 	await get_tree().create_timer(0.1).timeout
 	SignalBus.change_cursor.emit("default")

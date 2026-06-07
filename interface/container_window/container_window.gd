@@ -27,7 +27,7 @@ func _on_update_container(container_prop: ContainerProp = current_container) -> 
 		Global.container_list.add_child(element)
 
 func _on_exit_pressed() -> void:
-	Global.container_window.visible = false
+	control.visible = false
 
 func _ready() -> void:
 	SignalBus.update_container.connect(_on_update_container)

@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" uid="uid://gy1u5wwwbl5u" path="res://interface/all_char_info_window/all_char_info_window.gd" id="1_uemp0"]
 [ext_resource type="Script" uid="uid://vvd83c1xoqoa" path="res://interface/all_char_info_window/spells.gd" id="2_5vfer"]
+[ext_resource type="Script" uid="uid://dbcqmy76hs28h" path="res://interface/inventory_window/items_list.gd" id="2_mkriu"]
+[ext_resource type="Script" uid="uid://c0bpxwuw1t8pf" path="res://interface/all_char_info_window/inventory.gd" id="2_yooj1"]
+[ext_resource type="Script" uid="uid://kqor18rqe4vo" path="res://interface/inventory_window/equipmentslot.gd" id="3_yooj1"]
 
 [node name="AllCharInfoWindow" type="CanvasLayer" unique_id=354679180]
 script = ExtResource("1_uemp0")
@@ -83,13 +86,15 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="Tabs" type="TabContainer" parent="Control/ColorRect/VBox/HBoxContainer" unique_id=1978769388]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
-current_tab = 0
+current_tab = 1
 
 [node name="General" type="Panel" parent="Control/ColorRect/VBox/HBoxContainer/Tabs" unique_id=155822177]
+visible = false
 layout_mode = 2
 mouse_filter = 2
 metadata/_tab_index = 0
@@ -102,10 +107,249 @@ text = "QSDFJdfsgjuhdfighujbji"
 
 [node name="Inventory" type="Panel" parent="Control/ColorRect/VBox/HBoxContainer/Tabs" unique_id=1099712994]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 mouse_filter = 2
+script = ExtResource("2_yooj1")
 metadata/_tab_index = 1
+
+[node name="SeparHBox" type="HBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory" unique_id=35067083]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 20.0
+mouse_filter = 0
+
+[node name="Scroller" type="ScrollContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox" unique_id=1365737033]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+horizontal_scroll_mode = 0
+
+[node name="ItemsList" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/Scroller" unique_id=387324477]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 0
+script = ExtResource("2_mkriu")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox" unique_id=1932903917]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+theme_override_constants/separation = 4
+
+[node name="GridContainer" type="GridContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer" unique_id=339417305]
+layout_mode = 2
+mouse_filter = 0
+columns = 2
+
+[node name="HelmLabel" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=78356585]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+text = "Helm:"
+
+[node name="HelmItem" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=87041166]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+horizontal_alignment = 1
+script = ExtResource("3_yooj1")
+
+[node name="CapeLabel" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=1731916408]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+text = "Cape:"
+
+[node name="CapeItem" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=475941088]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+horizontal_alignment = 1
+script = ExtResource("3_yooj1")
+slot = 1
+
+[node name="ArmourLabel" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=113996584]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+text = "Armour:"
+
+[node name="ArmourItem" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=271825325]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+horizontal_alignment = 1
+script = ExtResource("3_yooj1")
+slot = 2
+
+[node name="TopLabel" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=100678063]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+text = "Top:"
+
+[node name="TopItem" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=202558019]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+horizontal_alignment = 1
+script = ExtResource("3_yooj1")
+slot = 3
+
+[node name="BeltLabel" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=1235638878]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+text = "Belt:						"
+
+[node name="BeltItem" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=1444157204]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+horizontal_alignment = 1
+script = ExtResource("3_yooj1")
+slot = 4
+
+[node name="BottomLabel" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=1999439007]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+text = "Bottom:				"
+
+[node name="BottomItem" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=1892329717]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+horizontal_alignment = 1
+script = ExtResource("3_yooj1")
+slot = 5
+
+[node name="GauntletsLabel" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=1135859516]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+text = "Gauntlets:						"
+
+[node name="GauntletsItem" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=492910201]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+script = ExtResource("3_yooj1")
+slot = 6
+
+[node name="ShoesLabel" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=1565672969]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+text = "Shoes:				"
+
+[node name="ShoesItem" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=1283321652]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+script = ExtResource("3_yooj1")
+slot = 7
+
+[node name="NecklaceLabel" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=1742119194]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+text = "Necklace:"
+
+[node name="NecklaceItem" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=844657387]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+script = ExtResource("3_yooj1")
+slot = 8
+
+[node name="LeftBracerLabel" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=1648506826]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+text = "Left Bracer:				"
+
+[node name="LeftBracerItem" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=1841361821]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+script = ExtResource("3_yooj1")
+slot = 15
+
+[node name="RightBracerLabel" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=620556864]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+text = "Right Bracer:				"
+
+[node name="RightBracerItem" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=1523283950]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+horizontal_alignment = 1
+script = ExtResource("3_yooj1")
+slot = 16
+
+[node name="EmptyLabel" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/GridContainer" unique_id=2092473452]
+layout_mode = 2
+mouse_filter = 0
+
+[node name="HSeparator" type="HSeparator" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer" unique_id=195395782]
+layout_mode = 2
+
+[node name="WeaponSet" type="VBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer" unique_id=1035949846]
+layout_mode = 2
+mouse_filter = 0
+
+[node name="WeaponSetLabel" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/WeaponSet" unique_id=162229756]
+layout_mode = 2
+mouse_filter = 0
+text = "Hands:"
+horizontal_alignment = 1
+
+[node name="WeaponSetSpace" type="HBoxContainer" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/WeaponSet" unique_id=99116955]
+layout_mode = 2
+mouse_filter = 0
+
+[node name="LeftWeaponItem" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/WeaponSet/WeaponSetSpace" unique_id=2010016914]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+horizontal_alignment = 1
+script = ExtResource("3_yooj1")
+slot = 17
+
+[node name="RightWeaponItem" type="Label" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer/WeaponSet/WeaponSetSpace" unique_id=788548268]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+horizontal_alignment = 1
+script = ExtResource("3_yooj1")
+slot = 18
+
+[node name="HSeparator2" type="HSeparator" parent="Control/ColorRect/VBox/HBoxContainer/Tabs/Inventory/SeparHBox/VBoxContainer" unique_id=1236080049]
+visible = false
+layout_mode = 2
 
 [node name="Spells" type="Panel" parent="Control/ColorRect/VBox/HBoxContainer/Tabs" unique_id=1323489672]
 unique_name_in_owner = true

@@ -321,56 +321,56 @@ func _on_update_character_info() -> void:
 	#Global.character_window.character = Global.selected_char
 	Global.character_window.update(Global.selected_char)
 
-func _on_update_inventory_window() -> void:
-	var character = Global.selected_char
-	for child in Global.items_list.get_children():
-		child.queue_free()
-	if Global.items_list == null:
-		print("ItemsList node not found!")
-		return
-	if Global.selected_char == null:
-		print("No character selected.")
-		return
-	var items = character.get_inventory()
-	for i in range(items.size()):
-		var element = preload("res://interface/inventory_window/inventory_element.tscn").instantiate()
-		element.items_interface = Enums.ItemsList.INVENTORY
-		element.index = i
-		element.item = items[i]
-		element.initialize()
-		Global.items_list.add_child(element)
-
-	var equipment_label_paths := {
-		Enums.EquipmentSlot.HELM: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/HelmItem",
-		Enums.EquipmentSlot.CAPE: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/CapeItem",
-		Enums.EquipmentSlot.ARMOUR: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/ArmourItem",
-		Enums.EquipmentSlot.TOP: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/TopItem",
-		Enums.EquipmentSlot.BELT: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/BeltItem",
-		Enums.EquipmentSlot.BOTTOM: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/BottomItem",
-		Enums.EquipmentSlot.GAUNTLETS: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/GauntletsItem",
-		Enums.EquipmentSlot.SHOES: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/ShoesItem",
-		Enums.EquipmentSlot.NECKLACE: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/NecklaceItem",
-		Enums.EquipmentSlot.BRACER_LEFT: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/LeftBracerItem",
-		Enums.EquipmentSlot.BRACER_RIGHT: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/RightBracerItem",
-		#Enums.EquipmentSlot.RING1: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/Ring1SpaceItem",
-		#Enums.EquipmentSlot.RING2: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/Ring2SpaceItem",
-		Enums.EquipmentSlot.HAND_LEFT: "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet/WeaponSetSpace/LeftWeaponItem",
-		Enums.EquipmentSlot.HAND_RIGHT: "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet/WeaponSetSpace/RightWeaponItem",
-		#Enums.EquipmentSlot.HAND_LEFT: "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2/WeaponSet2Space/WeaponSet2SpaceItemLeft",
-		#Enums.EquipmentSlot.HAND_RIGHT: "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2/WeaponSet2Space/WeaponSet2SpaceItemRight"
-	}
-	for slot in equipment_label_paths.keys():
-		var path = equipment_label_paths[slot]
-		var label_node = Global.inventory_window.get_node(path)
-		if label_node and label_node is Label:
-			var item = null
-			item = character.data.equipment.get_item_in_slot(slot)
-			if item:
-				label_node.text = item.name
-			else:
-				label_node.text = "Empty"
-		else:
-			print("Label node not found at:", path)
+#func _on_update_inventory_window() -> void:
+	#var character = Global.selected_char
+	#for child in Global.items_list.get_children():
+		#child.queue_free()
+	#if Global.items_list == null:
+		#print("ItemsList node not found!")
+		#return
+	#if Global.selected_char == null:
+		#print("No character selected.")
+		#return
+	#var items = character.get_inventory()
+	#for i in range(items.size()):
+		#var element = preload("res://interface/inventory_window/inventory_element.tscn").instantiate()
+		#element.items_interface = Enums.ItemsList.INVENTORY
+		#element.index = i
+		#element.item = items[i]
+		#element.initialize()
+		#Global.items_list.add_child(element)
+#
+	#var equipment_label_paths := {
+		#Enums.EquipmentSlot.HELM: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/HelmItem",
+		#Enums.EquipmentSlot.CAPE: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/CapeItem",
+		#Enums.EquipmentSlot.ARMOUR: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/ArmourItem",
+		#Enums.EquipmentSlot.TOP: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/TopItem",
+		#Enums.EquipmentSlot.BELT: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/BeltItem",
+		#Enums.EquipmentSlot.BOTTOM: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/BottomItem",
+		#Enums.EquipmentSlot.GAUNTLETS: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/GauntletsItem",
+		#Enums.EquipmentSlot.SHOES: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/ShoesItem",
+		#Enums.EquipmentSlot.NECKLACE: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/NecklaceItem",
+		#Enums.EquipmentSlot.BRACER_LEFT: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/LeftBracerItem",
+		#Enums.EquipmentSlot.BRACER_RIGHT: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/RightBracerItem",
+		##Enums.EquipmentSlot.RING1: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/Ring1SpaceItem",
+		##Enums.EquipmentSlot.RING2: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/Ring2SpaceItem",
+		#Enums.EquipmentSlot.HAND_LEFT: "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet/WeaponSetSpace/LeftWeaponItem",
+		#Enums.EquipmentSlot.HAND_RIGHT: "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet/WeaponSetSpace/RightWeaponItem",
+		##Enums.EquipmentSlot.HAND_LEFT: "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2/WeaponSet2Space/WeaponSet2SpaceItemLeft",
+		##Enums.EquipmentSlot.HAND_RIGHT: "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2/WeaponSet2Space/WeaponSet2SpaceItemRight"
+	#}
+	#for slot in equipment_label_paths.keys():
+		#var path = equipment_label_paths[slot]
+		#var label_node = Global.inventory_window.get_node(path)
+		#if label_node and label_node is Label:
+			#var item = null
+			#item = character.data.equipment.get_item_in_slot(slot)
+			#if item:
+				#label_node.text = item.name
+			#else:
+				#label_node.text = "Empty"
+		#else:
+			#print("Label node not found at:", path)
 
 func _on_drop_item_on_tile(selected_char):
 	var wm = Global.world_manager
@@ -648,7 +648,7 @@ func update_spell_list_for_chosen_rank():
 			child.mouse_filter = Control.MOUSE_FILTER_STOP
 
 func _ready() -> void:
-	SignalBus.update_inventory.connect(_on_update_inventory_window)
+	#SignalBus.update_inventory.connect(_on_update_inventory_window)
 	SignalBus.update_character_info.connect(_on_update_character_info)
 	SignalBus.drop_item_on_tile.connect(_on_drop_item_on_tile)
 	SignalBus.update_ui_for_char.connect(update_ui_for_char)

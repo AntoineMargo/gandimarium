@@ -7,6 +7,8 @@ var drag_offset: Vector2 = Vector2.ZERO
 @onready var top_bar = get_node_or_null("%TopBar")
 @onready var exit_button = get_node_or_null("%ExitButton")
 
+@onready var tabs = get_node_or_null("%Tabs")
+
 @onready var inventory_tab = get_node_or_null("%Inventory")
 @onready var spells_tab = get_node_or_null("%Spells")
 
