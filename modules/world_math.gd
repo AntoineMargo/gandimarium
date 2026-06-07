@@ -121,83 +121,42 @@ static func get_cone_tiles(origin: Vector3i, target: Vector3i, reach: float, spr
 
 static func get_burst_tiles(center: Vector3i, reach: float, LOS: bool = false) -> Array[Vector3i]:
 	var wm = Global.world_manager
-	var visited: Dictionary = {}
 	var tiles: Array[Vector3i] = []
-	var open := [{"pos": center, "dist": 0.0}]
-	
-	var cardinal_dirs := [
-		Vector2i.LEFT,
-		Vector2i.RIGHT,
-		Vector2i.UP,
-		Vector2i.DOWN
-	]
-	var diagonal_dirs := [
-		Vector2i(-1, -1),
-		Vector2i(-1, 1),
-		Vector2i(1, -1),
-		Vector2i(1, 1)
-	]
-	
-	while open.size() > 0:
-		var current = open.pop_front()
-		var pos: Vector3i = current.pos
-		var dist: float = current.dist
-		
-		if visited.has(pos):
-			continue
-		
-		# Check line of sight from center
-		if LOS:
-			if pos != center and not has_line_of_sight_tile(center, pos):
+
+	var z := center.z
+	var astar := wm.layers[z]["path_map"] as AStarGrid2D
+
+	var max_offset := ceili(reach)
+
+	for dx in range(-max_offset, max_offset + 1):
+		for dy in range(-max_offset, max_offset + 1):
+
+			var pos := Vector3i(
+				center.x + dx,
+				center.y + dy,
+				z
+			)
+
+			var xy := Vector2i(pos.x, pos.y)
+
+			if not astar.region.has_point(xy):
 				continue
-		
-		visited[pos] = true
-		tiles.append(pos)
-		
-		# Don't expand from max reach tiles
-		if dist >= reach:
-			continue
-		
-		var z := pos.z
-		var xy := Vector2i(pos.x, pos.y)
-		var astar := wm.layers[z]["path_map"] as AStarGrid2D
-		
-		# Cardinal neighbors (cost 1.0)
-		for dir in cardinal_dirs:
-			var neighbor_xy = xy + dir
-			var neighbor: Vector3i = Vector3i(neighbor_xy.x, neighbor_xy.y, z)
-			
-			if not astar.region.has_point(neighbor_xy):
+
+			# Cost using cardinal=1, diagonal=1.5
+			var diagonal_steps := mini(abs(dx), abs(dy))
+			var cardinal_steps := maxi(abs(dx), abs(dy)) - diagonal_steps
+
+			var cost := diagonal_steps * 1.5 + cardinal_steps
+
+			if cost > reach:
 				continue
-			
-			#var tile_data = get_tile_data(neighbor.x, neighbor.y, neighbor.z)
-			#if tile_data == null or tile_data.get_custom_data("passable") == false:
-				#continue
-			
+
 			if LOS:
-				if wm.layers[z]["cover"].get(Vector2i(neighbor.x, neighbor.y), 0) == 4:
+				if pos != center and not has_line_of_sight_tile(center, pos):
 					continue
-			
-			open.append({"pos": neighbor, "dist": dist + 1.0})
-		
-		# Diagonal neighbors (cost 1.5 for more circular shape)
-		for dir in diagonal_dirs:
-			var neighbor_xy = xy + dir
-			var neighbor: Vector3i = Vector3i(neighbor_xy.x, neighbor_xy.y, z)
-			
-			if not astar.region.has_point(neighbor_xy):
-				continue
-			
-			#var tile_data = get_tile_data(neighbor.x, neighbor.y, neighbor.z)
-			#if tile_data == null or tile_data.get_custom_data("passable") == false:
-				#continue
-			
-			if LOS:
-				if wm.layers[z]["cover"].get(Vector2i(neighbor.x, neighbor.y), 0) == 4:
-					continue
-			
-			open.append({"pos": neighbor, "dist": dist + 1.5})
-	
+
+			tiles.append(pos)
+
 	return tiles
 
 static func get_entities_from_tiles(tiles: Array[Vector3i]) -> Array:
@@ -276,39 +235,72 @@ static func pos_in_range_weighted_3d(a: Vector3i, b: Vector3i, reach: int, z_wei
 static func has_line_of_sight(origin_node, target_node):
 	var origin = origin_node.get_coords()
 	var target = target_node.get_coords()
-	return line_of_sight_exists(origin.x, origin.y, origin.z, target.x, target.y, target.z)
+	return line_of_sight_exists(origin, target)
 
-static func has_line_of_sight_tile(origin_tile: Vector3i, target_tile: Vector3i) -> bool:
-	return line_of_sight_exists(origin_tile.x, origin_tile.y, origin_tile.z, target_tile.x, target_tile.y, target_tile.z)
+static func has_line_of_sight_tile(origin_tile: Vector3i, target_tile: Vector3i, skip_end_points: bool = true) -> bool:
+	return line_of_sight_exists(origin_tile, target_tile, skip_end_points)
 
-static func line_of_sight_exists(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int) -> bool:
+static func line_of_sight_exists(from_pos: Vector3i, to_pos: Vector3i, skip_end_points: bool = true) -> bool:
 	var wm = Global.world_manager
-	
-	var points = bresenham_line_3d(x1, y1, z1, x2, y2, z2)
-	for i in range(1, points.size() - 1): # Skip endpoints
-		var current = points[i]
-		var previous = points[i - 1]
 
-		var x = current.x
-		var y = current.y
-		var z = current.z
-		var prev_z = previous.z
+	var points = bresenham_line_3d(
+		from_pos.x, from_pos.y, from_pos.z,
+		to_pos.x, to_pos.y, to_pos.z
+	)
 
-		var tile = get_tile_data(x, y, z)
-		var tile_prev = get_tile_data(x, y, prev_z)
+	var start: int = 1
+	if not skip_end_points:
+		start = 0
 
-		if z < prev_z: # Going down
+	for i in range(start, points.size() - 1):
+		var current: Vector3i = points[i]
+		var previous: Vector3i = points[i - 1]
+
+		var tile = get_tile_data(current.x, current.y, current.z)
+		var tile_prev = get_tile_data(current.x, current.y, previous.z)
+
+		if current.z < previous.z: # Going down
 			if tile_prev == null or tile_prev.get_custom_data("floor") == true:
 				return false
-		elif z > prev_z: # Going up
+
+		elif current.z > previous.z: # Going up
 			if tile == null or tile.get_custom_data("floor") == true:
 				return false
+
 		else:
-			#if tile == null or tile.get_custom_data("passable") == false:
-			if wm.layers[z]["cover"].get(Vector2i(x, y), 0) == 4:
+			if wm.layers[current.z]["cover"].get(Vector2i(current.x, current.y), 0) == 4:
 				return false
 
 	return true
+
+#static func line_of_sight_exists(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int) -> bool:
+	#var wm = Global.world_manager
+	#
+	#var points = bresenham_line_3d(x1, y1, z1, x2, y2, z2)
+	#for i in range(1, points.size() - 1): # Skip endpoints
+		#var current = points[i]
+		#var previous = points[i - 1]
+#
+		#var x = current.x
+		#var y = current.y
+		#var z = current.z
+		#var prev_z = previous.z
+#
+		#var tile = get_tile_data(x, y, z)
+		#var tile_prev = get_tile_data(x, y, prev_z)
+#
+		#if z < prev_z: # Going down
+			#if tile_prev == null or tile_prev.get_custom_data("floor") == true:
+				#return false
+		#elif z > prev_z: # Going up
+			#if tile == null or tile.get_custom_data("floor") == true:
+				#return false
+		#else:
+			##if tile == null or tile.get_custom_data("passable") == false:
+			#if wm.layers[z]["cover"].get(Vector2i(x, y), 0) == 4:
+				#return false
+#
+	#return true
 
 static func get_tile_data(x: int, y: int, z: int):
 	var wm = Global.world_manager

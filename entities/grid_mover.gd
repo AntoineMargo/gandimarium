@@ -94,7 +94,7 @@ func arrive_at_tile(point, old_point, next_point):
 
 func _on_stop_all_movement():
 	var old_coords = creature.get_coords()
-	var closest_tile = wm.pixels_to_tile(global_position)
+	var closest_tile = wm.pixels_to_tile(global_position, old_coords.z)
 
 	global_position = wm.tile_to_pixels(closest_tile)
 	active = false

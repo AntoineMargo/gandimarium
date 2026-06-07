@@ -58,11 +58,10 @@ func _end_player_turn():
 		handle_next_turn()
 
 func request_toggle_crisis(creature):
-
 	if Global.ai_manager.active_number == 0:
 		toggle_crisis(creature)
 	else:
-		SignalBus.dialog_show_message.emit("Cannot end crisis: there are still creatures inching for a fight.")
+		SignalBus.dialog_show_message.emit("Cannot end crisis: there are still creatures itching for a fight.")
 		print("Cannot end crisis as the following creatures are active:")
 		for element in Global.ai_manager.active_creatures:
 			print("%s" % element.data.name)

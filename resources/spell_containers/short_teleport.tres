@@ -44,7 +44,7 @@ metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
 [resource]
 script = ExtResource("9_bbdmh")
-minimum_rank = 8
+minimum_rank = 6
 name = "Short Teleport"
 activities = Array[ExtResource("1_qh0as")]([SubResource("Resource_85yjm")])
 metadata/_custom_type_script = "uid://sg6vjj4j36i4"

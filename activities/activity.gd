@@ -249,7 +249,7 @@ func is_valid_target_point(point: Vector3i, requires_los: bool = true) -> bool:
 	if not WorldMath.is_in_range(origin, point, reach):
 		return false
 
-	if requires_los and not WorldMath.has_line_of_sight_tile(origin, point):
+	if requires_los and not WorldMath.has_line_of_sight_tile(origin, point, false):
 		return false
 
 	return true
