@@ -12,7 +12,8 @@
 
 [sub_resource type="Resource" id="Resource_404nw"]
 script = ExtResource("5_x1glq")
-multiplied_amount = 3
+choice = 1
+multiplied_amount = 5.0
 value_type = 7
 metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
 
@@ -26,6 +27,7 @@ name = "Far Shift"
 id = "act_far_shift"
 description = "You shift from one space to another of your choice in sight."
 AP_cost = 2
+reach = 5
 modifiers = Array[ExtResource("3_y32xd")]([SubResource("Resource_404nw")])
 target_effects = Array[ExtResource("7_f7jk4")]([SubResource("Resource_l3860")])
 targeting_type = 1

@@ -4,17 +4,10 @@
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_lcij1"]
 [ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="3_qh0as"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_s2eqn"]
-[ext_resource type="Script" uid="uid://c20e6vg8wsl4e" path="res://activity_modifiers/spell_rank_num_modifier.gd" id="5_qh0as"]
 [ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="6_edpos"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="7_eoqh5"]
 [ext_resource type="Script" uid="uid://d4jeevooo13o3" path="res://effects/teleport_effect.gd" id="8_qbcwf"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="9_bbdmh"]
-
-[sub_resource type="Resource" id="Resource_lcij1"]
-script = ExtResource("5_qh0as")
-multiplied_amount = 10
-value_type = 7
-metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
 
 [sub_resource type="Resource" id="Resource_l3860"]
 script = ExtResource("8_qbcwf")
@@ -28,8 +21,7 @@ description = "You teleport to another space in the same local area, regardless 
 AP_cost = 3
 reach_requires_LOS = false
 spread_requires_LOS = false
-reach = 200
-modifiers = Array[ExtResource("3_qh0as")]([SubResource("Resource_lcij1")])
+reach = 500
 target_effects = Array[ExtResource("7_eoqh5")]([SubResource("Resource_l3860")])
 targeting_type = 1
 affected_type = 1

@@ -12,6 +12,7 @@
 
 [sub_resource type="Resource" id="Resource_404nw"]
 script = ExtResource("5_wetyx")
+choice = 1
 value_type = 7
 metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
 
