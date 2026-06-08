@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_qsnij"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="3_12mfh"]
 [ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="4_m3r1x"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/value_modifier.gd" id="5_a78w2"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="5_kbc46"]
 [ext_resource type="Script" uid="uid://bsu4c08c52n7w" path="res://activities/targeted_throw_activity.gd" id="6_kbc46"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="6_n0fmo"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="13_quroa"]
@@ -36,7 +36,6 @@ metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 script = ExtResource("2_qsnij")
 name = "Magic Orb"
 id = "item_magic_orb"
-slot_type = 12
 can_be_removed = false
 brawn_req_1h = 0
 brawn_req_2h = 0

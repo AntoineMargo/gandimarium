@@ -65,7 +65,6 @@ name = "Brilliant Sword"
 id = "wpn_brilliant_sword"
 weight = 0.0
 value = 0
-slot_type = 12
 can_be_removed = false
 brawn_req_1h = 0
 brawn_req_2h = 0

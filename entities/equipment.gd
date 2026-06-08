@@ -55,7 +55,7 @@ const SLOT_TYPE_TO_SLOTS = {
 		Enums.EquipmentSlot.BRACER_LEFT,
 		Enums.EquipmentSlot.BRACER_RIGHT
 	],
-	Enums.SlotType.HAND: [
+	Enums.SlotType.NONE: [
 		Enums.EquipmentSlot.HAND_LEFT,
 		Enums.EquipmentSlot.HAND_RIGHT
 	]
@@ -82,9 +82,9 @@ const SLOT_TO_TYPE = {
 	Enums.EquipmentSlot.BRACER_LEFT: Enums.SlotType.BRACER,
 	Enums.EquipmentSlot.BRACER_RIGHT: Enums.SlotType.BRACER,
 
-	Enums.EquipmentSlot.HAND_LEFT: Enums.SlotType.HAND,
-	Enums.EquipmentSlot.HAND_RIGHT: Enums.SlotType.HAND,
-	Enums.EquipmentSlot.HAND_DEFAULT: Enums.SlotType.HAND,
+	Enums.EquipmentSlot.HAND_LEFT: Enums.SlotType.NONE,
+	Enums.EquipmentSlot.HAND_RIGHT: Enums.SlotType.NONE,
+	Enums.EquipmentSlot.HAND_DEFAULT: Enums.SlotType.NONE,
 }
 
 @export var slots: Dictionary[Enums.EquipmentSlot, Item] = {
@@ -125,7 +125,7 @@ func get_all_equipped_items() -> Array[Item]:
 	return collection
 
 func get_active_weapon() -> Item:
-	var weapons = get_items_of_slot_type(Enums.SlotType.HAND)
+	var weapons = get_items_of_slot_type(Enums.SlotType.NONE)
 	var selected_weapon = weapons[active_hand]
 	return selected_weapon
 
@@ -154,7 +154,9 @@ func equip_item_in_slot(item: Item, slot: Enums.EquipmentSlot) -> bool:
 	if slots[slot] != null:
 		return false
 
-	if SLOT_TO_TYPE[slot] != item.slot_type:
+	var slot_type = SLOT_TO_TYPE[slot]
+
+	if slot_type != Enums.SlotType.NONE and slot_type != item.slot_type:
 		return false
 
 	slots[slot] = item
@@ -243,8 +245,8 @@ func _equip_hand(slot: Enums.EquipmentSlot, item: Item):
 		slots[slot] = slots[Enums.EquipmentSlot.HAND_DEFAULT]
 		return
 
-	if item.slot_type != Enums.SlotType.HAND:
-		return
+	#if item.slot_type != Enums.SlotType.NONE:
+		#return
 
 	slots[slot] = item
 

@@ -31,7 +31,6 @@ name = "Fist"
 id = "wpn_fist"
 weight = 0.0
 value = 0
-slot_type = 12
 brawn_req_1h = 0
 brawn_req_2h = 0
 strike = SubResource("Resource_fcbnu")

@@ -63,7 +63,6 @@ metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 script = ExtResource("2_opt7e")
 name = "Shooting Star"
 id = "item_shooting_star"
-slot_type = 12
 can_be_removed = false
 brawn_req_1h = 0
 brawn_req_2h = 0

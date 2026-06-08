@@ -265,11 +265,11 @@ func set_active_hand(number: int):
 		data.equipment.active_hand = number
 
 func get_weapons() -> Array[Item]:
-	var weapons = data.equipment.get_items_of_slot_type(Enums.SlotType.HAND)
+	var weapons = data.equipment.get_items_of_slot_type(Enums.SlotType.NONE)
 	return weapons
 
 func get_active_weapon() -> Item:
-	var weapons = data.equipment.get_items_of_slot_type(Enums.SlotType.HAND)
+	var weapons = data.equipment.get_items_of_slot_type(Enums.SlotType.NONE)
 	var selected_weapon = weapons[data.equipment.active_hand]
 	return selected_weapon
 
@@ -482,7 +482,7 @@ func consume_mp(number) -> bool:
 	return true
 
 func meets_brawn_requirements() -> bool:
-	var weapons = data.equipment.get_items_of_slot_type(Enums.SlotType.HAND)
+	var weapons = data.equipment.get_items_of_slot_type(Enums.SlotType.NONE)
 	var selected_weapon = weapons[data.equipment.active_hand]
 	
 	var brawn = get_stat("brawn")

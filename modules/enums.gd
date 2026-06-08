@@ -199,7 +199,6 @@ enum SlotType {
 	NECKLACE,
 	RING,
 	BRACER,
-	HAND
 	}
 
 enum EquipmentSlot {

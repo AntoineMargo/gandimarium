@@ -5,6 +5,10 @@ extends Label
 func _can_drop_data(_pos, item):
 	var character = Global.focus_char
 	var slot_type = character.data.equipment.SLOT_TO_TYPE[slot]
+
+	if slot_type == Enums.SlotType.NONE:
+		return true
+
 	if item.slot_type == slot_type:
 		return true
 	else:

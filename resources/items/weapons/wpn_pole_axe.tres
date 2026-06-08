@@ -73,7 +73,6 @@ metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 script = ExtResource("2_3l2cu")
 name = "Pole-Axe"
 id = "wpn_pole_axe"
-slot_type = 12
 brawn_req_1h = 8
 brawn_req_2h = 4
 strike = SubResource("Resource_jdaye")
