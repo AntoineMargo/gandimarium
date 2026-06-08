@@ -656,7 +656,7 @@ func remove_item_visual(coords: Vector3i):
 		visual.queue_free()
 		layers[coords.z]["item_visual"].erase(layer_coords)
 
-func flash_tile_overlay(tile_pos: Vector2i) -> void:
+func flash_tile_overlay(tile_pos: Vector2i, colour: Color = Color(0.0, 1.0, 0.0, 1.0)) -> void:
 	var flash_scene = preload("res://interface/local_map/flash_tile_effect.tscn")
 	var flash_instance = flash_scene.instantiate()
 	
@@ -665,6 +665,7 @@ func flash_tile_overlay(tile_pos: Vector2i) -> void:
 	flash_instance.position = world_pos
 	
 	tilemap.add_child(flash_instance)
+	flash_instance.colour_rect.color = colour
 	flash_instance.get_node("AnimationPlayer").play("flash")
 	
 func creatures_visible_if_on_layer():
