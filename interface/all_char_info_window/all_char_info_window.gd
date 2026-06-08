@@ -12,9 +12,6 @@ var drag_offset: Vector2 = Vector2.ZERO
 @onready var inventory_tab = get_node_or_null("%Inventory")
 @onready var spells_tab = get_node_or_null("%Spells")
 
-#@onready var spell_list = get_node_or_null("Control/ColorRect/VBox/Tabs/Spells/HBox/Scroller/SpellList")
-#@onready var spell_element = preload("res://interface/all_char_info_window/available_spell.tscn")
-
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:

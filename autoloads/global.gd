@@ -110,7 +110,7 @@ func set_active_window(window: Node) -> void:
 	container_window.layer = 100
 
 	active_window = window
-	active_window.layer = 200
+	active_window.layer = 150
 
 func _ready() -> void:
 	randomize()

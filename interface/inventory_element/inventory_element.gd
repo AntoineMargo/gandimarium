@@ -44,7 +44,7 @@ func _get_drag_data(_at_position):
 	preview.custom_minimum_size = Vector2(100, 20)  # Adjust size as needed
 	preview.set_anchors_preset(Control.PRESET_CENTER)
 	preview.modulate = Color(1, 1, 1, 1)
-	preview.z_index = 3000
+	preview.z_index = 200
 	set_drag_preview(preview)
 
 	var retrieved_item = remove_n_of_item(amount_to_take)
