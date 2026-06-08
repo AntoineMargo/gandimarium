@@ -671,8 +671,10 @@ func change_stat_enum(type: Enums.StatType, stat: int, delta):
 		Enums.StatType.POINT:
 			var current = data.derived_stats.get_points(stat)
 			data.derived_stats.set_points(stat, current + delta)
-			if stat == Enums.Point.MAX_MP:
+			if stat == Enums.Point.MAX_MP or stat == Enums.Point.MAX_AP:
 				update_mover_speed()
+			#elif stat == Enums.Point.VIGOUR:
+				#update_vigour()
 		Enums.StatType.RESISTANCE:
 			#var current = data.derived_stats.get_resistance(stat)
 			#data.derived_stats.set_resistance(stat, current + delta)
@@ -690,8 +692,10 @@ func replace_stat_enum(type: Enums.StatType, stat: int, value):
 			data.derived_stats.set_skill(stat, value)
 		Enums.StatType.POINT:
 			data.derived_stats.set_points(stat, value)
-			if stat == Enums.Point.MAX_MP:
+			if stat == Enums.Point.MAX_MP or stat == Enums.Point.MAX_AP:
 				update_mover_speed()
+			#elif stat == Enums.Point.VIGOUR:
+				#update_vigour()
 		Enums.StatType.RESISTANCE:
 			#var current = data.derived_stats.get_resistance(stat)
 			#data.derived_stats.set_resistance(stat, current + delta)
@@ -711,8 +715,10 @@ func multiply_stat_enum(type: Enums.StatType, stat: int, factor):
 		Enums.StatType.POINT:
 			var current = data.derived_stats.get_points(stat)
 			data.derived_stats.set_points(stat, current * factor)
-			if stat == Enums.Point.MAX_MP:
+			if stat == Enums.Point.MAX_MP or stat == Enums.Point.MAX_AP:
 				update_mover_speed()
+			#elif stat == Enums.Point.VIGOUR:
+				#update_vigour()
 		Enums.StatType.RESISTANCE:
 			#var current = data.derived_stats.get_resistance(stat)
 			#data.derived_stats.set_resistance(stat, current + delta)
@@ -892,27 +898,27 @@ func build_stats():
 
 ## This builds the final usable stats; to be used directly for activities and from outside the class
 func update_stats():
-	data.derived_stats.agility = data.base_stats.agility + data.derived_stats.vigour
-	data.derived_stats.will = data.base_stats.will + data.derived_stats.vigour
-	data.derived_stats.sense = data.base_stats.sense + data.derived_stats.vigour
-	data.derived_stats.stamina = data.base_stats.stamina + data.derived_stats.vigour
-	data.derived_stats.offence = data.base_stats.offence + data.derived_stats.vigour
-	data.derived_stats.melee_defence = data.base_stats.melee_defence + data.derived_stats.vigour
-	data.derived_stats.ranged_defence = data.base_stats.ranged_defence + data.derived_stats.vigour
+	data.derived_stats.agility = data.base_stats.agility
+	data.derived_stats.will = data.base_stats.will
+	data.derived_stats.sense = data.base_stats.sense
+	data.derived_stats.stamina = data.base_stats.stamina
+	data.derived_stats.offence = data.base_stats.offence
+	data.derived_stats.melee_defence = data.base_stats.melee_defence
+	data.derived_stats.ranged_defence = data.base_stats.ranged_defence
 	
-	data.derived_stats.arcane = data.base_stats.arcane + data.derived_stats.vigour
-	data.derived_stats.artistry = data.base_stats.artistry + data.derived_stats.vigour
-	data.derived_stats.society = data.base_stats.society + data.derived_stats.vigour
-	data.derived_stats.craftsmanship = data.base_stats.craftsmanship + data.derived_stats.vigour
-	data.derived_stats.deception = data.base_stats.deception + data.derived_stats.vigour
-	data.derived_stats.history = data.base_stats.history + data.derived_stats.vigour
-	data.derived_stats.linguistics = data.base_stats.linguistics + data.derived_stats.vigour
-	data.derived_stats.mechanics = data.base_stats.mechanics + data.derived_stats.vigour
-	data.derived_stats.medicine = data.base_stats.medicine + data.derived_stats.vigour
-	data.derived_stats.nature = data.base_stats.nature + data.derived_stats.vigour
-	data.derived_stats.persuasion = data.base_stats.persuasion + data.derived_stats.vigour
-	data.derived_stats.thievery = data.base_stats.thievery + data.derived_stats.vigour
-	data.derived_stats.stealth = data.base_stats.stealth + data.derived_stats.vigour
+	data.derived_stats.arcane = data.base_stats.arcane
+	data.derived_stats.artistry = data.base_stats.artistry
+	data.derived_stats.society = data.base_stats.society
+	data.derived_stats.craftsmanship = data.base_stats.craftsmanship
+	data.derived_stats.deception = data.base_stats.deception
+	data.derived_stats.history = data.base_stats.history
+	data.derived_stats.linguistics = data.base_stats.linguistics
+	data.derived_stats.mechanics = data.base_stats.mechanics
+	data.derived_stats.medicine = data.base_stats.medicine
+	data.derived_stats.nature = data.base_stats.nature
+	data.derived_stats.persuasion = data.base_stats.persuasion
+	data.derived_stats.thievery = data.base_stats.thievery
+	data.derived_stats.stealth = data.base_stats.stealth
 	
 	data.derived_stats.strength_bonus = data.base_stats.strength_bonus
 	data.derived_stats.vigour = 0
@@ -922,7 +928,7 @@ func update_stats():
 	data.derived_stats.max_pp = data.base_stats.max_pp
 	data.derived_stats.max_ep = data.base_stats.max_ep
 	
-	data.derived_stats.max_mp = data.base_stats.max_mp + data.derived_stats.vigour
+	data.derived_stats.max_mp = data.base_stats.max_mp
 	
 	data.derived_stats.max_ap = data.base_stats.max_ap
 	data.derived_stats.max_reactions = data.base_stats.max_reactions
@@ -946,13 +952,7 @@ func update_stats():
 	data.state = Enums.State.CONSCIOUS
 	
 	data.targetable = true
-	
-	#var talents = data.talents
-	#for i in range(talents.size() - 1, -1, -1):
-		#var talent: Talent = talents[i]
-		#if talent.re_apply_effects:
-			#talent.initialize(self)
-	
+
 	var conditions = data.conditions
 	for i in range(conditions.size() - 1, -1, -1):
 		var condition = conditions[i]
@@ -964,17 +964,47 @@ func update_stats():
 	
 	apply_conditions_from_equipment()
 	
+	if data.derived_stats.vigour != 0:
+		update_vigour()
+
 	stats_dirty = false
 	sprite_node.texture = load(data.sprite)
 	build_tactical_map()
 	#set_stat("current_ap", get_stat("max_ap"))
 	update_mover_speed()
 	SignalBus.add_to_initiative.emit(self)
-	SignalBus.update_ui_for_char.emit()
 	rebuild_shader()
+	if self == Global.selected_char:
+		SignalBus.update_character_info.emit()
+		SignalBus.update_ui_for_char.emit()
+
+func update_vigour() -> void:
+	data.derived_stats.agility += data.derived_stats.vigour
+	data.derived_stats.will += data.derived_stats.vigour
+	data.derived_stats.sense += data.derived_stats.vigour
+	data.derived_stats.stamina += data.derived_stats.vigour
+	data.derived_stats.offence += data.derived_stats.vigour
+	data.derived_stats.melee_defence += data.derived_stats.vigour
+	data.derived_stats.ranged_defence += data.derived_stats.vigour
+	
+	data.derived_stats.arcane += data.derived_stats.vigour
+	data.derived_stats.artistry += data.derived_stats.vigour
+	data.derived_stats.society += data.derived_stats.vigour
+	data.derived_stats.craftsmanship += data.derived_stats.vigour
+	data.derived_stats.deception += data.derived_stats.vigour
+	data.derived_stats.history += data.derived_stats.vigour
+	data.derived_stats.linguistics += data.derived_stats.vigour
+	data.derived_stats.mechanics += data.derived_stats.vigour
+	data.derived_stats.medicine += data.derived_stats.vigour
+	data.derived_stats.nature += data.derived_stats.vigour
+	data.derived_stats.persuasion += data.derived_stats.vigour
+	data.derived_stats.thievery += data.derived_stats.vigour
+	data.derived_stats.stealth += data.derived_stats.vigour
+
+	data.derived_stats.max_mp += data.derived_stats.vigour
 
 func update_mover_speed() -> void:
-	$Mover.max_speed = get_stat("max_mp") * Global.TILE_SIZE * 0.5
+	$Mover.max_speed = get_stat("max_mp") * get_stat("max_ap") * Global.TILE_SIZE * 0.25
 
 func turn_start():
 	if data.state == Enums.State.CONSCIOUS:
@@ -1014,6 +1044,10 @@ func handle_tile_conditions():
 				element.apply_to_entity(self)
 
 func sight_check(target_tile: Vector3i, creature: Creature = null) -> bool: 
+	if not creature:
+		push_warning("No creature as argument to sight_check.")
+		return false
+
 	var origin_tile = Vector3i(data.tile_x, data.tile_y, data.tile_z)
 	if WorldMath.pos_in_range_weighted_3d(origin_tile, target_tile, (data.base_stats.sense * 4)):
 		if WorldMath.has_line_of_sight_tile(origin_tile, target_tile):
