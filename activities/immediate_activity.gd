@@ -1,18 +1,57 @@
 extends Activity
 class_name ImmediateActivity
 
+@export var prompt_scene: PackedScene
+
+var prompt_instance = null
+
+func _cleanup() -> void:
+	prompt_instance.queue_free()
+	SignalBus.change_cursor.emit("default")
+	Global.activity_handler = null
+	origin = Vector3i(0, 0, 0)
+	target_points.clear()
+	SignalBus.update_ui_for_char.emit()
+
+func cancel_activity():
+	SignalBus.dialog_show_message.emit("Canceling activity.")
+	_cleanup()
+
+func handle_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		match event.button_index:
+			MOUSE_BUTTON_LEFT:
+				pass
+			MOUSE_BUTTON_RIGHT:
+				cancel_activity()
+
 func preview_area(tile):
 	var wm = Global.world_manager
 	var tiles = compute_affected_area(tile)
 	wm.clear_visualization(wm.preview_visualized_rects, wm.preview_visualized_lines)
 	wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines)
 
+func resolve_ui() -> void:
+	SignalBus.dialog_show_message.emit("Waiting for player decision...")
+	Global.activity_handler = self
+	self.user = user
+	prompt_instance = prompt_scene.instantiate()
+	Global.add_child(prompt_instance)
+	SignalBus.change_cursor.emit("select2")
+
 func execute() -> void:
-	_setup_concentration()
 	_import_context()
-	
+	origin = user.get_coords()
 	var pre_ctx = _build_context()
 	pre_execution_bundle_modify(pre_ctx)
+	if prompt_scene:
+		resolve_ui()
+	else:
+		resolve()
+
+func resolve() -> void:
+	_setup_concentration()
+	_import_context()
 
 	var shared_ctx = _build_shared_context()
 	var self_ctx = _build_context(shared_ctx, user.get_coords())

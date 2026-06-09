@@ -6,6 +6,14 @@ var number_of_targets_left = 0
 var cm = null
 var wm = null
 
+func _visual_pounce(targets: Array, ctx: Context):
+	if targets.size() == 1:
+		for tag in tags:
+			if Enums.Tag.MELEE:
+				var origin_tile: Vector2 = Vector2(ctx.origin.x, ctx.origin.y)
+				var target_tile: Vector2 = Vector2(targets[0].x, targets[0].y)
+				var target_dir: Vector2 = (target_tile - origin_tile).normalized()
+				user.pounce_attack(target_dir)
 
 func pre_execution_bundle_modify(ctx: Context):
 	super.pre_execution_bundle_modify(ctx)
@@ -144,6 +152,8 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 				effect.apply_context(self_ctx)
 			else:
 				effect.apply(self, self_ctx.user, self_ctx.degree)
+
+	_visual_pounce(targets, self_ctx)
 
 	for target in targets:
 		var batch_payload: Array[Callable] = []

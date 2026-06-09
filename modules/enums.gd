@@ -341,5 +341,6 @@ enum Tag {
 	MELEE,
 	RANGED,
 	HARMLESS,
-	HOSTILE
+	HOSTILE,
+	MAGIC
 }

@@ -25,6 +25,7 @@ metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
 
 [sub_resource type="Resource" id="Resource_4ui3d"]
 script = ExtResource("8_vb0bw")
+tags = Array[int]([1])
 attacking_aptitude = 4
 defending_aptitude = 5
 reach = 2
@@ -57,6 +58,7 @@ metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
 
 [sub_resource type="Resource" id="Resource_dbtu7"]
 script = ExtResource("17_ffqtg")
+tags = Array[int]([2])
 attacking_aptitude = 4
 defending_aptitude = 6
 target_effects = Array[ExtResource("10_k8xhw")]([SubResource("Resource_vb0bw")])

@@ -27,10 +27,82 @@
 [ext_resource type="Resource" uid="uid://c60jx06w6ypb5" path="res://resources/spell_containers/sleep.tres" id="23_dva2d"]
 [ext_resource type="Resource" uid="uid://l4lhhumt3wvd" path="res://resources/spell_containers/slumber.tres" id="24_a3m6j"]
 [ext_resource type="Resource" uid="uid://d3y5wm4fptiym" path="res://resources/spell_containers/full_image.tres" id="25_a3m6j"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="26_v5jdu"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="27_j0ybq"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="28_4ay3v"]
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="29_2mmfy"]
+[ext_resource type="PackedScene" uid="uid://t4yj7t77afwf" path="res://interface/prompt_window/spell_prompt_window/spell_prompt_window.tscn" id="29_4ay3v"]
+[ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damage_effect.gd" id="31_13mnf"]
+[ext_resource type="Script" uid="uid://3t3dwtov2mvp" path="res://filters/not_self.gd" id="32_j0ybq"]
+
+[sub_resource type="Resource" id="Resource_uu5mt"]
+script = ExtResource("27_j0ybq")
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_ynu1s"]
+script = ExtResource("31_13mnf")
+die_size = 4
+resistance = 2
+damage_pattern = SubResource("Resource_uu5mt")
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_4ay3v"]
+script = ExtResource("32_j0ybq")
+metadata/_custom_type_script = "uid://3t3dwtov2mvp"
+
+[sub_resource type="Resource" id="Resource_wcg80"]
+script = ExtResource("29_2mmfy")
+name = "Energy Eruption (Fire)"
+id = "act_energy_eruption_fire"
+AP_cost = 2
+defending_aptitude = 2
+reach = 0
+spread = 6
+target_filters = Array[ExtResource("2_eyq6g")]([SubResource("Resource_4ay3v")])
+target_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_ynu1s")])
+targeting_type = 1
+is_spell = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_o6cqi"]
+script = ExtResource("26_v5jdu")
+activity = SubResource("Resource_wcg80")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_hblds"]
+script = ExtResource("3_glfbk")
+minimum_rank = 3
+name = "Energy Eruption"
+activities = Array[ExtResource("26_v5jdu")]([SubResource("Resource_o6cqi")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_2mmfy"]
+script = ExtResource("29_2mmfy")
+prompt_scene = ExtResource("29_4ay3v")
+name = "Spell Matrix (2)"
+id = "act_spell_matrix_2"
+AP_cost = 3
+requires_concentration = true
+reach = 0
+requires_roll = false
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_13mnf"]
+script = ExtResource("26_v5jdu")
+activity = SubResource("Resource_2mmfy")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_v3vy8"]
+script = ExtResource("3_glfbk")
+name = "Spell Matrix (2)"
+activities = Array[ExtResource("26_v5jdu")]([SubResource("Resource_13mnf")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
 
 [sub_resource type="Resource" id="Resource_wqd4r"]
 script = ExtResource("2_m11lv")
-spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk"), ExtResource("5_wqd4r"), ExtResource("6_rqpy1"), ExtResource("7_b2hvq"), ExtResource("8_u81v1"), ExtResource("9_frlgl"), ExtResource("10_eubeo"), ExtResource("11_j8ccw"), ExtResource("12_k724e"), ExtResource("13_j8ccw"), ExtResource("14_dva2d"), ExtResource("15_s1sgk"), ExtResource("21_2uh2x"), ExtResource("17_5dmfs"), ExtResource("18_gobpa"), ExtResource("19_smut8"), ExtResource("20_v5jdu"), ExtResource("21_j0ybq"), ExtResource("22_4ay3v"), ExtResource("23_dva2d"), ExtResource("24_a3m6j"), ExtResource("25_a3m6j")])
+spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk"), ExtResource("5_wqd4r"), ExtResource("6_rqpy1"), ExtResource("7_b2hvq"), ExtResource("8_u81v1"), ExtResource("9_frlgl"), ExtResource("10_eubeo"), ExtResource("11_j8ccw"), ExtResource("12_k724e"), ExtResource("13_j8ccw"), ExtResource("14_dva2d"), ExtResource("15_s1sgk"), ExtResource("21_2uh2x"), ExtResource("17_5dmfs"), ExtResource("18_gobpa"), ExtResource("19_smut8"), ExtResource("20_v5jdu"), ExtResource("21_j0ybq"), ExtResource("22_4ay3v"), ExtResource("23_dva2d"), ExtResource("24_a3m6j"), ExtResource("25_a3m6j"), SubResource("Resource_hblds"), SubResource("Resource_v3vy8")])
 metadata/_custom_type_script = "uid://2oaio4mh2bc8"
 
 [resource]

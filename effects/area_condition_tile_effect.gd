@@ -1,9 +1,6 @@
 extends Effect
 class_name AreaConditionTileEffect
 
-func apply(_source, _target, _degree: int = 2) -> void:
-	pass
-
 func apply_context(ctx: Context) -> bool:
 	var wm = Global.world_manager
 	var pos = ctx.target

@@ -34,11 +34,17 @@ func find_best_ranged_attack(entries):
 	var favored_ranged_attack: Activity = null
 	var highest_brawn_requirement: int = 0
 	
-	for i in range(2):
-		if entries[i].activity.weapon and entries[i].activity.triggers_reaction:
-			if entries[i].activity.weapon.brawn_req_2h > highest_brawn_requirement:
-				favored_ranged_attack = entries[i].activity
-				highest_brawn_requirement = entries[i].activity.weapon.brawn_req_2h
+	#for i in range(2):
+		#if entries[i].activity.weapon and entries[i].activity.triggers_reaction:
+			#if entries[i].activity.weapon.brawn_req_2h > highest_brawn_requirement:
+				#favored_ranged_attack = entries[i].activity
+				#highest_brawn_requirement = entries[i].activity.weapon.brawn_req_2h
+				
+	for entry in entries:
+		if entry.activity.weapon and entry.activity.triggers_reaction:
+			if entry.activity.weapon.brawn_req_2h > highest_brawn_requirement:
+				favored_ranged_attack = entry.activity
+				highest_brawn_requirement = entry.activity.weapon.brawn_req_2h
 		else:
 			break
 	return favored_ranged_attack
@@ -48,12 +54,19 @@ func find_best_melee_attack(entries):
 	var favored_melee_attack: Activity = null
 	var highest_brawn_requirement: int = 0
 	
-	for i in range(2):
-		print("activity name: ", entries[i].activity.name)
-		if entries[i].activity.weapon and not entries[i].activity.triggers_reaction:
-			if entries[i].activity.weapon.brawn_req_2h >= highest_brawn_requirement:
-				favored_melee_attack = entries[i].activity
-				highest_brawn_requirement = entries[i].activity.weapon.brawn_req_2h
+	#for i in range(2):
+		#print("activity name: ", entries[i].activity.name)
+		#if entries[i].activity.weapon and not entries[i].activity.triggers_reaction:
+			#if entries[i].activity.weapon.brawn_req_2h >= highest_brawn_requirement:
+				#favored_melee_attack = entries[i].activity
+				#highest_brawn_requirement = entries[i].activity.weapon.brawn_req_2h
+
+	for entry in entries:
+		print("activity name: ", entry.activity.name)
+		if entry.activity.weapon and not entry.activity.triggers_reaction:
+			if entry.activity.weapon.brawn_req_2h >= highest_brawn_requirement:
+				favored_melee_attack = entry.activity
+				highest_brawn_requirement = entry.activity.weapon.brawn_req_2h
 		else:
 			break
 	return favored_melee_attack

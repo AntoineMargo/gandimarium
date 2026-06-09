@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://t4yj7t77afwf"]
+
+[ext_resource type="PackedScene" uid="uid://gbe5i06dkqh1" path="res://interface/prompt_window/prompt_window.tscn" id="1_7225v"]
+[ext_resource type="Script" uid="uid://cc2pm2mlttu5h" path="res://interface/prompt_window/spell_prompt_window/spell_prompt_window.gd" id="2_ywdlw"]
+
+[node name="SpellPromptWindow" unique_id=22622007 instance=ExtResource("1_7225v")]
+script = ExtResource("2_ywdlw")
+
+[node name="Label" parent="Control/ColorRect/VBoxContainer/TopBar/StatusBar" parent_id_path=PackedInt32Array(1521828588) index="0" unique_id=1587622483]
+theme_override_font_sizes/font_size = 16
+text = "Choose 2 spells:"
+
+[node name="List" parent="Control/ColorRect/VBoxContainer/ScrollContainer" parent_id_path=PackedInt32Array(2017689350) index="0" unique_id=917930452]
+unique_name_in_owner = true

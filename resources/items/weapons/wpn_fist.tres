@@ -14,6 +14,7 @@
 script = ExtResource("4_hbmuo")
 name = "Fist"
 id = "wpn_fist"
+tags = Array[int]([1])
 attacking_aptitude = 4
 defending_aptitude = 5
 triggers_reaction = false

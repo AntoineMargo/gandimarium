@@ -169,11 +169,6 @@ func post_resolution_bundle_modify(ctx: ActivityContext):
 	ctx.result = modify_value(ctx.result, Enums.ValueType.RESULT_ROLL, ctx, Enums.ActivityStage.POST_RESOLUTION)
 	ctx.degree = modify_value(ctx.degree, Enums.ValueType.DEGREE, ctx, Enums.ActivityStage.POST_RESOLUTION)
 
-#func effect_bundle_modify(ctx: ActivityContext):
-	#ctx.result = modify_value(ctx.result, Enums.ValueType.RESULT_ROLL, ctx, Enums.ActivityStage.POST_RESOLUTION)
-	#ctx.degree = modify_value(ctx.degree, Enums.ValueType.DEGREE, ctx, Enums.ActivityStage.POST_RESOLUTION)
-
-
 func _roll(ctx):
 	ctx.user_roll = BasicMath.standard_roll()
 	ctx.target_roll = BasicMath.standard_roll()
@@ -190,12 +185,6 @@ func _resolve(ctx):
 			ctx.degree = BasicMath.determine_degree_success(ctx.result)
 			SignalBus.dialog_show_message.emit(
 				"%s rolled %d against %s's %d." % [ctx.user.data.name, ctx.user_stat+ctx.user_roll, ctx.target.data.name, ctx.target_stat+ctx.target_roll])
-
-@warning_ignore("unused_parameter")
-func _apply_effects(ctx):
-	for effect in target_effects:
-		pass
-		#effect.apply(ctx)
 
 func _has_enough_ap_and_pp(ctx):
 	if not ctx.user.has_enough_ap(AP_cost):

@@ -1,5 +1,4 @@
 extends Resource
-
 class_name Effect
 
 @export var required_degree: int = 0

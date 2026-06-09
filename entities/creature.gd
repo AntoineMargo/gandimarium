@@ -1216,18 +1216,19 @@ func rebuild_shader():
 	for key in accum:
 		shader_mat.set_shader_parameter(key, accum[key])
 
-#func rebuild_shader():
-	#var shader_mat = sprite_node.material as ShaderMaterial
-	#if shader_mat == null:
-		#return
-#
-	#for condition in data.conditions:
-		#for effect in condition.shader_effects:
-#
-			#var parameter_name = effect.parameter_name
-			#var value = effect.value
-#
-			#shader_mat.set_shader_parameter(parameter_name, value)
+func pounce_attack(target_dir: Vector2) -> void:
+	var pounce_distance: float = 6.0
+	var forward = target_dir.normalized() * pounce_distance
+	
+	var tween = get_tree().create_tween()
+	tween.set_trans(Tween.TRANS_QUAD)
+	tween.set_ease(Tween.EASE_OUT)
+
+	# forward lunge
+	tween.tween_property(sprite_node, "position", forward, 0.05)
+
+	# snap back
+	tween.tween_property(sprite_node, "position", Vector2.ZERO, 0.08)
 
 func _ready():
 	print("Creature getting ready!")
