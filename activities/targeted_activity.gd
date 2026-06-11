@@ -146,6 +146,9 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 
 	SignalBus.event.emit(ReactionEvent.activity_started(self_ctx))
 
+	_consume_ap(self_ctx)
+	_consume_pp(self_ctx)
+
 	for effect in self_prior_effects:
 		if effect is Effect:
 			if effect.has_method("apply_context"):
@@ -242,8 +245,6 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 			else:
 				effect.apply(self, self_ctx.user, self_ctx.degree)
 
-	_consume_ap(self_ctx)
-	_consume_pp(self_ctx)
 	_finalize_concentration(self_ctx)
 	_cleanup()
 	

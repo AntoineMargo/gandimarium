@@ -202,7 +202,10 @@ func BasicControls():
 	if Input.is_action_just_pressed("X"):
 		if not Global.selected_char:
 			return
-		Global.selected_char.pounce_attack(Vector2(1, 0))
+		var current_mp = Global.selected_char.get_stat("current_mp")
+		SignalBus.dialog_show_message.emit("Current mp: %d" % current_mp)
+		var current_ap = Global.selected_char.get_stat("current_ap")
+		SignalBus.dialog_show_message.emit("Current ap: %d" % current_ap)
 
 	if Input.is_action_just_pressed("V"):
 		SignalBus.dialog_show_message.emit("Number of active creatures: %d" % Global.ai_manager.active_number)

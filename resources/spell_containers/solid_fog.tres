@@ -30,7 +30,7 @@ metadata/_custom_type_script = "uid://cfpj1qbuyeinb"
 [sub_resource type="Resource" id="Resource_gjpf7"]
 script = ExtResource("9_6rj0j")
 stat = 3
-amount = 1.0
+amount = 0.5
 metadata/_custom_type_script = "uid://cp1x0k5fsy1j5"
 
 [sub_resource type="Resource" id="Resource_8vfux"]
@@ -40,7 +40,7 @@ metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
 
 [sub_resource type="Resource" id="Resource_vuhvc"]
 script = ExtResource("10_5cwtd")
-type = 1
+type = 2
 entry_containers = Array[ExtResource("8_5cwtd")]([SubResource("Resource_8vfux")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 

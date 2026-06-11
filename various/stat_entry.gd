@@ -12,7 +12,7 @@ func get_type() -> Enums.StatType:
 func get_stat() -> int:
 	return -1
 
-func get_amount(source, _target) -> int:
+func get_amount(source, _target) -> float:
 	if source is Creature:
 		return amount + (spell_rank_multiplier * source.data.current_spell_rank)
 	elif source is Condition:

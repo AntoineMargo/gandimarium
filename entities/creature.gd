@@ -672,9 +672,7 @@ func change_stat_enum(type: Enums.StatType, stat: int, delta):
 			var current = data.derived_stats.get_points(stat)
 			data.derived_stats.set_points(stat, current + delta)
 			if stat == Enums.Point.MAX_MP or stat == Enums.Point.MAX_AP:
-				update_mover_speed()
-			#elif stat == Enums.Point.VIGOUR:
-				#update_vigour()
+				update_movement_speed(current)
 		Enums.StatType.RESISTANCE:
 			#var current = data.derived_stats.get_resistance(stat)
 			#data.derived_stats.set_resistance(stat, current + delta)
@@ -691,11 +689,10 @@ func replace_stat_enum(type: Enums.StatType, stat: int, value):
 		Enums.StatType.SKILL:
 			data.derived_stats.set_skill(stat, value)
 		Enums.StatType.POINT:
+			var current = data.derived_stats.get_points(stat)
 			data.derived_stats.set_points(stat, value)
 			if stat == Enums.Point.MAX_MP or stat == Enums.Point.MAX_AP:
-				update_mover_speed()
-			#elif stat == Enums.Point.VIGOUR:
-				#update_vigour()
+				update_movement_speed(current)
 		Enums.StatType.RESISTANCE:
 			#var current = data.derived_stats.get_resistance(stat)
 			#data.derived_stats.set_resistance(stat, current + delta)
@@ -716,9 +713,7 @@ func multiply_stat_enum(type: Enums.StatType, stat: int, factor):
 			var current = data.derived_stats.get_points(stat)
 			data.derived_stats.set_points(stat, current * factor)
 			if stat == Enums.Point.MAX_MP or stat == Enums.Point.MAX_AP:
-				update_mover_speed()
-			#elif stat == Enums.Point.VIGOUR:
-				#update_vigour()
+				update_movement_speed(current)
 		Enums.StatType.RESISTANCE:
 			#var current = data.derived_stats.get_resistance(stat)
 			#data.derived_stats.set_resistance(stat, current + delta)
@@ -970,8 +965,7 @@ func update_stats():
 	stats_dirty = false
 	sprite_node.texture = load(data.sprite)
 	build_tactical_map()
-	#set_stat("current_ap", get_stat("max_ap"))
-	update_mover_speed()
+	update_movement_speed()
 	SignalBus.add_to_initiative.emit(self)
 	rebuild_shader()
 	if self == Global.selected_char:
@@ -1003,8 +997,17 @@ func update_vigour() -> void:
 
 	data.derived_stats.max_mp += data.derived_stats.vigour
 
-func update_mover_speed() -> void:
+func update_movement_speed(old_value: int = -1) -> void:
 	$Mover.max_speed = get_stat("max_mp") * get_stat("max_ap") * Global.TILE_SIZE * 0.25
+	if old_value > -1:
+		var new_value: float = get_stat("max_mp")
+		var ratio: float = new_value / old_value
+		var current_mp: int = get_stat("current_mp")
+		@warning_ignore("narrowing_conversion")
+		var new_current_mp: int = current_mp * ratio
+		var current_ap = get_stat("current_ap")
+		set_stat("current_mp", new_current_mp * current_ap)
+		Global.world_manager.path_preview.get_char_data()
 
 func turn_start():
 	if data.state == Enums.State.CONSCIOUS:

@@ -114,6 +114,9 @@ func determine_find_dimensions():
 func get_tile_data(tile: Vector3i):
 	return layers[tile.z]["tile_map"].get_cell_tile_data(Vector2i(tile.x, tile.y))
 
+func set_tile_move_cost(tile: Vector3i, cost: float) -> void:
+	layers[tile.z]["move_cost"][Vector2i(tile.x, tile.y)].set(cost)
+
 func get_tile_move_cost(tile: Vector3i) -> float:
 	return layers[tile.z]["move_cost"].get(Vector2i(tile.x, tile.y), 1)
 
