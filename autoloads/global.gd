@@ -65,6 +65,10 @@ func _process(_delta: float) -> void:
 		ui_manager.drag_fail_restore()
 
 func handle_world_hover(tile: Vector3i) -> void:
+	if Input.is_action_pressed("Ctrl") and selected_char and not activity_handler:
+		var selected_weapon_activity: Activity = selected_char.get_selected_weapon_activity()
+		selected_weapon_activity.execute()
+	
 	if tile == last_hovered_tile:
 		return
 
@@ -74,6 +78,7 @@ func handle_world_hover(tile: Vector3i) -> void:
 		if activity_handler.has_method("handle_hover"):
 			activity_handler.handle_hover(tile)
 			return
+
 
 	world_manager.hover_tile.set_tile(tile)
 

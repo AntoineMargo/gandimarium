@@ -3,24 +3,58 @@
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_7n0qi"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="2_434vm"]
 [ext_resource type="Script" uid="uid://18l4gn7hleqe" path="res://various/abstract_stat_entry_container.gd" id="3_7n0qi"]
+[ext_resource type="Script" uid="uid://va2witn0s23o" path="res://various/stat_resistance_entry.gd" id="4_qelap"]
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="5_4hy05"]
+[ext_resource type="Script" uid="uid://5c3jlvd4s3cf" path="res://various/stat_entry_container.gd" id="5_hsc0c"]
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="6_hsc0c"]
 [ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="7_434vm"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="7_sm0tq"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="8_434vm"]
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="8_bjf8k"]
+[ext_resource type="Script" uid="uid://l76qcdu2mdkb" path="res://VFX/pulse_profile.gd" id="10_4hy05"]
 
-[sub_resource type="Resource" id="Resource_ykpp3"]
+[sub_resource type="Resource" id="Resource_sm0tq"]
+script = ExtResource("4_qelap")
+stat = 1
+amount = 5.0
+spell_rank_multiplier = 1.0
+metadata/_custom_type_script = "uid://va2witn0s23o"
+
+[sub_resource type="Resource" id="Resource_bjf8k"]
+script = ExtResource("5_hsc0c")
+entry = SubResource("Resource_sm0tq")
+metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
+
+[sub_resource type="Resource" id="Resource_d0iuo"]
 script = ExtResource("5_4hy05")
+entry_containers = Array[ExtResource("3_7n0qi")]([SubResource("Resource_bjf8k")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_hsc0c"]
+script = ExtResource("10_4hy05")
+metadata/_custom_type_script = "uid://l76qcdu2mdkb"
+
+[sub_resource type="Resource" id="Resource_awq2p"]
+script = ExtResource("7_434vm")
+parameter_name = "aura_amount"
+value = 2.0
+pulse = SubResource("Resource_hsc0c")
+metadata/_custom_type_script = "uid://cphr788gebsk2"
+
+[sub_resource type="Resource" id="Resource_3c58d"]
+script = ExtResource("7_434vm")
+parameter_name = "aura_color"
+value = Vector3(0.8, 0.8, 0.4)
+metadata/_custom_type_script = "uid://cphr788gebsk2"
 
 [sub_resource type="Resource" id="Resource_kmkm1"]
 script = ExtResource("1_7n0qi")
 name = "Brilliant Armour (derived)"
 id = "cond_brilliant_armour_derived"
 persistent = false
-effects = Array[ExtResource("2_434vm")]([SubResource("Resource_ykpp3")])
+effects = Array[ExtResource("2_434vm")]([SubResource("Resource_d0iuo")])
 is_visible = false
+shader_effects = Array[ExtResource("7_434vm")]([SubResource("Resource_awq2p"), SubResource("Resource_3c58d")])
 metadata/_custom_type_script = "uid://dvi4ohsador2o"
 
 [resource]

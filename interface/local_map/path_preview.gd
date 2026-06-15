@@ -33,7 +33,8 @@ func get_char_data():
 
 	mp_per_ap = character.get_stat("max_mp")
 	max_available_ap = character.get_stat("current_ap")
-	current_available_mp = character.get_stat("current_mp")
+	#current_available_mp = character.get_stat("current_mp")
+	current_available_mp = character.get_mp_potential()
 
 func update_path(path: Array, tilemap: TileMapLayer, costs: Array) -> void:
 	clear_all()

@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="Condition" format=3 uid="uid://3xw0lplsohmg"]
+
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_c05hl"]
+[ext_resource type="Script" uid="uid://18l4gn7hleqe" path="res://various/abstract_stat_entry_container.gd" id="2_5wsyd"]
+[ext_resource type="Script" uid="uid://va2witn0s23o" path="res://various/stat_resistance_entry.gd" id="3_clgy4"]
+[ext_resource type="Script" uid="uid://5c3jlvd4s3cf" path="res://various/stat_entry_container.gd" id="4_w76ne"]
+[ext_resource type="Script" uid="uid://cp1x0k5fsy1j5" path="res://various/stat_points_entry.gd" id="5_nb6qy"]
+[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="6_q2coi"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="7_g0rf0"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="8_8vpio"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="9_t3g1j"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="10_uulx3"]
+[ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="11_kd8ut"]
+
+[sub_resource type="Resource" id="Resource_aunqm"]
+script = ExtResource("3_clgy4")
+stat = 1
+amount = 8.0
+metadata/_custom_type_script = "uid://va2witn0s23o"
+
+[sub_resource type="Resource" id="Resource_lfj8v"]
+script = ExtResource("4_w76ne")
+entry = SubResource("Resource_aunqm")
+metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
+
+[sub_resource type="Resource" id="Resource_86m4q"]
+script = ExtResource("5_nb6qy")
+stat = 6
+amount = -1.0
+metadata/_custom_type_script = "uid://cp1x0k5fsy1j5"
+
+[sub_resource type="Resource" id="Resource_le5x8"]
+script = ExtResource("4_w76ne")
+entry = SubResource("Resource_86m4q")
+metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
+
+[sub_resource type="Resource" id="Resource_ns0ch"]
+script = ExtResource("6_q2coi")
+entry_containers = Array[ExtResource("2_5wsyd")]([SubResource("Resource_lfj8v"), SubResource("Resource_le5x8")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[resource]
+script = ExtResource("9_t3g1j")
+name = "Medium Armour"
+id = "cond_medium_armour"
+persistent = false
+effects = Array[ExtResource("1_c05hl")]([SubResource("Resource_ns0ch")])

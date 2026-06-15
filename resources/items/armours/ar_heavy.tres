@@ -1,8 +1,22 @@
 [gd_resource type="Resource" script_class="Armour" format=3 uid="uid://b7qdugdif1mto"]
 
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_k45yp"]
-[ext_resource type="Resource" uid="uid://dq8birnet4lbp" path="res://resources/conditions/heavily_armoured.tres" id="2_6r0m2"]
+[ext_resource type="Resource" uid="uid://dq8birnet4lbp" path="res://resources/conditions/heavy_armour.tres" id="2_6r0m2"]
 [ext_resource type="Script" uid="uid://d3sdrg6ues8pm" path="res://items/armour.gd" id="3_apwvi"]
+[ext_resource type="Resource" uid="uid://bpoe3wixrsni4" path="res://resources/activities/weapons/melee_misc_weak_crush.tres" id="4_78nj4"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="5_ltphi"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="6_yx8qh"]
+[ext_resource type="Resource" uid="uid://dqokkkpm4yfmi" path="res://resources/activities/weapons/throw_misc_weak_crush.tres" id="7_ltphi"]
+
+[sub_resource type="Resource" id="Resource_oiwmk"]
+script = ExtResource("6_yx8qh")
+activity = ExtResource("4_78nj4")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_yx8qh"]
+script = ExtResource("6_yx8qh")
+activity = ExtResource("7_ltphi")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
 [resource]
 script = ExtResource("3_apwvi")
@@ -13,4 +27,6 @@ weight = 10.0
 value = 1000
 conditions = Array[ExtResource("1_k45yp")]([ExtResource("2_6r0m2")])
 slot_type = 4
+strike = SubResource("Resource_oiwmk")
+throw = SubResource("Resource_yx8qh")
 owner = null

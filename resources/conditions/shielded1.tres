@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="2_qgqiw"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="3_ijbyg"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_d8eai"]
-[ext_resource type="Resource" uid="uid://hct0622s1i7r" path="res://resources/conditions/crossguarded.tres" id="5_2gsjg"]
+[ext_resource type="Resource" uid="uid://hct0622s1i7r" path="res://resources/conditions/crossguard.tres" id="5_2gsjg"]
 
 [sub_resource type="Resource" id="Resource_ev3g8"]
 script = ExtResource("2_ijbyg")

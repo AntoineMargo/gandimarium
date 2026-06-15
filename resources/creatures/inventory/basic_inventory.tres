@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://0hy8gde00nbx" path="res://entities/inventory.gd" id="2_43dtw"]
 [ext_resource type="Script" uid="uid://5p63q28tlgwq" path="res://items/food.gd" id="3_hvu0r"]
 [ext_resource type="Resource" uid="uid://b7qdugdif1mto" path="res://resources/items/armours/ar_heavy.tres" id="4_7t1eq"]
+[ext_resource type="Resource" uid="uid://ctoqd68h35lfw" path="res://resources/items/weapons/long_sword.tres" id="5_8as4m"]
 
 [sub_resource type="Resource" id="Resource_pu1i0"]
 script = ExtResource("3_hvu0r")
@@ -19,5 +20,5 @@ metadata/_custom_type_script = "uid://5p63q28tlgwq"
 
 [resource]
 script = ExtResource("2_43dtw")
-list = Array[ExtResource("1_lvnn5")]([SubResource("Resource_pu1i0"), ExtResource("4_7t1eq")])
+list = Array[ExtResource("1_lvnn5")]([SubResource("Resource_pu1i0"), ExtResource("4_7t1eq"), ExtResource("5_8as4m"), ExtResource("5_8as4m")])
 metadata/_custom_type_script = "uid://0hy8gde00nbx"

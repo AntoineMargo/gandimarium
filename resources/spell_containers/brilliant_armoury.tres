@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="4_31eeq"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_sltj7"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_jj7h7"]
+[ext_resource type="Script" uid="uid://bedukehjeunck" path="res://filters/slot_empty.gd" id="6_nd6ys"]
 [ext_resource type="Resource" uid="uid://6vdpy040npbr" path="res://resources/items/armours/item_brilliant_armour.tres" id="7_wsi06"]
 [ext_resource type="Script" uid="uid://d3y8y4l4xgjbd" path="res://effects/create_item.gd" id="8_x4vgu"]
 [ext_resource type="Resource" uid="uid://bn24ohvtsmnpq" path="res://resources/items/weapons/wpn_brilliant_sword.tres" id="9_3prxf"]
@@ -24,6 +25,21 @@
 [ext_resource type="Script" uid="uid://jtk6vp2fcxdf" path="res://effects/wpn_damage.gd" id="22_7pi6c"]
 [ext_resource type="Script" uid="uid://3t3dwtov2mvp" path="res://filters/not_self.gd" id="23_17fdb"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="24_sivpm"]
+
+[sub_resource type="Resource" id="Resource_05ov3"]
+script = ExtResource("6_nd6ys")
+slot = 2
+metadata/_custom_type_script = "uid://bedukehjeunck"
+
+[sub_resource type="Resource" id="Resource_31eeq"]
+script = ExtResource("6_nd6ys")
+slot = 17
+metadata/_custom_type_script = "uid://bedukehjeunck"
+
+[sub_resource type="Resource" id="Resource_sltj7"]
+script = ExtResource("6_nd6ys")
+slot = 18
+metadata/_custom_type_script = "uid://bedukehjeunck"
 
 [sub_resource type="Resource" id="Resource_4ay3v"]
 script = ExtResource("8_x4vgu")
@@ -65,6 +81,7 @@ description = "You conjure an entire set of powerful armour and weapons from the
 AP_cost = 3
 requires_concentration = true
 reach = 20
+self_filters = Array[ExtResource("5_sltj7")]([SubResource("Resource_05ov3"), SubResource("Resource_31eeq"), SubResource("Resource_sltj7")])
 target_effects = Array[ExtResource("6_jj7h7")]([SubResource("Resource_wcg80")])
 requires_roll = false
 is_spell = true
@@ -74,6 +91,21 @@ metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
 script = ExtResource("1_rmex2")
 activity = SubResource("Resource_o6cqi")
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_nd6ys"]
+script = ExtResource("6_nd6ys")
+slot = 2
+metadata/_custom_type_script = "uid://bedukehjeunck"
+
+[sub_resource type="Resource" id="Resource_jj7h7"]
+script = ExtResource("6_nd6ys")
+slot = 17
+metadata/_custom_type_script = "uid://bedukehjeunck"
+
+[sub_resource type="Resource" id="Resource_wsi06"]
+script = ExtResource("6_nd6ys")
+slot = 18
+metadata/_custom_type_script = "uid://bedukehjeunck"
 
 [sub_resource type="Resource" id="Resource_c5il8"]
 script = ExtResource("17_uggdp")
@@ -210,6 +242,7 @@ description = "You conjure an entire set of powerful armour and weapons from the
 AP_cost = 3
 requires_concentration = true
 reach = 20
+self_filters = Array[ExtResource("5_sltj7")]([SubResource("Resource_nd6ys"), SubResource("Resource_jj7h7"), SubResource("Resource_wsi06")])
 target_effects = Array[ExtResource("6_jj7h7")]([SubResource("Resource_0p4o7")])
 requires_roll = false
 is_spell = true

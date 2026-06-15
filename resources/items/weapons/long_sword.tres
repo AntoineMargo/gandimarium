@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://ctoqd68h35lfw"]
+
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_tdac8"]
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_keh0p"]
+[ext_resource type="Resource" uid="uid://hct0622s1i7r" path="res://resources/conditions/crossguard.tres" id="2_l5iyw"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="3_2eq1f"]
+[ext_resource type="Resource" uid="uid://lowvjn23gb1u" path="res://resources/damage_patterns/slash.tres" id="4_l5iyw"]
+[ext_resource type="Resource" uid="uid://b6lwaevovr35s" path="res://resources/damage_patterns/pierce.tres" id="5_1tged"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="6_jb1ia"]
+[ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="7_slagi"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="8_tv4g2"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="9_rfyff"]
+[ext_resource type="Script" uid="uid://jtk6vp2fcxdf" path="res://effects/wpn_damage.gd" id="10_4xnjr"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="11_qd8vq"]
+[ext_resource type="Script" uid="uid://bsu4c08c52n7w" path="res://activities/targeted_throw_activity.gd" id="12_qibns"]
+
+[sub_resource type="Resource" id="Resource_xfesd"]
+script = ExtResource("10_4xnjr")
+resistance = 1
+metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
+
+[sub_resource type="Resource" id="Resource_dg0wo"]
+script = ExtResource("7_slagi")
+attacking_aptitude = 4
+defending_aptitude = 5
+reach = 2
+target_effects = Array[ExtResource("9_rfyff")]([SubResource("Resource_xfesd")])
+triggers_reaction = false
+attack_types = Array[ExtResource("3_2eq1f")]([ExtResource("4_l5iyw"), ExtResource("5_1tged")])
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_tw50m"]
+script = ExtResource("11_qd8vq")
+activity = SubResource("Resource_dg0wo")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_pow3j"]
+script = ExtResource("10_4xnjr")
+resistance = 1
+metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
+
+[sub_resource type="Resource" id="Resource_eqjg3"]
+script = ExtResource("12_qibns")
+attacking_aptitude = 5
+defending_aptitude = 6
+target_effects = Array[ExtResource("9_rfyff")]([SubResource("Resource_pow3j")])
+attack_types = Array[ExtResource("3_2eq1f")]([ExtResource("4_l5iyw"), ExtResource("5_1tged")])
+metadata/_custom_type_script = "uid://bsu4c08c52n7w"
+
+[sub_resource type="Resource" id="Resource_6yyds"]
+script = ExtResource("11_qd8vq")
+activity = SubResource("Resource_eqjg3")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("2_keh0p")
+name = "Long Sword"
+id = "item_long_sword"
+weight = 3.0
+value = 100
+conditions = Array[ExtResource("1_tdac8")]([ExtResource("2_l5iyw")])
+brawn_req_1h = 8
+brawn_req_2h = 4
+strike = SubResource("Resource_tw50m")
+throw = SubResource("Resource_6yyds")
+owner = null
+metadata/_custom_type_script = "uid://c22428ggciyyj"

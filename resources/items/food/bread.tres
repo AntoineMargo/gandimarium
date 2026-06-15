@@ -2,6 +2,20 @@
 
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_p2hjy"]
 [ext_resource type="Script" uid="uid://5p63q28tlgwq" path="res://items/food.gd" id="2_laie5"]
+[ext_resource type="Resource" uid="uid://bpoe3wixrsni4" path="res://resources/activities/weapons/melee_misc_weak_crush.tres" id="3_v1rsu"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="4_ehgcc"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="5_6e8q0"]
+[ext_resource type="Resource" uid="uid://dqokkkpm4yfmi" path="res://resources/activities/weapons/throw_misc_weak_crush.tres" id="6_ehgcc"]
+
+[sub_resource type="Resource" id="Resource_8rvod"]
+script = ExtResource("5_6e8q0")
+activity = ExtResource("3_v1rsu")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_6e8q0"]
+script = ExtResource("5_6e8q0")
+activity = ExtResource("6_ehgcc")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
 [resource]
 script = ExtResource("2_laie5")
@@ -10,5 +24,9 @@ name = "Bread"
 id = "food_bread"
 description = "Oh, delicious fluffy white bread!"
 value = 2
+brawn_req_1h = 2
+brawn_req_2h = 1
+strike = SubResource("Resource_8rvod")
+throw = SubResource("Resource_6e8q0")
 owner = null
 metadata/_custom_type_script = "uid://5p63q28tlgwq"

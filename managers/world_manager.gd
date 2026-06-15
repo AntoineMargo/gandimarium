@@ -810,19 +810,40 @@ func _apply_step_state(creature: Creature, current_tile: Vector3i, next_tile: Ve
 	creature.global_position = layers[next_tile.z]["tile_map"].map_to_local(layer_next_tile)
 	creature.mover.position = Vector2.ZERO
 
-func move_char_along_path(creature: Creature, path: Array[Vector3i]):
+func get_step_cost(current_tile: Vector3i, next_tile: Vector3i):
+	var current = Vector2i(current_tile.x, current_tile.y)
+	var next = Vector2i(next_tile.x, next_tile.y)
+	var delta = next - current
+
+	var step_cost: float = get_tile_move_cost(next_tile)
+	var is_diagonal = abs(delta.x) == 1 and abs(delta.y) == 1 and current_tile.z == next_tile.z
+	if is_diagonal:
+		step_cost *= 1.5
+
+	# vertical movement
+	elif current_tile.z != next_tile.z:
+		step_cost *= 2.0
+	
+	return step_cost
+
+func move_char_along_path(creature: Creature, path: Array[Vector3i]) -> bool:
 	path_preview.make_inactive()
 
 	for i in range(path.size() - 1):
 		var current_tile = path[i]
 		var next_tile = path[i + 1]
-
-		_apply_step_state(creature, current_tile, next_tile)
-		_apply_step_side_effects(creature, current_tile, next_tile)
 		
-		await get_tree().create_timer(0.04).timeout
+		var step_cost = get_step_cost(current_tile, next_tile)
+		if creature.consume_mp(step_cost, true):
+			_apply_step_state(creature, current_tile, next_tile)
+			_apply_step_side_effects(creature, current_tile, next_tile)
+			await get_tree().create_timer(0.04).timeout
+		else:
+			break
 
+	path_preview.get_char_data()
 	path_preview.make_active()
+	return true
 
 func move_char_to_tile(creature: Creature, origin: Vector3i, target: Vector3i):
 	path_preview.clear_all()
@@ -1036,12 +1057,58 @@ func teleport(character: Creature, target: Vector3i):
 	selection_highlight.update_selection_highlight()
 	SignalBus.sight_check.emit(target)
 
+#func interact_move(character: Creature, target: Vector3i):
+	#var origin = character.get_coords()
+	#var layer_origin = Vector2i(origin.x, origin.y)
+	#var layer_target = Vector2i(target.x, target.y)
+	#var path = null
+	#var cost: float = 0
+	#var path_map = layers[target.z]["path_map"]
+	#if not path_map.region.has_point(layer_target) or path_map.is_point_solid(layer_target) or layers[target.z]["occupied"].get(layer_target):
+		#print("Invalid target location.")
+		#return
+#
+	#print("origin: %d/%d" % [origin.x, origin.y])
+	#print("goal: %d/%d" % [target.x, target.y])
+#
+	#path_map.set_point_solid(layer_origin, false)
+	#if not character.data.player_controlled:
+		#path = get_multi_level_path_for_creature(character, target, false, true)
+	#else:
+		#path = get_multi_level_path_for_creature(character, target)
+	#if path.is_empty():
+		#print("No path found!")
+		#return
+	#cost = calculate_path_cost_3D_simple(path)
+	#
+	#if Global.crisis_manager.crisis_mode:
+		#var current_available_mp = character.get_stat("current_mp")
+		#if cost > current_available_mp:
+			#SignalBus.dialog_show_message.emit("You do not have enough movements points.")
+			#return
+		#else:
+			#character.consume_mp(cost)
+		#var max_ap = character.get_stat("max_ap")
+		#var mp_per_ap = character.get_stat("max_mp")
+		#var total_mp = mp_per_ap * max_ap
+		#
+		#current_available_mp = character.get_stat("current_mp")
+		#var ap_cost = calculate_ap_cost(cost, current_available_mp, mp_per_ap, total_mp)
+		#character.consume_ap(ap_cost, false)
+		#path_preview.get_char_data()
+		#move_char_along_path(character, path)
+	#else:
+		#character.mover.begin_path(path)
+	#character.visible = (character.data.tile_z == current_level)
+	#SignalBus.update_ui_for_char.emit()
+	#selection_highlight.update_selection_highlight()
+
 func interact_move(character: Creature, target: Vector3i):
 	var origin = character.get_coords()
 	var layer_origin = Vector2i(origin.x, origin.y)
 	var layer_target = Vector2i(target.x, target.y)
 	var path = null
-	var cost: float = 0
+	#var cost: float = 0
 	var path_map = layers[target.z]["path_map"]
 	if not path_map.region.has_point(layer_target) or path_map.is_point_solid(layer_target) or layers[target.z]["occupied"].get(layer_target):
 		print("Invalid target location.")
@@ -1058,23 +1125,23 @@ func interact_move(character: Creature, target: Vector3i):
 	if path.is_empty():
 		print("No path found!")
 		return
-	cost = calculate_path_cost_3D_simple(path)
+	#cost = calculate_path_cost_3D_simple(path)
 	
 	if Global.crisis_manager.crisis_mode:
-		var current_available_mp = character.get_stat("current_mp")
-		if cost > current_available_mp:
-			SignalBus.dialog_show_message.emit("You do not have enough movements points.")
-			return
-		else:
-			character.consume_mp(cost)
-		var max_ap = character.get_stat("max_ap")
-		var mp_per_ap = character.get_stat("max_mp")
-		var total_mp = mp_per_ap * max_ap
-		
-		current_available_mp = character.get_stat("current_mp")
-		var ap_cost = calculate_ap_cost(cost, current_available_mp, mp_per_ap, total_mp)
-		character.consume_ap(ap_cost, false)
-		path_preview.get_char_data()
+		#var current_available_mp = character.get_stat("current_mp")
+		#if cost > current_available_mp:
+			#SignalBus.dialog_show_message.emit("You do not have enough movements points.")
+			#return
+		#else:
+			#character.consume_mp(cost)
+		#var max_ap = character.get_stat("max_ap")
+		#var mp_per_ap = character.get_stat("max_mp")
+		#var total_mp = mp_per_ap * max_ap
+		#
+		#current_available_mp = character.get_stat("current_mp")
+		#var ap_cost = calculate_ap_cost(cost, current_available_mp, mp_per_ap, total_mp)
+		#character.consume_ap(ap_cost, false)
+		#path_preview.get_char_data()
 		move_char_along_path(character, path)
 	else:
 		character.mover.begin_path(path)

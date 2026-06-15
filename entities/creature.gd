@@ -452,7 +452,7 @@ func has_enough_pp(number: int) -> bool:
 	return true
 
 ## consumes AP and potentially associated MP if set to 'true'
-func consume_ap(number: int, mp_equivalent: bool = true) -> bool:
+func consume_ap(number: int, mp_equivalent: bool = false) -> bool:
 	if Global.crisis_manager.crisis_mode:
 		if data.current_ap - number < 0:
 			return false
@@ -465,6 +465,40 @@ func consume_ap(number: int, mp_equivalent: bool = true) -> bool:
 				Global.world_manager.path_preview.get_char_data()
 	return true
 
+#func consume_mp(number) -> bool:
+	#if data.current_mp - number < 0:
+			#return false
+	#data.current_mp -= number
+	#if data.current_mp < 0:
+		#data.current_mp = 0
+	#return true
+
+func get_mp_potential() -> float:
+	var current_mp: float = data.current_mp
+	var max_mp: int = get_stat("max_mp")
+	var current_ap: int = get_stat("current_ap")
+	return current_mp + max_mp * current_ap
+
+func consume_mp(number: int, allows_ap_consumption: bool = false) -> bool:
+	if allows_ap_consumption:
+		# We verify that we're not consuming AP for nothing
+		var mp_potential: float = get_mp_potential()
+		if mp_potential < number:
+			return false
+
+		while get_stat("current_mp") < number:
+			if consume_ap(1):
+				set_stat("current_mp", get_stat("current_mp") + get_stat("max_mp"))
+				SignalBus.update_ui_for_char.emit()
+			else:
+				break
+
+	if get_stat("current_mp") < number:
+		return false
+	else:
+		set_stat("current_mp", (get_stat("current_mp") - number))
+		return true
+
 func consume_pp(number) -> bool:
 	if data.current_pp - number < 0:
 			return false
@@ -473,13 +507,9 @@ func consume_pp(number) -> bool:
 		data.current_pp = 0
 	return true
 
-func consume_mp(number) -> bool:
-	if data.current_mp - number < 0:
-			return false
-	data.current_mp -= number
-	if data.current_mp < 0:
-		data.current_mp = 0
-	return true
+## Adds a number of MP equal to the speed of the character times the number of AP determined by the argument.
+func convert_ap_into_mp(number: int) -> void:
+	data.current_mp += get_stat("max_mp") * number
 
 func meets_brawn_requirements() -> bool:
 	var weapons = data.equipment.get_items_of_slot_type(Enums.SlotType.NONE)
@@ -1012,7 +1042,7 @@ func update_movement_speed(old_value: int = -1) -> void:
 func turn_start():
 	if data.state == Enums.State.CONSCIOUS:
 		set_stat("current_ap", get_stat("max_ap"))
-		set_stat("current_mp", (get_stat("max_mp") * get_stat("max_ap")))
+		#set_stat("current_mp", (get_stat("max_mp") * get_stat("max_ap")))
 	else:
 		set_stat("current_ap", 0)
 		set_stat("current_mp", 0)

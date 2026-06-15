@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="Condition" format=3 uid="uid://hct0622s1i7r"]
+
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_idpje"]
+[ext_resource type="Script" uid="uid://18l4gn7hleqe" path="res://various/abstract_stat_entry_container.gd" id="2_36xts"]
+[ext_resource type="Script" uid="uid://w8o4jtjlvkjh" path="res://various/stat_aptitude_entry.gd" id="3_3coum"]
+[ext_resource type="Script" uid="uid://5c3jlvd4s3cf" path="res://various/stat_entry_container.gd" id="4_hkw1m"]
+[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="5_4g85q"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="6_alw0a"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="7_s56is"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="8_1ibhn"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="9_miawh"]
+[ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="10_2y7ke"]
+
+[sub_resource type="Resource" id="Resource_yo8b7"]
+script = ExtResource("3_3coum")
+stat = 5
+amount = 1.0
+metadata/_custom_type_script = "uid://w8o4jtjlvkjh"
+
+[sub_resource type="Resource" id="Resource_ds1y2"]
+script = ExtResource("4_hkw1m")
+entry = SubResource("Resource_yo8b7")
+metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
+
+[sub_resource type="Resource" id="Resource_ns0ch"]
+script = ExtResource("5_4g85q")
+entry_containers = Array[ExtResource("2_36xts")]([SubResource("Resource_ds1y2")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[resource]
+script = ExtResource("8_1ibhn")
+name = "Crossguard"
+id = "cond_crossguard"
+persistent = false
+effects = Array[ExtResource("1_idpje")]([SubResource("Resource_ns0ch")])

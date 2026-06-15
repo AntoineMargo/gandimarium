@@ -34,7 +34,7 @@ func try_perform_activity(activity) -> bool:
 	if not Global.focus_char:
 		return false
 	
-	if not enough_action_points_for_activity(activity):
+	if Global.crisis_manager.crisis_mode and not enough_action_points_for_activity(activity):
 		return false
 	if not enough_power_points_for_activity(activity):
 		return false

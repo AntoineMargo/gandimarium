@@ -21,6 +21,7 @@ func pre_execution_bundle_modify(ctx: Context):
 
 func handle_hover(tile: Vector3i) -> void:
 	var tiles = compute_affected_area(tile)
+
 	wm.clear_visualization(wm.preview_visualized_rects, wm.preview_visualized_lines)
 	if shape == Enums.Shape.BURST:
 		if not is_valid_target_point(tile, reach_requires_LOS):
@@ -221,6 +222,7 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 					else:
 						# firing the projectile at that target
 						projectile.apply_context(frozen_ctx)
+						await user.get_tree().create_timer(0.05).timeout
 				elif shape == Enums.Shape.LINE:
 					var call_delay = compute_hit_delay(frozen_ctx.target, batch_ctx)
 
