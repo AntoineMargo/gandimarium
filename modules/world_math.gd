@@ -8,19 +8,19 @@ static func get_line_tiles(origin: Vector3i, target: Vector3i, reach: float, LOS
 	
 	for i in range(0, line.size()): # skip origin
 		var p: Vector3i = line[i]
-		
-		if LOS:
-			if wm.layers[p.z]["cover"].get(Vector2i(p.x, p.y), 0) == 4:
-				break
-		
+
 		var dx: int = p.x - origin.x
 		var dy: int = p.y - origin.y
 		var dist: float = sqrt(dx * dx + dy * dy)
-		
+
 		if dist > reach:
 			break
-		
+
 		tiles.append(p)
+
+		if LOS:
+			if wm.layers[p.z]["cover"].get(Vector2i(p.x, p.y), 0) == 4:
+				break
 
 	return tiles
 
@@ -88,10 +88,7 @@ static func get_cone_tiles(origin: Vector3i, target: Vector3i, reach: float, spr
 			
 			if not astar.region.has_point(neighbor_xy):
 				continue
-			
-			#var tile_data = get_tile_data(neighbor.x, neighbor.y, neighbor.z)
-			#if tile_data == null or tile_data.get_custom_data("passable") == false:
-				#continue
+
 			if LOS:
 				if wm.layers[z]["cover"].get(Vector2i(neighbor.x, neighbor.y), 0) == 4:
 					continue
@@ -106,13 +103,9 @@ static func get_cone_tiles(origin: Vector3i, target: Vector3i, reach: float, spr
 			if not astar.region.has_point(neighbor_xy):
 				continue
 			
-			#var tile_data = get_tile_data(neighbor.x, neighbor.y, neighbor.z)
-			#if tile_data == null or tile_data.get_custom_data("passable") == false:
-				#continue
-				
-			if LOS:
-				if wm.layers[z]["cover"].get(Vector2i(neighbor.x, neighbor.y), 0) == 4:
-					continue
+			#if LOS:
+				#if wm.layers[z]["cover"].get(Vector2i(neighbor.x, neighbor.y), 0) == 4:
+					#continue
 			
 			open.append({"pos": neighbor, "dist": dist + 1.5})
 	

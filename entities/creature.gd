@@ -461,17 +461,9 @@ func consume_ap(number: int, mp_equivalent: bool = false) -> bool:
 			data.current_ap = 0
 		if mp_equivalent:
 			consume_mp(number * get_stat("max_mp"))
-			if Global.selected_char == self:
-				Global.world_manager.path_preview.get_char_data()
+		if Global.selected_char == self:
+			Global.world_manager.path_preview.get_char_data()
 	return true
-
-#func consume_mp(number) -> bool:
-	#if data.current_mp - number < 0:
-			#return false
-	#data.current_mp -= number
-	#if data.current_mp < 0:
-		#data.current_mp = 0
-	#return true
 
 func get_mp_potential() -> float:
 	var current_mp: float = data.current_mp

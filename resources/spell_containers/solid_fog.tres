@@ -89,7 +89,6 @@ name = "Solid Fog"
 id = "spell_solid_fog"
 AP_cost = 2
 requires_concentration = true
-spread_requires_LOS = false
 reach = 20
 spread = 8
 self_prior_effects = Array[ExtResource("6_wrc7h")]([SubResource("Resource_j8ccw")])

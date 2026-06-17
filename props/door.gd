@@ -49,6 +49,10 @@ func initialize() -> void:
 	register()
 	#print_info()
 
+func destroy_self():
+	Global.door_manager.deregister_door(pos)
+	super()
+
 func _on_ready():
 	sm = Global.state_manager
 	wm = Global.world_manager

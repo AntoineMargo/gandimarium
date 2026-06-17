@@ -13,6 +13,11 @@ var doors: Array[Door] = []
 func register_door(door: Door) -> void:
 	doors.append(door)
 
+func deregister_door(pos: Vector3i) -> void:
+	for door in doors:
+		if door.pos == pos:
+			doors.erase(door)
+
 #func prepare_doors_for_creature(_creature):
 	#changed.clear()
 	#
