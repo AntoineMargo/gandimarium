@@ -37,13 +37,14 @@ class_name Activity
 
 @export var requires_crisis: bool = false
 @export var requires_roll: bool = true
+## This activity will not be visible in the player's interface.
 @export var is_invisible: bool = false
 @export var triggers_reaction: bool = true
 @export var is_spell: bool = false
 @export var per_round_drain: bool = false
 @export var builds_condition: bool = false
 @export var condition_id: String = ""
-@export var attack_types: Array[DamagePattern]
+@export var attack_types: Array[DamagePattern] = []
 @export var ai_hint: AIHint
 
 var user = null
@@ -232,20 +233,20 @@ func validate_condition_absence(entity: Entity) -> bool:
 			return false
 	return true
 
-func is_valid_target_point(point: Vector3i, requires_los: bool = true) -> bool:
+func is_valid_target_point(point: Vector3i) -> bool:
 	origin = user.get_coords()
 
 	if not WorldMath.is_in_range(origin, point, reach):
 		return false
 
-	if requires_los and not WorldMath.has_line_of_sight_tile(origin, point, false):
+	if reach_requires_LOS and not WorldMath.has_line_of_sight_tile(origin, point, false):
 		return false
 
 	return true
 
 func remove_invalid_points(targets: Array[Vector3i]):
 	for i in range(targets.size() - 1, -1, -1):
-		if not is_valid_target_point(targets[i], reach_requires_LOS):
+		if not is_valid_target_point(targets[i]):
 			targets.remove_at(i)
 
 func compute_affected_area(target_location: Vector3i) -> Array[Vector3i]:

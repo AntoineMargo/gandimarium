@@ -3,7 +3,9 @@
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_kjlq2"]
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_3l2cu"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="3_bwtky"]
+[ext_resource type="Script" uid="uid://vt0qt70itnbr" path="res://AI/Preconditions/HTN_precondition.gd" id="3_i3ngn"]
 [ext_resource type="Resource" uid="uid://lowvjn23gb1u" path="res://resources/damage_patterns/slash.tres" id="4_ajovb"]
+[ext_resource type="Script" uid="uid://lrec85jjq4ih" path="res://AIHints/AI_hint.gd" id="4_vb0bw"]
 [ext_resource type="Resource" uid="uid://b6lwaevovr35s" path="res://resources/damage_patterns/pierce.tres" id="5_ffqtg"]
 [ext_resource type="Resource" uid="uid://c1bg3fx1qo0yi" path="res://resources/damage_patterns/crush.tres" id="6_pfjud"]
 [ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="7_ffqtg"]
@@ -17,6 +19,24 @@
 [ext_resource type="PackedScene" uid="uid://bm40yjohcu4wn" path="res://VFX/projectile.tscn" id="15_i3ngn"]
 [ext_resource type="Script" uid="uid://b7tjqqmnvivdt" path="res://effects/proj_vfx_effect.gd" id="16_vb0bw"]
 [ext_resource type="Script" uid="uid://bsu4c08c52n7w" path="res://activities/targeted_throw_activity.gd" id="17_ffqtg"]
+
+[sub_resource type="Resource" id="Resource_k8xhw"]
+script = ExtResource("4_vb0bw")
+tags = Array[int]([1, 4])
+power = {
+&"buff": 0,
+&"control": 0,
+&"damage": 40,
+&"debuff": 0,
+&"heal": 0,
+&"impediment": 0,
+&"movement": 0,
+&"summon": 0,
+&"utility": 0
+}
+uses_melee_weapon = true
+friendy_fire = false
+metadata/_custom_type_script = "uid://lrec85jjq4ih"
 
 [sub_resource type="Resource" id="Resource_ljo7m"]
 script = ExtResource("11_yoxxa")
@@ -33,12 +53,31 @@ target_effects = Array[ExtResource("10_k8xhw")]([SubResource("Resource_ljo7m")])
 barrier_interaction = 1
 triggers_reaction = false
 attack_types = Array[ExtResource("3_bwtky")]([ExtResource("4_ajovb"), ExtResource("5_ffqtg"), ExtResource("6_pfjud")])
+ai_hint = SubResource("Resource_k8xhw")
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 
 [sub_resource type="Resource" id="Resource_jdaye"]
 script = ExtResource("12_5uvg8")
 activity = SubResource("Resource_4ui3d")
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_yoxxa"]
+script = ExtResource("4_vb0bw")
+tags = Array[int]([2, 4])
+power = {
+&"buff": 0,
+&"control": 0,
+&"damage": 20,
+&"debuff": 0,
+&"heal": 0,
+&"impediment": 0,
+&"movement": 0,
+&"summon": 0,
+&"utility": 0
+}
+uses_melee_weapon = true
+friendy_fire = false
+metadata/_custom_type_script = "uid://lrec85jjq4ih"
 
 [sub_resource type="Resource" id="Resource_pfjud"]
 script = ExtResource("13_ffqtg")
@@ -64,6 +103,7 @@ defending_aptitude = 6
 target_effects = Array[ExtResource("10_k8xhw")]([SubResource("Resource_vb0bw")])
 projectile = SubResource("Resource_i3ngn")
 attack_types = Array[ExtResource("3_bwtky")]([ExtResource("4_ajovb"), ExtResource("6_pfjud")])
+ai_hint = SubResource("Resource_yoxxa")
 metadata/_custom_type_script = "uid://bsu4c08c52n7w"
 
 [sub_resource type="Resource" id="Resource_dshra"]

@@ -1,10 +1,11 @@
 [gd_resource type="Resource" script_class="CreatureData" format=3 uid="uid://bk7dujmygipv"]
 
-[ext_resource type="Script" uid="uid://chufkd7a0xqa0" path="res://activities/activity.gd" id="1_h5ugi"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/value_modifier.gd" id="2_t1xx4"]
+[ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="1_nu26v"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="2_t21hf"]
 [ext_resource type="Script" uid="uid://cubgbyndvs8t3" path="res://aspects/aspect.gd" id="3_nu26v"]
 [ext_resource type="Script" uid="uid://boxs05dhsll81" path="res://entities/attributes.gd" id="4_t21hf"]
 [ext_resource type="Script" uid="uid://bqbvgbqafpkej" path="res://entities/base_stats.gd" id="5_4gwwu"]
+[ext_resource type="Script" uid="uid://ct2uh3hw8ywmu" path="res://entities/barrier.gd" id="5_yf7v1"]
 [ext_resource type="Script" uid="uid://bajjyg2du7mri" path="res://abilities/concentration.gd" id="6_yf7v1"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="7_u2am1"]
 [ext_resource type="Script" uid="uid://dxofkj1ggocqb" path="res://various/hand_set.gd" id="8_lccan"]
@@ -15,6 +16,7 @@
 [ext_resource type="Script" uid="uid://bwpyc87wtxb7o" path="res://entities/personality.gd" id="13_h8m5f"]
 [ext_resource type="Script" uid="uid://cwy5ao2mmfqfh" path="res://various/affiliation_entry.gd" id="14_5yeut"]
 [ext_resource type="Script" uid="uid://ci8skyvllvl30" path="res://various/reputation_entry.gd" id="15_dmsc6"]
+[ext_resource type="Script" uid="uid://c5qobce0uj7dq" path="res://activities/reaction.gd" id="15_u2am1"]
 [ext_resource type="Script" uid="uid://bucqf63xvppow" path="res://entities/relationships.gd" id="16_vxyqn"]
 [ext_resource type="Script" uid="uid://dlk8wy6dlqksm" path="res://various/tactical_relation_entry.gd" id="17_gmac4"]
 [ext_resource type="Script" uid="uid://2esemn7osq1o" path="res://entities/resistances.gd" id="18_bjj8k"]
@@ -58,6 +60,7 @@ script = ExtResource("18_bjj8k")
 [resource]
 script = ExtResource("19_4ub3l")
 major_archetype = ExtResource("12_vdk5q")
+discipline = null
 attributes = SubResource("Resource_7op48")
 base_stats = SubResource("Resource_68mj1")
 inventory = SubResource("Resource_yg5bh")
@@ -65,8 +68,3 @@ equipment = SubResource("Resource_22ept")
 resistances = SubResource("Resource_hjcm8")
 relationships = SubResource("Resource_1wbmi")
 personality = SubResource("Resource_03ahb")
-spells_ready = [ExtResource("20_w7d34")]
-spells_available = [ExtResource("20_w7d34")]
-conditions = [ExtResource("7_u2am1")]
-activity_modifiers = [ExtResource("2_t1xx4")]
-concentrations = [ExtResource("6_yf7v1")]

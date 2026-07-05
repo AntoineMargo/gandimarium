@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://ck1ya5qrk4hik" path="res://AI/AI_modules/movement_module.gd" id="9_7mdsa"]
 [ext_resource type="Script" uid="uid://b0vouykjkbbkv" path="res://AI/AI_modules/evaluator_module.gd" id="10_dlu0d"]
 [ext_resource type="Script" uid="uid://dy6lsk0db1sgf" path="res://AI/AI_modules/executor_module.gd" id="11_7mdsa"]
+[ext_resource type="Script" uid="uid://cqt50wp4laqea" path="res://entities/htn_module.gd" id="14_vm3c7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7mdsa"]
 resource_local_to_scene = true
@@ -87,6 +88,9 @@ script = ExtResource("8_7mdsa")
 
 [node name="SituationModule" type="Node" parent="AIController/CrisisAI" unique_id=1950226271]
 script = ExtResource("8_dlu0d")
+
+[node name="HTNModule" type="Node" parent="AIController/CrisisAI" unique_id=284794588]
+script = ExtResource("14_vm3c7")
 
 [node name="MovementModule" type="Node" parent="AIController/CrisisAI" unique_id=193908763]
 script = ExtResource("9_7mdsa")

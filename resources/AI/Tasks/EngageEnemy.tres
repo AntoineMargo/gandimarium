@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HTNTask" format=3 uid="uid://edfbejo5ndfk"]
+
+[ext_resource type="Script" uid="uid://cvgks5kvla301" path="res://AI/HTN_method.gd" id="1_sbbdw"]
+[ext_resource type="Script" uid="uid://dirc1pgalgicw" path="res://AI/HTN_task.gd" id="2_5fjou"]
+[ext_resource type="Resource" uid="uid://b3v0i7kpv0swv" path="res://resources/AI/Methods/DirectAssault.tres" id="2_usxs6"]
+[ext_resource type="Resource" uid="uid://xmbejayrmn8d" path="res://resources/AI/Methods/AdvanceAndShoot.tres" id="3_evc1c"]
+[ext_resource type="Resource" uid="uid://o8q5q08yy257" path="res://resources/AI/Methods/Snipe.tres" id="4_v3dpr"]
+[ext_resource type="Resource" uid="uid://dapslrk4p2e3d" path="res://resources/AI/Methods/TakeCover.tres" id="5_maxt7"]
+
+[resource]
+script = ExtResource("2_5fjou")
+name = "EngageEnemy"
+methods = Array[ExtResource("1_sbbdw")]([ExtResource("2_usxs6"), ExtResource("3_evc1c"), ExtResource("4_v3dpr"), ExtResource("5_maxt7")])
+metadata/_custom_type_script = "uid://dirc1pgalgicw"

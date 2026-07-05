@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="6_rg6md"]
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="7_1xoih"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="7_clggs"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="10_1xoih"]
 
 [sub_resource type="Resource" id="Resource_hnbf2"]
 script = ExtResource("3_a5f58")

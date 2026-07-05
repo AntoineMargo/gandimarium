@@ -484,9 +484,12 @@ func path_to_adjacency(origin: Vector3i, goal: Vector3i, distance: int):
 	var layer_origin = Vector2i(origin.x, origin.y)
 	var layer_goal = Vector2i(goal.x, goal.y)
 	
+	var origin_path_map = layers[origin.z]["path_map"]
+	var goal_path_map = layers[goal.z]["path_map"]
+	
 	# making characters non-blocking since Godot 4.6 doesn't like that anymore
-	layers[origin.z]["path_map"].set_point_solid(layer_origin, false)
-	layers[goal.z]["path_map"].set_point_solid(layer_goal, false)
+	origin_path_map.set_point_solid(layer_origin, false)
+	goal_path_map.set_point_solid(layer_goal, false)
 	
 	var path = null
 	@warning_ignore("unused_variable")
@@ -495,8 +498,8 @@ func path_to_adjacency(origin: Vector3i, goal: Vector3i, distance: int):
 	#tile_path = turn_path_from_pixels_to_tiles(path)
 	
 	# making characters blocking again
-	layers[origin.z]["path_map"].set_point_solid(layer_origin, true)
-	layers[goal.z]["path_map"].set_point_solid(layer_goal, true)
+	origin_path_map.set_point_solid(layer_origin, true)
+	goal_path_map.set_point_solid(layer_goal, true)
 	
 	if path.is_empty():
 		print("No path found!")
@@ -508,24 +511,49 @@ func path_to_adjacency(origin: Vector3i, goal: Vector3i, distance: int):
 
 	return path
 
-## finds best path from creature to a tile at X distance of target
+## finds best path from creature to a tile/entity at X distance of target
 func path_to_target_adjacency(creature, target, distance):
-	var origin = get_char_coords(target)
-	var goal = get_char_coords(creature)
+	var origin_solid: bool = false
+	var goal_solid: bool = false
+
+	var goal = creature.get_coords()
+	var origin: Vector3i
+	if target is Vector3i:
+		origin = target
+	elif target is Entity:
+		origin = target.get_coords()
+	else:
+		return
+	
+	var layer_goal = Vector2i(goal.x, goal.y)
+	var layer_origin = Vector2i(origin.x, origin.y)
+	
+	var origin_path_map = layers[origin.z]["path_map"]
+	var goal_path_map = layers[goal.z]["path_map"]
+	
+
+	if origin_path_map.is_point_solid(layer_origin):
+		origin_solid = true
+	if goal_path_map.is_point_solid(layer_origin):
+		goal_solid = true
 	
 	# making characters non-blocking since Godot 4.6 doesn't like that anymore
-	layers[origin.vec3.z]["path_map"].set_point_solid(origin.vec2, false)
-	layers[goal.vec3.z]["path_map"].set_point_solid(goal.vec2, false)
+	if origin_solid:
+		origin_path_map.set_point_solid(layer_origin, false)
+	if goal_solid:
+		goal_path_map.set_point_solid(layer_goal, false)
 	
 	var path = null
 	@warning_ignore("unused_variable")
 	var tile_path = null
-	path = get_multi_level_path(origin.vec3, goal.vec3, true)
+	path = get_multi_level_path(origin, goal, true)
 	#tile_path = turn_path_from_pixels_to_tiles(path)
 	
 	# making characters blocking again
-	layers[origin.vec3.z]["path_map"].set_point_solid(origin.vec2, true)
-	layers[goal.vec3.z]["path_map"].set_point_solid(goal.vec2, true)
+	if origin_solid:
+		origin_path_map.set_point_solid(layer_origin, true)
+	if goal_solid:
+		goal_path_map.set_point_solid(layer_goal, true)
 	
 	if path.is_empty():
 		print("No path found!")
@@ -553,7 +581,6 @@ func get_multi_level_path(start: Vector3i, goal: Vector3i, allow_occupied_goal: 
 	var goal_xy: Vector2i = Vector2i(goal.x, goal.y)
 
 	if allow_occupied_goal and layers[goal.z]["occupied"].get(goal_xy, false) == true:
-		#print("tile was occupied.")
 		was_occupied = true
 		layers[goal.z]["occupied"][goal_xy] = false
 		layers[goal.z]["path_map"].set_point_solid(goal_xy, false)
@@ -1057,12 +1084,47 @@ func teleport(character: Creature, target: Vector3i):
 	selection_highlight.update_selection_highlight()
 	SignalBus.sight_check.emit(target)
 
+func interact_move(character: Creature, target: Vector3i):
+	var origin = character.get_coords()
+	var layer_origin = Vector2i(origin.x, origin.y)
+	var layer_target = Vector2i(target.x, target.y)
+	var path = null
+	var path_map = layers[target.z]["path_map"]
+	if not path_map.region.has_point(layer_target):
+		print("Invalid target location.")
+		return
+	if path_map.is_point_solid(layer_target):
+		print("Invalid target location.")
+		return
+	if layers[target.z]["occupied"].get(layer_target):
+		print("Invalid target location.")
+		return
+
+	print("origin: %d/%d" % [origin.x, origin.y])
+	print("goal: %d/%d" % [target.x, target.y])
+
+	path_map.set_point_solid(layer_origin, false)
+	if not character.data.player_controlled:
+		path = get_multi_level_path_for_creature(character, target, false, true)
+	else:
+		path = get_multi_level_path_for_creature(character, target)
+	if path.is_empty():
+		print("No path found!")
+		return
+	
+	if Global.crisis_manager.crisis_mode:
+		move_char_along_path(character, path)
+	else:
+		character.mover.begin_path(path)
+	character.visible = (character.data.tile_z == current_level)
+	SignalBus.update_ui_for_char.emit()
+	selection_highlight.update_selection_highlight()
+
 #func interact_move(character: Creature, target: Vector3i):
 	#var origin = character.get_coords()
 	#var layer_origin = Vector2i(origin.x, origin.y)
 	#var layer_target = Vector2i(target.x, target.y)
 	#var path = null
-	#var cost: float = 0
 	#var path_map = layers[target.z]["path_map"]
 	#if not path_map.region.has_point(layer_target) or path_map.is_point_solid(layer_target) or layers[target.z]["occupied"].get(layer_target):
 		#print("Invalid target location.")
@@ -1079,75 +1141,14 @@ func teleport(character: Creature, target: Vector3i):
 	#if path.is_empty():
 		#print("No path found!")
 		#return
-	#cost = calculate_path_cost_3D_simple(path)
 	#
 	#if Global.crisis_manager.crisis_mode:
-		#var current_available_mp = character.get_stat("current_mp")
-		#if cost > current_available_mp:
-			#SignalBus.dialog_show_message.emit("You do not have enough movements points.")
-			#return
-		#else:
-			#character.consume_mp(cost)
-		#var max_ap = character.get_stat("max_ap")
-		#var mp_per_ap = character.get_stat("max_mp")
-		#var total_mp = mp_per_ap * max_ap
-		#
-		#current_available_mp = character.get_stat("current_mp")
-		#var ap_cost = calculate_ap_cost(cost, current_available_mp, mp_per_ap, total_mp)
-		#character.consume_ap(ap_cost, false)
-		#path_preview.get_char_data()
 		#move_char_along_path(character, path)
 	#else:
 		#character.mover.begin_path(path)
 	#character.visible = (character.data.tile_z == current_level)
 	#SignalBus.update_ui_for_char.emit()
 	#selection_highlight.update_selection_highlight()
-
-func interact_move(character: Creature, target: Vector3i):
-	var origin = character.get_coords()
-	var layer_origin = Vector2i(origin.x, origin.y)
-	var layer_target = Vector2i(target.x, target.y)
-	var path = null
-	#var cost: float = 0
-	var path_map = layers[target.z]["path_map"]
-	if not path_map.region.has_point(layer_target) or path_map.is_point_solid(layer_target) or layers[target.z]["occupied"].get(layer_target):
-		print("Invalid target location.")
-		return
-
-	print("origin: %d/%d" % [origin.x, origin.y])
-	print("goal: %d/%d" % [target.x, target.y])
-
-	path_map.set_point_solid(layer_origin, false)
-	if not character.data.player_controlled:
-		path = get_multi_level_path_for_creature(character, target, false, true)
-	else:
-		path = get_multi_level_path_for_creature(character, target)
-	if path.is_empty():
-		print("No path found!")
-		return
-	#cost = calculate_path_cost_3D_simple(path)
-	
-	if Global.crisis_manager.crisis_mode:
-		#var current_available_mp = character.get_stat("current_mp")
-		#if cost > current_available_mp:
-			#SignalBus.dialog_show_message.emit("You do not have enough movements points.")
-			#return
-		#else:
-			#character.consume_mp(cost)
-		#var max_ap = character.get_stat("max_ap")
-		#var mp_per_ap = character.get_stat("max_mp")
-		#var total_mp = mp_per_ap * max_ap
-		#
-		#current_available_mp = character.get_stat("current_mp")
-		#var ap_cost = calculate_ap_cost(cost, current_available_mp, mp_per_ap, total_mp)
-		#character.consume_ap(ap_cost, false)
-		#path_preview.get_char_data()
-		move_char_along_path(character, path)
-	else:
-		character.mover.begin_path(path)
-	character.visible = (character.data.tile_z == current_level)
-	SignalBus.update_ui_for_char.emit()
-	selection_highlight.update_selection_highlight()
 
 func handle_tile_conditions(tile: Vector3i, entity: Entity):
 	var layer_tile: Vector2i = Vector2i(tile.x, tile.y)

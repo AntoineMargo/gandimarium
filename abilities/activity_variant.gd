@@ -13,6 +13,9 @@ func pre_execute(user: Entity) -> Activity:
 
 	var instance_modifiers = instance.modifiers
 	instance.user = user
+
+	if activity.weapon:
+		instance.weapon = activity.weapon
 	
 	for modifier in user.data.activity_modifiers:
 		instance_modifiers.append(modifier)
@@ -38,6 +41,9 @@ func produce(user: Entity) -> Activity:
 	
 	var instance_modifiers = instance.modifiers
 	instance.user = user
+	
+	if activity.weapon:
+		instance.weapon = activity.weapon
 	
 	for modifier in user.data.activity_modifiers:
 		instance_modifiers.append(modifier)

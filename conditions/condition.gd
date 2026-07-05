@@ -21,6 +21,8 @@ signal ended
 #@export var toggle: bool = false
 @export var is_visible: bool = true
 @export var generate_semi_unique_id: bool = false
+## AI should re-plan if this Condition is acquired during their turn.
+@export var plan_disrupting: bool = false
 
 @export var vfx_scenes: Array[PackedScene]
 @export var shader_effects: Array[ShaderEffect]

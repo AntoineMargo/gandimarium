@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="HTNMethod" format=3 uid="uid://xmbejayrmn8d"]
+
+[ext_resource type="Script" uid="uid://bcvm7axrryhwl" path="res://AI/HTN_primitive_slot.gd" id="1_k66p1"]
+[ext_resource type="Script" uid="uid://cvgks5kvla301" path="res://AI/HTN_method.gd" id="2_irl3w"]
+
+[resource]
+script = ExtResource("2_irl3w")
+name = "AdvanceAndShoot"
+metadata/_custom_type_script = "uid://cvgks5kvla301"

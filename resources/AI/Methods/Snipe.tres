@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="HTNMethod" format=3 uid="uid://o8q5q08yy257"]
+
+[ext_resource type="Script" uid="uid://bcvm7axrryhwl" path="res://AI/HTN_primitive_slot.gd" id="1_e7bx1"]
+[ext_resource type="Script" uid="uid://cvgks5kvla301" path="res://AI/HTN_method.gd" id="2_67nb6"]
+
+[resource]
+script = ExtResource("2_67nb6")
+name = "Snipe"
+metadata/_custom_type_script = "uid://cvgks5kvla301"

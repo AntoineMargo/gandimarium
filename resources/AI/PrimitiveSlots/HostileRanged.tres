@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="HTNPrimitiveSlot" format=3 uid="uid://b2insmro76sit"]
+
+[ext_resource type="Script" uid="uid://bcvm7axrryhwl" path="res://AI/HTN_primitive_slot.gd" id="1_pvjhn"]
+
+[resource]
+script = ExtResource("1_pvjhn")
+name = &"HostileRanged"
+metadata/_custom_type_script = "uid://bcvm7axrryhwl"

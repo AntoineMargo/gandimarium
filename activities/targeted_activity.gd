@@ -24,7 +24,7 @@ func handle_hover(tile: Vector3i) -> void:
 
 	wm.clear_visualization(wm.preview_visualized_rects, wm.preview_visualized_lines)
 	if shape == Enums.Shape.BURST:
-		if not is_valid_target_point(tile, reach_requires_LOS):
+		if not is_valid_target_point(tile):
 			wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines, Color(255, 0, 0, 255))
 			return
 	wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines)
@@ -79,7 +79,7 @@ func cancel_activity():
 func select_target():
 	print("number_of_targets_left: ", number_of_targets_left)
 	var coords = wm.get_hovered_tile()
-	if is_valid_target_point(coords, reach_requires_LOS):
+	if is_valid_target_point(coords):
 		if targeting_type == Enums.Targeting.ENTITIES:
 			var entity = wm.get_entity_at_pos(coords)
 			if not entity or not validate_condition_absence(entity):

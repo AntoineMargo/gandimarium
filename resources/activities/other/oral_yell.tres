@@ -1,13 +1,17 @@
 [gd_resource type="Resource" script_class="ImmediateActivity" format=3 uid="uid://bljt80d10kudf"]
 
 [ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="1_0mnqb"]
-[ext_resource type="Script" uid="uid://cxx7k7g37rbs5" path="res://activity_modifiers/value_modifier.gd" id="1_5xub5"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="1_lfjri"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="2_jt68q"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_sovki"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="3_dh45m"]
 [ext_resource type="Resource" uid="uid://ct023ctlxw1di" path="res://resources/activity_modifiers/casting_tradition_oral.tres" id="4_dh45m"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="4_jm6kp"]
 [ext_resource type="Script" uid="uid://dywclcl7k47vv" path="res://effects/activity_modifier_effect.gd" id="4_sovki"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="7_5xub5"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="8_0w2gr"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="10_4sxa6"]
+[ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="11_2jpvq"]
 
 [sub_resource type="Resource" id="Resource_jm6kp"]
 script = ExtResource("4_sovki")
@@ -33,7 +37,6 @@ id = "activity_yell_tradition"
 description = "You yell your incantations, increasing the save DC by 1."
 AP_cost = 0
 target_effects = Array[ExtResource("3_dh45m")]([SubResource("Resource_ol6fn")])
-requires_crisis = false
 requires_roll = false
 builds_condition = true
 condition_id = "condition_yell_tradition"

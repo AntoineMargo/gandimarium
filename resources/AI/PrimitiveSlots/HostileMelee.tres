@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="HTNPrimitiveSlot" format=3 uid="uid://c3ejaon7dg57j"]
+
+[ext_resource type="Script" uid="uid://bcvm7axrryhwl" path="res://AI/HTN_primitive_slot.gd" id="1_342w3"]
+
+[resource]
+script = ExtResource("1_342w3")
+name = "HostileMelee"
+repeatable = true
+metadata/_custom_type_script = "uid://bcvm7axrryhwl"

@@ -7,7 +7,7 @@ func handle_hover(tile: Vector3i) -> void:
 	var tiles = compute_affected_area(tile)
 	wm.clear_visualization(wm.preview_visualized_rects, wm.preview_visualized_lines)
 	if shape == Enums.Shape.BURST:
-		if not is_valid_target_point(tile, reach_requires_LOS):
+		if not is_valid_target_point(tile):
 			wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines, Color(255, 0, 0, 255))
 			return
 	wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines)

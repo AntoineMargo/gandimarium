@@ -5,7 +5,10 @@ var wm: WorldManager = null
 var creature: Creature = null
 
 func movement_planner(sequences, report):
-	sequences_to_reach_target(sequences, report)
+	var distance = report["favored_melee_attack"].reach
+	var path = wm.path_to_target_adjacency(creature, report["closest_enemy"], distance)
+	
+	sequences_to_reach_location(sequences, report, path[-1])
 	#var strongest_sequences = sequences_to_reach_target(sequences, report["strongest_enemy"])
 	#var frailest_sequences = sequences_to_reach_target(sequences, report["frailest_enemy"])
 	return sequences
@@ -17,31 +20,27 @@ func create_sequence(sequence_length):
 		sequence.append(plannedact)
 	return sequence
 
-func sequences_to_reach_target(sequences, report):
-	print("=== sequences_to_reach_target ===")
+func sequences_to_reach_location(sequences, _report, location):
 	var sequence_length = creature.data.current_ap
+	var extra_mp = creature.data.current_mp
+	if extra_mp:
+		sequence_length += 1
 	var moves_needed = 0
 	var moves_to_make = 0
 	var cost = 0
-	var target = report["closest_enemy"]
-	print("target: ", target.data.name)
-	print("favored_melee_attack: ", report["favored_melee_attack"].name)
-	var distance = report["favored_melee_attack"].reach
-	var path = wm.path_to_target_adjacency(creature, target, distance)
+	var path = wm.get_multi_level_path_for_creature(creature, location)
 	if not path:
 		return sequences
 
 	cost = wm.calculate_path_cost_3D_simple(path)
-	moves_needed = ceil(cost/creature.get_stat("max_mp"))
+	# We use the extra movement points first
+	moves_needed = 1 if (cost > 0 and extra_mp > 0) else 0
+	cost -= extra_mp
+
+	moves_needed += ceil(cost/creature.get_stat("max_mp"))
 	moves_to_make = min(moves_needed, sequence_length)
-		
-	print("creature.data.max_mp: ", creature.get_stat("max_mp"))
-	print("path.size(): ", path.size())
-	print("cost: ", cost)
-	print("moves_needed: ", moves_to_make)
 
 	if moves_to_make == 0: # creature is already right next to target
-		print("CHARACTER ALREADY NEXT TO TARGET")
 		var sequence = create_sequence(sequence_length)
 		for i in range(sequence_length):
 			sequence[i].hints.append("hostile_melee")
@@ -49,19 +48,18 @@ func sequences_to_reach_target(sequences, report):
 		return sequences
 
 	else: # creature needs to move towards target
-		print("CHARACTER WILL NEED TO MOVE TO TARGET")
 		var array = []
 		array.resize(sequence_length)
 		array.fill(0)
 		combinatorial(sequences, array, 0, moves_to_make)
+		# sequences now filled with 0 and 1s and ready to have 1s turned into actual movement.
+
 		for sequence in sequences:
-			print("NEW SEQUENCE:")
 			var number_of_moves = 0
 			for i in range(sequence.size()):
 				var act = PlannedAct.new()
 				
 				if sequence[i] == 1: # Movement
-					print("	CHARACTER MOVES TOWARDS TARGET")
 					number_of_moves += 1
 					act.activity = Library.get_activity("move")
 					
@@ -74,19 +72,13 @@ func sequences_to_reach_target(sequences, report):
 					act.start_position = path[start_index]
 					act.target_position = path[target_index]
 
-					print("act.start_position: ", act.start_position)
-					print("act.target_position: ", act.target_position)
-					print("number_of_moves: ", number_of_moves)
-
 					if number_of_moves == moves_needed: # target tile reached
 						act.utility = 25
 					else: # target tile not yet reached
 						act.utility = 5
 				else: # Free slot
-					print("	CHARACTER STANDS STILL")
 					act.hints.append("free")
 					if number_of_moves == moves_needed:
-						print("		CHARACTER ATTACKS TARGET")
 						act.hints.append("hostile_melee")
 						act.start_position = path[-1]
 						act.utility = 50

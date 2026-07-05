@@ -234,6 +234,19 @@ enum Targeting {
 	TILES,
 }
 
+enum TargetType {
+	ANY,
+	SELF,
+	ALLY,
+	ENEMY
+}
+
+#enum PreconditionResult {
+	#SATISFIED,
+	#MISSING_AP,
+	#NOT_IN_RANGE
+#}
+
 enum Affected {
 	ENTITIES,
 	TERRAIN,
@@ -329,6 +342,14 @@ enum Operation {
 	REPLACE
 }
 
+enum Skip {
+	PROCEED,
+	NO_CANDIDATES,
+	MISSING_AP,
+	MISSING_PP,
+	MISSING_EP,
+}
+
 #enum Involvement {
 	#NONE,
 	#EITHER,
@@ -342,5 +363,22 @@ enum Tag {
 	RANGED,
 	HARMLESS,
 	HOSTILE,
-	MAGIC
+	MAGIC,
+	BENEFICIAL
+}
+
+enum PrimitiveType {
+	DAMAGE,
+	HEAL,
+	BUFF,
+	DEBUFF,
+	CONTROL,
+	MOVEMENT,
+	IMPEDIMENT,
+	SUMMON,
+	UTILITY
+}
+
+enum StepRequirement {
+	RANGE
 }

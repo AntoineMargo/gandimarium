@@ -541,7 +541,6 @@ func perform_activity(activity: Activity, target = null):
 	activity.user = self
 	if target:
 		activity.target_points.append(target)
-		#activity.target_entities.append(target)
 	activity.execute()
 
 func get_selected_weapon_activity() -> Activity:

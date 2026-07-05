@@ -7,17 +7,29 @@ var creature: Creature = null
 func produce_report(entries) -> Dictionary:
 	var report = {}
 
-	var closest_enemy = find_closest_enemy()
-	var strongest_enemy = find_strongest_enemy()
-	var frailest_enemy = find_frailest_enemy()
-	var favored_melee_attack = find_best_melee_attack(entries)
-	var favored_ranged_attack = find_best_ranged_attack(entries)
+	report["creature"] = creature
+	report["entries"] = entries
+	
+	report["AP"] = creature.data.current_ap
+	report["PP"] = creature.data.current_pp
+	report["EP"] = creature.data.current_ep
+	report["MP"] = creature.data.current_mp
 
-	report["closest_enemy"] = closest_enemy
-	report["strongest_enemy"] = strongest_enemy
-	report["frailest_enemy"] = frailest_enemy
-	report["favored_melee_attack"] = favored_melee_attack
-	report["favored_ranged_attack"] = favored_ranged_attack
+	report["closest_enemy"] = find_closest_enemy()
+	report["strongest_enemy"] = find_strongest_enemy()
+	report["frailest_enemy"] = find_frailest_enemy()
+	
+	#report["closest_ally"] = find_closest_ally()
+	#report["weakest_ally"] = find_weakest_ally()
+
+	report["favored_melee_attack"] = find_best_melee_attack(entries)
+	report["favored_ranged_attack"] = find_best_ranged_attack(entries)
+
+	report["favored_melee_range"] = 0
+	report["favored_ranged_range"] = 0
+	#report["short_ability_range"] = creature.get_base_ability_range()
+	#report["medium_ability_range"] = report["short_ability_range"] * 2
+	#report["long_ability_range"] = report["short_ability_range"] * 3
 	
 	report["enemy_positions"] = {}
 	for id in creature.data.relationships._hostile_ids.keys():
@@ -28,18 +40,15 @@ func produce_report(entries) -> Dictionary:
 		var data = enemy.data
 		report["enemy_positions"][enemy] = Vector3i(data.tile_x, data.tile_y, data.tile_z)
 
+	#report["best_beneficial_ability_location"] = find_best_buffing_location()
+	#report["best_hostile_ability_location"] = find_best_attacking_location()
+
 	return report
 
 func find_best_ranged_attack(entries):
 	var favored_ranged_attack: Activity = null
 	var highest_brawn_requirement: int = 0
-	
-	#for i in range(2):
-		#if entries[i].activity.weapon and entries[i].activity.triggers_reaction:
-			#if entries[i].activity.weapon.brawn_req_2h > highest_brawn_requirement:
-				#favored_ranged_attack = entries[i].activity
-				#highest_brawn_requirement = entries[i].activity.weapon.brawn_req_2h
-				
+
 	for entry in entries:
 		if entry.activity.weapon and entry.activity.triggers_reaction:
 			if entry.activity.weapon.brawn_req_2h > highest_brawn_requirement:
@@ -53,13 +62,6 @@ func find_best_melee_attack(entries):
 	print("=== find_best_melee_attack ===")
 	var favored_melee_attack: Activity = null
 	var highest_brawn_requirement: int = 0
-	
-	#for i in range(2):
-		#print("activity name: ", entries[i].activity.name)
-		#if entries[i].activity.weapon and not entries[i].activity.triggers_reaction:
-			#if entries[i].activity.weapon.brawn_req_2h >= highest_brawn_requirement:
-				#favored_melee_attack = entries[i].activity
-				#highest_brawn_requirement = entries[i].activity.weapon.brawn_req_2h
 
 	for entry in entries:
 		print("activity name: ", entry.activity.name)

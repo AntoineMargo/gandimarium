@@ -15,6 +15,10 @@ func _guardian():
 		return false
 	return true
 
+func add_default_activities(char_data) -> void:
+	var move_activity = load("res://resources/activity_containers/move.tres")
+	char_data.activities.append(move_activity)
+
 ## Don't use guardian for scene tile spawners
 func spawn_character(data_file: String, coords: Vector3i, routine: String = "", guardian: bool = true) -> Creature:
 	if guardian and not _guardian():
@@ -25,6 +29,9 @@ func spawn_character(data_file: String, coords: Vector3i, routine: String = "", 
 
 	var char_scene = load("res://entities/creature.tscn")
 	var character = char_scene.instantiate()
+	
+	add_default_activities(char_data)
+	
 	character.data = char_data
 
 	var layer_coords = Vector2i(coords.x, coords.y)
@@ -43,6 +50,7 @@ func spawn_character(data_file: String, coords: Vector3i, routine: String = "", 
 
 	character.build_stats()
 	wm.current_world.register_creature(character)
+	
 	var weapons = character.get_weapons()
 	for weapon in weapons:
 		if weapon:

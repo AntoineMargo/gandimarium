@@ -18,7 +18,7 @@ var is_dragging: bool = false
 func handle_hover(tile: Vector3i) -> void:
 	var tiles: Array[Vector3i] = [tile]
 	wm.clear_visualization(wm.preview_visualized_rects, wm.preview_visualized_lines)
-	if not is_valid_target_point(tile, reach_requires_LOS):
+	if not is_valid_target_point(tile):
 				wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines, Color(255, 0, 0, 255))
 				return
 	wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines)
@@ -42,7 +42,7 @@ func compute_affected_area(target_location: Vector3i) -> Array[Vector3i]:
 
 func start_drag():
 	var hovered_tile = wm.get_hovered_tile()
-	if not is_valid_target_point(hovered_tile, reach_requires_LOS):
+	if not is_valid_target_point(hovered_tile):
 		return
 	start_tile = hovered_tile
 	is_dragging = true

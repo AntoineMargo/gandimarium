@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="HTNMethod" format=3 uid="uid://b3v0i7kpv0swv"]
+
+[ext_resource type="Script" uid="uid://bcvm7axrryhwl" path="res://AI/HTN_primitive_slot.gd" id="1_yhxbi"]
+[ext_resource type="Script" uid="uid://cvgks5kvla301" path="res://AI/HTN_method.gd" id="2_a1e23"]
+
+[sub_resource type="Resource" id="Resource_lxvpy"]
+script = ExtResource("1_yhxbi")
+target_type = 3
+wanted_tags = Array[int]([1])
+repeatable = true
+metadata/_custom_type_script = "uid://bcvm7axrryhwl"
+
+[resource]
+script = ExtResource("2_a1e23")
+name = "DirectAssault"
+primitive_slots = Array[ExtResource("1_yhxbi")]([SubResource("Resource_lxvpy")])
+base_utility = 100.0
+metadata/_custom_type_script = "uid://cvgks5kvla301"

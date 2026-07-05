@@ -38,14 +38,14 @@ var _items = {
 }
 
 var _activities = {
-	"aura_condition": "res://resources/activities/aura_condition.tres",
-	"aura_damage": "res://resources/activities/aura_damage.tres",
-	"firebolt": "res://resources/activities/firebolt.tres",
-	"firebolt2A": "res://resources/activities/firebolt2A.tres",
-	"firebolt3A": "res://resources/activities/firebolt3A.tres",
-	"firebolts": "res://resources/activities/firebolts.tres",
-	"move": "res://resources/activities/move.tres",
-	"weapon_attack": "res://resources/activities/wpn_attack.tres"
+	#"aura_condition": "res://resources/activities/aura_condition.tres",
+	#"aura_damage": "res://resources/activities/aura_damage.tres",
+	#"firebolt": "res://resources/activities/firebolt.tres",
+	#"firebolt2A": "res://resources/activities/firebolt2A.tres",
+	#"firebolt3A": "res://resources/activities/firebolt3A.tres",
+	#"firebolts": "res://resources/activities/firebolts.tres",
+	#"move": "res://resources/activities/move.tres",
+	#"weapon_attack": "res://resources/activities/wpn_attack.tres"
 }
 
 var _talents = {
