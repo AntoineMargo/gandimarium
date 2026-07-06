@@ -817,10 +817,19 @@ func get_current_spell_rank_table():
 	@warning_ignore("integer_division")
 	return data.casting_table.cost_table[(data.level - 1) / 2]
 
+func set_current_spell_rank(new_value: int) -> void:
+	data.current_spell_rank = new_value
+
+func get_current_spell_rank() -> int:
+	return data.current_spell_rank
+
 func set_max_spell_rank() -> void:
 	@warning_ignore("integer_division")
 	var current_spell_rank_table = get_current_spell_rank_table()
 	data.max_spell_rank = current_spell_rank_table.spell_costs.keys().max()
+
+func get_max_spell_rank() -> int:
+	return data.max_spell_rank
 
 func get_current_spell_cost() -> int:
 	return get_current_spell_rank_table().spell_costs[data.current_spell_rank]
@@ -904,9 +913,11 @@ func build_stats():
 			set_max_spell_rank()
 
 		data.spells_ready.clear()
-		#if data.major_archetype and data.major_archetype.type == Enums.Archetype.ASPECTED_MAGE:
-			#for spell in data.spells_available:
-				#add_ready_spell(spell)
+		if data.major_archetype and data.major_archetype.type == Enums.Archetype.ASPECTED_MAGE:
+			for spell in data.spells_available:
+				add_ready_spell(spell)
+
+		set_current_spell_rank(get_max_spell_rank())
 
 		data.has_been_initialized = true
 		update_stats()

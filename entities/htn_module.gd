@@ -175,9 +175,8 @@ func get_primitive_resource_costs(primitive_slot: HTNPrimitiveSlot, report: Dict
 
 	if final_activity.id == "act_move":
 		var requirement_to: HTNPrimitiveSlot = primitive_slot.requirement_to
-		var distance = requirement_to.primitive.pre_executed.reach
-		
-		var path = wm.path_to_target_adjacency(report["creature"], primitive_slot.targets[0], distance)
+
+		var path = wm.get_multi_level_path_for_creature(report["creature"], primitive_slot.targets[0])
 		if path:
 			var cost = wm.calculate_path_cost_3D_simple(path)
 			primitive_slot.MP_cost = cost
@@ -219,6 +218,14 @@ func choose_primitives(report: Dictionary) -> Array[HTNPrimitiveSlot]:
 
 	while i < slots.size():
 		if slots[i].primitive:
+			
+			if i == (slots.size() - 1) and slots[i].repeatable:
+				var ap_cost: int = get_method_ap_cost(report)
+				var ap_difference: int = report["AP"] - ap_cost
+				if ap_difference > 0:
+					var new_primitive_slot = slots[i].duplicate(true)
+					slots.append(new_primitive_slot)
+			
 			i += 1
 			continue
 
@@ -232,14 +239,36 @@ func choose_primitives(report: Dictionary) -> Array[HTNPrimitiveSlot]:
 		if not check_step_preconditions(slots[i], report):
 			i = 0
 			continue
-			
-		if i == (slots.size() - 1) and slots[i].repeatable:
-			var ap_cost: int = get_method_ap_cost(report)
-			var ap_difference: int = report["AP"] - ap_cost
-			if ap_difference > 0:
-				var new_primitive_slot = slots[i].duplicate(true)
-				slots.append(new_primitive_slot)
+
 	return slots
+
+#func choose_primitives(report: Dictionary) -> Array[HTNPrimitiveSlot]:
+	#var slots: Array[HTNPrimitiveSlot] = report["method"].primitive_slots
+	#var i: int = 0
+#
+	#while i < slots.size():
+		#if slots[i].primitive:
+			#i += 1
+			#continue
+#
+		#choose_target(slots[i], report)
+#
+		#var candidates = match_candidates_to_slot(slots[i], report)
+		#var _primitive = choose_among_candidates(candidates, slots[i], report)
+#
+		#get_primitive_resource_costs(slots[i], report)
+#
+		#if not check_step_preconditions(slots[i], report):
+			#i = 0
+			#continue
+			#
+		#if i == (slots.size() - 1) and slots[i].repeatable:
+			#var ap_cost: int = get_method_ap_cost(report)
+			#var ap_difference: int = report["AP"] - ap_cost
+			#if ap_difference > 0:
+				#var new_primitive_slot = slots[i].duplicate(true)
+				#slots.append(new_primitive_slot)
+	#return slots
 
 #func fix_sequence(report: Dictionary) -> Array[HTNPrimitiveSlot]:
 	#var slots: Array[HTNPrimitiveSlot] = report["method"].primitive_slots

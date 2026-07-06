@@ -624,7 +624,8 @@ func _on_slider_value_changed(value):
 	var character = Global.selected_char
 	var slider = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/SpellRankSlider")
 	
-	character.data.current_spell_rank = value
+	#character.data.current_spell_rank = value
+	character.set_current_spell_rank(value)
 	slider.tooltip_text = "Spell rank selected: %d" % character.data.current_spell_rank
 	
 	var PP_bar_preview = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/CharInfoVBox1/PP_bar_wrapper/PP_bar_preview")

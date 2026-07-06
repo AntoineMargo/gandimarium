@@ -569,7 +569,12 @@ func get_multi_level_path_for_creature(creature: Creature, goal: Vector3i, allow
 	if easy_doors:
 		Global.door_manager.prepare_doors_for_pathfinding()
 	var coords = creature.get_coords()
+	var layer_coords = Vector2i(coords.x, coords.y)
+	#layers[coords.z]["occupied"][layer_coords] = false
+	layers[coords.z]["path_map"].set_point_solid(layer_coords, false)
 	var path: Array[Vector3i] = get_multi_level_path(coords, goal, allow_occupied_goal)
+	layers[coords.z]["path_map"].set_point_solid(layer_coords, true)
+	#layers[coords.z]["occupied"][layer_coords] = true
 	if easy_doors:
 		Global.door_manager.reset_doors_to_previous_state()
 	return path
