@@ -3,6 +3,7 @@ class_name ActivityVariant
 
 @export var activity: Activity
 @export var modifiers: Array[Modifier] = []
+@export var ai_hint: AIHint
 
 func pre_execute(user: Entity) -> Activity:
 	var instance: Activity = null

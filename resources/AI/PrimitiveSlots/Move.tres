@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="HTNPrimitiveSlot" format=3 uid="uid://dfer5085w2uj7"]
 
-[ext_resource type="Script" uid="uid://bcvm7axrryhwl" path="res://AI/HTN_primitive_slot.gd" id="1_hn81w"]
+[ext_resource type="Script" uid="uid://bcvm7axrryhwl" path="res://AI/HTN/HTN_primitive_slot.gd" id="1_hn81w"]
 
 [resource]
 script = ExtResource("1_hn81w")

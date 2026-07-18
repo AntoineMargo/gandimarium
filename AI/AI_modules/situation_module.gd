@@ -15,6 +15,8 @@ func produce_report(entries) -> Dictionary:
 	report["EP"] = creature.data.current_ep
 	report["MP"] = creature.data.current_mp
 
+	report["original_pos"] = creature.get_coords()
+
 	report["closest_enemy"] = find_closest_enemy()
 	report["strongest_enemy"] = find_strongest_enemy()
 	report["frailest_enemy"] = find_frailest_enemy()

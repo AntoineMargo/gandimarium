@@ -3,7 +3,7 @@ class_name HTNPrimitiveSlot
 
 @export var name: String = ""
 @export var primitive_type: Enums.PrimitiveType
-@export var target_type: Enums.TargetType
+@export var target_type: Enums.Targeting
 @export var wanted_tags: Array[Enums.Tag]
 @export var unwanted_tags: Array[Enums.Tag]
 @export var optional: bool = false
@@ -19,12 +19,10 @@ var PP_cost: int = 0
 var EP_cost: int = 0
 var MP_cost: float = 0.0
 
-## Indicates that this slot is a core part of the method, not just tacked on.
-var core: bool = true
 var skip: Enums.Skip = Enums.Skip.PROCEED
 
 func _init(p_primitive_type: Enums.PrimitiveType = Enums.PrimitiveType.DAMAGE, 
-			p_target_type: Enums.TargetType = Enums.TargetType.ANY, 
+			p_target_type: Enums.Targeting = Enums.Targeting.CREATURES, 
 			p_wanted_tags: Array[Enums.Tag] = [], 
 			p_unwanted_tags: Array[Enums.Tag] = []) -> void:
 	primitive_type = p_primitive_type

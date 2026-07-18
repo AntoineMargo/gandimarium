@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="HTNTask" format=3 uid="uid://ydehs0vieysk"]
 
-[ext_resource type="Script" uid="uid://cvgks5kvla301" path="res://AI/HTN_method.gd" id="1_pvtfd"]
-[ext_resource type="Script" uid="uid://dirc1pgalgicw" path="res://AI/HTN_task.gd" id="2_2hwmb"]
-[ext_resource type="Script" uid="uid://bcvm7axrryhwl" path="res://AI/HTN_primitive_slot.gd" id="2_ods4i"]
+[ext_resource type="Script" uid="uid://cvgks5kvla301" path="res://AI/HTN/HTN_method.gd" id="1_pvtfd"]
+[ext_resource type="Script" uid="uid://dirc1pgalgicw" path="res://AI/HTN/HTN_task.gd" id="2_2hwmb"]
+[ext_resource type="Script" uid="uid://bcvm7axrryhwl" path="res://AI/HTN/HTN_primitive_slot.gd" id="2_ods4i"]
 
 [sub_resource type="Resource" id="Resource_3kcmk"]
 script = ExtResource("2_ods4i")

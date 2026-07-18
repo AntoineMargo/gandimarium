@@ -62,7 +62,6 @@ reach = 0
 spread = 6
 target_filters = Array[ExtResource("2_eyq6g")]([SubResource("Resource_4ay3v")])
 target_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_ynu1s")])
-targeting_type = 1
 is_spell = true
 metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
 
@@ -122,7 +121,6 @@ defending_aptitude = 2
 reach = 4
 spread = 1
 target_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_xjtne")])
-targeting_type = 1
 shape = 2
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
@@ -160,7 +158,6 @@ defending_aptitude = 2
 reach = 3
 spread = 12
 target_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_hwbcj")])
-targeting_type = 1
 is_spell = true
 metadata/_custom_type_script = "uid://cg24svaiy2tg3"
 

@@ -1,7 +1,8 @@
 [gd_resource type="Resource" script_class="ActivityContainer" format=3 uid="uid://dtb5cki288fl0"]
 
 [ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_qpo42"]
-[ext_resource type="Script" uid="uid://lrec85jjq4ih" path="res://AIHints/AI_hint.gd" id="2_2jjhl"]
+[ext_resource type="Script" uid="uid://lrec85jjq4ih" path="res://AI/AIHints/AI_hint.gd" id="2_2jjhl"]
+[ext_resource type="Script" uid="uid://c7cvd1ql5dxas" path="res://AI/act_tag.gd" id="2_fejbl"]
 [ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="2_m0ra8"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_n3s36"]
 [ext_resource type="Script" uid="uid://vt0qt70itnbr" path="res://AI/Preconditions/HTN_precondition.gd" id="2_smca5"]
@@ -10,29 +11,6 @@
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_fejbl"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_21wwn"]
 [ext_resource type="Script" uid="uid://c8nleruhobrbc" path="res://effects/move_effect.gd" id="7_5m40f"]
-
-[sub_resource type="Resource" id="Resource_smca5"]
-script = ExtResource("2_2jjhl")
-category = 1
-tags = Array[int]([3, 6])
-power = {
-&"buff": 0,
-&"control": 0,
-&"damage": 0,
-&"debuff": 0,
-&"heal": 0,
-&"impediment": 0,
-&"movement": 40,
-&"summon": 0,
-&"utility": 0
-}
-targeting_type = 1
-requires_line_of_sight = false
-friendy_fire = false
-damage_type = Array[int]([])
-variance = 0
-certainty = 10
-metadata/_custom_type_script = "uid://lrec85jjq4ih"
 
 [sub_resource type="Resource" id="Resource_3nckw"]
 script = ExtResource("7_5m40f")
@@ -49,16 +27,33 @@ attacking_aptitude = 2
 defending_aptitude = 2
 reach = 999
 target_effects = Array[ExtResource("6_21wwn")]([SubResource("Resource_3nckw")])
-targeting_type = 1
 affected_type = 1
 requires_roll = false
 triggers_reaction = false
-ai_hint = SubResource("Resource_smca5")
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_834uy"]
+script = ExtResource("2_fejbl")
+tag = 8
+value = 40
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_smca5"]
+script = ExtResource("2_2jjhl")
+category = 1
+act_tags = Array[ExtResource("2_fejbl")]([SubResource("Resource_834uy")])
+targeting_type = 0
+requires_line_of_sight = false
+friendy_fire = false
+damage_type = Array[int]([])
+variance = 0
+certainty = 10
+metadata/_custom_type_script = "uid://lrec85jjq4ih"
 
 [sub_resource type="Resource" id="Resource_g1pm5"]
 script = ExtResource("1_qpo42")
 activity = SubResource("Resource_ywu33")
+ai_hint = SubResource("Resource_smca5")
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
 [resource]

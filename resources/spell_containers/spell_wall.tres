@@ -46,7 +46,6 @@ reach = 20
 spread = 12
 self_prior_effects = Array[ExtResource("6_j1ayf")]([SubResource("Resource_4ay3v")])
 target_effects = Array[ExtResource("6_j1ayf")]([SubResource("Resource_gobpa")])
-targeting_type = 1
 affected_type = 1
 shape = 2
 requires_roll = false

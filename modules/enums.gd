@@ -180,6 +180,12 @@ enum AttackCategory {
 	THROW
 }
 
+enum ActivityCategory {
+	HOSTILE, 
+	BENEFICIAL, 
+	BOTH
+}
+
 enum AttackType {
 	SLASH,
 	PIERCE,
@@ -230,16 +236,19 @@ enum ItemsList {
 	}
 
 enum Targeting {
-	ENTITIES,
 	TILES,
+	ENTITIES,
+	CREATURES,
+	PROPS
 }
 
-enum TargetType {
-	ANY,
-	SELF,
-	ALLY,
-	ENEMY
-}
+#enum TargetType {
+	#ANY,
+	#SELF,
+	#ALLY,
+	#SUMMON,
+	#ENEMY
+#}
 
 #enum PreconditionResult {
 	#SATISFIED,
@@ -365,6 +374,58 @@ enum Tag {
 	HOSTILE,
 	MAGIC,
 	BENEFICIAL
+}
+
+enum ActivityTag {
+	MELEE,
+	RANGED,
+	DAMAGE,
+	DAMAGE_OVER_TIME,
+	HEAL,
+	SUMMON,
+	BUFF,
+	DEBUFF,
+	MOVEMENT,
+	ARMOUR_BUFF,
+	MOBILITY_BUFF,
+	SAVE_OR_SUCK,
+	TELEPORTATION,
+	INVISIBILITY,
+	REMOVE_INVISIBILITY,
+	DISPEL,
+	PHYSICAL,
+	HEAT,
+	COLD,
+	ELECTRICITY,
+	CORROSION,
+	POISON,
+	PSYCHIC,
+	RAW
+}
+
+enum TileTag {
+	ANY,
+	FLOOR,
+	WALL,
+	HAS_PROP,
+	HAS_ITEM
+}
+
+enum CreatureTag {
+	ANY,
+	SELF,
+	ALLY,
+	ENEMY,
+	SUMMON,
+	HEALTHY,
+	WOUNDED,
+	BLOODED,
+	DOWNED,
+	UNARMOURED,
+	LIGHTLY_ARMOURED,
+	HEAVILY_ARMOURED,
+	CONSCIOUS,
+	UNCONSCIOUS
 }
 
 enum PrimitiveType {

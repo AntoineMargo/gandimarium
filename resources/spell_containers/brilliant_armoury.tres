@@ -186,7 +186,6 @@ defending_aptitude = 5
 spread = 2
 target_filters = Array[ExtResource("5_sltj7")]([SubResource("Resource_mctsj")])
 target_effects = Array[ExtResource("6_jj7h7")]([SubResource("Resource_2mcys")])
-targeting_type = 1
 barrier_interaction = 1
 triggers_reaction = false
 attack_types = Array[ExtResource("2_nd6ys")]([SubResource("Resource_hh0ht")])

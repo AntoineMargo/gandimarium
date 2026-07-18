@@ -1,0 +1,46 @@
+extends Resource
+class_name AIHint
+
+enum ShapeType { BURST, CONE, LINE, CUSTOM }
+enum DamageType { PHYSICAL, HEAT, COLD, ELECTRICITY, CORROSION, POISON, PSYCHIC, RAW }
+enum OriginType { SELF, FAMILIAR, SUMMON, ALLY, ENEMY, LOCATION }
+
+@export var category: Enums.ActivityCategory = Enums.ActivityCategory.HOSTILE
+@export var origin: Array[OriginType] = [OriginType.SELF]
+@export var act_tags: Array[ActTag] = []
+
+#@export var targeting_number: int = 1
+@export var targeting_type: Enums.Targeting = Enums.Targeting.ENTITIES
+@export var creature_target_tags: Array[Enums.CreatureTag] = []
+@export var tile_target_tags: Array[Enums.TileTag] = []
+
+#@export var shape: Enums.Shape = Enums.Shape.BURST
+@export var requires_line_of_sight: bool = true
+@export var uses_melee_weapon: bool = false
+@export var uses_ranged_weapon: bool = false
+@export var spell_variable_rank: bool = false
+@export var friendy_fire: bool = true
+@export var provokes_aoo: bool = false
+@export var damage_type: Array[DamageType] = [DamageType.PHYSICAL]
+@export_range(0, 10) var variance: int = 5 # 1 to 10 (if the activity's effects can vary)
+@export_range(0, 10) var certainty: int = 5 # 1 to 10 (if the activity can miss)
+@export var preconditions: Array[HTNPrecondition] = []
+
+#@export var tags: Array[Enums.Tag] = [] # setup, dot, fire, cold, reveal, invisibility, dispel_invisibility, dispel...
+#@export var power = {
+	#damage = 100,
+	#heal = 0,
+	#buff = 0,
+	#debuff = 0,
+	#control = 0,
+	#movement = 0,
+	#impediment = 0,
+	#summon = 0,
+	#utility = 0}
+	
+#var AP_cost: int = 1
+#var PP_cost: int = 0 # if spell then disregarded since variable
+#var EP_cost: int = 0
+#var reach: int = 1
+#var spread: int = 0
+#var delay: int = 0

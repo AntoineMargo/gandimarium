@@ -30,7 +30,6 @@ defending_aptitude = 1
 reach = 2
 spread = 90
 target_effects = Array[ExtResource("6_cquvk")]([SubResource("Resource_a3m6j")])
-targeting_type = 1
 shape = 1
 barrier_interaction = 1
 is_spell = true

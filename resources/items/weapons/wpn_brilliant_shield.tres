@@ -50,7 +50,6 @@ defending_aptitude = 5
 spread = 2
 target_filters = Array[ExtResource("6_qgfpp")]([SubResource("Resource_xfa36")])
 target_effects = Array[ExtResource("7_5gup1")]([SubResource("Resource_ljo7m")])
-targeting_type = 1
 barrier_interaction = 1
 triggers_reaction = false
 attack_types = Array[ExtResource("3_a4a16")]([ExtResource("10_3jruu")])

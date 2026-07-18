@@ -43,7 +43,6 @@ AP_cost = 2
 requires_concentration = true
 reach = 5
 target_effects = Array[ExtResource("6_uw0fy")]([SubResource("Resource_xjtne")])
-targeting_type = 1
 affected_type = 1
 requires_roll = false
 is_spell = true

@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="HTNetwork" format=3 uid="uid://cxs4cwjuyc6p5"]
+
+[ext_resource type="Script" uid="uid://xddml5c1645c" path="res://AI/HTN/HTN_HTN.gd" id="1_cpxhc"]
+[ext_resource type="Script" uid="uid://dirc1pgalgicw" path="res://AI/HTN/HTN_task.gd" id="2_yxjyb"]
+[ext_resource type="Script" uid="uid://dlhjebk2nh1e3" path="res://AI/HTN/HTN_tactic.gd" id="3_ohxxs"]
+[ext_resource type="Script" uid="uid://cvgks5kvla301" path="res://AI/HTN/HTN_method.gd" id="4_napss"]
+[ext_resource type="Script" uid="uid://w3fhdb7pql67" path="res://AI/wanted_act.gd" id="5_d8ad8"]
+[ext_resource type="Script" uid="uid://c7cvd1ql5dxas" path="res://AI/act_tag.gd" id="6_vpwjh"]
+
+[sub_resource type="Resource" id="Resource_834uy"]
+script = ExtResource("6_vpwjh")
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_6a8ja"]
+script = ExtResource("6_vpwjh")
+tag = 2
+value = 20
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_vm3c7"]
+script = ExtResource("5_d8ad8")
+target_type = 2
+wanted_tags = Array[ExtResource("6_vpwjh")]([SubResource("Resource_834uy"), SubResource("Resource_6a8ja")])
+repeatable = true
+metadata/_custom_type_script = "uid://w3fhdb7pql67"
+
+[sub_resource type="Resource" id="Resource_ohxxs"]
+script = ExtResource("4_napss")
+name = "AttackEnemy"
+wanted_acts = Array[ExtResource("5_d8ad8")]([SubResource("Resource_vm3c7")])
+metadata/_custom_type_script = "uid://cvgks5kvla301"
+
+[sub_resource type="Resource" id="Resource_napss"]
+script = ExtResource("3_ohxxs")
+name = "NeutralizeEnemy"
+methods = Array[ExtResource("4_napss")]([SubResource("Resource_ohxxs")])
+base_utility = 75.0
+trait_weights = {
+&"ambition": 50,
+&"caution": 0,
+&"charisma": 50,
+&"compassion": 50,
+&"dedication": 50,
+&"intelligence": 50,
+&"morale": 50,
+&"sociality": 50
+}
+metadata/_custom_type_script = "uid://dlhjebk2nh1e3"
+
+[sub_resource type="Resource" id="Resource_d8ad8"]
+script = ExtResource("2_yxjyb")
+name = "EngageEnemy"
+tactics = Array[ExtResource("3_ohxxs")]([SubResource("Resource_napss")])
+metadata/_custom_type_script = "uid://dirc1pgalgicw"
+
+[resource]
+script = ExtResource("1_cpxhc")
+name = "DefaultTaskList"
+strategies = Array[ExtResource("2_yxjyb")]([SubResource("Resource_d8ad8")])
+metadata/_custom_type_script = "uid://xddml5c1645c"

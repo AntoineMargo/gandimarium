@@ -6,6 +6,9 @@
 [ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="3_leu5y"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_khss2"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="5_y28ho"]
+[ext_resource type="Script" uid="uid://c7cvd1ql5dxas" path="res://AI/act_tag.gd" id="6_y28ho"]
+[ext_resource type="Script" uid="uid://vt0qt70itnbr" path="res://AI/Preconditions/HTN_precondition.gd" id="7_au0h0"]
+[ext_resource type="Script" uid="uid://lrec85jjq4ih" path="res://AI/AIHints/AI_hint.gd" id="8_61dq0"]
 
 [sub_resource type="Resource" id="Resource_ekd7e"]
 script = ExtResource("3_leu5y")
@@ -16,11 +19,30 @@ AP_cost = 0
 attacking_aptitude = 2
 defending_aptitude = 2
 reach = 0
-targeting_type = 1
 affected_type = 1
 metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_5uvg8"]
+script = ExtResource("6_y28ho")
+tag = 8
+value = 40
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_yoxxa"]
+script = ExtResource("8_61dq0")
+category = 1
+act_tags = Array[ExtResource("6_y28ho")]([SubResource("Resource_5uvg8")])
+targeting_type = 0
+tile_target_tags = Array[int]([1])
+requires_line_of_sight = false
+friendy_fire = false
+damage_type = Array[int]([])
+variance = 0
+certainty = 10
+metadata/_custom_type_script = "uid://lrec85jjq4ih"
 
 [resource]
 script = ExtResource("2_8l68h")
 activity = SubResource("Resource_ekd7e")
+ai_hint = SubResource("Resource_yoxxa")
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
