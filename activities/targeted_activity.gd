@@ -6,6 +6,8 @@ var number_of_targets_left = 0
 var cm = null
 var wm = null
 
+signal completed
+
 func _visual_pounce(targets: Array, ctx: Context):
 	if targets.size() == 1:
 		for tag in tags:
@@ -252,4 +254,4 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 	
 	SignalBus.event.emit(ReactionEvent.activity_completed(self_ctx))
 	
-	#SignalBus.dialog_show_message.emit("Activity effects released.")
+	completed.emit()

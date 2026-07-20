@@ -1,6 +1,9 @@
 extends Node
 @warning_ignore_start("unused_signal")
 
+#Global
+signal operation_finished()
+
 #Dialog
 signal dialog_show_message(text)
 signal dialog_damage_taken(name, damage)

@@ -57,9 +57,18 @@ func produce(user: Entity) -> Activity:
 
 	return instance
 
+
 func execute(user: Entity, targets: Array[Vector3i] = []) -> void:
 	var instance = produce(user)
 	if targets:
 		instance.target_points.append_array(targets)
 
-	instance.execute()
+	await instance.execute()
+
+
+#func execute(user: Entity, targets: Array[Vector3i] = []) -> void:
+	#var instance = produce(user)
+	#if targets:
+		#instance.target_points.append_array(targets)
+#
+	#instance.execute()

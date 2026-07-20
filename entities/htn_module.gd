@@ -151,7 +151,7 @@ func calculate_total_AP_cost(planned_acts: Array[PlannedAct], _report: Dictionar
 	return total_cost
 
 func is_in_range(ctx: ActivityContext) -> bool:
-	if ctx.activity.is_valid_target_point(ctx.target):
+	if ctx.activity.is_valid_target_point(ctx.target, ctx.origin):
 		return true
 	else:
 		return false
@@ -164,7 +164,8 @@ func get_resource_costs(wanted_act: WantedAct,planned_act: PlannedAct, report: D
 	if activity.id == "act_move":
 		var requirement_to: PlannedAct = wanted_act.requirement_to
 
-		var path = wm.get_multi_level_path_for_creature(report["creature"], requirement_to.targets[0])
+		#var path = wm.get_multi_level_path_for_creature(report["creature"], requirement_to.targets[0])
+		var path = wm.get_multi_level_path(planned_act.position, requirement_to.targets[0], true)
 		if path:
 			var cost = wm.calculate_path_cost_3D_simple(path)
 			planned_act.MP_cost = cost
@@ -200,10 +201,11 @@ func check_step_requirements(planned_acts: Array[PlannedAct], wanted_acts: Array
 	var ctx = ActivityContext.new()
 	ctx.activity = activity
 	ctx.user = report["creature"]
-	if planned_act.position != Vector3i(-1, -1, -1):
-		ctx.origin = planned_act.position
-	else:
-		ctx.user.get_coords()
+	ctx.origin = planned_act.position
+	#if planned_act.position != Vector3i(-1, -1, -1):
+		#ctx.origin = planned_act.position
+	#else:
+		#ctx.user.get_coords()
 	ctx.target = planned_act.targets[0]
 
 	if not is_in_range(ctx):
@@ -212,6 +214,7 @@ func check_step_requirements(planned_acts: Array[PlannedAct], wanted_acts: Array
 		var act_tag: ActTag = ActTag.new()
 		act_tag.create(Enums.ActivityTag.MOVEMENT, 40)
 		new_wanted_act.wanted_tags.append(act_tag)
+		new_wanted_act.modifies_position = true
 		wanted_acts.insert(i, new_wanted_act)
 		planned_acts.insert(i, null)
 		print("Inserting movement wanted_act at index %d" % [i])
@@ -235,6 +238,26 @@ func choose_optimal_attack_type(primitive_slot: HTNPrimitiveSlot):
 				if attack_type.id == 2: # if activity's weapon has "crush"
 					activity.weapon.selected_attacks[Enums.AttackCategory.STRIKE] = Enums.AttackType.CRUSH
 
+func update_positions(wanted_acts: Array[WantedAct], planned_acts: Array[PlannedAct], i: int) -> void:
+	var wanted_act = wanted_acts[i]
+	var planned_act = planned_acts[i]
+	
+	if planned_act.targets.is_empty():
+		return
+	
+	var new_position: Vector3i = planned_act.targets[-1]
+	
+	i += 1
+	while i < wanted_acts.size():
+		wanted_act = wanted_acts[i]
+		planned_act = planned_acts[i]
+		
+		planned_act.position = new_position
+		
+		if wanted_act.modifies_position:
+			break
+		
+		i += 1
 
 func produce_sequence(report) -> Array[PlannedAct]:
 	report["strategy"] = choose_strategy(report)
@@ -254,6 +277,11 @@ func produce_sequence(report) -> Array[PlannedAct]:
 		if not planned_act:
 			planned_act = PlannedAct.new()
 			planned_acts[i] = planned_act
+			planned_act.position = report["original_pos"]
+			if i > 0:
+				var previous_planned_act: PlannedAct = planned_acts[i - 1]
+				if previous_planned_act and previous_planned_act.position != Vector3i(-1, -1, -1):
+					planned_act.position = previous_planned_act.position
 			planned_act.activity_variant = find_best_activity(wanted_act, report)
 			if planned_act.activity_variant == null:
 				i += 1
@@ -261,17 +289,19 @@ func produce_sequence(report) -> Array[PlannedAct]:
 			
 			planned_act.pre_executed = planned_act.activity_variant.pre_execute(report["creature"])
 			choose_target(wanted_act, planned_act, report)
+			if wanted_act.modifies_position:
+				update_positions(wanted_acts, planned_acts, i)
 			get_resource_costs(wanted_act, planned_act, report)
 			total_ap_cost += planned_act.AP_cost
 			if not check_step_requirements(planned_acts, wanted_acts, report, i):
 				continue
 		
-		if planned_act.position == Vector3i(-1, -1, -1):
-			planned_act.position = report["original_pos"]
-			if i > 0:
-				var previous_planned_act: PlannedAct = planned_acts[i - 1]
-				if previous_planned_act and previous_planned_act.position != Vector3i(-1, -1, -1):
-					planned_act.position = previous_planned_act.position
+		#if planned_act.position == Vector3i(-1, -1, -1):
+			#planned_act.position = report["original_pos"]
+			#if i > 0:
+				#var previous_planned_act: PlannedAct = planned_acts[i - 1]
+				#if previous_planned_act and previous_planned_act.position != Vector3i(-1, -1, -1):
+					#planned_act.position = previous_planned_act.position
 		
 		if i == (wanted_acts.size() - 1):
 			if total_ap_cost < report["AP"] and wanted_act.repeatable:

@@ -11,6 +11,8 @@ func execute(sequence: Array[PlannedAct]):
 			break
 		act.activity_variant.execute(creature, act.targets)
 		await get_tree().create_timer(0.2).timeout
+		if Global.pending_crisis_operation_count > 0:
+			await SignalBus.operation_finished
 	Global.simulation_lock = false
 	SignalBus.turn_ends.emit()
 

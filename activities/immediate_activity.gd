@@ -6,16 +6,16 @@ class_name ImmediateActivity
 
 var prompt_instance = null
 
-func is_valid_target_point(point: Vector3i) -> bool:
-	origin = user.get_coords()
-
-	if not WorldMath.is_in_range(origin, point, spread):
-		return false
-
-	if spread_requires_LOS and not WorldMath.has_line_of_sight_tile(origin, point, false):
-		return false
-
-	return true
+#func is_valid_target_point(point: Vector3i) -> bool:
+	#origin = user.get_coords()
+#
+	#if not WorldMath.is_in_range(origin, point, spread):
+		#return false
+#
+	#if spread_requires_LOS and not WorldMath.has_line_of_sight_tile(origin, point, false):
+		#return false
+#
+	#return true
 
 func _cleanup() -> void:
 	prompt_instance.queue_free()

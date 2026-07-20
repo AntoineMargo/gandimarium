@@ -16,8 +16,8 @@ class_name HTNMethod
 	morale = 50,}
 @export var requires_group_context: bool = false  # gates PullOut & others
 
-func generate(report: Dictionary) -> Array[PlannedAct]:
+func generate(_report: Dictionary) -> Array[PlannedAct]:
 	return []
 
-func use_remaining_ap(sequence: Array[PlannedAct], report: Dictionary) -> Array[PlannedAct]:
+func use_remaining_ap(_sequence: Array[PlannedAct], _report: Dictionary) -> Array[PlannedAct]:
 	return []

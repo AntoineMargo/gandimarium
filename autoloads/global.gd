@@ -36,13 +36,14 @@ var camera: Camera2D = null
 var pause_menu_active: bool = false
 
 var simulation_lock: bool = false
-var character_lock: bool = false
+var player_lock: bool = false
 var focus_char: Creature
 var selected_char: Creature
 var active_party: PartyData
 
 var activity_handler: Activity = null
 var last_hovered_tile: Vector3i
+var pending_crisis_operation_count: int = 0
 
 func _unhandled_input(event: InputEvent) -> void:
 	if Global.world_manager.current_world:
@@ -63,6 +64,20 @@ func _process(_delta: float) -> void:
 	if Global.world_manager.current_world:
 		input_manager.BasicControls()
 		ui_manager.drag_fail_restore()
+
+func begin_async_operation() -> void:
+	pending_crisis_operation_count += 1
+
+func end_async_operation() -> void:
+	pending_crisis_operation_count -= 1
+	if pending_crisis_operation_count == 0:
+		SignalBus.operation_finished.emit()
+	
+#func no_pending_async_operation() -> bool:
+	#if pending_crisis_operation_count == 0:
+		#return true
+	#else:
+		#return false
 
 func handle_world_hover(tile: Vector3i) -> void:
 	if Input.is_action_pressed("Ctrl") and selected_char and not activity_handler:

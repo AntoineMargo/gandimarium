@@ -88,7 +88,7 @@ func start_crisis(creature):
 		SignalBus.start_crisis_mode.emit(creature)
 		#SignalBus.on_start_crisis.emit()
 		SignalBus.update_ui_for_char.emit()
-		Global.character_lock = true
+		Global.player_lock = true
 		handle_next_turn()
 
 func end_crisis(creature):
@@ -103,7 +103,7 @@ func end_crisis(creature):
 		#SignalBus.refresh_reachable_tiles.emit()
 		SignalBus.update_ui_for_char.emit()
 		SignalBus.clear_path_preview.emit()
-		Global.character_lock = false
+		Global.player_lock = false
 
 func enough_action_points_for_activity(activity):
 	var cost = activity.AP_cost

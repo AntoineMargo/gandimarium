@@ -233,13 +233,18 @@ func validate_condition_absence(entity: Entity) -> bool:
 			return false
 	return true
 
-func is_valid_target_point(point: Vector3i) -> bool:
-	origin = user.get_coords()
+func is_valid_target_point(point: Vector3i, alt_origin: Vector3i = Vector3i(-1, -1, -1)) -> bool:
+	var source: Vector3i
+	if alt_origin != Vector3i(-1, -1, -1):
+		source = alt_origin
+	else:
+		origin = user.get_coords()
+		source = origin
 
-	if not WorldMath.is_in_range(origin, point, reach):
+	if not WorldMath.is_in_range(source, point, reach):
 		return false
 
-	if reach_requires_LOS and not WorldMath.has_line_of_sight_tile(origin, point, false):
+	if reach_requires_LOS and not WorldMath.has_line_of_sight_tile(source, point, false):
 		return false
 
 	return true

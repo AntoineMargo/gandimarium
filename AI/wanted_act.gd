@@ -10,3 +10,5 @@ class_name WantedAct
 @export var repeatable: bool = false
 
 var requirement_to: PlannedAct = null
+
+var modifies_position: bool = false
