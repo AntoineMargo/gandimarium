@@ -27,6 +27,7 @@ attacking_aptitude = 2
 defending_aptitude = 2
 reach = 999
 target_effects = Array[ExtResource("6_21wwn")]([SubResource("Resource_3nckw")])
+targeting_type = 0
 affected_type = 1
 requires_roll = false
 triggers_reaction = false

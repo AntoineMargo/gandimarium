@@ -53,8 +53,23 @@ name = "EngageEnemy"
 tactics = Array[ExtResource("3_ohxxs")]([SubResource("Resource_napss")])
 metadata/_custom_type_script = "uid://dirc1pgalgicw"
 
+[sub_resource type="Resource" id="Resource_qq8qa"]
+script = ExtResource("2_yxjyb")
+name = "DisengageEnemy"
+metadata/_custom_type_script = "uid://dirc1pgalgicw"
+
+[sub_resource type="Resource" id="Resource_fn0aa"]
+script = ExtResource("3_ohxxs")
+metadata/_custom_type_script = "uid://dlhjebk2nh1e3"
+
+[sub_resource type="Resource" id="Resource_2lvnq"]
+script = ExtResource("2_yxjyb")
+name = "SearchEnemy"
+tactics = Array[ExtResource("3_ohxxs")]([SubResource("Resource_fn0aa")])
+metadata/_custom_type_script = "uid://dirc1pgalgicw"
+
 [resource]
 script = ExtResource("1_cpxhc")
 name = "DefaultTaskList"
-strategies = Array[ExtResource("2_yxjyb")]([SubResource("Resource_d8ad8")])
+strategies = Array[ExtResource("2_yxjyb")]([SubResource("Resource_d8ad8"), SubResource("Resource_qq8qa"), SubResource("Resource_2lvnq")])
 metadata/_custom_type_script = "uid://xddml5c1645c"

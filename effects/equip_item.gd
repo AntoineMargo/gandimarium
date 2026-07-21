@@ -9,9 +9,9 @@ func apply_context(ctx: Context) -> bool:
 				success = true
 			continue
 	if success:
-		SignalBus.dialog_show_message.emit("Spell has succeeded!")
+		SignalBus.message.emit("Spell has succeeded!")
 	else:
-		SignalBus.dialog_show_message.emit("Spell has failed.")
+		SignalBus.message.emit("Spell has failed.")
 	return true
 
 func remove(_source, _target, _degree):

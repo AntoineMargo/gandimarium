@@ -21,7 +21,7 @@ func operate(creature: Creature):
 	var ctx = _build_context(creature)
 	ctx.target.toggle_condition(ctx)
 	if Global.selected_char == creature:
-		SignalBus.dialog_show_message.emit("You start sleeping")
+		SignalBus.message.emit("You start sleeping")
 		Global.time_manager.skip_time(0, 8)
 
 func _ready() -> void:

@@ -13,10 +13,10 @@ func sync_grid_state():
 func operate(creature: Creature):
 	if is_active:
 		if creature == Global.selected_char:
-			SignalBus.dialog_show_message.emit("You close the door.")
+			SignalBus.message.emit("You close the door.")
 		else:
 			var coords = creature.get_coords()
-			SignalBus.dialog_show_message.emit("coords of creature closing door: (%d, %d, %d)" % [coords.x, coords.y, coords.z])
+			SignalBus.message.emit("coords of creature closing door: (%d, %d, %d)" % [coords.x, coords.y, coords.z])
 		is_active = false
 		blocks_movement = true
 		var layer_coords = Vector2i(pos.x, pos.y)
@@ -26,7 +26,7 @@ func operate(creature: Creature):
 		sprite.texture = load("res://art/props/door_closed.png")
 	else:
 		if creature == Global.selected_char:
-			SignalBus.dialog_show_message.emit("You open the door.")
+			SignalBus.message.emit("You open the door.")
 		is_active = true
 		blocks_movement = false
 		var layer_coords = Vector2i(pos.x, pos.y)

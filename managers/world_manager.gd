@@ -743,16 +743,6 @@ func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, vi
 		return false
 	visited[key] = true
 	if start.z == goal.z:
-		
-		#var astar = layers[start.z]["path_map"]
-		#var s = Vector2i(start.x, start.y)
-		#var g = Vector2i(goal.x, goal.y)
-#
-		#print("Start solid:", astar.is_point_solid(s))
-		#print("Goal solid:", astar.is_point_solid(g))
-		#print("Start in bounds:", astar.is_in_boundsv(s))
-		#print("Goal in bounds:", astar.is_in_boundsv(g))
-
 		var path2D: PackedVector2Array = layers[start.z]["path_map"].get_point_path(Vector2i(start.x, start.y), Vector2i(goal.x, goal.y))
 		if path2D.is_empty():
 			return false
@@ -798,38 +788,6 @@ func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, vi
 		path_array.pop_back()
 	return false
 
-#func move_char_along_path(creature: Creature, path: Array[Vector3i]):
-	#path_preview.make_inactive()
-	#for i in range(path.size() - 1):
-		#var current_tile = path[i]
-		#var layer_current_tile = Vector2i(current_tile.x, current_tile.y)
-		#var next_tile = path[i + 1]
-		#var layer_next_tile = Vector2i(next_tile.x, next_tile.y)
-#
-		#layers[current_tile.z]["cover"][layer_current_tile] = Enums.Cover.NONE
-		#layers[current_tile.z]["occupied"][layer_current_tile] = false
-		#layers[current_tile.z]["path_map"].set_point_solid(layer_current_tile, false)
-		#remove_from_tile(creature, current_tile)
-#
-		#creature.data.tile_x = next_tile.x
-		#creature.data.tile_y = next_tile.y
-		#creature.data.tile_z = next_tile.z
-#
-		#layers[next_tile.z]["cover"][layer_next_tile] = Enums.Cover.QUARTER
-		#layers[next_tile.z]["occupied"][layer_next_tile] = true
-		#layers[next_tile.z]["path_map"].set_point_solid(layer_next_tile, true)
-		#add_to_tile(creature, next_tile)
-		#creature.visible = (creature.data.tile_z == current_level)
-		#creature.global_position = layers[next_tile.z]["tile_map"].map_to_local(layer_next_tile)
-		#creature.mover.position = Vector2.ZERO # Very necessary because of position/global_position mismatch during real-time move
-		#handle_tile_conditions(next_tile, creature)
-		#selection_highlight.update_selection_highlight()
-		#SignalBus.sight_check.emit(next_tile)
-		#SignalBus.event.emit(ReactionEvent.movement(Context.movement(creature, current_tile, next_tile)))
-		#flash_path([current_tile])
-		#await get_tree().create_timer(0.05).timeout
-	#path_preview.make_active()
-
 func _apply_step_side_effects(creature: Creature, current_tile: Vector3i, next_tile: Vector3i):
 	handle_tile_conditions(next_tile, creature)
 	selection_highlight.update_selection_highlight()
@@ -861,7 +819,7 @@ func _apply_step_state(creature: Creature, current_tile: Vector3i, next_tile: Ve
 	creature.global_position = layers[next_tile.z]["tile_map"].map_to_local(layer_next_tile)
 	creature.mover.position = Vector2.ZERO
 
-func get_step_cost(current_tile: Vector3i, next_tile: Vector3i):
+func get_step_cost(current_tile: Vector3i, next_tile: Vector3i) -> float:
 	var current = Vector2i(current_tile.x, current_tile.y)
 	var next = Vector2i(next_tile.x, next_tile.y)
 	var delta = next - current
@@ -877,25 +835,6 @@ func get_step_cost(current_tile: Vector3i, next_tile: Vector3i):
 	
 	return step_cost
 
-#func move_char_along_path(creature: Creature, path: Array[Vector3i]) -> bool:
-	#path_preview.make_inactive()
-#
-	#for i in range(path.size() - 1):
-		#var current_tile = path[i]
-		#var next_tile = path[i + 1]
-		#
-		#var step_cost = get_step_cost(current_tile, next_tile)
-		#if creature.consume_mp(step_cost, true):
-			#_apply_step_state(creature, current_tile, next_tile)
-			#_apply_step_side_effects(creature, current_tile, next_tile)
-			#await get_tree().create_timer(0.04).timeout
-		#else:
-			#break
-#
-	#path_preview.get_char_data()
-	#path_preview.make_active()
-	#return true
-
 func move_char_along_path(creature: Creature, path: Array[Vector3i]) -> bool:
 	path_preview.make_inactive()
 
@@ -904,7 +843,7 @@ func move_char_along_path(creature: Creature, path: Array[Vector3i]) -> bool:
 		var current_tile = path[i]
 		var next_tile = path[i + 1]
 		
-		var step_cost = get_step_cost(current_tile, next_tile)
+		var step_cost: float = get_step_cost(current_tile, next_tile)
 		if creature.consume_mp(step_cost, true):
 			_apply_step_state(creature, current_tile, next_tile)
 			_apply_step_side_effects(creature, current_tile, next_tile)
@@ -1012,7 +951,7 @@ func _simple_interact_disambiguation(force_interact: bool = false):
 		return
 	if Global.selected_char:
 		if not Global.selected_char.can_act():
-			SignalBus.dialog_show_message.emit("You currently cannot act.")
+			SignalBus.message.emit("You currently cannot act.")
 			return
 		var element = get_priority_element_on_tile(coords)
 		if element == null:
@@ -1023,7 +962,11 @@ func _simple_interact_disambiguation(force_interact: bool = false):
 			if force_interact:
 				Global.selected_char.perform_attack(coords)
 			else:
-				Global.selected_char.perform_attack(coords)
+				var relation_entry = Global.selected_char.get_tactical(element.get_uid())
+				if not relation_entry or relation_entry.hostile == 0:
+					return
+				else:
+					Global.selected_char.perform_attack(coords)
 		elif element is Item:
 			if force_interact:
 				Global.selected_char.perform_attack(coords)
@@ -1161,44 +1104,6 @@ func interact_move(character: Creature, target: Vector3i):
 	character.visible = (character.data.tile_z == current_level)
 	SignalBus.update_ui_for_char.emit()
 	selection_highlight.update_selection_highlight()
-
-#func interact_move(character: Creature, target: Vector3i) -> float:
-	#var origin = character.get_coords()
-	#var layer_origin = Vector2i(origin.x, origin.y)
-	#var layer_target = Vector2i(target.x, target.y)
-	#var path = null
-	#var path_map = layers[target.z]["path_map"]
-	#if not path_map.region.has_point(layer_target):
-		#print("Invalid target location.")
-		#return 0.0
-	#if path_map.is_point_solid(layer_target):
-		#print("Invalid target location.")
-		#return 0.0
-	#if layers[target.z]["occupied"].get(layer_target):
-		#print("Invalid target location.")
-		#return 0.0
-#
-	#print("origin: %d/%d" % [origin.x, origin.y])
-	#print("goal: %d/%d" % [target.x, target.y])
-#
-	#path_map.set_point_solid(layer_origin, false)
-	#if not character.data.player_controlled:
-		#path = get_multi_level_path_for_creature(character, target, false, true)
-	#else:
-		#path = get_multi_level_path_for_creature(character, target)
-	#if path.is_empty():
-		#print("No path found!")
-		#return 0.0
-	#
-	#if Global.crisis_manager.crisis_mode:
-		#move_char_along_path(character, path)
-	#else:
-		#character.mover.begin_path(path)
-	#character.visible = (character.data.tile_z == current_level)
-	#SignalBus.update_ui_for_char.emit()
-	#selection_highlight.update_selection_highlight()
-	#var path_size = path.size()
-	#return path_size * 0.04
 
 func handle_tile_conditions(tile: Vector3i, entity: Entity):
 	var layer_tile: Vector2i = Vector2i(tile.x, tile.y)

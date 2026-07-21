@@ -15,6 +15,8 @@ func get_random_tile_in_zone(zone_rect: Rect2i) -> Vector2i:
 	return Vector2i(x, y)
 
 func perform_routine(override: Enums.Routine = Enums.Routine.NONE, tile: Vector3i = Vector3i(0, 0, 0)):
+	if Global.crisis_manager.crisis_mode:
+		return
 	if not current_entry:
 		change_routine()
 	if override != Enums.Routine.NONE:

@@ -69,7 +69,7 @@ func _not_enough_ap():
 	_on_show_message("You don't have enough AP for this activity!")
 
 func _ready() -> void:
-	SignalBus.dialog_show_message.connect(_on_show_message)
+	SignalBus.message.connect(_on_show_message)
 	
 	SignalBus.dialog_selectable_targets.connect(_on_selectable_targets)
 	

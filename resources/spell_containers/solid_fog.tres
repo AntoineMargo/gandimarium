@@ -94,6 +94,7 @@ spread = 8
 self_prior_effects = Array[ExtResource("6_wrc7h")]([SubResource("Resource_j8ccw")])
 self_final_effects = Array[ExtResource("6_wrc7h")]([SubResource("Resource_2x3kp")])
 target_effects = Array[ExtResource("6_wrc7h")]([SubResource("Resource_n5vkd")])
+targeting_type = 0
 affected_type = 1
 is_spell = true
 per_round_drain = true

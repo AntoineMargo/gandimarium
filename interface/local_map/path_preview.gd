@@ -90,7 +90,7 @@ func update_ap_ticks():
 		total_mp += c
 	var is_over_limit = total_mp > cutoff_mp
 	#print("Limit: %.1f, used: %.1f" % [cutoff_mp, total_mp])
-	#SignalBus.dialog_show_message.emit("Limit: %.1f, used: %.1f" % [cutoff_mp, total_mp])
+	#SignalBus.message.emit("Limit: %.1f, used: %.1f" % [cutoff_mp, total_mp])
 	
 	for i in range(path_points.size() - 1):
 		var segment_cost = segment_costs[i] if i < segment_costs.size() else 1.0

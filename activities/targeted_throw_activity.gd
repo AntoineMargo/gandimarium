@@ -162,6 +162,6 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 	_consume_pp(self_ctx)
 	_finalize_concentration(self_ctx)
 	_cleanup()
-	#SignalBus.dialog_show_message.emit("Activity effects released.")
+	#SignalBus.message.emit("Activity effects released.")
 	
 	SignalBus.event.emit(ReactionEvent.activity_completed(self_ctx))

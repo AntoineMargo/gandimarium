@@ -121,6 +121,7 @@ defending_aptitude = 2
 reach = 4
 spread = 1
 target_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_xjtne")])
+targeting_type = 0
 shape = 2
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
@@ -158,6 +159,7 @@ defending_aptitude = 2
 reach = 3
 spread = 12
 target_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_hwbcj")])
+targeting_type = 0
 is_spell = true
 metadata/_custom_type_script = "uid://cg24svaiy2tg3"
 

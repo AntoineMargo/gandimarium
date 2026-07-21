@@ -26,7 +26,7 @@ func _cleanup() -> void:
 	SignalBus.update_ui_for_char.emit()
 
 func cancel_activity():
-	SignalBus.dialog_show_message.emit("Canceling activity.")
+	SignalBus.message.emit("Canceling activity.")
 	_cleanup()
 
 func handle_input(event: InputEvent) -> void:
@@ -44,7 +44,7 @@ func preview_area(tile):
 	wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines)
 
 func resolve_ui() -> void:
-	SignalBus.dialog_show_message.emit("Waiting for player decision...")
+	SignalBus.message.emit("Waiting for player decision...")
 	Global.activity_handler = self
 	self.user = user
 	prompt_instance = prompt_scene.instantiate()

@@ -62,8 +62,8 @@ func BasicControls():
 		var hovered_tile = Global.world_manager.get_hovered_tile()
 		var layer_tile = Vector2i(hovered_tile.x, hovered_tile.y)
 		var creature = wm.get_creature_at_pos(hovered_tile)
-		SignalBus.dialog_show_message.emit("Tile: (%d, %d, %d)" % [hovered_tile.x, hovered_tile.y, hovered_tile.z])
-		SignalBus.dialog_show_message.emit("Creature: %s" % [creature.data.name if creature else "None"])
+		SignalBus.message.emit("Tile: (%d, %d, %d)" % [hovered_tile.x, hovered_tile.y, hovered_tile.z])
+		SignalBus.message.emit("Creature: %s" % [creature.data.name if creature else "None"])
 
 		print("-= (%d:%d) =-" % [hovered_tile.x, hovered_tile.y])
 		if wm.layers[hovered_tile.z]["contents"].has(layer_tile):
@@ -126,7 +126,7 @@ func BasicControls():
 					wm.remove_from_tile(element, coords)
 					Global.selected_char.data.inventory.add_item(element)
 					SignalBus.update_inventory.emit()
-					SignalBus.dialog_show_message.emit("Picked up %s." % element.name)
+					SignalBus.message.emit("Picked up %s." % element.name)
 
 	if Input.is_action_just_pressed("K"):
 		var coords = wm.get_tile_coords_under_cursor()
@@ -165,50 +165,50 @@ func BasicControls():
 					wm.layers[coords.z]["path_map"].set_point_solid(layer_coords, true)
 				else:
 					wm.layers[coords.z]["path_map"].set_point_solid(layer_coords, false)
-				SignalBus.dialog_show_message.emit("Tile changed.")
+				SignalBus.message.emit("Tile changed.")
 				return
 
 	if Input.is_action_just_pressed("M"):
 		if not Global.selected_char:
 			return
 		var character = Global.selected_char
-		SignalBus.dialog_show_message.emit("Current AP: %s" % [character.data.current_ap])
+		SignalBus.message.emit("Current AP: %s" % [character.data.current_ap])
 		for modifier in character.data.activity_modifiers:
-			SignalBus.dialog_show_message.emit("Modifier: %s" % [modifier.name])
+			SignalBus.message.emit("Modifier: %s" % [modifier.name])
 
 	if Input.is_action_just_pressed("N"):
 		var hovered_tile = Global.world_manager.get_hovered_tile()
 		var targets = WorldMath.shape_burst_entities(hovered_tile, 6)
-		SignalBus.dialog_show_message.emit("Targets found:")
+		SignalBus.message.emit("Targets found:")
 		for target in targets:
-			SignalBus.dialog_show_message.emit("	%s" % [target.data.name])
+			SignalBus.message.emit("	%s" % [target.data.name])
 
 	if Input.is_action_just_pressed("E"):
 		if not Global.selected_char:
 			return
 		var character = Global.selected_char
 		character.rebuild_shader()
-		SignalBus.dialog_show_message.emit("Shader for selected creature has been rebuilt!")
+		SignalBus.message.emit("Shader for selected creature has been rebuilt!")
 
 	if Input.is_action_just_pressed("B"):
 		if not Global.selected_char:
 			return
 		var character = Global.selected_char
-		SignalBus.dialog_show_message.emit("Activity modifiers active:")
+		SignalBus.message.emit("Activity modifiers active:")
 		for mod in character.data.activity_modifiers:
-			SignalBus.dialog_show_message.emit("Mod %s" % mod.name)
-		#SignalBus.dialog_show_message.emit("Available MP: %d" % Global.selected_char.get_stat("current_mp"))
+			SignalBus.message.emit("Mod %s" % mod.name)
+		#SignalBus.message.emit("Available MP: %d" % Global.selected_char.get_stat("current_mp"))
 
 	if Input.is_action_just_pressed("X"):
 		if not Global.selected_char:
 			return
 		var current_mp = Global.selected_char.get_stat("current_mp")
-		SignalBus.dialog_show_message.emit("Current mp: %d" % current_mp)
+		SignalBus.message.emit("Current mp: %d" % current_mp)
 		var current_ap = Global.selected_char.get_stat("current_ap")
-		SignalBus.dialog_show_message.emit("Current ap: %d" % current_ap)
+		SignalBus.message.emit("Current ap: %d" % current_ap)
 
 	if Input.is_action_just_pressed("V"):
-		SignalBus.dialog_show_message.emit("Number of active creatures: %d" % Global.ai_manager.active_number)
+		SignalBus.message.emit("Number of active creatures: %d" % Global.ai_manager.active_number)
 
 	if Input.is_action_just_pressed("Backspace"):
 		SignalBus.request_toggle_crisis.emit(Global.focus_char)

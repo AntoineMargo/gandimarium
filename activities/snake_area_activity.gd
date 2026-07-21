@@ -122,7 +122,7 @@ func execute() -> void:
 		resolve_ui()
 
 func resolve_ui() -> void:
-	SignalBus.dialog_show_message.emit("Waiting for target(s) of activity...")
+	SignalBus.message.emit("Waiting for target(s) of activity...")
 	Global.activity_handler = self
 	self.user = user
 	number_of_targets_left = number_of_targets
@@ -131,7 +131,7 @@ func resolve_ui() -> void:
 	SignalBus.change_cursor.emit("select2")
 
 func cancel_activity():
-	SignalBus.dialog_show_message.emit("Canceling activity.")
+	SignalBus.message.emit("Canceling activity.")
 	_cleanup()
 
 func make_targets_unique(targets: Array) -> Array:
@@ -217,6 +217,6 @@ func resolve_with_targets(targets: Array) -> void:
 	_consume_pp(self_ctx)
 	_finalize_concentration(self_ctx)
 	_cleanup()
-	#SignalBus.dialog_show_message.emit("Activity effects released.")
+	#SignalBus.message.emit("Activity effects released.")
 	
 	SignalBus.event.emit(ReactionEvent.activity_completed(self_ctx))

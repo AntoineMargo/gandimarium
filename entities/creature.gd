@@ -436,8 +436,8 @@ func eat_food(food: Food) -> void:
 	if data.hunger > 10000:
 		data.hunger = 10000
 	data.inventory.remove_item(food)
-	SignalBus.dialog_show_message.emit("You have eaten: %s" % [food.name])
-	SignalBus.dialog_show_message.emit("Your hunger is now: %d" % [data.hunger])
+	SignalBus.message.emit("You have eaten: %s" % [food.name])
+	SignalBus.message.emit("Your hunger is now: %d" % [data.hunger])
 	SignalBus.update_inventory.emit()
 
 func has_enough_ap(number: int) -> bool:
@@ -471,7 +471,7 @@ func get_mp_potential() -> float:
 	var current_ap: int = get_stat("current_ap")
 	return current_mp + max_mp * current_ap
 
-func consume_mp(number: int, allows_ap_consumption: bool = false) -> bool:
+func consume_mp(number: float, allows_ap_consumption: bool = false) -> bool:
 	if allows_ap_consumption:
 		# We verify that we're not consuming AP for nothing
 		var mp_potential: float = get_mp_potential()
@@ -578,14 +578,14 @@ func add_item_to_inventory(item: Item) -> void:
 	initialize_item(item)
 	data.inventory.add_item(item)
 	SignalBus.update_inventory.emit()
-	SignalBus.dialog_show_message.emit("Picked up %s." % item.name)
+	SignalBus.message.emit("Picked up %s." % item.name)
 
 func grab_item_from_coords(item: Item, coords: Vector3i) -> void:
 	initialize_item(item)
 	Global.world_manager.remove_from_tile(item, coords)
 	data.inventory.add_item(item)
 	SignalBus.update_inventory.emit()
-	SignalBus.dialog_show_message.emit("Picked up %s." % item.name)
+	SignalBus.message.emit("Picked up %s." % item.name)
 
 func get_base_stat(stat):
 	if stat in data:
@@ -791,6 +791,9 @@ func evaluate_entering_crisis(creature):
 			SignalBus.ai_became_active.emit(self)
 			if not Global.crisis_manager.crisis_mode:
 				SignalBus.start_crisis_mode.emit(self)
+
+func get_uid() -> int:
+	return data.uid
 
 func build_tactical_map():
 	data.relationships.build_tactical_map()
@@ -1044,7 +1047,7 @@ func update_movement_speed(old_value: int = -1) -> void:
 func turn_start():
 	if data.state == Enums.State.CONSCIOUS:
 		set_stat("current_ap", get_stat("max_ap"))
-		#set_stat("current_mp", (get_stat("max_mp") * get_stat("max_ap")))
+		set_stat("current_mp", 0)
 	else:
 		set_stat("current_ap", 0)
 		set_stat("current_mp", 0)
@@ -1063,7 +1066,7 @@ func turn_start():
 		print("AI controlled")
 		if data.crisis_ai_active:
 			print("AI active")
-			SignalBus.dialog_show_message.emit("%s is acting." % self.data.name)
+			SignalBus.message.emit("%s is acting." % self.data.name)
 			ai_controller.crisisai.plan_turn() 
 			#SignalBus.turn_ends.emit()
 		else:
@@ -1099,6 +1102,8 @@ func sight_check(target_tile: Vector3i, creature: Creature = null) -> bool:
 					return true if creature_visibility >= Enums.Capability.LOW else false
 			if creature.data.sight >= Enums.Capability.LOW and creature.perceive_visibility() >= Enums.Capability.LOW:
 				return true
+	#discover_creature(creature)
+	#evaluate_entering_crisis(creature)
 	return false
 
 #func sight_check(target_tile: Vector3i, creature: Creature = null) -> bool: 

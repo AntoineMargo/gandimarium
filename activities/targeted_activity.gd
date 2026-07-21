@@ -66,7 +66,7 @@ func execute() -> void:
 		resolve_ui()
 
 func resolve_ui() -> void:
-	SignalBus.dialog_show_message.emit("Waiting for target(s) of activity...")
+	SignalBus.message.emit("Waiting for target(s) of activity...")
 	Global.activity_handler = self
 	self.user = user
 	number_of_targets_left = number_of_targets
@@ -75,7 +75,7 @@ func resolve_ui() -> void:
 	SignalBus.change_cursor.emit("select2")
 
 func cancel_activity():
-	SignalBus.dialog_show_message.emit("Canceling activity.")
+	SignalBus.message.emit("Canceling activity.")
 	_cleanup()
 
 func select_target():
@@ -85,7 +85,7 @@ func select_target():
 		if targeting_type == Enums.Targeting.ENTITIES:
 			var entity = wm.get_entity_at_pos(coords)
 			if not entity or not validate_condition_absence(entity):
-				SignalBus.dialog_show_message.emit("No valid entity there.")
+				SignalBus.message.emit("No valid entity there.")
 				return
 		target_points.append(coords)
 		number_of_targets_left -= 1
@@ -98,7 +98,7 @@ func select_target():
 		if number_of_targets_left == 0:
 			resolve_with_targets(target_points)
 	else:
-		SignalBus.dialog_show_message.emit("Invalid target.")
+		SignalBus.message.emit("Invalid target.")
 
 func compute_hit_delay(final_target, batch_ctx: ActivityContext) -> float:
 	var target_pos: Vector3i

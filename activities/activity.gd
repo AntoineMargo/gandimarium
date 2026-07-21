@@ -184,7 +184,7 @@ func _resolve(ctx):
 		if ctx.target is Creature:
 			ctx.result = BasicMath.make_opposed_check(ctx.user_stat, ctx.user_roll, ctx.target_stat, ctx.target_roll)
 			ctx.degree = BasicMath.determine_degree_success(ctx.result)
-			SignalBus.dialog_show_message.emit(
+			SignalBus.message.emit(
 				"%s rolled %d against %s's %d." % [ctx.user.data.name, ctx.user_stat+ctx.user_roll, ctx.target.data.name, ctx.target_stat+ctx.target_roll])
 
 func _has_enough_ap_and_pp(ctx):

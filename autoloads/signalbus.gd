@@ -5,7 +5,7 @@ extends Node
 signal operation_finished()
 
 #Dialog
-signal dialog_show_message(text)
+signal message(text)
 signal dialog_damage_taken(name, damage)
 signal dialog_healing_taken(name, healing)
 signal dialog_no_line_of_sight()

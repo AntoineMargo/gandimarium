@@ -30,6 +30,7 @@ reach_requires_LOS = false
 spread_requires_LOS = false
 reach = 500
 target_effects = Array[ExtResource("7_eoqh5")]([SubResource("Resource_l3860")])
+targeting_type = 0
 affected_type = 1
 requires_roll = false
 is_spell = true

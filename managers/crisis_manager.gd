@@ -20,16 +20,16 @@ func _add_to_initiative_order(creature):
 			elif a.get_stat("sense") < b.get_stat("sense"):
 				return false
 			return a.get_stat("tie_breaker") > b.get_stat("tie_breaker"))
-		SignalBus.dialog_show_message.emit("%s added to the initiative order." % [creature.data.name])
+		SignalBus.message.emit("%s added to the initiative order." % [creature.data.name])
 
 func remove_from_initiative_order(creature):
 	if creature in initiative_order:
 		initiative_order.erase(creature)
-		SignalBus.dialog_show_message.emit("%s removed from the initiative order." % [creature.data.name])
+		SignalBus.message.emit("%s removed from the initiative order." % [creature.data.name])
 
 func try_perform_activity(activity) -> bool:
 	if activity.requires_crisis and not crisis_mode:
-		SignalBus.dialog_show_message.emit("You are not in crisis mode!")
+		SignalBus.message.emit("You are not in crisis mode!")
 		return false
 	if not Global.focus_char:
 		return false
@@ -48,7 +48,7 @@ func handle_next_turn():
 		if current_index > (initiative_order.size() - 1):
 			current_index = 0
 			crisis_round += 1
-			SignalBus.dialog_show_message.emit("Round %d has started." % crisis_round)
+			SignalBus.message.emit("Round %d has started." % crisis_round)
 		initiative_order[current_index].turn_start()
 
 func _end_player_turn():
@@ -61,7 +61,7 @@ func request_toggle_crisis(creature):
 	if Global.ai_manager.active_number == 0:
 		toggle_crisis(creature)
 	else:
-		SignalBus.dialog_show_message.emit("Cannot end crisis: there are still creatures itching for a fight.")
+		SignalBus.message.emit("Cannot end crisis: there are still creatures itching for a fight.")
 		print("Cannot end crisis as the following creatures are active:")
 		for element in Global.ai_manager.active_creatures:
 			print("%s" % element.data.name)
@@ -78,7 +78,7 @@ func start_crisis(creature):
 	if crisis_mode == false:
 		SignalBus.stop_all_movement.emit()
 		if creature:
-			SignalBus.dialog_show_message.emit("Crisis started by %s." % creature.data.name)
+			SignalBus.message.emit("Crisis started by %s." % creature.data.name)
 			if creature.data.crisis_ai_active:
 				SignalBus.crisis_state_changed.emit()
 		crisis_mode = true
@@ -111,7 +111,7 @@ func enough_action_points_for_activity(activity):
 
 	if character.get_stat("current_ap") < cost:
 		print("Not enough action points.")
-		SignalBus.dialog_show_message.emit("You don't have enough action points!")
+		SignalBus.message.emit("You don't have enough action points!")
 		return false
 	return true
 
@@ -125,7 +125,7 @@ func enough_power_points_for_activity(activity):
 	
 	if character.get_stat("current_pp") < cost:
 		print("Not enough power points.")
-		SignalBus.dialog_show_message.emit("You don't have enough power points!")
+		SignalBus.message.emit("You don't have enough power points!")
 		return false
 	return true
 

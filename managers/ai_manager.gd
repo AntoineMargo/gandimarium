@@ -72,16 +72,16 @@ func delayed_check_setup():
 func ai_became_active(creature):
 	if active_creatures.has(creature):
 		return
-	SignalBus.dialog_show_message.emit("A creature's AI just turned active!")
+	SignalBus.message.emit("A creature's AI just turned active!")
 	active_creatures[creature] = true
 	active_number += 1
-	#SignalBus.dialog_show_message.emit("1 more active creature: %d" % active_number)
+	#SignalBus.message.emit("1 more active creature: %d" % active_number)
 	
 func ai_became_inactive(creature):
-	SignalBus.dialog_show_message.emit("A creature's AI just turned inactive.")
+	SignalBus.message.emit("A creature's AI just turned inactive.")
 	active_creatures.erase(creature)
 	active_number -= 1
-	#SignalBus.dialog_show_message.emit("1 less active creature: %d" % active_number)
+	#SignalBus.message.emit("1 less active creature: %d" % active_number)
 
 func _ready() -> void:
 		SignalBus.world_ready.connect(delayed_check_setup)

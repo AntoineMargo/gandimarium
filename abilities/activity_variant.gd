@@ -63,7 +63,7 @@ func execute(user: Entity, targets: Array[Vector3i] = []) -> void:
 	if targets:
 		instance.target_points.append_array(targets)
 
-	await instance.execute()
+	instance.execute()
 
 
 #func execute(user: Entity, targets: Array[Vector3i] = []) -> void:
