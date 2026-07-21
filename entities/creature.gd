@@ -17,6 +17,7 @@ var reachable_tiles: Array = []
 var stats_dirty: bool = true
 var mutation_depth: int = 0
 var active_right_click: Activity
+var interrupted: bool = false
 
 func start_mutation():
 	stats_dirty = true

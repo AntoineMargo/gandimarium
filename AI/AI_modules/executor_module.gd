@@ -7,8 +7,10 @@ var creature: Creature = null
 func execute(sequence: Array[PlannedAct]):
 	Global.simulation_lock = true
 	for act in sequence:
-		#if act.AP_cost > creature.get_stat("current_ap"):
-			#break
+		if creature.interrupted:
+			creature.interrupted = false
+			creature.ai_controller.crisisai.plan_turn() 
+			return
 		act.activity_variant.execute(creature, act.targets)
 		await get_tree().create_timer(0.2).timeout
 		if Global.pending_crisis_operation_count > 0:

@@ -962,7 +962,7 @@ func _simple_interact_disambiguation(force_interact: bool = false):
 			if force_interact:
 				Global.selected_char.perform_attack(coords)
 			else:
-				var relation_entry = Global.selected_char.get_tactical(element.get_uid())
+				var relation_entry = element.get_tactical(Global.selected_char.get_uid())
 				if not relation_entry or relation_entry.hostile == 0:
 					return
 				else:
