@@ -45,7 +45,6 @@ class_name Activity
 @export var builds_condition: bool = false
 @export var condition_id: String = ""
 @export var attack_types: Array[DamagePattern] = []
-@export var ai_hint: AIHint
 
 var user = null
 var origin: Vector3i
@@ -265,12 +264,3 @@ func compute_affected_area(target_location: Vector3i) -> Array[Vector3i]:
 			tiles.pop_front()
 			return tiles
 	return WorldMath.get_burst_tiles(target_location, spread, spread_requires_LOS)
-
-func _init():
-	if ai_hint:
-		ai_hint.AP_cost = AP_cost
-		ai_hint.PP_cost = PP_cost
-		ai_hint.EP_cost = EP_cost
-		ai_hint.reach = reach
-		ai_hint.spread = spread
-		ai_hint.delay = delay

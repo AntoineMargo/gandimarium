@@ -66,6 +66,7 @@ metadata/_custom_type_script = "uid://bxau8hir6ormb"
 [sub_resource type="Resource" id="Resource_jdaye"]
 script = ExtResource("16_d5cvt")
 tag = 1
+value = 26
 metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
 
 [sub_resource type="Resource" id="Resource_k1exx"]
@@ -85,7 +86,6 @@ act_tags = Array[ExtResource("16_d5cvt")]([SubResource("Resource_jdaye"), SubRes
 creature_target_tags = Array[int]([12, 1, 2, 0])
 spell_variable_rank = true
 friendy_fire = false
-provokes_aoo = true
 variance = 0
 certainty = 10
 metadata/_custom_type_script = "uid://lrec85jjq4ih"

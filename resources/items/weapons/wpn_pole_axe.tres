@@ -62,12 +62,6 @@ activity = SubResource("Resource_4ui3d")
 ai_hint = SubResource("Resource_d33rq")
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
-[sub_resource type="Resource" id="Resource_k1exx"]
-script = ExtResource("4_vb0bw")
-uses_melee_weapon = true
-friendy_fire = false
-metadata/_custom_type_script = "uid://lrec85jjq4ih"
-
 [sub_resource type="Resource" id="Resource_pfjud"]
 script = ExtResource("13_ffqtg")
 texture = ExtResource("14_pfjud")
@@ -92,7 +86,6 @@ defending_aptitude = 6
 target_effects = Array[ExtResource("10_k8xhw")]([SubResource("Resource_vb0bw")])
 projectile = SubResource("Resource_i3ngn")
 attack_types = Array[ExtResource("3_bwtky")]([ExtResource("4_ajovb"), ExtResource("6_pfjud")])
-ai_hint = SubResource("Resource_k1exx")
 metadata/_custom_type_script = "uid://bsu4c08c52n7w"
 
 [sub_resource type="Resource" id="Resource_yoxxa"]

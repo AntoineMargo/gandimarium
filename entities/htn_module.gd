@@ -162,10 +162,7 @@ func get_resource_costs(wanted_act: WantedAct,planned_act: PlannedAct, report: D
 	var activity: Activity = planned_act.pre_executed
 
 	if activity.id == "act_move":
-		var requirement_to: PlannedAct = wanted_act.requirement_to
-
-		#var path = wm.get_multi_level_path_for_creature(report["creature"], requirement_to.targets[0])
-		var path = wm.get_multi_level_path(planned_act.position, requirement_to.targets[0], true)
+		var path = wm.get_multi_level_path(planned_act.position, planned_act.targets[0], true)
 		if path:
 			var cost = wm.calculate_path_cost_3D_simple(path)
 			planned_act.MP_cost = cost
@@ -173,12 +170,11 @@ func get_resource_costs(wanted_act: WantedAct,planned_act: PlannedAct, report: D
 			var existing_mp: int = report["creature"].get_stat("current_mp")
 			var max_mp: int = report["creature"].get_stat("max_mp")
 			
-			if cost < existing_mp: 
+			if cost <= existing_mp:
 				planned_act.AP_cost = 0
 			else:
-				planned_act.AP_cost = 1
-				@warning_ignore("narrowing_conversion")
-				planned_act.AP_cost += (cost - existing_mp) / max_mp
+				var missing_mp: float = cost - existing_mp
+				planned_act.AP_cost = int(ceil(float(missing_mp) / max_mp))
 
 			planned_act.PP_cost = activity.PP_cost
 	else:
@@ -202,10 +198,6 @@ func check_step_requirements(planned_acts: Array[PlannedAct], wanted_acts: Array
 	ctx.activity = activity
 	ctx.user = report["creature"]
 	ctx.origin = planned_act.position
-	#if planned_act.position != Vector3i(-1, -1, -1):
-		#ctx.origin = planned_act.position
-	#else:
-		#ctx.user.get_coords()
 	ctx.target = planned_act.targets[0]
 
 	if not is_in_range(ctx):
@@ -222,13 +214,16 @@ func check_step_requirements(planned_acts: Array[PlannedAct], wanted_acts: Array
 		
 	return all_clear
 
-func choose_optimal_attack_type(primitive_slot: HTNPrimitiveSlot):
-	var activity = primitive_slot.primitive.pre_executed
+func choose_optimal_attack_type(planned_act: PlannedAct):
+	var activity = planned_act.pre_executed
+	if !activity:
+		return
+
 	var attack_types: Array[DamagePattern] = activity.attack_types
 	if !attack_types:
 		return
 
-	var main_target = primitive_slot.targets[0]
+	var main_target = planned_act.targets[0]
 	var entity: Entity = wm.get_entity_at_pos(main_target)
 	if entity is Creature:
 		if entity.perceive_armour() is Armour:
@@ -291,18 +286,13 @@ func produce_sequence(report) -> Array[PlannedAct]:
 			choose_target(wanted_act, planned_act, report)
 			if wanted_act.modifies_position:
 				update_positions(wanted_acts, planned_acts, i)
+				
+			choose_optimal_attack_type(planned_act)
 			get_resource_costs(wanted_act, planned_act, report)
 			total_ap_cost += planned_act.AP_cost
 			if not check_step_requirements(planned_acts, wanted_acts, report, i):
 				continue
-		
-		#if planned_act.position == Vector3i(-1, -1, -1):
-			#planned_act.position = report["original_pos"]
-			#if i > 0:
-				#var previous_planned_act: PlannedAct = planned_acts[i - 1]
-				#if previous_planned_act and previous_planned_act.position != Vector3i(-1, -1, -1):
-					#planned_act.position = previous_planned_act.position
-		
+
 		if i == (wanted_acts.size() - 1):
 			if total_ap_cost < report["AP"] and wanted_act.repeatable:
 				wanted_acts.append(wanted_act.duplicate())
@@ -324,99 +314,3 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
-
-# Arbitrate here whether satisfying the best candidate's preconditions
-# is better than picking one whose preconditions are already met
-#func choose_among_candidates(candidates: Array[ActivityVariant], 
-							#primitive_slot: HTNPrimitiveSlot, 
-							#report: Dictionary) -> HTNPrimitive:
-	#var ap_ceiling: int = -1
-	#if primitive_slot.skip == Enums.Skip.MISSING_AP and primitive_slot.primitive:
-		#ap_ceiling = primitive_slot.AP_cost
-#
-	#var best_candidate: ActivityVariant = null
-	#var best_power: int = 0
-#
-	#for candidate in candidates:
-		#if ap_ceiling > -1:
-			#var final_activity = candidate.pre_execute(report["creature"])
-			#if final_activity.AP_cost >= ap_ceiling:
-				#continue
-#
-		#var candidate_power = get_primitive_type_power(primitive_slot, candidate)
-		#if candidate_power > best_power:
-			#best_candidate = candidate
-			#best_power = candidate_power
-	#if best_candidate:
-		#primitive_slot.primitive = HTNPrimitive.new(best_candidate, report["creature"])
-		#return primitive_slot.primitive
-	#else:
-		#return null
-
-#func get_primitive_resource_costs(primitive_slot: HTNPrimitiveSlot, report: Dictionary) -> void:
-	#var final_activity: Activity = primitive_slot.primitive.pre_executed
-	#if !final_activity:
-		#return
-#
-	#if final_activity.id == "act_move":
-		#var _requirement_to: HTNPrimitiveSlot = primitive_slot.requirement_to
-#
-		#var path = wm.get_multi_level_path_for_creature(report["creature"], primitive_slot.targets[0])
-		#if path:
-			#var cost = wm.calculate_path_cost_3D_simple(path)
-			#primitive_slot.MP_cost = cost
-			#
-			#var existing_mp: int = report["creature"].get_stat("current_mp")
-			#var max_mp: int = report["creature"].get_stat("max_mp")
-			#
-			#if cost < existing_mp: 
-				#primitive_slot.AP_cost = 0
-			#else:
-				#primitive_slot.AP_cost = 1
-				#@warning_ignore("narrowing_conversion")
-				#primitive_slot.AP_cost += (cost - existing_mp) / max_mp
-				#
-			##primitive_slot.AP_cost = 1 + (cost / report["creature"].get_stat("max_mp"))
-			#primitive_slot.PP_cost = final_activity.PP_cost
-	#else:
-		#primitive_slot.AP_cost = final_activity.AP_cost
-		#primitive_slot.PP_cost = final_activity.PP_cost
-
-#func get_sequence_ap_cost(sequence: Array[PlannedAct]) -> int:
-	#var ap_used: int = 0
-#
-	#for act in sequence:
-		#ap_used += act.AP_cost
-#
-	#return ap_used
-
-#func choose_primitives(report: Dictionary) -> Array[HTNPrimitiveSlot]:
-	#var slots: Array[HTNPrimitiveSlot] = report["method"].primitive_slots
-	#var i: int = 0
-#
-	#while i < slots.size():
-		#if slots[i].primitive:
-			#
-			#if i == (slots.size() - 1) and slots[i].repeatable:
-				#var ap_cost: int = get_method_ap_cost(report)
-				#var ap_difference: int = report["AP"] - ap_cost
-				#if ap_difference > 0:
-					#var new_primitive_slot = slots[i].duplicate(true)
-					#slots.append(new_primitive_slot)
-			#
-			#i += 1
-			#continue
-#
-		#choose_target(slots[i], report)
-#
-		#var candidates = match_candidates_to_slot(slots[i], report)
-		#var _primitive = choose_among_candidates(candidates, slots[i], report)
-#
-		#get_primitive_resource_costs(slots[i], report)
-#
-		#if not check_step_preconditions(slots[i], report):
-			#i = 0
-			#continue
-#
-	#return slots
-#

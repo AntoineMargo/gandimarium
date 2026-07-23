@@ -835,11 +835,19 @@ func get_step_cost(current_tile: Vector3i, next_tile: Vector3i) -> float:
 	
 	return step_cost
 
-func move_char_along_path(creature: Creature, path: Array[Vector3i]) -> bool:
+func move_char_along_path(creature: Creature, path: Array[Vector3i], step_speed: float) -> bool:
 	path_preview.make_inactive()
+
+	creature.interrupted = false
 
 	Global.begin_async_operation()
 	for i in range(path.size() - 1):
+		if creature.interrupted:
+			path_preview.get_char_data()
+			path_preview.make_active()
+			Global.end_async_operation()
+			return false
+		
 		var current_tile = path[i]
 		var next_tile = path[i + 1]
 		
@@ -847,7 +855,7 @@ func move_char_along_path(creature: Creature, path: Array[Vector3i]) -> bool:
 		if creature.consume_mp(step_cost, true):
 			_apply_step_state(creature, current_tile, next_tile)
 			_apply_step_side_effects(creature, current_tile, next_tile)
-			await get_tree().create_timer(0.04).timeout
+			await get_tree().create_timer(step_speed).timeout
 		else:
 			break
 
@@ -1098,7 +1106,8 @@ func interact_move(character: Creature, target: Vector3i):
 		return
 	
 	if Global.crisis_manager.crisis_mode:
-		move_char_along_path(character, path)
+		var step_speed: float = 0.3 / character.get_final_stat("max_mp")
+		move_char_along_path(character, path, step_speed)
 	else:
 		character.mover.begin_path(path)
 	character.visible = (character.data.tile_z == current_level)

@@ -103,6 +103,9 @@ func initialize(ctx: Context) -> void:
 		end_time = start_time + duration
 		SignalBus.time_changed.connect(verify_expired)
 	
+	if plan_disrupting:
+		target.interrupted = true
+	
 	target.rebuild_shader()
 
 func apply_effects(ctx: Context = null) -> void:
@@ -161,6 +164,8 @@ func make_semi_unique_id(base_id: String, entity: Entity) -> String:
 	return candidate
 
 func dispose():
+	if plan_disrupting:
+		target.interrupted = true
 	target.remove_condition(self)
 	destroy_children()
 	clear_vfx()
