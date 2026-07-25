@@ -131,8 +131,7 @@ func enough_power_points_for_activity(activity):
 
 func _ready() -> void:
 	SignalBus.start_crisis_mode.connect(start_crisis)
-	#SignalBus.end_crisis_mode.connect(end_crisis)
-	SignalBus.toggle_crisis_mode.connect(toggle_crisis)
+	SignalBus.end_crisis_mode.connect(end_crisis)
 	SignalBus.add_to_initiative.connect(_add_to_initiative_order)
 	SignalBus.request_toggle_crisis.connect(request_toggle_crisis)
 	#SignalBus.active_hostiles_changed.connect(active_hostiles_changed)

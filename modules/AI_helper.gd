@@ -1,36 +1,24 @@
-extends Node
-class_name HTNModule
+class_name AIHelper
 
-@onready var htn_network: HTNetwork = load("res://resources/AI/TaskLists/default_HTN.tres")
-@onready var wm = Global.world_manager
-
-func choose_strategy(report: Dictionary) -> HTNStrategy:
-	return htn_network.choose_strategy(report)
-
-func choose_tactic(report: Dictionary) -> HTNTactic:
-	var strategy: HTNStrategy = report["strategy"]
-	return strategy.choose_tactic(report)
-
-func choose_method(report: Dictionary) -> HTNMethod:
-	var tactic: HTNTactic = report["tactic"]
-	return tactic.choose_method(report)
-
-func enough_AP(activity: Activity, report: Dictionary) -> bool:
+static func enough_AP(activity: Activity, report: Dictionary) -> bool:
 	if activity.AP_cost > report["remaining_AP"]:
 		return false
 	return true
-	
-func enough_PP(activity: Activity, report: Dictionary) -> bool:
+
+
+static func enough_PP(activity: Activity, report: Dictionary) -> bool:
 	if activity.PP_cost > report["remaining_PP"]:
 		return false
 	return true
-	
-func enough_EP(activity: Activity, report: Dictionary) -> bool:
+
+
+static func enough_EP(activity: Activity, report: Dictionary) -> bool:
 	if activity.EP_cost > report["remaining_EP"]:
 		return false
 	return true
 
-func has_all_wanted_tags(wanted_act: WantedAct, entry: ActivityVariant) -> bool:
+
+static func has_all_wanted_tags(wanted_act: WantedAct, entry: ActivityVariant) -> bool:
 	var activity_tags = entry.ai_hint.act_tags
 	var wanted_tags = wanted_act.wanted_tags
 
@@ -49,7 +37,8 @@ func has_all_wanted_tags(wanted_act: WantedAct, entry: ActivityVariant) -> bool:
 
 	return true
 
-func has_unwanted_tag(wanted_act: WantedAct, entry: ActivityVariant) -> bool:
+
+static func has_unwanted_tag(wanted_act: WantedAct, entry: ActivityVariant) -> bool:
 	var activity_tags = entry.ai_hint.act_tags
 	var unwanted_tags = wanted_act.unwanted_tags
 
@@ -60,7 +49,8 @@ func has_unwanted_tag(wanted_act: WantedAct, entry: ActivityVariant) -> bool:
 
 	return false
 
-func calculate_overvalue(entry: ActivityVariant, wanted_act: WantedAct) -> float:
+
+static func calculate_overvalue(entry: ActivityVariant, wanted_act: WantedAct) -> float:
 	var overvalue: float = 0
 	
 	var activity_tags = entry.ai_hint.act_tags
@@ -86,7 +76,8 @@ func calculate_overvalue(entry: ActivityVariant, wanted_act: WantedAct) -> float
 
 	return overvalue
 
-func choose_target(wanted_act: WantedAct, planned_act: PlannedAct, report: Dictionary):
+
+static func choose_target(wanted_act: WantedAct, planned_act: PlannedAct, report: Dictionary):
 	var hint = planned_act.activity_variant.ai_hint
 	match hint.targeting_type:
 		Enums.Targeting.TILES:
@@ -98,7 +89,7 @@ func choose_target(wanted_act: WantedAct, planned_act: PlannedAct, report: Dicti
 							var target = requirement_to.targets[0]
 							var distance: int = requirement_to.pre_executed.reach
 							var origin = report["creature"].get_coords()
-							var path = wm.path_to_adjacency(target, origin, distance)
+							var path = Global.world_manager.path_to_adjacency(target, origin, distance)
 							var in_range_tile: Vector3i = path[-1]
 							planned_act.targets.append(in_range_tile)
 							requirement_to.position = in_range_tile
@@ -113,7 +104,8 @@ func choose_target(wanted_act: WantedAct, planned_act: PlannedAct, report: Dicti
 					if report["closest_ally"]:
 						planned_act.targets.append(report["closest_ally"].get_coords())
 
-func find_best_activity(wanted_act: WantedAct, report: Dictionary) -> ActivityVariant:
+
+static func find_best_activity(wanted_act: WantedAct, report: Dictionary) -> ActivityVariant:
 	var entries = report["entries"]
 	var best_entry: ActivityVariant = null
 	var best_overvalue: float = 0.0
@@ -144,27 +136,38 @@ func find_best_activity(wanted_act: WantedAct, report: Dictionary) -> ActivityVa
 		push_error("Couldn't find any fitting activity!")
 	return best_entry
 
-func calculate_total_AP_cost(planned_acts: Array[PlannedAct], _report: Dictionary) -> int:
-	var total_cost: int = 0
-	for element in planned_acts:
-		total_cost += element.AP_cost
-	return total_cost
 
-func is_in_range(ctx: ActivityContext) -> bool:
-	if ctx.activity.is_valid_target_point(ctx.target, ctx.origin):
-		return true
-	else:
-		return false
+static func update_positions(wanted_acts: Array[WantedAct], planned_acts: Array[PlannedAct], i: int) -> void:
+	var wanted_act = wanted_acts[i]
+	var planned_act = planned_acts[i]
+	
+	if planned_act.targets.is_empty():
+		return
+	
+	var new_position: Vector3i = planned_act.targets[-1]
+	
+	i += 1
+	while i < wanted_acts.size():
+		wanted_act = wanted_acts[i]
+		planned_act = planned_acts[i]
+		
+		planned_act.position = new_position
+		
+		if wanted_act.modifies_position:
+			break
+		
+		i += 1
 
-func get_resource_costs(_wanted_act: WantedAct,planned_act: PlannedAct, report: Dictionary) -> void:
+
+static func get_resource_costs(_wanted_act: WantedAct, planned_act: PlannedAct, report: Dictionary) -> void:
 	if not planned_act.pre_executed:
 		return
 	var activity: Activity = planned_act.pre_executed
 
 	if activity.id == "act_move":
-		var path = wm.get_multi_level_path(planned_act.position, planned_act.targets[0], true)
+		var path = Global.world_manager.get_multi_level_path(planned_act.position, planned_act.targets[0], true)
 		if path:
-			var cost = wm.calculate_path_cost_3D_simple(path)
+			var cost = Global.world_manager.calculate_path_cost_3D_simple(path)
 			planned_act.MP_cost = cost
 			
 			var existing_mp: int = report["creature"].get_stat("current_mp")
@@ -182,7 +185,14 @@ func get_resource_costs(_wanted_act: WantedAct,planned_act: PlannedAct, report: 
 		planned_act.PP_cost = activity.PP_cost
 
 
-func check_step_requirements(planned_acts: Array[PlannedAct], wanted_acts: Array[WantedAct], report: Dictionary, i: int) -> bool:
+static func is_in_range(ctx: ActivityContext) -> bool:
+	if ctx.activity.is_valid_target_point(ctx.target, ctx.origin):
+		return true
+	else:
+		return false
+
+
+static func check_step_requirements(planned_acts: Array[PlannedAct], wanted_acts: Array[WantedAct], report: Dictionary, i: int) -> bool:
 	var all_clear: bool = true
 	var activity: Activity = null
 	
@@ -214,7 +224,8 @@ func check_step_requirements(planned_acts: Array[PlannedAct], wanted_acts: Array
 		
 	return all_clear
 
-func choose_optimal_attack_type(planned_act: PlannedAct):
+
+static func choose_optimal_attack_type(planned_act: PlannedAct):
 	var activity = planned_act.pre_executed
 	if !activity:
 		return
@@ -224,7 +235,7 @@ func choose_optimal_attack_type(planned_act: PlannedAct):
 		return
 
 	var main_target = planned_act.targets[0]
-	var entity: Entity = wm.get_entity_at_pos(main_target)
+	var entity: Entity = Global.world_manager.get_entity_at_pos(main_target)
 	if entity is Creature:
 		if entity.perceive_armour() is Armour:
 			for attack_type in attack_types: 
@@ -233,32 +244,16 @@ func choose_optimal_attack_type(planned_act: PlannedAct):
 				if attack_type.id == 2: # if activity's weapon has "crush"
 					activity.weapon.selected_attacks[Enums.AttackCategory.STRIKE] = Enums.AttackType.CRUSH
 
-func update_positions(wanted_acts: Array[WantedAct], planned_acts: Array[PlannedAct], i: int) -> void:
-	var wanted_act = wanted_acts[i]
-	var planned_act = planned_acts[i]
-	
-	if planned_act.targets.is_empty():
-		return
-	
-	var new_position: Vector3i = planned_act.targets[-1]
-	
-	i += 1
-	while i < wanted_acts.size():
-		wanted_act = wanted_acts[i]
-		planned_act = planned_acts[i]
-		
-		planned_act.position = new_position
-		
-		if wanted_act.modifies_position:
-			break
-		
-		i += 1
 
-func produce_sequence(report) -> Array[PlannedAct]:
-	report["strategy"] = choose_strategy(report)
-	report["tactic"] = choose_tactic(report)
-	report["method"] = choose_method(report)
-	var wanted_acts: Array[WantedAct] =  report["method"].wanted_acts.duplicate()
+static func calculate_total_AP_cost(planned_acts: Array[PlannedAct], _report: Dictionary) -> int:
+	var total_cost: int = 0
+	for element in planned_acts:
+		total_cost += element.AP_cost
+	return total_cost
+
+
+static func generate_sequence(method: HTNMethod, report: Dictionary) -> Array[PlannedAct]:
+	var wanted_acts: Array[WantedAct] =  method.wanted_acts.duplicate()
 	var planned_acts: Array[PlannedAct] = []
 	var total_ap_cost: int = 0
 	
@@ -306,13 +301,3 @@ func produce_sequence(report) -> Array[PlannedAct]:
 	report["total_AP_cost"] =  calculate_total_AP_cost(planned_acts, report)
 
 	return planned_acts
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass

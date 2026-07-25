@@ -29,7 +29,6 @@ signal time_skipped(hours)
 signal hour_change(n)
 
 #Crisis
-signal toggle_crisis_mode(creature)
 signal start_crisis_mode(creature)
 signal end_crisis_mode(creature)
 signal end_player_turn()

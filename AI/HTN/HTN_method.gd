@@ -16,8 +16,5 @@ class_name HTNMethod
 	morale = 50,}
 @export var requires_group_context: bool = false  # gates PullOut & others
 
-func generate(_report: Dictionary) -> Array[PlannedAct]:
-	return []
-
-func use_remaining_ap(_sequence: Array[PlannedAct], _report: Dictionary) -> Array[PlannedAct]:
-	return []
+func generate(report: Dictionary) -> Array[PlannedAct]:
+	return AIHelper.generate_sequence(self, report)

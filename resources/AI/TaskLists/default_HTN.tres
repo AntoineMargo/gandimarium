@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="HTNetwork" format=3 uid="uid://cxs4cwjuyc6p5"]
 
 [ext_resource type="Script" uid="uid://xddml5c1645c" path="res://AI/HTN/HTN_HTN.gd" id="1_cpxhc"]
-[ext_resource type="Script" uid="uid://dirc1pgalgicw" path="res://AI/HTN/HTN_task.gd" id="2_yxjyb"]
+[ext_resource type="Script" uid="uid://dirc1pgalgicw" path="res://AI/HTN/HTN_strategy.gd" id="2_yxjyb"]
 [ext_resource type="Script" uid="uid://dlhjebk2nh1e3" path="res://AI/HTN/HTN_tactic.gd" id="3_ohxxs"]
 [ext_resource type="Script" uid="uid://cvgks5kvla301" path="res://AI/HTN/HTN_method.gd" id="4_napss"]
 [ext_resource type="Script" uid="uid://w3fhdb7pql67" path="res://AI/wanted_act.gd" id="5_d8ad8"]
@@ -26,14 +26,40 @@ metadata/_custom_type_script = "uid://w3fhdb7pql67"
 
 [sub_resource type="Resource" id="Resource_ohxxs"]
 script = ExtResource("4_napss")
-name = "AttackEnemy"
+name = "AssaultEnemy"
 wanted_acts = Array[ExtResource("5_d8ad8")]([SubResource("Resource_vm3c7")])
+metadata/_custom_type_script = "uid://cvgks5kvla301"
+
+[sub_resource type="Resource" id="Resource_056f5"]
+script = ExtResource("6_vpwjh")
+tag = 1
+value = 10
+weight = 2.0
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_f30t0"]
+script = ExtResource("6_vpwjh")
+tag = 2
+value = 25
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_ccpml"]
+script = ExtResource("5_d8ad8")
+target_type = 2
+wanted_tags = Array[ExtResource("6_vpwjh")]([SubResource("Resource_056f5"), SubResource("Resource_f30t0")])
+repeatable = true
+metadata/_custom_type_script = "uid://w3fhdb7pql67"
+
+[sub_resource type="Resource" id="Resource_jcywm"]
+script = ExtResource("4_napss")
+name = "SnipeEnemy"
+wanted_acts = Array[ExtResource("5_d8ad8")]([SubResource("Resource_ccpml")])
 metadata/_custom_type_script = "uid://cvgks5kvla301"
 
 [sub_resource type="Resource" id="Resource_napss"]
 script = ExtResource("3_ohxxs")
 name = "NeutralizeEnemy"
-methods = Array[ExtResource("4_napss")]([SubResource("Resource_ohxxs")])
+methods = Array[ExtResource("4_napss")]([SubResource("Resource_ohxxs"), SubResource("Resource_jcywm")])
 base_utility = 75.0
 trait_weights = {
 &"ambition": 50,
@@ -47,10 +73,58 @@ trait_weights = {
 }
 metadata/_custom_type_script = "uid://dlhjebk2nh1e3"
 
+[sub_resource type="Resource" id="Resource_bh56m"]
+script = ExtResource("6_vpwjh")
+tag = 6
+value = 50
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_1cdaa"]
+script = ExtResource("5_d8ad8")
+target_type = 2
+wanted_tags = Array[ExtResource("6_vpwjh")]([SubResource("Resource_bh56m")])
+repeatable = true
+metadata/_custom_type_script = "uid://w3fhdb7pql67"
+
+[sub_resource type="Resource" id="Resource_2nmi4"]
+script = ExtResource("6_vpwjh")
+tag = 2
+value = 25
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_x6nb8"]
+script = ExtResource("5_d8ad8")
+wanted_tags = Array[ExtResource("6_vpwjh")]([SubResource("Resource_2nmi4")])
+optional = true
+repeatable = true
+metadata/_custom_type_script = "uid://w3fhdb7pql67"
+
+[sub_resource type="Resource" id="Resource_3rqi7"]
+script = ExtResource("4_napss")
+name = "Buff"
+wanted_acts = Array[ExtResource("5_d8ad8")]([SubResource("Resource_1cdaa"), SubResource("Resource_x6nb8")])
+metadata/_custom_type_script = "uid://cvgks5kvla301"
+
+[sub_resource type="Resource" id="Resource_88hcn"]
+script = ExtResource("3_ohxxs")
+name = "ShapeBattle"
+methods = Array[ExtResource("4_napss")]([SubResource("Resource_3rqi7")])
+trait_weights = {
+&"ambition": 50,
+&"caution": 75,
+&"charisma": 50,
+&"compassion": 50,
+&"dedication": 50,
+&"intelligence": 50,
+&"morale": 50,
+&"sociality": 50
+}
+metadata/_custom_type_script = "uid://dlhjebk2nh1e3"
+
 [sub_resource type="Resource" id="Resource_d8ad8"]
 script = ExtResource("2_yxjyb")
 name = "EngageEnemy"
-tactics = Array[ExtResource("3_ohxxs")]([SubResource("Resource_napss")])
+tactics = Array[ExtResource("3_ohxxs")]([SubResource("Resource_napss"), SubResource("Resource_88hcn")])
 metadata/_custom_type_script = "uid://dirc1pgalgicw"
 
 [sub_resource type="Resource" id="Resource_qq8qa"]

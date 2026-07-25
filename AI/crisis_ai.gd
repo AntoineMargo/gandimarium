@@ -9,13 +9,15 @@ var situation: SituationModule = null
 var htn: HTNModule = null
 var executor: ExecutorModule = null
 
+@onready var htn_network: HTNetwork = load("res://resources/AI/TaskLists/default_HTN.tres")
+
 func plan_turn():
 	var entries: Array[ActivityVariant] = get_all_activity_entries() # series of Activity / AiHint tuples
 	var report = situation.produce_report(entries)
 	if not report["closest_enemy"]:
 		SignalBus.turn_ends.emit()
 		return
-	var sequence: Array[PlannedAct] =  htn.produce_sequence(report)
+	var sequence: Array[PlannedAct] =  htn_network.apply_strategy(report)
 	executor.execute(sequence)
 
 func get_all_activity_entries():
