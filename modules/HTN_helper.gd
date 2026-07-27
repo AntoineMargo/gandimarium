@@ -1,21 +1,19 @@
-class_name AIHelper
+class_name HTNHelper
 
-static func enough_AP(activity: Activity, report: Dictionary) -> bool:
-	if activity.AP_cost > report["remaining_AP"]:
+static func enough_AP(entry: ActivityVariant, total_ap_cost: int, report: TacticalReport) -> bool:
+	if entry.activity.AP_cost > (report.crisis.turn.starting_ap - total_ap_cost):
 		return false
 	return true
 
+#static func enough_PP(activity: Activity, report: TacticalReport) -> bool:
+	#if activity.PP_cost > report["remaining_PP"]:
+		#return false
+	#return true
 
-static func enough_PP(activity: Activity, report: Dictionary) -> bool:
-	if activity.PP_cost > report["remaining_PP"]:
-		return false
-	return true
-
-
-static func enough_EP(activity: Activity, report: Dictionary) -> bool:
-	if activity.EP_cost > report["remaining_EP"]:
-		return false
-	return true
+#static func enough_EP(activity: Activity, report: TacticalReport) -> bool:
+	#if activity.EP_cost > report["remaining_EP"]:
+		#return false
+	#return true
 
 
 static func has_all_wanted_tags(wanted_act: WantedAct, entry: ActivityVariant) -> bool:
@@ -77,7 +75,7 @@ static func calculate_overvalue(entry: ActivityVariant, wanted_act: WantedAct) -
 	return overvalue
 
 
-static func choose_target(wanted_act: WantedAct, planned_act: PlannedAct, report: Dictionary):
+static func choose_target(wanted_act: WantedAct, planned_act: PlannedAct, report: TacticalReport):
 	var hint = planned_act.activity_variant.ai_hint
 	match hint.targeting_type:
 		Enums.Targeting.TILES:
@@ -88,7 +86,7 @@ static func choose_target(wanted_act: WantedAct, planned_act: PlannedAct, report
 						if not requirement_to.targets.is_empty():
 							var target = requirement_to.targets[0]
 							var distance: int = requirement_to.pre_executed.reach
-							var origin = report["creature"].get_coords()
+							var origin = report.creature.get_coords()
 							var path = Global.world_manager.path_to_adjacency(target, origin, distance)
 							var in_range_tile: Vector3i = path[-1]
 							planned_act.targets.append(in_range_tile)
@@ -97,16 +95,16 @@ static func choose_target(wanted_act: WantedAct, planned_act: PlannedAct, report
 		Enums.Targeting.ENTITIES, Enums.Targeting.CREATURES:
 			match hint.category:
 				Enums.ActivityCategory.HOSTILE:
-					if report["closest_enemy"]:
-						planned_act.targets.append(report["closest_enemy"].get_coords())
+					if report.crisis.closest_enemy:
+						planned_act.targets.append(report.crisis.closest_enemy.get_coords())
 
 				Enums.ActivityCategory.BENEFICIAL:
-					if report["closest_ally"]:
-						planned_act.targets.append(report["closest_ally"].get_coords())
+					if report.crisis.closest_ally:
+						planned_act.targets.append(report.crisis.closest_ally.get_coords())
 
 
-static func find_best_activity(wanted_act: WantedAct, report: Dictionary) -> ActivityVariant:
-	var entries = report["entries"]
+static func find_best_activity(wanted_act: WantedAct, total_ap_cost: int, report: TacticalReport) -> ActivityVariant:
+	var entries = report.available_activities
 	var best_entry: ActivityVariant = null
 	var best_overvalue: float = 0.0
 	var overvalue: float
@@ -120,8 +118,8 @@ static func find_best_activity(wanted_act: WantedAct, report: Dictionary) -> Act
 			continue
 		if not has_all_wanted_tags(wanted_act, entry):
 			continue
-		#if not enough_AP(final_entry, report):
-			#continue
+		if not enough_AP(entry, total_ap_cost, report):
+			continue
 		#if not enough_PP(final_entry, report):
 			#continue
 		#if not enough_EP(final_entry, report):
@@ -159,7 +157,7 @@ static func update_positions(wanted_acts: Array[WantedAct], planned_acts: Array[
 		i += 1
 
 
-static func get_resource_costs(_wanted_act: WantedAct, planned_act: PlannedAct, report: Dictionary) -> void:
+static func get_resource_costs(_wanted_act: WantedAct, planned_act: PlannedAct, report: TacticalReport) -> void:
 	if not planned_act.pre_executed:
 		return
 	var activity: Activity = planned_act.pre_executed
@@ -170,8 +168,8 @@ static func get_resource_costs(_wanted_act: WantedAct, planned_act: PlannedAct, 
 			var cost = Global.world_manager.calculate_path_cost_3D_simple(path)
 			planned_act.MP_cost = cost
 			
-			var existing_mp: int = report["creature"].get_stat("current_mp")
-			var max_mp: int = report["creature"].get_stat("max_mp")
+			var existing_mp: int = report.creature.get_stat("current_mp")
+			var max_mp: int = report.creature.get_stat("max_mp")
 			
 			if cost <= existing_mp:
 				planned_act.AP_cost = 0
@@ -184,15 +182,7 @@ static func get_resource_costs(_wanted_act: WantedAct, planned_act: PlannedAct, 
 		planned_act.AP_cost = activity.AP_cost
 		planned_act.PP_cost = activity.PP_cost
 
-
-static func is_in_range(ctx: ActivityContext) -> bool:
-	if ctx.activity.is_valid_target_point(ctx.target, ctx.origin):
-		return true
-	else:
-		return false
-
-
-static func check_step_requirements(planned_acts: Array[PlannedAct], wanted_acts: Array[WantedAct], report: Dictionary, i: int) -> bool:
+static func check_step_requirements(planned_acts: Array[PlannedAct], wanted_acts: Array[WantedAct], report: TacticalReport, i: int) -> bool:
 	var all_clear: bool = true
 	var activity: Activity = null
 	
@@ -202,15 +192,15 @@ static func check_step_requirements(planned_acts: Array[PlannedAct], wanted_acts
 	if planned_act.pre_executed:
 		activity = planned_act.pre_executed
 	else:
-		activity = planned_act.activity_variant.pre_execute(report["creature"])
+		activity = planned_act.activity_variant.pre_execute(report.creature)
 
 	var ctx = ActivityContext.new()
 	ctx.activity = activity
-	ctx.user = report["creature"]
+	ctx.user = report.creature
 	ctx.origin = planned_act.position
 	ctx.target = planned_act.targets[0]
 
-	if not is_in_range(ctx):
+	if not WorldMath.activity_is_in_range(ctx):
 		var new_wanted_act = WantedAct.new()
 		new_wanted_act.requirement_to = planned_act
 		var act_tag: ActTag = ActTag.new()
@@ -245,14 +235,7 @@ static func choose_optimal_attack_type(planned_act: PlannedAct):
 					activity.weapon.selected_attacks[Enums.AttackCategory.STRIKE] = Enums.AttackType.CRUSH
 
 
-static func calculate_total_AP_cost(planned_acts: Array[PlannedAct], _report: Dictionary) -> int:
-	var total_cost: int = 0
-	for element in planned_acts:
-		total_cost += element.AP_cost
-	return total_cost
-
-
-static func generate_sequence(method: HTNMethod, report: Dictionary) -> Array[PlannedAct]:
+static func generate_sequence(method: HTNMethod, report: TacticalReport) -> Array[PlannedAct]:
 	var wanted_acts: Array[WantedAct] =  method.wanted_acts.duplicate()
 	var planned_acts: Array[PlannedAct] = []
 	var total_ap_cost: int = 0
@@ -267,19 +250,19 @@ static func generate_sequence(method: HTNMethod, report: Dictionary) -> Array[Pl
 		if not planned_act:
 			planned_act = PlannedAct.new()
 			planned_acts[i] = planned_act
-			planned_act.position = report["original_pos"]
+			planned_act.position = report.crisis.turn.starting_position
 			if i > 0:
 				var previous_planned_act: PlannedAct = planned_acts[i - 1]
 				if previous_planned_act and previous_planned_act.position != Vector3i(-1, -1, -1):
 					planned_act.position = previous_planned_act.position
-			planned_act.activity_variant = find_best_activity(wanted_act, report)
+			planned_act.activity_variant = find_best_activity(wanted_act, total_ap_cost, report)
 			if planned_act.activity_variant == null:
 				if !wanted_act.optional:
 					return []
 				i += 1
 				continue
 			
-			planned_act.pre_executed = planned_act.activity_variant.pre_execute(report["creature"])
+			planned_act.pre_executed = planned_act.activity_variant.pre_execute(report.creature)
 			choose_target(wanted_act, planned_act, report)
 			if wanted_act.modifies_position:
 				update_positions(wanted_acts, planned_acts, i)
@@ -291,13 +274,11 @@ static func generate_sequence(method: HTNMethod, report: Dictionary) -> Array[Pl
 				continue
 
 		if i == (wanted_acts.size() - 1):
-			if total_ap_cost < report["AP"] and wanted_act.repeatable:
+			if total_ap_cost < report.creature.get_stat("max_ap") and wanted_act.repeatable:
 				wanted_acts.append(wanted_act.duplicate())
 				planned_acts.append(null)
 				print("Inserting repeatable wanted_act at index %d" % [i + 1])
 
 		i += 1
-
-	report["total_AP_cost"] =  calculate_total_AP_cost(planned_acts, report)
 
 	return planned_acts

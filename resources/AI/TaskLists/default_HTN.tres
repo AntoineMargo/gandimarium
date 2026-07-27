@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dirc1pgalgicw" path="res://AI/HTN/HTN_strategy.gd" id="2_yxjyb"]
 [ext_resource type="Script" uid="uid://dlhjebk2nh1e3" path="res://AI/HTN/HTN_tactic.gd" id="3_ohxxs"]
 [ext_resource type="Script" uid="uid://cvgks5kvla301" path="res://AI/HTN/HTN_method.gd" id="4_napss"]
-[ext_resource type="Script" uid="uid://w3fhdb7pql67" path="res://AI/wanted_act.gd" id="5_d8ad8"]
+[ext_resource type="Script" uid="uid://w3fhdb7pql67" path="res://AI/HTN/wanted_act.gd" id="5_d8ad8"]
 [ext_resource type="Script" uid="uid://c7cvd1ql5dxas" path="res://AI/act_tag.gd" id="6_vpwjh"]
 
 [sub_resource type="Resource" id="Resource_834uy"]

@@ -203,6 +203,12 @@ static func is_in_range(origin: Vector3i, target: Vector3i, reach: int) -> bool:
 	var result = floor(sqrt(dx * dx + dy * dy))
 	return result <= reach
 
+static func activity_is_in_range(ctx: ActivityContext) -> bool:
+	if ctx.activity.is_valid_target_point(ctx.target, ctx.origin):
+		return true
+	else:
+		return false
+
 static func char_in_range(user: Node, target: Node, reach: int) -> bool:
 	var user_coords = user.get_coords()
 	var target_coords = target.get_coords()

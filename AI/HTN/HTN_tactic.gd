@@ -16,7 +16,7 @@ class_name HTNTactic
 	morale = 50,}
 @export var requires_group_context: bool = false  # gates PullOut & others
 
-func apply_method(report: Dictionary) -> Array[PlannedAct]:
+func apply_method(report: TacticalReport) -> Array[PlannedAct]:
 	for method in methods:
 		var result: Array[PlannedAct] = method.generate(report)
 		if not result.is_empty():

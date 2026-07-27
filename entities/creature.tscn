@@ -11,12 +11,7 @@
 [ext_resource type="Shader" uid="uid://d3bhdpwfbbg1x" path="res://shaders/outline.gdshader" id="6_puink"]
 [ext_resource type="Script" uid="uid://c322dqhnn6or0" path="res://AI/local_ai.gd" id="7_dlu0d"]
 [ext_resource type="Script" uid="uid://0c01n60cxt6k" path="res://AI/crisis_ai.gd" id="8_7mdsa"]
-[ext_resource type="Script" uid="uid://dbqssotspewok" path="res://AI/AI_modules/situation_module.gd" id="8_dlu0d"]
 [ext_resource type="Script" uid="uid://1k1qnfgd0xpj" path="res://entities/grid_mover.gd" id="8_vsju1"]
-[ext_resource type="Script" uid="uid://ck1ya5qrk4hik" path="res://AI/AI_modules/movement_module.gd" id="9_7mdsa"]
-[ext_resource type="Script" uid="uid://b0vouykjkbbkv" path="res://AI/AI_modules/evaluator_module.gd" id="10_dlu0d"]
-[ext_resource type="Script" uid="uid://dy6lsk0db1sgf" path="res://AI/AI_modules/executor_module.gd" id="11_7mdsa"]
-[ext_resource type="Script" uid="uid://cqt50wp4laqea" path="res://entities/htn_module.gd" id="14_vm3c7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7mdsa"]
 resource_local_to_scene = true
@@ -85,18 +80,3 @@ script = ExtResource("7_dlu0d")
 
 [node name="CrisisAI" type="Node" parent="AIController" unique_id=2103664743]
 script = ExtResource("8_7mdsa")
-
-[node name="SituationModule" type="Node" parent="AIController/CrisisAI" unique_id=1950226271]
-script = ExtResource("8_dlu0d")
-
-[node name="HTNModule" type="Node" parent="AIController/CrisisAI" unique_id=284794588]
-script = ExtResource("14_vm3c7")
-
-[node name="MovementModule" type="Node" parent="AIController/CrisisAI" unique_id=193908763]
-script = ExtResource("9_7mdsa")
-
-[node name="EvaluatorModule" type="Node" parent="AIController/CrisisAI" unique_id=899180096]
-script = ExtResource("10_dlu0d")
-
-[node name="ExecutorModule" type="Node" parent="AIController/CrisisAI" unique_id=1480050542]
-script = ExtResource("11_7mdsa")

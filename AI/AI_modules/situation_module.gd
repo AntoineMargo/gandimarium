@@ -29,9 +29,6 @@ func produce_report(entries) -> Dictionary:
 
 	report["favored_melee_range"] = 0
 	report["favored_ranged_range"] = 0
-	#report["short_ability_range"] = creature.get_base_ability_range()
-	#report["medium_ability_range"] = report["short_ability_range"] * 2
-	#report["long_ability_range"] = report["short_ability_range"] * 3
 	
 	report["enemy_positions"] = {}
 	for id in creature.data.relationships._hostile_ids.keys():

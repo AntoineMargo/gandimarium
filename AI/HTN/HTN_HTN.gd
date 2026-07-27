@@ -4,10 +4,10 @@ class_name HTNetwork
 @export var name: String = ""
 @export var strategies: Array[HTNStrategy]
 
-func apply_strategy(report: Dictionary) -> Array[PlannedAct]:
+func apply_strategy(report: TacticalReport) -> Array[PlannedAct]:
 	var result: Array[PlannedAct] = []
 	
-	if report["closest_enemy"]:
+	if report.crisis.closest_enemy:
 		for strategy in strategies:
 			if strategy.name == "EngageEnemy":
 				result = strategy.apply_tactic(report)
