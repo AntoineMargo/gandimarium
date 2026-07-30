@@ -8,16 +8,19 @@ var tactical_report: TacticalReport = null
 
 @onready var htn_network: HTNetwork = load("res://resources/AI/TaskLists/default_HTN.tres")
 
+
 func plan_turn():
-	if tactical_report.needs_update:
-		ReportHelper.produce_report(tactical_report, creature)
+	SignalBus.clear_path_preview.emit()
+	ReportHelper.produce_report(tactical_report, creature)
 	if not tactical_report.crisis.closest_enemy:
 		SignalBus.turn_ends.emit()
 		return
 	var sequence: Array[PlannedAct] =  htn_network.apply_strategy(tactical_report)
 	execute(sequence)
+	turn_completed()
 
-func execute(sequence: Array[PlannedAct]):
+
+func execute(sequence: Array[PlannedAct]) -> void:
 	Global.simulation_lock = true
 	for act in sequence:
 		if creature.interrupted:
@@ -25,11 +28,27 @@ func execute(sequence: Array[PlannedAct]):
 			creature.ai_controller.crisisai.plan_turn() 
 			return
 		act.activity_variant.execute(creature, act.targets)
+		update_preparation_utility(act)
 		await get_tree().create_timer(0.2).timeout
 		if Global.pending_crisis_operation_count > 0:
 			await SignalBus.operation_finished
 	Global.simulation_lock = false
 	SignalBus.turn_ends.emit()
+
+
+func crisis_entered() -> void:
+	tactical_report.crisis = CrisisReport.new()
+	tactical_report.crisis.turn = TurnReport.new()
+
+
+func turn_completed() -> void:
+	tactical_report.crisis.turn_counter += 1
+	tactical_report.crisis.preparation_utility -= 10
+
+
+func update_preparation_utility(act: PlannedAct) -> void:
+	tactical_report.crisis.preparation_utility -= HTNHelper.get_preparation_value(act)
+
 
 func _ready() -> void:
 	tactical_report = TacticalReport.new()

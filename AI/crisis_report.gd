@@ -8,6 +8,10 @@ var most_vulnerable_enemy: Creature = null
 var closest_ally: Creature = null
 var most_vulnerable_ally: Creature = null
 
-var enemy_positions: Dictionary[Creature, Vector3i] = {}
+#var enemy_positions: Dictionary[Creature, Vector3i] = {}
 
 var turn: TurnReport = null
+
+var preparation_utility: int = 100
+
+var turn_counter: int = 0

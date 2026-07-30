@@ -4,7 +4,7 @@ class_name HTNMethod
 @export var name: String = ""
 @export var wanted_acts: Array[WantedAct]
 
-@export var base_utility: float = 50.0
+@export_range(0, 100) var base_utility: int = 50
 @export var trait_weights: Dictionary = {
 	caution = 50,
 	sociality = 50,
@@ -18,3 +18,4 @@ class_name HTNMethod
 
 func generate(report: TacticalReport) -> Array[PlannedAct]:
 	return HTNHelper.generate_sequence(self, report)
+	

@@ -56,11 +56,46 @@ name = "SnipeEnemy"
 wanted_acts = Array[ExtResource("5_d8ad8")]([SubResource("Resource_ccpml")])
 metadata/_custom_type_script = "uid://cvgks5kvla301"
 
+[sub_resource type="Resource" id="Resource_7srhi"]
+script = ExtResource("6_vpwjh")
+tag = 6
+value = 40
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_l4b1g"]
+script = ExtResource("5_d8ad8")
+target_type = 1
+wanted_tags = Array[ExtResource("6_vpwjh")]([SubResource("Resource_7srhi")])
+repeatable = true
+metadata/_custom_type_script = "uid://w3fhdb7pql67"
+
+[sub_resource type="Resource" id="Resource_vsju1"]
+script = ExtResource("6_vpwjh")
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_vpwjh"]
+script = ExtResource("6_vpwjh")
+tag = 2
+value = 30
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_puink"]
+script = ExtResource("5_d8ad8")
+target_type = 1
+wanted_tags = Array[ExtResource("6_vpwjh")]([SubResource("Resource_vsju1"), SubResource("Resource_vpwjh")])
+repeatable = true
+metadata/_custom_type_script = "uid://w3fhdb7pql67"
+
+[sub_resource type="Resource" id="Resource_w4hkv"]
+script = ExtResource("4_napss")
+name = "BuffAndAssault"
+wanted_acts = Array[ExtResource("5_d8ad8")]([SubResource("Resource_l4b1g"), SubResource("Resource_puink")])
+metadata/_custom_type_script = "uid://cvgks5kvla301"
+
 [sub_resource type="Resource" id="Resource_napss"]
 script = ExtResource("3_ohxxs")
 name = "NeutralizeEnemy"
-methods = Array[ExtResource("4_napss")]([SubResource("Resource_ohxxs"), SubResource("Resource_jcywm")])
-base_utility = 75.0
+methods = Array[ExtResource("4_napss")]([SubResource("Resource_ohxxs"), SubResource("Resource_jcywm"), SubResource("Resource_w4hkv")])
 trait_weights = {
 &"ambition": 50,
 &"caution": 0,
@@ -107,7 +142,7 @@ metadata/_custom_type_script = "uid://cvgks5kvla301"
 
 [sub_resource type="Resource" id="Resource_88hcn"]
 script = ExtResource("3_ohxxs")
-name = "ShapeBattle"
+name = "PrepareBattle"
 methods = Array[ExtResource("4_napss")]([SubResource("Resource_3rqi7")])
 trait_weights = {
 &"ambition": 50,

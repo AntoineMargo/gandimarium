@@ -2,35 +2,24 @@ class_name ReportHelper
 
 static func produce_report(report: TacticalReport, creature: Creature):
 
-	report.creature = creature
-	
-	get_all_activity_entries(report)
+	if report.needs_update:
+		report.creature = creature
+		get_all_activity_entries(report)
+
+	# Crisis
 	identify_specific_enemies(report)
-	get_enemy_positions(report)
-	setup_turn_information(report)
-	
+	#get_enemy_positions(report)
 	#report.crisis.closest_ally = find_closest_ally()
 	#report.crisis.most_vulnerable_ally = find_weakest_ally()
 
-	#report.favored_melee_attack = find_best_melee_attack(report)
-	#report.favored_ranged_attack = find_best_ranged_attack(report)
+	# Turn
+	setup_turn_information(report)
 
 
 static func identify_specific_enemies(report: TacticalReport) -> void:
 	report.crisis.closest_enemy = find_closest_enemy(report)
 	report.crisis.strongest_enemy = find_strongest_enemy(report)
 	report.crisis.most_vulnerable_enemy = find_frailest_enemy(report)
-
-
-static func get_enemy_positions(report: TacticalReport) -> void:
-	report.crisis.enemy_positions = {}
-	for id in report.creature.data.relationships._hostile_ids.keys():
-		var enemy = Global.world_manager.get_creature_by_id(id)
-		if enemy == null:
-			continue
-
-		var data = enemy.data
-		report.crisis.enemy_positions[enemy] = Vector3i(data.tile_x, data.tile_y, data.tile_z)
 
 
 static func setup_turn_information(report: TacticalReport):
@@ -88,38 +77,6 @@ static func add_spell_entries(report: TacticalReport):
 				report.available_activities.append(activity_variant)
 
 
-#static func add_default_entries(report: TacticalReport):
-	#return report
-
-
-static func find_best_ranged_attack(report: TacticalReport) -> ActivityVariant:
-	var favored_ranged_attack: ActivityVariant = null
-	var highest_brawn_requirement: int = 0
-
-	for entry in report.available_activities:
-		if entry.activity.weapon and entry.activity.triggers_reaction:
-			if entry.activity.weapon.brawn_req_2h > highest_brawn_requirement:
-				favored_ranged_attack = entry
-				highest_brawn_requirement = entry.activity.weapon.brawn_req_2h
-		else:
-			break
-	return favored_ranged_attack
-
-
-static func find_best_melee_attack(report: TacticalReport) -> ActivityVariant:
-	var favored_melee_attack: ActivityVariant = null
-	var highest_brawn_requirement: int = 0
-
-	for entry in report.available_activities:
-		if entry.activity.weapon and not entry.activity.triggers_reaction:
-			if entry.activity.weapon.brawn_req_2h >= highest_brawn_requirement:
-				favored_melee_attack = entry
-				highest_brawn_requirement = entry.activity.weapon.brawn_req_2h
-		else:
-			break
-	return favored_melee_attack
-
-
 static func find_closest_enemy(report: TacticalReport) -> Creature:
 	var closest_enemy: Creature = null
 	var best_cost: float = INF
@@ -167,3 +124,59 @@ static func find_frailest_enemy(report: TacticalReport) -> Creature:
 		if frailest_enemy == null or enemy.perceive_health() < frailest_enemy.perceive_health():
 			frailest_enemy = enemy
 	return frailest_enemy
+
+#static func get_preparation_value(wanted_acts: Array[WantedAct]) -> int:
+	#var preparation_value: int = 0
+	#
+	#for wanted_act in wanted_acts:
+		#var wanted_tags = wanted_act.wanted_tags
+#
+		#for wanted_tag in wanted_tags:
+			#match wanted_tag.tag: 
+				#Enums.ActivityTag.BUFF, Enums.ActivityTag.SUMMON, Enums.ActivityTag.SHAPE:
+					#preparation_value += wanted_tag.value
+#
+	#return preparation_value
+
+
+#static func add_default_entries(report: TacticalReport):
+	#return report
+
+
+#static func get_enemy_positions(report: TacticalReport) -> void:
+	#report.crisis.enemy_positions = {}
+	#for id in report.creature.data.relationships._hostile_ids.keys():
+		#var enemy = Global.world_manager.get_creature_by_id(id)
+		#if enemy == null:
+			#continue
+#
+		#var data = enemy.data
+		#report.crisis.enemy_positions[enemy] = Vector3i(data.tile_x, data.tile_y, data.tile_z)
+
+
+#static func find_best_ranged_attack(report: TacticalReport) -> ActivityVariant:
+	#var favored_ranged_attack: ActivityVariant = null
+	#var highest_brawn_requirement: int = 0
+#
+	#for entry in report.available_activities:
+		#if entry.activity.weapon and entry.activity.triggers_reaction:
+			#if entry.activity.weapon.brawn_req_2h > highest_brawn_requirement:
+				#favored_ranged_attack = entry
+				#highest_brawn_requirement = entry.activity.weapon.brawn_req_2h
+		#else:
+			#break
+	#return favored_ranged_attack
+#
+#
+#static func find_best_melee_attack(report: TacticalReport) -> ActivityVariant:
+	#var favored_melee_attack: ActivityVariant = null
+	#var highest_brawn_requirement: int = 0
+#
+	#for entry in report.available_activities:
+		#if entry.activity.weapon and not entry.activity.triggers_reaction:
+			#if entry.activity.weapon.brawn_req_2h >= highest_brawn_requirement:
+				#favored_melee_attack = entry
+				#highest_brawn_requirement = entry.activity.weapon.brawn_req_2h
+		#else:
+			#break
+	#return favored_melee_attack

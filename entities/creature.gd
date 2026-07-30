@@ -789,6 +789,7 @@ func evaluate_entering_crisis(creature):
 	if rel_entry:
 		if rel_entry.hostile > 0:
 			data.crisis_ai_active = true
+			ai_controller.crisisai.crisis_entered()
 			SignalBus.ai_became_active.emit(self)
 			if not Global.crisis_manager.crisis_mode:
 				SignalBus.start_crisis_mode.emit(self)

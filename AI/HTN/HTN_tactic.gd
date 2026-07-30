@@ -4,7 +4,7 @@ class_name HTNTactic
 @export var name: String = ""
 @export var methods: Array[HTNMethod]
 
-@export var base_utility: float = 50.0
+@export_range(0, 100) var base_utility: int = 50
 @export var trait_weights: Dictionary = {
 	caution = 50,
 	sociality = 50,
