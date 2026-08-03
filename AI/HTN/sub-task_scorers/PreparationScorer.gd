@@ -1,4 +1,4 @@
-extends ReportScorer
+extends TaskScorer
 class_name PreparationScorer
 
 func score(report: TacticalReport) -> int:

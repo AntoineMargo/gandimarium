@@ -692,9 +692,11 @@ func change_stat_enum(type: Enums.StatType, stat: int, delta):
 			data.derived_stats.set_skill(stat, current + delta)
 		Enums.StatType.POINT:
 			var current = data.derived_stats.get_points(stat)
+			var old_max_mp_value = get_stat("max_mp")
 			data.derived_stats.set_points(stat, current + delta)
 			if stat == Enums.Point.MAX_MP or stat == Enums.Point.MAX_AP:
-				update_movement_speed(current)
+				update_current_points(stat, current)
+				update_movement_speed(old_max_mp_value)
 		Enums.StatType.RESISTANCE:
 			#var current = data.derived_stats.get_resistance(stat)
 			#data.derived_stats.set_resistance(stat, current + delta)
@@ -712,9 +714,11 @@ func replace_stat_enum(type: Enums.StatType, stat: int, value):
 			data.derived_stats.set_skill(stat, value)
 		Enums.StatType.POINT:
 			var current = data.derived_stats.get_points(stat)
+			var old_max_mp_value = get_stat("max_mp")
 			data.derived_stats.set_points(stat, value)
 			if stat == Enums.Point.MAX_MP or stat == Enums.Point.MAX_AP:
-				update_movement_speed(current)
+				update_current_points(stat, current)
+				update_movement_speed(old_max_mp_value)
 		Enums.StatType.RESISTANCE:
 			#var current = data.derived_stats.get_resistance(stat)
 			#data.derived_stats.set_resistance(stat, current + delta)
@@ -733,15 +737,50 @@ func multiply_stat_enum(type: Enums.StatType, stat: int, factor):
 			data.derived_stats.set_skill(stat, current * factor)
 		Enums.StatType.POINT:
 			var current = data.derived_stats.get_points(stat)
+			var old_max_mp_value = get_stat("max_mp")
 			data.derived_stats.set_points(stat, current * factor)
 			if stat == Enums.Point.MAX_MP or stat == Enums.Point.MAX_AP:
-				update_movement_speed(current)
+				update_current_points(stat, current)
+				update_movement_speed(old_max_mp_value)
 		Enums.StatType.RESISTANCE:
 			#var current = data.derived_stats.get_resistance(stat)
 			#data.derived_stats.set_resistance(stat, current + delta)
 			# To remove once I've fully moved towards using derived_stats:
 			var current = data.resistances.get_resistance(stat)
 			data.resistances.set_resistance(stat, current * factor)
+
+func update_current_points(point_type: Enums.Point, old_value: float) -> void:
+	match point_type:
+		Enums.Point.MAX_HP:
+			var new_value: int = get_stat("max_hp")
+			var delta: float = new_value - old_value
+			@warning_ignore("narrowing_conversion")
+			data.current_hp += delta
+		Enums.Point.MAX_PP:
+			var new_value: int = get_stat("max_pp")
+			var delta: float = new_value - old_value
+			@warning_ignore("narrowing_conversion")
+			data.current_pp += delta
+		Enums.Point.MAX_EP:
+			var new_value: int = get_stat("max_ep")
+			var delta: float = new_value - old_value
+			@warning_ignore("narrowing_conversion")
+			data.current_ep += delta
+		Enums.Point.MAX_MP:
+			var new_value: int = get_stat("max_mp")
+			var delta: float = new_value - old_value
+			@warning_ignore("narrowing_conversion")
+			data.current_mp += delta
+		Enums.Point.MAX_AP:
+			var new_value: int = get_stat("max_ap")
+			var delta: float = new_value - old_value
+			@warning_ignore("narrowing_conversion")
+			data.current_ap += delta
+		Enums.Point.MAX_RP:
+			var new_value: int = get_stat("current_reactions")
+			var delta: float = new_value - old_value
+			@warning_ignore("narrowing_conversion")
+			data.current_pp += delta
 
 ## @deprecated: use change_stat_enum() instead
 func change_stat(stat: StringName, delta):
@@ -788,6 +827,8 @@ func evaluate_entering_crisis(creature):
 	var rel_entry = get_tactical(creature.data.id)
 	if rel_entry:
 		if rel_entry.hostile > 0:
+			if data.crisis_ai_active:
+				return
 			data.crisis_ai_active = true
 			ai_controller.crisisai.crisis_entered()
 			SignalBus.ai_became_active.emit(self)
@@ -959,11 +1000,22 @@ func update_stats():
 	data.derived_stats.max_hp = data.base_stats.max_hp
 	data.derived_stats.max_pp = data.base_stats.max_pp
 	data.derived_stats.max_ep = data.base_stats.max_ep
-	
 	data.derived_stats.max_mp = data.base_stats.max_mp
-	
 	data.derived_stats.max_ap = data.base_stats.max_ap
 	data.derived_stats.max_reactions = data.base_stats.max_reactions
+	
+	if data.current_hp > data.derived_stats.max_hp:
+		data.current_hp = data.derived_stats.max_hp
+	if data.current_pp > data.derived_stats.max_pp:
+		data.current_pp = data.derived_stats.max_pp
+	if data.current_ep > data.derived_stats.max_ep:
+		data.current_ep = data.derived_stats.max_ep
+	if data.current_mp > data.derived_stats.max_mp:
+		data.current_mp = data.derived_stats.max_mp
+	if data.current_ap > data.derived_stats.max_ap:
+		data.current_ap = data.derived_stats.max_ap
+	if data.current_reactions > data.derived_stats.max_reactions:
+		data.current_reactions = data.derived_stats.max_reactions
 	
 	data.derived_stats.tie_breaker = randf()
 	
@@ -1034,11 +1086,11 @@ func update_vigour() -> void:
 
 	data.derived_stats.max_mp += data.derived_stats.vigour
 
-func update_movement_speed(old_value: int = -1) -> void:
+func update_movement_speed(old_mp_value: int = -1) -> void:
 	$Mover.max_speed = get_stat("max_mp") * get_stat("max_ap") * Global.TILE_SIZE * 0.25
-	if old_value > -1:
-		var new_value: float = get_stat("max_mp")
-		var ratio: float = new_value / old_value
+	if old_mp_value > -1:
+		var new_mp_value: float = get_stat("max_mp")
+		var ratio: float = new_mp_value / old_mp_value
 		var current_mp: int = get_stat("current_mp")
 		@warning_ignore("narrowing_conversion")
 		var new_current_mp: int = current_mp * ratio
@@ -1058,16 +1110,16 @@ func turn_start():
 	handle_tile_conditions()
 	
 	if data.player_controlled:
-		print("played controlled")
+		#print("played controlled")
 		Global.selected_char = self
 		Global.world_manager.selection_highlight.update_selection_highlight()
 		SignalBus.update_ui_for_char.emit()
 		Global.world_manager.path_preview.get_char_data()
 	else:
 		Global.focus_char = null
-		print("AI controlled")
+		#print("AI controlled")
 		if data.crisis_ai_active:
-			print("AI active")
+			#print("AI active")
 			SignalBus.message.emit("%s is acting." % self.data.name)
 			ai_controller.crisisai.plan_turn() 
 			#SignalBus.turn_ends.emit()

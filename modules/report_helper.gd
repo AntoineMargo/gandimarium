@@ -73,7 +73,7 @@ static func add_activity_entries(report: TacticalReport):
 static func add_spell_entries(report: TacticalReport):
 	for spell_container in report.creature.data.spells_ready:
 		for activity_variant in spell_container.activities:
-			if activity_variant.activity.ai_hint:
+			if activity_variant.ai_hint:
 				report.available_activities.append(activity_variant)
 
 

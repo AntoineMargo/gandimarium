@@ -254,4 +254,6 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 	
 	SignalBus.event.emit(ReactionEvent.activity_completed(self_ctx))
 	
+	SignalBus.message.emit("%s used %s." % [user.data.name, name])
+	
 	completed.emit()

@@ -4,18 +4,22 @@ class_name HTNMethod
 @export var name: String = ""
 @export var wanted_acts: Array[WantedAct]
 
-@export_range(0, 100) var base_utility: int = 50
-@export var trait_weights: Dictionary = {
-	caution = 50,
-	sociality = 50,
-	compassion = 50,
-	dedication = 50,
-	intelligence = 50,
-	charisma = 50,
-	ambition = 50,
-	morale = 50,}
+@export var scorers: Array[TaskScorer] = []
+@export var trait_weights: Dictionary[String, float] = {
+	caution = 1.0,
+	sociality = 1.0,
+	compassion = 1.0,
+	dedication = 1.0,
+	intelligence = 1.0,
+	charisma = 1.0,
+	ambition = 1.0,
+	morale = 1.0,}
 @export var requires_group_context: bool = false  # gates PullOut & others
 
 func generate(report: TacticalReport) -> Array[PlannedAct]:
-	return HTNHelper.generate_sequence(self, report)
+	var sequence: Array[PlannedAct] = HTNHelper.generate_sequence(self, report)
+	print("Chosen sequence: ")
+	for element in sequence:
+		print("	%s" % [element.activity_variant.activity.name])
+	return sequence
 	

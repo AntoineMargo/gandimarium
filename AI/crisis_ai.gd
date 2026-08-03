@@ -43,11 +43,12 @@ func crisis_entered() -> void:
 
 func turn_completed() -> void:
 	tactical_report.crisis.turn_counter += 1
-	tactical_report.crisis.preparation_utility -= 10
+	#tactical_report.crisis.preparation_utility -= 10
 
 
 func update_preparation_utility(act: PlannedAct) -> void:
-	tactical_report.crisis.preparation_utility -= HTNHelper.get_preparation_value(act)
+	var preparation_value: int = HTNHelper.get_preparation_value(act)
+	tactical_report.crisis.preparation_utility -= preparation_value
 
 
 func _ready() -> void:

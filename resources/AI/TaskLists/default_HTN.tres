@@ -1,11 +1,18 @@
 [gd_resource type="Resource" script_class="HTNetwork" format=3 uid="uid://cxs4cwjuyc6p5"]
 
-[ext_resource type="Script" uid="uid://xddml5c1645c" path="res://AI/HTN/HTN_HTN.gd" id="1_cpxhc"]
+[ext_resource type="Script" uid="uid://xddml5c1645c" path="res://AI/HTN/HTN_Network.gd" id="1_cpxhc"]
 [ext_resource type="Script" uid="uid://dirc1pgalgicw" path="res://AI/HTN/HTN_strategy.gd" id="2_yxjyb"]
 [ext_resource type="Script" uid="uid://dlhjebk2nh1e3" path="res://AI/HTN/HTN_tactic.gd" id="3_ohxxs"]
 [ext_resource type="Script" uid="uid://cvgks5kvla301" path="res://AI/HTN/HTN_method.gd" id="4_napss"]
 [ext_resource type="Script" uid="uid://w3fhdb7pql67" path="res://AI/HTN/wanted_act.gd" id="5_d8ad8"]
+[ext_resource type="Script" uid="uid://bugw26cryw4hv" path="res://AI/HTN/TaskScorer.gd" id="5_vpwjh"]
 [ext_resource type="Script" uid="uid://c7cvd1ql5dxas" path="res://AI/act_tag.gd" id="6_vpwjh"]
+[ext_resource type="Script" uid="uid://dfb8by8mwep3i" path="res://AI/HTN/sub-task_scorers/DamageScorer.gd" id="6_wi62e"]
+[ext_resource type="Script" uid="uid://b6fiqifrdt56d" path="res://AI/HTN/sub-task_scorers/PreparationScorer.gd" id="9_ytjox"]
+
+[sub_resource type="Resource" id="Resource_w4hkv"]
+script = ExtResource("6_wi62e")
+metadata/_custom_type_script = "uid://dfb8by8mwep3i"
 
 [sub_resource type="Resource" id="Resource_834uy"]
 script = ExtResource("6_vpwjh")
@@ -28,7 +35,12 @@ metadata/_custom_type_script = "uid://w3fhdb7pql67"
 script = ExtResource("4_napss")
 name = "AssaultEnemy"
 wanted_acts = Array[ExtResource("5_d8ad8")]([SubResource("Resource_vm3c7")])
+scorers = Array[ExtResource("5_vpwjh")]([SubResource("Resource_w4hkv")])
 metadata/_custom_type_script = "uid://cvgks5kvla301"
+
+[sub_resource type="Resource" id="Resource_l4b1g"]
+script = ExtResource("6_wi62e")
+metadata/_custom_type_script = "uid://dfb8by8mwep3i"
 
 [sub_resource type="Resource" id="Resource_056f5"]
 script = ExtResource("6_vpwjh")
@@ -54,18 +66,27 @@ metadata/_custom_type_script = "uid://w3fhdb7pql67"
 script = ExtResource("4_napss")
 name = "SnipeEnemy"
 wanted_acts = Array[ExtResource("5_d8ad8")]([SubResource("Resource_ccpml")])
+scorers = Array[ExtResource("5_vpwjh")]([SubResource("Resource_l4b1g")])
 metadata/_custom_type_script = "uid://cvgks5kvla301"
 
 [sub_resource type="Resource" id="Resource_7srhi"]
+script = ExtResource("9_ytjox")
+metadata/_custom_type_script = "uid://b6fiqifrdt56d"
+
+[sub_resource type="Resource" id="Resource_puink"]
+script = ExtResource("6_wi62e")
+metadata/_custom_type_script = "uid://dfb8by8mwep3i"
+
+[sub_resource type="Resource" id="Resource_uprpp"]
 script = ExtResource("6_vpwjh")
 tag = 6
 value = 40
 metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
 
-[sub_resource type="Resource" id="Resource_l4b1g"]
+[sub_resource type="Resource" id="Resource_axwm6"]
 script = ExtResource("5_d8ad8")
 target_type = 1
-wanted_tags = Array[ExtResource("6_vpwjh")]([SubResource("Resource_7srhi")])
+wanted_tags = Array[ExtResource("6_vpwjh")]([SubResource("Resource_uprpp")])
 repeatable = true
 metadata/_custom_type_script = "uid://w3fhdb7pql67"
 
@@ -79,34 +100,44 @@ tag = 2
 value = 30
 metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
 
-[sub_resource type="Resource" id="Resource_puink"]
+[sub_resource type="Resource" id="Resource_esppe"]
 script = ExtResource("5_d8ad8")
 target_type = 1
 wanted_tags = Array[ExtResource("6_vpwjh")]([SubResource("Resource_vsju1"), SubResource("Resource_vpwjh")])
 repeatable = true
 metadata/_custom_type_script = "uid://w3fhdb7pql67"
 
-[sub_resource type="Resource" id="Resource_w4hkv"]
+[sub_resource type="Resource" id="Resource_pmvai"]
 script = ExtResource("4_napss")
 name = "BuffAndAssault"
-wanted_acts = Array[ExtResource("5_d8ad8")]([SubResource("Resource_l4b1g"), SubResource("Resource_puink")])
+wanted_acts = Array[ExtResource("5_d8ad8")]([SubResource("Resource_axwm6"), SubResource("Resource_esppe")])
+scorers = Array[ExtResource("5_vpwjh")]([SubResource("Resource_7srhi"), SubResource("Resource_puink")])
 metadata/_custom_type_script = "uid://cvgks5kvla301"
+
+[sub_resource type="Resource" id="Resource_w8dfo"]
+script = ExtResource("6_wi62e")
+metadata/_custom_type_script = "uid://dfb8by8mwep3i"
 
 [sub_resource type="Resource" id="Resource_napss"]
 script = ExtResource("3_ohxxs")
 name = "NeutralizeEnemy"
-methods = Array[ExtResource("4_napss")]([SubResource("Resource_ohxxs"), SubResource("Resource_jcywm"), SubResource("Resource_w4hkv")])
-trait_weights = {
-&"ambition": 50,
-&"caution": 0,
-&"charisma": 50,
-&"compassion": 50,
-&"dedication": 50,
-&"intelligence": 50,
-&"morale": 50,
-&"sociality": 50
-}
+methods = Array[ExtResource("4_napss")]([SubResource("Resource_ohxxs"), SubResource("Resource_jcywm"), SubResource("Resource_pmvai")])
+scorers = Array[ExtResource("5_vpwjh")]([SubResource("Resource_w8dfo")])
+trait_weights = Dictionary[String, float]({
+"ambition": 50.0,
+"caution": 0.0,
+"charisma": 50.0,
+"compassion": 50.0,
+"dedication": 50.0,
+"intelligence": 50.0,
+"morale": 50.0,
+"sociality": 50.0
+})
 metadata/_custom_type_script = "uid://dlhjebk2nh1e3"
+
+[sub_resource type="Resource" id="Resource_64385"]
+script = ExtResource("9_ytjox")
+metadata/_custom_type_script = "uid://b6fiqifrdt56d"
 
 [sub_resource type="Resource" id="Resource_bh56m"]
 script = ExtResource("6_vpwjh")
@@ -138,22 +169,28 @@ metadata/_custom_type_script = "uid://w3fhdb7pql67"
 script = ExtResource("4_napss")
 name = "Buff"
 wanted_acts = Array[ExtResource("5_d8ad8")]([SubResource("Resource_1cdaa"), SubResource("Resource_x6nb8")])
+scorers = Array[ExtResource("5_vpwjh")]([SubResource("Resource_64385")])
 metadata/_custom_type_script = "uid://cvgks5kvla301"
+
+[sub_resource type="Resource" id="Resource_wgkqb"]
+script = ExtResource("9_ytjox")
+metadata/_custom_type_script = "uid://b6fiqifrdt56d"
 
 [sub_resource type="Resource" id="Resource_88hcn"]
 script = ExtResource("3_ohxxs")
 name = "PrepareBattle"
 methods = Array[ExtResource("4_napss")]([SubResource("Resource_3rqi7")])
-trait_weights = {
-&"ambition": 50,
-&"caution": 75,
-&"charisma": 50,
-&"compassion": 50,
-&"dedication": 50,
-&"intelligence": 50,
-&"morale": 50,
-&"sociality": 50
-}
+scorers = Array[ExtResource("5_vpwjh")]([SubResource("Resource_wgkqb")])
+trait_weights = Dictionary[String, float]({
+"ambition": 50.0,
+"caution": 75.0,
+"charisma": 50.0,
+"compassion": 50.0,
+"dedication": 50.0,
+"intelligence": 50.0,
+"morale": 50.0,
+"sociality": 50.0
+})
 metadata/_custom_type_script = "uid://dlhjebk2nh1e3"
 
 [sub_resource type="Resource" id="Resource_d8ad8"]

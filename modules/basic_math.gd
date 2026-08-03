@@ -53,3 +53,19 @@ static func safe_roll() -> int:
 
 static func average_roll() -> int:
 	return 6
+
+static func get_int_average(arr: Array[int]) -> int:
+	if arr.is_empty():
+		return 0
+	
+	var total: int = 0
+	for val in arr:
+		total += val
+		
+	@warning_ignore("narrowing_conversion")
+	return float(total) / arr.size()
+
+static func add_jitter(score: int, strength: int) -> int:
+	var jitter = randi_range(-strength, strength)
+	score = clamp(score + jitter, 0, 100)
+	return score

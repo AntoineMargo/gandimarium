@@ -1123,7 +1123,7 @@ func handle_tile_conditions(tile: Vector3i, entity: Entity):
 
 func flash_path(path: Array) -> void:
 	for point in path:
-		print("Tile (%d:%d:%d)" % [point[0], point[1], point[2]])
+		#print("Tile (%d:%d:%d)" % [point[0], point[1], point[2]])
 		if point[2] == current_level:
 			var point_coords = Vector2i(point[0], point[1])
 			flash_tile_overlay(point_coords)

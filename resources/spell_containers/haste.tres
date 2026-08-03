@@ -41,6 +41,7 @@ script = ExtResource("11_wsh08")
 name = "Haste"
 id = "cond_haste"
 effects = Array[ExtResource("6_s6jws")]([SubResource("Resource_l65ly")])
+plan_disrupting = true
 metadata/_custom_type_script = "uid://dvi4ohsador2o"
 
 [sub_resource type="Resource" id="Resource_ony64"]

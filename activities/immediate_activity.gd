@@ -152,3 +152,5 @@ func resolve() -> void:
 	SignalBus.update_ui_for_char.emit()
 	
 	SignalBus.event.emit(ReactionEvent.activity_completed(self_ctx))
+	
+	SignalBus.message.emit("%s used %s." % [user.data.name, name])

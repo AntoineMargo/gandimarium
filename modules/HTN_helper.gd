@@ -101,6 +101,8 @@ static func choose_target(wanted_act: WantedAct, planned_act: PlannedAct, report
 				Enums.ActivityCategory.BENEFICIAL:
 					if report.crisis.closest_ally:
 						planned_act.targets.append(report.crisis.closest_ally.get_coords())
+					else:
+						planned_act.targets.append(report.creature.get_coords())
 
 
 static func find_best_activity(wanted_act: WantedAct, total_ap_cost: int, report: TacticalReport) -> ActivityVariant:
