@@ -814,14 +814,33 @@ func discover_creature(creature):
 	var uid = creature.data.uid
 
 	if not data.relationships._tactical_map.has(uid):
+		var bandit: bool = false
+		for affiliation in data.relationships.affiliations:
+			if affiliation.faction == "bandits":
+				bandit = true
+				break
 		var entry = TacticalRelationEntry.new()
 		entry.target_id = uid
 		entry.last_updated_turn = Global.crisis_manager.crisis_round
 		data.relationships._tactical_map[uid] = entry
-		set_hostile(uid, 100)
+		#set_hostile(uid, 100)
 		for affiliation in creature.data.relationships.affiliations:
 			if affiliation.faction == "bandits":
-				set_hostile(uid, 0)
+				if bandit:
+					set_cooperative(uid, 100)
+				else:
+					set_hostile(uid, 100)
+			else:
+				if bandit:
+					set_hostile(uid, 100)
+				else:
+					set_cooperative(uid, 100)
+			return
+		if bandit:
+			set_hostile(uid, 100)
+		else:
+			set_cooperative(uid, 100)
+
 
 func evaluate_entering_crisis(creature):
 	var rel_entry = get_tactical(creature.data.id)
@@ -846,6 +865,10 @@ func get_tactical(target_id: int) -> TacticalRelationEntry:
 
 func set_hostile(target_id: int, value: int):
 	data.relationships.set_hostile(target_id, value)
+
+func set_cooperative(target_id: int, value: int):
+	data.relationships.set_cooperative(target_id, value)
+
 
 func get_coords() -> Vector3i:
 	var pos_3d = Vector3i(
@@ -1121,7 +1144,7 @@ func turn_start():
 		if data.crisis_ai_active:
 			#print("AI active")
 			SignalBus.message.emit("%s is acting." % self.data.name)
-			ai_controller.crisisai.plan_turn() 
+			ai_controller.crisisai.realize_turn() 
 			#SignalBus.turn_ends.emit()
 		else:
 			# character does their real time routine in turn by turn

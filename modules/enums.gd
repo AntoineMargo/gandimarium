@@ -394,7 +394,8 @@ enum ActivityTag {
 	INVISIBILITY,
 	REMOVE_INVISIBILITY,
 	DISPEL,
-	PERMANENT
+	PERMANENT,
+	SPELL
 }
 
 enum TileTag {

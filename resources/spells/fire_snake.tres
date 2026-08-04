@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://3y0kuglt732n"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_pid4l"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_w4bec"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="3_c8bhm"]
+[ext_resource type="Script" uid="uid://cg24svaiy2tg3" path="res://activities/snake_area_activity.gd" id="4_2dduv"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_e3m2g"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_djn7j"]
+[ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damage_effect.gd" id="7_22si4"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="8_rsij0"]
+
+[sub_resource type="Resource" id="Resource_ql6cw"]
+script = ExtResource("2_w4bec")
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_hwbcj"]
+script = ExtResource("7_22si4")
+die_size = 4
+resistance = 2
+damage_pattern = SubResource("Resource_ql6cw")
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_h28ha"]
+script = ExtResource("4_2dduv")
+name = "Fire Snake"
+id = "act_fire_snake"
+AP_cost = 3
+spread_requires_LOS = false
+defending_aptitude = 2
+reach = 3
+spread = 12
+target_effects = Array[ExtResource("6_djn7j")]([SubResource("Resource_hwbcj")])
+targeting_type = 0
+is_spell = true
+metadata/_custom_type_script = "uid://cg24svaiy2tg3"
+
+[sub_resource type="Resource" id="Resource_ir4o4"]
+script = ExtResource("1_pid4l")
+activity = SubResource("Resource_h28ha")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("8_rsij0")
+minimum_rank = 5
+name = "Fire Snake"
+activities = Array[ExtResource("1_pid4l")]([SubResource("Resource_ir4o4")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

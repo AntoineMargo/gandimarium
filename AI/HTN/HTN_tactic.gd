@@ -33,4 +33,5 @@ func apply_method(report: TacticalReport) -> Array[PlannedAct]:
 		return []
 	else:
 		print("Method chosen: %s" % [best_method.name])
+		report.crisis.turn.chosen_method = best_method
 		return best_method.generate(report)

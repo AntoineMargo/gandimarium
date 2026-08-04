@@ -114,8 +114,12 @@ static func find_best_activity(wanted_act: WantedAct, total_ap_cost: int, report
 	for entry in entries:
 		if not entry.ai_hint:
 			continue
-		#var final_entry = entry.pre_execute(report["creature"])
 		overvalue = 0.0
+		
+		if entry in report.crisis.buffs_used:
+			continue
+		if entry in report.crisis.debuffs_used:
+			continue
 		if has_unwanted_tag(wanted_act, entry):
 			continue
 		if not has_all_wanted_tags(wanted_act, entry):
@@ -133,7 +137,7 @@ static func find_best_activity(wanted_act: WantedAct, total_ap_cost: int, report
 			best_entry = entry
 
 	if best_entry == null:
-		push_error("Couldn't find any fitting activity!")
+		push_warning("Couldn't find any fitting activity!")
 	return best_entry
 
 
@@ -284,18 +288,6 @@ static func generate_sequence(method: HTNMethod, report: TacticalReport) -> Arra
 		i += 1
 
 	return planned_acts
-
-
-static func get_preparation_value(planned_act: PlannedAct) -> int:
-	var preparation_value: int = 0
-	
-	var activity_tags = planned_act.activity_variant.ai_hint.act_tags
-	for activity_tag in activity_tags:
-		match activity_tag.tag: 
-			Enums.ActivityTag.BUFF, Enums.ActivityTag.SUMMON, Enums.ActivityTag.SHAPE:
-				preparation_value += activity_tag.value
-
-	return preparation_value
 
 
 static func utility_score_jitter(score: int, jitter_strength: int) -> int:

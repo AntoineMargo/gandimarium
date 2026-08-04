@@ -12,8 +12,8 @@ var _tactical_map: Dictionary = {}
 
 var _hostile_ids: Dictionary[int, bool]
 var _fearful_ids: Dictionary[int, bool]
+var _cooperative_ids: Dictionary[int, bool]
 #var _suspicious_ids: Dictionary[int, bool]
-#var _cooperative_ids: Dictionary[int, bool]
 #var _protective_ids: Dictionary[int, bool]
 
 func build_tactical_map(): # to be built on init, for runtime use
@@ -41,3 +41,12 @@ func set_fearful(target_id: int, value: int):
 		_fearful_ids[target_id] = true
 	else:
 		_fearful_ids.erase(target_id)
+
+func set_cooperative(target_id: int, value: int):
+	var entry = _tactical_map[target_id]
+	entry.cooperative = clamp(value, 0, 100)
+
+	if entry.cooperative > 0:
+		_cooperative_ids[target_id] = true
+	else:
+		_cooperative_ids.erase(target_id)

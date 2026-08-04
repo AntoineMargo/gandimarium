@@ -1,0 +1,51 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://dvw0d0eiu15hd"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_c83hn"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_pat13"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="3_j7wym"]
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="4_6fj7p"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_yd0g0"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_lm5i4"]
+[ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damage_effect.gd" id="7_cfvy8"]
+[ext_resource type="Script" uid="uid://3t3dwtov2mvp" path="res://filters/not_self.gd" id="8_3db2a"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="9_ifdlo"]
+
+[sub_resource type="Resource" id="Resource_uu5mt"]
+script = ExtResource("2_pat13")
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_ynu1s"]
+script = ExtResource("7_cfvy8")
+die_size = 4
+resistance = 2
+damage_pattern = SubResource("Resource_uu5mt")
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_4ay3v"]
+script = ExtResource("8_3db2a")
+metadata/_custom_type_script = "uid://3t3dwtov2mvp"
+
+[sub_resource type="Resource" id="Resource_wcg80"]
+script = ExtResource("4_6fj7p")
+name = "Energy Eruption (Fire)"
+id = "act_energy_eruption_fire"
+AP_cost = 2
+defending_aptitude = 2
+reach = 0
+spread = 6
+target_filters = Array[ExtResource("5_yd0g0")]([SubResource("Resource_4ay3v")])
+target_effects = Array[ExtResource("6_lm5i4")]([SubResource("Resource_ynu1s")])
+is_spell = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_o6cqi"]
+script = ExtResource("1_c83hn")
+activity = SubResource("Resource_wcg80")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("9_ifdlo")
+minimum_rank = 3
+name = "Energy Eruption"
+activities = Array[ExtResource("1_c83hn")]([SubResource("Resource_o6cqi")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

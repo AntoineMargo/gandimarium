@@ -10,6 +10,12 @@ var most_vulnerable_ally: Creature = null
 
 #var enemy_positions: Dictionary[Creature, Vector3i] = {}
 
+var allies: Array[Creature]
+var enemies: Array[Creature]
+
+var buffs_used: Array[ActivityVariant]
+var debuffs_used: Array[ActivityVariant]
+
 var turn: TurnReport = null
 
 var preparation_utility: int = 100

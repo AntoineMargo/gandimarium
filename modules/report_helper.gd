@@ -16,6 +16,14 @@ static func produce_report(report: TacticalReport, creature: Creature):
 	setup_turn_information(report)
 
 
+static func list_allies(report: TacticalReport) -> void:
+	for id in report.creature.data.relationships._cooperative_ids.keys():
+		report.crisis.allies.append(Global.world_manager.get_creature_by_id(id))
+
+static func list_enemies(report: TacticalReport) -> void:
+	for id in report.creature.data.relationships._hostile_ids.keys():
+		report.crisis.enemies.append(Global.world_manager.get_creature_by_id(id))
+
 static func identify_specific_enemies(report: TacticalReport) -> void:
 	report.crisis.closest_enemy = find_closest_enemy(report)
 	report.crisis.strongest_enemy = find_strongest_enemy(report)
@@ -124,6 +132,19 @@ static func find_frailest_enemy(report: TacticalReport) -> Creature:
 		if frailest_enemy == null or enemy.perceive_health() < frailest_enemy.perceive_health():
 			frailest_enemy = enemy
 	return frailest_enemy
+
+
+static func update_report_on_activity(planned_act: PlannedAct, report: TacticalReport) -> void:
+	var activity_tags = planned_act.activity_variant.ai_hint.act_tags
+	for activity_tag in activity_tags:
+		match activity_tag.tag: 
+			Enums.ActivityTag.BUFF, Enums.ActivityTag.SUMMON, Enums.ActivityTag.SHAPE:
+				report.crisis.preparation_utility -= activity_tag.value
+				if activity_tag.tag == Enums.ActivityTag.BUFF:
+					report.crisis.buffs_used.append(planned_act.activity_variant)
+			Enums.ActivityTag.DEBUFF:
+				report.crisis.debuffs_used.append(planned_act.activity_variant)
+
 
 #static func get_preparation_value(wanted_acts: Array[WantedAct]) -> int:
 	#var preparation_value: int = 0

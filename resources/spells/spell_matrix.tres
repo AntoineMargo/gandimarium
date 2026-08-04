@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="SpellContainer" format=3 uid="uid://dskkqhgf5r6ih"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_ppibv"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_ribr6"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="3_ap8b7"]
+[ext_resource type="PackedScene" uid="uid://t4yj7t77afwf" path="res://interface/prompt_window/spell_prompt_window/spell_prompt_window.tscn" id="4_g744v"]
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="5_ilwqq"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="6_646py"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="7_6opap"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="8_o26wj"]
+
+[sub_resource type="Resource" id="Resource_2mmfy"]
+script = ExtResource("5_ilwqq")
+prompt_scene = ExtResource("4_g744v")
+name = "Spell Matrix (2)"
+id = "act_spell_matrix_2"
+AP_cost = 3
+requires_concentration = true
+reach = 0
+requires_roll = false
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_13mnf"]
+script = ExtResource("1_ppibv")
+activity = SubResource("Resource_2mmfy")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("8_o26wj")
+name = "Spell Matrix (2)"
+activities = Array[ExtResource("1_ppibv")]([SubResource("Resource_13mnf")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"

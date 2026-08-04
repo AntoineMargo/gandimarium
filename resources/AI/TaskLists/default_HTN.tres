@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://c7cvd1ql5dxas" path="res://AI/act_tag.gd" id="6_vpwjh"]
 [ext_resource type="Script" uid="uid://dfb8by8mwep3i" path="res://AI/HTN/sub-task_scorers/DamageScorer.gd" id="6_wi62e"]
 [ext_resource type="Script" uid="uid://b6fiqifrdt56d" path="res://AI/HTN/sub-task_scorers/PreparationScorer.gd" id="9_ytjox"]
+[ext_resource type="Script" uid="uid://daxb0451ve4qm" path="res://AI/HTN/sub-task_scorers/HasMagicScorer.gd" id="10_wi62e"]
 
 [sub_resource type="Resource" id="Resource_w4hkv"]
 script = ExtResource("6_wi62e")
@@ -114,6 +115,37 @@ wanted_acts = Array[ExtResource("5_d8ad8")]([SubResource("Resource_axwm6"), SubR
 scorers = Array[ExtResource("5_vpwjh")]([SubResource("Resource_7srhi"), SubResource("Resource_puink")])
 metadata/_custom_type_script = "uid://cvgks5kvla301"
 
+[sub_resource type="Resource" id="Resource_ytjox"]
+script = ExtResource("10_wi62e")
+metadata/_custom_type_script = "uid://daxb0451ve4qm"
+
+[sub_resource type="Resource" id="Resource_nnig6"]
+script = ExtResource("6_vpwjh")
+tag = 2
+value = 50
+weight = 2.0
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_px52u"]
+script = ExtResource("6_vpwjh")
+tag = 1
+value = 10
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_yellj"]
+script = ExtResource("5_d8ad8")
+target_type = 2
+wanted_tags = Array[ExtResource("6_vpwjh")]([SubResource("Resource_nnig6"), SubResource("Resource_px52u")])
+repeatable = true
+metadata/_custom_type_script = "uid://w3fhdb7pql67"
+
+[sub_resource type="Resource" id="Resource_cuof6"]
+script = ExtResource("4_napss")
+name = "MagicAttack"
+wanted_acts = Array[ExtResource("5_d8ad8")]([SubResource("Resource_yellj")])
+scorers = Array[ExtResource("5_vpwjh")]([SubResource("Resource_ytjox")])
+metadata/_custom_type_script = "uid://cvgks5kvla301"
+
 [sub_resource type="Resource" id="Resource_w8dfo"]
 script = ExtResource("6_wi62e")
 metadata/_custom_type_script = "uid://dfb8by8mwep3i"
@@ -121,7 +153,7 @@ metadata/_custom_type_script = "uid://dfb8by8mwep3i"
 [sub_resource type="Resource" id="Resource_napss"]
 script = ExtResource("3_ohxxs")
 name = "NeutralizeEnemy"
-methods = Array[ExtResource("4_napss")]([SubResource("Resource_ohxxs"), SubResource("Resource_jcywm"), SubResource("Resource_pmvai")])
+methods = Array[ExtResource("4_napss")]([SubResource("Resource_ohxxs"), SubResource("Resource_jcywm"), SubResource("Resource_pmvai"), SubResource("Resource_cuof6")])
 scorers = Array[ExtResource("5_vpwjh")]([SubResource("Resource_w8dfo")])
 trait_weights = Dictionary[String, float]({
 "ambition": 50.0,
