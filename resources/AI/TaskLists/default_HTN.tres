@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://dfb8by8mwep3i" path="res://AI/HTN/sub-task_scorers/DamageScorer.gd" id="6_wi62e"]
 [ext_resource type="Script" uid="uid://b6fiqifrdt56d" path="res://AI/HTN/sub-task_scorers/PreparationScorer.gd" id="9_ytjox"]
 [ext_resource type="Script" uid="uid://daxb0451ve4qm" path="res://AI/HTN/sub-task_scorers/HasMagicScorer.gd" id="10_wi62e"]
+[ext_resource type="Script" uid="uid://btkh73srmvfoi" path="res://AI/HTN/sub-task_scorers/HasBuffsScorer.gd" id="10_ytjox"]
 
 [sub_resource type="Resource" id="Resource_w4hkv"]
 script = ExtResource("6_wi62e")
@@ -78,6 +79,10 @@ metadata/_custom_type_script = "uid://b6fiqifrdt56d"
 script = ExtResource("6_wi62e")
 metadata/_custom_type_script = "uid://dfb8by8mwep3i"
 
+[sub_resource type="Resource" id="Resource_5tdwl"]
+script = ExtResource("10_ytjox")
+metadata/_custom_type_script = "uid://btkh73srmvfoi"
+
 [sub_resource type="Resource" id="Resource_uprpp"]
 script = ExtResource("6_vpwjh")
 tag = 6
@@ -112,7 +117,7 @@ metadata/_custom_type_script = "uid://w3fhdb7pql67"
 script = ExtResource("4_napss")
 name = "BuffAndAssault"
 wanted_acts = Array[ExtResource("5_d8ad8")]([SubResource("Resource_axwm6"), SubResource("Resource_esppe")])
-scorers = Array[ExtResource("5_vpwjh")]([SubResource("Resource_7srhi"), SubResource("Resource_puink")])
+scorers = Array[ExtResource("5_vpwjh")]([SubResource("Resource_7srhi"), SubResource("Resource_puink"), SubResource("Resource_5tdwl")])
 metadata/_custom_type_script = "uid://cvgks5kvla301"
 
 [sub_resource type="Resource" id="Resource_ytjox"]
@@ -208,11 +213,15 @@ metadata/_custom_type_script = "uid://cvgks5kvla301"
 script = ExtResource("9_ytjox")
 metadata/_custom_type_script = "uid://b6fiqifrdt56d"
 
+[sub_resource type="Resource" id="Resource_v24bm"]
+script = ExtResource("10_ytjox")
+metadata/_custom_type_script = "uid://btkh73srmvfoi"
+
 [sub_resource type="Resource" id="Resource_88hcn"]
 script = ExtResource("3_ohxxs")
 name = "PrepareBattle"
 methods = Array[ExtResource("4_napss")]([SubResource("Resource_3rqi7")])
-scorers = Array[ExtResource("5_vpwjh")]([SubResource("Resource_wgkqb")])
+scorers = Array[ExtResource("5_vpwjh")]([SubResource("Resource_wgkqb"), SubResource("Resource_v24bm")])
 trait_weights = Dictionary[String, float]({
 "ambition": 50.0,
 "caution": 75.0,

@@ -511,59 +511,121 @@ func path_to_adjacency(origin: Vector3i, goal: Vector3i, distance: int):
 
 	return path
 
-## finds best path from creature to a tile/entity at X distance of target
-func path_to_target_adjacency(creature, target, distance):
+## finds best path from creature to a tile/entity at X distance of target.
+## o(rigin) and t(arget) can both be either Vector3 or Entity.
+func path_to_target_adjacency(o, t, distance):
 	var origin_solid: bool = false
-	var goal_solid: bool = false
+	var target_solid: bool = false
 
-	var goal = creature.get_coords()
 	var origin: Vector3i
-	if target is Vector3i:
-		origin = target
-	elif target is Entity:
-		origin = target.get_coords()
+	var target: Vector3i
+
+	if o is Vector3i:
+		origin = o
+	elif o is Entity:
+		origin = o.get_coords()
 	else:
 		return
 	
-	var layer_goal = Vector2i(goal.x, goal.y)
+	if t is Vector3i:
+		target = t
+	elif t is Entity:
+		target = t.get_coords()
+	else:
+		return
+	
 	var layer_origin = Vector2i(origin.x, origin.y)
+	var layer_target = Vector2i(target.x, target.y)
 	
 	var origin_path_map = layers[origin.z]["path_map"]
-	var goal_path_map = layers[goal.z]["path_map"]
+	var target_path_map = layers[target.z]["path_map"]
 	
 
 	if origin_path_map.is_point_solid(layer_origin):
 		origin_solid = true
-	if goal_path_map.is_point_solid(layer_origin):
-		goal_solid = true
+	if target_path_map.is_point_solid(layer_target):
+		target_solid = true
 	
-	# making characters non-blocking since Godot 4.6 doesn't like that anymore
+	# Making characters non-blocking.
 	if origin_solid:
 		origin_path_map.set_point_solid(layer_origin, false)
-	if goal_solid:
-		goal_path_map.set_point_solid(layer_goal, false)
+	if target_solid:
+		target_path_map.set_point_solid(layer_target, false)
 	
 	var path = null
-	@warning_ignore("unused_variable")
-	var tile_path = null
-	path = get_multi_level_path(origin, goal, true)
-	#tile_path = turn_path_from_pixels_to_tiles(path)
+	# We look for a path from the target to the origin.
+	path = get_multi_level_path(origin, target, true)
 	
-	# making characters blocking again
+	# Making characters blocking again.
 	if origin_solid:
 		origin_path_map.set_point_solid(layer_origin, true)
-	if goal_solid:
-		goal_path_map.set_point_solid(layer_goal, true)
+	if target_solid:
+		target_path_map.set_point_solid(layer_target, true)
 	
 	if path.is_empty():
 		print("No path found!")
 		return
 
+	# We reverse the path so we have one that starts from the origin to the target, and remove the distance.
 	path.reverse()
 	for i in range(distance):
+		if i > 0:
+			if not WorldMath.has_line_of_sight_tile(path[-i - 1], path[-1], true):
+				break
 		path.pop_back()
 
 	return path
+
+### finds best path from creature to a tile/entity at X distance of target
+#func path_to_target_adjacency(creature, target, distance):
+	#var origin_solid: bool = false
+	#var goal_solid: bool = false
+#
+	#var goal = creature.get_coords()
+	#var origin: Vector3i
+	#if target is Vector3i:
+		#origin = target
+	#elif target is Entity:
+		#origin = target.get_coords()
+	#else:
+		#return
+	#
+	#var layer_goal = Vector2i(goal.x, goal.y)
+	#var layer_origin = Vector2i(origin.x, origin.y)
+	#
+	#var origin_path_map = layers[origin.z]["path_map"]
+	#var goal_path_map = layers[goal.z]["path_map"]
+	#
+#
+	#if origin_path_map.is_point_solid(layer_origin):
+		#origin_solid = true
+	#if goal_path_map.is_point_solid(layer_origin):
+		#goal_solid = true
+	#
+	## making characters non-blocking
+	#if origin_solid:
+		#origin_path_map.set_point_solid(layer_origin, false)
+	#if goal_solid:
+		#goal_path_map.set_point_solid(layer_goal, false)
+	#
+	#var path = null
+	#path = get_multi_level_path(origin, goal, true)
+	#
+	## making characters blocking again
+	#if origin_solid:
+		#origin_path_map.set_point_solid(layer_origin, true)
+	#if goal_solid:
+		#goal_path_map.set_point_solid(layer_goal, true)
+	#
+	#if path.is_empty():
+		#print("No path found!")
+		#return
+#
+	#path.reverse()
+	#for i in range(distance):
+		#path.pop_back()
+#
+	#return path
 
 func get_multi_level_path_for_creature(creature: Creature, goal: Vector3i, allow_occupied_goal: bool = false, easy_doors: bool = false) -> Array[Vector3i]:
 	if easy_doors:

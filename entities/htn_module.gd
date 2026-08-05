@@ -141,7 +141,7 @@ func find_best_activity(wanted_act: WantedAct, report: Dictionary) -> ActivityVa
 			best_entry = entry
 
 	if best_entry == null:
-		push_error("Couldn't find any fitting activity!")
+		print("Couldn't find any fitting activity!")
 	return best_entry
 
 func calculate_total_AP_cost(planned_acts: Array[PlannedAct], _report: Dictionary) -> int:

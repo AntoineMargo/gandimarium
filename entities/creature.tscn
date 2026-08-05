@@ -56,7 +56,7 @@ texture = ExtResource("4_4w7f4")
 
 [node name="VFXContainer" type="Node2D" parent="Mover" unique_id=355354990]
 
-[node name="DamageVisual" type="Node" parent="Mover" unique_id=764338575]
+[node name="ShaderOrchestration" type="Node" parent="Mover" unique_id=764338575]
 script = ExtResource("5_l4b1g")
 hit_curve = SubResource("Curve_l4b1g")
 

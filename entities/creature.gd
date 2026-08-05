@@ -368,7 +368,7 @@ func take_damage(damage: int, resistance: Enums.Resistance):
 	if final_damage < 0:
 		final_damage = 0
 	else:
-		$Mover/DamageVisual.play_hit_flash(final_damage)
+		$Mover/ShaderOrchestration.play_hit_flash(final_damage)
 	change_stat("current_hp", -final_damage)
 	health_status_change()
 	health_bar_instance.update_hp_bar()
@@ -385,21 +385,21 @@ func health_status_change():
 	var current_hp = get_stat("current_hp") 
 	var max_hp = get_stat("max_hp") 
 	if current_hp > 0:
-		$Mover/DamageVisual.set_healthy_tint()
+		$Mover/ShaderOrchestration.set_healthy_tint()
 	if current_hp <= -max_hp:
 		set_stat("current_hp", -max_hp)
 	if current_hp >= max_hp:
 		set_stat("current_hp", max_hp)
 	if current_hp < 0:
 		data.state = Enums.State.UNCONSCIOUS
-		$Mover/DamageVisual.set_wounded_tint()
+		$Mover/ShaderOrchestration.set_wounded_tint()
 		if data.crisis_ai_active:
 			data.crisis_ai_active = false
 			SignalBus.ai_became_inactive.emit(self)
 	if current_hp <= -max_hp:
 		data.alive = false
 		print("character is dead!")
-		$Mover/DamageVisual.set_dead_tint()
+		$Mover/ShaderOrchestration.set_dead_tint()
 
 func perceive_audibility() -> Enums.Capability:
 	return data.audibility
@@ -1354,5 +1354,5 @@ func _ready():
 	health_bar_instance = health_bar_scene.instantiate()
 	$Mover.add_child(health_bar_instance)
 	mover.position = Vector2.ZERO
-	$Mover/DamageVisual.hit_material = sprite_node.material as ShaderMaterial
+	$Mover/ShaderOrchestration.shader_material = sprite_node.material as ShaderMaterial
 	

@@ -1,5 +1,12 @@
 class_name HTNHelper
 
+const DIRS = [
+	Vector3i(-1,0,0),
+	Vector3i(1,0,0),
+	Vector3i(0,-1,0),
+	Vector3i(0,1,0),
+]
+
 static func enough_AP(entry: ActivityVariant, total_ap_cost: int, report: TacticalReport) -> bool:
 	if entry.activity.AP_cost > (report.crisis.turn.starting_ap - total_ap_cost):
 		return false
@@ -75,7 +82,7 @@ static func calculate_overvalue(entry: ActivityVariant, wanted_act: WantedAct) -
 	return overvalue
 
 
-static func choose_target(wanted_act: WantedAct, planned_act: PlannedAct, report: TacticalReport):
+static func choose_target(wanted_act: WantedAct, planned_act: PlannedAct, report: TacticalReport) -> void:
 	var hint = planned_act.activity_variant.ai_hint
 	match hint.targeting_type:
 		Enums.Targeting.TILES:
@@ -84,13 +91,19 @@ static func choose_target(wanted_act: WantedAct, planned_act: PlannedAct, report
 				for wanted_tag in wanted_act.wanted_tags:
 					if wanted_tag.tag == Enums.ActivityTag.MOVEMENT:
 						if not requirement_to.targets.is_empty():
-							var target = requirement_to.targets[0]
-							var distance: int = requirement_to.pre_executed.reach
 							var origin = report.creature.get_coords()
-							var path = Global.world_manager.path_to_adjacency(target, origin, distance)
-							var in_range_tile: Vector3i = path[-1]
-							planned_act.targets.append(in_range_tile)
-							requirement_to.position = in_range_tile
+							var target = requirement_to.targets[0]
+							var wanted_distance: int = requirement_to.pre_executed.reach
+							var current_distance: float = WorldMath.dist_weighted_3d(origin, target, 1)
+							if wanted_distance > current_distance:
+								var optimal_pos: Vector3i = find_optimal_pos_for_activity(origin, target, wanted_distance)
+								planned_act.targets.append(optimal_pos)
+								requirement_to.position = optimal_pos
+							else:
+								var path = Global.world_manager.path_to_target_adjacency(target, origin, wanted_distance)
+								var in_range_tile: Vector3i = path[-1]
+								planned_act.targets.append(in_range_tile)
+								requirement_to.position = in_range_tile
 
 		Enums.Targeting.ENTITIES, Enums.Targeting.CREATURES:
 			match hint.category:
@@ -104,6 +117,63 @@ static func choose_target(wanted_act: WantedAct, planned_act: PlannedAct, report
 					else:
 						planned_act.targets.append(report.creature.get_coords())
 
+
+static func find_ideal_pos(origin_pos: Vector3i, target_pos: Vector3i, activity_reach: int) -> Vector3i:
+	var current_distance = WorldMath.dist_weighted_3d(origin_pos, target_pos, 1)
+
+	if current_distance <= activity_reach:
+		return origin_pos
+		
+	var direction: Vector2 = Vector2(origin_pos.x - target_pos.x, origin_pos.y - target_pos.y).normalized()
+	var ideal: Vector2 = Vector2(target_pos.x, target_pos.y) + direction * activity_reach
+
+	return Vector3i(roundi(ideal.x), roundi(ideal.y), target_pos.z)
+
+
+static func flood_fill_to_optimal_pos(start_tile: Vector3i, target_tile: Vector3i, act_reach: int) -> Vector3i:
+
+	var wm = Global.world_manager
+
+	var queue: Array[Vector3i] = [start_tile]
+	var visited: Dictionary[Vector3i, bool] = {}
+
+	var forward: Vector2 = Vector2(start_tile.x - target_tile.x, start_tile.y - target_tile.z).normalized()
+
+	while !queue.is_empty():
+		var current_tile = queue.pop_front()
+
+		if visited.has(current_tile):
+			continue
+		visited[current_tile] = true
+
+		if not wm.get_tile_occupied(current_tile) and WorldMath.line_of_sight_exists(current_tile, target_tile, true):
+			return current_tile
+
+		for dir in DIRS:
+			var next_tile: Vector3i = current_tile + dir
+
+			if visited.has(next_tile):
+				continue
+
+			# We don't search beyond the activity's range.
+			if WorldMath.dist_weighted_3d(next_tile, target_tile, 1) > act_reach:
+				continue
+
+			# Don't search behind the target.
+			var dir_to_next: Vector2 = Vector2(next_tile.x - target_tile.x, next_tile.y - target_tile.y).normalized()
+
+			if forward.dot(dir_to_next) < 0.0:
+				continue
+
+			queue.append(next_tile)
+
+	return Vector3i(-1, -1, -1)
+
+static func find_optimal_pos_for_activity(origin_pos: Vector3i, target_pos: Vector3i, activity_reach: int) -> Vector3i:
+	var ideal_pos: Vector3i = find_ideal_pos(origin_pos, target_pos, activity_reach)
+	var optimal_tile: Vector3i = flood_fill_to_optimal_pos(ideal_pos, target_pos, activity_reach)
+	return optimal_tile
+	
 
 static func find_best_activity(wanted_act: WantedAct, total_ap_cost: int, report: TacticalReport) -> ActivityVariant:
 	var entries = report.available_activities
@@ -294,3 +364,67 @@ static func utility_score_jitter(score: int, jitter_strength: int) -> int:
 	score += randi_range(-jitter_strength, jitter_strength)
 	score = clamp(score, 0, 100)
 	return score
+
+
+
+#static func choose_target(wanted_act: WantedAct, planned_act: PlannedAct, report: TacticalReport) -> void:
+	#var hint = planned_act.activity_variant.ai_hint
+	#match hint.targeting_type:
+		#Enums.Targeting.TILES:
+			#if wanted_act.requirement_to:
+				#var requirement_to = wanted_act.requirement_to
+				#for wanted_tag in wanted_act.wanted_tags:
+					#if wanted_tag.tag == Enums.ActivityTag.MOVEMENT:
+						#if not requirement_to.targets.is_empty():
+							#var origin = report.creature.get_coords()
+							#var target = requirement_to.targets[0]
+							#var wanted_distance: int = requirement_to.pre_executed.reach
+							#var current_distance: float = WorldMath.dist_weighted_3d(origin, target, 1)
+							#
+							#var path = Global.world_manager.path_to_target_adjacency(target, origin, wanted_distance)
+							#var in_range_tile: Vector3i = path[-1]
+							#planned_act.targets.append(in_range_tile)
+							#requirement_to.position = in_range_tile
+#
+		#Enums.Targeting.ENTITIES, Enums.Targeting.CREATURES:
+			#match hint.category:
+				#Enums.ActivityCategory.HOSTILE:
+					#if report.crisis.closest_enemy:
+						#planned_act.targets.append(report.crisis.closest_enemy.get_coords())
+#
+				#Enums.ActivityCategory.BENEFICIAL:
+					#if report.crisis.closest_ally:
+						#planned_act.targets.append(report.crisis.closest_ally.get_coords())
+					#else:
+						#planned_act.targets.append(report.creature.get_coords())
+#
+
+
+#static func choose_target(wanted_act: WantedAct, planned_act: PlannedAct, report: TacticalReport):
+	#var hint = planned_act.activity_variant.ai_hint
+	#match hint.targeting_type:
+		#Enums.Targeting.TILES:
+			#if wanted_act.requirement_to:
+				#var requirement_to = wanted_act.requirement_to
+				#for wanted_tag in wanted_act.wanted_tags:
+					#if wanted_tag.tag == Enums.ActivityTag.MOVEMENT:
+						#if not requirement_to.targets.is_empty():
+							#var target = requirement_to.targets[0]
+							#var distance: int = requirement_to.pre_executed.reach
+							#var origin = report.creature.get_coords()
+							#var path = Global.world_manager.path_to_adjacency(target, origin, distance)
+							#var in_range_tile: Vector3i = path[-1]
+							#planned_act.targets.append(in_range_tile)
+							#requirement_to.position = in_range_tile
+#
+		#Enums.Targeting.ENTITIES, Enums.Targeting.CREATURES:
+			#match hint.category:
+				#Enums.ActivityCategory.HOSTILE:
+					#if report.crisis.closest_enemy:
+						#planned_act.targets.append(report.crisis.closest_enemy.get_coords())
+#
+				#Enums.ActivityCategory.BENEFICIAL:
+					#if report.crisis.closest_ally:
+						#planned_act.targets.append(report.crisis.closest_ally.get_coords())
+					#else:
+						#planned_act.targets.append(report.creature.get_coords())

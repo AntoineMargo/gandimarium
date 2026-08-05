@@ -1,7 +1,7 @@
 extends Node
 
 @export var hit_curve: Curve
-var hit_material: ShaderMaterial
+var shader_material: ShaderMaterial
 var hit_tween: Tween
 
 
@@ -17,29 +17,29 @@ func play_hit_flash(damage: float, max_damage: float = 30.0, min_intensity: floa
 	hit_tween.tween_method(
 		func(t_local):
 			var v = hit_curve.sample(t_local) * intensity_multiplier
-			hit_material.set_shader_parameter("hit_intensity", v),
+			shader_material.set_shader_parameter("hit_intensity", v),
 		0.0,
 		1.0,
 		0.2
 	)
 
 func set_healthy_tint():
-	hit_material.set_shader_parameter("wounded_amount", 0.0)
-	hit_material.set_shader_parameter("wounded_strength", 0.0)
+	shader_material.set_shader_parameter("wounded_amount", 0.0)
+	shader_material.set_shader_parameter("wounded_strength", 0.0)
 	
-	hit_material.set_shader_parameter("grayscale_amount", 0.0)
+	shader_material.set_shader_parameter("grayscale_amount", 0.0)
 
 func set_wounded_tint():
-	hit_material.set_shader_parameter("wounded_amount", 1.0)
-	hit_material.set_shader_parameter("wounded_strength", 0.5)
+	shader_material.set_shader_parameter("wounded_amount", 1.0)
+	shader_material.set_shader_parameter("wounded_strength", 0.5)
 	
-	hit_material.set_shader_parameter("grayscale_amount", 0.0)
+	shader_material.set_shader_parameter("grayscale_amount", 0.0)
 
 func set_dead_tint():
-	hit_material.set_shader_parameter("wounded_amount", 0.0)
-	hit_material.set_shader_parameter("wounded_strength", 0.0)
+	shader_material.set_shader_parameter("wounded_amount", 0.0)
+	shader_material.set_shader_parameter("wounded_strength", 0.0)
 	
-	hit_material.set_shader_parameter("grayscale_amount", 0.9)
+	shader_material.set_shader_parameter("grayscale_amount", 0.9)
 
 func _ready() -> void:
 	pass
