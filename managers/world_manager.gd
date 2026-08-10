@@ -76,6 +76,8 @@ func get_entity_at_pos(pos: Vector3i) -> Entity:
 	var layer_pos = Vector2i(pos.x, pos.y)
 	if layers[pos.z]["contents"].has(layer_pos):
 		for element in layers[pos.z]["contents"][layer_pos]:
+			if element is SpawnerProp:
+				continue
 			if element is Entity:
 				return element
 	return null

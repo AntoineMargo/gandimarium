@@ -64,6 +64,7 @@ id = "wpn_brilliant_sword"
 weight = 0.0
 value = 0
 can_be_removed = false
+conjured = true
 brawn_req_1h = 0
 brawn_req_2h = 0
 strike = SubResource("Resource_jdaye")

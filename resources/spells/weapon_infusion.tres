@@ -8,17 +8,25 @@
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_outeq"]
 [ext_resource type="Script" uid="uid://bqah6paftlsng" path="res://filters/is_weapon_attack.gd" id="7_enoxs"]
 [ext_resource type="Script" uid="uid://c20e6vg8wsl4e" path="res://activity_modifiers/spell_rank_num_modifier.gd" id="8_b1kr4"]
+[ext_resource type="Script" uid="uid://c470qs635n2hd" path="res://filters/WeaponIsNotConjured.gd" id="8_bsswm"]
 [ext_resource type="Script" uid="uid://dywclcl7k47vv" path="res://effects/activity_modifier_effect.gd" id="9_wmvp1"]
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="10_bugpp"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="11_kxngs"]
 [ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="12_xqu6j"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="13_qy2wg"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="14_1wsy4"]
+[ext_resource type="Script" uid="uid://c7cvd1ql5dxas" path="res://AI/act_tag.gd" id="15_goj8m"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="15_qusc1"]
+[ext_resource type="Script" uid="uid://vt0qt70itnbr" path="res://AI/Preconditions/HTN_precondition.gd" id="16_bsswm"]
+[ext_resource type="Script" uid="uid://lrec85jjq4ih" path="res://AI/AIHints/AI_hint.gd" id="17_outeq"]
 
 [sub_resource type="Resource" id="Resource_xjtne"]
 script = ExtResource("7_enoxs")
 metadata/_custom_type_script = "uid://bqah6paftlsng"
+
+[sub_resource type="Resource" id="Resource_lpclw"]
+script = ExtResource("8_bsswm")
+metadata/_custom_type_script = "uid://c470qs635n2hd"
 
 [sub_resource type="Resource" id="Resource_j8ccw"]
 script = ExtResource("8_b1kr4")
@@ -26,7 +34,7 @@ choice = 1
 multiplied_amount = 0.25
 value_type = 19
 stage = 4
-filters = Array[ExtResource("5_bsswm")]([SubResource("Resource_xjtne")])
+filters = Array[ExtResource("5_bsswm")]([SubResource("Resource_xjtne"), SubResource("Resource_lpclw")])
 metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
 
 [sub_resource type="Resource" id="Resource_a3m6j"]
@@ -60,9 +68,39 @@ is_spell = true
 builds_condition = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 
+[sub_resource type="Resource" id="Resource_vsy8l"]
+script = ExtResource("15_goj8m")
+tag = 17
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_wpwdu"]
+script = ExtResource("15_goj8m")
+tag = 18
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_j7505"]
+script = ExtResource("15_goj8m")
+tag = 6
+value = 80
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_3gsmf"]
+script = ExtResource("15_goj8m")
+tag = 1
+value = 25
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_bddu2"]
+script = ExtResource("17_outeq")
+category = 1
+act_tags = Array[ExtResource("15_goj8m")]([SubResource("Resource_vsy8l"), SubResource("Resource_wpwdu"), SubResource("Resource_j7505"), SubResource("Resource_3gsmf")])
+creature_target_tags = Array[int]([2, 1])
+metadata/_custom_type_script = "uid://lrec85jjq4ih"
+
 [sub_resource type="Resource" id="Resource_adgnr"]
 script = ExtResource("1_4g5yg")
 activity = SubResource("Resource_gobpa")
+ai_hint = SubResource("Resource_bddu2")
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 
 [resource]

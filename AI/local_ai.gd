@@ -9,10 +9,12 @@ var current_entry: RoutineEntry
 
 var chosen_zones: Array[ZoneData]
 
+
 func get_random_tile_in_zone(zone_rect: Rect2i) -> Vector2i:
 	var x: int = randi_range(zone_rect.position.x, zone_rect.position.x + zone_rect.size.x - 1)
 	var y: int = randi_range(zone_rect.position.y, zone_rect.position.y + zone_rect.size.y - 1)
 	return Vector2i(x, y)
+
 
 func perform_routine(override: Enums.Routine = Enums.Routine.NONE, tile: Vector3i = Vector3i(0, 0, 0)):
 	if Global.crisis_manager.crisis_mode:
@@ -26,6 +28,7 @@ func perform_routine(override: Enums.Routine = Enums.Routine.NONE, tile: Vector3
 		return
 	if current_entry.behaviour == "patrol":
 		patrol()
+
 
 func change_routine():
 	var time: Vector4i = Global.time_manager.get_time()
@@ -45,6 +48,7 @@ func change_routine():
 func check_sound_origin(tile):
 	wm.get_close_to_target(creature, tile, 1)
 
+
 func patrol():
 	if not chosen_zones:
 		return
@@ -60,7 +64,24 @@ func patrol():
 		layer_coords = Vector2i(creature_coords.x, creature_coords.y)
 	wm.interact_move(creature, Vector3i(layer_coords.x, layer_coords.y, creature_coords.z))
 
+
+func activate_permanent_buffs_on_self() -> void:
+	var report: TacticalReport = creature.ai_controller.tactical_report
+	ReportHelper.produce_report(report, creature)
+	for activity in report.available_activities:
+		var act_tags: Array[ActTag] = activity.ai_hint.act_tags
+		for act_tag in act_tags:
+			if act_tag.tag == Enums.ActivityTag.PERMANENT:
+				activity.execute(creature, [creature.get_coords()])
+
+
+func setup() -> void:
+	if !creature.data.player_controlled:
+		activate_permanent_buffs_on_self()
+
+
 func _ready() -> void:
 	creature = $"../.."
 	wm = Global.world_manager
+	call_deferred("setup")
 	#SignalBus.time_changed.connect(perform_routine)

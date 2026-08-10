@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="WeaponIsNotConjuredFilter" format=3 uid="uid://bx12fnt8sy3ls"]
+
+[ext_resource type="Script" uid="uid://c470qs635n2hd" path="res://filters/WeaponIsNotConjured.gd" id="1_qc1i2"]
+
+[resource]
+script = ExtResource("1_qc1i2")
+metadata/_custom_type_script = "uid://c470qs635n2hd"

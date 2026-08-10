@@ -68,6 +68,7 @@ value = 0
 conditions = Array[ExtResource("1_7n0qi")]([SubResource("Resource_kmkm1")])
 slot_type = 4
 can_be_removed = false
+conjured = true
 brawn_req_1h = 0
 brawn_req_2h = 0
 owner = null

@@ -6,9 +6,13 @@ var creature: Creature = null
 
 var current_state = null
 
+var tactical_report: TacticalReport
+var strategic_report = null
+
 var overmapai: OvermapAI
 var localai: LocalAI
 var crisisai: CrisisAI
+
 
 func switch_state(new_state):
 	#if current_state != null:
@@ -22,6 +26,7 @@ func switch_state(new_state):
 	#current_state.set_process(true)
 	#current_state.set_physics_process(true)
 
+
 func _ready() -> void:
 	wm = Global.world_manager
 	creature = $".."
@@ -29,3 +34,8 @@ func _ready() -> void:
 	localai = $LocalAI
 	crisisai = $CrisisAI
 	current_state = crisisai
+	tactical_report = TacticalReport.new()
+	tactical_report.crisis = CrisisReport.new()
+	tactical_report.crisis.turn = TurnReport.new()
+	crisisai.report = tactical_report
+	

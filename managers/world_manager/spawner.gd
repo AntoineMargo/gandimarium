@@ -19,6 +19,7 @@ func add_default_activities(char_data) -> void:
 	var move_activity = load("res://resources/activity_containers/move.tres")
 	char_data.activities.append(move_activity)
 
+
 ## Don't use guardian for scene tile spawners
 func spawn_character(data_file: String, coords: Vector3i, routine: String = "", guardian: bool = true) -> Creature:
 	if guardian and not _guardian():

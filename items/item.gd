@@ -11,6 +11,7 @@ class_name Item
 @export var conditions: Array[Condition] = []
 @export var slot_type: Enums.SlotType = Enums.SlotType.NONE
 @export var can_be_removed: bool = true
+@export var conjured: bool = false
 
 @export var brawn_req_1h: int = 4
 @export var brawn_req_2h: int = 2

@@ -83,6 +83,11 @@ metadata/_custom_type_script = "uid://dfb8by8mwep3i"
 script = ExtResource("10_ytjox")
 metadata/_custom_type_script = "uid://btkh73srmvfoi"
 
+[sub_resource type="Resource" id="Resource_pw40p"]
+script = ExtResource("6_vpwjh")
+tag = 17
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
 [sub_resource type="Resource" id="Resource_uprpp"]
 script = ExtResource("6_vpwjh")
 tag = 6
@@ -93,6 +98,7 @@ metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
 script = ExtResource("5_d8ad8")
 target_type = 1
 wanted_tags = Array[ExtResource("6_vpwjh")]([SubResource("Resource_uprpp")])
+unwanted_tags = Array[ExtResource("6_vpwjh")]([SubResource("Resource_pw40p")])
 repeatable = true
 metadata/_custom_type_script = "uid://w3fhdb7pql67"
 
@@ -176,6 +182,11 @@ metadata/_custom_type_script = "uid://dlhjebk2nh1e3"
 script = ExtResource("9_ytjox")
 metadata/_custom_type_script = "uid://b6fiqifrdt56d"
 
+[sub_resource type="Resource" id="Resource_np3kx"]
+script = ExtResource("6_vpwjh")
+tag = 17
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
 [sub_resource type="Resource" id="Resource_bh56m"]
 script = ExtResource("6_vpwjh")
 tag = 6
@@ -186,6 +197,7 @@ metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
 script = ExtResource("5_d8ad8")
 target_type = 2
 wanted_tags = Array[ExtResource("6_vpwjh")]([SubResource("Resource_bh56m")])
+unwanted_tags = Array[ExtResource("6_vpwjh")]([SubResource("Resource_np3kx")])
 repeatable = true
 metadata/_custom_type_script = "uid://w3fhdb7pql67"
 
@@ -197,6 +209,7 @@ metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
 
 [sub_resource type="Resource" id="Resource_x6nb8"]
 script = ExtResource("5_d8ad8")
+target_type = 2
 wanted_tags = Array[ExtResource("6_vpwjh")]([SubResource("Resource_2nmi4")])
 optional = true
 repeatable = true

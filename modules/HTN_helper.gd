@@ -137,34 +137,47 @@ static func flood_fill_to_optimal_pos(start_tile: Vector3i, target_tile: Vector3
 	var queue: Array[Vector3i] = [start_tile]
 	var visited: Dictionary[Vector3i, bool] = {}
 
-	var forward: Vector2 = Vector2(start_tile.x - target_tile.x, start_tile.y - target_tile.z).normalized()
+	var forward: Vector2 = Vector2(start_tile.x - target_tile.x, start_tile.y - target_tile.y).normalized()
+
+	print("=== Flood fill ===")
 
 	while !queue.is_empty():
 		var current_tile = queue.pop_front()
 
 		if visited.has(current_tile):
 			continue
+
 		visited[current_tile] = true
 
-		if not wm.get_tile_occupied(current_tile) and WorldMath.line_of_sight_exists(current_tile, target_tile, true):
+		print("PROCESSING (%d, %d)" % [current_tile.x, current_tile.y])
+
+		var colour = Color(0.279, 0.923, 1.0, 1.0)
+		wm.flash_tile_overlay(Vector2i(current_tile.x, current_tile.y), colour)
+
+		if not wm.get_tile_occupied(current_tile) \
+		and WorldMath.line_of_sight_exists(current_tile, target_tile, true):
+			print("FOUND VALID POSITION: ", current_tile)
 			return current_tile
 
 		for dir in DIRS:
 			var next_tile: Vector3i = current_tile + dir
 
 			if visited.has(next_tile):
+				print("	New tile(%d, %d): already visited." % [next_tile.x, next_tile.y])
 				continue
 
 			# We don't search beyond the activity's range.
 			if WorldMath.dist_weighted_3d(next_tile, target_tile, 1) > act_reach:
+				print("	New tile(%d, %d): out of range." % [next_tile.x, next_tile.y])
 				continue
 
 			# Don't search behind the target.
 			var dir_to_next: Vector2 = Vector2(next_tile.x - target_tile.x, next_tile.y - target_tile.y).normalized()
-
 			if forward.dot(dir_to_next) < 0.0:
+				print("	New tile(%d, %d): behind target." % [next_tile.x, next_tile.y])
 				continue
 
+			print("	New tile(%d, %d): ACCEPTED." % [next_tile.x, next_tile.y])
 			queue.append(next_tile)
 
 	return Vector3i(-1, -1, -1)
@@ -233,7 +246,7 @@ static func update_positions(wanted_acts: Array[WantedAct], planned_acts: Array[
 		i += 1
 
 
-static func get_resource_costs(_wanted_act: WantedAct, planned_act: PlannedAct, report: TacticalReport) -> void:
+static func update_resource_costs(_wanted_act: WantedAct, planned_act: PlannedAct, report: TacticalReport) -> void:
 	if not planned_act.pre_executed:
 		return
 	var activity: Activity = planned_act.pre_executed
@@ -333,7 +346,7 @@ static func generate_sequence(method: HTNMethod, report: TacticalReport) -> Arra
 					planned_act.position = previous_planned_act.position
 			planned_act.activity_variant = find_best_activity(wanted_act, total_ap_cost, report)
 			if planned_act.activity_variant == null:
-				if !wanted_act.optional:
+				if !wanted_act.optional and !report.crisis.turn.method_is_valid:
 					return []
 				i += 1
 				continue
@@ -344,8 +357,10 @@ static func generate_sequence(method: HTNMethod, report: TacticalReport) -> Arra
 				update_positions(wanted_acts, planned_acts, i)
 				
 			choose_optimal_attack_type(planned_act)
-			get_resource_costs(wanted_act, planned_act, report)
+			update_resource_costs(wanted_act, planned_act, report)
 			total_ap_cost += planned_act.AP_cost
+			if !wanted_act.requirement_to and !wanted_act.optional:
+				report.crisis.turn.method_is_valid = true
 			if not check_step_requirements(planned_acts, wanted_acts, report, i):
 				continue
 
@@ -364,6 +379,57 @@ static func utility_score_jitter(score: int, jitter_strength: int) -> int:
 	score += randi_range(-jitter_strength, jitter_strength)
 	score = clamp(score, 0, 100)
 	return score
+
+
+#static func generate_sequence(method: HTNMethod, report: TacticalReport) -> Array[PlannedAct]:
+	#var wanted_acts: Array[WantedAct] =  method.wanted_acts.duplicate()
+	#var planned_acts: Array[PlannedAct] = []
+	#var total_ap_cost: int = 0
+	#
+	#planned_acts.resize(wanted_acts.size())
+#
+	#var i: int = 0
+	#while i < wanted_acts.size():
+		#var wanted_act = wanted_acts[i]
+		#var planned_act = planned_acts[i]
+		#
+		#if not planned_act:
+			#planned_act = PlannedAct.new()
+			#planned_acts[i] = planned_act
+			#planned_act.position = report.crisis.turn.starting_position
+			#if i > 0:
+				#var previous_planned_act: PlannedAct = planned_acts[i - 1]
+				#if previous_planned_act and previous_planned_act.position != Vector3i(-1, -1, -1):
+					#planned_act.position = previous_planned_act.position
+			#planned_act.activity_variant = find_best_activity(wanted_act, total_ap_cost, report)
+			#if planned_act.activity_variant == null:
+				#if !report.crisis.turn.method_is_valid:
+					#return []
+				#i += 1
+				#continue
+			#
+			#planned_act.pre_executed = planned_act.activity_variant.pre_execute(report.creature)
+			#choose_target(wanted_act, planned_act, report)
+			#if wanted_act.modifies_position:
+				#update_positions(wanted_acts, planned_acts, i)
+				#
+			#choose_optimal_attack_type(planned_act)
+			#update_resource_costs(wanted_act, planned_act, report)
+			#total_ap_cost += planned_act.AP_cost
+			#if !wanted_act.requirement_to and !wanted_act.optional:
+				#report.crisis.turn.method_is_valid = true
+			#if not check_step_requirements(planned_acts, wanted_acts, report, i):
+				#continue
+#
+		#if i == (wanted_acts.size() - 1):
+			#if total_ap_cost < report.creature.get_stat("max_ap") and wanted_act.repeatable:
+				#wanted_acts.append(wanted_act.duplicate())
+				#planned_acts.append(null)
+				#print("Inserting repeatable wanted_act at index %d" % [i + 1])
+#
+		#i += 1
+#
+	#return planned_acts
 
 
 

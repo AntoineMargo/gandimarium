@@ -20,6 +20,7 @@ func generate(report: TacticalReport) -> Array[PlannedAct]:
 	var sequence: Array[PlannedAct] = HTNHelper.generate_sequence(self, report)
 	print("Chosen sequence: ")
 	for element in sequence:
-		print("	%s" % [element.activity_variant.activity.name])
+		if element.activity_variant:
+			print("	%s" % [element.activity_variant.activity.name])
 	return sequence
 	

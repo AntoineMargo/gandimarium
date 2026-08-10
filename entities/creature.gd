@@ -986,7 +986,12 @@ func build_stats():
 			for spell in data.spells_available:
 				add_ready_spell(spell)
 
-		set_current_spell_rank(get_max_spell_rank())
+
+		var spell_rank: int = get_max_spell_rank()
+		if !data.player_controlled and (spell_rank > 1):
+			set_current_spell_rank(spell_rank - 1)
+		else:
+			set_current_spell_rank(spell_rank)
 
 		data.has_been_initialized = true
 		update_stats()
@@ -1119,7 +1124,8 @@ func update_movement_speed(old_mp_value: int = -1) -> void:
 		var new_current_mp: int = current_mp * ratio
 		var current_ap = get_stat("current_ap")
 		set_stat("current_mp", new_current_mp * current_ap)
-		Global.world_manager.path_preview.get_char_data()
+		if Global.selected_char == self:
+			Global.world_manager.path_preview.get_char_data()
 
 func turn_start():
 	if data.state == Enums.State.CONSCIOUS:
@@ -1347,6 +1353,9 @@ func pounce_attack(target_dir: Vector2) -> void:
 	# snap back
 	tween.tween_property(sprite_node, "position", Vector2.ZERO, 0.08)
 
+func setup() -> void:
+	pass
+
 func _ready():
 	print("Creature getting ready!")
 	if not health_bar_scene:
@@ -1355,4 +1364,4 @@ func _ready():
 	$Mover.add_child(health_bar_instance)
 	mover.position = Vector2.ZERO
 	$Mover/ShaderOrchestration.shader_material = sprite_node.material as ShaderMaterial
-	
+	#call_deferred("setup")
