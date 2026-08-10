@@ -8,8 +8,11 @@ const FAILURE_THRESHOLD = -10
 var crisis_mode: bool = false
 var crisis_round: int = 0
 
-var initiative_order = []
+var initiative_order: Array[Creature] = []
 var current_index: int = -1
+
+func get_initiative_order() -> Array[Creature]:
+	return initiative_order
 
 func _add_to_initiative_order(creature):
 	if creature not in initiative_order:

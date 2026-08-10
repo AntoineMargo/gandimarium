@@ -12,6 +12,7 @@ var affected_entities: Dictionary[Entity, Condition] = {} # Node, Condition
 
 var is_finalized: bool = false
 
+
 func initialize(ctx: Context) -> void:
 	self.user = ctx.user
 	if user is Creature:
@@ -26,6 +27,7 @@ func initialize(ctx: Context) -> void:
 		end_time = start_time + duration
 		SignalBus.time_changed.connect(verify_expired)
 	SignalBus.event.connect(handle_area_exit)
+
 
 func finalize():
 	if is_finalized:
@@ -47,25 +49,11 @@ func finalize():
 		#Global.world_manager.VFX_scenes.append(vfx)
 		vfx_instances.append(vfx)
 
-#func finalize():
-	#if is_finalized:
-		#return
-#
-	#is_finalized = true
-	#
-	#if affected_tiles.is_empty():
-		#return
-#
-	#if vfx_scene:
-		#vfx_instance = vfx_scene.instantiate()
-		#vfx_instance.setup(self)
-#
-		#Global.add_child(vfx_instance)
-		#Global.world_manager.VFX_scenes.append(vfx_instance)
 
 func register_linked_condition(condition: Condition):
 	if not linked_conditions.has(condition):
 		linked_conditions.append(condition)
+
 
 func cancel_linked_conditions():
 	for condition in linked_conditions:
@@ -73,6 +61,7 @@ func cancel_linked_conditions():
 			#condition.dispose()
 			condition.remove_source(self.id)
 	linked_conditions.clear()
+
 
 func apply_to_entity(entity):
 	if affected_entities.has(entity):
@@ -91,6 +80,7 @@ func apply_to_entity(entity):
 			#affected_entities[entity.data.uid] = true
 			instance.freeze()
 
+
 func remove_from_entity(entity):
 	if not affected_entities.has(entity):
 		return
@@ -106,6 +96,7 @@ func remove_from_entity(entity):
 	
 	affected_entities.erase(entity)
 
+
 func handle_area_exit(reaction_event: ReactionEvent):
 	var entity = reaction_event.context.user
 	if affected_entities.has(entity):
@@ -116,6 +107,7 @@ func handle_area_exit(reaction_event: ReactionEvent):
 			else:
 				affected_entities[entity].unfreeze()
 
+
 func clear_tiles():
 	var wm = Global.world_manager
 	for tile in affected_tiles:
@@ -124,6 +116,7 @@ func clear_tiles():
 			if element == self:
 				wm.layers[tile.z]["contents"][layer_tile].erase(element)
 				break
+
 
 func dispose():
 	destroy_children()

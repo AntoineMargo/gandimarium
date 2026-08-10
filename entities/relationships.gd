@@ -50,3 +50,14 @@ func set_cooperative(target_id: int, value: int):
 		_cooperative_ids[target_id] = true
 	else:
 		_cooperative_ids.erase(target_id)
+		
+func create_tactical_relationship(creature: Creature, uid: int = -1) -> int:
+	if uid == -1:
+		uid = creature.data.uid
+
+	var entry = TacticalRelationEntry.new()
+	entry.target_id = uid
+	entry.last_updated_turn = Global.crisis_manager.crisis_round
+	_tactical_map[uid] = entry
+	
+	return uid

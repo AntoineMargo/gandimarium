@@ -117,7 +117,7 @@ func create_player_party():
 	var new_party = PartyData.new()
 	for creature in world_manager.current_world.creatures:
 		if creature.data.player_controlled:
-			new_party.members_by_uid.append(creature.data.id)
+			new_party.members_by_uid.append(creature.data.uid)
 
 func wait_frame(amount: int = 1):
 	for i in range(amount):

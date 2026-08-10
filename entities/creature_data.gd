@@ -1,7 +1,6 @@
 extends Resource
 class_name CreatureData
 
-@export var id: int = 0 # deprecated
 @export var uid: int = 0
 
 @export var name: String

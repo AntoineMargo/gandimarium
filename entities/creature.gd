@@ -823,7 +823,6 @@ func discover_creature(creature):
 		entry.target_id = uid
 		entry.last_updated_turn = Global.crisis_manager.crisis_round
 		data.relationships._tactical_map[uid] = entry
-		#set_hostile(uid, 100)
 		for affiliation in creature.data.relationships.affiliations:
 			if affiliation.faction == "bandits":
 				if bandit:
@@ -842,8 +841,40 @@ func discover_creature(creature):
 			set_cooperative(uid, 100)
 
 
+func make_friend(creature: Creature) -> bool:
+	var uid = creature.data.uid
+	if data.relationships._tactical_map.has(uid):
+		var rel_entry = get_tactical(creature.data.uid)
+		if rel_entry:
+			if rel_entry.hostile == 0:
+				set_cooperative(uid, 100)
+				return true
+	else:
+		data.relationships.create_tactical_relationship(creature, uid)
+		set_cooperative(uid, 100)
+		return true
+	return false
+
+func find_cooperative_creatures_in_crisis() -> void:
+	var creatures: Array[Creature] = Global.crisis_manager.get_initiative_order()
+	
+	for creature in creatures:
+		var uid = creature.data.uid
+		if data.relationships._tactical_map.has(uid):
+			var rel_entry = get_tactical(creature.data.uid)
+			if rel_entry:
+				if rel_entry.hostile == 0:
+					set_cooperative(uid, 100)
+					creature.make_friend(self)
+					
+		else:
+			data.relationships.create_tactical_relationship(creature, uid)
+			set_cooperative(uid, 100)
+			creature.make_friend(self)
+
+
 func evaluate_entering_crisis(creature):
-	var rel_entry = get_tactical(creature.data.id)
+	var rel_entry = get_tactical(creature.data.uid)
 	if rel_entry:
 		if rel_entry.hostile > 0:
 			if data.crisis_ai_active:
@@ -851,6 +882,7 @@ func evaluate_entering_crisis(creature):
 			data.crisis_ai_active = true
 			ai_controller.crisisai.crisis_entered()
 			SignalBus.ai_became_active.emit(self)
+			find_cooperative_creatures_in_crisis()
 			if not Global.crisis_manager.crisis_mode:
 				SignalBus.start_crisis_mode.emit(self)
 
@@ -908,8 +940,6 @@ func build_stats():
 	if not data.has_been_initialized:
 		if data.uid == 0:
 			data.uid = Global.state_manager.next_uid(Enums.UIDType.CREATURE)
-		if data.id == 0:
-			data.id = data.uid
 
 		_duplicate_runtime_resources()
 		data.derived_stats = DerivedStats.new()
@@ -1139,19 +1169,15 @@ func turn_start():
 	handle_tile_conditions()
 	
 	if data.player_controlled:
-		#print("played controlled")
 		Global.selected_char = self
 		Global.world_manager.selection_highlight.update_selection_highlight()
 		SignalBus.update_ui_for_char.emit()
 		Global.world_manager.path_preview.get_char_data()
 	else:
 		Global.focus_char = null
-		#print("AI controlled")
 		if data.crisis_ai_active:
-			#print("AI active")
 			SignalBus.message.emit("%s is acting." % self.data.name)
 			ai_controller.crisisai.realize_turn() 
-			#SignalBus.turn_ends.emit()
 		else:
 			# character does their real time routine in turn by turn
 			SignalBus.turn_ends.emit()

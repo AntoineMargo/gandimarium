@@ -11,12 +11,12 @@ var creatures_by_id: Dictionary[int, Creature] = {}
 
 func register_creature(creature):
 	creatures.append(creature)
-	creatures_by_id[creature.data.id] = creature
+	creatures_by_id[creature.data.uid] = creature
 	print("creature registered: ", creature.data.name)
 
 func unregister_creature(creature):
 	creatures.erase(creature)
-	creatures_by_id.erase(creature.data.id)
+	creatures_by_id.erase(creature.data.uid)
 
 func deferred_setup_layers():
 	Global.world_manager.setup_layers()
