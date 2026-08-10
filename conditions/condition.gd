@@ -48,6 +48,7 @@ var start_time: int
 var end_time: int
 var remaining_time: int
 
+
 func apply_vfx() -> void:
 	clear_vfx()
 	
@@ -63,6 +64,7 @@ func apply_vfx() -> void:
 		if vfx.has_method("setup"):
 			vfx.setup(target)
 
+
 func clear_vfx() -> void:
 	for vfx_instance in vfx_instances:
 		if is_instance_valid(vfx_instance):
@@ -71,8 +73,10 @@ func clear_vfx() -> void:
 	
 	vfx_instances.clear()
 
+
 func is_active() -> bool:
 	return not sources.is_empty()
+
 
 func initialize(ctx: Context) -> void:
 	if ctx.condition_recipient:
@@ -108,6 +112,7 @@ func initialize(ctx: Context) -> void:
 	
 	target.rebuild_shader()
 
+
 func apply_effects(ctx: Context = null) -> void:
 	if not ctx:
 		ctx = Context.new()
@@ -126,6 +131,7 @@ func apply_effects(ctx: Context = null) -> void:
 		else:
 			effect.apply(self, ctx.target)
 
+
 func verify_expired(_days, _hours, _minutes, _seconds):
 	if frozen:
 		return
@@ -133,9 +139,11 @@ func verify_expired(_days, _hours, _minutes, _seconds):
 	if Global.time_manager.get_total_seconds() >= end_time:
 		dispose()
 
+
 func request_cancel() -> void:
 	ended.emit()
 	dispose()
+
 
 func freeze():
 	if frozen:
@@ -144,7 +152,8 @@ func freeze():
 	frozen = true
 	var current_time = Global.time_manager.get_total_seconds()
 	remaining_time = end_time - current_time
-	
+
+
 func unfreeze():
 	if not frozen:
 		return
@@ -153,6 +162,7 @@ func unfreeze():
 	if end_time - current_time != remaining_time:
 		end_time = current_time + remaining_time
 	frozen = false
+
 
 func make_semi_unique_id(base_id: String, entity: Entity) -> String:
 	var i: int = 1
@@ -163,6 +173,7 @@ func make_semi_unique_id(base_id: String, entity: Entity) -> String:
 		i += 1
 	return candidate
 
+
 func dispose():
 	if plan_disrupting:
 		target.interrupted = true
@@ -172,8 +183,7 @@ func dispose():
 	ended.emit()
 	if Global.selected_char == target:
 		SignalBus.update_ui_for_char.emit()
-		#SignalBus.update_inventory.emit()
-		#SignalBus.update_character_info.emit()
+
 
 func destroy_children():
 	for i in range(linked_items.size() - 1, -1, -1):
@@ -185,11 +195,13 @@ func destroy_children():
 	for i in range(linked_modifiers.size() - 1, -1, -1):
 		linked_modifiers[i].destroy()
 
+
 func add_source(identifier: String):
 	if not sources.has(identifier):
 		sources[identifier] = 1
 	else:
 		sources[identifier] += 1
+
 
 func remove_source(identifier: String) -> void:
 	if not sources.has(identifier):
@@ -203,8 +215,10 @@ func remove_source(identifier: String) -> void:
 	if sources.is_empty():
 		dispose()
 
+
 func has_source(identifier: String) -> bool:
 	return sources.has(identifier)
+
 
 func has_sources() -> bool:
 	return not sources.is_empty()

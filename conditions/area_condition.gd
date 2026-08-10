@@ -118,6 +118,27 @@ func clear_tiles():
 				break
 
 
+func add_tile(pos: Vector3i) -> void:
+	var wm = Global.world_manager
+	var layer_pos = Vector2i(pos.x, pos.y)
+	if not wm.layers[pos.z]["contents"].has(layer_pos):
+		wm.layers[pos.z]["contents"][layer_pos] = []
+	wm.layers[pos.z]["contents"][layer_pos].append(self)
+
+	affected_tiles.append(pos)
+	var entity_on_tile = wm.get_entity_at_pos(pos)
+	wm.handle_tile_conditions(pos, entity_on_tile)
+
+
+func remove_tile(pos: Vector3i) -> void:
+	var wm = Global.world_manager
+	var layer_pos = Vector2i(pos.x, pos.y)
+	for element in wm.layers[pos.z]["contents"][layer_pos]:
+		if element == self:
+			wm.layers[pos.z]["contents"][layer_pos].erase(element)
+			break
+
+
 func dispose():
 	destroy_children()
 	clear_vfx()
@@ -126,7 +147,6 @@ func dispose():
 	for entity in affected_entities.keys():
 		remove_from_entity(entity)
 	affected_entities.clear()
-	#vfx_instance.queue_free()
 	if Global.selected_char == target:
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()
