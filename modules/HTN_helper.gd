@@ -139,7 +139,7 @@ static func flood_fill_to_optimal_pos(start_tile: Vector3i, target_tile: Vector3
 
 	var forward: Vector2 = Vector2(start_tile.x - target_tile.x, start_tile.y - target_tile.y).normalized()
 
-	print("=== Flood fill ===")
+	#print("=== Flood fill ===")
 
 	while !queue.is_empty():
 		var current_tile = queue.pop_front()
@@ -149,35 +149,35 @@ static func flood_fill_to_optimal_pos(start_tile: Vector3i, target_tile: Vector3
 
 		visited[current_tile] = true
 
-		print("PROCESSING (%d, %d)" % [current_tile.x, current_tile.y])
+		#print("PROCESSING (%d, %d)" % [current_tile.x, current_tile.y])
 
-		var colour = Color(0.279, 0.923, 1.0, 1.0)
-		wm.flash_tile_overlay(Vector2i(current_tile.x, current_tile.y), colour)
+		#var colour = Color(0.279, 0.923, 1.0, 1.0)
+		#wm.flash_tile_overlay(Vector2i(current_tile.x, current_tile.y), colour)
 
 		if not wm.get_tile_occupied(current_tile) \
 		and WorldMath.line_of_sight_exists(current_tile, target_tile, true):
-			print("FOUND VALID POSITION: ", current_tile)
+			#print("FOUND VALID POSITION: ", current_tile)
 			return current_tile
 
 		for dir in DIRS:
 			var next_tile: Vector3i = current_tile + dir
 
 			if visited.has(next_tile):
-				print("	New tile(%d, %d): already visited." % [next_tile.x, next_tile.y])
+				#print("	New tile(%d, %d): already visited." % [next_tile.x, next_tile.y])
 				continue
 
 			# We don't search beyond the activity's range.
 			if WorldMath.dist_weighted_3d(next_tile, target_tile, 1) > act_reach:
-				print("	New tile(%d, %d): out of range." % [next_tile.x, next_tile.y])
+				#print("	New tile(%d, %d): out of range." % [next_tile.x, next_tile.y])
 				continue
 
 			# Don't search behind the target.
 			var dir_to_next: Vector2 = Vector2(next_tile.x - target_tile.x, next_tile.y - target_tile.y).normalized()
 			if forward.dot(dir_to_next) < 0.0:
-				print("	New tile(%d, %d): behind target." % [next_tile.x, next_tile.y])
+				#print("	New tile(%d, %d): behind target." % [next_tile.x, next_tile.y])
 				continue
 
-			print("	New tile(%d, %d): ACCEPTED." % [next_tile.x, next_tile.y])
+			#print("	New tile(%d, %d): ACCEPTED." % [next_tile.x, next_tile.y])
 			queue.append(next_tile)
 
 	return Vector3i(-1, -1, -1)

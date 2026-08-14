@@ -29,6 +29,8 @@ class_name Activity
 @export var targeting_type: Enums.Targeting = Enums.Targeting.ENTITIES
 @export var affected_type: Enums.Affected = Enums.Affected.ENTITIES
 @export var shape: Enums.Shape = Enums.Shape.BURST
+#@export var area_follows_target: bool = false
+
 @export var barrier_interaction: Enums.BarrierInteraction = Enums.BarrierInteraction.IGNORE
 @export var can_only_hit_once: bool = true
 
@@ -46,6 +48,7 @@ class_name Activity
 @export var condition_id: String = ""
 @export var attack_types: Array[DamagePattern] = []
 
+
 var user = null
 var origin: Vector3i
 var concentration: Concentration = null
@@ -55,6 +58,7 @@ var target_points: Array[Vector3i] = []
 var target_entities: Array = []
 
 var imported_context: ActivityContext = null
+
 
 func _setup_concentration():
 	if requires_concentration:

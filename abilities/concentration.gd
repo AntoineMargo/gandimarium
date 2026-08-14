@@ -3,6 +3,7 @@ class_name Concentration
 
 @export var linked_conditions: Array[Condition] = []
 
+var area_follows_target: bool = false
 var source = null
 var start_time: int
 var PP_consumed: int = 0
@@ -57,3 +58,7 @@ func cancel():
 	if source and source.user and source.user.data.concentrations.has(self):
 		source.user.remove_concentration(self)
 	SignalBus.update_ui_for_char.emit()
+
+func move_area(reaction_event: ReactionEvent) -> void:
+	for condition in linked_conditions:
+		condition.move_area(reaction_event)

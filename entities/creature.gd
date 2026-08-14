@@ -1379,6 +1379,43 @@ func pounce_attack(target_dir: Vector2) -> void:
 	# snap back
 	tween.tween_property(sprite_node, "position", Vector2.ZERO, 0.08)
 
+
+func move_linked_area_conditions(reaction_event: ReactionEvent) -> void:
+	if reaction_event.context.user == self and reaction_event.type == Enums.EventType.MOVEMENT:
+		for area_cond in data.following_area_conditions:
+			area_cond.move_area(reaction_event)
+
+
+#func move_linked_area_conditions(reaction_event: ReactionEvent) -> void:
+	#if reaction_event.context.user == self and reaction_event.type == Enums.EventType.MOVEMENT:
+		#for concentration in data.concentrations:
+			#if concentration.area_follows_target:
+				#concentration.move_area(reaction_event)
+
+
+func handle_event(reaction_event: ReactionEvent) -> void:
+	for condition in data.conditions:
+		for end_requirement in condition.end_requirements:
+			end_requirement.handle_event(reaction_event)
+		for trigger in condition.triggers:
+			trigger.process_trigger(reaction_event, self)
+
+	if self == reaction_event.context.user \
+	or data.current_reactions <= 0 \
+	or not data.reactions:
+		return
+
+	for reaction in data.reactions:
+		if reaction.enabled == false:
+			continue
+		for trigger in reaction.triggers:
+			if trigger == reaction_event.type:
+				var target = reaction_event.context.target
+				var activity = reaction.activity.query_current_activity(self)
+				perform_activity(activity, target)
+				data.current_reactions -= 1
+				return
+
 func setup() -> void:
 	pass
 

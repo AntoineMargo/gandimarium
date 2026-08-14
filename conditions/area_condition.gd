@@ -3,6 +3,7 @@ class_name AreaCondition
 
 @export var applied_condition: Condition
 @export var trigger: Enums.AreaConditionTrigger
+@export var area_follows_target: bool = false
 
 var uid: int
 var linked_conditions: Array = []
@@ -12,16 +13,26 @@ var affected_entities: Dictionary[Entity, Condition] = {} # Node, Condition
 
 var is_finalized: bool = false
 
+var area_spread: int = 0
+var area_LOS: bool = false
+
 
 func initialize(ctx: Context) -> void:
 	self.user = ctx.user
 	if user is Creature:
 		self.user_uid = user.data.uid
+	self.target = ctx.target
 	ctx.condition = self
 	if ctx is ActivityContext:
 		self.spell_rank = ctx.current_spell_rank
 		if ctx.concentration:
 			ctx.concentration.register_condition(self)
+
+		if area_follows_target:
+			area_spread = ctx.activity.spread
+			area_LOS = ctx.activity.spread_requires_LOS
+			target.data.following_area_conditions.append(self)
+
 	start_time = Global.time_manager.get_total_seconds()
 	if duration > 0:
 		end_time = start_time + duration
@@ -118,6 +129,15 @@ func clear_tiles():
 				break
 
 
+func move_area(reaction_event: ReactionEvent) -> void:
+	#var old_pos: Vector3i = reaction_event.context.origin
+	var new_pos: Vector3i = reaction_event.context.target
+	var new_tiles: Array[Vector3i] = WorldMath.get_burst_tiles(new_pos, area_spread, area_LOS)
+	clear_tiles()
+	for tile in new_tiles:
+		add_tile(tile)
+
+
 func add_tile(pos: Vector3i) -> void:
 	var wm = Global.world_manager
 	var layer_pos = Vector2i(pos.x, pos.y)
@@ -130,13 +150,13 @@ func add_tile(pos: Vector3i) -> void:
 	wm.handle_tile_conditions(pos, entity_on_tile)
 
 
-func remove_tile(pos: Vector3i) -> void:
-	var wm = Global.world_manager
-	var layer_pos = Vector2i(pos.x, pos.y)
-	for element in wm.layers[pos.z]["contents"][layer_pos]:
-		if element == self:
-			wm.layers[pos.z]["contents"][layer_pos].erase(element)
-			break
+#func remove_tile(pos: Vector3i) -> void:
+	#var wm = Global.world_manager
+	#var layer_pos = Vector2i(pos.x, pos.y)
+	#for element in wm.layers[pos.z]["contents"][layer_pos]:
+		#if element == self:
+			#wm.layers[pos.z]["contents"][layer_pos].erase(element)
+			#break
 
 
 func dispose():
@@ -147,6 +167,8 @@ func dispose():
 	for entity in affected_entities.keys():
 		remove_from_entity(entity)
 	affected_entities.clear()
+	if area_follows_target:
+		target.data.following_area_conditions.erase(self)
 	if Global.selected_char == target:
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()

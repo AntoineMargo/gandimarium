@@ -28,6 +28,7 @@ class_name CreatureData
 @export var spells_available: Array[SpellContainer] = []
 @export var reactions: Array[Reaction] = []
 @export var conditions: Array[Condition] = []
+@export var following_area_conditions: Array[AreaCondition] = []
 @export var activity_modifiers: Array[Modifier] = []
 @export var concentrations: Array[Concentration] = []
 @export var barriers: Array[Barrier] = []

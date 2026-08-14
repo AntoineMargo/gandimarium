@@ -47,6 +47,12 @@
 [ext_resource type="Script" uid="uid://c7cvd1ql5dxas" path="res://AI/act_tag.gd" id="44_k7lab"]
 [ext_resource type="Script" uid="uid://vt0qt70itnbr" path="res://AI/Preconditions/HTN_precondition.gd" id="45_ql6cw"]
 [ext_resource type="Script" uid="uid://lrec85jjq4ih" path="res://AI/AIHints/AI_hint.gd" id="46_hwbcj"]
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="47_c5il8"]
+[ext_resource type="Script" uid="uid://cfpj1qbuyeinb" path="res://effects/finalize_are_condition_effect.gd" id="48_0ppgo"]
+[ext_resource type="Script" uid="uid://bwfaipulxr7tq" path="res://effects/damage_effect.gd" id="49_lijod"]
+[ext_resource type="Script" uid="uid://ckh556ahfopjg" path="res://conditions/area_condition.gd" id="50_mc5au"]
+[ext_resource type="Script" uid="uid://dwlhkak5s0ikl" path="res://effects/area_condition_general_effect.gd" id="51_apscq"]
+[ext_resource type="Script" uid="uid://62ayu2esarc8" path="res://effects/area_condition_tile_effect.gd" id="52_j5kdn"]
 
 [sub_resource type="Resource" id="Resource_sf1yt"]
 script = ExtResource("36_hwbcj")
@@ -137,9 +143,82 @@ name = "Swiftness"
 activities = Array[ExtResource("26_v5jdu")]([SubResource("Resource_bqsy5")])
 metadata/_custom_type_script = "uid://sg6vjj4j36i4"
 
+[sub_resource type="Resource" id="Resource_jucon"]
+script = ExtResource("48_0ppgo")
+metadata/_custom_type_script = "uid://cfpj1qbuyeinb"
+
+[sub_resource type="Resource" id="Resource_hdsn3"]
+script = ExtResource("27_j0ybq")
+pattern = [0, 0, 1, 1]
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_tc7p3"]
+script = ExtResource("49_lijod")
+dice_number = 1
+damage_die = 6
+resistance = 4
+damage_pattern = SubResource("Resource_hdsn3")
+required_degree = 2
+metadata/_custom_type_script = "uid://bwfaipulxr7tq"
+
+[sub_resource type="Resource" id="Resource_v3r87"]
+script = ExtResource("40_c5il8")
+name = "Energy Field"
+id = "cond_energy_field"
+description = "The creature is affected by an energy field, taking damage every turn."
+effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_tc7p3")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_iu0oq"]
+script = ExtResource("50_mc5au")
+applied_condition = SubResource("Resource_v3r87")
+area_follows_target = true
+name = "Energy Field"
+id = "area_cond_energy_field"
+metadata/_custom_type_script = "uid://ckh556ahfopjg"
+
+[sub_resource type="Resource" id="Resource_2xclu"]
+script = ExtResource("51_apscq")
+condition = SubResource("Resource_iu0oq")
+metadata/_custom_type_script = "uid://dwlhkak5s0ikl"
+
+[sub_resource type="Resource" id="Resource_un60w"]
+script = ExtResource("52_j5kdn")
+metadata/_custom_type_script = "uid://62ayu2esarc8"
+
+[sub_resource type="Resource" id="Resource_mt3lk"]
+script = ExtResource("47_c5il8")
+name = "Energy Field"
+id = "act_energy_field"
+tags = Array[int]([0, 5, 0])
+AP_cost = 2
+requires_concentration = true
+reach = 0
+spread = 4
+self_prior_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_2xclu")])
+self_final_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_jucon")])
+target_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_un60w")])
+targeting_type = 0
+affected_type = 1
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_dlfef"]
+script = ExtResource("26_v5jdu")
+activity = SubResource("Resource_mt3lk")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_6rs1c"]
+script = ExtResource("3_glfbk")
+minimum_rank = 2
+name = "Energy Field"
+activities = Array[ExtResource("26_v5jdu")]([SubResource("Resource_dlfef")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
 [sub_resource type="Resource" id="Resource_wqd4r"]
 script = ExtResource("2_m11lv")
-spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk"), ExtResource("5_wqd4r"), ExtResource("6_rqpy1"), ExtResource("7_b2hvq"), ExtResource("8_u81v1"), ExtResource("9_frlgl"), ExtResource("10_eubeo"), ExtResource("11_j8ccw"), ExtResource("12_k724e"), ExtResource("13_j8ccw"), ExtResource("14_dva2d"), ExtResource("15_s1sgk"), ExtResource("21_2uh2x"), ExtResource("17_5dmfs"), ExtResource("18_gobpa"), ExtResource("19_smut8"), ExtResource("20_v5jdu"), ExtResource("21_j0ybq"), ExtResource("22_4ay3v"), ExtResource("23_dva2d"), ExtResource("24_a3m6j"), ExtResource("25_a3m6j"), ExtResource("26_xjtne"), ExtResource("27_y0xrv"), ExtResource("28_fnnw1"), ExtResource("29_k7lab"), SubResource("Resource_b8cdl")])
+spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk"), ExtResource("5_wqd4r"), ExtResource("6_rqpy1"), ExtResource("7_b2hvq"), ExtResource("8_u81v1"), ExtResource("9_frlgl"), ExtResource("10_eubeo"), ExtResource("11_j8ccw"), ExtResource("12_k724e"), ExtResource("13_j8ccw"), ExtResource("14_dva2d"), ExtResource("15_s1sgk"), ExtResource("21_2uh2x"), ExtResource("17_5dmfs"), ExtResource("18_gobpa"), ExtResource("19_smut8"), ExtResource("20_v5jdu"), ExtResource("21_j0ybq"), ExtResource("22_4ay3v"), ExtResource("23_dva2d"), ExtResource("24_a3m6j"), ExtResource("25_a3m6j"), ExtResource("26_xjtne"), ExtResource("27_y0xrv"), ExtResource("28_fnnw1"), ExtResource("29_k7lab"), SubResource("Resource_b8cdl"), SubResource("Resource_6rs1c")])
 metadata/_custom_type_script = "uid://2oaio4mh2bc8"
 
 [resource]
