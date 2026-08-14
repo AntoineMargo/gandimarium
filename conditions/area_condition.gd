@@ -87,7 +87,6 @@ func apply_to_entity(entity):
 		var instance: Condition
 		if not ctx.target.has_condition(applied_condition.id):
 			instance = ctx.target.toggle_condition(ctx)
-			#instance.applied_by_area_condition = true
 			affected_entities[entity] = instance
 			#affected_entities[entity.data.uid] = true
 			instance.freeze()
@@ -182,6 +181,3 @@ func dispose():
 	affected_entities.clear()
 	if area_follows_target:
 		target.data.following_area_conditions.erase(self)
-	if Global.selected_char == target:
-		SignalBus.update_inventory.emit()
-		SignalBus.update_character_info.emit()
