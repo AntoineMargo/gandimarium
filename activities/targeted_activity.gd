@@ -169,6 +169,10 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 		var affected_tiles = compute_affected_area(target)
 		var final_targets = []
 		
+		for point in affected_tiles:
+			for effect in effects_per_tile:
+				effect.apply(self, point)
+		
 		match affected_type:
 			Enums.Affected.ENTITIES:
 				final_targets.append_array(WorldMath.get_entities_from_tiles(affected_tiles))

@@ -36,7 +36,7 @@ func initialize(ctx: Context) -> void:
 	start_time = Global.time_manager.get_total_seconds()
 	if duration > 0:
 		end_time = start_time + duration
-		SignalBus.time_changed.connect(verify_expired)
+		SignalBus.time_changed.connect(handle_time)
 	SignalBus.event.connect(handle_area_exit)
 
 

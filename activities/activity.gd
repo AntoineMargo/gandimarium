@@ -34,6 +34,8 @@ class_name Activity
 @export var barrier_interaction: Enums.BarrierInteraction = Enums.BarrierInteraction.IGNORE
 @export var can_only_hit_once: bool = true
 
+@export var effects_per_tile: Array[Effect] = []
+@export var cast_scene: PackedScene = null
 @export var projectile: ProjVFXEffect = null
 @export var projectile_batch_mode: bool = true
 

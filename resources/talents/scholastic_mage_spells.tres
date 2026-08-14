@@ -147,18 +147,17 @@ metadata/_custom_type_script = "uid://sg6vjj4j36i4"
 script = ExtResource("48_0ppgo")
 metadata/_custom_type_script = "uid://cfpj1qbuyeinb"
 
-[sub_resource type="Resource" id="Resource_hdsn3"]
+[sub_resource type="Resource" id="Resource_puink"]
 script = ExtResource("27_j0ybq")
-pattern = [0, 0, 1, 1]
+pattern = [1, 1, 1, 1]
 metadata/_custom_type_script = "uid://rltw2jbxjfsu"
 
-[sub_resource type="Resource" id="Resource_tc7p3"]
+[sub_resource type="Resource" id="Resource_7srhi"]
 script = ExtResource("49_lijod")
 dice_number = 1
 damage_die = 6
 resistance = 4
-damage_pattern = SubResource("Resource_hdsn3")
-required_degree = 2
+damage_pattern = SubResource("Resource_puink")
 metadata/_custom_type_script = "uid://bwfaipulxr7tq"
 
 [sub_resource type="Resource" id="Resource_v3r87"]
@@ -166,7 +165,9 @@ script = ExtResource("40_c5il8")
 name = "Energy Field"
 id = "cond_energy_field"
 description = "The creature is affected by an energy field, taking damage every turn."
-effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_tc7p3")])
+re_apply_effects = false
+apply_effects_at_intervals = true
+effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_7srhi")])
 metadata/_custom_type_script = "uid://dvi4ohsador2o"
 
 [sub_resource type="Resource" id="Resource_iu0oq"]

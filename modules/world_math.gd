@@ -1,5 +1,17 @@
 class_name WorldMath
 
+#static func compute_affected_area(shape: Enums.Shape, target_location: Vector3i) -> Array[Vector3i]:
+	#match shape:
+		#Enums.Shape.BURST:
+			#return get_burst_tiles(target_location, spread, spread_requires_LOS)
+		#Enums.Shape.CONE:
+			#return get_cone_tiles(origin, target_location, reach, spread, spread_requires_LOS)
+		#Enums.Shape.LINE:
+			#var tiles = get_line_tiles(origin, target_location, reach)
+			#tiles.pop_front()
+			#return tiles
+	#return get_burst_tiles(target_location, spread, spread_requires_LOS)
+
 static func get_line_tiles(origin: Vector3i, target: Vector3i, reach: float, LOS: bool = true) -> Array[Vector3i]:
 	var wm = Global.world_manager
 	var line: Array[Vector3i] = bresenham_line_3d(origin.x, origin.y, origin.z, target.x, target.y, target.z)

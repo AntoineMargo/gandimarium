@@ -1157,6 +1157,11 @@ func update_movement_speed(old_mp_value: int = -1) -> void:
 		if Global.selected_char == self:
 			Global.world_manager.path_preview.get_char_data()
 
+func apply_condition_effects_at_intervals() -> void:
+	for condition in data.conditions:
+		if condition.apply_effects_at_intervals:
+			condition.apply_effects()
+
 func turn_start():
 	if data.state == Enums.State.CONSCIOUS:
 		set_stat("current_ap", get_stat("max_ap"))
@@ -1167,6 +1172,7 @@ func turn_start():
 	Global.focus_char = self
 	
 	handle_tile_conditions()
+	apply_condition_effects_at_intervals()
 	
 	if data.player_controlled:
 		Global.selected_char = self

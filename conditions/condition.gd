@@ -11,7 +11,9 @@ signal ended
 @export var icon: String
 ## Survives entity's stats rebuild; not for anything spawned (items, props, creatures).
 @export var persistent: bool = true
+## Re-apply effects on each stats rebuilding (every time a Condition is added or removed for instance).
 @export var re_apply_effects: bool = true
+@export var apply_effects_at_intervals: bool = false
 @export var filters: Array[Filter] = []
 @export var effects: Array[Effect] = []
 @export var triggers: Array[Trigger] = []
@@ -103,9 +105,10 @@ func initialize(ctx: Context) -> void:
 	for end_requirement in end_requirements:
 		end_requirement.setup(self)
 	start_time = Global.time_manager.get_total_seconds()
-	if duration > 0:
-		end_time = start_time + duration
-		SignalBus.time_changed.connect(verify_expired)
+	if duration > 0 or apply_effects_at_intervals:
+		if duration > 0:
+			end_time = start_time + duration
+		SignalBus.time_changed.connect(handle_time)
 	
 	if plan_disrupting:
 		target.interrupted = true
@@ -132,12 +135,28 @@ func apply_effects(ctx: Context = null) -> void:
 			effect.apply(self, ctx.target)
 
 
-func verify_expired(_days, _hours, _minutes, _seconds):
+#func verify_expired(_days, _hours, _minutes, _seconds):
+	#if frozen:
+		#return
+#
+	#if Global.time_manager.get_total_seconds() >= end_time:
+		#dispose()
+
+
+func handle_time(_days, _hours, _minutes, _seconds) -> void:
+	if apply_effects_at_intervals and not Global.crisis_manager.crisis_mode:
+		apply_effects()
+		if target is Entity and target == Global.selected_char:
+			SignalBus.update_ui_for_char.emit()
+	
 	if frozen:
 		return
 
-	if Global.time_manager.get_total_seconds() >= end_time:
+	var current_time: int = Global.time_manager.get_total_seconds()
+
+	if duration > 0 and current_time >= end_time:
 		dispose()
+		return
 
 
 func request_cancel() -> void:
@@ -175,12 +194,18 @@ func make_semi_unique_id(base_id: String, entity: Entity) -> String:
 
 
 func dispose():
+	if duration > 0 or apply_effects_at_intervals:
+		if SignalBus.time_changed.is_connected(handle_time):
+			SignalBus.time_changed.disconnect(handle_time)
+
 	if plan_disrupting:
 		target.interrupted = true
+
 	target.remove_condition(self)
 	destroy_children()
 	clear_vfx()
 	ended.emit()
+
 	if Global.selected_char == target:
 		SignalBus.update_ui_for_char.emit()
 

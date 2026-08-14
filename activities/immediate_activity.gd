@@ -95,6 +95,10 @@ func resolve() -> void:
 				
 	SignalBus.event.emit(ReactionEvent.activity_started(self_ctx))
 	
+	for point in target_points:
+		for effect in effects_per_tile:
+			effect.apply(self, point)
+	
 	for effect in self_prior_effects:
 		if effect is Effect:
 			if effect.has_method("apply_context"):
