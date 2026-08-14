@@ -43,6 +43,8 @@ var tile_spawned_on: Vector3i = Vector3i(0, 0, 0)
 var spell_rank: int = 0
 var sources = {}
 
+#var applied_by_area_condition: bool = false
+
 var frozen: bool = false
 var start_time: int
 var end_time: int

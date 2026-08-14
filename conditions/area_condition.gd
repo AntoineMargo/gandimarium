@@ -87,6 +87,7 @@ func apply_to_entity(entity):
 		var instance: Condition
 		if not ctx.target.has_condition(applied_condition.id):
 			instance = ctx.target.toggle_condition(ctx)
+			#instance.applied_by_area_condition = true
 			affected_entities[entity] = instance
 			#affected_entities[entity.data.uid] = true
 			instance.freeze()
@@ -109,24 +110,36 @@ func remove_from_entity(entity):
 
 
 func handle_area_exit(reaction_event: ReactionEvent):
-	var entity = reaction_event.context.user
-	if affected_entities.has(entity):
-		var pos = entity.get_coords()
+	var event_entity = reaction_event.context.user
+	if affected_entities.has(event_entity):
+		var pos = event_entity.get_coords()
 		if pos not in affected_tiles:
 			if applied_condition.duration == -1:
-				remove_from_entity(entity)
+				remove_from_entity(event_entity)
 			else:
-				affected_entities[entity].unfreeze()
+				affected_entities[event_entity].unfreeze()
+	
+	# The event entity is in control of this area condition
+	if area_follows_target and target == event_entity: 
+		for entity in affected_entities:
+			var entity_pos: Vector3i = entity.get_coords()
+			if entity_pos not in affected_tiles:
+				if applied_condition.duration == -1:
+					remove_from_entity(entity)
+				else:
+					affected_entities[entity].unfreeze()
 
 
 func clear_tiles():
 	var wm = Global.world_manager
-	for tile in affected_tiles:
+	for i in range(affected_tiles.size() - 1, -1, -1):
+		var tile = affected_tiles[i]
 		var layer_tile = Vector2i(tile.x, tile.y)
 		for element in wm.layers[tile.z]["contents"][layer_tile]:
 			if element == self:
 				wm.layers[tile.z]["contents"][layer_tile].erase(element)
 				break
+		affected_tiles.remove_at(i)
 
 
 func move_area(reaction_event: ReactionEvent) -> void:

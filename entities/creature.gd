@@ -1380,6 +1380,12 @@ func pounce_attack(target_dir: Vector2) -> void:
 	tween.tween_property(sprite_node, "position", Vector2.ZERO, 0.08)
 
 
+#func handle_area_condition_exits(reaction_event: ReactionEvent) -> void:
+	#for condition in data.conditions:
+		#if condition is AreaCondition:
+			#condition.handle_area_exit(reaction_event)
+
+
 func move_linked_area_conditions(reaction_event: ReactionEvent) -> void:
 	if reaction_event.context.user == self and reaction_event.type == Enums.EventType.MOVEMENT:
 		for area_cond in data.following_area_conditions:
@@ -1391,6 +1397,12 @@ func move_linked_area_conditions(reaction_event: ReactionEvent) -> void:
 		#for concentration in data.concentrations:
 			#if concentration.area_follows_target:
 				#concentration.move_area(reaction_event)
+
+
+#func handle_conditions_applied_by_area_cond(reaction_event: ReactionEvent) -> void:
+	#for condition in data.conditions:
+		#if condition.applied_by_area_condition:
+			#
 
 
 func handle_event(reaction_event: ReactionEvent) -> void:
