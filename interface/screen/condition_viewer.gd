@@ -18,7 +18,7 @@ func build_condition_squares() -> void:
 			var text: String = condition.name + "\n" + condition.description
 			new_square.tooltip_text = text
 			if condition.icon:
-				new_square.texture = load(condition.icon)
+				new_square.texture = condition.icon
 			else:
 				print("Using paceholder for condition square.")
 				new_square.texture = load("res://art/interface/activities/placeholder1.png")

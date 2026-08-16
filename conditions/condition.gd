@@ -8,7 +8,7 @@ signal ended
 @export var name: String = "placeholder"
 @export var id: String = "placeholder"
 @export var description: String = "This is a placeholder description."
-@export var icon: String
+@export var icon: Texture2D
 ## Survives entity's stats rebuild; not for anything spawned (items, props, creatures).
 @export var persistent: bool = true
 ## Re-apply effects on each stats rebuilding (every time a Condition is added or removed for instance).

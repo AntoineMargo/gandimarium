@@ -4,7 +4,7 @@ class_name Item
 @export var name: String
 @export var id: String = "placeholder"
 @export var description: String
-@export var icon: String
+@export var icon: Texture2D
 @export var weight: float = 1.0
 @export var value: int = 10
 @export var activities = []

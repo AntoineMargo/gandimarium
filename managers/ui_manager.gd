@@ -451,7 +451,7 @@ func _set_button_active(button: TextureButton, active: bool) -> void:
 
 func _create_activity_button(activity, node_grid):
 	var button = activity_button.instantiate() as TextureButton
-	button.texture_normal = load(activity.icon)
+	button.texture_normal = activity.icon
 
 	button.set_meta("activity", activity)
 	node_grid.add_child(button)

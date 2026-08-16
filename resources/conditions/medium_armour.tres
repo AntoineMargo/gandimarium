@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="6_q2coi"]
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="7_g0rf0"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="8_8vpio"]
+[ext_resource type="Texture2D" uid="uid://fxew7c3sdnk4" path="res://art/interface/items/medium_shield.png" id="9_5wsyd"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="9_t3g1j"]
 [ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="10_uulx3"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="11_kd8ut"]
@@ -44,6 +45,6 @@ script = ExtResource("9_t3g1j")
 name = "Medium Armour"
 id = "cond_medium_armour"
 description = "This creature takes less damage from physical attacks at the cost of slightly lowered vigour."
-icon = "res://art/interface/items/medium_shield.png"
+icon = ExtResource("9_5wsyd")
 persistent = false
 effects = Array[ExtResource("1_c05hl")]([SubResource("Resource_ns0ch")])

@@ -4,7 +4,7 @@ class_name Activity
 @export var name: String = "placeholder"
 @export var id: String = "placeholder"
 @export var description: String = "This is a placeholder description."
-@export var icon: String = "res://art/interface/activities/placeholder1.png"
+@export var icon: Texture2D
 @export var tags: Array[Enums.Tag] = []
 @export var AP_cost: int = 1
 @export var PP_cost: int = 0
