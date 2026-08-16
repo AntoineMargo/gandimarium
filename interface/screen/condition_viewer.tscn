@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://dne0tobo0jgow"]
+
+[ext_resource type="Script" uid="uid://nxawde2irlme" path="res://interface/screen/condition_viewer.gd" id="1_omub6"]
+
+[node name="ConditionViewer" type="CanvasLayer" unique_id=444474166]
+script = ExtResource("1_omub6")
+
+[node name="Control" type="Control" parent="." unique_id=796564542]
+layout_mode = 3
+anchor_top = 0.8
+anchor_right = 1.0
+anchor_bottom = 0.8
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control" unique_id=1526829921]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

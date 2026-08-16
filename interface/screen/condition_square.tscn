@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b0weu7476ms"]
+
+[ext_resource type="Script" uid="uid://cnjft56b8ufys" path="res://interface/screen/condition_square.gd" id="1_huwsk"]
+
+[node name="ConditionSquare" type="TextureRect" unique_id=2054520026]
+custom_minimum_size = Vector2(40, 40)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 2
+script = ExtResource("1_huwsk")

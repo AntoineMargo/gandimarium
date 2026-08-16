@@ -1175,7 +1175,8 @@ func interact_move(character: Creature, target: Vector3i):
 	else:
 		character.mover.begin_path(path)
 	character.visible = (character.data.tile_z == current_level)
-	SignalBus.update_ui_for_char.emit()
+	if character == Global.selected_char:
+		SignalBus.update_ui_for_char.emit()
 	selection_highlight.update_selection_highlight()
 
 func handle_tile_conditions(tile: Vector3i, entity: Entity):

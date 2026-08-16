@@ -43,5 +43,7 @@ metadata/_custom_type_script = "uid://cpuyout31r1c5"
 script = ExtResource("9_t3g1j")
 name = "Medium Armour"
 id = "cond_medium_armour"
+description = "This creature takes less damage from physical attacks at the cost of slightly lowered vigour."
+icon = "res://art/interface/items/medium_shield.png"
 persistent = false
 effects = Array[ExtResource("1_c05hl")]([SubResource("Resource_ns0ch")])

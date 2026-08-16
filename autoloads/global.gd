@@ -24,6 +24,7 @@ var game_root = null
 @onready var all_info_window = preload("res://interface/all_char_info_window/all_char_info_window.tscn").instantiate()
 
 @onready var world_info = preload("res://interface/screen/world_info.tscn").instantiate()
+@onready var condition_viewer = preload("res://interface/screen/condition_viewer.tscn").instantiate()
 
 var active_window: Node = all_info_window
 var ui_log: RichTextLabel = null
@@ -153,6 +154,7 @@ func _ready() -> void:
 	add_child(all_info_window)
 	add_child(container_window)
 	add_child(world_info)
+	add_child(condition_viewer)
 	
 	all_info_window.visible = false
 	container_window.visible = false
