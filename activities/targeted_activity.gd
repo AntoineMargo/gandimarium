@@ -1,12 +1,31 @@
 extends Activity
 class_name TargetedActivity
 
+@export var projectile: PackedScene = null
+@export var projectile_config: Dictionary = {}
+@export var projectile_batch_mode: bool = true
 @export var number_of_targets: int = 1
 var number_of_targets_left = 0
 var cm = null
 var wm = null
 
 signal completed
+
+func fire_projectile(batch_ctx: ActivityContext) -> void:
+	var proj_instance = projectile.instantiate()
+	if projectile_config:
+		proj_instance.configure(projectile_config)
+
+	if hit_effect_scene:
+		proj_instance.hit_effect_scene = hit_effect_scene
+
+	var parent = user.get_parent()
+	parent.add_child(proj_instance)
+	
+	batch_ctx.projectile_instance = proj_instance
+	
+	proj_instance.launch_with_payload(batch_ctx)
+
 
 func _visual_pounce(targets: Array, ctx: Context):
 	if targets.size() == 1:
@@ -162,16 +181,19 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 	_visual_pounce(targets, self_ctx)
 
 	for target in targets:
+
 		var batch_payload: Array[Callable] = []
+		var affected_tiles = compute_affected_area(target)
+		
 		var batch_ctx = _build_context(shared_ctx, target, already_hit)
 		batch_ctx.delayed_calls = batch_payload
-		
-		var affected_tiles = compute_affected_area(target)
+		batch_ctx.affected_tiles = affected_tiles
+
 		var final_targets = []
 		
-		for point in affected_tiles:
-			for effect in effects_per_tile:
-				effect.apply(self, point)
+		#for point in affected_tiles:
+			#for effect in effects_per_tile:
+				#effect.apply(self, point)
 		
 		match affected_type:
 			Enums.Affected.ENTITIES:
@@ -227,7 +249,7 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 							batch_payload.append(delayed_call)
 					else:
 						# firing the projectile at that target
-						projectile.apply_context(frozen_ctx)
+						fire_projectile(frozen_ctx)
 						await user.get_tree().create_timer(0.05).timeout
 				elif shape == Enums.Shape.LINE:
 					var call_delay = compute_hit_delay(frozen_ctx.target, batch_ctx)
@@ -238,13 +260,16 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 				for delayed_call in frozen_ctx.delayed_calls:
 					delayed_call.call()
 
-		if projectile:
-			if shape == Enums.Shape.BURST and not batch_payload.is_empty():
+		if projectile and projectile_batch_mode:
+			if shape == Enums.Shape.BURST:
 				# firing a single projectile for all the calls (effects to targets) loaded into batch_ctx
-				projectile.apply_context(batch_ctx)
+				fire_projectile(batch_ctx)
 			elif shape == Enums.Shape.LINE:
 				# firing the "empty" projectile (calls are delayed separately and already)
-				projectile.apply_context(batch_ctx)
+				fire_projectile(batch_ctx)
+		else:
+			if hit_effect_scene:
+				fire_hit_effect(batch_ctx)
 
 	for effect in self_final_effects:
 		if effect is Effect:

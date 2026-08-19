@@ -40,6 +40,7 @@ metadata/_custom_type_script = "uid://otrxaros8gk8"
 
 [sub_resource type="Resource" id="Resource_bvycv"]
 script = ExtResource("8_b4ftq")
+projectile = SubResource("Resource_trqrd")
 name = "Energy Bolt (Fire)"
 id = "act_energy_bolt_fire"
 AP_cost = 2
@@ -47,7 +48,6 @@ defending_aptitude = 6
 reach = 20
 target_effects = Array[ExtResource("10_ygxgf")]([SubResource("Resource_sjvhk")])
 barrier_interaction = 1
-projectile = SubResource("Resource_trqrd")
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 
@@ -118,6 +118,7 @@ metadata/_custom_type_script = "uid://otrxaros8gk8"
 
 [sub_resource type="Resource" id="Resource_jxc23"]
 script = ExtResource("8_b4ftq")
+projectile = SubResource("Resource_a85al")
 name = "Energy Bolt (Frost)"
 id = "act_energy_bolt_frost"
 AP_cost = 2
@@ -125,7 +126,6 @@ defending_aptitude = 6
 reach = 20
 target_effects = Array[ExtResource("10_ygxgf")]([SubResource("Resource_uxxip")])
 barrier_interaction = 1
-projectile = SubResource("Resource_a85al")
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 
@@ -175,6 +175,7 @@ metadata/_custom_type_script = "uid://otrxaros8gk8"
 
 [sub_resource type="Resource" id="Resource_nq2fg"]
 script = ExtResource("8_b4ftq")
+projectile = SubResource("Resource_ifhm5")
 name = "Energy Bolt (Electricity)"
 id = "act_energy_bolt_electricity"
 AP_cost = 2
@@ -182,7 +183,6 @@ defending_aptitude = 6
 reach = 20
 target_effects = Array[ExtResource("10_ygxgf")]([SubResource("Resource_5kgx8")])
 barrier_interaction = 1
-projectile = SubResource("Resource_ifhm5")
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 

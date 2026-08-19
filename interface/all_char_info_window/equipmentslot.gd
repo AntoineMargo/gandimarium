@@ -20,6 +20,9 @@ func _drop_data(_position, item):
 	if not (item is Item):
 		return
 	
+	if not character.consume_ap(1):
+		return
+	
 	var old_item = get_item_from_slot()
 	
 	if old_item:

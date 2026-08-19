@@ -4,15 +4,11 @@
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_5lj23"]
 [ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="3_ssfdp"]
 [ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="4_8yu3l"]
-[ext_resource type="Script" uid="uid://bf6k264jb60p" path="res://effects/flash_tile_effect.gd" id="4_nx3th"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_0q8wj"]
+[ext_resource type="PackedScene" uid="uid://c4rhj2g0r2lc1" path="res://VFX/hit_effect.tscn" id="5_hc8oo"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_wo4ym"]
 [ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damage_effect.gd" id="7_0rc2u"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="8_an8fw"]
-
-[sub_resource type="Resource" id="Resource_ojvks"]
-script = ExtResource("4_nx3th")
-metadata/_custom_type_script = "uid://bf6k264jb60p"
 
 [sub_resource type="Resource" id="Resource_5dmfs"]
 script = ExtResource("7_0rc2u")
@@ -32,7 +28,10 @@ spread = 3
 target_effects = Array[ExtResource("6_wo4ym")]([SubResource("Resource_5dmfs")])
 targeting_type = 0
 barrier_interaction = 1
-effects_per_tile = Array[ExtResource("6_wo4ym")]([SubResource("Resource_ojvks")])
+hit_effect_scene = ExtResource("5_hc8oo")
+hit_effect_config = {
+"colour": Color(1, 0.33289325, 0.29197374, 1)
+}
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 
@@ -40,11 +39,6 @@ metadata/_custom_type_script = "uid://bxau8hir6ormb"
 script = ExtResource("1_ssfdp")
 activity = SubResource("Resource_gobpa")
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
-
-[sub_resource type="Resource" id="Resource_gkt2g"]
-script = ExtResource("4_nx3th")
-colour = Color(0.017513625, 0.2858383, 0.99999756, 1)
-metadata/_custom_type_script = "uid://bf6k264jb60p"
 
 [sub_resource type="Resource" id="Resource_v5jdu"]
 script = ExtResource("7_0rc2u")
@@ -64,7 +58,6 @@ spread = 3
 target_effects = Array[ExtResource("6_wo4ym")]([SubResource("Resource_v5jdu")])
 targeting_type = 0
 barrier_interaction = 1
-effects_per_tile = Array[ExtResource("6_wo4ym")]([SubResource("Resource_gkt2g")])
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 
@@ -72,11 +65,6 @@ metadata/_custom_type_script = "uid://bxau8hir6ormb"
 script = ExtResource("1_ssfdp")
 activity = SubResource("Resource_j0ybq")
 metadata/_custom_type_script = "uid://buw2ftcnsdqla"
-
-[sub_resource type="Resource" id="Resource_vlecg"]
-script = ExtResource("4_nx3th")
-colour = Color(1, 1, 1, 1)
-metadata/_custom_type_script = "uid://bf6k264jb60p"
 
 [sub_resource type="Resource" id="Resource_o6cqi"]
 script = ExtResource("7_0rc2u")
@@ -96,7 +84,6 @@ spread = 3
 target_effects = Array[ExtResource("6_wo4ym")]([SubResource("Resource_o6cqi")])
 targeting_type = 0
 barrier_interaction = 1
-effects_per_tile = Array[ExtResource("6_wo4ym")]([SubResource("Resource_vlecg")])
 is_spell = true
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 

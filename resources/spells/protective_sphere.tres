@@ -48,7 +48,6 @@ script = ExtResource("4_trmoo")
 name = "Protective Sphere"
 id = "act_protective_sphere"
 description = "You wrap a protective sphere around the target."
-icon = "res://art/icons/holosphere.svg"
 AP_cost = 2
 requires_concentration = true
 reach = 20

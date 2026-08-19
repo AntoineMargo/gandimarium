@@ -53,6 +53,10 @@
 [ext_resource type="Script" uid="uid://ckh556ahfopjg" path="res://conditions/area_condition.gd" id="50_mc5au"]
 [ext_resource type="Script" uid="uid://dwlhkak5s0ikl" path="res://effects/area_condition_general_effect.gd" id="51_apscq"]
 [ext_resource type="Script" uid="uid://62ayu2esarc8" path="res://effects/area_condition_tile_effect.gd" id="52_j5kdn"]
+[ext_resource type="PackedScene" uid="uid://c4rhj2g0r2lc1" path="res://VFX/hit_effect.tscn" id="53_3k8ai"]
+[ext_resource type="Texture2D" uid="uid://wd28jvjuhp1y" path="res://art/objects/mbolt.png" id="55_apscq"]
+[ext_resource type="PackedScene" uid="uid://bm40yjohcu4wn" path="res://VFX/projectile.tscn" id="56_s8bqb"]
+[ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damage_effect.gd" id="58_2mcys"]
 
 [sub_resource type="Resource" id="Resource_sf1yt"]
 script = ExtResource("36_hwbcj")
@@ -217,9 +221,51 @@ name = "Energy Field"
 activities = Array[ExtResource("26_v5jdu")]([SubResource("Resource_dlfef")])
 metadata/_custom_type_script = "uid://sg6vjj4j36i4"
 
+[sub_resource type="Resource" id="Resource_mhmpc"]
+script = ExtResource("27_j0ybq")
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_wv1fw"]
+script = ExtResource("58_2mcys")
+die_size = 4
+resistance = 2
+damage_pattern = SubResource("Resource_mhmpc")
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_fvefn"]
+script = ExtResource("34_2mmfy")
+projectile = ExtResource("56_s8bqb")
+projectile_config = {
+"speed": 1000,
+"sprite": ExtResource("55_apscq")
+}
+name = "Fireball"
+id = "act_fireball"
+description = "You hurl a fiery bead that explodes at the targeted location, engulfing the entire surrounding area in flames."
+AP_cost = 2
+defending_aptitude = 2
+reach = 5
+spread = 4
+target_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_wv1fw")])
+targeting_type = 0
+hit_effect_scene = ExtResource("53_3k8ai")
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_kfk7w"]
+script = ExtResource("26_v5jdu")
+activity = SubResource("Resource_fvefn")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_3k8ai"]
+script = ExtResource("3_glfbk")
+name = "Fireball"
+activities = Array[ExtResource("26_v5jdu")]([SubResource("Resource_kfk7w")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
 [sub_resource type="Resource" id="Resource_wqd4r"]
 script = ExtResource("2_m11lv")
-spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk"), ExtResource("5_wqd4r"), ExtResource("6_rqpy1"), ExtResource("7_b2hvq"), ExtResource("8_u81v1"), ExtResource("9_frlgl"), ExtResource("10_eubeo"), ExtResource("11_j8ccw"), ExtResource("12_k724e"), ExtResource("13_j8ccw"), ExtResource("14_dva2d"), ExtResource("15_s1sgk"), ExtResource("21_2uh2x"), ExtResource("17_5dmfs"), ExtResource("18_gobpa"), ExtResource("19_smut8"), ExtResource("20_v5jdu"), ExtResource("21_j0ybq"), ExtResource("22_4ay3v"), ExtResource("23_dva2d"), ExtResource("24_a3m6j"), ExtResource("25_a3m6j"), ExtResource("26_xjtne"), ExtResource("27_y0xrv"), ExtResource("28_fnnw1"), ExtResource("29_k7lab"), SubResource("Resource_b8cdl"), SubResource("Resource_6rs1c")])
+spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk"), ExtResource("5_wqd4r"), ExtResource("6_rqpy1"), ExtResource("7_b2hvq"), ExtResource("8_u81v1"), ExtResource("9_frlgl"), ExtResource("10_eubeo"), ExtResource("11_j8ccw"), ExtResource("12_k724e"), ExtResource("13_j8ccw"), ExtResource("14_dva2d"), ExtResource("15_s1sgk"), ExtResource("21_2uh2x"), ExtResource("17_5dmfs"), ExtResource("18_gobpa"), ExtResource("19_smut8"), ExtResource("20_v5jdu"), ExtResource("21_j0ybq"), ExtResource("22_4ay3v"), ExtResource("23_dva2d"), ExtResource("24_a3m6j"), ExtResource("25_a3m6j"), ExtResource("26_xjtne"), ExtResource("27_y0xrv"), ExtResource("28_fnnw1"), ExtResource("29_k7lab"), SubResource("Resource_b8cdl"), SubResource("Resource_6rs1c"), SubResource("Resource_3k8ai")])
 metadata/_custom_type_script = "uid://2oaio4mh2bc8"
 
 [resource]

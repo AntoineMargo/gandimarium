@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_pxdml"]
 [ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="2_pxdml"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_yhf0u"]
 [ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="3_0i8jn"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_b7f1w"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="5_mhqyj"]
@@ -42,28 +43,13 @@ metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
 script = ExtResource("3_0i8jn")
 name = "True Strike"
 id = "act_true_strike"
-description = null
-icon = null
-tags = null
 AP_cost = 2
-PP_cost = null
-EP_cost = null
 requires_concentration = true
-reach = null
-spread = null
-delay = null
 target_effects = Array[ExtResource("5_mhqyj")]([SubResource("Resource_4ay3v")])
-targeting_type = null
-affected_type = null
-shape = null
-can_only_hit_once = null
-projectile_batch_mode = null
 requires_roll = false
-is_invisible = null
 is_spell = true
 per_round_drain = true
 builds_condition = true
-attack_types = null
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 
 [sub_resource type="Resource" id="Resource_fm8u5"]

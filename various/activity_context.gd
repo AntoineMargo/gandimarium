@@ -12,6 +12,8 @@ var target_roll: int = 0
 var result: int = 0
 #var degree: int = 0
 
+var affected_tiles: Array[Vector3i] = []
+
 var projectile_instance: Projectile = null
 
 var shared_context: SharedContext = null

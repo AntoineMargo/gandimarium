@@ -63,6 +63,7 @@ metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
 
 [sub_resource type="Resource" id="Resource_eabbd"]
 script = ExtResource("12_bfjqt")
+projectile = SubResource("Resource_14yg4")
 name = "Throw Brilliant Javelin"
 id = "act_throw_brilliant_javelin"
 attacking_aptitude = 4
@@ -71,7 +72,6 @@ reach = 15
 target_effects = Array[ExtResource("13_mhgsp")]([SubResource("Resource_ure84")])
 shape = 2
 barrier_interaction = 1
-projectile = SubResource("Resource_14yg4")
 attack_types = Array[ExtResource("3_vbjuh")]([ExtResource("4_csxcd")])
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 

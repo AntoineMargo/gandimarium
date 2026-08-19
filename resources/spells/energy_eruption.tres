@@ -8,12 +8,7 @@
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_lm5i4"]
 [ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damage_effect.gd" id="7_cfvy8"]
 [ext_resource type="Script" uid="uid://3t3dwtov2mvp" path="res://filters/not_self.gd" id="8_3db2a"]
-[ext_resource type="Script" uid="uid://bf6k264jb60p" path="res://effects/flash_tile_effect.gd" id="8_ojvks"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="9_ifdlo"]
-
-[sub_resource type="Resource" id="Resource_lxgyi"]
-script = ExtResource("8_ojvks")
-metadata/_custom_type_script = "uid://bf6k264jb60p"
 
 [sub_resource type="Resource" id="Resource_uu5mt"]
 script = ExtResource("2_pat13")
@@ -40,7 +35,6 @@ reach = 0
 spread = 6
 target_filters = Array[ExtResource("5_yd0g0")]([SubResource("Resource_4ay3v")])
 target_effects = Array[ExtResource("6_lm5i4")]([SubResource("Resource_ynu1s")])
-effects_per_tile = Array[ExtResource("6_lm5i4")]([SubResource("Resource_lxgyi")])
 is_spell = true
 metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
 

@@ -34,10 +34,10 @@ class_name Activity
 @export var barrier_interaction: Enums.BarrierInteraction = Enums.BarrierInteraction.IGNORE
 @export var can_only_hit_once: bool = true
 
-@export var effects_per_tile: Array[Effect] = []
+#@export var effects_per_tile: Array[Effect] = []
 @export var cast_scene: PackedScene = null
-@export var projectile: ProjVFXEffect = null
-@export var projectile_batch_mode: bool = true
+@export var hit_effect_scene: PackedScene = null
+@export var hit_effect_config: Dictionary = {}
 
 @export var requires_crisis: bool = false
 @export var requires_roll: bool = true
@@ -60,6 +60,26 @@ var target_points: Array[Vector3i] = []
 var target_entities: Array = []
 
 var imported_context: ActivityContext = null
+
+
+func fire_hit_effect(ctx: ActivityContext) -> void:
+	var wm = Global.world_manager
+	var target_pos: Vector3i
+	if ctx.target is Vector3i:
+		target_pos = ctx.target
+	else:
+		target_pos = ctx.target.get_coords()
+		
+	var pixel_pos: Vector2 = wm.tile_to_pixels(target_pos)
+
+	var fx = hit_effect_scene.instantiate()
+	
+	if fx.has_method("configure"):
+		fx.configure(hit_effect_config)
+	fx.context = ctx
+	fx.global_position = pixel_pos
+	var parent = user.get_parent()
+	parent.add_child(fx)
 
 
 func _setup_concentration():
@@ -87,7 +107,7 @@ func _import_context():
 		if imported_context.concentration:
 			concentration = imported_context.concentration
 
-func _build_context(shared_ctx: SharedContext = null, target = null, already_hit = null):
+func _build_context(shared_ctx: SharedContext = null, target = null, already_hit = null) -> ActivityContext:
 	var ctx = ActivityContext.new()
 	if shared_ctx:
 		ctx.shared_context = shared_ctx

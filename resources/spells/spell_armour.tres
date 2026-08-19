@@ -50,7 +50,6 @@ script = ExtResource("4_cp1ca")
 name = "Spell Armour"
 id = "act_spell_armour"
 description = "You conjure a complete suit of shimmering armour out of the aether."
-icon = "res://art/icons/items/chest-armor.svg"
 AP_cost = 3
 requires_concentration = true
 reach_requires_LOS = false

@@ -4,30 +4,41 @@ class_name Projectile
 signal hit
 signal finished
 
-@export var sprite: String
-@export var hit_effect_scene: PackedScene
-@export var speed: float = 300.0
+@export var sprite: Texture2D
+@export var colour: Color = Color(1.0, 1.0, 1.0, 1.0)
+@export var speed: float = 800.0
 
+var hit_effect_scene: PackedScene = null
 var target = null
 var payload: Array[Callable] = []
 var activity_already_hit = null
 var proj_already_hit: Dictionary = {}
 var prev_position: Vector2
 
-func setup(config: ProjectileConfig):
-	$Sprite2D.texture = config.texture
-	$Sprite2D.modulate = config.color
-	hit_effect_scene = config.hit_effect_scene
-	speed = config.speed
+func configure(config: Dictionary) -> void:
+	if config.has("sprite"):
+		sprite = config["sprite"]
 
-func spawn_hit_effect(pos):
+	if config.has("colour"):
+		colour = config["colour"]
+
+	if config.has("speed"):
+		speed = config["speed"]
+		
+	$Sprite2D.texture = sprite
+	$Sprite2D.modulate = colour
+
+func spawn_hit_effect(pos, ctx: ActivityContext):
 	if hit_effect_scene:
 		var fx = hit_effect_scene.instantiate()
+		fx.context = ctx
 		fx.global_position = pos
 		get_parent().add_child(fx)
 
-func _on_hit(target_pos):
-	spawn_hit_effect(target_pos)
+func _on_hit(target_pos, ctx: ActivityContext):
+	var wm = Global.world_manager
+	var pixel_pos: Vector2 = wm.tile_to_pixels(target_pos)
+	spawn_hit_effect(pixel_pos, ctx)
 
 	if has_node("GPUParticles2D"):
 		$GPUParticles2D.emitting = false
@@ -54,16 +65,13 @@ func launch_with_payload(ctx: ActivityContext):
 	if ctx.already_hit != null:
 		activity_already_hit = ctx.already_hit
 	if target is Entity:
-		launch(ctx.user.get_coords(), ctx.target.get_coords())
+		launch(ctx.user.get_coords(), ctx.target.get_coords(), ctx)
 	elif target is Barrier:
-		launch(ctx.user.get_coords(), ctx.target.parent_creature.get_coords())
-		#var original_target = ctx.target.original_target
-		#var original_coords = original_target.get_coords()
-		#launch(ctx.user.get_coords(), ctx.target.original_target.get_coords())
+		launch(ctx.user.get_coords(), ctx.target.parent_creature.get_coords(), ctx)
 	else:
-		launch(ctx.user.get_coords(), ctx.target)
+		launch(ctx.user.get_coords(), ctx.target, ctx)
 
-func launch(from_tile: Vector3i, to_tile: Vector3i):
+func launch(from_tile: Vector3i, to_tile: Vector3i, ctx: ActivityContext):
 	var wm = Global.world_manager
 	var from_pos: Vector2 = wm.tile_to_pixels(from_tile)
 	var to_pos: Vector2 = wm.tile_to_pixels(to_tile)
@@ -78,7 +86,7 @@ func launch(from_tile: Vector3i, to_tile: Vector3i):
 	tween.tween_property(self, "global_position", to_pos, duration)\
 		.set_trans(Tween.TRANS_LINEAR)
 
-	tween.finished.connect(_on_hit.bind(to_tile))
+	tween.finished.connect(_on_hit.bind(to_tile, ctx))
 
 func _ready() -> void:
 	pass
