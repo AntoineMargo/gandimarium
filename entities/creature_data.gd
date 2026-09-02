@@ -4,7 +4,9 @@ class_name CreatureData
 @export var uid: int = 0
 
 @export var name: String
-@export var level: int = 1
+@export_range(0, 24) var level: int = 1
+@export_range(0, 24) var applied_level: int = 0
+@export_range(0, 1000) var experience: int = 0
 @export var species: String = ""
 @export var major_archetype: Archetype = null
 @export var minor_archetype: Archetype = null
@@ -32,6 +34,8 @@ class_name CreatureData
 @export var activity_modifiers: Array[Modifier] = []
 @export var concentrations: Array[Concentration] = []
 @export var barriers: Array[Barrier] = []
+
+@export var talent_pool: Array[Talent] = []
 
 # map ID String, Array of int UIDs
 @export var owned_rooms: Dictionary[String, Array] = {}

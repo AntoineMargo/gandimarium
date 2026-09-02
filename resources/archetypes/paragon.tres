@@ -1,18 +1,11 @@
 [gd_resource type="Resource" script_class="Archetype" format=3 uid="uid://c00teqpc3o5li"]
 
 [ext_resource type="Script" uid="uid://br3qyd4n7fm2f" path="res://archetypes/archetype.gd" id="1_r5j56"]
-[ext_resource type="Script" uid="uid://dnii5080nqn0s" path="res://archetypes/talent_entry.gd" id="2_swb77"]
-[ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="3_r4bqb"]
-[ext_resource type="Resource" uid="uid://baywu0uay66gw" path="res://resources/talents/paragon_vigour.tres" id="5_frxd8"]
-[ext_resource type="Resource" uid="uid://e8j7xmpe3hr8" path="res://resources/talents/forceful_strike.tres" id="10_ecqxw"]
-
-[sub_resource type="Resource" id="Resource_c1k8j"]
-script = ExtResource("2_swb77")
-auto_talents = Array[ExtResource("3_r4bqb")]([ExtResource("10_ecqxw"), ExtResource("5_frxd8")])
-metadata/_custom_type_script = "uid://dnii5080nqn0s"
+[ext_resource type="Script" uid="uid://dnii5080nqn0s" path="res://archetypes/archetype_entry.gd" id="2_swb77"]
+[ext_resource type="Resource" uid="uid://ku1etcyxgyiw" path="res://resources/archetype_entries/paragon_0.tres" id="3_tyhxu"]
 
 [resource]
 script = ExtResource("1_r5j56")
 type = 5
-talents_by_level = Array[ExtResource("2_swb77")]([SubResource("Resource_c1k8j")])
+talents_by_level = Array[ExtResource("2_swb77")]([ExtResource("3_tyhxu")])
 metadata/_custom_type_script = "uid://br3qyd4n7fm2f"

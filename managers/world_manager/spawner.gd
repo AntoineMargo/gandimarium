@@ -49,13 +49,19 @@ func spawn_character(data_file: String, coords: Vector3i, routine: String = "", 
 	wm.add_to_tile(character, coords)
 	wm.layers[wm.current_level]["path_map"].set_point_solid(layer_coords, true)
 
-	character.build_stats()
+	character.initialize_character()
 	wm.current_world.register_creature(character)
 	
 	var weapons = character.get_weapons()
 	for weapon in weapons:
 		if weapon:
 			weapon.initialize_attack_modes()
+
+	if not char_data.player_controlled:
+		character.start_mutation()
+		for i in range(char_data.applied_level, char_data.level):
+			character.level_up()
+		character.end_mutation()
 
 	if routine:
 		var char_routine: LocalRoutine = load(routine)

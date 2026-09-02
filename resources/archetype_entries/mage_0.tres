@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="TalentEntry" format=3 uid="uid://cgm8pkap01bgm"]
+
+[ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="1_pj7mi"]
+[ext_resource type="Resource" uid="uid://rn0a3hnwu3o1" path="res://resources/talents/mage_casting.tres" id="2_t2qgc"]
+[ext_resource type="Resource" uid="uid://152l5p4f6j5l" path="res://resources/talents/scholastic_mage_spells.tres" id="3_sge8y"]
+[ext_resource type="Script" uid="uid://dnii5080nqn0s" path="res://archetypes/archetype_entry.gd" id="4_6uegr"]
+
+[resource]
+script = ExtResource("4_6uegr")
+level = 1
+auto_talents = Array[ExtResource("1_pj7mi")]([ExtResource("2_t2qgc"), ExtResource("3_sge8y")])
+metadata/_custom_type_script = "uid://dnii5080nqn0s"

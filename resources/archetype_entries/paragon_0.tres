@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TalentEntry" format=3 uid="uid://ku1etcyxgyiw"]
+
+[ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="1_ukakw"]
+[ext_resource type="Resource" uid="uid://e8j7xmpe3hr8" path="res://resources/talents/forceful_strike.tres" id="2_aq6l2"]
+[ext_resource type="Resource" uid="uid://baywu0uay66gw" path="res://resources/talents/paragon_vigour.tres" id="3_ui517"]
+[ext_resource type="Script" uid="uid://dnii5080nqn0s" path="res://archetypes/archetype_entry.gd" id="4_eop38"]
+
+[resource]
+script = ExtResource("4_eop38")
+auto_talents = Array[ExtResource("1_ukakw")]([ExtResource("2_aq6l2"), ExtResource("3_ui517")])
+metadata/_custom_type_script = "uid://dnii5080nqn0s"

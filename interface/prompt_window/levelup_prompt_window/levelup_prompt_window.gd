@@ -1,0 +1,96 @@
+extends PromptWindow
+class_name TalentPromptWindow
+
+signal finished(selected_talents: Array[Talent])
+
+var choice_talents: Array[Talent] = []
+var regular_talent: Talent = null
+var selected_talents: Array[Talent] = []
+
+@onready var done_button = $Control/ColorRect/VBoxContainer/HBoxContainer/Button
+
+func _on_exit_pressed() -> void:
+	super()
+	finished.emit([])
+
+func _on_choice_talent_selected(talent: Talent, choice_index: int) -> void:
+	choice_talents[choice_index] = talent
+
+func _on_regular_talent_selected(talent: Talent) -> void:
+	regular_talent = talent
+
+func add_choice_talent_button(talent: Talent, button_group: ButtonGroup, index: int) -> void:
+	var button = Button.new()
+	button.text = talent.name
+	button.toggle_mode = true
+	button.button_group = button_group
+
+	button.pressed.connect(_on_choice_talent_selected.bind(talent, index))
+
+	list.add_child(button)
+
+func add_regular_talent_button(talent: Talent, button_group: ButtonGroup) -> void:
+	var button = Button.new()
+	button.text = talent.name
+	button.toggle_mode = true
+	button.button_group = button_group
+
+	button.pressed.connect(_on_regular_talent_selected.bind(talent))
+
+	list.add_child(button)
+
+func _update_for_char(creature: Creature):
+	if not creature:
+		return
+	for child in list.get_children():
+		child.queue_free()
+
+	if creature.data.major_archetype:
+		for entry in creature.data.major_archetype.talents_by_level:
+			if entry.level == creature.data.applied_level:
+
+				choice_talents.resize(entry.choice_talents.size())
+				for i in entry.choice_talents.size():
+					var choice = entry.choice_talents[i]
+
+					var choice_talent_button_group = ButtonGroup.new()
+
+					var choice_label = Label.new()
+					choice_label.text = "Choose among the following:"
+					list.add_child(choice_label)
+
+					for talent in choice.talents:
+						add_choice_talent_button(talent, choice_talent_button_group, i)
+
+				var talent_button_group = ButtonGroup.new()
+				var regular_talent_label = Label.new()
+				regular_talent_label.text = "Choose a talent for this level:"
+				list.add_child(regular_talent_label)
+				
+				for talent in creature.data.talent_pool:
+					add_regular_talent_button(talent, talent_button_group)
+
+func finish() -> void:
+	#if not regular_talent:
+		#return
+#
+	#for talent in choice_talents:
+		#if not talent:
+			#return
+	
+	selected_talents.append_array(choice_talents)
+	selected_talents.append(regular_talent)
+	finished.emit(selected_talents)
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	choice_talents.clear()
+	regular_talent = null
+	selected_talents.clear()
+	done_button.pressed.connect(finish)
+	super()
+	_update_for_char(Global.selected_char)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta: float) -> void:
+	pass

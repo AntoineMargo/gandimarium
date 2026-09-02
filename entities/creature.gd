@@ -89,17 +89,38 @@ func process_barriers(ctx: ActivityContext) -> void:
 		if barrier.handle_activity(ctx):
 			return
 
-func add_talent(talent: Talent):
+func add_talent_to_pool(talent: Talent) -> void:
+	if not talent:
+		return
+
+	for existing_talent in data.talents:
+		if talent.name == existing_talent.name:
+				return
+	data.talent_pool.append(talent)
+
+
+func remove_talent_from_pool(talent: Talent):
+	for existing_talent in data.talent_pool:
+		if existing_talent.name == talent.name:
+			data.talent_pool.erase(existing_talent)
+
+
+func add_talent(talent: Talent, apply: bool = true) -> void:
+	if not talent:
+		return
+
 	for weaker_talent in talent.supplanted:
 		if has_talent_named(weaker_talent.name):
 			remove_talent(weaker_talent)
 	for existing_talent in data.talents:
+		if talent.name == existing_talent.name:
+				return
 		for weaker_talent in existing_talent.supplanted:
 			if talent.name == weaker_talent.name:
 				return
 	data.talents.append(talent)
-	talent.initialize(self)
-	#stats_dirty = true
+	if apply:
+		talent.initialize(self)
 
 func remove_talent(talent: Talent):
 	start_mutation()
@@ -193,23 +214,6 @@ func remove_condition(condition: Condition):
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()
 
-#func remove_condition(condition: Condition):
-	#for effect in condition.effects:
-		#if effect.has_method("remove_context"):
-			#var ctx = Context.new()
-			#ctx.user = self
-			#ctx.origin = self
-			#ctx.target = self
-			#ctx.condition = condition
-			#effect.remove_context(ctx)
-		#else:
-			#effect.remove(self, self, -1)
-	#for existing_cond in data.conditions:
-		#if existing_cond.id == condition.id:
-			#data.conditions.erase(existing_cond)
-	#if Global.selected_char == self:
-		#SignalBus.update_inventory.emit()
-		#SignalBus.update_character_info.emit()
 
 func add_item_conditions(item):
 	if not item or not item.conditions:
@@ -914,9 +918,12 @@ func set_coords(new_coords: Vector3i):
 	data.tile_y = new_coords.y
 	data.tile_z = new_coords.z
 
+
 func get_current_spell_rank_table():
 	@warning_ignore("integer_division")
-	return data.casting_table.cost_table[(data.level - 1) / 2]
+	var table_index: int = (data.applied_level - 1) / 2
+	return data.casting_table.cost_table[table_index]
+
 
 func set_current_spell_rank(new_value: int) -> void:
 	data.current_spell_rank = new_value
@@ -935,26 +942,81 @@ func get_max_spell_rank() -> int:
 func get_current_spell_cost() -> int:
 	return get_current_spell_rank_table().spell_costs[data.current_spell_rank]
 
-## This initalises the base stats, meant to be used on spawn and at every level-up, and not accessed from outside the class
-func build_stats():
+func level_up() -> void:
+	if data.level <= data.applied_level:
+		return
+
+	data.applied_level += 1
+
+	var level_entry: ArchetypeEntry = null
+	if data.major_archetype:
+		for entry in data.major_archetype.talents_by_level:
+			if entry.level == data.applied_level:
+				level_entry = entry
+
+	if level_entry:
+		for talent in level_entry.talents_to_add_to_pool:
+			add_talent_to_pool(talent)
+
+		if data.player_controlled:
+			var prompt_scene = preload("res://interface/prompt_window/levelup_prompt_window/levelup_prompt_window.tscn")
+			var prompt_instance = prompt_scene.instantiate()
+			Global.add_child(prompt_instance)
+			var selected_talents = await prompt_instance.finished
+
+			if selected_talents.is_empty():
+				data.applied_level -= 1
+				return
+
+			for talent in selected_talents:
+				add_talent(talent)
+			prompt_instance.queue_free()
+
+		else:
+			for choice in level_entry.choice_talents:
+				var size = choice.talents.size()
+				var selected_talent = choice.talents[randi_range(0, size - 1)]
+				add_talent(selected_talent)
+
+		for talent in level_entry.auto_talents:
+			add_talent(talent)
+
+	SignalBus.message.emit("You have leveled up to %d!" % [data.applied_level])
+	build_stats()
+
+
+## This initalises the base stats, meant to be used on spawn
+func initialize_character() -> void:
 	if not data.has_been_initialized:
 		if data.uid == 0:
 			data.uid = Global.state_manager.next_uid(Enums.UIDType.CREATURE)
 
-		_duplicate_runtime_resources()
 		data.derived_stats = DerivedStats.new()
 
-		data.relationships  = _ensure_resource(data.relationships, func(): return Relationships.new())
 		data.attributes     = _ensure_resource(data.attributes, func(): return Attributes.new())
-		data.skills         =_ensure_resource(data.skills, func(): return Skills.new())
+		data.skills         = _ensure_resource(data.skills, func(): return Skills.new())
 		data.base_stats     = _ensure_resource(data.base_stats, func(): return BaseStats.new())
 		data.inventory      = _ensure_resource(data.inventory, func(): return Inventory.new())
 		data.equipment      = _ensure_resource(data.equipment, func(): return Equipment.new())
 		data.resistances    = _ensure_resource(data.resistances, func(): return Resistances.new())
+		data.relationships  = _ensure_resource(data.relationships, func(): return Relationships.new())
 		data.personality    = _ensure_resource(data.personality, func(): return Personality.new())
 
+		# Should be folded into Archetype's init function
+		if data.major_archetype and data.major_archetype.type == Enums.Archetype.SCHOLASTIC_MAGE:
+			data.max_spells_ready = data.attributes.acuity
+		else:
+			data.max_spells_ready = 99999
+
+		data.has_been_initialized = true
+		print("character file ready.")
+		build_stats()
+
+
+## This builds the stats based on applied level
+func build_stats():
 		@warning_ignore("integer_division")
-		data.base_stats.level_mod = max(1, data.level / 2)
+		data.base_stats.level_mod = max(0, data.applied_level / 2)
 		data.base_stats.agility = data.attributes.dexterity + data.base_stats.level_mod
 		data.base_stats.will = data.attributes.resolve + data.base_stats.level_mod
 		data.base_stats.sense = data.attributes.acuity + data.base_stats.level_mod
@@ -982,7 +1044,12 @@ func build_stats():
 
 		data.base_stats.max_hp = (data.attributes.brawn * 12) + (data.attributes.brawn * data.base_stats.level_mod)
 		data.current_hp = data.base_stats.max_hp
-		data.base_stats.max_pp = data.attributes.resolve * data.base_stats.level_mod
+
+		@warning_ignore("integer_division")
+		data.base_stats.max_pp = (data.attributes.brawn * 2) + (data.attributes.brawn * data.base_stats.level_mod)/2
+		#data.base_stats.max_pp = (data.attributes.resolve * 6) + (data.attributes.resolve * data.base_stats.level_mod)/2
+		#data.base_stats.max_pp = (data.attributes.resolve * 2) + (data.attributes.resolve * data.base_stats.level_mod)
+		#data.base_stats.max_pp = data.attributes.resolve * data.base_stats.level_mod
 		data.current_pp = data.base_stats.max_pp
 		data.base_stats.max_ep = (data.attributes.brawn * 12) + (data.attributes.brawn * data.base_stats.level_mod)
 		data.current_ep = data.base_stats.max_ep
@@ -991,31 +1058,13 @@ func build_stats():
 		
 		data.current_ap = data.base_stats.max_mp
 
-		if data.major_archetype and data.major_archetype.type == Enums.Archetype.SCHOLASTIC_MAGE:
-			data.max_spells_ready = data.attributes.acuity
-		else:
-			data.max_spells_ready = 999
-
-		data.talents.clear()
-		if data.major_archetype:
-			for entry in data.major_archetype.talents_by_level:
-				if entry.level <= data.level and entry.auto_talents:
-					for talent in entry.auto_talents:
-						add_talent(talent)
-		if data.minor_archetype:
-			for entry in data.minor_archetype.talents_by_level:
-				if entry.level <= data.level and entry.auto_talents:
-					for talent in entry.auto_talents:
-						add_talent(talent)
-
-		if data.casting_table:
-			set_max_spell_rank()
-
 		data.spells_ready.clear()
 		if data.major_archetype and data.major_archetype.type == Enums.Archetype.ASPECTED_MAGE:
 			for spell in data.spells_available:
 				add_ready_spell(spell)
 
+		if data.casting_table:
+			set_max_spell_rank()
 
 		var spell_rank: int = get_max_spell_rank()
 		if !data.player_controlled and (spell_rank > 1):
@@ -1023,9 +1072,9 @@ func build_stats():
 		else:
 			set_current_spell_rank(spell_rank)
 
-		data.has_been_initialized = true
-		update_stats()
-		print("character file ready.")
+		if mutation_depth == 0:
+			update_stats()
+
 
 ## This builds the final usable stats; to be used directly for activities and from outside the class
 func update_stats():
@@ -1095,10 +1144,15 @@ func update_stats():
 	
 	data.targetable = true
 
+	var talents = data.talents
+	for talent in talents:
+		if talent.re_apply_effects:
+			talent.initialize(self)
+
 	var conditions = data.conditions
 	for i in range(conditions.size() - 1, -1, -1):
 		var condition = conditions[i]
-		if condition.persistent:
+		if condition.persistent: # item conditions are not persistent as they're removed and re-applied
 			if condition.re_apply_effects:
 				condition.apply_effects()
 		else:
@@ -1278,37 +1332,6 @@ func debug_outline():
 	print("debugging outline")
 	$Mover/Outline.toggle_outline()
 
-func _duplicate_runtime_resources():
-	if data.attributes:
-		data.attributes = data.attributes.duplicate(true)
-	else:
-		data.attributes = Attributes.new()
-
-	if data.base_stats:
-		data.base_stats = data.base_stats.duplicate(true)
-	else:
-		data.base_stats = BaseStats.new()
-
-	if data.inventory:
-		data.inventory = data.inventory.duplicate(true)
-	else:
-		data.inventory = Inventory.new()
-
-	if data.equipment:
-		data.equipment = data.equipment.duplicate(true)
-	else:
-		data.equipment = Equipment.new()
-
-	if data.resistances:
-		data.resistances = data.resistances.duplicate(true)
-	else:
-		data.resistances = Resistances.new()
-
-	if data.relationships:
-		data.relationships = data.relationships.duplicate(true)
-	else:
-		data.relationships = Relationships.new()
-
 func decay_needs(n):
 	data.hunger -= 200 * n
 	if data.hunger < 0:
@@ -1396,13 +1419,6 @@ func move_linked_area_conditions(reaction_event: ReactionEvent) -> void:
 	if reaction_event.context.user == self and reaction_event.type == Enums.EventType.MOVEMENT:
 		for area_cond in data.following_area_conditions:
 			area_cond.move_area(reaction_event)
-
-
-#func move_linked_area_conditions(reaction_event: ReactionEvent) -> void:
-	#if reaction_event.context.user == self and reaction_event.type == Enums.EventType.MOVEMENT:
-		#for concentration in data.concentrations:
-			#if concentration.area_follows_target:
-				#concentration.move_area(reaction_event)
 
 
 #func handle_conditions_applied_by_area_cond(reaction_event: ReactionEvent) -> void:

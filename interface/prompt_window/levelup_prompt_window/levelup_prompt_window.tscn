@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://5wjgtcn42atu"]
+
+[ext_resource type="PackedScene" uid="uid://gbe5i06dkqh1" path="res://interface/prompt_window/prompt_window.tscn" id="1_6xnb1"]
+[ext_resource type="Script" uid="uid://bidgd17gt8m8q" path="res://interface/prompt_window/levelup_prompt_window/levelup_prompt_window.gd" id="2_msjsa"]
+
+[node name="LevelupPromptWindow" unique_id=22622007 instance=ExtResource("1_6xnb1")]
+script = ExtResource("2_msjsa")
+
+[node name="Label" parent="Control/ColorRect/VBoxContainer/TopBar/StatusBar" parent_id_path=PackedInt32Array(1521828588) index="0" unique_id=1587622483]
+text = "Level up!"
+
+[node name="List" parent="Control/ColorRect/VBoxContainer/ScrollContainer" parent_id_path=PackedInt32Array(2017689350) index="0" unique_id=917930452]
+unique_name_in_owner = true

@@ -208,14 +208,19 @@ func BasicControls():
 		SignalBus.message.emit("Current ap: %d" % current_ap)
 
 	if Input.is_action_just_pressed("V"):
-		SignalBus.message.emit("Number of active creatures: %d" % Global.ai_manager.active_number)
+		if not Global.selected_char:
+			return
+		if Global.selected_char.data.level == Global.selected_char.data.applied_level:
+			if Global.selected_char.data.level < 24:
+				Global.selected_char.data.level += 1
+		Global.selected_char.level_up()
 
 	if Input.is_action_just_pressed("Backspace"):
 		SignalBus.request_toggle_crisis.emit(Global.focus_char)
 
 	if Input.is_action_just_pressed("Enter"):
 			SignalBus.end_crisis_turn.emit()
-			
+
 	if Input.is_action_just_pressed("S"):
 		if not Global.selected_char:
 			return
