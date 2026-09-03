@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="Talent" format=3 uid="uid://3waoc6usdy18"]
+
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_1ay42"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_nv6jm"]
+[ext_resource type="Script" uid="uid://18l4gn7hleqe" path="res://various/abstract_stat_entry_container.gd" id="2_wy78l"]
+[ext_resource type="Script" uid="uid://cp1x0k5fsy1j5" path="res://various/stat_points_entry.gd" id="3_3q11p"]
+[ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="3_6lvfu"]
+[ext_resource type="Script" uid="uid://5c3jlvd4s3cf" path="res://various/stat_entry_container.gd" id="4_vdc24"]
+[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="5_acca8"]
+
+[sub_resource type="Resource" id="Resource_eokmw"]
+script = ExtResource("3_3q11p")
+stat = 3
+amount = 1.0
+metadata/_custom_type_script = "uid://cp1x0k5fsy1j5"
+
+[sub_resource type="Resource" id="Resource_nv6jm"]
+script = ExtResource("4_vdc24")
+entry = SubResource("Resource_eokmw")
+metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
+
+[sub_resource type="Resource" id="Resource_1ay42"]
+script = ExtResource("5_acca8")
+entry_containers = Array[ExtResource("2_wy78l")]([SubResource("Resource_nv6jm")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[resource]
+script = ExtResource("3_6lvfu")
+name = "Swift"
+id = "talent_swift"
+description = "This creature is faster than it looks."
+effects = Array[ExtResource("1_1ay42")]([SubResource("Resource_1ay42")])
+metadata/_custom_type_script = "uid://c5ijx7qo7jak"

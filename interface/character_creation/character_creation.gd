@@ -69,7 +69,6 @@ func _ready() -> void:
 	
 	data.relationships = Relationships.new()
 	data.attributes = Attributes.new()
-	data.skills = Skills.new()
 	data.base_stats = BaseStats.new()
 	data.inventory = load("res://resources/creatures/inventory/basic_inventory.tres")
 	data.equipment = load("res://resources/creatures/equipment/basic_loadout.tres")

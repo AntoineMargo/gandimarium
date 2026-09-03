@@ -2,6 +2,7 @@ extends Resource
 class_name Talent
 
 @export var name: String = "placeholder"
+@export var id: String = "placeholder"
 @export var description: String = "This is a placeholder description."
 @export var icon: String
 @export var filters: Array[Filter] = []

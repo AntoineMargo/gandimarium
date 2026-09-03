@@ -3,29 +3,31 @@ class_name BaseStats
 
 var level_mod: int = 0
 
-# aptitudes
-@export var sense: int = 0
-@export var stamina: int = 0
-@export var agility: int = 0
-@export var will: int = 0
-@export var offence: int = 0
-@export var melee_defence: int = 0
-@export var ranged_defence: int = 0
+@export var aptitudes: Dictionary = {
+	Enums.Aptitude.SENSE: 0,
+	Enums.Aptitude.STAMINA: 0,
+	Enums.Aptitude.AGILITY: 0,
+	Enums.Aptitude.WILL: 0,
+	Enums.Aptitude.OFFENCE: 0,
+	Enums.Aptitude.MELEE_DEFENCE: 0,
+	Enums.Aptitude.RANGED_DEFENCE: 0
+}
 
-# skills
-@export var arcane: int = 0
-@export var artistry: int = 0
-@export var society: int = 0
-@export var craftsmanship: int = 0
-@export var deception: int = 0
-@export var history: int = 0
-@export var linguistics: int = 0
-@export var mechanics: int = 0
-@export var medicine: int = 0
-@export var nature: int = 0
-@export var persuasion: int = 0
-@export var thievery: int = 0
-@export var stealth: int = 0
+@export var skills: Dictionary = {
+	Enums.Skill.ARCANE: 0,
+	Enums.Skill.ARTISTRY: 0,
+	Enums.Skill.SOCIETY: 0,
+	Enums.Skill.CRAFTSMANSHIP: 0,
+	Enums.Skill.DECEPTION: 0,
+	Enums.Skill.HISTORY: 0,
+	Enums.Skill.LINGUISTICS: 0,
+	Enums.Skill.MECHANICS: 0,
+	Enums.Skill.MEDICINE: 0,
+	Enums.Skill.NATURE: 0,
+	Enums.Skill.PERSUASION: 0,
+	Enums.Skill.THIEVERY: 0,
+	Enums.Skill.STEALTH: 0
+}
 
 @export var size: String = ""
 @export var strength_bonus: int = 0
@@ -37,3 +39,15 @@ var level_mod: int = 0
 @export var max_mp: int = 0
 @export var max_ap: int = 3
 @export var max_reactions: int = 1
+
+func get_aptitude(type: Enums.Aptitude) -> int:
+	return aptitudes.get(type, 0)
+
+func set_aptitude(type: Enums.Aptitude, value: int) -> void:
+	aptitudes[type] = value
+
+func get_skill(type: Enums.Skill) -> int:
+	return skills.get(type, 0)
+
+func set_skill(type: Enums.Skill, value: int) -> void:
+	skills[type] = value

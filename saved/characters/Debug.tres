@@ -9,17 +9,17 @@
 [ext_resource type="Script" path="res://abilities/concentration.gd" id="7_l67qo"]
 [ext_resource type="Script" path="res://conditions/condition.gd" id="8_r5xsn"]
 [ext_resource type="Resource" path="res://resources/creatures/equipment/basic_loadout.tres" id="9_s0cxt"]
-[ext_resource type="Resource" path="res://resources/creatures/inventory/basic_inventory.tres" id="10_ivy2g"]
-[ext_resource type="Resource" path="res://resources/archetypes/mage.tres" id="11_q51xt"]
-[ext_resource type="Script" path="res://entities/personality.gd" id="12_auotn"]
-[ext_resource type="Script" path="res://activities/reaction.gd" id="13_30uu3"]
-[ext_resource type="Script" path="res://various/affiliation_entry.gd" id="14_slsgh"]
-[ext_resource type="Script" path="res://various/reputation_entry.gd" id="15_wm7g2"]
-[ext_resource type="Script" path="res://entities/relationships.gd" id="16_nbrs0"]
-[ext_resource type="Script" path="res://various/tactical_relation_entry.gd" id="17_0ykj1"]
-[ext_resource type="Script" path="res://entities/resistances.gd" id="18_k4nig"]
-[ext_resource type="Script" path="res://entities/creature_data.gd" id="19_uphen"]
-[ext_resource type="Script" path="res://entities/skills.gd" id="20_jjbag"]
+[ext_resource type="Script" path="res://conditions/area_condition.gd" id="10_ivy2g"]
+[ext_resource type="Resource" path="res://resources/creatures/inventory/basic_inventory.tres" id="11_q51xt"]
+[ext_resource type="Resource" path="res://resources/archetypes/mage.tres" id="12_auotn"]
+[ext_resource type="Script" path="res://entities/personality.gd" id="13_30uu3"]
+[ext_resource type="Script" path="res://activities/reaction.gd" id="14_slsgh"]
+[ext_resource type="Script" path="res://various/affiliation_entry.gd" id="15_wm7g2"]
+[ext_resource type="Script" path="res://various/reputation_entry.gd" id="16_nbrs0"]
+[ext_resource type="Script" path="res://entities/relationships.gd" id="17_0ykj1"]
+[ext_resource type="Script" path="res://various/tactical_relation_entry.gd" id="18_k4nig"]
+[ext_resource type="Script" path="res://entities/resistances.gd" id="19_uphen"]
+[ext_resource type="Script" path="res://entities/creature_data.gd" id="20_jjbag"]
 [ext_resource type="Script" path="res://abilities/spell_container.gd" id="21_ao2fw"]
 [ext_resource type="Script" path="res://talents/talent.gd" id="22_86gkh"]
 
@@ -29,29 +29,40 @@ resolve = 10
 
 [sub_resource type="Resource" id="Resource_hr011"]
 script = ExtResource("6_a7flv")
+skills = {
+0: 6,
+1: 2,
+2: 0,
+3: 1,
+4: 5,
+5: 0,
+6: 0,
+7: 4,
+8: 0,
+9: 3,
+10: 0,
+11: 0,
+12: 0
+}
 
 [sub_resource type="Resource" id="Resource_u1bge"]
-script = ExtResource("12_auotn")
+script = ExtResource("13_30uu3")
 
 [sub_resource type="Resource" id="Resource_hlqpd"]
-script = ExtResource("16_nbrs0")
+script = ExtResource("17_0ykj1")
 
 [sub_resource type="Resource" id="Resource_ryvh2"]
-script = ExtResource("18_k4nig")
-
-[sub_resource type="Resource" id="Resource_kc6rk"]
-script = ExtResource("20_jjbag")
+script = ExtResource("19_uphen")
 
 [resource]
-script = ExtResource("19_uphen")
+script = ExtResource("20_jjbag")
 name = "Debug"
 level = 12
-major_archetype = ExtResource("11_q51xt")
+major_archetype = ExtResource("12_auotn")
 discipline = null
 attributes = SubResource("Resource_saxhq")
-skills = SubResource("Resource_kc6rk")
 base_stats = SubResource("Resource_hr011")
-inventory = ExtResource("10_ivy2g")
+inventory = ExtResource("11_q51xt")
 equipment = ExtResource("9_s0cxt")
 resistances = SubResource("Resource_ryvh2")
 relationships = SubResource("Resource_hlqpd")

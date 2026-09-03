@@ -91,21 +91,9 @@ func update_points_left_label(values):
 		points_left_label.text = text
 
 func export_skills_to_data():
-	var stats = root.data.skills
-	
-	stats.arcane = assigned_values["arcane"]
-	stats.artistry = assigned_values["artistry"]
-	stats.society = assigned_values["society"]
-	stats.craftsmanship = assigned_values["craftsmanship"]
-	stats.deception = assigned_values["deception"]
-	stats.history = assigned_values["history"]
-	stats.linguistics = assigned_values["linguistics"]
-	stats.mechanics = assigned_values["mechanics"]
-	stats.medicine = assigned_values["medicine"]
-	stats.nature = assigned_values["nature"]
-	stats.persuasion = assigned_values["persuasion"]
-	stats.thievery = assigned_values["thievery"]
-	stats.stealth = assigned_values["stealth"]
+	for skill_name in skill_buttons:
+		var skill = Enums.Skill.keys().find(skill_name.to_upper())
+		root.data.base_stats.set_skill(skill, assigned_values[skill_name])
 
 func initialise():
 	max_skill = root.data.attributes.acuity

@@ -15,7 +15,6 @@ class_name CreatureData
 @export var sprite: String = "res://art/characters/hooded_char.png"
 
 @export var attributes: Attributes = null
-@export var skills: Skills = null
 @export var base_stats: BaseStats = null
 @export var inventory: Inventory = null
 @export var equipment: Equipment = null

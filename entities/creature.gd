@@ -601,6 +601,10 @@ func get_base_stat(stat):
 		return data.attributes.get(stat)
 	elif stat in data.derived_stats:
 		return data.derived_stats.get(stat)
+	elif Enums.Aptitude.keys().find(stat.to_upper()) != -1:
+		return data.base_stats.get_aptitude(Enums.Aptitude.keys().find(stat.to_upper()))
+	elif Enums.Skill.keys().find(stat.to_upper()) != -1:
+		return data.base_stats.get_skill(Enums.Skill.keys().find(stat.to_upper()))
 	else:
 		push_warning("Could not find stat: ", stat)
 
@@ -619,6 +623,10 @@ func get_stat(stat):
 		return data.base_stats.get(stat)
 	elif stat in data.attributes:
 		return data.attributes.get(stat)
+	elif Enums.Aptitude.keys().find(stat.to_upper()) != -1:
+		return data.base_stats.get_aptitude(Enums.Aptitude.keys().find(stat.to_upper()))
+	elif Enums.Skill.keys().find(stat.to_upper()) != -1:
+		return data.base_stats.get_skill(Enums.Skill.keys().find(stat.to_upper()))
 	else:
 		push_warning("Could not find stat: ", stat)
 
@@ -631,6 +639,10 @@ func set_stat(stat, value):
 		data.resistances.set(stat, value)
 	elif stat in data.attributes:
 		data.attributes.set(stat, value)
+	elif Enums.Aptitude.keys().find(stat.to_upper()) != -1:
+		data.base_stats.set_aptitude(Enums.Aptitude.keys().find(stat.to_upper()), value)
+	elif Enums.Skill.keys().find(stat.to_upper()) != -1:
+		data.base_stats.set_skill(Enums.Skill.keys().find(stat.to_upper()), value)
 	else:
 		push_error("Could not find stat: ", stat)
 
@@ -964,7 +976,7 @@ func level_up() -> void:
 			Global.add_child(prompt_instance)
 			var selected_talents = await prompt_instance.finished
 
-			if selected_talents.is_empty():
+			if selected_talents.is_empty(): # player has cancelled the level-up
 				data.applied_level -= 1
 				return
 
@@ -981,6 +993,12 @@ func level_up() -> void:
 		for talent in level_entry.auto_talents:
 			add_talent(talent)
 
+	if data.applied_level % 2 == 0:
+		for skill in Enums.Skill.values():
+			var skill_value: int =  data.base_stats.get_skill(skill)
+			if skill_value > 0:
+				data.base_stats.set_skill(skill, skill_value + 1)
+
 	SignalBus.message.emit("You have leveled up to %d!" % [data.applied_level])
 	build_stats()
 
@@ -994,7 +1012,6 @@ func initialize_character() -> void:
 		data.derived_stats = DerivedStats.new()
 
 		data.attributes     = _ensure_resource(data.attributes, func(): return Attributes.new())
-		data.skills         = _ensure_resource(data.skills, func(): return Skills.new())
 		data.base_stats     = _ensure_resource(data.base_stats, func(): return BaseStats.new())
 		data.inventory      = _ensure_resource(data.inventory, func(): return Inventory.new())
 		data.equipment      = _ensure_resource(data.equipment, func(): return Equipment.new())
@@ -1017,27 +1034,13 @@ func initialize_character() -> void:
 func build_stats():
 		@warning_ignore("integer_division")
 		data.base_stats.level_mod = max(0, data.applied_level / 2)
-		data.base_stats.agility = data.attributes.dexterity + data.base_stats.level_mod
-		data.base_stats.will = data.attributes.resolve + data.base_stats.level_mod
-		data.base_stats.sense = data.attributes.acuity + data.base_stats.level_mod
-		data.base_stats.stamina = data.attributes.brawn + data.base_stats.level_mod
-		data.base_stats.offence = data.attributes.acuity + data.base_stats.level_mod
-		data.base_stats.melee_defence = data.attributes.dexterity + data.base_stats.level_mod
-		data.base_stats.ranged_defence = data.attributes.dexterity + data.base_stats.level_mod
-
-		data.base_stats.arcane = data.skills.arcane + data.base_stats.level_mod
-		data.base_stats.artistry = data.skills.artistry + data.base_stats.level_mod
-		data.base_stats.society = data.skills.society + data.base_stats.level_mod
-		data.base_stats.craftsmanship = data.skills.craftsmanship + data.base_stats.level_mod
-		data.base_stats.deception = data.skills.deception + data.base_stats.level_mod
-		data.base_stats.history = data.skills.history + data.base_stats.level_mod
-		data.base_stats.linguistics = data.skills.linguistics + data.base_stats.level_mod
-		data.base_stats.mechanics = data.skills.mechanics + data.base_stats.level_mod
-		data.base_stats.medicine = data.skills.medicine + data.base_stats.level_mod
-		data.base_stats.nature = data.skills.nature + data.base_stats.level_mod
-		data.base_stats.persuasion = data.skills.persuasion + data.base_stats.level_mod
-		data.base_stats.thievery = data.skills.thievery + data.base_stats.level_mod
-		data.base_stats.stealth = data.skills.stealth + data.base_stats.level_mod
+		data.base_stats.set_aptitude(Enums.Aptitude.AGILITY, data.attributes.dexterity + data.base_stats.level_mod)
+		data.base_stats.set_aptitude(Enums.Aptitude.WILL, data.attributes.resolve + data.base_stats.level_mod)
+		data.base_stats.set_aptitude(Enums.Aptitude.SENSE, data.attributes.acuity + data.base_stats.level_mod)
+		data.base_stats.set_aptitude(Enums.Aptitude.STAMINA, data.attributes.brawn + data.base_stats.level_mod)
+		data.base_stats.set_aptitude(Enums.Aptitude.OFFENCE, data.attributes.acuity + data.base_stats.level_mod)
+		data.base_stats.set_aptitude(Enums.Aptitude.MELEE_DEFENCE, data.attributes.dexterity + data.base_stats.level_mod)
+		data.base_stats.set_aptitude(Enums.Aptitude.RANGED_DEFENCE, data.attributes.dexterity + data.base_stats.level_mod)
 
 		data.base_stats.strength_bonus = data.attributes.brawn
 		#data.base_stats.size = "medium"
@@ -1047,9 +1050,6 @@ func build_stats():
 
 		@warning_ignore("integer_division")
 		data.base_stats.max_pp = (data.attributes.brawn * 2) + (data.attributes.brawn * data.base_stats.level_mod)/2
-		#data.base_stats.max_pp = (data.attributes.resolve * 6) + (data.attributes.resolve * data.base_stats.level_mod)/2
-		#data.base_stats.max_pp = (data.attributes.resolve * 2) + (data.attributes.resolve * data.base_stats.level_mod)
-		#data.base_stats.max_pp = data.attributes.resolve * data.base_stats.level_mod
 		data.current_pp = data.base_stats.max_pp
 		data.base_stats.max_ep = (data.attributes.brawn * 12) + (data.attributes.brawn * data.base_stats.level_mod)
 		data.current_ep = data.base_stats.max_ep
@@ -1078,27 +1078,11 @@ func build_stats():
 
 ## This builds the final usable stats; to be used directly for activities and from outside the class
 func update_stats():
-	data.derived_stats.agility = data.base_stats.agility
-	data.derived_stats.will = data.base_stats.will
-	data.derived_stats.sense = data.base_stats.sense
-	data.derived_stats.stamina = data.base_stats.stamina
-	data.derived_stats.offence = data.base_stats.offence
-	data.derived_stats.melee_defence = data.base_stats.melee_defence
-	data.derived_stats.ranged_defence = data.base_stats.ranged_defence
-	
-	data.derived_stats.arcane = data.base_stats.arcane
-	data.derived_stats.artistry = data.base_stats.artistry
-	data.derived_stats.society = data.base_stats.society
-	data.derived_stats.craftsmanship = data.base_stats.craftsmanship
-	data.derived_stats.deception = data.base_stats.deception
-	data.derived_stats.history = data.base_stats.history
-	data.derived_stats.linguistics = data.base_stats.linguistics
-	data.derived_stats.mechanics = data.base_stats.mechanics
-	data.derived_stats.medicine = data.base_stats.medicine
-	data.derived_stats.nature = data.base_stats.nature
-	data.derived_stats.persuasion = data.base_stats.persuasion
-	data.derived_stats.thievery = data.base_stats.thievery
-	data.derived_stats.stealth = data.base_stats.stealth
+	for aptitude in Enums.Aptitude.values():
+		data.derived_stats.set_aptitude(aptitude, data.base_stats.get_aptitude(aptitude))
+
+	for skill in Enums.Skill.values():
+		data.derived_stats.set_skill(skill, data.base_stats.get_skill(skill))
 	
 	data.derived_stats.strength_bonus = data.base_stats.strength_bonus
 	data.derived_stats.vigour = 0
@@ -1174,27 +1158,13 @@ func update_stats():
 		SignalBus.update_ui_for_char.emit()
 
 func update_vigour() -> void:
-	data.derived_stats.agility += data.derived_stats.vigour
-	data.derived_stats.will += data.derived_stats.vigour
-	data.derived_stats.sense += data.derived_stats.vigour
-	data.derived_stats.stamina += data.derived_stats.vigour
-	data.derived_stats.offence += data.derived_stats.vigour
-	data.derived_stats.melee_defence += data.derived_stats.vigour
-	data.derived_stats.ranged_defence += data.derived_stats.vigour
-	
-	data.derived_stats.arcane += data.derived_stats.vigour
-	data.derived_stats.artistry += data.derived_stats.vigour
-	data.derived_stats.society += data.derived_stats.vigour
-	data.derived_stats.craftsmanship += data.derived_stats.vigour
-	data.derived_stats.deception += data.derived_stats.vigour
-	data.derived_stats.history += data.derived_stats.vigour
-	data.derived_stats.linguistics += data.derived_stats.vigour
-	data.derived_stats.mechanics += data.derived_stats.vigour
-	data.derived_stats.medicine += data.derived_stats.vigour
-	data.derived_stats.nature += data.derived_stats.vigour
-	data.derived_stats.persuasion += data.derived_stats.vigour
-	data.derived_stats.thievery += data.derived_stats.vigour
-	data.derived_stats.stealth += data.derived_stats.vigour
+	for aptitude in Enums.Aptitude.values():
+		var aptitude_value = data.derived_stats.get_aptitude(aptitude)
+		data.derived_stats.set_aptitude(aptitude, aptitude_value + data.derived_stats.vigour)
+
+	for skill in Enums.Skill.values():
+		var skill_value = data.derived_stats.get_skill(skill)
+		data.derived_stats.set_skill(skill, skill_value + data.derived_stats.vigour)
 
 	data.derived_stats.max_mp += data.derived_stats.vigour
 
@@ -1256,7 +1226,7 @@ func sight_check(target_tile: Vector3i, creature: Creature = null) -> bool:
 		return false
 
 	var origin_tile = Vector3i(data.tile_x, data.tile_y, data.tile_z)
-	if WorldMath.pos_in_range_weighted_3d(origin_tile, target_tile, (data.base_stats.sense * 4)):
+	if WorldMath.pos_in_range_weighted_3d(origin_tile, target_tile, (data.base_stats.get_aptitude(Enums.Aptitude.SENSE) * 4)):
 		if WorldMath.has_line_of_sight_tile(origin_tile, target_tile):
 			var sight = creature.data.sight
 			var creature_visibility = creature.perceive_visibility()
@@ -1277,7 +1247,7 @@ func sight_check(target_tile: Vector3i, creature: Creature = null) -> bool:
 
 #func sight_check(target_tile: Vector3i, creature: Creature = null) -> bool: 
 	#var origin_tile = Vector3i(data.tile_x, data.tile_y, data.tile_z)
-	#if WorldMath.pos_in_range_weighted_3d(origin_tile, target_tile, (data.base_stats.sense * 4)):
+	#if WorldMath.pos_in_range_weighted_3d(origin_tile, target_tile, (data.base_stats.get_aptitude(Enums.Aptitude.SENSE) * 4)):
 		#if WorldMath.has_line_of_sight_tile(origin_tile, target_tile):
 			#if creature and creature.perceive_visibility() >= Enums.Capability.LOW:
 				#return true
@@ -1319,7 +1289,7 @@ func hearing_check(strength: int, difficulty_to_perceive: float) -> bool:
 
 #func hearing_check(target_tile) -> bool: 
 	#var origin_tile = Vector3i(data.tile_x, data.tile_y, data.tile_z)
-	#if WorldMath.pos_in_range_weighted_3d(origin_tile, target_tile, (data.base_stats.sense * 1)):
+	#if WorldMath.pos_in_range_weighted_3d(origin_tile, target_tile, (data.base_stats.get_aptitude(Enums.Aptitude.SENSE) * 1)):
 		#return true
 	#return false
 
