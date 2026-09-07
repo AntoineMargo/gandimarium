@@ -955,6 +955,10 @@ func get_current_spell_cost() -> int:
 	return get_current_spell_rank_table().spell_costs[data.current_spell_rank]
 
 func level_up() -> void:
+	var selected_skill: Enums.Skill = Enums.Skill.ARCANE
+	var choice_talents: Array[Talent] = []
+	var regular_talent: Talent = null
+	
 	if data.level <= data.applied_level:
 		return
 
@@ -974,21 +978,42 @@ func level_up() -> void:
 			var prompt_scene = preload("res://interface/prompt_window/levelup_prompt_window/levelup_prompt_window.tscn")
 			var prompt_instance = prompt_scene.instantiate()
 			Global.add_child(prompt_instance)
-			var selected_talents = await prompt_instance.finished
+			var result = await prompt_instance.finished
 
-			if selected_talents.is_empty(): # player has cancelled the level-up
+			if not result: # player has cancelled the level-up
 				data.applied_level -= 1
 				return
 
-			for talent in selected_talents:
-				add_talent(talent)
+			regular_talent = result.get("regular_talent")
+			if regular_talent:
+				add_talent(regular_talent)
+
+			choice_talents = result.get("choice_talents")
+			if choice_talents and not choice_talents.is_empty():
+				for talent in choice_talents:
+					add_talent(talent)
+
+			selected_skill = result.get("selected_skill")
+			
 			prompt_instance.queue_free()
 
-		else:
+		else: # for AI characters
 			for choice in level_entry.choice_talents:
 				var size = choice.talents.size()
 				var selected_talent = choice.talents[randi_range(0, size - 1)]
 				add_talent(selected_talent)
+			
+			var talent_pool_size: int = data.talent_pool.size()
+			if talent_pool_size > 0:
+				var indice: int = randi_range(0, talent_pool_size)
+				add_talent(data.talent_pool[indice])
+
+		if data.applied_level % 2 == 0:
+			for skill in Enums.Skill.values():
+				var skill_value: int =  data.base_stats.get_skill(skill)
+				if skill_value == 0:
+					data.base_stats.set_skill(skill, 1)
+					break
 
 		for talent in level_entry.auto_talents:
 			add_talent(talent)
@@ -999,7 +1024,12 @@ func level_up() -> void:
 			if skill_value > 0:
 				data.base_stats.set_skill(skill, skill_value + 1)
 
-	SignalBus.message.emit("You have leveled up to %d!" % [data.applied_level])
+		if selected_skill:
+			data.base_stats.set_skill(selected_skill, 1)
+
+	if data.player_controlled:
+		SignalBus.message.emit("You have leveled up to %d!" % [data.applied_level])
+
 	build_stats()
 
 

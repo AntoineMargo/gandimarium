@@ -1,12 +1,11 @@
 extends PromptWindow
 class_name TalentPromptWindow
 
-signal finished(selected_talents: Array[Talent])
+signal finished(result: Dictionary)
 
 var selected_skill = null
 var choice_talents: Array[Talent] = []
 var regular_talent: Talent = null
-var selected_talents: Array[Talent] = []
 
 @onready var done_button = $Control/ColorRect/VBoxContainer/HBoxContainer/Button
 
@@ -89,23 +88,6 @@ func _update_for_char(creature: Creature):
 	skill_option_button.item_selected.connect(_on_option_button_item_selected.bind(skill_option_button))
 
 
-#@onready var skill_buttons = {
-	#"arcane": $VBoxContainer/HBoxContainer/VBoxContainer/Arcane/OptionButton,
-	#"artistry": $VBoxContainer/HBoxContainer/VBoxContainer/Artistry/OptionButton,
-	#"society": $VBoxContainer/HBoxContainer/VBoxContainer/Society/OptionButton,
-	#"craftsmanship": $VBoxContainer/HBoxContainer/VBoxContainer/Craftsmanship/OptionButton,
-	#"deception": $VBoxContainer/HBoxContainer/VBoxContainer/Deception/OptionButton,
-	#"history" : $VBoxContainer/HBoxContainer/VBoxContainer/History/OptionButton,
-	#"linguistics" : $VBoxContainer/HBoxContainer/VBoxContainer/Linguistics/OptionButton,
-	#"mechanics" : $VBoxContainer/HBoxContainer/VBoxContainer/Mechanics/OptionButton,
-	#"medicine" : $VBoxContainer/HBoxContainer/VBoxContainer/Medicine/OptionButton,
-	#"nature" : $VBoxContainer/HBoxContainer/VBoxContainer/Nature/OptionButton,
-	#"persuasion" : $VBoxContainer/HBoxContainer/VBoxContainer/Persuasion/OptionButton,
-	#"thievery" : $VBoxContainer/HBoxContainer/VBoxContainer/Thievery/OptionButton,
-	#"stealth" : $VBoxContainer/HBoxContainer/VBoxContainer/Stealth/OptionButton
-	#}
-
-
 func setup_option_button(button: OptionButton, creature: Creature) -> void:
 	button.clear()
 	
@@ -129,18 +111,18 @@ func finish() -> void:
 		#if not talent:
 			#return
 	
-	
-	selected_talents.append_array(choice_talents)
-	selected_talents.append(regular_talent)
-	finished.emit(selected_talents)
+	finished.emit({
+	"regular_talent": regular_talent,
+	"choice_talents": choice_talents,
+	"selected_skill": selected_skill
+	})
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	selected_skill = null
-	choice_talents.clear()
 	regular_talent = null
-	selected_talents.clear()
+	choice_talents.clear()
 	done_button.pressed.connect(finish)
 	super()
 	_update_for_char(Global.selected_char)
