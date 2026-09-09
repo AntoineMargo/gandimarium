@@ -68,6 +68,8 @@ func spawn_character(data_file: String, coords: Vector3i, routine: String = "", 
 		#char_routine = char_routine.duplicate(true) # Not needed for now
 		character.ai_controller.localai.routine = char_routine
 
+
+
 	return character
 
 #func _ready():

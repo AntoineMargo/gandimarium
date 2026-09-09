@@ -49,7 +49,7 @@ var _activities = {
 }
 
 var _talents = {
-	"paragon_vigour": "res://resources/talents/paragon_vigour.tres"
+	"paragon_vigour": "res://resources/talents/paragon_vigour.tres",
 }
 
 var _archetypes = {
@@ -130,3 +130,33 @@ func _get_from(dict: Dictionary, id: String) -> Resource:
 		return dict[id]
 	else:
 		return null
+
+var general_talents: Array[Talent]
+
+func _load_resources_from_directory(path: String) -> Array[Resource]:
+	var resources: Array[Resource] = []
+
+	var dir := DirAccess.open(path)
+	if dir == null:
+		push_error("Could not open resource directory: " + path)
+		return resources
+
+	dir.list_dir_begin()
+	var file_name := dir.get_next()
+
+	while file_name != "":
+		if not dir.current_is_dir() and file_name.ends_with(".tres"):
+			var resource: Resource = load(path + file_name) as Resource
+
+			if resource:
+				resources.append(resource)
+			else:
+				push_error("Failed to load resource: " + path + file_name)
+
+		file_name = dir.get_next()
+
+	dir.list_dir_end()
+	return resources
+
+func _ready() -> void:
+	general_talents.assign(_load_resources_from_directory("res://resources/talents/general_talents/"))

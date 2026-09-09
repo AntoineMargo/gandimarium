@@ -1005,7 +1005,7 @@ func level_up() -> void:
 			
 			var talent_pool_size: int = data.talent_pool.size()
 			if talent_pool_size > 0:
-				var indice: int = randi_range(0, talent_pool_size)
+				var indice: int = randi_range(0, talent_pool_size - 1)
 				add_talent(data.talent_pool[indice])
 
 		if data.applied_level % 2 == 0:
@@ -1048,6 +1048,8 @@ func initialize_character() -> void:
 		data.resistances    = _ensure_resource(data.resistances, func(): return Resistances.new())
 		data.relationships  = _ensure_resource(data.relationships, func(): return Relationships.new())
 		data.personality    = _ensure_resource(data.personality, func(): return Personality.new())
+
+		data.talent_pool.assign(Library.general_talents)
 
 		# Should be folded into Archetype's init function
 		if data.major_archetype and data.major_archetype.type == Enums.Archetype.SCHOLASTIC_MAGE:

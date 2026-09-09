@@ -3,7 +3,7 @@ class_name TalentPromptWindow
 
 signal finished(result: Dictionary)
 
-var selected_skill = null
+var selected_skill: Enums.Skill
 var choice_talents: Array[Talent] = []
 var regular_talent: Talent = null
 
@@ -90,13 +90,21 @@ func _update_for_char(creature: Creature):
 
 func setup_option_button(button: OptionButton, creature: Creature) -> void:
 	button.clear()
-	
+
+	var first_valid_index: int = -1
+
 	for skill in creature.data.base_stats.skills:
 		var skill_name: String = Enums.Skill.keys()[skill].to_lower()
 		button.add_item(skill_name)
 		button.set_item_metadata(button.item_count - 1, skill)
+
 		if creature.data.base_stats.get_skill(skill) > 0:
 			button.set_item_disabled(button.item_count - 1, true)
+		elif first_valid_index == -1:
+			first_valid_index = button.item_count - 1
+
+	if first_valid_index != -1:
+		button.select(first_valid_index)
 
 
 func _on_option_button_item_selected(index: int, button: OptionButton) -> void:
@@ -120,7 +128,7 @@ func finish() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	selected_skill = null
+	selected_skill = Enums.Skill.ARCANE
 	regular_talent = null
 	choice_talents.clear()
 	done_button.pressed.connect(finish)

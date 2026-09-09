@@ -3,6 +3,7 @@ class_name Talent
 
 @export var name: String = "placeholder"
 @export var id: String = "placeholder"
+@export_range(0, 24) var min_level: int = 0
 @export var description: String = "This is a placeholder description."
 @export var icon: String
 @export var filters: Array[Filter] = []
@@ -10,10 +11,6 @@ class_name Talent
 @export var supplanted: Array[Talent] = []
 @export var re_apply_effects: bool = false
 
-#func initialize(target) -> void:
-	#for effect in effects:
-		#apply_context(ctx)
-		##effect.apply(self, target, -1)
 
 func initialize(target) -> void:
 	for effect in effects:
