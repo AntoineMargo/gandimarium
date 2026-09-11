@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1mstxyx2p276"
-path="res://.godot/imported/deadly-strike.svg-6b1e2be2ed32652dcedfcee393419f61.ctex"
+uid="uid://b3tntu2aga32h"
+path="res://.godot/imported/sword-hilt.png-3d578b56f76e0fdf2b2a88e7d16f11d6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/icons/deadly-strike.svg"
-dest_files=["res://.godot/imported/deadly-strike.svg-6b1e2be2ed32652dcedfcee393419f61.ctex"]
+source_file="res://art/interface/conditions/sword-hilt.png"
+dest_files=["res://.godot/imported/sword-hilt.png-3d578b56f76e0fdf2b2a88e7d16f11d6.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

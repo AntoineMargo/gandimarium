@@ -151,7 +151,7 @@ func modify_value(value, value_type: Enums.ValueType, ctx: Context, stage: Enums
 
 func compute_spell_reach():
 	if is_spell:
-		var acuity = user.get_final_stat("acuity")
+		var acuity = user.get_stat_enum(Enums.StatType.ATTRIBUTE, Enums.Attribute.ACUITY)
 		reach *= acuity
 		#reach = reach + acuity
 

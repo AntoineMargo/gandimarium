@@ -34,19 +34,27 @@ func update(character):
 	%Speed.text = "%d" % character.get_final_stat("max_mp")
 
 	# Attributes
-	%Acuity.text = "%d" % character.get_final_stat("acuity")
-	%Brawn.text = "%d" % character.get_final_stat("brawn")
-	%Dexterity.text = "%d" % character.get_final_stat("dexterity")
-	%Resolve.text = "%d" % character.get_final_stat("resolve")
+	%Acuity.text = "%d" % character.get_stat_enum(Enums.StatType.ATTRIBUTE, Enums.Attribute.ACUITY)
+	%Brawn.text = "%d" % character.get_stat_enum(Enums.StatType.ATTRIBUTE, Enums.Attribute.BRAWN)
+	%Dexterity.text = "%d" % character.get_stat_enum(Enums.StatType.ATTRIBUTE, Enums.Attribute.DEXTERITY)
+	%Resolve.text = "%d" % character.get_stat_enum(Enums.StatType.ATTRIBUTE, Enums.Attribute.RESOLVE)
 
 	# Aptitudes
-	$VBoxContainer/Aptitudes/Agility/Value.text = "%d" % character.get_final_stat("agility")
-	$VBoxContainer/Aptitudes/Will/Value.text = "%d" % character.get_final_stat("will")
-	$VBoxContainer/Aptitudes/Sense/Value.text = "%d" % character.get_final_stat("sense")
-	$VBoxContainer/Aptitudes/Stamina/Value.text = "%d" % character.get_final_stat("stamina")
-	$VBoxContainer/Aptitudes/Offence/Value.text = "%d" % character.get_final_stat("offence")
-	$VBoxContainer/Aptitudes/MeleeDefence/Value.text = "%d" % character.get_final_stat("melee_defence")
-	$VBoxContainer/Aptitudes/RangedDefence/Value.text = "%d" % character.get_final_stat("ranged_defence")
+	$VBoxContainer/Aptitudes/Agility/Value.text = "%d" % character.get_stat_enum(Enums.StatType.APTITUDE, Enums.Aptitude.AGILITY)
+	$VBoxContainer/Aptitudes/Will/Value.text = "%d" % character.get_stat_enum(Enums.StatType.APTITUDE, Enums.Aptitude.WILL)
+	$VBoxContainer/Aptitudes/Sense/Value.text = "%d" % character.get_stat_enum(Enums.StatType.APTITUDE, Enums.Aptitude.SENSE)
+	$VBoxContainer/Aptitudes/Stamina/Value.text = "%d" % character.get_stat_enum(Enums.StatType.APTITUDE, Enums.Aptitude.STAMINA)
+	$VBoxContainer/Aptitudes/Offence/Value.text = "%d" % character.get_stat_enum(Enums.StatType.APTITUDE, Enums.Aptitude.OFFENCE)
+	$VBoxContainer/Aptitudes/MeleeDefence/Value.text = "%d" % character.get_stat_enum(Enums.StatType.APTITUDE, Enums.Aptitude.MELEE_DEFENCE)
+	$VBoxContainer/Aptitudes/RangedDefence/Value.text = "%d" % character.get_stat_enum(Enums.StatType.APTITUDE, Enums.Aptitude.RANGED_DEFENCE)
+
+	#$VBoxContainer/Aptitudes/Agility/Value.text = "%d" % character.get_final_stat("agility")
+	#$VBoxContainer/Aptitudes/Will/Value.text = "%d" % character.get_final_stat("will")
+	#$VBoxContainer/Aptitudes/Sense/Value.text = "%d" % character.get_final_stat("sense")
+	#$VBoxContainer/Aptitudes/Stamina/Value.text = "%d" % character.get_final_stat("stamina")
+	#$VBoxContainer/Aptitudes/Offence/Value.text = "%d" % character.get_final_stat("offence")
+	#$VBoxContainer/Aptitudes/MeleeDefence/Value.text = "%d" % character.get_final_stat("melee_defence")
+	#$VBoxContainer/Aptitudes/RangedDefence/Value.text = "%d" % character.get_final_stat("ranged_defence")
 	
 	#$Character/ColorRect/HBoxContainer/VBoxContainer/Aptitudes/Agility/Value.tooltip_text = "16"
 	

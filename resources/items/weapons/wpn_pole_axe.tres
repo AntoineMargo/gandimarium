@@ -80,11 +80,11 @@ metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
 
 [sub_resource type="Resource" id="Resource_bnsk5"]
 script = ExtResource("17_ffqtg")
+projectile = SubResource("Resource_i3ngn")
 tags = Array[int]([2])
 attacking_aptitude = 4
 defending_aptitude = 6
 target_effects = Array[ExtResource("10_k8xhw")]([SubResource("Resource_vb0bw")])
-projectile = SubResource("Resource_i3ngn")
 attack_types = Array[ExtResource("3_bwtky")]([ExtResource("4_ajovb"), ExtResource("6_pfjud")])
 metadata/_custom_type_script = "uid://bsu4c08c52n7w"
 

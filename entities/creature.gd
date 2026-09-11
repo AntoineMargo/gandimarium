@@ -1066,27 +1066,27 @@ func initialize_character() -> void:
 func build_stats():
 		@warning_ignore("integer_division")
 		data.base_stats.level_mod = max(0, data.applied_level / 2)
-		data.base_stats.set_aptitude(Enums.Aptitude.AGILITY, data.attributes.dexterity + data.base_stats.level_mod)
-		data.base_stats.set_aptitude(Enums.Aptitude.WILL, data.attributes.resolve + data.base_stats.level_mod)
-		data.base_stats.set_aptitude(Enums.Aptitude.SENSE, data.attributes.acuity + data.base_stats.level_mod)
-		data.base_stats.set_aptitude(Enums.Aptitude.STAMINA, data.attributes.brawn + data.base_stats.level_mod)
-		data.base_stats.set_aptitude(Enums.Aptitude.OFFENCE, data.attributes.acuity + data.base_stats.level_mod)
-		data.base_stats.set_aptitude(Enums.Aptitude.MELEE_DEFENCE, data.attributes.dexterity + data.base_stats.level_mod)
-		data.base_stats.set_aptitude(Enums.Aptitude.RANGED_DEFENCE, data.attributes.dexterity + data.base_stats.level_mod)
+		data.base_stats.set_aptitude(Enums.Aptitude.AGILITY, data.attributes.get_attribute(Enums.Attribute.DEXTERITY) + data.base_stats.level_mod)
+		data.base_stats.set_aptitude(Enums.Aptitude.WILL, data.attributes.get_attribute(Enums.Attribute.RESOLVE) + data.base_stats.level_mod)
+		data.base_stats.set_aptitude(Enums.Aptitude.SENSE, data.attributes.get_attribute(Enums.Attribute.ACUITY) + data.base_stats.level_mod)
+		data.base_stats.set_aptitude(Enums.Aptitude.STAMINA, data.attributes.get_attribute(Enums.Attribute.BRAWN) + data.base_stats.level_mod)
+		data.base_stats.set_aptitude(Enums.Aptitude.OFFENCE, data.attributes.get_attribute(Enums.Attribute.ACUITY) + data.base_stats.level_mod)
+		data.base_stats.set_aptitude(Enums.Aptitude.MELEE_DEFENCE, data.attributes.get_attribute(Enums.Attribute.DEXTERITY) + data.base_stats.level_mod)
+		data.base_stats.set_aptitude(Enums.Aptitude.RANGED_DEFENCE, data.attributes.get_attribute(Enums.Attribute.DEXTERITY) + data.base_stats.level_mod)
 
-		data.base_stats.strength_bonus = data.attributes.brawn
+		data.base_stats.strength_bonus = data.attributes.get_attribute(Enums.Attribute.BRAWN)
 		#data.base_stats.size = "medium"
 
-		data.base_stats.max_hp = (data.attributes.brawn * 12) + (data.attributes.brawn * data.base_stats.level_mod)
+		data.base_stats.max_hp = (data.attributes.get_attribute(Enums.Attribute.BRAWN) * 12) + (data.attributes.get_attribute(Enums.Attribute.BRAWN) * data.base_stats.level_mod)
 		data.current_hp = data.base_stats.max_hp
 
 		@warning_ignore("integer_division")
-		data.base_stats.max_pp = (data.attributes.brawn * 2) + (data.attributes.brawn * data.base_stats.level_mod)/2
+		data.base_stats.max_pp = (data.attributes.get_attribute(Enums.Attribute.BRAWN) * 2) + (data.attributes.get_attribute(Enums.Attribute.BRAWN) * data.base_stats.level_mod)/2
 		data.current_pp = data.base_stats.max_pp
-		data.base_stats.max_ep = (data.attributes.brawn * 12) + (data.attributes.brawn * data.base_stats.level_mod)
+		data.base_stats.max_ep = (data.attributes.get_attribute(Enums.Attribute.BRAWN) * 12) + (data.attributes.get_attribute(Enums.Attribute.BRAWN) * data.base_stats.level_mod)
 		data.current_ep = data.base_stats.max_ep
 
-		data.base_stats.max_mp = data.attributes.dexterity
+		data.base_stats.max_mp = data.attributes.get_attribute(Enums.Attribute.DEXTERITY)
 		
 		data.current_ap = data.base_stats.max_mp
 

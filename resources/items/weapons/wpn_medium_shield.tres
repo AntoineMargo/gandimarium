@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://cmfvlbuem2afq"]
+
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_d4yr6"]
+[ext_resource type="Resource" uid="uid://dk6prteydbd7p" path="res://resources/conditions/shielded2.tres" id="2_6w0pg"]
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_sh64v"]
+[ext_resource type="Texture2D" uid="uid://fxew7c3sdnk4" path="res://art/interface/items/medium_shield.png" id="7_4mqj6"]
+[ext_resource type="Resource" uid="uid://bpoe3wixrsni4" path="res://resources/activities/weapons/melee_misc_weak_crush.tres" id="9_bopfk"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="10_aura3"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="11_pbqbt"]
+[ext_resource type="Resource" uid="uid://dqokkkpm4yfmi" path="res://resources/activities/weapons/throw_misc_weak_crush.tres" id="12_vlnj3"]
+
+[sub_resource type="Resource" id="Resource_4rg3v"]
+script = ExtResource("11_pbqbt")
+activity = ExtResource("9_bopfk")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_6i7wf"]
+script = ExtResource("11_pbqbt")
+activity = ExtResource("12_vlnj3")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("2_sh64v")
+name = "Medium Shield"
+id = "wpn_medium_shield"
+description = "An average, sturdy wooden shield."
+icon = ExtResource("7_4mqj6")
+weight = 5.0
+value = 20
+conditions = Array[ExtResource("1_d4yr6")]([ExtResource("2_6w0pg")])
+strike = SubResource("Resource_4rg3v")
+throw = SubResource("Resource_6i7wf")
+owner = null
+metadata/_custom_type_script = "uid://c22428ggciyyj"

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bysxlshs3ps6d"
-path="res://.godot/imported/chest-armor.svg-f0be3178f75dbf3c726443e76a593836.ctex"
+uid="uid://3ptp27b45hpg"
+path="res://.godot/imported/sonic-shout.png-a3f1102d4c8995b53b1599ff40f15b94.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/icons/items/chest-armor.svg"
-dest_files=["res://.godot/imported/chest-armor.svg-f0be3178f75dbf3c726443e76a593836.ctex"]
+source_file="res://art/interface/activities/sonic-shout.png"
+dest_files=["res://.godot/imported/sonic-shout.png-a3f1102d4c8995b53b1599ff40f15b94.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

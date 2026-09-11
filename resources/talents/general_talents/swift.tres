@@ -7,27 +7,47 @@
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="3_6lvfu"]
 [ext_resource type="Script" uid="uid://5c3jlvd4s3cf" path="res://various/stat_entry_container.gd" id="4_vdc24"]
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="5_acca8"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="6_5il7i"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="8_otba3"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="9_tu1on"]
+[ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="10_fe3a8"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="11_sc1kn"]
 
-[sub_resource type="Resource" id="Resource_eokmw"]
+[sub_resource type="Resource" id="Resource_r4k7u"]
 script = ExtResource("3_3q11p")
 stat = 3
 amount = 1.0
 metadata/_custom_type_script = "uid://cp1x0k5fsy1j5"
 
-[sub_resource type="Resource" id="Resource_nv6jm"]
+[sub_resource type="Resource" id="Resource_ebgae"]
 script = ExtResource("4_vdc24")
-entry = SubResource("Resource_eokmw")
+entry = SubResource("Resource_r4k7u")
 metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
 
-[sub_resource type="Resource" id="Resource_1ay42"]
+[sub_resource type="Resource" id="Resource_70e7p"]
 script = ExtResource("5_acca8")
-entry_containers = Array[ExtResource("2_wy78l")]([SubResource("Resource_nv6jm")])
+entry_containers = Array[ExtResource("2_wy78l")]([SubResource("Resource_ebgae")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_6br2p"]
+script = ExtResource("8_otba3")
+name = "Swift"
+id = "cond_swift"
+description = "You are faster than you look."
+effects = Array[ExtResource("1_1ay42")]([SubResource("Resource_70e7p")])
+is_visible = false
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_kntf2"]
+script = ExtResource("11_sc1kn")
+recipient = 1
+condition = SubResource("Resource_6br2p")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
 
 [resource]
 script = ExtResource("3_6lvfu")
 name = "Swift"
 id = "talent_swift"
 description = "This creature is faster than it looks."
-effects = Array[ExtResource("1_1ay42")]([SubResource("Resource_1ay42")])
+effects = Array[ExtResource("1_1ay42")]([SubResource("Resource_kntf2")])
 metadata/_custom_type_script = "uid://c5ijx7qo7jak"

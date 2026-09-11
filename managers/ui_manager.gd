@@ -516,7 +516,7 @@ func update_concentration_slots():
 	for child in container.get_children():
 		child.queue_free()
 
-	for i in range(character.get_stat("resolve")):
+	for i in range(character.get_stat_enum(Enums.StatType.ATTRIBUTE, Enums.Attribute.RESOLVE)):
 		var slot = concentration_slot.instantiate()
 		if i < character.data.concentrations.size():
 			var concentration = character.data.concentrations[i]

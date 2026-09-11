@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://dp84ok66j1f1q"]
+
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_p4fvg"]
+[ext_resource type="Resource" uid="uid://c2b3pnf7kl01v" path="res://resources/conditions/shielded1.tres" id="2_rnj14"]
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_sa5qp"]
+[ext_resource type="Texture2D" uid="uid://bhihahn1wcacj" path="res://art/interface/items/small_shield.png" id="3_ceuuy"]
+[ext_resource type="Resource" uid="uid://bpoe3wixrsni4" path="res://resources/activities/weapons/melee_misc_weak_crush.tres" id="5_qv6sf"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="6_ceg3g"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="7_7y21k"]
+[ext_resource type="Resource" uid="uid://dqokkkpm4yfmi" path="res://resources/activities/weapons/throw_misc_weak_crush.tres" id="8_vfj4n"]
+
+[sub_resource type="Resource" id="Resource_q5f13"]
+script = ExtResource("7_7y21k")
+activity = ExtResource("5_qv6sf")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_7idkl"]
+script = ExtResource("7_7y21k")
+activity = ExtResource("8_vfj4n")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("2_sa5qp")
+name = "Small Shield"
+id = "wpn_light_shield"
+description = "This is a small wooden shield."
+icon = ExtResource("3_ceuuy")
+weight = 3.0
+conditions = Array[ExtResource("1_p4fvg")]([ExtResource("2_rnj14")])
+brawn_req_1h = 2
+brawn_req_2h = 1
+strike = SubResource("Resource_q5f13")
+throw = SubResource("Resource_7idkl")
+owner = null
+metadata/_custom_type_script = "uid://c22428ggciyyj"

@@ -43,7 +43,6 @@ metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 script = ExtResource("2_7obvi")
 name = "Forceful Strike"
 description = "You strike with all your strength; doubling the brawn damage bonus but increasing the AP cost by 1."
-icon = "res://art/icons/wave-strike.svg"
 activities = Array[ExtResource("3_duisw")]([SubResource("Resource_1left")])
 metadata/_custom_type_script = "uid://covfnqv811mqd"
 

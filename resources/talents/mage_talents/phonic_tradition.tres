@@ -1,0 +1,90 @@
+[gd_resource type="Resource" script_class="Talent" format=3 uid="uid://h5vdwbifiypf"]
+
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_kk2wy"]
+[ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="2_7cu4q"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="3_wo7jh"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="4_746mp"]
+[ext_resource type="Texture2D" uid="uid://3ptp27b45hpg" path="res://art/interface/activities/sonic-shout.png" id="5_x3obn"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="6_41wxo"]
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="7_pi417"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="8_b0tmf"]
+[ext_resource type="Script" uid="uid://kalwpa2j0ckf" path="res://activity_modifiers/addition_num_modifier.gd" id="9_y1k7g"]
+[ext_resource type="Script" uid="uid://dywclcl7k47vv" path="res://effects/activity_modifier_effect.gd" id="10_g6ya0"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="11_o8imq"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="12_g8ybv"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="13_sneh6"]
+[ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="14_oyh85"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="15_ajj6l"]
+[ext_resource type="Script" uid="uid://g1muvdggkxqa" path="res://effects/add_activity_effect.gd" id="16_d6op7"]
+[ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="17_51p28"]
+
+[sub_resource type="Resource" id="Resource_pbjd6"]
+script = ExtResource("9_y1k7g")
+to_add = 1
+value_type = 5
+name = "Shout (Phonic Tradition)"
+id = "mod_shout_phonic_tradition"
+tags = Array[int]([0])
+metadata/_custom_type_script = "uid://kalwpa2j0ckf"
+
+[sub_resource type="Resource" id="Resource_mbn2x"]
+script = ExtResource("10_g6ya0")
+modifier = SubResource("Resource_pbjd6")
+metadata/_custom_type_script = "uid://dywclcl7k47vv"
+
+[sub_resource type="Resource" id="Resource_rgs8n"]
+script = ExtResource("12_g8ybv")
+name = "Shout (Phonic Tradition)"
+id = "cond_shout_phonic_tradition"
+icon = ExtResource("5_x3obn")
+re_apply_effects = false
+effects = Array[ExtResource("1_kk2wy")]([SubResource("Resource_mbn2x")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_d7dk5"]
+script = ExtResource("15_ajj6l")
+recipient = 1
+condition = SubResource("Resource_rgs8n")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_5snif"]
+script = ExtResource("7_pi417")
+name = "Shout (Phonic Tradition)"
+id = "act_shout_phonic_tradition"
+icon = ExtResource("5_x3obn")
+AP_cost = 0
+reach_requires_LOS = false
+spread_requires_LOS = false
+reach = 0
+target_effects = Array[ExtResource("1_kk2wy")]([SubResource("Resource_d7dk5")])
+requires_roll = false
+triggers_reaction = false
+builds_condition = true
+condition_id = "cond_shout_phonic_tradition"
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_rirp8"]
+script = ExtResource("3_wo7jh")
+activity = SubResource("Resource_5snif")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_epxg5"]
+script = ExtResource("2_7cu4q")
+name = "Shout (Phonic Tradition)"
+description = "You shout your incantations, increasing the potency of your spells by 1."
+icon = ExtResource("5_x3obn")
+activities = Array[ExtResource("3_wo7jh")]([SubResource("Resource_rirp8")])
+metadata/_custom_type_script = "uid://covfnqv811mqd"
+
+[sub_resource type="Resource" id="Resource_res2x"]
+script = ExtResource("16_d6op7")
+activities = Array[ExtResource("2_7cu4q")]([SubResource("Resource_epxg5")])
+metadata/_custom_type_script = "uid://g1muvdggkxqa"
+
+[resource]
+script = ExtResource("17_51p28")
+name = "Phonic Tradition"
+id = "tal_phonic_tradition"
+description = "This creature casts spells by orally reciting incantations. It may choose to shout them, gaining increased power."
+effects = Array[ExtResource("1_kk2wy")]([SubResource("Resource_res2x")])
+metadata/_custom_type_script = "uid://c5ijx7qo7jak"

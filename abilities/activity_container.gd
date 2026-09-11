@@ -3,7 +3,7 @@ class_name ActivityContainer
 
 @export var name: String
 @export var description: String
-@export var icon: String = "res://art/interface/activities/placeholder1.png"
+@export var icon: Texture2D
 @export var activities: Array[ActivityVariant] = []
 
 var current_index: int = 0

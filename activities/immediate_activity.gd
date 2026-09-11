@@ -76,6 +76,7 @@ func resolve() -> void:
 		target_points = compute_affected_area(self_ctx.origin)
 
 	var final_targets = []
+	var affected_tiles = target_points
 	
 	match affected_type:
 		Enums.Affected.ENTITIES:
@@ -148,6 +149,10 @@ func resolve() -> void:
 				effect.apply_context(self_ctx)
 			else:
 				effect.apply(self, self_ctx.user, self_ctx.degree)
+
+	if hit_effect_scene:
+		self_ctx.affected_tiles = affected_tiles
+		fire_hit_effect(self_ctx)
 
 	_consume_ap(self_ctx)
 	_consume_pp(self_ctx)

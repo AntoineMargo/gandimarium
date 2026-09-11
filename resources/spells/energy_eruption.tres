@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_c83hn"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_pat13"]
 [ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="3_j7wym"]
+[ext_resource type="PackedScene" uid="uid://c4rhj2g0r2lc1" path="res://VFX/hit_effect.tscn" id="3_ojvks"]
 [ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="4_6fj7p"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_yd0g0"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_lm5i4"]
@@ -35,6 +36,7 @@ reach = 0
 spread = 6
 target_filters = Array[ExtResource("5_yd0g0")]([SubResource("Resource_4ay3v")])
 target_effects = Array[ExtResource("6_lm5i4")]([SubResource("Resource_ynu1s")])
+hit_effect_scene = ExtResource("3_ojvks")
 is_spell = true
 metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
 

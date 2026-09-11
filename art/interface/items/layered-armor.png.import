@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7ltovrg307r0"
-path="res://.godot/imported/wave-strike.svg-2cf86356f516f030b256a7394190e2c6.ctex"
+uid="uid://bk48yfqg3cll4"
+path="res://.godot/imported/layered-armor.png-bf19a0110054480e0870a0572bf10223.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/icons/wave-strike.svg"
-dest_files=["res://.godot/imported/wave-strike.svg-2cf86356f516f030b256a7394190e2c6.ctex"]
+source_file="res://art/interface/items/layered-armor.png"
+dest_files=["res://.godot/imported/layered-armor.png-bf19a0110054480e0870a0572bf10223.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

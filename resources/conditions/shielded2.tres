@@ -1,18 +1,52 @@
 [gd_resource type="Resource" script_class="Condition" format=3 uid="uid://dk6prteydbd7p"]
 
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_d4bkf"]
-[ext_resource type="Script" uid="uid://ik0hrifgbwa4" path="res://various/stat_entry.gd" id="2_0bkhu"]
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="2_0iqqa"]
+[ext_resource type="Script" uid="uid://18l4gn7hleqe" path="res://various/abstract_stat_entry_container.gd" id="2_6hkg3"]
+[ext_resource type="Script" uid="uid://w8o4jtjlvkjh" path="res://various/stat_aptitude_entry.gd" id="3_k8jcg"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="3_mw4s4"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="4_h7v5m"]
+[ext_resource type="Script" uid="uid://5c3jlvd4s3cf" path="res://various/stat_entry_container.gd" id="4_lbjtf"]
 [ext_resource type="Resource" uid="uid://hct0622s1i7r" path="res://resources/conditions/crossguard.tres" id="5_mblmo"]
 [ext_resource type="Resource" uid="uid://c2b3pnf7kl01v" path="res://resources/conditions/shielded1.tres" id="6_lb7tj"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="6_r74eq"]
+[ext_resource type="Texture2D" uid="uid://fxew7c3sdnk4" path="res://art/interface/items/medium_shield.png" id="8_opr6i"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="10_v22i6"]
+[ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="13_1emct"]
+
+[sub_resource type="Resource" id="Resource_6w0pg"]
+script = ExtResource("3_k8jcg")
+stat = 5
+amount = 2.0
+metadata/_custom_type_script = "uid://w8o4jtjlvkjh"
+
+[sub_resource type="Resource" id="Resource_stecj"]
+script = ExtResource("4_lbjtf")
+entry = SubResource("Resource_6w0pg")
+metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
+
+[sub_resource type="Resource" id="Resource_prq5i"]
+script = ExtResource("3_k8jcg")
+stat = 6
+amount = 2.0
+metadata/_custom_type_script = "uid://w8o4jtjlvkjh"
+
+[sub_resource type="Resource" id="Resource_vmr40"]
+script = ExtResource("4_lbjtf")
+entry = SubResource("Resource_prq5i")
+metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
 
 [sub_resource type="Resource" id="Resource_d2g6g"]
 script = ExtResource("2_0iqqa")
+entry_containers = Array[ExtResource("2_6hkg3")]([SubResource("Resource_stecj"), SubResource("Resource_vmr40")])
 metadata/_custom_type_script = "uid://cpuyout31r1c5"
 
 [resource]
 script = ExtResource("3_mw4s4")
+name = "Shield 2"
+id = "cond_shielded_2"
+description = "This creature is decently shielded."
+icon = ExtResource("8_opr6i")
+persistent = false
 effects = Array[ExtResource("1_d4bkf")]([SubResource("Resource_d2g6g")])
 supplanted = Array[ExtResource("3_mw4s4")]([ExtResource("5_mblmo"), ExtResource("6_lb7tj")])

@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://bee2fuw1xccsr"]
+
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_w6ae4"]
+[ext_resource type="Resource" uid="uid://b2ju5x76n1p2j" path="res://resources/conditions/shielded3.tres" id="2_xk1wj"]
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_ylmda"]
+[ext_resource type="Resource" uid="uid://bpoe3wixrsni4" path="res://resources/activities/weapons/melee_misc_weak_crush.tres" id="4_ltvas"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="5_c2wyu"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="6_2ahdx"]
+[ext_resource type="Resource" uid="uid://dqokkkpm4yfmi" path="res://resources/activities/weapons/throw_misc_weak_crush.tres" id="7_1g0ha"]
+
+[sub_resource type="Resource" id="Resource_5vq8f"]
+script = ExtResource("6_2ahdx")
+activity = ExtResource("4_ltvas")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_gbelc"]
+script = ExtResource("6_2ahdx")
+activity = ExtResource("7_1g0ha")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("2_ylmda")
+name = "Heavy Shield"
+id = "wpn_heavy_shield"
+description = "A thick large shield."
+weight = 8.0
+conditions = Array[ExtResource("1_w6ae4")]([ExtResource("2_xk1wj")])
+brawn_req_1h = 6
+brawn_req_2h = 12
+strike = SubResource("Resource_5vq8f")
+throw = SubResource("Resource_gbelc")
+owner = null
+metadata/_custom_type_script = "uid://c22428ggciyyj"

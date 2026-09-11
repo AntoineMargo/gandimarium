@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7tyii7veboj5"
-path="res://.godot/imported/holosphere.svg-d58e4374dab88f6409f6f4176beb7c91.ctex"
+uid="uid://drbgw7sfolbpj"
+path="res://.godot/imported/cape-armor.png-3d00c57ae144c05c48221b9676189f23.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/icons/holosphere.svg"
-dest_files=["res://.godot/imported/holosphere.svg-d58e4374dab88f6409f6f4176beb7c91.ctex"]
+source_file="res://art/interface/items/cape-armor.png"
+dest_files=["res://.godot/imported/cape-armor.png-3d00c57ae144c05c48221b9676189f23.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false
