@@ -46,15 +46,18 @@ class_name Activity
 @export var triggers_reaction: bool = true
 @export var is_spell: bool = false
 @export var per_round_drain: bool = false
+## This activity builds a condition on its target(s).
 @export var builds_condition: bool = false
-@export var condition_id: String = ""
-@export var attack_types: Array[DamagePattern] = []
+## This activity is meant to toggle on and off a condition.
+@export var condition_toggle: bool = false
 
+@export var attack_types: Array[DamagePattern] = []
 
 var user = null
 var origin: Vector3i
 var concentration: Concentration = null
 var weapon: Item = null
+var condition_id: String = ""
 
 var target_points: Array[Vector3i] = []
 var target_entities: Array = []
@@ -87,6 +90,7 @@ func _setup_concentration():
 		concentration = Concentration.new()
 		concentration.setup(self, per_round_drain)
 
+
 func _finalize_concentration(_context: ActivityContext):
 	if requires_concentration:
 		if concentration.linked_conditions.size() > 0:
@@ -96,9 +100,11 @@ func _finalize_concentration(_context: ActivityContext):
 		else:
 			concentration.cancel()
 
+
 func _build_shared_context():
 	var shared_ctx = SharedContext.new()
 	return shared_ctx
+
 
 func _import_context():
 	if imported_context:
@@ -106,6 +112,7 @@ func _import_context():
 		origin = imported_context.origin
 		if imported_context.concentration:
 			concentration = imported_context.concentration
+
 
 func _build_context(shared_ctx: SharedContext = null, target = null, already_hit = null) -> ActivityContext:
 	var ctx = ActivityContext.new()
@@ -134,6 +141,7 @@ func _build_context(shared_ctx: SharedContext = null, target = null, already_hit
 
 	return ctx
 
+
 func modify_value(value, value_type: Enums.ValueType, ctx: Context, stage: Enums.ActivityStage):
 	for modifier in modifiers:
 		if modifier is not ValueModifier:
@@ -149,16 +157,19 @@ func modify_value(value, value_type: Enums.ValueType, ctx: Context, stage: Enums
 	
 	return value
 
+
 func compute_spell_reach():
 	if is_spell:
 		var acuity = user.get_stat_enum(Enums.StatType.ATTRIBUTE, Enums.Attribute.ACUITY)
 		reach *= acuity
 		#reach = reach + acuity
 
+
 func apply_effect_modifiers():
 	for modifier in modifiers:
 		if modifier is EffectModifier:
 			modifier.modify(self)
+
 
 func pre_execution_bundle_modify(ctx: Context):
 	apply_effect_modifiers()
@@ -183,21 +194,26 @@ func pre_execution_bundle_modify(ctx: Context):
 	origin = modify_value(origin, Enums.ValueType.ORIGIN, ctx, Enums.ActivityStage.PRE_EXECUTION)
 	weapon = modify_value(weapon, Enums.ValueType.WEAPON, ctx, Enums.ActivityStage.PRE_EXECUTION)
 
+
 func pre_roll_bundle_modify(ctx: ActivityContext):
 	ctx.user_roll = modify_value(ctx.user_roll, Enums.ValueType.USER_ROLL, ctx, Enums.ActivityStage.PRE_ROLL)
 	ctx.target_roll = modify_value(ctx.target_roll, Enums.ValueType.TARGET_ROLL, ctx, Enums.ActivityStage.PRE_ROLL)
+
 
 func post_roll_bundle_modify(ctx: ActivityContext):
 	ctx.user_roll = modify_value(ctx.user_roll, Enums.ValueType.USER_ROLL, ctx, Enums.ActivityStage.POST_ROLL)
 	ctx.target_roll = modify_value(ctx.target_roll, Enums.ValueType.TARGET_ROLL, ctx, Enums.ActivityStage.POST_ROLL)
 
+
 func post_resolution_bundle_modify(ctx: ActivityContext):
 	ctx.result = modify_value(ctx.result, Enums.ValueType.RESULT_ROLL, ctx, Enums.ActivityStage.POST_RESOLUTION)
 	ctx.degree = modify_value(ctx.degree, Enums.ValueType.DEGREE, ctx, Enums.ActivityStage.POST_RESOLUTION)
 
+
 func _roll(ctx):
 	ctx.user_roll = BasicMath.standard_roll()
 	ctx.target_roll = BasicMath.standard_roll()
+
 
 func _resolve(ctx):
 	if imported_context and imported_context.reuse_resolution:
@@ -212,6 +228,7 @@ func _resolve(ctx):
 			SignalBus.message.emit(
 				"%s rolled %d against %s's %d." % [ctx.user.data.name, ctx.user_stat+ctx.user_roll, ctx.target.data.name, ctx.target_stat+ctx.target_roll])
 
+
 func _has_enough_ap_and_pp(ctx):
 	if not ctx.user.has_enough_ap(AP_cost):
 		return false
@@ -223,8 +240,10 @@ func _has_enough_ap_and_pp(ctx):
 			return false
 	return true
 
+
 func _consume_ap(ctx):
 	ctx.user.consume_ap(AP_cost)
+
 
 func _consume_pp(ctx):
 	if is_spell:
@@ -232,8 +251,10 @@ func _consume_pp(ctx):
 	else:
 		ctx.user.consume_pp(PP_cost)
 
+
 func execute() -> void:
 	pass
+
 
 func can_execute() -> bool:
 	for filter in self_filters:
@@ -243,8 +264,10 @@ func can_execute() -> bool:
 				return false
 	return true
 
+
 func has_tag(tag: Enums.Tag) -> bool:
 	return tags.has(tag)
+
 
 func process_barriers(ctx: ActivityContext) -> void:
 	if barrier_interaction == Enums.BarrierInteraction.STOP:
@@ -252,11 +275,13 @@ func process_barriers(ctx: ActivityContext) -> void:
 		if ctx_target is Entity and ctx.target.has_method("process_barriers"):
 			ctx_target.process_barriers(ctx)
 
+
 func validate_condition_absence(entity: Entity) -> bool:
 	if condition_id:
 		if entity.get_condition_by_id(condition_id):
 			return false
 	return true
+
 
 func is_valid_target_point(point: Vector3i, alt_origin: Vector3i = Vector3i(-1, -1, -1)) -> bool:
 	var source: Vector3i
@@ -274,10 +299,12 @@ func is_valid_target_point(point: Vector3i, alt_origin: Vector3i = Vector3i(-1, 
 
 	return true
 
+
 func remove_invalid_points(targets: Array[Vector3i]):
 	for i in range(targets.size() - 1, -1, -1):
 		if not is_valid_target_point(targets[i]):
 			targets.remove_at(i)
+
 
 func compute_affected_area(target_location: Vector3i) -> Array[Vector3i]:
 	match shape:
@@ -290,3 +317,10 @@ func compute_affected_area(target_location: Vector3i) -> Array[Vector3i]:
 			tiles.pop_front()
 			return tiles
 	return WorldMath.get_burst_tiles(target_location, spread, spread_requires_LOS)
+
+
+func get_condition_id() -> String:
+	for effect in target_effects:
+		if effect is AddConditionEffect:
+			return effect.condition.id
+	return ""

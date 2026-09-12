@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="5_fejbl"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="6_21wwn"]
 [ext_resource type="Script" uid="uid://c8nleruhobrbc" path="res://effects/move_effect.gd" id="7_5m40f"]
+[ext_resource type="Texture2D" uid="uid://b6xtmwmhbv8o" path="res://art/interface/activities/boot-prints.png" id="11_21wwn"]
 
 [sub_resource type="Resource" id="Resource_3nckw"]
 script = ExtResource("7_5m40f")
@@ -30,6 +31,7 @@ target_effects = Array[ExtResource("6_21wwn")]([SubResource("Resource_3nckw")])
 targeting_type = 0
 affected_type = 1
 requires_roll = false
+is_invisible = true
 triggers_reaction = false
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 
@@ -61,5 +63,6 @@ metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 script = ExtResource("2_m0ra8")
 name = "move"
 description = "Basic movement."
+icon = ExtResource("11_21wwn")
 activities = Array[ExtResource("1_qpo42")]([SubResource("Resource_g1pm5")])
 metadata/_custom_type_script = "uid://covfnqv811mqd"

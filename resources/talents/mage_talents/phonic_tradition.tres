@@ -60,7 +60,7 @@ target_effects = Array[ExtResource("1_kk2wy")]([SubResource("Resource_d7dk5")])
 requires_roll = false
 triggers_reaction = false
 builds_condition = true
-condition_id = "cond_shout_phonic_tradition"
+condition_toggle = true
 metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
 
 [sub_resource type="Resource" id="Resource_rirp8"]

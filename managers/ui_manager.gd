@@ -458,13 +458,20 @@ func _create_activity_button(activity, node_grid):
 
 	var character = Global.selected_char
 
-	if activity.builds_condition and activity.condition_id == "":
+	#if activity.builds_condition and activity.condition_id == "":
+		#push_error("Activity %s builds condition but has no condition_id" % activity.name)
+
+	var condition_id: String = ""
+	if activity.condition_toggle and activity.builds_condition:
+		condition_id = activity.get_condition_id()
+
+	if condition_id == "":
 		push_error("Activity %s builds condition but has no condition_id" % activity.name)
 
 	if activity.builds_condition:
 		button.toggle_mode = true
 
-		var active = character.has_condition(activity.condition_id)
+		var active = character.has_condition(condition_id)
 
 		button.set_pressed_no_signal(active)
 		_set_button_active(button, active)
@@ -587,7 +594,7 @@ func _on_activity_button_toggled(_pressed: bool, button: TextureButton):
 	if not activity:
 		return
 
-	var condition_id = activity.condition_id
+	var condition_id = activity.get_condition_id()
 	var active = Global.focus_char.has_condition(condition_id)
 	
 	if active:
