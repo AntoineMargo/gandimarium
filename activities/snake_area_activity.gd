@@ -114,6 +114,7 @@ func execute() -> void:
 	_import_context()
 	origin = user.get_coords()
 	var pre_ctx = _build_context()
+	_get_spell_cost(pre_ctx)
 	pre_execution_bundle_modify(pre_ctx)
 	if target_points:
 		resolve_with_targets(target_points)

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="TalentEntry" format=3 uid="uid://q85qmpahkbjn"]
+[gd_resource type="Resource" script_class="ArchetypeEntry" format=3 uid="uid://q85qmpahkbjn"]
 
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="1_m54f8"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="2_t155e"]
@@ -51,6 +51,7 @@
 [ext_resource type="Script" uid="uid://bwfaipulxr7tq" path="res://effects/damage_effect.gd" id="49_ehfvy"]
 [ext_resource type="Script" uid="uid://xtxqaeee6rvn" path="res://effects/execute_activity_effect.gd" id="50_04f76"]
 [ext_resource type="Script" uid="uid://cmhyhgvqkynx1" path="res://activity_modifiers/effect_modifier.gd" id="51_bxjfy"]
+[ext_resource type="Script" uid="uid://cun11myug5141" path="res://archetypes/talent_choice.gd" id="52_t155e"]
 [ext_resource type="Script" uid="uid://dnii5080nqn0s" path="res://archetypes/archetype_entry.gd" id="52_v3cg7"]
 
 [sub_resource type="Resource" id="Resource_2imaj"]
@@ -663,7 +664,6 @@ affected_type = 1
 is_spell = true
 per_round_drain = true
 builds_condition = true
-condition_id = "area_cond_solid_fog"
 metadata/_custom_type_script = "uid://bxau8hir6ormb"
 
 [sub_resource type="Resource" id="Resource_pjm1m"]
@@ -757,7 +757,6 @@ self_final_effects = Array[ExtResource("2_t155e")]([SubResource("Resource_yahcu"
 requires_roll = false
 is_spell = true
 builds_condition = true
-condition_id = "cond_spell_armour"
 metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
 
 [sub_resource type="Resource" id="Resource_x65d4"]

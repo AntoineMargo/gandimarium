@@ -55,6 +55,7 @@ func execute() -> void:
 	_import_context()
 	origin = user.get_coords()
 	var pre_ctx = _build_context()
+	_get_spell_cost(pre_ctx)
 	pre_execution_bundle_modify(pre_ctx)
 	if prompt_scene:
 		resolve_ui()
@@ -68,7 +69,7 @@ func resolve() -> void:
 	var shared_ctx = _build_shared_context()
 	var self_ctx = _build_context(shared_ctx, user.get_coords())
 	
-
+	_get_spell_cost(self_ctx)
 
 	if spread == 0:
 		target_points.append(self_ctx.origin)
@@ -95,6 +96,9 @@ func resolve() -> void:
 				return
 				
 	SignalBus.event.emit(ReactionEvent.activity_started(self_ctx))
+	
+	_consume_ap(self_ctx)
+	_consume_pp(self_ctx)
 	
 	#for point in target_points:
 		#for effect in effects_per_tile:
@@ -154,8 +158,6 @@ func resolve() -> void:
 		self_ctx.affected_tiles = affected_tiles
 		fire_hit_effect(self_ctx)
 
-	_consume_ap(self_ctx)
-	_consume_pp(self_ctx)
 	_finalize_concentration(self_ctx)
 	target_points.clear()
 	SignalBus.update_ui_for_char.emit()

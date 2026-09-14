@@ -15,7 +15,6 @@ metadata/_custom_type_script = "uid://cun11myug5141"
 
 [sub_resource type="Resource" id="Resource_ssk5f"]
 script = ExtResource("2_ybfg1")
-talents_to_add_to_pool = Array[ExtResource("3_sfept")]([ExtResource("7_vf3cj")])
 auto_talents = Array[ExtResource("3_sfept")]([ExtResource("4_culw1"), ExtResource("5_culw1")])
 choice_talents = Array[ExtResource("6_cuteg")]([SubResource("Resource_hjsy8")])
 metadata/_custom_type_script = "uid://dnii5080nqn0s"

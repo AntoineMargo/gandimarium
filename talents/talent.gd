@@ -5,7 +5,7 @@ class_name Talent
 @export var id: String = "placeholder"
 @export_range(0, 24) var min_level: int = 0
 @export var description: String = "This is a placeholder description."
-@export var icon: String
+@export var icon: Texture2D
 @export var filters: Array[Filter] = []
 @export var effects: Array[Effect] = []
 @export var supplanted: Array[Talent] = []

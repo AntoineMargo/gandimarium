@@ -19,6 +19,8 @@ func applies(ctx: Context) -> bool:
 					return false
 	if filters:
 		for filter in filters:
+			if filter == null:
+				continue
 			if not filter.is_satisfied(ctx):
 				return false
 	

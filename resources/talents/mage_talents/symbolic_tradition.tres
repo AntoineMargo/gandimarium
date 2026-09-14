@@ -1,0 +1,48 @@
+[gd_resource type="Resource" script_class="Talent" format=3 uid="uid://uglo05g7kdqt"]
+
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_lo56j"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_t5apb"]
+[ext_resource type="Script" uid="uid://cb3hopexiarh5" path="res://filters/one_hands_free.gd" id="3_rrbd5"]
+[ext_resource type="Script" uid="uid://c8v8s46ee68lc" path="res://activity_modifiers/filter_modifier.gd" id="4_87y2q"]
+[ext_resource type="Script" uid="uid://dywclcl7k47vv" path="res://effects/activity_modifier_effect.gd" id="5_6ri1t"]
+[ext_resource type="Script" uid="uid://c71ld4j6oayqc" path="res://activity_modifiers/spell_cost_modifier.gd" id="6_56d4d"]
+[ext_resource type="Texture2D" uid="uid://b15nc8rdj02yv" path="res://art/interface/activities/swap-bag.png" id="7_my2ij"]
+[ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="8_76rq3"]
+
+[sub_resource type="Resource" id="Resource_kamo4"]
+script = ExtResource("3_rrbd5")
+metadata/_custom_type_script = "uid://cb3hopexiarh5"
+
+[sub_resource type="Resource" id="Resource_8s2lx"]
+script = ExtResource("4_87y2q")
+targeted_array = 0
+filters_to_append = Array[ExtResource("2_t5apb")]([SubResource("Resource_kamo4")])
+id = "mod_one_hand_free_symbolic"
+tags = Array[int]([0])
+metadata/_custom_type_script = "uid://c8v8s46ee68lc"
+
+[sub_resource type="Resource" id="Resource_qm4s1"]
+script = ExtResource("5_6ri1t")
+modifier = SubResource("Resource_8s2lx")
+metadata/_custom_type_script = "uid://dywclcl7k47vv"
+
+[sub_resource type="Resource" id="Resource_qjjsd"]
+script = ExtResource("6_56d4d")
+delta = -1
+id = "mod_spell_cost"
+tags = Array[int]([0])
+metadata/_custom_type_script = "uid://c71ld4j6oayqc"
+
+[sub_resource type="Resource" id="Resource_r3xgc"]
+script = ExtResource("5_6ri1t")
+modifier = SubResource("Resource_qjjsd")
+metadata/_custom_type_script = "uid://dywclcl7k47vv"
+
+[resource]
+script = ExtResource("8_76rq3")
+name = "Symbolic Tradition"
+id = "tal_symbolic_tradition"
+description = "This creature casts spells by using small items as their representations, anchoring them and substracting part of their cost. Spells cost 1 rank's worth of strain less than normal."
+icon = ExtResource("7_my2ij")
+effects = Array[ExtResource("1_lo56j")]([SubResource("Resource_qm4s1"), SubResource("Resource_r3xgc")])
+metadata/_custom_type_script = "uid://c5ijx7qo7jak"

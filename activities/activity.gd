@@ -127,7 +127,7 @@ func _build_context(shared_ctx: SharedContext = null, target = null, already_hit
 	
 	ctx.already_hit = already_hit
 	
-	ctx.current_spell_rank = user.get_final_stat("current_spell_rank")
+	ctx.spell_rank = user.get_final_stat("current_spell_rank")
 	ctx.concentration = concentration
 	
 	if ctx.target is Creature or ctx.target is Prop:
@@ -171,8 +171,24 @@ func apply_effect_modifiers():
 			modifier.modify(self)
 
 
+func apply_filter_modifiers():
+	for modifier in modifiers:
+		if modifier is FilterModifier:
+			modifier.modify(self)
+
+
+func apply_misc_modifiers(ctx: Context):
+	for modifier in modifiers:
+		if modifier is SpellCostModifier:
+			PP_cost = modifier.modify(PP_cost, ctx)
+			return
+
+
 func pre_execution_bundle_modify(ctx: Context):
-	apply_effect_modifiers()
+	apply_filter_modifiers() # Apply modifiers that add filters to the activity.
+	apply_effect_modifiers() # Apply modifiers that add effects to the activity.
+	
+	apply_misc_modifiers(ctx)
 
 	AP_cost = modify_value(AP_cost, Enums.ValueType.AP_COST, ctx, Enums.ActivityStage.PRE_EXECUTION)
 	PP_cost = modify_value(PP_cost, Enums.ValueType.PP_COST, ctx, Enums.ActivityStage.PRE_EXECUTION)
@@ -208,6 +224,9 @@ func post_roll_bundle_modify(ctx: ActivityContext):
 func post_resolution_bundle_modify(ctx: ActivityContext):
 	ctx.result = modify_value(ctx.result, Enums.ValueType.RESULT_ROLL, ctx, Enums.ActivityStage.POST_RESOLUTION)
 	ctx.degree = modify_value(ctx.degree, Enums.ValueType.DEGREE, ctx, Enums.ActivityStage.POST_RESOLUTION)
+	
+	if is_spell:
+		ctx.spell_rank = modify_value(ctx.spell_rank, Enums.ValueType.SPELL_RANK, ctx, Enums.ActivityStage.POST_RESOLUTION)
 
 
 func _roll(ctx):
@@ -246,10 +265,18 @@ func _consume_ap(ctx):
 
 
 func _consume_pp(ctx):
+	ctx.user.consume_pp(PP_cost)
+
+
+func _get_spell_cost(ctx: ActivityContext) -> void:
 	if is_spell:
-		ctx.user.consume_pp(ctx.user.get_stat("current_spell_cost"))
-	else:
-		ctx.user.consume_pp(PP_cost)
+		PP_cost = ctx.user.get_spell_cost(ctx.spell_rank)
+
+#func _consume_pp(ctx):
+	#if is_spell:
+		#ctx.user.consume_pp(ctx.user.get_stat("current_spell_cost"))
+	#else:
+		#ctx.user.consume_pp(PP_cost)
 
 
 func execute() -> void:

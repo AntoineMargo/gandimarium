@@ -119,10 +119,10 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Primordial Mage"
 
-[node name="WarMage" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=380746907]
+[node name="BattleMage" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=380746907]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "War Mage"
+text = "Battle Mage"
 
 [node name="Legion" type="Button" parent="ColorRect/VBoxContainer/CreationTabs/PrimaryArchetype/ArchetypeTabs/Archetype/VBoxContainer/HBoxContainer/Archetypes" unique_id=1158868948]
 layout_mode = 2

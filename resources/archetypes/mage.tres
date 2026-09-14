@@ -7,10 +7,62 @@
 [ext_resource type="Resource" uid="uid://152l5p4f6j5l" path="res://resources/talents/scholastic_mage_spells.tres" id="5_pstgi"]
 [ext_resource type="Script" uid="uid://cun11myug5141" path="res://archetypes/talent_choice.gd" id="6_ndj52"]
 [ext_resource type="Resource" uid="uid://h5vdwbifiypf" path="res://resources/talents/mage_talents/phonic_tradition.tres" id="7_5omgn"]
+[ext_resource type="Resource" uid="uid://dvlga64n2iefs" path="res://resources/talents/mage_talents/glyphic_tradition.tres" id="8_gwrd6"]
+[ext_resource type="Resource" uid="uid://uglo05g7kdqt" path="res://resources/talents/mage_talents/symbolic_tradition.tres" id="9_vxkgr"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="10_5g7wr"]
+[ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="11_163vx"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="11_rp2xm"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="12_iyvl6"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="13_82rwo"]
+[ext_resource type="Texture2D" uid="uid://b25dn6tg3xvwl" path="res://art/interface/activities/gem-chain.png" id="14_7ve0m"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="15_tiei3"]
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="16_ffcu3"]
+[ext_resource type="Script" uid="uid://g1muvdggkxqa" path="res://effects/add_activity_effect.gd" id="18_2wkw0"]
+
+[sub_resource type="Resource" id="Resource_04325"]
+script = ExtResource("16_ffcu3")
+name = "Store Spell"
+id = "act_store_spell"
+description = "You place a spell inside the focus."
+icon = ExtResource("14_7ve0m")
+AP_cost = 6
+reach_requires_LOS = false
+spread_requires_LOS = false
+reach = 0
+requires_roll = false
+triggers_reaction = false
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_vgv1s"]
+script = ExtResource("12_iyvl6")
+activity = SubResource("Resource_04325")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_rp2xm"]
+script = ExtResource("11_163vx")
+name = "Store Spell"
+description = "act_store_spell"
+icon = ExtResource("14_7ve0m")
+activities = Array[ExtResource("12_iyvl6")]([SubResource("Resource_vgv1s")])
+metadata/_custom_type_script = "uid://covfnqv811mqd"
+
+[sub_resource type="Resource" id="Resource_5g7wr"]
+script = ExtResource("18_2wkw0")
+activities = Array[ExtResource("11_163vx")]([SubResource("Resource_rp2xm")])
+metadata/_custom_type_script = "uid://g1muvdggkxqa"
+
+[sub_resource type="Resource" id="Resource_apbxo"]
+script = ExtResource("3_4f3bi")
+name = "Focal Tradition"
+id = "tal_focal_tradition"
+description = "This creature casts spells through a physical focus of their choice, bonded to them. A single long-duration spell can be cast into the focus, at no expense of power track or points."
+icon = ExtResource("14_7ve0m")
+effects = Array[ExtResource("10_5g7wr")]([SubResource("Resource_5g7wr")])
+metadata/_custom_type_script = "uid://c5ijx7qo7jak"
 
 [sub_resource type="Resource" id="Resource_cuteg"]
 script = ExtResource("6_ndj52")
-talents = Array[ExtResource("3_4f3bi")]([ExtResource("7_5omgn")])
+talents = Array[ExtResource("3_4f3bi")]([ExtResource("7_5omgn"), ExtResource("8_gwrd6"), ExtResource("9_vxkgr"), SubResource("Resource_apbxo")])
 metadata/_custom_type_script = "uid://cun11myug5141"
 
 [sub_resource type="Resource" id="Resource_xc8o4"]

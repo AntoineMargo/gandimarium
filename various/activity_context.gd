@@ -21,7 +21,8 @@ var shared_context: SharedContext = null
 var delayed_calls: Array[Callable] = []
 var already_hit = null
 
-var current_spell_rank: int = 0
+#var current_spell_rank: int = 0
+var spell_rank: int = 0
 var concentration: Concentration = null
 
 ## For activities created through the ExecuteActivityEffect.

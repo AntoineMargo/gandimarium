@@ -19,6 +19,7 @@ func execute() -> void:
 	origin = user.get_coords()
 	final_reach = reach * user.data.attributes.brawn
 	var pre_ctx = _build_context()
+	_get_spell_cost(pre_ctx)
 	pre_execution_bundle_modify(pre_ctx)
 	if target_points:
 		resolve_with_targets(target_points)

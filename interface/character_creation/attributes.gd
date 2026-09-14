@@ -38,12 +38,21 @@ func value_changed(_attribute: Attribute) -> void:
 		modify_creature_attributes()
 		root.skills.initialise()
 
+
 func modify_creature_attributes():
 	var attributes = root.data.attributes
-	attributes.acuity = acuity_spinbox.value
-	attributes.brawn = brawn_spinbox.value
-	attributes.dexterity = dexterity_spinbox.value
-	attributes.resolve = resolve_spinbox.value
+	attributes.set_attribute(Enums.Attribute.ACUITY, acuity_spinbox.value)
+	attributes.set_attribute(Enums.Attribute.BRAWN, brawn_spinbox.value)
+	attributes.set_attribute(Enums.Attribute.DEXTERITY, dexterity_spinbox.value)
+	attributes.set_attribute(Enums.Attribute.RESOLVE, resolve_spinbox.value)
+
+
+#func modify_creature_attributes():
+	#var attributes = root.data.attributes
+	#attributes.acuity = acuity_spinbox.value
+	#attributes.brawn = brawn_spinbox.value
+	#attributes.dexterity = dexterity_spinbox.value
+	#attributes.resolve = resolve_spinbox.value
 
 func _on_acuity_value_changed(_value: float) -> void:
 	value_changed(Attribute.ACUITY)

@@ -21,8 +21,14 @@ func apply_context(ctx: Context) -> bool:
 	var final_resistance = ctx.activity.modify_value(resistance, Enums.ValueType.RESISTANCE, ctx, Enums.ActivityStage.EFFECT)
 	var final_damage_pattern = ctx.activity.modify_value(damage_pattern, Enums.ValueType.DAMAGE_PATTERN, ctx, Enums.ActivityStage.EFFECT)
 	var final_die_number = ctx.activity.modify_value(die_number, Enums.ValueType.DIE_NUMBER, ctx, Enums.ActivityStage.EFFECT)
-
-	final_die_number *= ctx.user.data.current_spell_rank
+	
+	var spell_rank: int = 0
+	if ctx is ActivityContext:
+		spell_rank = ctx.spell_rank
+	else:
+		spell_rank = ctx.user.data.current_spell_rank
+		
+	final_die_number *= spell_rank
 
 	var total_damage = BasicMath.determine_damage(
 		final_die_number, final_die_size,

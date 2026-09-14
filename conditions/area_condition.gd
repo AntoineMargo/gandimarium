@@ -24,7 +24,7 @@ func initialize(ctx: Context) -> void:
 	self.target = ctx.target
 	ctx.condition = self
 	if ctx is ActivityContext:
-		self.spell_rank = ctx.current_spell_rank
+		self.spell_rank = ctx.spell_rank
 		if ctx.concentration:
 			ctx.concentration.register_condition(self)
 

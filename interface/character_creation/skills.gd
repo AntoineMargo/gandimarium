@@ -96,7 +96,7 @@ func export_skills_to_data():
 		root.data.base_stats.set_skill(skill, assigned_values[skill_name])
 
 func initialise():
-	max_skill = root.data.attributes.acuity
+	max_skill = root.data.attributes.get_attribute(Enums.Attribute.ACUITY)
 
 	available_values.clear()
 	for i in range(1, max_skill + 1):

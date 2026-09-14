@@ -20,7 +20,8 @@ func get_archetype_name(archetype) -> String:
 	return "None"
 
 func _on_update_character_info():
-	update(Global.selected_char)
+	if Global.selected_char:
+		update(Global.selected_char)
 
 func update(character):
 	%Name.text = character.data.name

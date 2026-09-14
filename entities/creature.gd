@@ -931,7 +931,7 @@ func set_coords(new_coords: Vector3i):
 	data.tile_z = new_coords.z
 
 
-func get_current_spell_rank_table():
+func get_current_spell_rank_table() -> SpellCosts:
 	@warning_ignore("integer_division")
 	var table_index: int = (data.applied_level - 1) / 2
 	return data.casting_table.cost_table[table_index]
@@ -940,19 +940,32 @@ func get_current_spell_rank_table():
 func set_current_spell_rank(new_value: int) -> void:
 	data.current_spell_rank = new_value
 
+
 func get_current_spell_rank() -> int:
 	return data.current_spell_rank
+
 
 func set_max_spell_rank() -> void:
 	@warning_ignore("integer_division")
 	var current_spell_rank_table = get_current_spell_rank_table()
 	data.max_spell_rank = current_spell_rank_table.spell_costs.keys().max()
 
+
 func get_max_spell_rank() -> int:
 	return data.max_spell_rank
 
+
 func get_current_spell_cost() -> int:
-	return get_current_spell_rank_table().spell_costs[data.current_spell_rank]
+	var spell_costs_table: SpellCosts = get_current_spell_rank_table()
+	return spell_costs_table.spell_costs[data.current_spell_rank]
+
+
+func get_spell_cost(spell_rank: int):
+	if spell_rank <= 0:
+		return 0
+	var spell_costs_table: SpellCosts = get_current_spell_rank_table()
+	return spell_costs_table.spell_costs[spell_rank]
+
 
 func level_up() -> void:
 	var selected_skill: Enums.Skill = Enums.Skill.ARCANE
@@ -1053,7 +1066,7 @@ func initialize_character() -> void:
 
 		# Should be folded into Archetype's init function
 		if data.major_archetype and data.major_archetype.type == Enums.Archetype.SCHOLASTIC_MAGE:
-			data.max_spells_ready = data.attributes.acuity
+			data.max_spells_ready = data.attributes.get_attribute(Enums.Attribute.ACUITY)
 		else:
 			data.max_spells_ready = 99999
 

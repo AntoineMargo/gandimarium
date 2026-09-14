@@ -86,5 +86,6 @@ script = ExtResource("17_51p28")
 name = "Phonic Tradition"
 id = "tal_phonic_tradition"
 description = "This creature casts spells by orally reciting incantations. It may choose to shout them, gaining increased power."
+icon = ExtResource("5_x3obn")
 effects = Array[ExtResource("1_kk2wy")]([SubResource("Resource_res2x")])
 metadata/_custom_type_script = "uid://c5ijx7qo7jak"
