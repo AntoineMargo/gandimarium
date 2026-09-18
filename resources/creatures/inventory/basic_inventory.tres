@@ -10,6 +10,7 @@
 [ext_resource type="Resource" uid="uid://dp84ok66j1f1q" path="res://resources/items/weapons/wpn_light_shield.tres" id="7_pu1i0"]
 [ext_resource type="Resource" uid="uid://cmfvlbuem2afq" path="res://resources/items/weapons/wpn_medium_shield.tres" id="8_g1mlq"]
 [ext_resource type="Resource" uid="uid://bee2fuw1xccsr" path="res://resources/items/weapons/wpn_heavy_shield.tres" id="9_l163h"]
+[ext_resource type="Resource" uid="uid://bupyxim44pypq" path="res://resources/items/rings/item_necklace_of_agility.tres" id="10_g1mlq"]
 
 [sub_resource type="Resource" id="Resource_pu1i0"]
 script = ExtResource("3_hvu0r")
@@ -24,5 +25,5 @@ metadata/_custom_type_script = "uid://5p63q28tlgwq"
 
 [resource]
 script = ExtResource("2_43dtw")
-list = Array[ExtResource("1_lvnn5")]([SubResource("Resource_pu1i0"), ExtResource("4_7t1eq"), ExtResource("5_8as4m"), ExtResource("5_8as4m"), ExtResource("6_hvu0r"), ExtResource("7_pu1i0"), ExtResource("8_g1mlq"), ExtResource("9_l163h")])
+list = Array[ExtResource("1_lvnn5")]([SubResource("Resource_pu1i0"), ExtResource("4_7t1eq"), ExtResource("5_8as4m"), ExtResource("5_8as4m"), ExtResource("6_hvu0r"), ExtResource("7_pu1i0"), ExtResource("8_g1mlq"), ExtResource("9_l163h"), ExtResource("10_g1mlq")])
 metadata/_custom_type_script = "uid://0hy8gde00nbx"

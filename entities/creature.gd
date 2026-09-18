@@ -172,10 +172,10 @@ func add_condition_from(ctx: Context) -> Condition:
 	if existing:
 		existing.add_source(ctx.id)
 		return existing
-
+	
 	for weaker_cond in ctx.condition.supplanted:
 		if has_condition(weaker_cond.id):
-			remove_condition(weaker_cond)
+			remove_condition(weaker_cond, true)
 	for existing_cond in data.conditions:
 		for weaker_cond in existing_cond.supplanted:
 			if ctx.condition.id == weaker_cond.id:
@@ -204,32 +204,47 @@ func remove_condition_by_id(condition_id: String):
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()
 
-func remove_condition(condition: Condition):
-	start_mutation()
+func remove_condition(condition: Condition, immediate: bool = false):
+	if not immediate:
+		start_mutation()
 	for existing_cond in data.conditions:
 		if existing_cond.id == condition.id:
 			data.conditions.erase(existing_cond)
-	end_mutation()
+	if not immediate:
+		end_mutation()
 	if Global.selected_char == self:
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()
 
+func get_item_condition_ctxs(item: Item) -> Array[Context]:
+	var contexts:  Array[Context] = []
+	if not item or not item.conditions:
+		return []
+	for condition in item.conditions:
+		var instance = condition.duplicate(true)
+		var ctx = Context.new()
+		ctx.id = item.id
+		ctx.user = self
+		ctx.origin = self
+		ctx.target = self
+		ctx.condition = instance
+		contexts.append(ctx)
+	return contexts
 
-func add_item_conditions(item):
+
+func add_item_conditions(item: Item):
 	if not item or not item.conditions:
 		return
 	for condition in item.conditions:
-		if condition is Condition:
-			var instance = condition.duplicate(true)
-			var ctx = Context.new()
-			ctx.id = item.id
-			ctx.user = self
-			ctx.origin = self
-			ctx.target = self
-			ctx.condition = instance
-			add_condition_from(ctx)
-		else:
-			push_error("Item condition is not a Condition resource: " + str(condition))
+		var instance = condition.duplicate(true)
+		var ctx = Context.new()
+		ctx.id = item.id
+		ctx.user = self
+		ctx.origin = self
+		ctx.target = self
+		ctx.condition = instance
+		add_condition_from(ctx)
+
 
 func remove_item_conditions(item):
 	start_mutation()
@@ -250,11 +265,35 @@ func remove_conditions_from_equipment():
 			remove_item_conditions(item)
 	end_mutation()
 
-func apply_conditions_from_equipment():
-	var collection = data.equipment.get_all_equipped_items()
-	if collection:
-		for item in collection:
-			add_item_conditions(item)
+
+func apply_conditions_from_equipment() -> void:
+	var items = data.equipment.get_all_equipped_items()
+	var cond_contexts: Array[Context] = []
+
+	if items:
+		for item in items:
+			cond_contexts.append_array(get_item_condition_ctxs(item))
+
+	var supplanted_ids: Dictionary = {}
+
+	for ctx in cond_contexts:
+		for weaker_cond in ctx.condition.supplanted:
+			supplanted_ids[weaker_cond.id] = true
+
+	for i in range(cond_contexts.size() - 1, -1, -1):
+		if supplanted_ids.has(cond_contexts[i].condition.id):
+			cond_contexts.remove_at(i)
+
+	for ctx in cond_contexts:
+		add_condition_from(ctx)
+
+
+#func apply_conditions_from_equipment():
+	#var items = data.equipment.get_all_equipped_items()
+	#if items:
+		#for item in items:
+			#add_item_conditions(item)
+
 
 func remove_from_inventory(item):
 	data.inventory.remove_from_inventory(item)
@@ -292,13 +331,7 @@ func initialize_item(item: Item):
 
 func equip_item(item: Item) -> bool:
 	initialize_item(item)
-	#remove_conditions_from_equipment()
-	#if not data.equipment.equip_item(item):
-		#apply_conditions_from_equipment()
-		#return false
 	item.owner = self
-	#apply_conditions_from_equipment()
-	#update_stats()
 	if data.equipment.equip_item(item):
 		add_item_conditions(item)
 	if Global.selected_char == self:
@@ -309,17 +342,14 @@ func equip_item(item: Item) -> bool:
 func equip_item_in_slot(item: Item, slot: Enums.EquipmentSlot, force: bool = false) -> bool:
 	start_mutation()
 	initialize_item(item)
-	#remove_conditions_from_equipment()
 	if data.equipment.get_item_in_slot(slot):
 		if force:
 			var old_item: Item = data.equipment.free_slot(slot)
 			data.inventory.add_item(old_item)
 		else:
-			#apply_conditions_from_equipment()
 			end_mutation()
 			return false
 	data.equipment.equip_item_in_slot(item, slot)
-	#apply_conditions_from_equipment()
 	item.owner = self
 	end_mutation()
 	if Global.selected_char == self:
@@ -329,9 +359,7 @@ func equip_item_in_slot(item: Item, slot: Enums.EquipmentSlot, force: bool = fal
 
 func unequip_slot(slot) -> Item:
 	start_mutation()
-	#remove_conditions_from_equipment()
 	var item: Item = data.equipment.free_slot(slot)
-	#apply_conditions_from_equipment()
 	end_mutation()
 	if Global.selected_char == self:
 		SignalBus.update_inventory.emit()
@@ -343,10 +371,8 @@ func remove_item(item: Item) -> Item:
 	if item in inventory:
 		inventory.remove_from_inventory(item)
 	else:
-		#remove_conditions_from_equipment()
 		start_mutation()
 		data.equipment.remove_item(item)
-		#apply_conditions_from_equipment()
 		end_mutation()
 		if Global.selected_char == self:
 			SignalBus.update_inventory.emit()

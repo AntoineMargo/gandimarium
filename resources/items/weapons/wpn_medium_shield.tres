@@ -3,11 +3,103 @@
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_d4yr6"]
 [ext_resource type="Resource" uid="uid://dk6prteydbd7p" path="res://resources/conditions/shielded2.tres" id="2_6w0pg"]
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_sh64v"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="3_ahnmy"]
+[ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="4_54fpx"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="6_jpl3k"]
 [ext_resource type="Texture2D" uid="uid://fxew7c3sdnk4" path="res://art/interface/items/medium_shield.png" id="7_4mqj6"]
+[ext_resource type="Texture2D" uid="uid://dvhhv2fkya3xe" path="res://art/interface/activities/surrounded-shield.png" id="7_lfneu"]
 [ext_resource type="Resource" uid="uid://bpoe3wixrsni4" path="res://resources/activities/weapons/melee_misc_weak_crush.tres" id="9_bopfk"]
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="9_ij0si"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="10_8n6xp"]
 [ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="10_aura3"]
 [ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="11_pbqbt"]
+[ext_resource type="Script" uid="uid://18l4gn7hleqe" path="res://various/abstract_stat_entry_container.gd" id="11_pflnn"]
+[ext_resource type="Script" uid="uid://w8o4jtjlvkjh" path="res://various/stat_aptitude_entry.gd" id="12_njw0d"]
 [ext_resource type="Resource" uid="uid://dqokkkpm4yfmi" path="res://resources/activities/weapons/throw_misc_weak_crush.tres" id="12_vlnj3"]
+[ext_resource type="Script" uid="uid://5c3jlvd4s3cf" path="res://various/stat_entry_container.gd" id="13_nol6k"]
+[ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="14_oldf2"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="15_xkuiw"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="16_l1yct"]
+[ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="17_qkaw7"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="18_u6h82"]
+[ext_resource type="Script" uid="uid://g1muvdggkxqa" path="res://effects/add_activity_effect.gd" id="19_72ksc"]
+
+[sub_resource type="Resource" id="Resource_drisb"]
+script = ExtResource("12_njw0d")
+stat = 6
+amount = 2.0
+metadata/_custom_type_script = "uid://w8o4jtjlvkjh"
+
+[sub_resource type="Resource" id="Resource_bsixk"]
+script = ExtResource("13_nol6k")
+entry = SubResource("Resource_drisb")
+metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
+
+[sub_resource type="Resource" id="Resource_lqvur"]
+script = ExtResource("14_oldf2")
+entry_containers = Array[ExtResource("11_pflnn")]([SubResource("Resource_bsixk")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_n6xkh"]
+script = ExtResource("1_d4yr6")
+name = "Raised Shield"
+id = "cond_raised_shield"
+description = "Your shield is raised; you gain a +2 bonus to Ranged Defence."
+icon = ExtResource("7_lfneu")
+effects = Array[ExtResource("3_ahnmy")]([SubResource("Resource_lqvur")])
+duration = 6
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_1s4dg"]
+script = ExtResource("18_u6h82")
+recipient = 1
+condition = SubResource("Resource_n6xkh")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_sgfcl"]
+script = ExtResource("9_ij0si")
+name = "Raise Shield"
+id = "cond_raise_shield"
+description = "You raise your shield, helping defend against projectiles. You gain +2 Ranged Defence."
+icon = ExtResource("7_lfneu")
+tags = Array[int]([6, 3])
+reach_requires_LOS = false
+spread_requires_LOS = false
+reach = 0
+target_effects = Array[ExtResource("3_ahnmy")]([SubResource("Resource_1s4dg")])
+can_only_hit_once = false
+requires_roll = false
+triggers_reaction = false
+builds_condition = true
+condition_toggle = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_c4m7s"]
+script = ExtResource("11_pbqbt")
+activity = SubResource("Resource_sgfcl")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_fcnc5"]
+script = ExtResource("4_54fpx")
+name = "Raise Shield"
+description = "You raise your shield, helping defend against projectiles. You gain +2 Ranged Defence."
+icon = ExtResource("7_lfneu")
+activities = Array[ExtResource("11_pbqbt")]([SubResource("Resource_c4m7s")])
+metadata/_custom_type_script = "uid://covfnqv811mqd"
+
+[sub_resource type="Resource" id="Resource_r24a3"]
+script = ExtResource("19_72ksc")
+activities = Array[ExtResource("4_54fpx")]([SubResource("Resource_fcnc5")])
+metadata/_custom_type_script = "uid://g1muvdggkxqa"
+
+[sub_resource type="Resource" id="Resource_c7j0h"]
+script = ExtResource("1_d4yr6")
+name = "Raise shield"
+id = "cond_raise_shield_controller"
+re_apply_effects = false
+effects = Array[ExtResource("3_ahnmy")]([SubResource("Resource_r24a3")])
+is_visible = false
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
 
 [sub_resource type="Resource" id="Resource_4rg3v"]
 script = ExtResource("11_pbqbt")
@@ -27,7 +119,7 @@ description = "An average, sturdy wooden shield."
 icon = ExtResource("7_4mqj6")
 weight = 5.0
 value = 20
-conditions = Array[ExtResource("1_d4yr6")]([ExtResource("2_6w0pg")])
+conditions = Array[ExtResource("1_d4yr6")]([ExtResource("2_6w0pg"), SubResource("Resource_c7j0h")])
 strike = SubResource("Resource_4rg3v")
 throw = SubResource("Resource_6i7wf")
 owner = null
