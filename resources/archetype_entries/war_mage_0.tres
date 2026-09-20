@@ -36,7 +36,7 @@
 [ext_resource type="Script" uid="uid://dxmd4au5mv1y0" path="res://effects/equip_item.gd" id="34_cw0gk"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="35_hxebc"]
 [ext_resource type="Script" uid="uid://d4jeevooo13o3" path="res://effects/teleport_effect.gd" id="36_0mpn4"]
-[ext_resource type="Script" uid="uid://dl10wytkh5ohd" path="res://conditions/end_requirements/activities_completed.gd" id="37_bd533"]
+[ext_resource type="Script" uid="uid://dl10wytkh5ohd" path="res://conditions/end_requirements/activity_event_req.gd" id="37_bd533"]
 [ext_resource type="Script" uid="uid://c20e6vg8wsl4e" path="res://activity_modifiers/spell_rank_num_modifier.gd" id="38_mnjbk"]
 [ext_resource type="Script" uid="uid://dywclcl7k47vv" path="res://effects/activity_modifier_effect.gd" id="39_qq4ny"]
 [ext_resource type="Script" uid="uid://jtk6vp2fcxdf" path="res://effects/wpn_damage.gd" id="40_21dll"]

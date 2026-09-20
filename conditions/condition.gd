@@ -36,6 +36,8 @@ var linked_items: Array[Item] = []
 var linked_props: Array[Prop] = []
 var linked_creatures: Array[Creature] = []
 var linked_modifiers: Array[Modifier] = []
+var linked_activities: Array[ActivityContainer] = []
+#var linked_activities: Array[Activity] = []
 
 var user = null
 var target = null
@@ -44,6 +46,8 @@ var target_uid = null
 var tile_spawned_on: Vector3i = Vector3i(0, 0, 0)
 var spell_rank: int = 0
 var sources = {}
+
+var info = {}
 
 var frozen: bool = false
 var start_time: int
@@ -219,6 +223,8 @@ func destroy_children():
 		linked_creatures[i].destroy_self()
 	for i in range(linked_modifiers.size() - 1, -1, -1):
 		linked_modifiers[i].destroy()
+	for i in range(linked_activities.size() - 1, -1, -1):
+		linked_activities[i].destroy(target)
 
 
 func add_source(identifier: String):

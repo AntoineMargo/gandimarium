@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="5_bqpvq"]
 [ext_resource type="Script" uid="uid://kalwpa2j0ckf" path="res://activity_modifiers/addition_num_modifier.gd" id="6_pitiq"]
 [ext_resource type="Script" uid="uid://dywclcl7k47vv" path="res://effects/activity_modifier_effect.gd" id="7_nfkax"]
-[ext_resource type="Script" uid="uid://dl10wytkh5ohd" path="res://conditions/end_requirements/activities_completed.gd" id="8_8r1c4"]
+[ext_resource type="Script" uid="uid://dl10wytkh5ohd" path="res://conditions/end_requirements/activity_event_req.gd" id="8_8r1c4"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="9_8hab2"]
 [ext_resource type="Script" uid="uid://br0lrdyqciudd" path="res://filters/trigger_filter.gd" id="10_s5fac"]
 [ext_resource type="Script" uid="uid://b856khisxbu0g" path="res://filters/trigger_filters/activity_by_self.gd" id="11_t2uct"]

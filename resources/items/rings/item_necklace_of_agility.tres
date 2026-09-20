@@ -8,7 +8,6 @@
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="6_d66sg"]
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="7_8mlcn"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="8_nyy3a"]
-[ext_resource type="Texture2D" uid="uid://d0uw102fhtcn3" path="res://art/interface/items/ring.png" id="9_hto0j"]
 [ext_resource type="Texture2D" uid="uid://cfsy6w2aq44cl" path="res://art/interface/items/feather-necklace.png" id="9_o2bg1"]
 [ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="10_y3p5w"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="11_8qw7n"]
@@ -35,7 +34,7 @@ script = ExtResource("1_08p62")
 name = "Necklace of Agility"
 id = "cond_necklace_of_agility"
 description = "You are granted +2 Agility."
-icon = ExtResource("9_hto0j")
+icon = ExtResource("9_o2bg1")
 persistent = false
 effects = Array[ExtResource("2_hto0j")]([SubResource("Resource_4lguk")])
 metadata/_custom_type_script = "uid://dvi4ohsador2o"

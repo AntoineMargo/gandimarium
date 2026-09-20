@@ -3,5 +3,5 @@ class_name ReplaceModifier
 
 @export var replace_by: int = 1
 
-func modify(value: int, ctx: Context):
+func modify(_value: int, _ctx: Context):
 	return replace_by

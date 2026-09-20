@@ -465,7 +465,7 @@ func _create_activity_button(activity, node_grid):
 	if activity.condition_toggle and activity.builds_condition:
 		condition_id = activity.get_condition_id()
 
-	if condition_id == "":
+	if activity.builds_condition and condition_id == "":
 		push_error("Activity %s builds condition but has no condition_id" % activity.name)
 
 	if activity.builds_condition:

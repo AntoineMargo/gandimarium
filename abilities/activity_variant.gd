@@ -65,10 +65,7 @@ func execute(user: Entity, targets: Array[Vector3i] = []) -> void:
 
 	instance.execute()
 
-
-#func execute(user: Entity, targets: Array[Vector3i] = []) -> void:
-	#var instance = produce(user)
-	#if targets:
-		#instance.target_points.append_array(targets)
-#
-	#instance.execute()
+func _init(a: Activity = null, m: Array[Modifier] = []):
+	self.activity = a
+	self.modifiers.append_array(m)
+	# No AI hint...

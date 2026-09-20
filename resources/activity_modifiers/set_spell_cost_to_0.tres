@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ReplaceModifier" format=3 uid="uid://cap7leconf4lv"]
+
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="1_yjnd5"]
+[ext_resource type="Script" uid="uid://5m1vfmle857y" path="res://activity_modifiers/replace_num_modifier.gd" id="2_06j4g"]
+
+[resource]
+script = ExtResource("2_06j4g")
+replace_by = 0
+value_type = 1
+metadata/_custom_type_script = "uid://5m1vfmle857y"

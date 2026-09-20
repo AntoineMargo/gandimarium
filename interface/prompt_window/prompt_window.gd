@@ -1,6 +1,12 @@
 extends CanvasLayer
 class_name PromptWindow
 
+signal finished(result: Dictionary)
+
+@onready var done_button = $Control/ColorRect/VBoxContainer/HBoxContainer/Button
+
+var user: Creature = null
+
 var dragging: bool = false
 var drag_offset: Vector2 = Vector2.ZERO
 @onready var control = get_node_or_null("%Control")
@@ -9,6 +15,16 @@ var drag_offset: Vector2 = Vector2.ZERO
 
 @onready var list = get_node_or_null("%List")
 
+func setup(u: Creature) -> void:
+	user = u
+
+func _cleanup() -> void:
+	user = null
+
+func _on_exit_pressed() -> void:
+	$".".visible = false
+	_cleanup()
+	finished.emit([])
 
 func _input(event):
 	if event is InputEventMouseButton:
@@ -27,15 +43,17 @@ func _input(event):
 	elif event is InputEventMouseMotion and dragging:
 		control.global_position = get_viewport().get_mouse_position() - drag_offset
 
-func _on_exit_pressed() -> void:
-	$".".visible = false
+
+func finish() -> void:
+	_cleanup()
+	finished.emit({})
+
 
 func _ready() -> void:
-	print("Class:", get_script())
-	print("Script:", get_script().resource_path)
 	layer = 200
 	control.z_index = 200
 	exit_button.pressed.connect(_on_exit_pressed)
+	done_button.pressed.connect(finish)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:

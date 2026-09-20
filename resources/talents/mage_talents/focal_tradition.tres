@@ -1,0 +1,53 @@
+[gd_resource type="Resource" script_class="Talent" format=3 uid="uid://dm42ychjleqv"]
+
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_nlrio"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_4pvo0"]
+[ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="2_f8wck"]
+[ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="3_cupml"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="3_yw5ox"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="4_o6el6"]
+[ext_resource type="Texture2D" uid="uid://b25dn6tg3xvwl" path="res://art/interface/activities/gem-chain.png" id="5_gcdil"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="6_4m7lw"]
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="7_a6a8j"]
+[ext_resource type="Script" uid="uid://g1muvdggkxqa" path="res://effects/add_activity_effect.gd" id="9_5rmm4"]
+
+[sub_resource type="Resource" id="Resource_kxlge"]
+script = ExtResource("7_a6a8j")
+name = "Insert Spell"
+id = "act_insert_pell"
+description = "You insert a long-standing spell into your focus."
+icon = ExtResource("5_gcdil")
+AP_cost = 9
+reach_requires_LOS = false
+spread_requires_LOS = false
+reach = 0
+requires_roll = false
+triggers_reaction = false
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_2pj4b"]
+script = ExtResource("3_yw5ox")
+activity = SubResource("Resource_kxlge")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_gxvhg"]
+script = ExtResource("2_f8wck")
+name = "Insert Spell"
+description = "You insert a long-standing spell into your focus."
+icon = ExtResource("5_gcdil")
+activities = Array[ExtResource("3_yw5ox")]([SubResource("Resource_2pj4b")])
+metadata/_custom_type_script = "uid://covfnqv811mqd"
+
+[sub_resource type="Resource" id="Resource_0ajeq"]
+script = ExtResource("9_5rmm4")
+activities = Array[ExtResource("2_f8wck")]([SubResource("Resource_gxvhg")])
+metadata/_custom_type_script = "uid://g1muvdggkxqa"
+
+[resource]
+script = ExtResource("3_cupml")
+name = "Focal Tradition"
+id = "tal_focal_tradition"
+description = "This creature casts spells by focusing its energy into a physical catalyst."
+icon = ExtResource("5_gcdil")
+effects = Array[ExtResource("1_nlrio")]([SubResource("Resource_0ajeq")])
+metadata/_custom_type_script = "uid://c5ijx7qo7jak"

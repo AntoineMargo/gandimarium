@@ -37,6 +37,11 @@ func add_activity(activity: ActivityContainer):
 	if activity not in data.activities:
 		data.activities.append(activity)
 
+func remove_activity(activity: ActivityContainer):
+	if activity in data.activities:
+		data.activities.erase(activity)
+		return
+
 func add_ready_spell(spell: SpellContainer):
 	if spell not in data.spells_ready:
 		data.spells_ready.append(spell)
@@ -44,6 +49,7 @@ func add_ready_spell(spell: SpellContainer):
 func remove_ready_spell(spell: SpellContainer):
 	if spell in data.spells_ready:
 		data.spells_ready.erase(spell)
+		return
 
 func add_available_spell(spell: SpellContainer):
 	if spell not in data.spells_available:

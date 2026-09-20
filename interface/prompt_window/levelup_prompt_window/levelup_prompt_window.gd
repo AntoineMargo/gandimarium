@@ -1,18 +1,18 @@
 extends PromptWindow
 class_name TalentPromptWindow
 
-signal finished(result: Dictionary)
+#signal finished(result: Dictionary)
 
 var selected_skill: Enums.Skill
 var choice_talents: Array[Talent] = []
 var regular_talent: Talent = null
 
-@onready var done_button = $Control/ColorRect/VBoxContainer/HBoxContainer/Button
+#@onready var done_button = $Control/ColorRect/VBoxContainer/HBoxContainer/Button
 
 
-func _on_exit_pressed() -> void:
-	super()
-	finished.emit([])
+#func _on_exit_pressed() -> void:
+	#super()
+	#finished.emit([])
 
 
 func _on_choice_talent_selected(talent: Talent, choice_index: int) -> void:
@@ -112,13 +112,6 @@ func _on_option_button_item_selected(index: int, button: OptionButton) -> void:
 
 
 func finish() -> void:
-	#if not regular_talent:
-		#return
-
-	#for talent in choice_talents:
-		#if not talent:
-			#return
-	
 	finished.emit({
 	"regular_talent": regular_talent,
 	"choice_talents": choice_talents,
@@ -131,7 +124,7 @@ func _ready() -> void:
 	selected_skill = Enums.Skill.ARCANE
 	regular_talent = null
 	choice_talents.clear()
-	done_button.pressed.connect(finish)
+	#done_button.pressed.connect(finish)
 	super()
 	_update_for_char(Global.selected_char)
 

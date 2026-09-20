@@ -1,5 +1,4 @@
 extends Effect
-
 class_name SpellDamageEffect
 
 @export var die_number: int = 1

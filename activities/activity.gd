@@ -7,7 +7,8 @@ class_name Activity
 @export var icon: Texture2D
 @export var tags: Array[Enums.Tag] = []
 @export var AP_cost: int = 1
-@export var PP_cost: int = 0
+## Leave PP_cost at -1 for spells; it indicates to the program that it needs to be replaced with a rank appropriate cost.
+@export var PP_cost: int = -1
 @export var EP_cost: int = 0
 @export var requires_concentration: bool = false
 @export var reach_requires_LOS: bool = true
@@ -251,12 +252,8 @@ func _resolve(ctx):
 func _has_enough_ap_and_pp(ctx):
 	if not ctx.user.has_enough_ap(AP_cost):
 		return false
-	if is_spell:
-		if not ctx.user.has_enough_pp(ctx.user.get_stat("current_spell_cost")):
-			return false
-	else:
-		if not ctx.user.has_enough_pp(PP_cost):
-			return false
+	if not ctx.user.has_enough_pp(PP_cost):
+		return false
 	return true
 
 
@@ -265,11 +262,13 @@ func _consume_ap(ctx):
 
 
 func _consume_pp(ctx):
+	if PP_cost < 0:
+		return
 	ctx.user.consume_pp(PP_cost)
 
 
 func _get_spell_cost(ctx: ActivityContext) -> void:
-	if is_spell:
+	if is_spell and PP_cost == -1:
 		PP_cost = ctx.user.get_spell_cost(ctx.spell_rank)
 
 #func _consume_pp(ctx):

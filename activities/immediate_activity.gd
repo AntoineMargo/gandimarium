@@ -5,6 +5,8 @@ class_name ImmediateActivity
 @export var prompt_scene: PackedScene
 
 var prompt_instance = null
+var prompt_result = null
+
 
 #func is_valid_target_point(point: Vector3i) -> bool:
 	#origin = user.get_coords()
@@ -17,17 +19,23 @@ var prompt_instance = null
 #
 	#return true
 
+
 func _cleanup() -> void:
-	prompt_instance.queue_free()
+	if prompt_instance:
+		prompt_instance.queue_free()
+	if prompt_result:
+		prompt_result.clear()
 	SignalBus.change_cursor.emit("default")
 	Global.activity_handler = null
 	origin = Vector3i(0, 0, 0)
 	target_points.clear()
 	SignalBus.update_ui_for_char.emit()
 
+
 func cancel_activity():
 	SignalBus.message.emit("Canceling activity.")
 	_cleanup()
+
 
 func handle_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -37,19 +45,27 @@ func handle_input(event: InputEvent) -> void:
 			MOUSE_BUTTON_RIGHT:
 				cancel_activity()
 
+
 func preview_area(tile):
 	var wm = Global.world_manager
 	var tiles = compute_affected_area(tile)
 	wm.clear_visualization(wm.preview_visualized_rects, wm.preview_visualized_lines)
 	wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines)
 
+
 func resolve_ui() -> void:
 	SignalBus.message.emit("Waiting for player decision...")
 	Global.activity_handler = self
 	self.user = user
-	prompt_instance = prompt_scene.instantiate()
+	if prompt_scene:
+		prompt_instance = prompt_scene.instantiate()
+		prompt_instance.setup(user)
 	Global.add_child(prompt_instance)
 	SignalBus.change_cursor.emit("select2")
+	if prompt_instance:
+		prompt_result = await prompt_instance.finished
+	resolve()
+
 
 func execute() -> void:
 	_import_context()
@@ -61,6 +77,7 @@ func execute() -> void:
 		resolve_ui()
 	else:
 		resolve()
+
 
 func resolve() -> void:
 	_setup_concentration()
@@ -160,8 +177,10 @@ func resolve() -> void:
 
 	_finalize_concentration(self_ctx)
 	target_points.clear()
-	SignalBus.update_ui_for_char.emit()
+	#SignalBus.update_ui_for_char.emit()
 	
 	SignalBus.event.emit(ReactionEvent.activity_completed(self_ctx))
 	
 	SignalBus.message.emit("%s used %s." % [user.data.name, name])
+	
+	_cleanup()

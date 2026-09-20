@@ -8,15 +8,59 @@
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="6_646py"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="7_6opap"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="8_o26wj"]
+[ext_resource type="Script" uid="uid://dujvsvmkxajfb" path="res://effects/spell_matrix.gd" id="8_x8uc8"]
+[ext_resource type="Script" uid="uid://kalwpa2j0ckf" path="res://activity_modifiers/addition_num_modifier.gd" id="9_dnuew"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="9_f5raw"]
+[ext_resource type="Script" uid="uid://cmrlgyud8dicw" path="res://conditions/end_requirements/specific_activity_req.gd" id="10_dnuew"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="11_om74m"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="12_h37wg"]
+[ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="13_jo2ef"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="14_rgd5h"]
+[ext_resource type="Texture2D" uid="uid://duyb0f63yptjt" path="res://art/interface/activities/nested-hexagons.png" id="15_f5raw"]
+
+[sub_resource type="Resource" id="Resource_2qp4u"]
+script = ExtResource("9_dnuew")
+to_add = -1
+metadata/_custom_type_script = "uid://kalwpa2j0ckf"
+
+[sub_resource type="Resource" id="Resource_ut16u"]
+script = ExtResource("8_x8uc8")
+modifiers = Array[ExtResource("3_ap8b7")]([SubResource("Resource_2qp4u")])
+metadata/_custom_type_script = "uid://dujvsvmkxajfb"
+
+[sub_resource type="Resource" id="Resource_gb42e"]
+script = ExtResource("10_dnuew")
+event_types = Array[int]([2])
+counter = 1
+metadata/_custom_type_script = "uid://cmrlgyud8dicw"
+
+[sub_resource type="Resource" id="Resource_n4kkg"]
+script = ExtResource("11_om74m")
+name = "Spell Matrix"
+id = "cond_spell_matrix"
+description = "This spell matrix contains a spell you can release at any time."
+icon = ExtResource("15_f5raw")
+re_apply_effects = false
+effects = Array[ExtResource("7_6opap")]([SubResource("Resource_ut16u")])
+end_requirements = Array[ExtResource("9_f5raw")]([SubResource("Resource_gb42e")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_om74m"]
+script = ExtResource("14_rgd5h")
+recipient = 1
+condition = SubResource("Resource_n4kkg")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
 
 [sub_resource type="Resource" id="Resource_2mmfy"]
 script = ExtResource("5_ilwqq")
 prompt_scene = ExtResource("4_g744v")
-name = "Spell Matrix (2)"
-id = "act_spell_matrix_2"
+name = "Spell Matrix"
+id = "act_spell_matrix"
+icon = ExtResource("15_f5raw")
 AP_cost = 3
 requires_concentration = true
 reach = 0
+self_final_effects = Array[ExtResource("7_6opap")]([SubResource("Resource_om74m")])
 requires_roll = false
 is_spell = true
 builds_condition = true
@@ -30,5 +74,6 @@ metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 [resource]
 script = ExtResource("8_o26wj")
 name = "Spell Matrix (2)"
+icon = ExtResource("15_f5raw")
 activities = Array[ExtResource("1_ppibv")]([SubResource("Resource_13mnf")])
 metadata/_custom_type_script = "uid://sg6vjj4j36i4"

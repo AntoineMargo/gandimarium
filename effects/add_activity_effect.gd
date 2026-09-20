@@ -3,8 +3,19 @@ class_name AddActivityEffect
 
 @export var activities: Array[ActivityContainer] = []
 
+
 func apply(_source, target, _degree: int = 2) -> void:
 	for activity in activities:
 		var new_activity = activity.duplicate()
 		if target.has_method("add_activity"):
 			target.add_activity(new_activity)
+
+
+func apply_context(ctx: Context) -> bool:
+	for activity in activities:
+		var new_activity = activity.duplicate()
+		if ctx.target.has_method("add_activity"):
+			ctx.target.add_activity(new_activity)
+		if ctx is ActivityContext and ctx.condition:
+			ctx.condition.linked_activities.append(new_activity)
+	return true
