@@ -438,7 +438,7 @@ func update_activity_buttons():
 
 	var count = min(activities.size(), MAX_ACTIVITIES)
 	for i in count:
-		var final_activity = activities[i].query_current_activity(character)
+		var final_activity: Activity = activities[i].query_current_activity(character)
 		if final_activity.is_invisible == false:
 			_create_activity_button(final_activity, node_grid)
 
@@ -449,11 +449,12 @@ func _set_button_active(button: TextureButton, active: bool) -> void:
 
 	mat.set_shader_parameter("outline_thickness", 2 if active else 0)
 
-func _create_activity_button(activity, node_grid):
+func _create_activity_button(activity: Activity, node_grid):
 	var button = activity_button.instantiate() as TextureButton
 	button.texture_normal = activity.icon
 
 	button.set_meta("activity", activity)
+	button.tooltip_text = activity.description
 	node_grid.add_child(button)
 
 	var character = Global.selected_char

@@ -63,6 +63,7 @@ func _update_for_char(creature: Creature):
 
 					var choice_label = Label.new()
 					choice_label.text = "Choose among the following:"
+					choice_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 					list.add_child(choice_label)
 
 					for talent in choice.talents:
@@ -71,6 +72,7 @@ func _update_for_char(creature: Creature):
 				var talent_button_group = ButtonGroup.new()
 				var regular_talent_label = Label.new()
 				regular_talent_label.text = "Choose a talent for this level:"
+				regular_talent_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 				list.add_child(regular_talent_label)
 				
 				for talent in creature.data.talent_pool:
@@ -80,7 +82,8 @@ func _update_for_char(creature: Creature):
 	var hbox = HBoxContainer.new()
 	list.add_child(hbox)
 	var new_skill_label = Label.new()
-	new_skill_label.text = "Choose a new skill:"
+	new_skill_label.text = " Choose a new skill:"
+	new_skill_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hbox.add_child(new_skill_label)
 	var skill_option_button = OptionButton.new()
 	setup_option_button(skill_option_button, creature)

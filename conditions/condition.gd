@@ -37,7 +37,6 @@ var linked_props: Array[Prop] = []
 var linked_creatures: Array[Creature] = []
 var linked_modifiers: Array[Modifier] = []
 var linked_activities: Array[ActivityContainer] = []
-#var linked_activities: Array[Activity] = []
 
 var user = null
 var target = null

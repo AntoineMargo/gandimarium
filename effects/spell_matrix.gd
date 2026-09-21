@@ -12,15 +12,15 @@ func apply_context(ctx: ActivityContext) -> bool:
 
 	var spell_act: Activity = ctx.activity.prompt_result["chosen_spell"]
 	
-
 	for modifier in modifiers:
 		spell_act.modifiers.append(modifier)
 	
-	#var spell_rank_modifier: ReplaceModifier = ReplaceModifier.new()
+	# We lock in the chosen spell rank
 	var spell_rank_modifier: ReplaceModifier = load("res://resources/activity_modifiers/spell_rank_replacer.tres").duplicate(true)
 	spell_rank_modifier.replace_by = spell_rank
 	spell_act.modifiers.append(spell_rank_modifier)
 
+	# Character should not pay PP twice
 	var remove_spell_cost_mod: Modifier = load("res://resources/activity_modifiers/set_spell_cost_to_0.tres")
 	spell_act.modifiers.append(remove_spell_cost_mod)
 
@@ -30,6 +30,4 @@ func apply_context(ctx: ActivityContext) -> bool:
 	
 	if ctx is ActivityContext and ctx.condition:
 		ctx.condition.linked_activities.append(activity_container)
-	#if ctx is ActivityContext and ctx.condition:
-		#ctx.condition.linked_activities.append(spell_act)
 	return true
