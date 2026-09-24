@@ -26,7 +26,7 @@ func apply_context(ctx: Context) -> bool:
 	if damage_pattern == null:
 		damage_pattern = Library.get_dmg_pattern("default")
 	
-	damage_bonus += ctx.user.get_final_stat("brawn")
+	damage_bonus += ctx.user.get_stat_enum(Enums.StatType.ATTRIBUTE, Enums.Attribute.BRAWN)
 	
 	var final_die_size = ctx.activity.modify_value(die_size, Enums.ValueType.DIE_SIZE, ctx, Enums.ActivityStage.EFFECT)
 	var final_damage_bonus = ctx.activity.modify_value(damage_bonus, Enums.ValueType.BONUS_DAMAGE, ctx, Enums.ActivityStage.EFFECT)

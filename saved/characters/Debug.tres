@@ -11,7 +11,7 @@
 [ext_resource type="Resource" path="res://resources/creatures/equipment/basic_loadout.tres" id="9_s0cxt"]
 [ext_resource type="Script" path="res://conditions/area_condition.gd" id="10_ivy2g"]
 [ext_resource type="Resource" path="res://resources/creatures/inventory/basic_inventory.tres" id="11_q51xt"]
-[ext_resource type="Resource" path="res://resources/archetypes/mage.tres" id="12_auotn"]
+[ext_resource type="Resource" path="res://resources/archetypes/battle_mage.tres" id="12_auotn"]
 [ext_resource type="Script" path="res://entities/personality.gd" id="13_30uu3"]
 [ext_resource type="Script" path="res://activities/reaction.gd" id="14_slsgh"]
 [ext_resource type="Script" path="res://various/affiliation_entry.gd" id="15_wm7g2"]
@@ -26,29 +26,14 @@
 [sub_resource type="Resource" id="Resource_saxhq"]
 script = ExtResource("4_8honw")
 attributes = {
-0: 5,
+0: 8,
 1: 6,
-2: 5,
-3: 12
+2: 6,
+3: 8
 }
 
 [sub_resource type="Resource" id="Resource_hr011"]
 script = ExtResource("6_a7flv")
-skills = {
-0: 0,
-1: 0,
-2: 0,
-3: 0,
-4: 0,
-5: 0,
-6: 0,
-7: 0,
-8: 1,
-9: 2,
-10: 3,
-11: 4,
-12: 5
-}
 
 [sub_resource type="Resource" id="Resource_u1bge"]
 script = ExtResource("13_30uu3")

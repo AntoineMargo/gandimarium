@@ -5,7 +5,7 @@ class_name Activity
 @export var id: String = "placeholder"
 @export var description: String = "This is a placeholder description."
 @export var icon: Texture2D
-@export var tags: Array[Enums.Tag] = []
+@export var tags: Array[Enums.ActivityTag] = []
 @export var AP_cost: int = 1
 ## Leave PP_cost at -1 for spells; it indicates to the program that it needs to be replaced with a rank appropriate cost.
 @export var PP_cost: int = -1
@@ -291,7 +291,7 @@ func can_execute() -> bool:
 	return true
 
 
-func has_tag(tag: Enums.Tag) -> bool:
+func has_tag(tag: Enums.ActivityTag) -> bool:
 	return tags.has(tag)
 
 

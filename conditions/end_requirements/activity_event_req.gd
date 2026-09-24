@@ -2,7 +2,7 @@ extends ConditionEndRequirement
 class_name ActivityEventEndRequirement
 
 @export var identity: Enums.Identity
-@export var tags: Enums.Tag
+@export var tags: Enums.ActivityTag
 
 func setup(condition: Condition):
 	parent_condition = condition
@@ -31,7 +31,7 @@ func handle_event(reaction_event: ReactionEvent):
 		#completed.emit()
 
 func validate(ctx: ActivityContext) -> bool:
-	var act_tags: Array[Enums.Tag] = ctx.activity.tags
+	var act_tags: Array[Enums.ActivityTag] = ctx.activity.tags
 	for tag in tags:
 		if not act_tags.has(tag):
 			return false

@@ -5,7 +5,7 @@ class_name Modifier
 @export var name: String = ""
 @export var id: String = ""
 
-@export var tags: Array[Enums.Tag] = []
+@export var tags: Array[Enums.ActivityTag] = []
 @export var filters: Array[Filter] = []
 
 var owner: Entity = null

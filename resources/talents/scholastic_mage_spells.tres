@@ -58,6 +58,7 @@
 [ext_resource type="PackedScene" uid="uid://bm40yjohcu4wn" path="res://VFX/projectile.tscn" id="56_s8bqb"]
 [ext_resource type="Texture2D" uid="uid://tc7lpf4etv0w" path="res://art/interface/activities/bright-explosion.png" id="57_j5kdn"]
 [ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damage_effect.gd" id="58_2mcys"]
+[ext_resource type="Texture2D" uid="uid://bhd3mp57mbhk3" path="res://art/interface/activities/spell-book.png" id="58_3k8ai"]
 
 [sub_resource type="Resource" id="Resource_sf1yt"]
 script = ExtResource("36_hwbcj")
@@ -243,6 +244,7 @@ name = "Fireball"
 id = "act_fireball"
 description = "You hurl a fiery bead that explodes at the targeted location, engulfing the entire surrounding area in flames."
 icon = ExtResource("57_j5kdn")
+tags = Array[int]([18])
 AP_cost = 2
 defending_aptitude = 2
 reach = 5
@@ -274,5 +276,6 @@ metadata/_custom_type_script = "uid://2oaio4mh2bc8"
 script = ExtResource("3_m11lv")
 name = "Scholastic Mage Spells"
 description = "The array of spells a scholastic mage can eventually cast."
+icon = ExtResource("58_3k8ai")
 effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_wqd4r")])
 metadata/_custom_type_script = "uid://c5ijx7qo7jak"

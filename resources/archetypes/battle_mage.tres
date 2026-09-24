@@ -6,6 +6,6 @@
 
 [resource]
 script = ExtResource("1_k1hes")
-type = 4
+type = 2
 talents_by_level = Array[ExtResource("2_1lfls")]([ExtResource("3_4vw47")])
 metadata/_custom_type_script = "uid://br3qyd4n7fm2f"
