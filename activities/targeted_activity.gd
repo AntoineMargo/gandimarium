@@ -173,6 +173,8 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 
 	_consume_ap(self_ctx)
 	_consume_pp(self_ctx)
+	
+	SignalBus.message.emit("%s used %s." % [user.data.name, name])
 
 	for effect in self_prior_effects:
 		if effect is Effect:
@@ -285,7 +287,5 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 	_cleanup()
 	
 	SignalBus.event.emit(ReactionEvent.activity_completed(self_ctx))
-	
-	SignalBus.message.emit("%s used %s." % [user.data.name, name])
 	
 	completed.emit()

@@ -166,6 +166,10 @@ func compute_spell_reach():
 		#reach = reach + acuity
 
 
+func add_modifier(modifier: Modifier):
+	modifiers.append(modifier)
+
+
 func apply_effect_modifiers():
 	for modifier in modifiers:
 		if modifier is EffectModifier:

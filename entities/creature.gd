@@ -490,6 +490,9 @@ func has_enough_pp(number: int) -> bool:
 
 ## consumes AP and potentially associated MP if set to 'true'
 func consume_ap(number: int, mp_equivalent: bool = false) -> bool:
+	if number <= 0:
+		return false
+	
 	if Global.crisis_manager.crisis_mode:
 		if data.current_ap - number < 0:
 			return false
@@ -562,8 +565,9 @@ func meets_brawn_requirements() -> bool:
 func get_modified_activity(activity_variant: ActivityVariant) -> Activity:
 	var instance = activity_variant.produce(self)
 
-	for modifier in data.activity_modifiers:
-			instance.modifiers.append(modifier)
+	#for modifier in data.activity_modifiers:
+		#instance.add_modifier(modifier)
+		#instance.modifiers.append(modifier)
 
 	return instance
 
@@ -989,7 +993,8 @@ func get_max_spell_rank() -> int:
 
 func get_current_spell_cost() -> int:
 	var spell_costs_table: SpellCosts = get_current_spell_rank_table()
-	return spell_costs_table.spell_costs[data.current_spell_rank]
+	var current_spell_rank: int = data.current_spell_rank
+	return spell_costs_table.spell_costs.get(current_spell_rank, 1)
 
 
 func get_spell_cost(spell_rank: int):

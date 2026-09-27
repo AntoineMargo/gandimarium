@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="Talent" format=3 uid="uid://by0vqcb578nm1"]
+
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_rdy7o"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_ugejs"]
+[ext_resource type="Script" uid="uid://kalwpa2j0ckf" path="res://activity_modifiers/addition_num_modifier.gd" id="3_oruj7"]
+[ext_resource type="Script" uid="uid://dywclcl7k47vv" path="res://effects/activity_modifier_effect.gd" id="4_xi4lv"]
+[ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="5_a58fd"]
+[ext_resource type="Texture2D" uid="uid://cpvwrexkdhqmh" path="res://art/interface/activities/fist.png" id="6_agdau"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="7_5xkx1"]
+[ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="8_lkpef"]
+[ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="9_w2get"]
+[ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="10_00107"]
+[ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="11_4y0ou"]
+
+[sub_resource type="Resource" id="Resource_2lmc4"]
+script = ExtResource("3_oruj7")
+to_add = 2
+value_type = 5
+name = "Spellhand"
+id = "mod_spellhand"
+metadata/_custom_type_script = "uid://kalwpa2j0ckf"
+
+[sub_resource type="Resource" id="Resource_wyy62"]
+script = ExtResource("4_xi4lv")
+modifier = SubResource("Resource_2lmc4")
+metadata/_custom_type_script = "uid://dywclcl7k47vv"
+
+[sub_resource type="Resource" id="Resource_03by8"]
+script = ExtResource("7_5xkx1")
+name = "Spellhand"
+id = "cond_spellhand"
+icon = ExtResource("6_agdau")
+re_apply_effects = false
+effects = Array[ExtResource("1_rdy7o")]([SubResource("Resource_wyy62")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_qddj7"]
+script = ExtResource("10_00107")
+recipient = 1
+condition = SubResource("Resource_03by8")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[resource]
+script = ExtResource("11_4y0ou")
+name = "Spellhand"
+id = "tal_spellhand"
+icon = ExtResource("6_agdau")
+effects = Array[ExtResource("1_rdy7o")]([SubResource("Resource_qddj7")])
+metadata/_custom_type_script = "uid://c5ijx7qo7jak"

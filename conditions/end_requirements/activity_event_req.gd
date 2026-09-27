@@ -2,7 +2,7 @@ extends ConditionEndRequirement
 class_name ActivityEventEndRequirement
 
 @export var identity: Enums.Identity
-@export var tags: Enums.ActivityTag
+@export var tags: Array[Enums.ActivityTag]
 
 func setup(condition: Condition):
 	parent_condition = condition

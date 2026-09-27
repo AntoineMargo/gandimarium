@@ -117,6 +117,8 @@ func resolve() -> void:
 	_consume_ap(self_ctx)
 	_consume_pp(self_ctx)
 	
+	SignalBus.message.emit("%s used %s." % [user.data.name, name])
+	
 	#for point in target_points:
 		#for effect in effects_per_tile:
 			#effect.apply(self, point)
@@ -180,7 +182,5 @@ func resolve() -> void:
 	#SignalBus.update_ui_for_char.emit()
 	
 	SignalBus.event.emit(ReactionEvent.activity_completed(self_ctx))
-	
-	SignalBus.message.emit("%s used %s." % [user.data.name, name])
 	
 	_cleanup()

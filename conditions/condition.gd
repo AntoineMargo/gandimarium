@@ -105,8 +105,12 @@ func initialize(ctx: Context) -> void:
 	apply_effects(ctx)
 	apply_vfx()
 
-	for end_requirement in end_requirements:
-		end_requirement.setup(self)
+	#for end_requirement in end_requirements:
+		#end_requirement.setup(self)
+	for i in end_requirements.size():
+		var requirement: ConditionEndRequirement = end_requirements[i].duplicate(true)
+		end_requirements[i] = requirement
+		requirement.setup(self)
 	start_time = Global.time_manager.get_total_seconds()
 	if duration > 0 or apply_effects_at_intervals:
 		if duration > 0:

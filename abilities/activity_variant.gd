@@ -19,10 +19,12 @@ func pre_execute(user: Entity) -> Activity:
 		instance.weapon = activity.weapon
 	
 	for modifier in user.data.activity_modifiers:
-		instance_modifiers.append(modifier)
+		instance.add_modifier(modifier)
+		#instance_modifiers.append(modifier)
 	
 	for modifier in modifiers:
-		instance_modifiers.append(modifier)
+		instance.add_modifier(modifier)
+		#instance_modifiers.append(modifier)
 	
 	var pre_ctx = instance._build_context()
 	instance.compute_spell_reach() # Could be after pre_execution_bundle_modify()
@@ -38,20 +40,22 @@ func pre_execute(user: Entity) -> Activity:
 	return instance
 
 func produce(user: Entity) -> Activity:
-	var instance = activity.duplicate(true)
+	var instance: Activity = activity.duplicate(true)
 	
-	var instance_modifiers = instance.modifiers
+	#var instance_modifiers = instance.modifiers
 	instance.user = user
 	
 	if activity.weapon:
 		instance.weapon = activity.weapon
 	
 	for modifier in user.data.activity_modifiers:
-		instance_modifiers.append(modifier)
+		instance.add_modifier(modifier)
+		#instance_modifiers.append(modifier)
 	
 	if modifiers:
 		for modifier in modifiers:
-			instance_modifiers.append(modifier)
+			instance.add_modifier(modifier)
+			#instance_modifiers.append(modifier)
 
 	instance.compute_spell_reach()
 
