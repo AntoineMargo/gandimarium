@@ -62,8 +62,8 @@ func _cleanup() -> void:
 	SignalBus.change_cursor.emit("default")
 	Global.activity_handler = null
 	wm.clear_all_visualizations()
-	if concentration:
-		concentration.cancel()
+	#if concentration:
+		#concentration.cancel()
 	for hl in wm.target_highlights:
 		hl.queue_free()
 	wm.target_highlights.clear()

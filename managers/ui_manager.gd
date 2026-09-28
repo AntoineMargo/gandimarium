@@ -518,13 +518,15 @@ func update_spell_list():
 		
 	update_spell_list_for_chosen_rank()
 
+
 func update_concentration_slots():
 	var character = Global.selected_char
 	var container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ConcentrationScroll/Concentrations")
 	for child in container.get_children():
 		child.queue_free()
 
-	for i in range(character.get_stat_enum(Enums.StatType.ATTRIBUTE, Enums.Attribute.RESOLVE)):
+	var concentration_slots: int = character.get_stat_enum(Enums.StatType.POINT, Enums.Point.CONCENTRATION)
+	for i in range(concentration_slots):
 		var slot = concentration_slot.instantiate()
 		if i < character.data.concentrations.size():
 			var concentration = character.data.concentrations[i]
@@ -532,6 +534,23 @@ func update_concentration_slots():
 		else:
 			slot.setup(null) # Empty slot
 		container.add_child(slot)
+
+
+#func update_concentration_slots():
+	#var character = Global.selected_char
+	#var container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ConcentrationScroll/Concentrations")
+	#for child in container.get_children():
+		#child.queue_free()
+#
+	#for i in range(character.get_stat_enum(Enums.StatType.ATTRIBUTE, Enums.Attribute.RESOLVE)):
+		#var slot = concentration_slot.instantiate()
+		#if i < character.data.concentrations.size():
+			#var concentration = character.data.concentrations[i]
+			#slot.setup(concentration)
+		#else:
+			#slot.setup(null) # Empty slot
+		#container.add_child(slot)
+
 
 func update_char_info():
 	var character = Global.selected_char

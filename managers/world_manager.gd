@@ -394,8 +394,8 @@ func change_level(direction: int):
 	update_layer_visibility()
 	current_tile_map_layer = layers[current_level]["tile_map"]
 	selection_highlight.update_selection_highlight()
-	#SignalBus.refresh_reachable_tiles.emit()
-	print("Now showing layer %d" % current_level)
+	print("Layer %d" % current_level)
+	SignalBus.message.emit("Layer %d" % current_level)
 
 func turn_path_from_pixels_to_tiles(path: Array[Vector3i], tile_size: int = Global.TILE_SIZE):
 	var tile_path = []
@@ -699,6 +699,8 @@ func get_tile_occupied(tile: Vector3i) -> bool:
 	return occupied.get(tile_coords, false)
 
 func get_hovered_tile() -> Vector3i:
+	if not current_tile_map_layer:
+		return Vector3i(0, 0, 0)
 	var screen_mouse_pos = get_viewport().get_mouse_position()
 	var canvas_transform = get_viewport().get_canvas_transform()
 	var world_mouse_pos = canvas_transform.affine_inverse() * screen_mouse_pos
@@ -706,6 +708,8 @@ func get_hovered_tile() -> Vector3i:
 	return Vector3i(coords_2d.x, coords_2d.y, current_level)
 
 func get_tile_coords_under_cursor() -> Vector3i:
+	if not current_tile_map_layer:
+		return Vector3i(0, 0, 0)
 	var screen_mouse_pos = get_viewport().get_mouse_position()
 	var canvas_transform = get_viewport().get_canvas_transform()
 	var world_mouse_pos = canvas_transform.affine_inverse() * screen_mouse_pos

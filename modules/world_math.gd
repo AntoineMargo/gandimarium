@@ -251,6 +251,52 @@ static func has_line_of_sight(origin_node, target_node):
 static func has_line_of_sight_tile(origin_tile: Vector3i, target_tile: Vector3i, skip_end_points: bool = true) -> bool:
 	return line_of_sight_exists(origin_tile, target_tile, skip_end_points)
 
+#static func line_of_sight_exists(from_pos: Vector3i, to_pos: Vector3i, skip_end_points: bool = true) -> bool:
+	#var wm = Global.world_manager
+#
+	#var points = bresenham_line_3d(
+		#from_pos.x, from_pos.y, from_pos.z,
+		#to_pos.x, to_pos.y, to_pos.z
+	#)
+#
+	#var start: int = 1
+	#if not skip_end_points:
+		#start = 0
+#
+	#for i in range(start, points.size() - 1):
+		#var current: Vector3i = points[i]
+		#var previous: Vector3i = points[i - 1]
+#
+		#var tile = get_tile_data(current.x, current.y, current.z)
+		#var tile_prev = get_tile_data(previous.x, previous.y, previous.z)
+#
+		#if current.z < previous.z: # Going down
+			#if tile_prev == null or tile_prev.get_custom_data("floor") == true:
+				#return false
+#
+		#elif current.z > previous.z: # Going up
+			#if tile == null or tile.get_custom_data("floor") == true:
+				#return false
+#
+		#else:
+			#var dx: int = current.x - previous.x
+			#var dy: int = current.y - previous.y
+#
+			#if wm.layers[current.z]["cover"].get(Vector2i(current.x, current.y), 0) == 4:
+				#return false
+#
+			#if dx != 0 and dy != 0:
+				#var side_a := Vector2i(previous.x + dx, previous.y)
+				#var side_b := Vector2i(previous.x, previous.y + dy)
+#
+				#if wm.layers[current.z]["cover"].get(side_a, 0) == 4:
+					#return false
+#
+				#if wm.layers[current.z]["cover"].get(side_b, 0) == 4:
+					#return false
+#
+	#return true
+
 static func line_of_sight_exists(from_pos: Vector3i, to_pos: Vector3i, skip_end_points: bool = true) -> bool:
 	var wm = Global.world_manager
 
@@ -284,35 +330,6 @@ static func line_of_sight_exists(from_pos: Vector3i, to_pos: Vector3i, skip_end_
 
 	return true
 
-#static func line_of_sight_exists(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int) -> bool:
-	#var wm = Global.world_manager
-	#
-	#var points = bresenham_line_3d(x1, y1, z1, x2, y2, z2)
-	#for i in range(1, points.size() - 1): # Skip endpoints
-		#var current = points[i]
-		#var previous = points[i - 1]
-#
-		#var x = current.x
-		#var y = current.y
-		#var z = current.z
-		#var prev_z = previous.z
-#
-		#var tile = get_tile_data(x, y, z)
-		#var tile_prev = get_tile_data(x, y, prev_z)
-#
-		#if z < prev_z: # Going down
-			#if tile_prev == null or tile_prev.get_custom_data("floor") == true:
-				#return false
-		#elif z > prev_z: # Going up
-			#if tile == null or tile.get_custom_data("floor") == true:
-				#return false
-		#else:
-			##if tile == null or tile.get_custom_data("passable") == false:
-			#if wm.layers[z]["cover"].get(Vector2i(x, y), 0) == 4:
-				#return false
-#
-	#return true
-
 static func get_tile_data(x: int, y: int, z: int):
 	var wm = Global.world_manager
 	var layer = wm.layers.get(z)
@@ -321,61 +338,228 @@ static func get_tile_data(x: int, y: int, z: int):
 	var tile_map: TileMapLayer = layer["tile_map"]
 	return tile_map.get_cell_tile_data(Vector2i(x, y))
 
-static func bresenham_line_3d(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int) -> Array[Vector3i]:
+static func bresenham_line_3d(
+	x1: int,
+	y1: int,
+	z1: int,
+	x2: int,
+	y2: int,
+	z2: int
+) -> Array[Vector3i]:
 	var points: Array[Vector3i] = []
 
-	var dx = abs(x2 - x1)
-	var dy = abs(y2 - y1)
-	var dz = abs(z2 - z1)
+	var dx: int = abs(x2 - x1)
+	var dy: int = abs(y2 - y1)
+	var dz: int = abs(z2 - z1)
 
-	var xs := 1 if x2 > x1 else -1
-	var ys := 1 if y2 > y1 else -1
-	var zs := 1 if z2 > z1 else -1
+	var sx: int = 1 if x2 > x1 else -1
+	var sy: int = 1 if y2 > y1 else -1
+	var sz: int = 1 if z2 > z1 else -1
 
-	if dx >= dy and dx >= dz:
-		var p1 = 2 * dy - dx
-		var p2 = 2 * dz - dx
-		while x1 != x2:
-			points.append(Vector3i(x1, y1, z1))
-			x1 += xs
-			if p1 >= 0:
-				y1 += ys
-				p1 -= 2 * dx
-			if p2 >= 0:
-				z1 += zs
-				p2 -= 2 * dx
-			p1 += 2 * dy
-			p2 += 2 * dz
+	var x: int = x1
+	var y: int = y1
+	var z: int = z1
 
-	elif dy >= dx and dy >= dz:
-		var p1 = 2 * dx - dy
-		var p2 = 2 * dz - dy
-		while y1 != y2:
-			points.append(Vector3i(x1, y1, z1))
-			y1 += ys
-			if p1 >= 0:
-				x1 += xs
-				p1 -= 2 * dy
-			if p2 >= 0:
-				z1 += zs
-				p2 -= 2 * dy
-			p1 += 2 * dx
-			p2 += 2 * dz
+	# Number of grid boundaries crossed on each axis.
+	var ix: int = 0
+	var iy: int = 0
+	var iz: int = 0
 
-	else:
-		var p1 = 2 * dy - dz
-		var p2 = 2 * dx - dz
-		while z1 != z2:
-			points.append(Vector3i(x1, y1, z1))
-			z1 += zs
-			if p1 >= 0:
-				y1 += ys
-				p1 -= 2 * dz
-			if p2 >= 0:
-				x1 += xs
-				p2 -= 2 * dz
-			p1 += 2 * dy
-			p2 += 2 * dx
+	points.append(Vector3i(x, y, z))
 
-	points.append(Vector3i(x2, y2, z2))
+	while ix < dx or iy < dy or iz < dz:
+		# Distance to the next grid boundary, represented as:
+		#
+		#   (2 * number_of_boundaries_crossed + 1) / total_distance
+		#
+		# We compare these fractions using integer multiplication,
+		# avoiding floating-point precision problems.
+
+		var x_num: int = 0
+		var y_num: int = 0
+		var z_num: int = 0
+
+		if ix < dx:
+			x_num = 2 * ix + 1
+
+		if iy < dy:
+			y_num = 2 * iy + 1
+
+		if iz < dz:
+			z_num = 2 * iz + 1
+
+		# Find the smallest next-boundary fraction.
+		var min_axis: int = -1
+
+		if ix < dx:
+			min_axis = 0
+
+		if iy < dy:
+			if min_axis == -1:
+				min_axis = 1
+			elif x_num * dy > y_num * dx:
+				min_axis = 1
+
+		if iz < dz:
+			if min_axis == -1:
+				min_axis = 2
+			elif min_axis == 0:
+				if x_num * dz > z_num * dx:
+					min_axis = 2
+			else:
+				if y_num * dz > z_num * dy:
+					min_axis = 2
+
+		# Determine every axis whose next boundary is at exactly
+		# the same distance. These are the axes crossed simultaneously.
+		var cross_x: bool = false
+		var cross_y: bool = false
+		var cross_z: bool = false
+
+		if ix < dx:
+			if min_axis == 0:
+				cross_x = true
+			elif min_axis == 1:
+				cross_x = x_num * dy == y_num * dx
+			else:
+				cross_x = x_num * dz == z_num * dx
+
+		if iy < dy:
+			if min_axis == 1:
+				cross_y = true
+			elif min_axis == 0:
+				cross_y = y_num * dx == x_num * dy
+			else:
+				cross_y = y_num * dz == z_num * dy
+
+		if iz < dz:
+			if min_axis == 2:
+				cross_z = true
+			elif min_axis == 0:
+				cross_z = z_num * dx == x_num * dz
+			else:
+				cross_z = z_num * dy == y_num * dz
+
+		# A crossing of one axis touches one new voxel.
+		#
+		# A simultaneous crossing of two axes touches three new
+		# voxels:
+		#
+		#   X
+		#   Y
+		#   XY
+		#
+		# A simultaneous crossing of three axes touches seven:
+		#
+		#   X, Y, Z, XY, XZ, YZ, XYZ
+		#
+		# Generate all non-empty combinations of the axes crossed.
+
+		var axis_count: int = 0
+		if cross_x:
+			axis_count += 1
+		if cross_y:
+			axis_count += 1
+		if cross_z:
+			axis_count += 1
+
+		var axes: Array[int] = []
+		if cross_x:
+			axes.append(0)
+		if cross_y:
+			axes.append(1)
+		if cross_z:
+			axes.append(2)
+
+		for mask in range(1, 1 << axis_count):
+			var px: int = x
+			var py: int = y
+			var pz: int = z
+
+			for axis_index in range(axis_count):
+				if mask & (1 << axis_index):
+					match axes[axis_index]:
+						0:
+							px += sx
+						1:
+							py += sy
+						2:
+							pz += sz
+
+			var point := Vector3i(px, py, pz)
+
+			if not points.has(point):
+				points.append(point)
+
+		if cross_x:
+			x += sx
+			ix += 1
+
+		if cross_y:
+			y += sy
+			iy += 1
+
+		if cross_z:
+			z += sz
+			iz += 1
+
 	return points
+
+#static func bresenham_line_3d(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int) -> Array[Vector3i]:
+	#var points: Array[Vector3i] = []
+#
+	#var dx = abs(x2 - x1)
+	#var dy = abs(y2 - y1)
+	#var dz = abs(z2 - z1)
+#
+	#var xs := 1 if x2 > x1 else -1
+	#var ys := 1 if y2 > y1 else -1
+	#var zs := 1 if z2 > z1 else -1
+#
+	#if dx >= dy and dx >= dz:
+		#var p1 = 2 * dy - dx
+		#var p2 = 2 * dz - dx
+		#while x1 != x2:
+			#points.append(Vector3i(x1, y1, z1))
+			#x1 += xs
+			#if p1 >= 0:
+				#y1 += ys
+				#p1 -= 2 * dx
+			#if p2 >= 0:
+				#z1 += zs
+				#p2 -= 2 * dx
+			#p1 += 2 * dy
+			#p2 += 2 * dz
+#
+	#elif dy >= dx and dy >= dz:
+		#var p1 = 2 * dx - dy
+		#var p2 = 2 * dz - dy
+		#while y1 != y2:
+			#points.append(Vector3i(x1, y1, z1))
+			#y1 += ys
+			#if p1 >= 0:
+				#x1 += xs
+				#p1 -= 2 * dy
+			#if p2 >= 0:
+				#z1 += zs
+				#p2 -= 2 * dy
+			#p1 += 2 * dx
+			#p2 += 2 * dz
+#
+	#else:
+		#var p1 = 2 * dy - dz
+		#var p2 = 2 * dx - dz
+		#while z1 != z2:
+			#points.append(Vector3i(x1, y1, z1))
+			#z1 += zs
+			#if p1 >= 0:
+				#y1 += ys
+				#p1 -= 2 * dz
+			#if p2 >= 0:
+				#x1 += xs
+				#p2 -= 2 * dz
+			#p1 += 2 * dy
+			#p2 += 2 * dx
+#
+	#points.append(Vector3i(x2, y2, z2))
+	#return points

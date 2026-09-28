@@ -54,7 +54,12 @@ func remove_ready_spell(spell: SpellContainer):
 func add_available_spell(spell: SpellContainer):
 	if spell not in data.spells_available:
 		data.spells_available.append(spell)
-	
+
+
+#func setup_concentration_slots() -> void:
+	#pass
+
+
 func add_concentration(concentration: Concentration):
 	data.concentrations.append(concentration)
 	SignalBus.update_ui_for_char.emit()
@@ -1125,6 +1130,7 @@ func build_stats():
 		data.base_stats.set_aptitude(Enums.Aptitude.RANGED_DEFENCE, data.attributes.get_attribute(Enums.Attribute.DEXTERITY) + data.base_stats.level_mod)
 
 		data.base_stats.strength_bonus = data.attributes.get_attribute(Enums.Attribute.BRAWN)
+		data.base_stats.concentration_slots = data.attributes.get_attribute(Enums.Attribute.RESOLVE)
 		#data.base_stats.size = "medium"
 
 		data.base_stats.max_hp = (data.attributes.get_attribute(Enums.Attribute.BRAWN) * 12) + (data.attributes.get_attribute(Enums.Attribute.BRAWN) * data.base_stats.level_mod)
@@ -1167,6 +1173,7 @@ func update_stats():
 		data.derived_stats.set_skill(skill, data.base_stats.get_skill(skill))
 	
 	data.derived_stats.strength_bonus = data.base_stats.strength_bonus
+	data.derived_stats.concentration_slots = data.base_stats.concentration_slots
 	data.derived_stats.vigour = 0
 	#data.base_stats.size = "medium"
 	
@@ -1336,7 +1343,7 @@ func sight_check(target_tile: Vector3i, creature: Creature = null) -> bool:
 	#return false
 
 func hearing_check(strength: int, difficulty_to_perceive: float) -> bool: 
-	var acuity = data.attributes.acuity
+	var acuity = get_stat_enum(Enums.StatType.ATTRIBUTE, Enums.Attribute.ACUITY)
 	var threshold = difficulty_to_perceive - strength
 	if acuity >= threshold:
 		return true

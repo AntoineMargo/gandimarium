@@ -31,6 +31,7 @@ var level_mod: int = 0
 
 @export var size: String = ""
 @export var strength_bonus: int = 0
+@export var concentration_slots: int = 0
 
 @export var max_hp: int = 0
 @export var max_pp: int = 0

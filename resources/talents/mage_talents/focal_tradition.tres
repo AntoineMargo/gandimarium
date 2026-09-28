@@ -9,10 +9,17 @@
 [ext_resource type="Texture2D" uid="uid://b25dn6tg3xvwl" path="res://art/interface/activities/gem-chain.png" id="5_gcdil"]
 [ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="6_4m7lw"]
 [ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="7_a6a8j"]
+[ext_resource type="PackedScene" uid="uid://t4yj7t77afwf" path="res://interface/prompt_window/spell_prompt_window/spell_prompt_window.tscn" id="7_o6el6"]
 [ext_resource type="Script" uid="uid://g1muvdggkxqa" path="res://effects/add_activity_effect.gd" id="9_5rmm4"]
+[ext_resource type="Script" uid="uid://dujvsvmkxajfb" path="res://effects/spell_matrix.gd" id="10_gcdil"]
+
+[sub_resource type="Resource" id="Resource_2qp4u"]
+script = ExtResource("10_gcdil")
+metadata/_custom_type_script = "uid://dujvsvmkxajfb"
 
 [sub_resource type="Resource" id="Resource_kxlge"]
 script = ExtResource("7_a6a8j")
+prompt_scene = ExtResource("7_o6el6")
 name = "Insert Spell"
 id = "act_insert_pell"
 description = "You insert a long-standing spell into your focus."
@@ -21,6 +28,7 @@ AP_cost = 9
 reach_requires_LOS = false
 spread_requires_LOS = false
 reach = 0
+target_effects = Array[ExtResource("1_nlrio")]([SubResource("Resource_2qp4u")])
 requires_roll = false
 triggers_reaction = false
 metadata/_custom_type_script = "uid://beq2nm7ovc2lf"

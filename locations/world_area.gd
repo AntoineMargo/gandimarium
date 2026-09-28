@@ -25,7 +25,11 @@ func deferred_setup_layers():
 	Global.world_manager.determine_find_dimensions()
 	#Global.world_manager.clear_current_map_delta()
 	SignalBus.world_ready.emit()
-	
+
+func creatures_only_visible_if_on_layer():
+	for creature in creatures:
+		creature.visible = (creature.data.tile_z == current_tile_map_layer.id)
+
 func _ready() -> void:
 	call_deferred("deferred_setup_layers")
-	pass
+	call_deferred("creatures_only_visible_if_on_layer")

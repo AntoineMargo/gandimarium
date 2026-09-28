@@ -327,7 +327,8 @@ enum Point {
 	MAX_AP,
 	MAX_RP,
 	VIGOUR,
-	STRENGTH
+	STRENGTH,
+	CONCENTRATION
 }
 
 enum StatType {

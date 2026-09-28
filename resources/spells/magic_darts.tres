@@ -3,45 +3,14 @@
 [ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_0hifr"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_jiqyk"]
 [ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="3_0hifr"]
-[ext_resource type="Script" uid="uid://c87bku6q55ul5" path="res://VFX/projectile_config.gd" id="4_idjkp"]
-[ext_resource type="Script" uid="uid://b7tjqqmnvivdt" path="res://effects/proj_vfx_effect.gd" id="7_m7sha"]
+[ext_resource type="PackedScene" uid="uid://bm40yjohcu4wn" path="res://VFX/projectile.tscn" id="4_r3c7v"]
+[ext_resource type="Texture2D" uid="uid://dut3pnkt23f7h" path="res://art/objects/mbolt2.png" id="5_r3c7v"]
 [ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="8_mfknl"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="9_e6eo3"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="10_y8cri"]
 [ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damage_effect.gd" id="11_4je1x"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="12_274on"]
 [ext_resource type="Script" uid="uid://kalwpa2j0ckf" path="res://activity_modifiers/addition_num_modifier.gd" id="13_0ay6q"]
-[ext_resource type="Script" uid="uid://bqn6moayd3kvg" path="res://VFX/projectile.gd" id="13_idjkp"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0ay6q"]
-load_path = "res://.godot/imported/mbolt2.png-a1a0ed283511ee043231a974535fffac.ctex"
-
-[sub_resource type="Resource" id="Resource_idjkp"]
-script = ExtResource("4_idjkp")
-texture = SubResource("CompressedTexture2D_0ay6q")
-speed = 800.0
-metadata/_custom_type_script = "uid://c87bku6q55ul5"
-
-[sub_resource type="PackedScene" id="PackedScene_q8cho"]
-_bundled = {
-"conn_count": 0,
-"conns": PackedInt32Array(),
-"editable_instances": [],
-"id_paths": [PackedInt32Array(), PackedInt32Array(), PackedInt32Array()],
-"names": PackedStringArray("Projectile", "Node2D", "script", "Sprite2D", "Sprite2D", "z_index", "Line2D", "Line2D", "GPUParticles2D", "GPUParticles2D"),
-"node_count": 4,
-"node_ids": PackedInt32Array(745868710, 1414165549, 326785909, 1113089344),
-"node_paths": [NodePath("."), NodePath("."), NodePath(".")],
-"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 1, 2, 0, 0, 1073741824, 0, 4, 3, -1, 1, 5, 1, 0, 1073741825, 0, 7, 6, -1, 0, 0, 1073741826, 0, 9, 8, -1, 0, 0),
-"variants": [ExtResource("13_idjkp"), 200],
-"version": 3
-}
-
-[sub_resource type="Resource" id="Resource_m7sha"]
-script = ExtResource("7_m7sha")
-projectile_scene = SubResource("PackedScene_q8cho")
-config = SubResource("Resource_idjkp")
-metadata/_custom_type_script = "uid://b7tjqqmnvivdt"
 
 [sub_resource type="Resource" id="Resource_e6eo3"]
 script = ExtResource("2_jiqyk")
@@ -55,7 +24,11 @@ metadata/_custom_type_script = "uid://otrxaros8gk8"
 
 [sub_resource type="Resource" id="Resource_errbm"]
 script = ExtResource("8_mfknl")
-projectile = SubResource("Resource_m7sha")
+projectile = ExtResource("4_r3c7v")
+projectile_config = {
+"speed": 1000,
+"sprite": ExtResource("5_r3c7v")
+}
 projectile_batch_mode = false
 name = "Magic Darts"
 id = "magic_darts"

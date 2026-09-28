@@ -38,21 +38,13 @@ var max_ap: int = 0
 var max_reactions: int = 0
 var vigour: int = 0
 var strength_bonus: int = 0
+var concentration_slots: int = 0
 
 # others
 var size: String = ""
 var current_spell_cost: int = 0
 
 var tie_breaker: float = 0.0
-
-# resistances
-#var physical: int = 0
-#var heat: int = 0
-#var cold: int = 0
-#var electricity: int = 0
-#var corrosion: int = 0
-#var poison: int = 0
-#var psychic: int = 0
 
 func get_aptitude(type: Enums.Aptitude) -> int:
 	return aptitudes.get(type, 0)
@@ -84,6 +76,8 @@ func get_points(type: Enums.Point) -> int:
 			return vigour
 		Enums.Point.STRENGTH:
 			return strength_bonus
+		Enums.Point.CONCENTRATION:
+			return concentration_slots
 	return 0
 
 func set_points(type: Enums.Point, value: int) -> void:
@@ -104,6 +98,17 @@ func set_points(type: Enums.Point, value: int) -> void:
 			vigour = value
 		Enums.Point.STRENGTH:
 			strength_bonus = value
+		Enums.Point.CONCENTRATION:
+			concentration_slots = value
+
+# resistances
+#var physical: int = 0
+#var heat: int = 0
+#var cold: int = 0
+#var electricity: int = 0
+#var corrosion: int = 0
+#var poison: int = 0
+#var psychic: int = 0
 
 #func get_resistance(type: Enums.Resistance) -> int:
 	#match type:
