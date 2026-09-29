@@ -8,12 +8,20 @@ var days: int = 0
 
 var world_timer: Timer = Timer.new() 
 
+
+func clear_data() -> void:
+	seconds = 0
+	minutes = 0
+	hours = 0
+	days = 0
+
+
 func _on_world_timeout():
 	advance_time()
-#
+
 #func _on_crisis_mode_started(_creature):
 	#world_timer.stop()
-#
+
 #func _on_crisis_mode_ended(_creature):
 	#world_timer.start(world_timer.wait_time)
 

@@ -11,6 +11,9 @@ var crisis_round: int = 0
 var initiative_order: Array[Creature] = []
 var current_index: int = -1
 
+func clear_data() -> void:
+	initiative_order.clear()
+
 func get_initiative_order() -> Array[Creature]:
 	return initiative_order
 

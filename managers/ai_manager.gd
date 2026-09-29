@@ -6,9 +6,14 @@ var nm = null
 var tm = null
 
 var active_creatures := {}
-var active_number : int = 0
+var active_number: int = 0
 
 var last_performed_routine: int # time in seconds
+
+func clear_data() -> void:
+	active_creatures.clear()
+	active_number = 0
+	last_performed_routine = 0
 
 func sight_check(origin: Vector3i):
 	for creature in Global.world_manager.current_world.creatures:
@@ -67,6 +72,8 @@ func perform_routines():
 			creature.ai_controller.localai.perform_routine()
 	
 func delayed_check_setup():
+	if SignalBus.time_changed.is_connected(regular_checks):
+		return
 	SignalBus.time_changed.connect(regular_checks)
 
 func ai_became_active(creature):

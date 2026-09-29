@@ -10,6 +10,9 @@ var doors: Array[Door] = []
 #func get_door_at(pos: Vector3i) -> WoodenDoorProp:
 	#return doors.get(pos)
 
+func clear_data() -> void:
+	doors.clear()
+
 func register_door(door: Door) -> void:
 	doors.append(door)
 

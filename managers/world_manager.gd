@@ -72,15 +72,28 @@ func spawn_prop(scene: PackedScene, pos: Vector3i) -> Prop:
 	Global.state_manager.add_prop_to_delta(prop)
 	return prop
 
+
 func get_entity_at_pos(pos: Vector3i) -> Entity:
 	var layer_pos = Vector2i(pos.x, pos.y)
-	if layers[pos.z]["contents"].has(layer_pos):
-		for element in layers[pos.z]["contents"][layer_pos]:
+	var pos_contents = layers[pos.z]["contents"].get(layer_pos)
+	if pos_contents:
+		for element in pos_contents:
 			if element is SpawnerProp:
 				continue
 			if element is Entity:
 				return element
 	return null
+
+
+#func get_entity_at_pos(pos: Vector3i) -> Entity:
+	#var layer_pos = Vector2i(pos.x, pos.y)
+	#if layers[pos.z]["contents"].has(layer_pos):
+		#for element in layers[pos.z]["contents"][layer_pos]:
+			#if element is SpawnerProp:
+				#continue
+			#if element is Entity:
+				#return element
+	#return null
 
 func get_prop_at_pos(pos: Vector3i) -> Prop:
 	var layer_pos = Vector2i(pos.x, pos.y)
@@ -105,7 +118,7 @@ func move_prop(old_pos: Vector3i, new_pos: Vector3i):
 	new_prop.is_active = old_prop.is_active
 	old_prop.destroy_self()
 
-func determine_find_dimensions():
+func determine_dimensions():
 	for child in current_world.get_children():
 		if child is TileMapLayer:
 			var tile_map_limits = child.get_used_rect()
@@ -133,12 +146,21 @@ func get_tile_contents(tile: Vector3i) -> Array:
 
 	return result
 
+
 func change_tile_move_cost(tile: Vector3i, new_cost: float) -> void:
 	var layer_tile = Vector2i(tile.x, tile.y)
 	layers[tile.z]["move_cost"][layer_tile] = new_cost
 
-func setup_layers():
+
+func clear_data() -> void:
+	world_ready = false
 	layers.clear()
+	layer_links.clear()
+	ai_zones.clear()
+
+
+func setup_layers():
+	#layers.clear()
 	for child in current_world.get_children():
 		if child is TileMapLayer:
 			var layer = child

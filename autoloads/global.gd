@@ -133,6 +133,15 @@ func set_active_window(window: Node) -> void:
 	active_window = window
 	active_window.layer = 150
 
+func clear_data() -> void:
+	world_manager.clear_data()
+	crisis_manager.clear_data()
+	door_manager.clear_data()
+	ai_manager.clear_data()
+	time_manager.clear_data()
+	selected_char = null
+	focus_char = null
+
 func _ready() -> void:
 	randomize()
 	add_child(state_manager)

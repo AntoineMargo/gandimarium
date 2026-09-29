@@ -18,12 +18,18 @@ func unregister_creature(creature):
 	creatures.erase(creature)
 	creatures_by_id.erase(creature.data.uid)
 
+func clear_data() -> void:
+	if not creatures.is_empty():
+		for creature in creatures:
+			creature.destroy_self()
+	#Global.world_manager.clear_data()
+
 func deferred_setup_layers():
+	clear_data()
 	Global.world_manager.setup_layers()
 	Global.world_manager.setup_ramps()
 	Global.world_manager.setup_ai_zones()
-	Global.world_manager.determine_find_dimensions()
-	#Global.world_manager.clear_current_map_delta()
+	Global.world_manager.determine_dimensions()
 	SignalBus.world_ready.emit()
 
 func creatures_only_visible_if_on_layer():

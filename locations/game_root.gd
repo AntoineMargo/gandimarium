@@ -2,8 +2,8 @@ extends Node
 
 func _ready():
 	Global.game_root = self
-	#load_map("res://locations/test_location_2/region.scn")
-	load_map("res://locations/test_location_3/region.scn")
+	load_map("res://locations/test_location_2/region.scn")
+	#load_map("res://locations/test_location_3/region.scn")
 	Global.camera = $Camera2D
 	if not is_instance_valid(Global.world_manager.selection_highlight):
 		Global.world_manager.selection_highlight = preload("res://interface/local_map/selection_highlight/selection_highlight.tscn").instantiate()
@@ -14,10 +14,13 @@ func _ready():
 	Global.world_info.visible = true
 
 func load_map(path: String):
+	Global.clear_data()
 	var world_container = $WorldContainer
 	
+	#for child in world_container.get_children():
+		#child.queue_free()
 	for child in world_container.get_children():
-		child.queue_free()
+		child.free()
 
 	var new_map_scene = load(path)
 	var new_map = new_map_scene.instantiate()
@@ -26,6 +29,5 @@ func load_map(path: String):
 	$Camera2D.position = Vector2(0, 300)
 
 	Global.world_manager.current_world = new_map
-	#await get_tree().create_timer(0.1).timeout
 	await get_tree().process_frame
 	Global.world_manager.selection_highlight.update_selection_highlight()
