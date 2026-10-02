@@ -18,5 +18,5 @@ script = ExtResource("3_6f6g7")
 name = "Sleep"
 id = "bed_sleep"
 effects = Array[ExtResource("1_crx4t")]([SubResource("Resource_bd6ip")])
-duration = 28800
+duration = 14400
 metadata/_custom_type_script = "uid://dvi4ohsador2o"

@@ -59,6 +59,8 @@ func move_to_next_point(delta):
 	var next_point: Vector3i
 	if path_index + 1 < path.size():
 		next_point = path[path_index + 1]
+	else:
+		next_point = path[path_index]
 
 	creature.visible = (creature.data.tile_z == wm.current_level)
 

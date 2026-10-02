@@ -210,7 +210,7 @@ func setup_layers():
 							noise_astar.set_point_weight_scale(coords, 10.0)
 
 	if not layers.is_empty():
-		current_level = 0
+		current_level = 500
 		current_tile_map_layer = layers[current_level]["tile_map"]
 		print("Layers set up!")
 	else:

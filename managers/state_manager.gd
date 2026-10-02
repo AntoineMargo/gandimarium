@@ -322,7 +322,8 @@ func _setup_map_state():
 		current_map_id = Global.world_manager.current_world.id
 	var map_state = get_map_state(current_map_id)
 	if map_state.data_dirty:
-		build_rooms(current_map_id, 0)
+		var default_layer: int = 500
+		build_rooms(current_map_id, default_layer)
 		build_buildings(current_map_id)
 		print("Rooms and buildings added to state!")
 

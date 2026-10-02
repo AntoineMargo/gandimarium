@@ -1,5 +1,5 @@
 extends TileMapLayer
 
-@export var id: int = 500
+@export var id: int = 1
 
 @onready var props: Node = $Props

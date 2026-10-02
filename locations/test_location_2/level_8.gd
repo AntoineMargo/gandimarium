@@ -1,3 +1,3 @@
 extends TileMapLayer
 
-@export var id: int = 8
+@export var id: int = 508
