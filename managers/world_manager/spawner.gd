@@ -10,7 +10,7 @@ func _guardian():
 		return false
 	var tile_coords = wm.get_tile_coords()
 	var tile_data = wm.current_tile_map_layer.get_cell_tile_data(tile_coords.vec2)
-	if not tile_data.get_custom_data("walkable") or wm.layers[wm.current_level]["occupied"].get(tile_coords.vec2, false):
+	if not tile_data.get_custom_data("walkable") or wm.layers[wm.current_layer]["occupied"].get(tile_coords.vec2, false):
 		print("Cannot spawn character on this tile!")
 		return false
 	return true
@@ -45,9 +45,9 @@ func spawn_character(data_file: String, coords: Vector3i, routine: String = "", 
 
 	wm.current_world.add_child(character)
 
-	wm.layers[wm.current_level]["occupied"][layer_coords] = true
+	wm.layers[wm.current_layer]["occupied"][layer_coords] = true
 	wm.add_to_tile(character, coords)
-	wm.layers[wm.current_level]["path_map"].set_point_solid(layer_coords, true)
+	wm.layers[wm.current_layer]["path_map"].set_point_solid(layer_coords, true)
 
 	character.initialize_character()
 	wm.current_world.register_creature(character)

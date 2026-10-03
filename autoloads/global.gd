@@ -16,6 +16,7 @@ var time_manager = TimeManager.new()
 var noise_manager = NoiseManager.new()
 var door_manager = DoorManager.new()
 var reaction_manager = ReactionManager.new()
+var dimension_manager = DimensionManager.new()
 
 var game_root = null
 
@@ -157,6 +158,7 @@ func _ready() -> void:
 	add_child(noise_manager)
 	add_child(door_manager)
 	add_child(reaction_manager)
+	add_child(dimension_manager)
 	
 	await get_tree().create_timer(0.1).timeout
 	

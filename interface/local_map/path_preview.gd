@@ -44,10 +44,10 @@ func update_path(path: Array, tilemap: TileMapLayer, costs: Array) -> void:
 	if not active:
 		return
 
-	var current_level = Global.world_manager.current_level
+	var current_layer = Global.world_manager.current_layer
 
 	for point in path:
-		if point.z != current_level:
+		if point.z != current_layer:
 			continue
 		var cell = Vector2i(int(point.x), int(point.y))
 		path_points.append(tilemap.map_to_local(cell))

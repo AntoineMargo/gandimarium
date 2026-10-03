@@ -5,6 +5,15 @@ class_name InputManager
 var wm = null
 var cm = null
 
+func print_layers(element) -> void:
+	var children = element.get_children()
+	if !children:
+		return
+	for child in children:
+		if child is TileMapLayer and child.get("id"):
+			print("layer: %d" % [child.id])
+		print_layers(child)
+
 func BasicControls():
 	if Input.is_action_just_pressed("Escape"):
 		get_tree().quit()
@@ -13,17 +22,17 @@ func BasicControls():
 		Global.toggle_pause()
 
 	if Input.is_action_just_pressed("PageUp"):
-		wm.change_level(1)
+		wm.change_layer(1)
 		if wm.current_world:
 			for creature in wm.current_world.creatures:
 				print("Creature: %s" % [creature.data.name])
-				creature.visible = (creature.data.tile_z == wm.current_level)
+				creature.visible = (creature.data.tile_z == wm.current_layer)
 		
 	if Input.is_action_just_pressed("PageDown"):
-		wm.change_level(-1)
+		wm.change_layer(-1)
 		if wm.current_world:
 			for creature in wm.current_world.creatures:
-				creature.visible = (creature.data.tile_z == wm.current_level)
+				creature.visible = (creature.data.tile_z == wm.current_layer)
 
 	if Input.is_action_just_pressed("F"):
 		var coords = wm.get_tile_coords_under_cursor()
@@ -38,8 +47,8 @@ func BasicControls():
 
 	if Input.is_action_just_pressed("R"):
 		var coords = wm.get_tile_coords()
-		if wm.layers[wm.current_level]["contents"].has(coords.vec2):
-			var contents_copy = wm.layers[wm.current_level]["contents"][coords.vec2].duplicate()
+		if wm.layers[wm.current_layer]["contents"].has(coords.vec2):
+			var contents_copy = wm.layers[wm.current_layer]["contents"][coords.vec2].duplicate()
 			for element in contents_copy:
 				if element is Item:
 					wm.remove_from_tile(element, coords.vec3)
@@ -78,7 +87,7 @@ func BasicControls():
 				elif element is AreaCondition:
 					print("	%s (Condition)" % element.id)
 
-		var pm: AStarGrid2D = wm.layers[wm.current_level]["path_map"]
+		var pm: AStarGrid2D = wm.layers[wm.current_layer]["path_map"]
 
 		if not pm.is_in_boundsv(layer_tile):
 			print("This tile is OUT OF BOUNDS (treated as solid)")
@@ -108,12 +117,14 @@ func BasicControls():
 		else:
 			window.visible = false
 
+	#DEBUG
 	if Input.is_action_just_pressed("O"):
 		if not Global.selected_char:
 			return
 		var coords = wm.get_tile_coords_under_cursor()
 		wm.teleport(Global.selected_char, coords)
 
+	#DEBUG
 	if Input.is_action_just_pressed("P"):
 		if not Global.selected_char:
 			return
@@ -128,26 +139,16 @@ func BasicControls():
 					SignalBus.update_inventory.emit()
 					SignalBus.message.emit("Picked up %s." % element.name)
 
+	#DEBUG
 	if Input.is_action_just_pressed("K"):
 		var coords = wm.get_tile_coords_under_cursor()
 		print("Tile: (%d, %d, %d)" % [coords.x, coords.y, coords.z])
 		#var coords = wm.get_hovered_tile()
 		wm.spawn_prop(Library.get_prop("wooden_crate"), coords)
-
+	
+	#DEBUG
 	if Input.is_action_just_pressed("H"):
-		print("creatures found in the world:")
-		for creature in wm.current_world.creatures:
-			print(creature.data.name)
-		for creature_a in wm.current_world.creatures:
-			if creature_a.data.name == "Bandit":
-				for creature_b in wm.current_world.creatures:
-					if creature_b.data.name == "Andimar":
-						creature_a.data.relationships.hostile.append(creature_b)
-			elif creature_a.data.name == "Andimar":
-				for creature_b in wm.current_world.creatures:
-					if creature_b.data.name == "Bandit":
-						creature_a.data.relationships.hostile.append(creature_b)
-		print("Relationships set!")
+		print_layers(wm.current_world)
 
 	if Input.is_action_just_pressed("L"):
 		var map_delta = wm.get_map_delta(wm.current_world.id)
@@ -158,7 +159,7 @@ func BasicControls():
 		var coords = wm.get_tile_coords_under_cursor()
 		var layer_coords = Vector2i(coords.x, coords.y)
 		for layer in wm.current_world.get_children():
-			if layer.id == wm.current_level:
+			if layer.id == wm.current_layer:
 				layer.set_cell(layer_coords, 5, Vector2i(2, 11))
 				var tile_data = layer.get_cell_tile_data(layer_coords)
 				if tile_data and tile_data.get_custom_data("walkable") == false:

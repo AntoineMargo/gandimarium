@@ -59,6 +59,9 @@
 [ext_resource type="Texture2D" uid="uid://tc7lpf4etv0w" path="res://art/interface/activities/bright-explosion.png" id="57_j5kdn"]
 [ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damage_effect.gd" id="58_2mcys"]
 [ext_resource type="Texture2D" uid="uid://bhd3mp57mbhk3" path="res://art/interface/activities/spell-book.png" id="58_3k8ai"]
+[ext_resource type="Texture2D" uid="uid://bhcp6waue3riu" path="res://art/interface/activities/world.png" id="58_s8bqb"]
+[ext_resource type="PackedScene" uid="uid://btwgjopgb06ch" path="res://locations/pocket_dimension/pocket_dimension.scn" id="59_hh0ht"]
+[ext_resource type="Script" uid="uid://ctoi0qqlyxwmk" path="res://effects/create_dimension_effect.gd" id="60_2mcys"]
 
 [sub_resource type="Resource" id="Resource_sf1yt"]
 script = ExtResource("36_hwbcj")
@@ -267,9 +270,45 @@ icon = ExtResource("57_j5kdn")
 activities = Array[ExtResource("26_v5jdu")]([SubResource("Resource_kfk7w")])
 metadata/_custom_type_script = "uid://sg6vjj4j36i4"
 
+[sub_resource type="Resource" id="Resource_70sut"]
+script = ExtResource("60_2mcys")
+dimension = ExtResource("59_hh0ht")
+metadata/_custom_type_script = "uid://ctoi0qqlyxwmk"
+
+[sub_resource type="Resource" id="Resource_csjpf"]
+script = ExtResource("34_2mmfy")
+name = "Create Pocket Dimension"
+id = "act_create_pocket_dimension"
+description = "You create a pocket dimension."
+icon = ExtResource("58_s8bqb")
+tags = Array[int]([18, 17])
+AP_cost = 3
+requires_concentration = true
+reach = 5
+target_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_70sut")])
+targeting_type = 0
+affected_type = 1
+requires_roll = false
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_qwxp5"]
+script = ExtResource("26_v5jdu")
+activity = SubResource("Resource_csjpf")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_rpcen"]
+script = ExtResource("3_glfbk")
+name = "Create Pocket Dimension"
+description = "You create a pocket dimension."
+icon = ExtResource("58_s8bqb")
+activities = Array[ExtResource("26_v5jdu")]([SubResource("Resource_qwxp5")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
 [sub_resource type="Resource" id="Resource_wqd4r"]
 script = ExtResource("2_m11lv")
-spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk"), ExtResource("5_wqd4r"), ExtResource("6_rqpy1"), ExtResource("7_b2hvq"), ExtResource("8_u81v1"), ExtResource("9_frlgl"), ExtResource("10_eubeo"), ExtResource("11_j8ccw"), ExtResource("12_k724e"), ExtResource("13_j8ccw"), ExtResource("14_dva2d"), ExtResource("15_s1sgk"), ExtResource("21_2uh2x"), ExtResource("17_5dmfs"), ExtResource("18_gobpa"), ExtResource("19_smut8"), ExtResource("20_v5jdu"), ExtResource("21_j0ybq"), ExtResource("22_4ay3v"), ExtResource("23_dva2d"), ExtResource("24_a3m6j"), ExtResource("25_a3m6j"), ExtResource("26_xjtne"), ExtResource("27_y0xrv"), ExtResource("28_fnnw1"), ExtResource("29_k7lab"), SubResource("Resource_b8cdl"), SubResource("Resource_6rs1c"), SubResource("Resource_3k8ai")])
+spells = Array[ExtResource("3_glfbk")]([ExtResource("4_glfbk"), ExtResource("5_wqd4r"), ExtResource("6_rqpy1"), ExtResource("7_b2hvq"), ExtResource("8_u81v1"), ExtResource("9_frlgl"), ExtResource("10_eubeo"), ExtResource("11_j8ccw"), ExtResource("12_k724e"), ExtResource("13_j8ccw"), ExtResource("14_dva2d"), ExtResource("15_s1sgk"), ExtResource("21_2uh2x"), ExtResource("17_5dmfs"), ExtResource("18_gobpa"), ExtResource("19_smut8"), ExtResource("20_v5jdu"), ExtResource("21_j0ybq"), ExtResource("22_4ay3v"), ExtResource("23_dva2d"), ExtResource("24_a3m6j"), ExtResource("25_a3m6j"), ExtResource("26_xjtne"), ExtResource("27_y0xrv"), ExtResource("28_fnnw1"), ExtResource("29_k7lab"), SubResource("Resource_b8cdl"), SubResource("Resource_6rs1c"), SubResource("Resource_3k8ai"), SubResource("Resource_rpcen")])
 metadata/_custom_type_script = "uid://2oaio4mh2bc8"
 
 [resource]

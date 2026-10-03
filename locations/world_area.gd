@@ -9,12 +9,12 @@ class_name WorldArea
 var creatures: Array[Creature] = []
 var creatures_by_id: Dictionary[int, Creature] = {}
 
-func register_creature(creature):
+func register_creature(creature: Creature):
 	creatures.append(creature)
 	creatures_by_id[creature.data.uid] = creature
 	print("creature registered: ", creature.data.name)
 
-func unregister_creature(creature):
+func unregister_creature(creature: Creature):
 	creatures.erase(creature)
 	creatures_by_id.erase(creature.data.uid)
 
@@ -29,7 +29,7 @@ func deferred_setup_layers():
 	Global.world_manager.setup_layers()
 	Global.world_manager.setup_ramps()
 	Global.world_manager.setup_ai_zones()
-	Global.world_manager.determine_dimensions()
+	Global.world_manager.determine_size()
 	SignalBus.world_ready.emit()
 
 func creatures_only_visible_if_on_layer():

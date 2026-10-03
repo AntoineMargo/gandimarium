@@ -4,8 +4,10 @@ class_name WorldManager
 var layers: Dictionary = {}
 var layer_links: Dictionary = {}
 var ai_zones: Dictionary = {}
+var maps: Array = []
 var current_tile_map_layer: TileMapLayer = null
-var current_level: int = 0
+var current_layer: int = 0
+var current_map: int = 0
 var current_world: WorldArea = null
 var map_state = null
 var spawner: Spawner
@@ -54,6 +56,15 @@ func _process(_delta):
 		return
 	if Global.crisis_manager.crisis_mode and Global.selected_char == Global.focus_char:
 		preview_path(tile_under_cursor)
+
+
+func transfer_creature(creature: Creature, origin_map_id: int, destination_map_id: int) -> void:
+	var origin_map: WorldArea = maps[origin_map_id]
+	var destination_map: WorldArea = maps[destination_map_id]
+	
+	origin_map.unregister_creature(creature)
+	destination_map.register_creature(creature)
+
 
 func spawn_prop(scene: PackedScene, pos: Vector3i) -> Prop:
 	var prop: Prop = scene.instantiate()
@@ -118,7 +129,7 @@ func move_prop(old_pos: Vector3i, new_pos: Vector3i):
 	new_prop.is_active = old_prop.is_active
 	old_prop.destroy_self()
 
-func determine_dimensions():
+func determine_size():
 	for child in current_world.get_children():
 		if child is TileMapLayer:
 			var tile_map_limits = child.get_used_rect()
@@ -160,7 +171,6 @@ func clear_data() -> void:
 
 
 func setup_layers():
-	#layers.clear()
 	for child in current_world.get_children():
 		if child is TileMapLayer:
 			var layer = child
@@ -210,8 +220,8 @@ func setup_layers():
 							noise_astar.set_point_weight_scale(coords, 10.0)
 
 	if not layers.is_empty():
-		current_level = 500
-		current_tile_map_layer = layers[current_level]["tile_map"]
+		current_layer = 500
+		current_tile_map_layer = layers[current_layer]["tile_map"]
 		print("Layers set up!")
 	else:
 		print("Layers is not set up...")
@@ -349,7 +359,7 @@ func get_reachable_tiles_3D_with_diagonals(start: Vector3i, max_cost: float) -> 
 
 ## @deprecated: use get_tile_occupied(tile: Vector3i) instead
 func is_tile_occupied(coords):
-	if layers[current_level]["occupied"][coords.vec2]:
+	if layers[current_layer]["occupied"][coords.vec2]:
 		return true
 
 #func show_reachable_tiles():
@@ -357,14 +367,14 @@ func is_tile_occupied(coords):
 		#return
 	#var character = Global.selected_char
 	#for coords in character.reachable_tiles:
-		#if coords.z != current_level:
+		#if coords.z != current_layer:
 			#continue
 		#var coords_2d = Vector2i(coords[0], coords[1])
 		#var painted_scene = preload("res://interface/local_map/painted_tile_effect.tscn")
 		#var painted_instance = painted_scene.instantiate()
 		#painted_instance.add_to_group("reachable_overlay")
 		#
-		#var tilemap = layers[current_level]["tile_map"]
+		#var tilemap = layers[current_layer]["tile_map"]
 		#var world_pos = tilemap.map_to_local(coords_2d)
 		#painted_instance.position = world_pos
 		#
@@ -398,26 +408,26 @@ func update_layer_visibility():
 	for id in layers.keys():
 		var layer_data = layers[id]
 		if layer_data:
-			layer_data["tile_map"].visible = (id == current_level)
+			layer_data["tile_map"].visible = (id == current_layer)
 
-func change_level(direction: int):
+func change_layer(direction: int):
 	if layers.is_empty():
 		return
 		
 	var ids = layers.keys()
 	ids.sort()
 
-	var index = ids.find(current_level)
+	var index = ids.find(current_layer)
 	if index == -1:
 		index = 0
 	
 	index = clamp(index + direction, 0, ids.size() - 1)
-	current_level = ids[index]
+	current_layer = ids[index]
 	update_layer_visibility()
-	current_tile_map_layer = layers[current_level]["tile_map"]
+	current_tile_map_layer = layers[current_layer]["tile_map"]
 	selection_highlight.update_selection_highlight()
-	print("Layer %d" % current_level)
-	SignalBus.message.emit("Layer %d" % current_level)
+	print("Layer %d" % current_layer)
+	SignalBus.message.emit("Layer %d" % current_layer)
 
 func turn_path_from_pixels_to_tiles(path: Array[Vector3i], tile_size: int = Global.TILE_SIZE):
 	var tile_path = []
@@ -727,7 +737,7 @@ func get_hovered_tile() -> Vector3i:
 	var canvas_transform = get_viewport().get_canvas_transform()
 	var world_mouse_pos = canvas_transform.affine_inverse() * screen_mouse_pos
 	var coords_2d = Vector2i(current_tile_map_layer.local_to_map(world_mouse_pos))
-	return Vector3i(coords_2d.x, coords_2d.y, current_level)
+	return Vector3i(coords_2d.x, coords_2d.y, current_layer)
 
 func get_tile_coords_under_cursor() -> Vector3i:
 	if not current_tile_map_layer:
@@ -736,7 +746,7 @@ func get_tile_coords_under_cursor() -> Vector3i:
 	var canvas_transform = get_viewport().get_canvas_transform()
 	var world_mouse_pos = canvas_transform.affine_inverse() * screen_mouse_pos
 	var coords_2d = Vector2i(current_tile_map_layer.local_to_map(world_mouse_pos))
-	return Vector3i(coords_2d[0], coords_2d[1], current_level)
+	return Vector3i(coords_2d[0], coords_2d[1], current_layer)
 
 ## @deprecated: use "get_hovered_tile"
 func get_tile_coords() -> Dictionary:
@@ -744,7 +754,7 @@ func get_tile_coords() -> Dictionary:
 	var canvas_transform = get_viewport().get_canvas_transform()
 	var world_mouse_pos = canvas_transform.affine_inverse() * screen_mouse_pos
 	var coords_2d = Vector2i(current_tile_map_layer.local_to_map(world_mouse_pos))
-	var coords_3d = Vector3i(coords_2d[0], coords_2d[1], current_level)
+	var coords_3d = Vector3i(coords_2d[0], coords_2d[1], current_layer)
 	return {
 		"vec3": coords_3d,
 		"vec2": coords_2d
@@ -794,7 +804,7 @@ func flash_tile_overlay(tile_pos: Vector2i, colour: Color = Color(0.0, 1.0, 0.0,
 	var flash_scene = preload("res://interface/local_map/flash_tile_effect.tscn")
 	var flash_instance = flash_scene.instantiate()
 	
-	var tilemap = layers[current_level]["tile_map"]
+	var tilemap = layers[current_layer]["tile_map"]
 	var world_pos = tilemap.map_to_local(tile_pos)
 	flash_instance.position = world_pos
 	
@@ -805,7 +815,7 @@ func flash_tile_overlay(tile_pos: Vector2i, colour: Color = Color(0.0, 1.0, 0.0,
 func creatures_visible_if_on_layer():
 	if current_world:
 		for creature in current_world.creatures:
-			creature.visible = (creature.data.tile_z == current_level)
+			creature.visible = (creature.data.tile_z == current_layer)
 
 func spawn_character(data_file: String, coords: Vector3i, routine: String = "") -> Creature:
 	return spawner.spawn_character(data_file, coords, routine)
@@ -822,8 +832,8 @@ func tile_to_pixels(coords) -> Vector2:
 	return Vector2((coords.x * Global.TILE_SIZE + Global.TILE_SIZE * 0.5), (coords.y * Global.TILE_SIZE + Global.TILE_SIZE * 0.5))
 
 ## takes a tile's coords in pixel format and returns it in Vector2i format
-## second parameter is optional: the z-level of the location, current_level by default
-func pixels_to_tile(coords: Vector2, level: int = current_level) -> Vector3i:
+## second parameter is optional: the z-level of the location, current_layer by default
+func pixels_to_tile(coords: Vector2, level: int = current_layer) -> Vector3i:
 	@warning_ignore("narrowing_conversion")
 	return Vector3i(coords.x / Global.TILE_SIZE, coords.y / Global.TILE_SIZE, level)
 
@@ -905,7 +915,7 @@ func _apply_step_state(creature: Creature, current_tile: Vector3i, next_tile: Ve
 	layers[next_tile.z]["path_map"].set_point_solid(layer_next_tile, true)
 	add_to_tile(creature, next_tile)
 
-	creature.visible = (creature.data.tile_z == current_level)
+	creature.visible = (creature.data.tile_z == current_layer)
 	creature.global_position = layers[next_tile.z]["tile_map"].map_to_local(layer_next_tile)
 	creature.mover.position = Vector2.ZERO
 
@@ -978,8 +988,8 @@ func try_move_char_abs(creature: Creature, origin: Vector3i, target: Vector3i):
 
 func select_creature_on_tile(coordinates: Vector3i) -> bool:
 	var layer_coords = Vector2i(coordinates.x, coordinates.y)
-	if layers[current_level]["contents"].has(layer_coords):
-		for element in layers[current_level]["contents"][layer_coords]:
+	if layers[current_layer]["contents"].has(layer_coords):
+		for element in layers[current_layer]["contents"][layer_coords]:
 			if element is Creature:
 				if not Global.player_lock and element.data.player_controlled:
 					Global.selected_char = element
@@ -1012,7 +1022,7 @@ func preview_path(to_tile: Vector3i) -> void:
 		return
 
 	var costs = turn_path_array_into_cost_array(path)
-	path_preview.update_path(path, layers[current_level]["tile_map"], costs)
+	path_preview.update_path(path, layers[current_layer]["tile_map"], costs)
 
 func _get_element_priority(element) -> int:
 	if element is Creature:
@@ -1107,7 +1117,7 @@ func _on_world_select():
 	#var coords = get_tile_coords_under_cursor()
 	#var layer_coords = Vector2i(coords.x, coords.y)
 	#if Global.selected_char:
-		#if layers[current_level]["occupied"].get(layer_coords):
+		#if layers[current_layer]["occupied"].get(layer_coords):
 			#_interact_attack(coords)
 		#else:
 			#interact_move(Global.selected_char, coords)
@@ -1162,7 +1172,7 @@ func teleport(character: Creature, target: Vector3i):
 	
 	character.mover._on_stop_all_movement()
 	
-	character.visible = (character.data.tile_z == current_level)
+	character.visible = (character.data.tile_z == current_layer)
 	SignalBus.update_ui_for_char.emit()
 	selection_highlight.update_selection_highlight()
 	SignalBus.sight_check.emit(target)
@@ -1183,8 +1193,8 @@ func interact_move(character: Creature, target: Vector3i):
 		print("Invalid target location.")
 		return
 
-	print("origin: %d/%d" % [origin.x, origin.y])
-	print("goal: %d/%d" % [target.x, target.y])
+	#print("origin: %d/%d" % [origin.x, origin.y])
+	#print("goal: %d/%d" % [target.x, target.y])
 
 	path_map.set_point_solid(layer_origin, false)
 	if not character.data.player_controlled:
@@ -1200,7 +1210,7 @@ func interact_move(character: Creature, target: Vector3i):
 		move_char_along_path(character, path, step_speed)
 	else:
 		character.mover.begin_path(path)
-	character.visible = (character.data.tile_z == current_level)
+	character.visible = (character.data.tile_z == current_layer)
 	if character == Global.selected_char:
 		SignalBus.update_ui_for_char.emit()
 	selection_highlight.update_selection_highlight()
@@ -1215,7 +1225,7 @@ func handle_tile_conditions(tile: Vector3i, entity: Entity):
 func flash_path(path: Array) -> void:
 	for point in path:
 		#print("Tile (%d:%d:%d)" % [point[0], point[1], point[2]])
-		if point[2] == current_level:
+		if point[2] == current_layer:
 			var point_coords = Vector2i(point[0], point[1])
 			flash_tile_overlay(point_coords)
 

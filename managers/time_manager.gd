@@ -3,7 +3,7 @@ class_name TimeManager
 
 var seconds: int = 0
 var minutes: int = 0
-var hours: int = 8
+var hours: int = 0
 var days: int = 0
 
 var world_timer: Timer = Timer.new() 
@@ -12,7 +12,7 @@ var world_timer: Timer = Timer.new()
 func clear_data() -> void:
 	seconds = 0
 	minutes = 0
-	hours = 0
+	hours = 8
 	days = 0
 
 

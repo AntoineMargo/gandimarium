@@ -1,1 +1,2 @@
 extends WorldArea
+class_name Dimension
