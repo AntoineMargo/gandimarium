@@ -21,6 +21,15 @@ func _input(event: InputEvent) -> void:
 		if get_viewport().gui_get_hovered_control():
 			return
 
+		#var hovered_control: Control = get_viewport().gui_get_hovered_control()
+#
+		#if hovered_control:
+			#print("Hovered control: ", hovered_control)
+			#print("Name: ", hovered_control.name)
+			#print("Path: ", hovered_control.get_path())
+			#print("Mouse filter: ", hovered_control.mouse_filter)
+			#return
+
 		match event.button_index:
 			MOUSE_BUTTON_WHEEL_UP:
 				zoomTarget *= 1.1

@@ -9,6 +9,9 @@ extends Control
 	"weapon2" = $PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2
 }
 
-func _ready() -> void:
-	Global.ui_log = $PanelContainer/VBoxContainer/HBoxContainer/ColorRect/Log
+func setup() -> void:
+	Global.game_session.ui_log = $PanelContainer/VBoxContainer/HBoxContainer/ColorRect/Log
 	Global.ui_manager.set_ui_node(self)
+
+func _ready() -> void:
+	call_deferred("setup")

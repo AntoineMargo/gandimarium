@@ -52,13 +52,13 @@ func update_drag():
 		return
 	
 	var end_tile = wm.get_hovered_tile()
-	if end_tile == Global.last_hovered_tile:
+	if end_tile == Global.game_session.last_hovered_tile:
 		return
 	
 	wm.clear_visualization(wm.preview_visualized_rects, wm.preview_visualized_lines)
 	var tiles = compute_affected_area(end_tile)
 	wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines)
-	Global.last_hovered_tile = end_tile
+	Global.game_session.last_hovered_tile = end_tile
 
 func end_drag():
 	if not is_dragging:
@@ -100,7 +100,7 @@ func handle_input(event: InputEvent) -> void:
 
 func _cleanup() -> void:
 	SignalBus.change_cursor.emit("default")
-	Global.activity_handler = null
+	Global.game_session.activity_handler = null
 	wm.clear_all_visualizations()
 	for hl in wm.target_highlights:
 		hl.queue_free()
@@ -121,12 +121,12 @@ func execute() -> void:
 	if target_points:
 		resolve_with_targets(target_points)
 	else:
-		Global.last_hovered_tile = Vector3i(-1,-1,-1)
+		Global.game_session.last_hovered_tile = Vector3i(-1,-1,-1)
 		resolve_ui()
 
 func resolve_ui() -> void:
 	SignalBus.message.emit("Waiting for target(s) of activity...")
-	Global.activity_handler = self
+	Global.game_session.activity_handler = self
 	self.user = user
 	number_of_targets_left = number_of_targets
 	SignalBus.dialog_selectable_targets.emit(number_of_targets_left)

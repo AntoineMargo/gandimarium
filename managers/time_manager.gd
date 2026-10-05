@@ -3,7 +3,7 @@ class_name TimeManager
 
 var seconds: int = 0
 var minutes: int = 0
-var hours: int = 0
+var hours: int = 8
 var days: int = 0
 
 var world_timer: Timer = Timer.new() 

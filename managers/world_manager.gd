@@ -4,11 +4,11 @@ class_name WorldManager
 var layers: Dictionary = {}
 var layer_links: Dictionary = {}
 var ai_zones: Dictionary = {}
-var maps: Array = []
+#var maps: Array = [] # moved to map_manager
 var current_tile_map_layer: TileMapLayer = null
 var current_layer: int = 0
 var current_map: int = 0
-var current_world: WorldArea = null
+var current_world: Map = null
 var map_state = null
 var spawner: Spawner
 
@@ -51,19 +51,23 @@ func _process(_delta):
 
 	hover_tile.start_drawing()
 	var tile_under_cursor = get_hovered_tile()
-	Global.handle_world_hover(tile_under_cursor)
-	if Global.activity_handler:
+	Global.game_session.handle_world_hover(tile_under_cursor)
+	if Global.game_session.activity_handler:
 		return
 	if Global.crisis_manager.crisis_mode and Global.selected_char == Global.focus_char:
 		preview_path(tile_under_cursor)
 
 
-func transfer_creature(creature: Creature, origin_map_id: int, destination_map_id: int) -> void:
-	var origin_map: WorldArea = maps[origin_map_id]
-	var destination_map: WorldArea = maps[destination_map_id]
-	
-	origin_map.unregister_creature(creature)
-	destination_map.register_creature(creature)
+#func add_map(map: Map) -> void:
+	#maps.append(map)
+
+
+#func transfer_creature(creature: Creature, origin_map_id: int, destination_map_id: int) -> void:
+	#var origin_map: Map = maps[origin_map_id]
+	#var destination_map: Map = maps[destination_map_id]
+	#
+	#origin_map.unregister_creature(creature)
+	#destination_map.register_creature(creature)
 
 
 func spawn_prop(scene: PackedScene, pos: Vector3i) -> Prop:
@@ -129,8 +133,8 @@ func move_prop(old_pos: Vector3i, new_pos: Vector3i):
 	new_prop.is_active = old_prop.is_active
 	old_prop.destroy_self()
 
-func determine_size():
-	for child in current_world.get_children():
+func determine_size(map: Map):
+	for child in map.get_children():
 		if child is TileMapLayer:
 			var tile_map_limits = child.get_used_rect()
 			map_width = tile_map_limits.size.x
@@ -170,8 +174,32 @@ func clear_data() -> void:
 	ai_zones.clear()
 
 
-func setup_layers():
-	for child in current_world.get_children():
+func add_map_data(map: Map, layer_ids: Array[int]) -> void:
+	setup_layers(map)
+	setup_ramps(layer_ids)
+
+
+func remove_map_data(layer_ids: Array[int]) -> void:
+	remove_layers(layer_ids)
+	remove_layer_links(layer_ids)
+
+
+func remove_layers(layer_ids: Array[int]) -> void:
+	var keys: Array = layers.keys()
+	for key in keys:
+		if key in layer_ids:
+			layers.erase(key)
+
+
+func remove_layer_links(layer_ids: Array[int]) -> void:
+	var keys: Array = layer_links.keys()
+	for key in keys:
+		if key in layer_ids:
+			layers.erase(key)
+
+
+func setup_layers(map: Map):
+	for child in map.get_children():
 		if child is TileMapLayer:
 			var layer = child
 			var id = layer.id
@@ -226,8 +254,9 @@ func setup_layers():
 	else:
 		print("Layers is not set up...")
 
-func setup_ramps():
-	for z in layers:
+
+func setup_ramps(layer_ids: Array[int]):
+	for z in layer_ids:
 		var layer = layers[z]["tile_map"]
 		var width = layer.get_used_rect().size.x
 		var height = layer.get_used_rect().size.y
@@ -991,7 +1020,7 @@ func select_creature_on_tile(coordinates: Vector3i) -> bool:
 	if layers[current_layer]["contents"].has(layer_coords):
 		for element in layers[current_layer]["contents"][layer_coords]:
 			if element is Creature:
-				if not Global.player_lock and element.data.player_controlled:
+				if not Global.game_session.player_lock and element.data.player_controlled:
 					Global.selected_char = element
 					Global.focus_char = element
 					selection_highlight.update_selection_highlight()
@@ -1051,7 +1080,7 @@ func get_priority_element_on_tile(coords: Vector3i):
 	return best
 
 func _simple_interact_disambiguation(force_interact: bool = false):
-	if Global.simulation_lock:
+	if Global.game_session.simulation_lock:
 		return
 
 	var coords = get_tile_coords_under_cursor()
@@ -1321,3 +1350,4 @@ func _ready() -> void:
 	path_preview = PathPreviewScene.instantiate()
 	add_child(path_preview)
 	add_child(hover_tile)
+	add_child(selection_highlight)

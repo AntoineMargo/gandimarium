@@ -100,8 +100,8 @@ func BasicControls():
 		if not Global.selected_char:
 			return
 		SignalBus.update_inventory.emit()
-		Global.all_info_window.tabs.set_current_tab(1)
-		Global.all_info_window.visible = not Global.all_info_window.visible
+		Global.game_session.all_info_window.tabs.set_current_tab(1)
+		Global.game_session.all_info_window.visible = not Global.game_session.all_info_window.visible
 		#Global.inventory_window.visible = not Global.inventory_window.visible
 		print("Toggling inventory.")
 
@@ -110,7 +110,7 @@ func BasicControls():
 			return
 		SignalBus.update_character_info.emit()
 		SignalBus.update_inventory.emit()
-		var window = Global.all_info_window
+		var window = Global.game_session.all_info_window
 		window.tabs.set_current_tab(0)
 		if window.visible == false:
 			window.visible = true
@@ -225,7 +225,7 @@ func BasicControls():
 	if Input.is_action_just_pressed("S"):
 		if not Global.selected_char:
 			return
-		var window = Global.all_info_window
+		var window = Global.game_session.all_info_window
 		window.tabs.set_current_tab(2)
 		if window.visible == false:
 			window.visible = true

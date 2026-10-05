@@ -12970,9 +12970,116 @@ Vector3i(195, 113, 0): [13],
 Vector3i(195, 114, 0): [13]
 })
 
+[sub_resource type="Resource" id="Resource_xvalf"]
+script = ExtResource("6_mrjx0")
+id = "creature_spawner"
+pos = Vector3i(81, 77, 499)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_a4j1p"]
+script = ExtResource("6_mrjx0")
+id = "creature_spawner"
+pos = Vector3i(93, 54, 499)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_ovn5t"]
+script = ExtResource("6_mrjx0")
+id = "creature_spawner"
+pos = Vector3i(98, 54, 499)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_nis2b"]
+script = ExtResource("6_mrjx0")
+id = "creature_spawner"
+pos = Vector3i(97, 21, 499)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_hlsqc"]
+script = ExtResource("6_mrjx0")
+id = "creature_spawner"
+pos = Vector3i(103, 21, 499)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_kky1b"]
+script = ExtResource("6_mrjx0")
+id = "creature_spawner"
+pos = Vector3i(102, 27, 499)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_mrjx0"]
+script = ExtResource("6_mrjx0")
+id = "creature_spawner"
+pos = Vector3i(98, 27, 499)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_b3m2g"]
+script = ExtResource("6_mrjx0")
+id = "creature_spawner"
+pos = Vector3i(139, 35, 499)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_874b6"]
+script = ExtResource("6_mrjx0")
+id = "creature_spawner"
+pos = Vector3i(147, 36, 499)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_kuv5h"]
+script = ExtResource("6_mrjx0")
+id = "creature_spawner"
+pos = Vector3i(159, 34, 499)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_30t45"]
+script = ExtResource("6_mrjx0")
+id = "creature_spawner"
+pos = Vector3i(161, 29, 499)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_ffpj7"]
+script = ExtResource("6_mrjx0")
+id = "creature_spawner"
+pos = Vector3i(162, 24, 499)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_a8r1g"]
+script = ExtResource("6_mrjx0")
+id = "creature_spawner"
+pos = Vector3i(139, 27, 499)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_wc6ur"]
+script = ExtResource("6_mrjx0")
+id = "creature_spawner"
+pos = Vector3i(63, 18, 499)
+hp = 40
+
+[sub_resource type="Resource" id="Resource_6mxf2"]
+script = ExtResource("7_b3m2g")
+added_props = {
+Vector3i(63, 18, 499): SubResource("Resource_wc6ur"),
+Vector3i(81, 77, 499): SubResource("Resource_xvalf"),
+Vector3i(93, 54, 499): SubResource("Resource_a4j1p"),
+Vector3i(97, 21, 499): SubResource("Resource_nis2b"),
+Vector3i(98, 27, 499): SubResource("Resource_mrjx0"),
+Vector3i(98, 54, 499): SubResource("Resource_ovn5t"),
+Vector3i(102, 27, 499): SubResource("Resource_kky1b"),
+Vector3i(103, 21, 499): SubResource("Resource_hlsqc"),
+Vector3i(139, 27, 499): SubResource("Resource_a8r1g"),
+Vector3i(139, 35, 499): SubResource("Resource_b3m2g"),
+Vector3i(147, 36, 499): SubResource("Resource_874b6"),
+Vector3i(159, 34, 499): SubResource("Resource_kuv5h"),
+Vector3i(161, 29, 499): SubResource("Resource_30t45"),
+Vector3i(162, 24, 499): SubResource("Resource_ffpj7")
+}
+
+[sub_resource type="Resource" id="Resource_te2pf"]
+script = ExtResource("1_a4j1p")
+map_delta = SubResource("Resource_6mxf2")
+
 [sub_resource type="Resource" id="Resource_cuo4g"]
 script = ExtResource("10_30t45")
-creature_uid = 13
+creature_uid = 29
 room_uid = 14
 building_uid = 3
 
@@ -12980,5 +13087,6 @@ building_uid = 3
 script = ExtResource("9_kuv5h")
 uid_state = SubResource("Resource_cuo4g")
 map_states = Dictionary[String, ExtResource("1_a4j1p")]({
-"castle_area": SubResource("Resource_feowo")
+"castle_area": SubResource("Resource_feowo"),
+"placeholder": SubResource("Resource_te2pf")
 })

@@ -11,7 +11,7 @@ func add_log(text: String):
 	if lines.size() > MAX_LINES:
 		lines.pop_front()  # remove oldest line
 
-	Global.ui_log.text = "\n".join(lines)
+	Global.game_session.ui_log.text = "\n".join(lines)
 
 func _on_show_message(text):
 	add_log(text)

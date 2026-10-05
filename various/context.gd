@@ -15,7 +15,7 @@ var condition_recipient: Entity = null
 var created_items: Array[Item] = []
 var created_props: Array[Prop] = []
 var created_creatures: Array[Creature] = []
-var created_dimensions: Array[DimensionData] = []
+var created_maps: Array[MapData] = []
 
 var tile_spawned_on: Vector3i = Vector3i(0, 0, 0)
 

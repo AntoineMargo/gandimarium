@@ -35,7 +35,7 @@ var vfx_instances: Array[Node] = []
 var linked_items: Array[Item] = []
 var linked_props: Array[Prop] = []
 var linked_creatures: Array[Creature] = []
-var linked_dimensions: Array[DimensionData] = []
+var linked_maps: Array[MapData] = []
 var linked_modifiers: Array[Modifier] = []
 var linked_activities: Array[ActivityContainer] = []
 

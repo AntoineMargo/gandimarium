@@ -1,7 +1,10 @@
 extends Node
 
 var _maps = {
-	
+	"empty_region": "res://locations/empty_location/region.scn",
+	"region2": "res://locations/test_location_2/region.scn",
+	"region3": "res://locations/test_location_3/region.scn",
+	"pocket_dimension": "res://locations/pocket_dimension/pocket_dimension.scn"
 }
 
 var _items = {
@@ -89,8 +92,10 @@ var _proj_sprites = {
 	"magic_bolt" = "res://art/objects/mbolt.png"
 }
 
-func get_map(id: String) -> Resource:
-	return _get_from(_maps, id)
+func get_map(id: String) -> Map:
+	var new_map_scene = load(_maps[id])
+	var new_map = new_map_scene.instantiate()
+	return new_map
 
 func get_item(id: String) -> Resource:
 	return _get_from(_items, id)

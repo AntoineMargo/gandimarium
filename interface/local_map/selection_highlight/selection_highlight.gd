@@ -13,7 +13,7 @@ func _draw():
 
 func update_selection_highlight():
 	target = Global.focus_char
-	var wm = Global.world_manager
+	var wm = Global.game_session.world_manager
 
 	if not (target is Creature):
 		visible = false

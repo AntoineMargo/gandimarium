@@ -4,9 +4,9 @@ var equipment_labels: Dictionary = {}
 
 func _on_update_inventory_window() -> void:
 	var character = Global.selected_char
-	for child in Global.items_list.get_children():
+	for child in Global.game_session.items_list.get_children():
 		child.queue_free()
-	if Global.items_list == null:
+	if Global.game_session.items_list == null:
 		print("ItemsList node not found!")
 		return
 	if Global.selected_char == null:
@@ -19,7 +19,7 @@ func _on_update_inventory_window() -> void:
 		element.index = i
 		element.item = items[i]
 		element.initialize()
-		Global.items_list.add_child(element)
+		Global.game_session.items_list.add_child(element)
 
 	for slot in equipment_labels.keys():
 		var label_node = equipment_labels[slot]

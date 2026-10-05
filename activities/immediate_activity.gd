@@ -26,7 +26,7 @@ func _cleanup() -> void:
 	if prompt_result:
 		prompt_result.clear()
 	SignalBus.change_cursor.emit("default")
-	Global.activity_handler = null
+	Global.game_session.activity_handler = null
 	origin = Vector3i(0, 0, 0)
 	target_points.clear()
 	SignalBus.update_ui_for_char.emit()
@@ -55,12 +55,12 @@ func preview_area(tile):
 
 func resolve_ui() -> void:
 	SignalBus.message.emit("Waiting for player decision...")
-	Global.activity_handler = self
+	Global.game_session.activity_handler = self
 	self.user = user
 	if prompt_scene:
 		prompt_instance = prompt_scene.instantiate()
 		prompt_instance.setup(user)
-	Global.add_child(prompt_instance)
+	Global.game_session.add_child(prompt_instance)
 	SignalBus.change_cursor.emit("select2")
 	if prompt_instance:
 		prompt_result = await prompt_instance.finished

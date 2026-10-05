@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://b04adad7twhtm"]
 
-[ext_resource type="Script" uid="uid://cq7n5wq4jlsfr" path="res://locations/game_root.gd" id="1_kcw43"]
-[ext_resource type="PackedScene" uid="uid://cwvyyn40aylxe" path="res://interface/bottom_bar/ui.tscn" id="1_uwb0s"]
-[ext_resource type="Script" uid="uid://drbbq6qwb16mo" path="res://interface/camera_controller.gd" id="2_ry4tc"]
-[ext_resource type="Script" uid="uid://b8a48xdn873du" path="res://locations/canvas_modulate.gd" id="3_ry4tc"]
+[ext_resource type="Script" uid="uid://cq7n5wq4jlsfr" path="res://core/game_session.gd" id="1_sxskk"]
+[ext_resource type="Script" uid="uid://drbbq6qwb16mo" path="res://interface/camera_controller.gd" id="2_ca02i"]
+[ext_resource type="Script" uid="uid://b8a48xdn873du" path="res://locations/canvas_modulate.gd" id="3_erljm"]
+[ext_resource type="PackedScene" uid="uid://cwvyyn40aylxe" path="res://interface/bottom_bar/ui.tscn" id="4_gb7ou"]
 
 [sub_resource type="Curve" id="Curve_ry4tc"]
 _data = [Vector2(0, 0.35245895), 0.0, 0.0, 0, 0, Vector2(0.11635219, 0.49999994), 0.0, 0.0, 0, 0, Vector2(0.30188677, 0.96721303), 0.0, 0.0, 0, 0, Vector2(0.49685535, 1), 0.0, 0.0, 0, 0, Vector2(0.7044025, 1), 0.0, 0.0, 0, 0, Vector2(0.99999, 0.35245895), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -17,20 +17,20 @@ point_count = 4
 _data = [Vector2(0, 0.5983606), 0.0, 0.0, 0, 0, Vector2(0.49685535, 1), 0.0, 0.0, 0, 0, Vector2(0.7044025, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.5983606), 0.0, 0.0, 0, 0]
 point_count = 4
 
-[node name="GameRoot" type="Node" unique_id=1705718674]
-script = ExtResource("1_kcw43")
+[node name="GameSession" type="Node" unique_id=1705718674]
+script = ExtResource("1_sxskk")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1404138575]
 position = Vector2(544, 729)
 offset = Vector2(500, 0)
 limit_smoothed = true
-script = ExtResource("2_ry4tc")
+script = ExtResource("2_ca02i")
 zoomSpeed = 20.0
 panSpeed = 8.0
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=285001896]
 color = Color(0.3362637, 0.3242059, 0.3030961, 1)
-script = ExtResource("3_ry4tc")
+script = ExtResource("3_erljm")
 red_curve = SubResource("Curve_ry4tc")
 green_curve = SubResource("Curve_wkx1g")
 blue_curve = SubResource("Curve_h8l7n")
@@ -48,7 +48,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="BottomBar" parent="CanvasLayer/UI" unique_id=1980164482 instance=ExtResource("1_uwb0s")]
+[node name="BottomBar" parent="CanvasLayer/UI" unique_id=1980164482 instance=ExtResource("4_gb7ou")]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.9

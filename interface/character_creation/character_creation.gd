@@ -44,8 +44,11 @@ func _on_save_button_pressed():
 	else:
 		print("SAVED!")
 
+#func _on_continue_button_pressed():
+	#get_tree().change_scene_to_file("res://locations/game_root.tscn")
+
 func _on_continue_button_pressed():
-	get_tree().change_scene_to_file("res://locations/game_root.tscn")
+	Global.game_root.start_session()
 
 func _on_previous_button_pressed():
 	creation_tabs.select_previous_available()

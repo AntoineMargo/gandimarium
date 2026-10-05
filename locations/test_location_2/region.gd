@@ -1,1 +1,1 @@
-extends WorldArea
+extends Map

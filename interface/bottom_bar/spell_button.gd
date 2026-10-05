@@ -47,10 +47,10 @@ func _draw():
 func _handle_left_click():
 	var cm = Global.crisis_manager
 	var um = Global.ui_manager
-	if Global.activity_handler:
+	if Global.game_session.activity_handler:
 		spell.cycle_activity()
 		um.update_spell_list()
-		Global.activity_handler.cancel_activity()
+		Global.game_session.activity_handler.cancel_activity()
 	final_activity = spell.query_current_activity(user)
 	cm.try_perform_activity(final_activity)
 
@@ -60,8 +60,8 @@ func _handle_right_click():
 	spell.cycle_activity()
 	final_activity = spell.query_current_activity(user)
 	um.update_spell_list()
-	if Global.activity_handler:
-		Global.activity_handler.cancel_activity()
+	if Global.game_session.activity_handler:
+		Global.game_session.activity_handler.cancel_activity()
 		cm.try_perform_activity(final_activity)
 
 func _ready():
