@@ -5,17 +5,21 @@ var layers: Dictionary = {}
 var layer_links: Dictionary = {}
 var ai_zones: Dictionary = {}
 #var maps: Array = [] # moved to map_manager
+#var current_map: int = 0
+
+var layer_tracks: Array[int] = []
+
 var current_tile_map_layer: TileMapLayer = null
 var current_layer: int = 0
-var current_map: int = 0
 var current_world: Map = null
-var map_state = null
-var spawner: Spawner
-
 var map_width: int
 var map_height: int
 
+var map_state = null
 var world_ready: bool = false
+
+var spawner: Spawner
+
 
 var target_highlights = []
 
@@ -247,12 +251,9 @@ func setup_layers(map: Map):
 							astar.set_point_solid(coords, true)
 							noise_astar.set_point_weight_scale(coords, 10.0)
 
-	if not layers.is_empty():
+	if not layers.is_empty() and not current_tile_map_layer:
 		current_layer = 500
 		current_tile_map_layer = layers[current_layer]["tile_map"]
-		print("Layers set up!")
-	else:
-		print("Layers is not set up...")
 
 
 func setup_ramps(layer_ids: Array[int]):

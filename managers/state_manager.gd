@@ -334,4 +334,4 @@ func _ready():
 		game_state = GameState.new()
 		if not game_state.uid_state:
 			game_state.uid_state = UIDState.new()
-	SignalBus.world_ready.connect(_setup_map_state)
+	#SignalBus.world_ready.connect(_setup_map_state)

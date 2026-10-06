@@ -6,30 +6,24 @@ const MAP_SPACING: int = 1000
 var maps: Dictionary[int, MapData] = {}
 var next_map_index: int = 0
 
-#func clear_world_container() -> void:
-	#var world_container = Global.game_root.world_container
-	#for child in world_container.get_children():
-		#child.free()
 
-func load_map(map_id: String) -> void:
-	Global.game_session.clear_data()
-	#clear_world_container()
-
+func load_map(map_id: String) -> MapData:
 	var new_map = Library.get_map(map_id)
 	Global.game_session.world_container.add_child(new_map)
 	Global.world_manager.current_world = new_map
-	setup_map(new_map)
-	await get_tree().process_frame
-	Global.world_manager.selection_highlight.update_selection_highlight()
+	var map_data: MapData = setup_map(new_map)
+	return map_data
 
-## Assuming we get here from something like Library.get_map(region2)
-func setup_map(map: Map):
+
+## Assuming we get here from something like Library.get_map("region2")
+func setup_map(map: Map) -> MapData:
 	var map_data: MapData = create_map_data(map)
 	map.clear_data()
-	Global.world_manager.add_map_data(map_data.root_node, map_data.layer_ids)
+	Global.world_manager.add_map_data(map_data.root, map_data.layer_ids)
 	#Global.world_manager.setup_ai_zones()
 	Global.world_manager.determine_size(map)
 	SignalBus.world_ready.emit()
+	return map_data
 
 
 func offset_layers(element: Node, offset: int) -> void:
@@ -49,10 +43,7 @@ func create_map_data(map: Map) -> MapData:
 
 	offset_layers(map, new_map_data.base_z)
 
-	#var map_instance = map.instantiate()
-
-	#Global.world_manager.current_world.add_child(map_instance)
-	new_map_data.root_node = map
+	new_map_data.root = map
 
 	for child in map.get_children():
 		if child is TileMapLayer and child.get("id"):
@@ -62,6 +53,27 @@ func create_map_data(map: Map) -> MapData:
 	next_map_index += 1
 
 	return new_map_data
+
+
+func transfer_creature(creature: Creature, origin_map: Map, destination_map: Map) -> void:
+	origin_map.unregister_creature(creature)
+	destination_map.register_creature(creature)
+
+
+func remove_map(map_id: int) -> void:
+	var map: MapData = maps.get(map_id)
+	if map == null:
+		return
+
+	Global.world_manager.remove_map_layers(map.base_z, map.base_z + 1000)
+
+	map.root.free()
+
+	maps.erase(map_id)
+
+
+func _ready() -> void:
+	pass # Replace with function body.
 
 
 #func create_map_data(map: PackedScene) -> MapData:
@@ -80,24 +92,3 @@ func create_map_data(map: Map) -> MapData:
 	#next_map_index += 1
 #
 	#return new_map_data
-
-
-func transfer_creature(creature: Creature, origin_map: Map, destination_map: Map) -> void:
-	origin_map.unregister_creature(creature)
-	destination_map.register_creature(creature)
-
-
-func remove_map(map_id: int) -> void:
-	var map: MapData = maps.get(map_id)
-	if map == null:
-		return
-
-	Global.world_manager.remove_map_layers(map.base_z, map.base_z + 1000)
-
-	map.root_node.free()
-
-	maps.erase(map_id)
-
-
-func _ready() -> void:
-	pass # Replace with function body.

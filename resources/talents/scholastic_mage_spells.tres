@@ -271,6 +271,7 @@ metadata/_custom_type_script = "uid://sg6vjj4j36i4"
 
 [sub_resource type="Resource" id="Resource_70sut"]
 script = ExtResource("60_2mcys")
+map = "pocket_dimension"
 metadata/_custom_type_script = "uid://ctoi0qqlyxwmk"
 
 [sub_resource type="Resource" id="Resource_csjpf"]

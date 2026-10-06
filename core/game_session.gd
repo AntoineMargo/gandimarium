@@ -147,16 +147,16 @@ func set_active_window(window: Node) -> void:
 	active_window.layer = 150
 
 
-func clear_data() -> void:
-	for child in world_container.get_children():
-		child.free()
-	world_manager.clear_data()
-	crisis_manager.clear_data()
-	door_manager.clear_data()
-	ai_manager.clear_data()
-	time_manager.clear_data()
-	selected_char = null
-	focus_char = null
+#func clear_data() -> void:
+	#for child in world_container.get_children():
+		#child.free()
+	#world_manager.clear_data()
+	#crisis_manager.clear_data()
+	#door_manager.clear_data()
+	#ai_manager.clear_data()
+	#time_manager.clear_data()
+	#selected_char = null
+	#focus_char = null
 
 
 func setup() -> void:
