@@ -75,6 +75,7 @@ signal complex_interact()
 signal clear_path_preview()
 signal world_ready()
 signal world_quit()
+signal update_visibility(map_id: String, layer: int)
 
 #Cursors
 signal change_cursor(name)

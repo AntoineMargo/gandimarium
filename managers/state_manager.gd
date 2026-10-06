@@ -117,7 +117,7 @@ const DIRS_3D = [
 ]
 
 func get_layer_by_id(id: int) -> TileMapLayer:
-	for layer in wm.current_world.get_children():
+	for layer in wm.current_map.get_children():
 		if layer.id == id:
 			return layer
 	return null
@@ -318,8 +318,8 @@ func _flood_room(chosen_layer, start_tile: Vector3i) -> Array[Vector3i]:
 	return result
 
 func _setup_map_state():
-	if Global.world_manager.current_world:
-		current_map_id = Global.world_manager.current_world.id
+	if Global.world_manager.current_map:
+		current_map_id = Global.world_manager.current_map.id
 	var map_state = get_map_state(current_map_id)
 	if map_state.data_dirty:
 		var default_layer: int = 500

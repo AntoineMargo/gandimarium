@@ -50,7 +50,7 @@ var pending_crisis_operation_count: int = 0
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if world_manager.current_world:
+	if world_manager.current_map:
 		if activity_handler:
 			activity_handler.handle_input(event)
 		else:
@@ -66,7 +66,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _process(_delta: float) -> void:
-	if world_manager.current_world:
+	if world_manager.current_map:
 		input_manager.BasicControls()
 		ui_manager.drag_fail_restore()
 
@@ -127,7 +127,7 @@ func unpause_game():
 
 func create_player_party():
 	var new_party = PartyData.new()
-	for creature in world_manager.current_world.creatures:
+	for creature in world_manager.current_map.creatures:
 		if creature.data.player_controlled:
 			new_party.members_by_uid.append(creature.data.uid)
 
@@ -259,6 +259,6 @@ func _ready() -> void:
 	#
 	#$Camera2D.position = Vector2(0, 300)
 #
-	#Global.world_manager.current_world = new_map
+	#Global.world_manager.current_map = new_map
 	#await get_tree().process_frame
 	#Global.world_manager.selection_highlight.update_selection_highlight()

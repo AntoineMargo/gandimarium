@@ -26,20 +26,10 @@ func clear_data() -> void:
 			creature.destroy_self()
 
 
-#func deferred_setup_layers():
-	#clear_data()
-	#Global.world_manager.setup_layers()
-	#Global.world_manager.setup_ramps()
-	#Global.world_manager.setup_ai_zones()
-	#Global.world_manager.determine_size()
-	#SignalBus.world_ready.emit()
-
-
 func creatures_only_visible_if_on_layer():
 	for creature in creatures:
 		creature.visible = (creature.data.tile_z == current_tile_map_layer.id)
 
 
 func _ready() -> void:
-	#call_deferred("deferred_setup_layers")
 	call_deferred("creatures_only_visible_if_on_layer")

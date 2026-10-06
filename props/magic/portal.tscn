@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dcvg6wrpdsucf"]
+
+[ext_resource type="Script" uid="uid://dbodpbb6cuea5" path="res://props/magic/portal.gd" id="1_145kb"]
+[ext_resource type="Texture2D" uid="uid://c2cljwj25xv5u" path="res://art/props/portal.png" id="2_4tb02"]
+
+[node name="Portal" type="Node2D" unique_id=1294455413]
+script = ExtResource("1_145kb")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1048629638]
+texture = ExtResource("2_4tb02")

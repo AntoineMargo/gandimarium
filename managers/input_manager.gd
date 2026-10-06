@@ -23,16 +23,16 @@ func BasicControls():
 
 	if Input.is_action_just_pressed("PageUp"):
 		wm.change_layer(1)
-		if wm.current_world:
-			for creature in wm.current_world.creatures:
-				print("Creature: %s" % [creature.data.name])
-				creature.visible = (creature.data.tile_z == wm.current_layer)
+		#if wm.current_map:
+			#for creature in wm.current_map.creatures:
+				#print("Creature: %s" % [creature.data.name])
+				#creature.visible = (creature.data.tile_z == wm.current_layer)
 		
 	if Input.is_action_just_pressed("PageDown"):
 		wm.change_layer(-1)
-		if wm.current_world:
-			for creature in wm.current_world.creatures:
-				creature.visible = (creature.data.tile_z == wm.current_layer)
+		#if wm.current_map:
+			#for creature in wm.current_map.creatures:
+				#creature.visible = (creature.data.tile_z == wm.current_layer)
 
 	if Input.is_action_just_pressed("F"):
 		var coords = wm.get_tile_coords_under_cursor()
@@ -54,13 +54,13 @@ func BasicControls():
 					wm.remove_from_tile(element, coords.vec3)
 
 	if Input.is_action_just_pressed("T"):
-		if not wm.current_world:
+		if not wm.current_map:
 			return
 		var coords = wm.get_tile_coords_under_cursor()
 		wm.spawn_character("res://saved/characters/Debug.tres", coords)
 		
 	if Input.is_action_just_pressed("Y"):
-		if not wm.current_world:
+		if not wm.current_map:
 			return
 		var coords: Vector3i = wm.get_tile_coords_under_cursor()
 		var data: String = "res://resources/creatures/data_bandit.tres"
@@ -148,17 +148,17 @@ func BasicControls():
 	
 	#DEBUG
 	if Input.is_action_just_pressed("H"):
-		print_layers(wm.current_world)
+		print_layers(wm.current_map)
 
 	if Input.is_action_just_pressed("L"):
-		var map_delta = wm.get_map_delta(wm.current_world.id)
+		var map_delta = wm.get_map_delta(wm.current_map.id)
 		for prop in map_delta.added_props:
 			print("prop: %s (pos: %d, %d, %d)" % [prop.id, prop.pos.x, prop.pos.y, prop.pos.z])
 
 	if Input.is_action_just_pressed("J"):
 		var coords = wm.get_tile_coords_under_cursor()
 		var layer_coords = Vector2i(coords.x, coords.y)
-		for layer in wm.current_world.get_children():
+		for layer in wm.current_map.get_children():
 			if layer.id == wm.current_layer:
 				layer.set_cell(layer_coords, 5, Vector2i(2, 11))
 				var tile_data = layer.get_cell_tile_data(layer_coords)
@@ -231,6 +231,11 @@ func BasicControls():
 			window.visible = true
 		else:
 			window.visible = false
+			
+	if Input.is_action_just_pressed("Inser"):
+		Global.map_manager.change_map()
+		print("map changed")
+
 
 #func CharControls():
 	#if not Global.focus_char:

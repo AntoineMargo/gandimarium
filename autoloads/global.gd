@@ -77,7 +77,7 @@ var focus_char: Node = null
 #
 #
 #func _unhandled_input(event: InputEvent) -> void:
-	#if Global.world_manager.current_world:
+	#if Global.world_manager.current_map:
 		#if activity_handler:
 			#activity_handler.handle_input(event)
 		#else:
@@ -93,7 +93,7 @@ var focus_char: Node = null
 #
 #
 #func _process(_delta: float) -> void:
-	#if Global.world_manager.current_world:
+	#if Global.world_manager.current_map:
 		#input_manager.BasicControls()
 		#ui_manager.drag_fail_restore()
 #
@@ -154,7 +154,7 @@ var focus_char: Node = null
 #
 #func create_player_party():
 	#var new_party = PartyData.new()
-	#for creature in world_manager.current_world.creatures:
+	#for creature in world_manager.current_map.creatures:
 		#if creature.data.player_controlled:
 			#new_party.members_by_uid.append(creature.data.uid)
 #

@@ -36,6 +36,8 @@ func operate(creature: Creature):
 		sprite.texture = load("res://art/props/door_open.png")
 
 func initialize() -> void:
+	if initialized:
+		return
 	var layer_coords = Vector2i(pos.x, pos.y)
 	wm.add_to_tile(self, pos)
 	wm.layers[pos.z]["cover"][layer_coords] = cover
@@ -43,11 +45,9 @@ func initialize() -> void:
 		wm.layers[pos.z]["path_map"].set_point_solid(layer_coords, true)
 		wm.layers[pos.z]["occupied"][layer_coords] = true
 	apply_mat_resistances()
-	#if is_runtime:
-		#register()
 	Global.door_manager.register_door(self)
 	register()
-	#print_info()
+	initialized = true
 
 func destroy_self():
 	Global.door_manager.deregister_door(pos)

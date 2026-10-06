@@ -5,7 +5,7 @@ class_name Spawner
 var wm = null
 
 func _guardian():
-	if wm.current_world == null:
+	if wm.current_map == null:
 		print("No current world.")
 		return false
 	var tile_coords = wm.get_tile_coords()
@@ -39,18 +39,18 @@ func spawn_character(data_file: String, coords: Vector3i, routine: String = "", 
 	character.data.tile_x = coords.x
 	character.data.tile_y = coords.y
 	character.data.tile_z = coords.z
-	character.data.map_id = "world"
+	character.data.map_id = Global.world_manager.get_current_map_id()
 
 	character.position = wm.layers[coords.z]["tile_map"].map_to_local(layer_coords)
 
-	wm.current_world.add_child(character)
+	wm.current_map.add_child(character)
 
 	wm.layers[wm.current_layer]["occupied"][layer_coords] = true
 	wm.add_to_tile(character, coords)
 	wm.layers[wm.current_layer]["path_map"].set_point_solid(layer_coords, true)
 
 	character.initialize_character()
-	wm.current_world.register_creature(character)
+	wm.current_map.register_creature(character)
 	
 	var weapons = character.get_weapons()
 	for weapon in weapons:

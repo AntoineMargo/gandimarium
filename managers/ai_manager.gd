@@ -16,7 +16,7 @@ func clear_data() -> void:
 	last_performed_routine = 0
 
 func sight_check(origin: Vector3i):
-	for creature in Global.world_manager.current_world.creatures:
+	for creature in Global.world_manager.current_map.creatures:
 		if creature.data.player_controlled == false and creature.data.state == Enums.State.CONSCIOUS:
 			var creature_coords = creature.get_coords()
 			if WorldMath.pos_in_range_weighted_3d(creature_coords, origin, 40): # Fast check to make sure we're in the same general area
@@ -27,7 +27,7 @@ func sight_check(origin: Vector3i):
 					SignalBus.stop_all_movement.emit()
 
 func hearing_check(origin: Vector3i, strength: int):
-	for creature in Global.world_manager.current_world.creatures:
+	for creature in Global.world_manager.current_map.creatures:
 		if creature.data.player_controlled == false and creature.data.state == Enums.State.CONSCIOUS:
 			var creature_coords = creature.get_coords()
 			var noise_path_cost: float = 0.0
@@ -45,12 +45,12 @@ func hearing_check(origin: Vector3i, strength: int):
 				creature.ai_controller.localai.perform_routine(Enums.Routine.CHECK_SOUND, origin)
 
 func regular_sight_checks():
-	for creature in Global.world_manager.current_world.creatures:
+	for creature in Global.world_manager.current_map.creatures:
 		if creature.data.player_controlled == true:
 			sight_check(creature.get_coords())
 
 func move_hearing_checks():
-	for creature in Global.world_manager.current_world.creatures:
+	for creature in Global.world_manager.current_map.creatures:
 		if creature.data.player_controlled == true and creature.mover.active:
 			if creature.perceive_audibility() >= Enums.Capability.NORMAL:
 				hearing_check(creature.get_coords(), 5)
@@ -67,7 +67,7 @@ func regular_checks(_days, _hours, _minutes, _seconds):
 	
 	
 func perform_routines():
-	for creature in Global.world_manager.current_world.creatures:
+	for creature in Global.world_manager.current_map.creatures:
 		if creature.data.player_controlled == false and creature.data.state == Enums.State.CONSCIOUS and not creature.mover.active:
 			creature.ai_controller.localai.perform_routine()
 	

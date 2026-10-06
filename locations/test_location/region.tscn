@@ -1053,6 +1053,7 @@ sources/2 = SubResource("TileSetAtlasSource_3x0wg")
 
 [node name="Region" type="Node2D" unique_id=1249581199]
 script = ExtResource("1_6jfdy")
+id = "region1"
 
 [node name="level0" type="TileMapLayer" parent="." unique_id=855050752]
 position = Vector2(0, 1)

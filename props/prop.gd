@@ -22,15 +22,19 @@ class_name Prop
 @export var poison: int = 0
 @export var psychic: int = 0
 
-
 var wm = null
 var sm = null
 var parent_layer = null
+
+var initialized: bool = false
+
 
 func get_coords() -> Vector3i:
 	return pos
 
 func initialize() -> void:
+	if initialized:
+		return
 	var layer_coords = Vector2i(pos.x, pos.y)
 	wm.add_to_tile(self, pos)
 	wm.layers[pos.z]["cover"][layer_coords] = cover
@@ -38,10 +42,9 @@ func initialize() -> void:
 		wm.layers[pos.z]["path_map"].set_point_solid(layer_coords, true)
 		wm.layers[pos.z]["occupied"][layer_coords] = true
 	apply_mat_resistances()
-	#if is_runtime:
-		#register()
 	register()
-	#print_info()
+	initialized = true
+	
 
 func register() -> void:
 	sm.add_prop_to_delta(self)

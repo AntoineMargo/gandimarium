@@ -8,18 +8,18 @@ func _draw():
 	var rect = Rect2(Vector2.ZERO, Vector2(Global.TILE_SIZE, Global.TILE_SIZE))
 	draw_rect(rect, highlight_color, false, 1)
 
-#func set_tile_position(tile_coords: Vector2i):
-	#position = tile_coords * Global.TILE_SIZE
 
 func update_selection_highlight():
 	target = Global.focus_char
 	var wm = Global.game_session.world_manager
 
-	if not (target is Creature):
+	if not target:
 		visible = false
 		return
 
-	if target.data.tile_z != wm.current_layer:
+	if wm.current_map.id == target.data.map_id and wm.current_layer == target.data.tile_z:
+		visible = true
+	else:
 		visible = false
 		return
 
@@ -29,30 +29,6 @@ func update_selection_highlight():
 	visible = true
 	queue_redraw()
 
-
-#func update_selection_highlight():
-	#target = Global.focus_char
-	#var wm = Global.world_manager
-	#
-	#var tile_pos: Vector2i
-	#
-	#if target is Creature:
-		#if target.data.tile_z != wm.current_layer:
-			#self.visible = false
-			#return
-		#tile_pos = Vector2i(target.data.tile_x, target.data.tile_y)
-	#elif target is Vector3i:
-		#if target.z != wm.current_layer:
-			#self.visible = false
-			#return
-		#tile_pos = Vector2i(target.x, target.y)
-	#else:
-		#self.visible = false
-		#return
-#
-	#self.set_tile_position(tile_pos)
-	#self.visible = true
-	#self.queue_redraw()
 
 func _ready():
 	z_index = 1000

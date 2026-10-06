@@ -8,17 +8,17 @@ func spawn_creature():
 	Global.world_manager.spawner.spawn_character(creature_data, pos, routine, false)
 
 func initialize() -> void:
+	if initialized:
+		return
 	var layer_coords = Vector2i(pos.x, pos.y)
 	wm.add_to_tile(self, pos)
 	if blocks_movement:
 		wm.layers[pos.z]["path_map"].set_point_solid(layer_coords, true)
 		wm.layers[pos.z]["occupied"][layer_coords] = true
-	#if is_runtime:
-		#register()
 	register()
-	#print_info()
 	spawn_creature()
 	destroy_self()
+	initialized = true
 
 func _on_ready():
 	sm = Global.state_manager
@@ -26,6 +26,7 @@ func _on_ready():
 	parent_layer = get_parent().get_parent()
 	prop_name = "spawner"
 	id = "creature_spawner"
+	visible = false
 	blocks_movement = false
 	current_hp = max_hp
 	if is_runtime == false:

@@ -4,14 +4,12 @@ class_name WorldManager
 var layers: Dictionary = {}
 var layer_links: Dictionary = {}
 var ai_zones: Dictionary = {}
-#var maps: Array = [] # moved to map_manager
-#var current_map: int = 0
 
-var layer_tracks: Array[int] = []
+var layer_track: Array[int] = []
+var current_layer: int = 0
 
 var current_tile_map_layer: TileMapLayer = null
-var current_layer: int = 0
-var current_world: Map = null
+var current_map: Map = null
 var map_width: int
 var map_height: int
 
@@ -50,7 +48,7 @@ func _process(_delta):
 		path_preview.clear_all()
 		return
 
-	if not current_world:
+	if not current_map:
 		return
 
 	hover_tile.start_drawing()
@@ -62,16 +60,11 @@ func _process(_delta):
 		preview_path(tile_under_cursor)
 
 
-#func add_map(map: Map) -> void:
-	#maps.append(map)
-
-
-#func transfer_creature(creature: Creature, origin_map_id: int, destination_map_id: int) -> void:
-	#var origin_map: Map = maps[origin_map_id]
-	#var destination_map: Map = maps[destination_map_id]
-	#
-	#origin_map.unregister_creature(creature)
-	#destination_map.register_creature(creature)
+func get_current_map_id() -> String:
+	if not current_map:
+		return ""
+	
+	return current_map.id
 
 
 func spawn_prop(scene: PackedScene, pos: Vector3i) -> Prop:
@@ -80,7 +73,7 @@ func spawn_prop(scene: PackedScene, pos: Vector3i) -> Prop:
 	prop.is_runtime = true
 	prop.pos = pos
 
-	for layer in current_world.get_children():
+	for layer in current_map.get_children():
 		print("layer id: %d" % layer.id)
 		if layer.id == pos.z:
 			layer.props.add_child(prop)
@@ -282,7 +275,7 @@ func setup_ramps(layer_ids: Array[int]):
 							layer_links[z][pos].append([down_z, pos])
 
 func setup_ai_zones():
-	for layer in current_world.get_children():
+	for layer in current_map.get_children():
 		if layer is TileMapLayer:
 			var id = layer.id
 			for child in layer.get_children():
@@ -434,30 +427,60 @@ func add_item_visual(coords: Vector3i):
 		layers[coords.z]["item_visual"][layer_coords] = visual_instance
 		print("Item VISUAL just added to tile.")
 
+
 func update_layer_visibility():
 	for id in layers.keys():
 		var layer_data = layers[id]
 		if layer_data:
 			layer_data["tile_map"].visible = (id == current_layer)
 
+
+func change_map(next_map: Map, next_layer_track: Array[int]) -> void:
+	current_map = next_map
+	layer_track = next_layer_track
+	current_layer = 500
+	change_layer(0)
+	SignalBus.update_visibility.emit(current_map.id, current_layer)
+
+
 func change_layer(direction: int):
 	if layers.is_empty():
 		return
 		
-	var ids = layers.keys()
-	ids.sort()
-
-	var index = ids.find(current_layer)
+	var index = layer_track.find(current_layer)
 	if index == -1:
 		index = 0
 	
-	index = clamp(index + direction, 0, ids.size() - 1)
-	current_layer = ids[index]
-	update_layer_visibility()
+	index = clamp(index + direction, 0, layer_track.size() - 1)
+	current_layer = layer_track[index]
 	current_tile_map_layer = layers[current_layer]["tile_map"]
-	selection_highlight.update_selection_highlight()
+	update_layer_visibility()
+	#creatures_visible_if_on_layer()
 	print("Layer %d" % current_layer)
 	SignalBus.message.emit("Layer %d" % current_layer)
+	SignalBus.update_visibility.emit(current_map.id, current_layer)
+	selection_highlight.update_selection_highlight()
+
+
+#func change_layer(direction: int):
+	#if layers.is_empty():
+		#return
+		#
+	#var ids = layers.keys()
+	#ids.sort()
+#
+	#var index = ids.find(current_layer)
+	#if index == -1:
+		#index = 0
+	#
+	#index = clamp(index + direction, 0, ids.size() - 1)
+	#current_layer = ids[index]
+	#update_layer_visibility()
+	#current_tile_map_layer = layers[current_layer]["tile_map"]
+	#selection_highlight.update_selection_highlight()
+	#print("Layer %d" % current_layer)
+	#SignalBus.message.emit("Layer %d" % current_layer)
+
 
 func turn_path_from_pixels_to_tiles(path: Array[Vector3i], tile_size: int = Global.TILE_SIZE):
 	var tile_path = []
@@ -466,6 +489,7 @@ func turn_path_from_pixels_to_tiles(path: Array[Vector3i], tile_size: int = Glob
 		tile_path.append(Vector3i(element.x / tile_size, element.y / tile_size, element.z))
 	
 	return tile_path
+
 
 func calculate_path_cost_3D_simple(path) -> float:
 	if path.size() <= 1:
@@ -743,7 +767,7 @@ func get_multi_level_path(start: Vector3i, goal: Vector3i, allow_occupied_goal: 
 	return full_path
 
 func get_creature_by_id(target_id) -> Creature:
-	return current_world.creatures_by_id.get(target_id, null)
+	return current_map.creatures_by_id.get(target_id, null)
 
 ## Returns if a tile is occupied or not
 func get_tile_occupied(tile: Vector3i) -> bool:
@@ -842,10 +866,10 @@ func flash_tile_overlay(tile_pos: Vector2i, colour: Color = Color(0.0, 1.0, 0.0,
 	flash_instance.colour_rect.color = colour
 	flash_instance.get_node("AnimationPlayer").play("flash")
 	
-func creatures_visible_if_on_layer():
-	if current_world:
-		for creature in current_world.creatures:
-			creature.visible = (creature.data.tile_z == current_layer)
+#func creatures_visible_if_on_layer():
+	#if current_map:
+		#for creature in current_map.creatures:
+			#creature.visible = (creature.data.tile_z == current_layer)
 
 func spawn_character(data_file: String, coords: Vector3i, routine: String = "") -> Creature:
 	return spawner.spawn_character(data_file, coords, routine)
@@ -1163,6 +1187,7 @@ func _interact_attack(coords: Vector3i):
 		return
 	Global.focus_char.perform_attack(target)
 
+
 func calculate_ap_cost(cost: float, current_available_mp: float, mp_per_ap: float, total_mp: float) -> int:
 	var mp_after = current_available_mp  # This is AFTER the move
 	var mp_before = current_available_mp + cost  # Reconstruct BEFORE the move
@@ -1185,6 +1210,13 @@ func calculate_ap_cost(cost: float, current_available_mp: float, mp_per_ap: floa
 		var ap_consumed = ap_used_after - ap_used_before
 		return ap_consumed
 
+
+## Returns map index using the range found in the pos.z.
+func get_map_index(pos: Vector3i) -> int:
+	@warning_ignore("integer_division")
+	return pos.z / 1000
+
+
 func teleport(character: Creature, target: Vector3i):
 	var origin = character.get_coords()
 	var layer_origin = Vector2i(origin.x, origin.y)
@@ -1202,6 +1234,10 @@ func teleport(character: Creature, target: Vector3i):
 	
 	character.mover._on_stop_all_movement()
 	
+	var target_map_index: int = get_map_index(target)
+	if get_map_index(origin) != target_map_index:
+		character.data.map_id = Global.map_manager.get_map_from_index(target_map_index).id
+
 	character.visible = (character.data.tile_z == current_layer)
 	SignalBus.update_ui_for_char.emit()
 	selection_highlight.update_selection_highlight()
@@ -1333,7 +1369,7 @@ func _on_world_quit():
 	#local_timer.paused = false
 
 func time_effects_on_creatures(n):
-	for creature in current_world.creatures:
+	for creature in current_map.creatures:
 		creature.decay_needs(n)
 		if not creature.data.player_controlled:
 			creature.ai_controller.localai.change_routine()

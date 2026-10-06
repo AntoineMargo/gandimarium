@@ -202,7 +202,7 @@ static func shape_burst_entities(target_tile: Vector3i, reach: int) -> Array:
 	return target_entities
 
 static func shape_burst(target_entities, user, reach):
-	for creature in Global.world_manager.current_world.creatures:
+	for creature in Global.world_manager.current_map.creatures:
 		var distance_ok = char_in_range(user, creature, reach)
 		var visible = has_line_of_sight(user, creature)
 		if distance_ok and visible:

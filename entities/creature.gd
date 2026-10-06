@@ -1411,7 +1411,7 @@ func destroy_self():
 	wm.layers[data.tile_z]["cover"][layer_coords] = Enums.Cover.NONE
 	wm.layers[data.tile_z]["occupied"][layer_coords] = false
 	wm.remove_from_tile(self, get_coords())
-	wm.current_world.unregister_creature(self)
+	wm.current_map.unregister_creature(self)
 	Global.crisis_manager.remove_from_initiative_order(self)
 	queue_free()
 
@@ -1509,6 +1509,14 @@ func handle_event(reaction_event: ReactionEvent) -> void:
 				data.current_reactions -= 1
 				return
 
+func update_visibility(map_id: String, current_layer: int) -> void:
+	if data.name == "Debug":
+		print("I'm here!")
+	if map_id == data.map_id and current_layer == data.tile_z:
+		self.visible = true
+	else:
+		self.visible = false
+
 func setup() -> void:
 	pass
 
@@ -1520,4 +1528,5 @@ func _ready():
 	$Mover.add_child(health_bar_instance)
 	mover.position = Vector2.ZERO
 	$Mover/ShaderOrchestration.shader_material = sprite_node.material as ShaderMaterial
+	SignalBus.update_visibility.connect(update_visibility)
 	#call_deferred("setup")
