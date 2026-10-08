@@ -26,6 +26,10 @@ func clear_data() -> void:
 			creature.destroy_self()
 
 
+#func destroy_self():
+	#Global.map_manager.remove_map(id)
+
+
 func creatures_only_visible_if_on_layer():
 	for creature in creatures:
 		creature.visible = (creature.data.tile_z == current_tile_map_layer.id)

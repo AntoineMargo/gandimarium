@@ -7,9 +7,7 @@ extends Control
 
 func _on_restart_button_pressed() -> void:
 	print("Restart button pressed")
-	Global.unpause_game()
-	#Global.game_root.load_map("res://locations/test_location_2/region.scn")
-	#Global.game_root.load_map("res://locations/test_location_3/region.scn")
+	Global.game_session.unpause_game()
 	Global.game_root.start_session()
 
 
@@ -19,7 +17,7 @@ func _on_exit_button_pressed() -> void:
 
 
 func _on_resume_button_pressed():
-	Global.unpause_game()
+	Global.game_session.unpause_game()
 
 
 func _ready():

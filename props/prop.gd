@@ -32,6 +32,11 @@ var initialized: bool = false
 func get_coords() -> Vector3i:
 	return pos
 
+
+func setup(_ctx: Context) -> void:
+	pass
+
+
 func initialize() -> void:
 	if initialized:
 		return

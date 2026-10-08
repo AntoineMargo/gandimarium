@@ -63,6 +63,7 @@
 [ext_resource type="Script" uid="uid://ctoi0qqlyxwmk" path="res://effects/create_dimension_effect.gd" id="60_2mcys"]
 [ext_resource type="PackedScene" uid="uid://dcvg6wrpdsucf" path="res://props/magic/portal.tscn" id="60_hh0ht"]
 [ext_resource type="Script" uid="uid://dk2ibknskb7og" path="res://effects/create_prop_effect.gd" id="61_2mcys"]
+[ext_resource type="Script" uid="uid://cbya6mmgqnklb" path="res://effects/finish_dimension_effect.gd" id="62_2mcys"]
 
 [sub_resource type="Resource" id="Resource_sf1yt"]
 script = ExtResource("36_hwbcj")
@@ -281,6 +282,10 @@ script = ExtResource("61_2mcys")
 prop = ExtResource("60_hh0ht")
 metadata/_custom_type_script = "uid://dk2ibknskb7og"
 
+[sub_resource type="Resource" id="Resource_6avov"]
+script = ExtResource("62_2mcys")
+metadata/_custom_type_script = "uid://cbya6mmgqnklb"
+
 [sub_resource type="Resource" id="Resource_qwxp5"]
 script = ExtResource("40_c5il8")
 name = " Pocket Dimension"
@@ -288,7 +293,7 @@ id = "cond_pocket_dimension"
 description = "You have produced a pocket dimension and a portal to reach it."
 icon = ExtResource("58_s8bqb")
 re_apply_effects = false
-effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_pgyew"), SubResource("Resource_csjpf")])
+effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_pgyew"), SubResource("Resource_csjpf"), SubResource("Resource_6avov")])
 generate_semi_unique_id = true
 metadata/_custom_type_script = "uid://dvi4ohsador2o"
 

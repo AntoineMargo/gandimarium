@@ -43,7 +43,7 @@ func spawn_character(data_file: String, coords: Vector3i, routine: String = "", 
 
 	character.position = wm.layers[coords.z]["tile_map"].map_to_local(layer_coords)
 
-	wm.current_map.add_child(character)
+	Global.game_session.add_child(character)
 
 	wm.layers[wm.current_layer]["occupied"][layer_coords] = true
 	wm.add_to_tile(character, coords)

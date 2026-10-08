@@ -19,7 +19,7 @@ func BasicControls():
 		get_tree().quit()
 
 	if Input.is_action_just_pressed("F12"):
-		Global.toggle_pause()
+		Global.game_session.toggle_pause()
 
 	if Input.is_action_just_pressed("PageUp"):
 		wm.change_layer(1)
@@ -148,6 +148,9 @@ func BasicControls():
 	
 	#DEBUG
 	if Input.is_action_just_pressed("H"):
+		var character = Global.selected_char
+		if not character:
+			return
 		print_layers(wm.current_map)
 
 	if Input.is_action_just_pressed("L"):

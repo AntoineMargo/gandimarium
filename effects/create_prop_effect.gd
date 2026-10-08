@@ -8,6 +8,8 @@ func apply_context(ctx: Context) -> bool:
 	var prop_instance: Prop = null
 	if ctx.target is Vector3i:
 		prop_instance = Global.world_manager.spawn_prop(prop, ctx.target)
+		if prop_instance.has_method("setup"):
+			prop_instance.setup(ctx)
 		ctx.created_props.append(prop_instance)
 		if ctx is ActivityContext and ctx.condition:
 			ctx.condition.linked_props.append(prop_instance)

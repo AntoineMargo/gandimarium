@@ -9,11 +9,28 @@ var maps: Dictionary[int, MapData] = {}
 var current_map_index: int = 0
 
 
+func get_all_maps() -> Array[Map]:
+	var result: Array[Map] =[]
+	for map in maps.values():
+		result.append(map.root)
+	return result
+
+
+func get_all_map_data() -> Array[MapData]:
+	return maps.values()
+
+
 func change_map() -> void:
+	var current_map = get_current_map()
 	var next_map: Map = get_next_map()
+	if current_map == next_map:
+		return
 	var next_layer_track: Array[int] = get_current_map_layer_ids()
 	Global.world_manager.change_map(next_map, next_layer_track)
 
+
+func get_map_data_from_index(index: int) -> MapData:
+	return maps[index]
 
 ## Takes the index (usually 0 1 2 or 3) and returns the corresponding map.
 func get_map_from_index(index: int) -> Map:
@@ -24,10 +41,23 @@ func get_current_map_layer_ids() -> Array[int]:
 	return maps[current_map_index].layer_ids
 
 
+func get_current_map() -> Map:
+	return maps[current_map_index].root
+
+
 func get_next_map() -> Map:
-	current_map_index += 1
-	if current_map_index >= maps.size():
-		current_map_index = 0
+	var map_keys: Array[int] = maps.keys()
+
+	if map_keys.is_empty():
+		return null
+
+	var current_position: int = map_keys.find(current_map_index)
+
+	current_position += 1
+	if current_position >= map_keys.size():
+		current_position = 0
+
+	current_map_index = map_keys[current_position]
 	return maps[current_map_index].root
 
 
@@ -87,11 +117,17 @@ func transfer_creature(creature: Creature, origin_map: Map, destination_map: Map
 
 
 func remove_map(map_id: int) -> void:
+	var current_map_id = Global.world_manager.current_map.id
+	
 	var map: MapData = maps.get(map_id)
 	if map == null:
 		return
 
-	Global.world_manager.remove_map_layers(map.base_z, map.base_z + 1000)
+	var removed_map_id = map.root.id
+	if removed_map_id == current_map_id:
+		change_map()
+	
+	Global.world_manager.remove_map_data(map.layer_ids)
 
 	map.root.free()
 

@@ -14,17 +14,18 @@ func show_main_menu() -> void:
 	var scene = load_scene("res://interface/main_menu.tscn")
 	main_menu = scene
 	add_child(scene)
-	#get_tree().change_scene_to_file("res://interface/main_menu.tscn")
 
 
 func start_session() -> void:
 	if main_menu:
 		main_menu.queue_free()
 		main_menu = null
+	if game_session:
+		game_session.queue_free()
+		game_session = null
 	var scene = load_scene("res://core/game_session.tscn")
 	game_session = scene
 	add_child(scene)
-	#Global.world_manager.load_map("region3")
 
 
 func _ready() -> void:

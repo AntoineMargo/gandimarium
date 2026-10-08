@@ -230,6 +230,9 @@ func destroy_children():
 		linked_modifiers[i].destroy()
 	for i in range(linked_activities.size() - 1, -1, -1):
 		linked_activities[i].destroy(target)
+	for i in range(linked_maps.size() - 1, -1, -1):
+		linked_maps[i].destroy_self()
+		#Global.map_manager.remove_map(linked_maps[i].id)
 
 
 func add_source(identifier: String):

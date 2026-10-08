@@ -1234,14 +1234,18 @@ func teleport(character: Creature, target: Vector3i):
 	
 	character.mover._on_stop_all_movement()
 	
+	var origin_map_index: int = get_map_index(origin)
 	var target_map_index: int = get_map_index(target)
-	if get_map_index(origin) != target_map_index:
+	if origin_map_index != target_map_index:
 		character.data.map_id = Global.map_manager.get_map_from_index(target_map_index).id
+		var origin_map_data: MapData = Global.map_manager.get_map_data_from_index(origin_map_index)
+		var target_map_data: MapData = Global.map_manager.get_map_data_from_index(target_map_index)
+		Global.map_manager.transfer_creature(character, origin_map_data.root, target_map_data.root)
 
 	character.visible = (character.data.tile_z == current_layer)
 	SignalBus.update_ui_for_char.emit()
 	selection_highlight.update_selection_highlight()
-	SignalBus.sight_check.emit(target)
+	#SignalBus.sight_check.emit(target, map)
 
 func interact_move(character: Creature, target: Vector3i):
 	var origin = character.get_coords()
