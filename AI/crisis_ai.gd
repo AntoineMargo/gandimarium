@@ -3,13 +3,18 @@ class_name CrisisAI
 
 var wm = null
 
-var creature: Creature = null
+var creature: Creature:
+	get:
+		var node = get_node_or_null("../..")
+		if node and "creature" in node:
+			return node.creature
+		return null
 var report: TacticalReport = null
 
 @onready var htn_network: HTNetwork = load("res://resources/AI/TaskLists/default_HTN.tres")
 
 func realize_turn():
-	Global.simulation_lock = true
+	Global.game_session.simulation_lock = true
 	
 	while true:
 		var sequence: Array[PlannedAct] = plan_turn()
@@ -17,7 +22,7 @@ func realize_turn():
 			break
 
 	turn_completed()
-	Global.simulation_lock = false
+	Global.game_session.simulation_lock = false
 	SignalBus.turn_ends.emit()
 
 
@@ -58,7 +63,7 @@ func execute(sequence: Array[PlannedAct]) -> bool:
 
 		await get_tree().create_timer(0.2).timeout
 
-		if Global.pending_crisis_operation_count > 0:
+		if Global.game_session.pending_crisis_operation_count > 0:
 			await SignalBus.operation_finished
 
 	return true
@@ -77,5 +82,4 @@ func turn_completed() -> void:
 
 func _ready() -> void:
 	#report = TacticalReport.new()
-	creature = $"../.."
 	wm = Global.world_manager

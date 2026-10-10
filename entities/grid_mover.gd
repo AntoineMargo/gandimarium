@@ -6,13 +6,12 @@ var path_index: int = 0
 var active : bool = false
 
 var velocity := Vector2.ZERO
-var max_speed : float = 0.0
+var max_speed: float = 0.0
 var accel : float = 1500.0
 
 var wm = null
 var nm = null
-var creature = null
-
+var creature: Creature = null
 var door: Door
 
 func begin_path(new_path: Array):
@@ -53,7 +52,6 @@ func open_door_if_encountered(tile):
 			door.operate(creature)
 
 func move_to_next_point(delta):
-	
 	var old_point: Vector3i = creature.get_coords()
 	var point: Vector3i = path[path_index]
 	var next_point: Vector3i
@@ -118,5 +116,4 @@ func _physics_process(delta: float) -> void:
 func _ready() -> void:
 	wm = Global.world_manager
 	nm = Global.noise_manager
-	creature = get_parent()
 	SignalBus.stop_all_movement.connect(_on_stop_all_movement)

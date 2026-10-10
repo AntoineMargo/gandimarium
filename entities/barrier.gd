@@ -6,10 +6,9 @@ class_name Barrier
 @export var durability: int = 1
 @export var durability_type: Enums.BarrierDurabilityType = Enums.BarrierDurabilityType.HP_BLOCKING
 
-var parent_creature: Entity
+var parent_creature: Creature = null
 var parent_condition: Condition
-
-var original_target: Entity = null
+var original_target = null
 
 func verify_compatibility(ctx: ActivityContext) -> bool:
 	if ctx.activity.barrier_interaction == Enums.BarrierInteraction.STOP:

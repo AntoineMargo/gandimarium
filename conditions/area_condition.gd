@@ -8,7 +8,7 @@ class_name AreaCondition
 var uid: int
 var linked_conditions: Array = []
 var affected_tiles: Array[Vector3i] = []
-var affected_entities: Dictionary[Entity, Condition] = {} # Node, Condition
+var affected_entities: Dictionary = {} # Entity/Creature -> Condition
 #var affected_entities: Dictionary[int, bool] = {} # UID, bool
 
 var is_finalized: bool = false

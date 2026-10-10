@@ -6,7 +6,7 @@ class_name Trigger
 @export var event_filters: Array[TriggerFilter] = []
 @export var effects: Array[Effect] = []
 
-func process_trigger(event: ReactionEvent, owner: Entity = null) -> bool:
+func process_trigger(event: ReactionEvent, owner = null) -> bool:
 	if verify(event, owner):
 		for effect in effects:
 			var ctx = Context.new()
@@ -20,7 +20,7 @@ func process_trigger(event: ReactionEvent, owner: Entity = null) -> bool:
 		return true
 	return false
 
-func verify(event: ReactionEvent, owner: Entity = null) -> bool:
+func verify(event: ReactionEvent, owner = null) -> bool:
 	if not event.type == event_type:
 		return false
 

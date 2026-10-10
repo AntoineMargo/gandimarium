@@ -5,7 +5,7 @@ class_name ReactionManager
 func get_nearby_creatures(reaction_event: ReactionEvent) -> Array:
 	var target = reaction_event.context.target
 	var location: Vector3i
-	if target is Entity:
+	if target is Object and target.has_method("get_coords"):
 		location = target.get_coords()
 	else:
 		location = target

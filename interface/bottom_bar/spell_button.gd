@@ -7,7 +7,7 @@ var is_pressed: bool = false
 @onready var label = get_node_or_null("NameLabel")
 @export var spell: SpellContainer
 
-var user: Entity = null
+var user = null
 var final_activity: Activity = null
 
 func _gui_input(event):

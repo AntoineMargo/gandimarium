@@ -40,8 +40,6 @@ var pause_menu_active: bool = false
 
 var simulation_lock: bool = false
 var player_lock: bool = false
-var focus_char: Creature
-var selected_char: Creature
 var active_party: PartyData
 
 var activity_handler: Activity = null
@@ -89,8 +87,8 @@ func end_async_operation() -> void:
 
 
 func handle_world_hover(tile: Vector3i) -> void:
-	if Input.is_action_pressed("Ctrl") and selected_char and not activity_handler:
-		var selected_weapon_activity: Activity = selected_char.get_selected_weapon_activity()
+	if Input.is_action_pressed("Ctrl") and Global.selected_char and not activity_handler:
+		var selected_weapon_activity: Activity = Global.selected_char.get_selected_weapon_activity()
 		selected_weapon_activity.execute()
 	
 	if tile == last_hovered_tile:
@@ -201,8 +199,6 @@ func setup_global() -> void:
 	Global.reaction_manager = reaction_manager
 	Global.map_manager = map_manager
 
-	Global.selected_char = selected_char
-	Global.focus_char = focus_char
 
 func _ready() -> void:
 	randomize()

@@ -302,11 +302,11 @@ func has_tag(tag: Enums.ActivityTag) -> bool:
 func process_barriers(ctx: ActivityContext) -> void:
 	if barrier_interaction == Enums.BarrierInteraction.STOP:
 		var ctx_target = ctx.target
-		if ctx_target is Entity and ctx.target.has_method("process_barriers"):
+		if ctx_target and ctx_target.has_method("process_barriers"):
 			ctx_target.process_barriers(ctx)
 
 
-func validate_condition_absence(entity: Entity) -> bool:
+func validate_condition_absence(entity) -> bool:
 	if condition_id:
 		if entity.get_condition_by_id(condition_id):
 			return false

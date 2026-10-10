@@ -28,6 +28,14 @@ func change_map() -> void:
 	var next_layer_track: Array[int] = get_current_map_layer_ids()
 	Global.world_manager.change_map(next_map, next_layer_track)
 
+## Assumes the creature is on a loaded map at the moment of call.
+func get_map_of_creature(creature: Creature) -> Map:
+	var creature_map_id: String = creature.data.map_id
+	for map_data in maps.values():
+		if map_data.root.id == creature_map_id:
+			return map_data.root
+	return null
+	
 
 func get_map_data_from_index(index: int) -> MapData:
 	return maps[index]

@@ -314,7 +314,7 @@ static func choose_optimal_attack_type(planned_act: PlannedAct):
 		return
 
 	var main_target = planned_act.targets[0]
-	var entity: Entity = Global.world_manager.get_entity_at_pos(main_target)
+	var entity = Global.world_manager.get_entity_at_pos(main_target)
 	if entity is Creature:
 		if entity.perceive_armour() is Armour:
 			for attack_type in attack_types: 

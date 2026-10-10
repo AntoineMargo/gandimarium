@@ -14,12 +14,12 @@ func get_current_activity_variant() -> ActivityVariant:
 
 
 ## Does NOT apply execution modifiers
-func get_current_activity(user: Entity) -> Activity:
+func get_current_activity(user) -> Activity:
 	return activities[current_index].produce(user)
 
 
 ## Applies execution modifiers
-func query_current_activity(user: Entity) -> Activity:
+func query_current_activity(user) -> Activity:
 	return activities[current_index].pre_execute(user)
 
 

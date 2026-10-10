@@ -4,6 +4,8 @@ class_name OverworldManager
 var all_creatures_by_id: Dictionary = {}
 
 func register_global_creature(creature):
+	var _creature_uid: int = creature.data.uid
+	#if creature_uid in 
 	all_creatures_by_id[creature.data.uid] = creature
 
 func unregister_global_creature(creature):

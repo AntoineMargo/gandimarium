@@ -1,6 +1,6 @@
 extends Node2D
 
-func setup(creature: Entity) -> void:
+func setup(creature) -> void:
 	var overlay = Sprite2D.new()
 	overlay.texture = creature.sprite_node.texture
 	overlay.hframes = creature.sprite_node.hframes

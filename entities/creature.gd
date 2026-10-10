@@ -1,29 +1,83 @@
-extends Entity
+extends RefCounted
 class_name Creature
 
-@export var data: CreatureData
-@export var health_bar_scene: PackedScene
+var data: CreatureData
+var node = null
 
-@onready var sprite_node = $Mover/Sprite2D
-@onready var vfx_container = $Mover/VFXContainer
-@onready var ai_controller = $AIController
-
-@onready var mover = $Mover
-
-var health_bar_instance: Node
-
-# Meta utility 
-var reachable_tiles: Array = []
 var stats_dirty: bool = true
 var mutation_depth: int = 0
-var active_right_click: Activity
+var active_right_click: Activity = null
 var interrupted: bool = false
 
-func start_mutation():
+var position: Vector2:
+	get:
+		return node.position if node else Vector2.ZERO
+	set(value):
+		if node:
+			node.position = value
+
+var global_position: Vector2:
+	get:
+		return node.global_position if node else Vector2.ZERO
+	set(value):
+		if node:
+			node.global_position = value
+
+var visible: bool:
+	get:
+		return node.visible if node else false
+	set(value):
+		if node:
+			node.visible = value
+
+var mover: Mover:
+	get:
+		return node.mover if node else null
+
+var sprite_node: Sprite2D:
+	get:
+		return node.sprite_node if node else null
+
+var ai_controller: AIController:
+	get:
+		return node.ai_controller if node else null
+
+var vfx_container: Node2D:
+	get:
+		return node.vfx_container if node else null
+
+
+func _init(creature_data: CreatureData = null) -> void:
+	data = creature_data
+
+
+func finish_node_attachment() -> void:
+	node.mover.creature = self
+	initialize_character()
+	if node and node.sprite_node and data and ResourceLoader.exists(data.sprite):
+		node.sprite_node.texture = load(data.sprite)
+	rebuild_shader()
+
+
+func attach_node(creature_node: CreatureNode) -> void:
+	node = creature_node
+	creature_node.creature = self
+	creature_node.data = data
+	call_deferred("finish_node_attachment")
+
+
+func detach_node(creature_node) -> void:
+	if node == creature_node:
+		node.creature = null
+		node = null
+
+
+func start_mutation() -> void:
 	stats_dirty = true
 	mutation_depth += 1
-	
-func end_mutation():
+
+
+func end_mutation() -> void:
 	mutation_depth -= 1
 	
 	if mutation_depth < 0:
@@ -33,47 +87,55 @@ func end_mutation():
 	if mutation_depth == 0:
 		update_stats()
 
-func add_activity(activity: ActivityContainer):
+
+func add_activity(activity: ActivityContainer) -> void:
 	if activity not in data.activities:
 		data.activities.append(activity)
 
-func remove_activity(activity: ActivityContainer):
+
+func remove_activity(activity: ActivityContainer) -> void:
 	if activity in data.activities:
 		data.activities.erase(activity)
-		return
 
-func add_ready_spell(spell: SpellContainer):
+
+func add_ready_spell(spell: SpellContainer) -> void:
 	if spell not in data.spells_ready:
 		data.spells_ready.append(spell)
 
-func remove_ready_spell(spell: SpellContainer):
+
+func remove_ready_spell(spell: SpellContainer) -> void:
 	if spell in data.spells_ready:
 		data.spells_ready.erase(spell)
-		return
 
-func add_available_spell(spell: SpellContainer):
+
+func add_available_spell(spell: SpellContainer) -> void:
 	if spell not in data.spells_available:
 		data.spells_available.append(spell)
 
 
-#func setup_concentration_slots() -> void:
-	#pass
-
-
-func add_concentration(concentration: Concentration):
+func add_concentration(concentration: Concentration) -> void:
 	data.concentrations.append(concentration)
 	SignalBus.update_ui_for_char.emit()
+
+
+func remove_concentration(concentration: Concentration) -> void:
+	data.concentrations.erase(concentration)
+	SignalBus.update_character_info.emit()
+	SignalBus.update_ui_for_char.emit()
+
 
 func toggle_activity_modifier(modifier: Modifier) -> void:
 	for existing_mod in data.activity_modifiers:
 		if existing_mod.id == modifier.id:
 			data.activity_modifiers.erase(existing_mod)
-		else:
-			data.activity_modifiers.append(modifier)
+			return
+	data.activity_modifiers.append(modifier)
+
 
 func add_activity_modifier(modifier: Modifier) -> void:
 	data.activity_modifiers.append(modifier)
 	SignalBus.update_ui_for_char.emit()
+
 
 func remove_activity_modifier(modifier: Modifier) -> void:
 	for existing_mod in data.activity_modifiers:
@@ -81,10 +143,6 @@ func remove_activity_modifier(modifier: Modifier) -> void:
 			data.activity_modifiers.erase(existing_mod)
 			return
 
-func remove_concentration(concentration: Concentration):
-	data.concentrations.erase(concentration)
-	SignalBus.update_character_info.emit()
-	SignalBus.update_ui_for_char.emit()
 
 func add_barrier(barrier: Barrier, ctx: Context) -> void:
 	var instance = barrier.duplicate(true)
@@ -94,11 +152,13 @@ func add_barrier(barrier: Barrier, ctx: Context) -> void:
 	barriers.append(instance)
 	barriers.sort_custom(func(a, b): return a.priority < b.priority)
 
+
 func process_barriers(ctx: ActivityContext) -> void:
 	var barriers: Array[Barrier] = data.barriers
 	for barrier in barriers:
 		if barrier.handle_activity(ctx):
 			return
+
 
 func add_talent_to_pool(talent: Talent) -> void:
 	if not talent:
@@ -106,11 +166,11 @@ func add_talent_to_pool(talent: Talent) -> void:
 
 	for existing_talent in data.talents:
 		if talent.name == existing_talent.name:
-				return
+			return
 	data.talent_pool.append(talent)
 
 
-func remove_talent_from_pool(talent: Talent):
+func remove_talent_from_pool(talent: Talent) -> void:
 	for existing_talent in data.talent_pool:
 		if existing_talent.name == talent.name:
 			data.talent_pool.erase(existing_talent)
@@ -125,7 +185,7 @@ func add_talent(talent: Talent, apply: bool = true) -> void:
 			remove_talent(weaker_talent)
 	for existing_talent in data.talents:
 		if talent.name == existing_talent.name:
-				return
+			return
 		for weaker_talent in existing_talent.supplanted:
 			if talent.name == weaker_talent.name:
 				return
@@ -133,12 +193,14 @@ func add_talent(talent: Talent, apply: bool = true) -> void:
 	if apply:
 		talent.initialize(self)
 
-func remove_talent(talent: Talent):
+
+func remove_talent(talent: Talent) -> void:
 	start_mutation()
 	for existing_talent in data.talents:
 		if existing_talent.name == talent.name:
 			data.talents.erase(existing_talent)
 	end_mutation()
+
 
 func has_talent_named(talent_name: String) -> bool:
 	for talent in data.talents:
@@ -146,11 +208,13 @@ func has_talent_named(talent_name: String) -> bool:
 			return true
 	return false
 
+
 func has_condition_named(condition_name: String) -> bool:
 	for condition in data.conditions:
 		if condition.name == condition_name:
 			return true
 	return false
+
 
 ## Takes the id of the condition as parameter
 func has_condition(condition_id: String) -> bool:
@@ -159,11 +223,13 @@ func has_condition(condition_id: String) -> bool:
 			return true
 	return false
 
-func get_condition_by_id(condition_id) -> Condition:
+
+func get_condition_by_id(condition_id: String) -> Condition:
 	for condition in data.conditions:
 		if condition.id == condition_id:
 			return condition
 	return null
+
 
 ## Returns the new condition instance on adding the condition, null on removing it
 func toggle_condition(ctx: Context) -> Condition:
@@ -176,6 +242,7 @@ func toggle_condition(ctx: Context) -> Condition:
 		return null
 	else:
 		return add_condition_from(ctx)
+
 
 func add_condition_from(ctx: Context) -> Condition:
 	var existing = get_condition_by_id(ctx.condition.id)
@@ -201,7 +268,8 @@ func add_condition_from(ctx: Context) -> Condition:
 		SignalBus.update_character_info.emit()
 	return inst
 
-func remove_condition_by_id(condition_id: String):
+
+func remove_condition_by_id(condition_id: String) -> void:
 	start_mutation()
 	var condition = null
 	for existing_cond in data.conditions:
@@ -215,7 +283,8 @@ func remove_condition_by_id(condition_id: String):
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()
 
-func remove_condition(condition: Condition, immediate: bool = false):
+
+func remove_condition(condition: Condition, immediate: bool = false) -> void:
 	if not immediate:
 		start_mutation()
 	for existing_cond in data.conditions:
@@ -227,8 +296,9 @@ func remove_condition(condition: Condition, immediate: bool = false):
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()
 
+
 func get_item_condition_ctxs(item: Item) -> Array[Context]:
-	var contexts:  Array[Context] = []
+	var contexts: Array[Context] = []
 	if not item or not item.conditions:
 		return []
 	for condition in item.conditions:
@@ -243,7 +313,7 @@ func get_item_condition_ctxs(item: Item) -> Array[Context]:
 	return contexts
 
 
-func add_item_conditions(item: Item):
+func add_item_conditions(item: Item) -> void:
 	if not item or not item.conditions:
 		return
 	for condition in item.conditions:
@@ -257,7 +327,7 @@ func add_item_conditions(item: Item):
 		add_condition_from(ctx)
 
 
-func remove_item_conditions(item):
+func remove_item_conditions(item) -> void:
 	start_mutation()
 	if not item or not item.conditions:
 		return
@@ -268,7 +338,8 @@ func remove_item_conditions(item):
 				remove_condition(cond)
 	end_mutation()
 
-func remove_conditions_from_equipment():
+
+func remove_conditions_from_equipment() -> void:
 	start_mutation()
 	var collection = data.equipment.get_all_equipped_items()
 	if collection:
@@ -299,46 +370,48 @@ func apply_conditions_from_equipment() -> void:
 		add_condition_from(ctx)
 
 
-#func apply_conditions_from_equipment():
-	#var items = data.equipment.get_all_equipped_items()
-	#if items:
-		#for item in items:
-			#add_item_conditions(item)
-
-
-func remove_from_inventory(item):
+func remove_from_inventory(item) -> void:
 	data.inventory.remove_from_inventory(item)
+
 
 func get_inventory():
 	return data.inventory.get_inventory()
 
+
 func get_active_hand():
 	return data.equipment.active_hand
 
-func set_active_hand(number: int):
+
+func set_active_hand(number: int) -> void:
 	if number == 0 or number == 1:
 		data.equipment.active_hand = number
+
 
 func get_weapons() -> Array[Item]:
 	var weapons = data.equipment.get_items_of_slot_type(Enums.SlotType.NONE)
 	return weapons
+
 
 func get_active_weapon() -> Item:
 	var weapons = data.equipment.get_items_of_slot_type(Enums.SlotType.NONE)
 	var selected_weapon = weapons[data.equipment.active_hand]
 	return selected_weapon
 
+
 func get_item_in_slot(slot):
 	return data.equipment.get_item_in_slot(slot)
 
-func reload_equipment():
+
+func reload_equipment() -> void:
 	start_mutation()
 	remove_conditions_from_equipment()
 	apply_conditions_from_equipment()
 	end_mutation()
 
-func initialize_item(item: Item):
+
+func initialize_item(item: Item) -> void:
 	item.initialize_attack_modes()
+
 
 func equip_item(item: Item) -> bool:
 	initialize_item(item)
@@ -349,6 +422,7 @@ func equip_item(item: Item) -> bool:
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()
 	return true
+
 
 func equip_item_in_slot(item: Item, slot: Enums.EquipmentSlot, force: bool = false) -> bool:
 	start_mutation()
@@ -368,6 +442,7 @@ func equip_item_in_slot(item: Item, slot: Enums.EquipmentSlot, force: bool = fal
 		SignalBus.update_character_info.emit()
 	return true
 
+
 func unequip_slot(slot) -> Item:
 	start_mutation()
 	var item: Item = data.equipment.free_slot(slot)
@@ -376,6 +451,7 @@ func unequip_slot(slot) -> Item:
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()
 	return item
+
 
 func remove_item(item: Item) -> Item:
 	var inventory = get_inventory()
@@ -390,88 +466,103 @@ func remove_item(item: Item) -> Item:
 			SignalBus.update_character_info.emit()
 	return item
 
+
 func remove_item_from_slot(slot) -> Item:
 	start_mutation()
 	var item = data.equipment.remove_item_from_slot(slot)
 	end_mutation()
 	return item
 
-#func remove_item_from_slot(slot) -> Item:
-	#var item: Item = data.equipment.remove_item_from_slot(slot)
-	#update_stats()
-	#return item
 
 ## Used when something (usually an activity) deals damage to a creature
-func take_damage(damage: int, resistance: Enums.Resistance):
+func take_damage(damage: int, resistance: Enums.Resistance) -> void:
 	var value = get_resistance(resistance)
 	var resistance_value: int = value if value is int else 0
 	var final_damage = (damage - resistance_value)
 	if final_damage < 0:
 		final_damage = 0
 	else:
-		$Mover/ShaderOrchestration.play_hit_flash(final_damage)
+		if node:
+			node.play_hit_flash(final_damage)
 	change_stat("current_hp", -final_damage)
 	health_status_change()
-	health_bar_instance.update_hp_bar()
+	if node:
+		node.update_hp_bar()
 	SignalBus.dialog_damage_taken.emit(data.name, final_damage)
 
+
 ## Used when something (usually an activity) restores health to a creature
-func take_healing(healing: int):
+func take_healing(healing: int) -> void:
 	change_stat("current_hp", healing)
 	health_status_change()
-	health_bar_instance.update_hp_bar()
+	if node:
+		node.update_hp_bar()
 	SignalBus.dialog_healing_taken.emit(data.name, healing)
 
-func health_status_change():
+
+func health_status_change() -> void:
 	var current_hp = get_stat("current_hp") 
 	var max_hp = get_stat("max_hp") 
 	if current_hp > 0:
-		$Mover/ShaderOrchestration.set_healthy_tint()
+		if node:
+			node.set_healthy_tint()
 	if current_hp <= -max_hp:
 		set_stat("current_hp", -max_hp)
 	if current_hp >= max_hp:
 		set_stat("current_hp", max_hp)
 	if current_hp < 0:
 		data.state = Enums.State.UNCONSCIOUS
-		$Mover/ShaderOrchestration.set_wounded_tint()
+		if node:
+			node.set_wounded_tint()
 		if data.crisis_ai_active:
 			data.crisis_ai_active = false
 			SignalBus.ai_became_inactive.emit(self)
 	if current_hp <= -max_hp:
 		data.alive = false
 		print("character is dead!")
-		$Mover/ShaderOrchestration.set_dead_tint()
+		if node:
+			node.set_dead_tint()
+
 
 func perceive_audibility() -> Enums.Capability:
 	return data.audibility
 
+
 func perceive_visibility() -> Enums.Capability:
 	return data.visibility
+
 
 func perceive_level():
 	return data.level
 
+
 func perceive_armour():
 	return data.equipment.slots[Enums.EquipmentSlot.ARMOUR]
+
 
 func perceive_health():
 	return (data.current_hp + data.temp_hp)
 
+
 func get_current_ap():
 	return data.current_ap
 	
+
 func get_current_pp():
 	return data.current_pp
+
 
 func can_act() -> bool:
 	if data.state == Enums.State.CONSCIOUS:
 		return true
 	return false
 
+
 func get_best_state() -> Enums.State:
 	if data.current_hp < 0:
-		return  Enums.State.UNCONSCIOUS
+		return Enums.State.UNCONSCIOUS
 	return Enums.State.CONSCIOUS
+
 
 func eat_food(food: Food) -> void:
 	data.hunger += food.food_value
@@ -482,18 +573,21 @@ func eat_food(food: Food) -> void:
 	SignalBus.message.emit("Your hunger is now: %d" % [data.hunger])
 	SignalBus.update_inventory.emit()
 
+
 func has_enough_ap(number: int) -> bool:
 	if Global.crisis_manager.crisis_mode:
 		if data.current_ap - number < 0:
 			return false
 	return true
 	
+
 func has_enough_pp(number: int) -> bool:
 	if data.current_pp - number < 0:
-			return false
+		return false
 	return true
 
-## consumes AP and potentially associated MP if set to 'true'
+
+## Consumes AP and potentially associated MP if set to 'true'
 func consume_ap(number: int, mp_equivalent: bool = false) -> bool:
 	if number <= 0:
 		return false
@@ -510,15 +604,16 @@ func consume_ap(number: int, mp_equivalent: bool = false) -> bool:
 			Global.world_manager.path_preview.get_char_data()
 	return true
 
+
 func get_mp_potential() -> float:
 	var current_mp: float = data.current_mp
 	var max_mp: int = get_stat("max_mp")
 	var current_ap: int = get_stat("current_ap")
 	return current_mp + max_mp * current_ap
 
+
 func consume_mp(number: float, allows_ap_consumption: bool = false) -> bool:
 	if allows_ap_consumption:
-		# We verify that we're not consuming AP for nothing
 		var mp_potential: float = get_mp_potential()
 		if mp_potential < number:
 			return false
@@ -536,17 +631,20 @@ func consume_mp(number: float, allows_ap_consumption: bool = false) -> bool:
 		set_stat("current_mp", (get_stat("current_mp") - number))
 		return true
 
+
 func consume_pp(number) -> bool:
 	if data.current_pp - number < 0:
-			return false
+		return false
 	data.current_pp -= number
 	if data.current_pp < 0:
 		data.current_pp = 0
 	return true
 
+
 ## Adds a number of MP equal to the speed of the character times the number of AP determined by the argument.
 func convert_ap_into_mp(number: int) -> void:
 	data.current_mp += get_stat("max_mp") * number
+
 
 func meets_brawn_requirements() -> bool:
 	var weapons = data.equipment.get_items_of_slot_type(Enums.SlotType.NONE)
@@ -567,27 +665,26 @@ func meets_brawn_requirements() -> bool:
 
 	return false
 
+
 func get_modified_activity(activity_variant: ActivityVariant) -> Activity:
 	var instance = activity_variant.produce(self)
-
-	#for modifier in data.activity_modifiers:
-		#instance.add_modifier(modifier)
-		#instance.modifiers.append(modifier)
-
 	return instance
 
-func perform_activity_variant(activity_variant: ActivityVariant, target: Node = null):
+
+func perform_activity_variant(activity_variant: ActivityVariant, target: Node = null) -> void:
 	var activity = get_modified_activity(activity_variant)
 	activity.user = self
 	if target:
 		activity.target_entities.append(target)
 	activity.execute()
 
-func perform_activity(activity: Activity, target = null):
+
+func perform_activity(activity: Activity, target = null) -> void:
 	activity.user = self
 	if target:
 		activity.target_points.append(target)
 	activity.execute()
+
 
 func get_selected_weapon_activity() -> Activity:
 	var weapons = get_weapons()
@@ -607,18 +704,22 @@ func get_selected_weapon_activity() -> Activity:
 			attack_activity.weapon = selected_weapon
 	return attack_activity
 
-func perform_attack(target):
+
+func perform_attack(target) -> void:
 	var attack_activity: Activity = get_selected_weapon_activity()
 	if attack_activity:
 		perform_activity(attack_activity, target)
 
-func perform_operate(prop: Prop):
+
+func perform_operate(prop: Prop) -> void:
 	if consume_ap(1):
 		prop.operate(self)
 		SignalBus.update_ui_for_char.emit()
 
+
 func get_all_equipped_items() -> Array:
 	return data.equipment.get_all_equipped_items()
+
 
 func add_item_to_inventory(item: Item) -> void:
 	initialize_item(item)
@@ -626,12 +727,14 @@ func add_item_to_inventory(item: Item) -> void:
 	SignalBus.update_inventory.emit()
 	SignalBus.message.emit("Picked up %s." % item.name)
 
+
 func grab_item_from_coords(item: Item, coords: Vector3i) -> void:
 	initialize_item(item)
 	Global.world_manager.remove_from_tile(item, coords)
 	data.inventory.add_item(item)
 	SignalBus.update_inventory.emit()
 	SignalBus.message.emit("Picked up %s." % item.name)
+
 
 func get_base_stat(stat):
 	if stat in data:
@@ -649,8 +752,10 @@ func get_base_stat(stat):
 	else:
 		push_warning("Could not find stat: ", stat)
 
+
 func get_final_stat(stat):
 	return get_stat(stat)
+
 
 ## @deprecated: use get_final_stat() instead
 func get_stat(stat):
@@ -671,7 +776,8 @@ func get_stat(stat):
 	else:
 		push_warning("Could not find stat: ", stat)
 
-func set_stat(stat, value):
+
+func set_stat(stat, value) -> void:
 	if stat in data:
 		data.set(stat, value)
 	elif stat in data.derived_stats:
@@ -687,6 +793,7 @@ func set_stat(stat, value):
 	else:
 		push_error("Could not find stat: ", stat)
 
+
 func get_stat_enum(type: Enums.StatType, stat: int) -> int:
 	match type:
 		Enums.StatType.ATTRIBUTE:
@@ -701,6 +808,7 @@ func get_stat_enum(type: Enums.StatType, stat: int) -> int:
 			return data.resistances.get_resistance(stat)
 	return 0
 
+
 func set_stat_enum(type: Enums.StatType, stat: int, value: int) -> void:
 	match type:
 		Enums.StatType.ATTRIBUTE:
@@ -714,6 +822,7 @@ func set_stat_enum(type: Enums.StatType, stat: int, value: int) -> void:
 		Enums.StatType.RESISTANCE:
 			data.resistances.set_resistance(stat, value)
 
+
 func modify_stat(operation: Enums.Operation, type: Enums.StatType, stat: int, value: int) -> void:
 	var current_value = get_stat_enum(type, stat)
 	match operation:
@@ -724,7 +833,8 @@ func modify_stat(operation: Enums.Operation, type: Enums.StatType, stat: int, va
 		Enums.Operation.REPLACE:
 			set_stat_enum(type, stat, value)
 
-func change_status(type: Enums.Status, new_status: int):
+
+func change_status(type: Enums.Status, new_status: int) -> void:
 	match type:
 		Enums.Status.STATE:
 			data.state = new_status as Enums.State
@@ -737,7 +847,8 @@ func change_status(type: Enums.Status, new_status: int):
 		Enums.Status.AUDIBILITY:
 			data.audibility = new_status as Enums.Capability
 
-func change_stat_enum(type: Enums.StatType, stat: int, delta):
+
+func change_stat_enum(type: Enums.StatType, stat: int, delta) -> void:
 	match type:
 		Enums.StatType.ATTRIBUTE:
 			pass
@@ -755,13 +866,11 @@ func change_stat_enum(type: Enums.StatType, stat: int, delta):
 				update_current_points(stat, current)
 				update_movement_speed(old_max_mp_value)
 		Enums.StatType.RESISTANCE:
-			#var current = data.derived_stats.get_resistance(stat)
-			#data.derived_stats.set_resistance(stat, current + delta)
-			# To remove once I've fully moved towards using derived_stats:
 			var current = data.resistances.get_resistance(stat)
 			data.resistances.set_resistance(stat, current + delta)
 
-func replace_stat_enum(type: Enums.StatType, stat: int, value):
+
+func replace_stat_enum(type: Enums.StatType, stat: int, value) -> void:
 	match type:
 		Enums.StatType.ATTRIBUTE:
 			pass
@@ -777,12 +886,10 @@ func replace_stat_enum(type: Enums.StatType, stat: int, value):
 				update_current_points(stat, current)
 				update_movement_speed(old_max_mp_value)
 		Enums.StatType.RESISTANCE:
-			#var current = data.derived_stats.get_resistance(stat)
-			#data.derived_stats.set_resistance(stat, current + delta)
-			# To remove once I've fully moved towards using derived_stats:
 			data.resistances.set_resistance(stat, value)
 
-func multiply_stat_enum(type: Enums.StatType, stat: int, factor):
+
+func multiply_stat_enum(type: Enums.StatType, stat: int, factor) -> void:
 	match type:
 		Enums.StatType.ATTRIBUTE:
 			pass
@@ -800,11 +907,9 @@ func multiply_stat_enum(type: Enums.StatType, stat: int, factor):
 				update_current_points(stat, current)
 				update_movement_speed(old_max_mp_value)
 		Enums.StatType.RESISTANCE:
-			#var current = data.derived_stats.get_resistance(stat)
-			#data.derived_stats.set_resistance(stat, current + delta)
-			# To remove once I've fully moved towards using derived_stats:
 			var current = data.resistances.get_resistance(stat)
 			data.resistances.set_resistance(stat, current * factor)
+
 
 func update_current_points(point_type: Enums.Point, old_value: float) -> void:
 	match point_type:
@@ -839,35 +944,35 @@ func update_current_points(point_type: Enums.Point, old_value: float) -> void:
 			@warning_ignore("narrowing_conversion")
 			data.current_pp += delta
 
+
 ## @deprecated: use change_stat_enum() instead
-func change_stat(stat: StringName, delta):
+func change_stat(stat: StringName, delta) -> void:
 	var current = get_final_stat(stat)
 	if current != null:
 		set_stat(stat, current + delta)
 
+
 func get_aptitude(type: Enums.Aptitude) -> int:
 	return data.derived_stats.get_aptitude(type)
-	
+
+
 func set_aptitude(type: Enums.Aptitude, value: int) -> void:
 	data.derived_stats.set_aptitude(type, value)
+
 
 func get_resistance(type: Enums.Resistance) -> int:
 	return data.resistances.get_resistance(type)
 
+
 func set_resistance(type: Enums.Resistance, value: int) -> void:
 	data.resistances.set_resistance(type, value)
 
-func add_casting_table(table: CastingTable):
+
+func add_casting_table(table: CastingTable) -> void:
 	data.casting_table = table
 
-#func senses_check_on_tile(target_tile) -> bool: 
-	#if hearing_check(target_tile):
-		#return true
-	#if sight_check(target_tile):
-		#return true
-	#return false
 
-func discover_creature(creature):
+func discover_creature(creature) -> void:
 	var uid = creature.data.uid
 
 	if not data.relationships._tactical_map.has(uid):
@@ -912,6 +1017,7 @@ func make_friend(creature: Creature) -> bool:
 		return true
 	return false
 
+
 func find_cooperative_creatures_in_crisis() -> void:
 	var creatures: Array[Creature] = Global.crisis_manager.get_initiative_order()
 	
@@ -930,43 +1036,51 @@ func find_cooperative_creatures_in_crisis() -> void:
 			creature.make_friend(self)
 
 
-func evaluate_entering_crisis(creature):
+func evaluate_entering_crisis(creature) -> void:
 	var rel_entry = get_tactical(creature.data.uid)
 	if rel_entry:
 		if rel_entry.hostile > 0:
 			if data.crisis_ai_active:
 				return
 			data.crisis_ai_active = true
-			ai_controller.crisisai.crisis_entered()
+			if node and node.ai_controller and node.ai_controller.crisisai:
+				node.ai_controller.crisisai.crisis_entered()
 			SignalBus.ai_became_active.emit(self)
 			find_cooperative_creatures_in_crisis()
 			if not Global.crisis_manager.crisis_mode:
 				SignalBus.start_crisis_mode.emit(self)
 
+
 func get_uid() -> int:
 	return data.uid
 
-func build_tactical_map():
+
+func build_tactical_map() -> void:
 	data.relationships.build_tactical_map()
+
 
 func get_tactical(target_id: int) -> TacticalRelationEntry:
 	return data.relationships.get_tactical(target_id)
 
-func set_hostile(target_id: int, value: int):
+
+func set_hostile(target_id: int, value: int) -> void:
 	data.relationships.set_hostile(target_id, value)
 
-func set_cooperative(target_id: int, value: int):
+
+func set_cooperative(target_id: int, value: int) -> void:
 	data.relationships.set_cooperative(target_id, value)
 
 
 func get_coords() -> Vector3i:
 	var pos_3d = Vector3i(
-	data.tile_x,
-	data.tile_y,
-	data.tile_z)
+		data.tile_x,
+		data.tile_y,
+		data.tile_z
+	)
 	return pos_3d
 
-func set_coords(new_coords: Vector3i):
+
+func set_coords(new_coords: Vector3i) -> void:
 	data.tile_x = new_coords.x
 	data.tile_y = new_coords.y
 	data.tile_z = new_coords.z
@@ -1065,7 +1179,7 @@ func level_up() -> void:
 
 		if data.applied_level % 2 == 0:
 			for skill in Enums.Skill.values():
-				var skill_value: int =  data.base_stats.get_skill(skill)
+				var skill_value: int = data.base_stats.get_skill(skill)
 				if skill_value == 0:
 					data.base_stats.set_skill(skill, 1)
 					break
@@ -1075,7 +1189,7 @@ func level_up() -> void:
 
 	if data.applied_level % 2 == 0:
 		for skill in Enums.Skill.values():
-			var skill_value: int =  data.base_stats.get_skill(skill)
+			var skill_value: int = data.base_stats.get_skill(skill)
 			if skill_value > 0:
 				data.base_stats.set_skill(skill, skill_value + 1)
 
@@ -1088,7 +1202,7 @@ func level_up() -> void:
 	build_stats()
 
 
-## This initalises the base stats, meant to be used on spawn
+## This initialises the base stats, meant to be used on spawn
 func initialize_character() -> void:
 	if not data.has_been_initialized:
 		if data.uid == 0:
@@ -1118,54 +1232,53 @@ func initialize_character() -> void:
 
 
 ## This builds the stats based on applied level
-func build_stats():
-		@warning_ignore("integer_division")
-		data.base_stats.level_mod = max(0, data.applied_level / 2)
-		data.base_stats.set_aptitude(Enums.Aptitude.AGILITY, data.attributes.get_attribute(Enums.Attribute.DEXTERITY) + data.base_stats.level_mod)
-		data.base_stats.set_aptitude(Enums.Aptitude.WILL, data.attributes.get_attribute(Enums.Attribute.RESOLVE) + data.base_stats.level_mod)
-		data.base_stats.set_aptitude(Enums.Aptitude.SENSE, data.attributes.get_attribute(Enums.Attribute.ACUITY) + data.base_stats.level_mod)
-		data.base_stats.set_aptitude(Enums.Aptitude.STAMINA, data.attributes.get_attribute(Enums.Attribute.BRAWN) + data.base_stats.level_mod)
-		data.base_stats.set_aptitude(Enums.Aptitude.OFFENCE, data.attributes.get_attribute(Enums.Attribute.ACUITY) + data.base_stats.level_mod)
-		data.base_stats.set_aptitude(Enums.Aptitude.MELEE_DEFENCE, data.attributes.get_attribute(Enums.Attribute.DEXTERITY) + data.base_stats.level_mod)
-		data.base_stats.set_aptitude(Enums.Aptitude.RANGED_DEFENCE, data.attributes.get_attribute(Enums.Attribute.DEXTERITY) + data.base_stats.level_mod)
+func build_stats() -> void:
+	@warning_ignore("integer_division")
+	data.base_stats.level_mod = max(0, data.applied_level / 2)
+	data.base_stats.set_aptitude(Enums.Aptitude.AGILITY, data.attributes.get_attribute(Enums.Attribute.DEXTERITY) + data.base_stats.level_mod)
+	data.base_stats.set_aptitude(Enums.Aptitude.WILL, data.attributes.get_attribute(Enums.Attribute.RESOLVE) + data.base_stats.level_mod)
+	data.base_stats.set_aptitude(Enums.Aptitude.SENSE, data.attributes.get_attribute(Enums.Attribute.ACUITY) + data.base_stats.level_mod)
+	data.base_stats.set_aptitude(Enums.Aptitude.STAMINA, data.attributes.get_attribute(Enums.Attribute.BRAWN) + data.base_stats.level_mod)
+	data.base_stats.set_aptitude(Enums.Aptitude.OFFENCE, data.attributes.get_attribute(Enums.Attribute.ACUITY) + data.base_stats.level_mod)
+	data.base_stats.set_aptitude(Enums.Aptitude.MELEE_DEFENCE, data.attributes.get_attribute(Enums.Attribute.DEXTERITY) + data.base_stats.level_mod)
+	data.base_stats.set_aptitude(Enums.Aptitude.RANGED_DEFENCE, data.attributes.get_attribute(Enums.Attribute.DEXTERITY) + data.base_stats.level_mod)
 
-		data.base_stats.strength_bonus = data.attributes.get_attribute(Enums.Attribute.BRAWN)
-		data.base_stats.concentration_slots = data.attributes.get_attribute(Enums.Attribute.RESOLVE)
-		#data.base_stats.size = "medium"
+	data.base_stats.strength_bonus = data.attributes.get_attribute(Enums.Attribute.BRAWN)
+	data.base_stats.concentration_slots = data.attributes.get_attribute(Enums.Attribute.RESOLVE)
 
-		data.base_stats.max_hp = (data.attributes.get_attribute(Enums.Attribute.BRAWN) * 12) + (data.attributes.get_attribute(Enums.Attribute.BRAWN) * data.base_stats.level_mod)
-		data.current_hp = data.base_stats.max_hp
+	data.base_stats.max_hp = (data.attributes.get_attribute(Enums.Attribute.BRAWN) * 12) + (data.attributes.get_attribute(Enums.Attribute.BRAWN) * data.base_stats.level_mod)
+	data.current_hp = data.base_stats.max_hp
 
-		@warning_ignore("integer_division")
-		data.base_stats.max_pp = (data.attributes.get_attribute(Enums.Attribute.BRAWN) * 2) + (data.attributes.get_attribute(Enums.Attribute.BRAWN) * data.base_stats.level_mod)/2
-		data.current_pp = data.base_stats.max_pp
-		data.base_stats.max_ep = (data.attributes.get_attribute(Enums.Attribute.BRAWN) * 12) + (data.attributes.get_attribute(Enums.Attribute.BRAWN) * data.base_stats.level_mod)
-		data.current_ep = data.base_stats.max_ep
+	@warning_ignore("integer_division")
+	data.base_stats.max_pp = (data.attributes.get_attribute(Enums.Attribute.BRAWN) * 2) + (data.attributes.get_attribute(Enums.Attribute.BRAWN) * data.base_stats.level_mod)/2
+	data.current_pp = data.base_stats.max_pp
+	data.base_stats.max_ep = (data.attributes.get_attribute(Enums.Attribute.BRAWN) * 12) + (data.attributes.get_attribute(Enums.Attribute.BRAWN) * data.base_stats.level_mod)
+	data.current_ep = data.base_stats.max_ep
 
-		data.base_stats.max_mp = data.attributes.get_attribute(Enums.Attribute.DEXTERITY)
-		
-		data.current_ap = data.base_stats.max_mp
+	data.base_stats.max_mp = data.attributes.get_attribute(Enums.Attribute.DEXTERITY)
+	
+	data.current_ap = data.base_stats.max_mp
 
-		data.spells_ready.clear()
-		if data.major_archetype and data.major_archetype.type == Enums.Archetype.ASPECTED_MAGE:
-			for spell in data.spells_available:
-				add_ready_spell(spell)
+	data.spells_ready.clear()
+	if data.major_archetype and data.major_archetype.type == Enums.Archetype.ASPECTED_MAGE:
+		for spell in data.spells_available:
+			add_ready_spell(spell)
 
-		if data.casting_table:
-			set_max_spell_rank()
+	if data.casting_table:
+		set_max_spell_rank()
 
-		var spell_rank: int = get_max_spell_rank()
-		if !data.player_controlled and (spell_rank > 1):
-			set_current_spell_rank(spell_rank - 1)
-		else:
-			set_current_spell_rank(spell_rank)
+	var spell_rank: int = get_max_spell_rank()
+	if !data.player_controlled and (spell_rank > 1):
+		set_current_spell_rank(spell_rank - 1)
+	else:
+		set_current_spell_rank(spell_rank)
 
-		if mutation_depth == 0:
-			update_stats()
+	if mutation_depth == 0:
+		update_stats()
 
 
 ## This builds the final usable stats; to be used directly for activities and from outside the class
-func update_stats():
+func update_stats() -> void:
 	for aptitude in Enums.Aptitude.values():
 		data.derived_stats.set_aptitude(aptitude, data.base_stats.get_aptitude(aptitude))
 
@@ -1175,7 +1288,6 @@ func update_stats():
 	data.derived_stats.strength_bonus = data.base_stats.strength_bonus
 	data.derived_stats.concentration_slots = data.base_stats.concentration_slots
 	data.derived_stats.vigour = 0
-	#data.base_stats.size = "medium"
 	
 	data.derived_stats.max_hp = data.base_stats.max_hp
 	data.derived_stats.max_pp = data.base_stats.max_pp
@@ -1237,7 +1349,8 @@ func update_stats():
 		update_vigour()
 
 	stats_dirty = false
-	sprite_node.texture = load(data.sprite)
+	if node and node.sprite_node and data.sprite and ResourceLoader.exists(data.sprite):
+		node.sprite_node.texture = load(data.sprite)
 	build_tactical_map()
 	update_movement_speed()
 	SignalBus.add_to_initiative.emit(self)
@@ -1245,6 +1358,7 @@ func update_stats():
 	if self == Global.selected_char:
 		SignalBus.update_character_info.emit()
 		SignalBus.update_ui_for_char.emit()
+
 
 func update_vigour() -> void:
 	for aptitude in Enums.Aptitude.values():
@@ -1257,8 +1371,11 @@ func update_vigour() -> void:
 
 	data.derived_stats.max_mp += data.derived_stats.vigour
 
+
 func update_movement_speed(old_mp_value: int = -1) -> void:
-	$Mover.max_speed = get_stat("max_mp") * get_stat("max_ap") * Global.TILE_SIZE * 0.25
+	if node and node.mover:
+		var max_speed: float = get_stat("max_mp") * get_stat("max_ap") * Global.TILE_SIZE * 0.25
+		node.mover.max_speed = max_speed
 	if old_mp_value > -1:
 		var new_mp_value: float = get_stat("max_mp")
 		var ratio: float = new_mp_value / old_mp_value
@@ -1270,12 +1387,14 @@ func update_movement_speed(old_mp_value: int = -1) -> void:
 		if Global.selected_char == self:
 			Global.world_manager.path_preview.get_char_data()
 
+
 func apply_condition_effects_at_intervals() -> void:
 	for condition in data.conditions:
 		if condition.apply_effects_at_intervals:
 			condition.apply_effects()
 
-func turn_start():
+
+func turn_start() -> void:
 	if data.state == Enums.State.CONSCIOUS:
 		set_stat("current_ap", get_stat("max_ap"))
 		set_stat("current_mp", 0)
@@ -1296,18 +1415,25 @@ func turn_start():
 		Global.focus_char = null
 		if data.crisis_ai_active:
 			SignalBus.message.emit("%s is acting." % self.data.name)
-			ai_controller.crisisai.realize_turn() 
+			if node and node.ai_controller and node.ai_controller.crisisai:
+				node.ai_controller.crisisai.realize_turn() 
+			else:
+				SignalBus.turn_ends.emit()
 		else:
 			# character does their real time routine in turn by turn
 			SignalBus.turn_ends.emit()
 
-func handle_tile_conditions():
+
+func handle_tile_conditions() -> void:
 	var wm = Global.world_manager
+	if not wm or not wm.layers.has(data.tile_z):
+		return
 	var layer_tile: Vector2i = Vector2i(data.tile_x, data.tile_y)
 	if wm.layers[data.tile_z]["contents"].has(layer_tile):
 		for element in wm.layers[data.tile_z]["contents"][layer_tile]:
 			if element is AreaCondition and element.trigger == Enums.AreaConditionTrigger.TURN_START:
 				element.apply_to_entity(self)
+
 
 func sight_check(target_tile: Vector3i, creature: Creature = null) -> bool: 
 	if not creature:
@@ -1330,17 +1456,8 @@ func sight_check(target_tile: Vector3i, creature: Creature = null) -> bool:
 					return true if creature_visibility >= Enums.Capability.LOW else false
 			if creature.data.sight >= Enums.Capability.LOW and creature.perceive_visibility() >= Enums.Capability.LOW:
 				return true
-	#discover_creature(creature)
-	#evaluate_entering_crisis(creature)
 	return false
 
-#func sight_check(target_tile: Vector3i, creature: Creature = null) -> bool: 
-	#var origin_tile = Vector3i(data.tile_x, data.tile_y, data.tile_z)
-	#if WorldMath.pos_in_range_weighted_3d(origin_tile, target_tile, (data.base_stats.get_aptitude(Enums.Aptitude.SENSE) * 4)):
-		#if WorldMath.has_line_of_sight_tile(origin_tile, target_tile):
-			#if creature and creature.perceive_visibility() >= Enums.Capability.LOW:
-				#return true
-	#return false
 
 func hearing_check(strength: int, difficulty_to_perceive: float) -> bool: 
 	var acuity = get_stat_enum(Enums.StatType.ATTRIBUTE, Enums.Attribute.ACUITY)
@@ -1349,49 +1466,19 @@ func hearing_check(strength: int, difficulty_to_perceive: float) -> bool:
 		return true
 	return false
 
-#func hearing_check(strength: int, difficulty_to_perceive: float, creature: Creature = null) -> bool: 
-	#var acuity: int = data.attributes.acuity
-	#var creature_audibility = creature.perceive_audibility()
-	#var audibility_modifier: float
-	#match creature_audibility:
-		#Enums.Capability.NIL:
-			#audibility_modifier = 0
-		#Enums.Capability.LOW:
-			#audibility_modifier = 0.5
-		#Enums.Capability.NORMAL:
-			#audibility_modifier = 1
-		#Enums.Capability.HIGH:
-			#audibility_modifier = 2
-	#@warning_ignore("narrowing_conversion")
-	#strength *= audibility_modifier
-	#var threshold = difficulty_to_perceive - strength
-	#if acuity >= threshold:
-		#return true
-	#return false
-
-#func hearing_check(noise_value: int) -> bool: 
-	#var acuity = data.attributes.acuity
-	#var threshold = max(1, 13 - acuity)
-	#if noise_value >= threshold:
-		#return true
-	#return false
-
-#func hearing_check(target_tile) -> bool: 
-	#var origin_tile = Vector3i(data.tile_x, data.tile_y, data.tile_z)
-	#if WorldMath.pos_in_range_weighted_3d(origin_tile, target_tile, (data.base_stats.get_aptitude(Enums.Aptitude.SENSE) * 1)):
-		#return true
-	#return false
 
 func _ensure_resource(res: Resource, ctor: Callable) -> Resource:
 	if res:
 		return res.duplicate(true)
 	return ctor.call()
-	
-func debug_outline():
-	print("debugging outline")
-	$Mover/Outline.toggle_outline()
 
-func decay_needs(n):
+
+func debug_outline() -> void:
+	if node:
+		node.debug_outline()
+
+
+func decay_needs(n) -> void:
 	data.hunger -= 200 * n
 	if data.hunger < 0:
 		data.hunger = 0
@@ -1404,86 +1491,38 @@ func decay_needs(n):
 		if data.social < 0:
 			data.social = 0
 
-func destroy_self():
+
+func destroy_self() -> void:
 	var wm = Global.world_manager
 	var layer_coords = Vector2i(data.tile_x, data.tile_y)
-	wm.layers[data.tile_z]["path_map"].set_point_solid(layer_coords, false)
-	wm.layers[data.tile_z]["cover"][layer_coords] = Enums.Cover.NONE
-	wm.layers[data.tile_z]["occupied"][layer_coords] = false
-	wm.remove_from_tile(self, get_coords())
-	wm.current_map.unregister_creature(self)
-	Global.crisis_manager.remove_from_initiative_order(self)
-	queue_free()
+	if wm and wm.layers.has(data.tile_z):
+		wm.layers[data.tile_z]["path_map"].set_point_solid(layer_coords, false)
+		wm.layers[data.tile_z]["cover"][layer_coords] = Enums.Cover.NONE
+		wm.layers[data.tile_z]["occupied"][layer_coords] = false
+		wm.remove_from_tile(self, get_coords())
+	if wm and wm.current_map:
+		wm.current_map.unregister_creature(self)
+	if Global.crisis_manager:
+		Global.crisis_manager.remove_from_initiative_order(self)
+	if node:
+		node.queue_free()
+		node = null
 
-func rebuild_shader():
-	var shader_mat = sprite_node.material as ShaderMaterial
-	if shader_mat == null:
-		return
 
-	# Base values reset
-	shader_mat.set_shader_parameter("grayscale_amount", 0.0)
-	shader_mat.set_shader_parameter("wounded_amount", 0.0)
-	shader_mat.set_shader_parameter("hit_intensity", 0.0)
+func rebuild_shader() -> void:
+	if node:
+		node.rebuild_shader()
 
-	shader_mat.set_shader_parameter("aura_amount", 0.0)
-	shader_mat.set_shader_parameter("aura_color", Color(0.7, 0.85, 1.0))
-
-	shader_mat.set_shader_parameter("pulse_speed", 0.0)
-	shader_mat.set_shader_parameter("pulse_offset", 0.0)
-	shader_mat.set_shader_parameter("pulse_sharpness", 0.0)
-
-	var accum: Dictionary = {}
-
-	for condition in data.conditions:
-		for effect in condition.shader_effects:
-
-			var key = effect.parameter_name
-			var value = effect.value
-
-			if not accum.has(key):
-				accum[key] = value
-			else:
-				accum[key] = max(accum[key], value)
-				
-			if effect.pulse != null:
-				shader_mat.set_shader_parameter("pulse_speed", effect.pulse.speed)
-				shader_mat.set_shader_parameter("pulse_offset", effect.pulse.offset)
-				shader_mat.set_shader_parameter("pulse_sharpness", effect.pulse.sharpness)
-
-	for key in accum:
-		shader_mat.set_shader_parameter(key, accum[key])
 
 func pounce_attack(target_dir: Vector2) -> void:
-	var pounce_distance: float = 6.0
-	var forward = target_dir.normalized() * pounce_distance
-	
-	var tween = get_tree().create_tween()
-	tween.set_trans(Tween.TRANS_QUAD)
-	tween.set_ease(Tween.EASE_OUT)
-
-	# forward lunge
-	tween.tween_property(sprite_node, "position", forward, 0.05)
-
-	# snap back
-	tween.tween_property(sprite_node, "position", Vector2.ZERO, 0.08)
-
-
-#func handle_area_condition_exits(reaction_event: ReactionEvent) -> void:
-	#for condition in data.conditions:
-		#if condition is AreaCondition:
-			#condition.handle_area_exit(reaction_event)
+	if node:
+		node.pounce_attack(target_dir)
 
 
 func move_linked_area_conditions(reaction_event: ReactionEvent) -> void:
 	if reaction_event.context.user == self and reaction_event.type == Enums.EventType.MOVEMENT:
 		for area_cond in data.following_area_conditions:
 			area_cond.move_area(reaction_event)
-
-
-#func handle_conditions_applied_by_area_cond(reaction_event: ReactionEvent) -> void:
-	#for condition in data.conditions:
-		#if condition.applied_by_area_condition:
-			#
 
 
 func handle_event(reaction_event: ReactionEvent) -> void:
@@ -1509,24 +1548,7 @@ func handle_event(reaction_event: ReactionEvent) -> void:
 				data.current_reactions -= 1
 				return
 
+
 func update_visibility(map_id: String, current_layer: int) -> void:
-	if data.name == "Debug":
-		print("I'm here!")
-	if map_id == data.map_id and current_layer == data.tile_z:
-		self.visible = true
-	else:
-		self.visible = false
-
-func setup() -> void:
-	pass
-
-func _ready():
-	print("Creature getting ready!")
-	if not health_bar_scene:
-		print("Health bar scene not set!")
-	health_bar_instance = health_bar_scene.instantiate()
-	$Mover.add_child(health_bar_instance)
-	mover.position = Vector2.ZERO
-	$Mover/ShaderOrchestration.shader_material = sprite_node.material as ShaderMaterial
-	SignalBus.update_visibility.connect(update_visibility)
-	#call_deferred("setup")
+	if node:
+		node.update_visibility(map_id, current_layer)

@@ -5,7 +5,7 @@ class_name ActivityVariant
 @export var modifiers: Array[Modifier] = []
 @export var ai_hint: AIHint
 
-func pre_execute(user: Entity) -> Activity:
+func pre_execute(user) -> Activity:
 	var instance: Activity = null
 	if activity is DerivedActivity:
 		instance = activity.pre_execute(user)
@@ -39,7 +39,7 @@ func pre_execute(user: Entity) -> Activity:
 
 	return instance
 
-func produce(user: Entity) -> Activity:
+func produce(user) -> Activity:
 	var instance: Activity = activity.duplicate(true)
 	
 	#var instance_modifiers = instance.modifiers
@@ -62,7 +62,7 @@ func produce(user: Entity) -> Activity:
 	return instance
 
 
-func execute(user: Entity, targets: Array[Vector3i] = []) -> void:
+func execute(user: Creature, targets: Array[Vector3i] = []) -> void:
 	var instance = produce(user)
 	if targets:
 		instance.target_points.append_array(targets)

@@ -12,11 +12,12 @@ func apply_context(ctx: Context) -> bool:
 			prop_instance.setup(ctx)
 		ctx.created_props.append(prop_instance)
 		if ctx is ActivityContext and ctx.condition:
+			prop_instance.linked_condition = ctx.condition
 			ctx.condition.linked_props.append(prop_instance)
 		if ctx.shared_context and not ctx.shared_context.created_conditions.is_empty():
 			for condition in ctx.shared_context.created_conditions:
-				condition.linked_props.append(prop_instance)
-		print("Prop added!")
-	else:
-		push_error("Prop couldn't be added: target is not Vector3i.")
-	return true
+				prop_instance.linked_condition = condition
+				if prop_instance not in condition.linked_props:
+					condition.linked_props.append(prop_instance)
+		return true
+	return false

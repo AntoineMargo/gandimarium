@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://di24o35dhla3y"]
 
-[ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creature.gd" id="1_ss4pg"]
+[ext_resource type="Script" uid="uid://bigieml4yepig" path="res://entities/creature_node.gd" id="1_ss4pg"]
 [ext_resource type="PackedScene" uid="uid://wqxs6c21eg4g" path="res://interface/local_map/health_bar/health_bar.tscn" id="2_w4hkv"]
 [ext_resource type="Texture2D" uid="uid://bcjmxhgemswtr" path="res://art/characters/hooded_char.png" id="4_4w7f4"]
 [ext_resource type="Shader" uid="uid://cxw8dhhjld7uv" path="res://shaders/creature_general.gdshader" id="4_vsju1"]

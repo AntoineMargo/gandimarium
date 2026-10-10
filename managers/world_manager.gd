@@ -85,17 +85,18 @@ func spawn_prop(scene: PackedScene, pos: Vector3i) -> Prop:
 	return prop
 
 
-func get_entity_at_pos(pos: Vector3i) -> Entity:
+func get_entity_at_pos(pos: Vector3i):
 	var layer_pos = Vector2i(pos.x, pos.y)
 	var pos_contents = layers[pos.z]["contents"].get(layer_pos)
 	if pos_contents:
 		for element in pos_contents:
 			if element is SpawnerProp:
 				continue
-			if element is Entity:
+			if element is Creature:
+				return element
+			if element is Prop:
 				return element
 	return null
-
 
 #func get_entity_at_pos(pos: Vector3i) -> Entity:
 	#var layer_pos = Vector2i(pos.x, pos.y)
@@ -610,14 +611,14 @@ func path_to_target_adjacency(o, t, distance):
 
 	if o is Vector3i:
 		origin = o
-	elif o is Entity:
+	elif o.has_method("get_coords"):
 		origin = o.get_coords()
 	else:
 		return
 	
 	if t is Vector3i:
 		target = t
-	elif t is Entity:
+	elif t.has_method("get_coords"):
 		target = t.get_coords()
 	else:
 		return
@@ -946,7 +947,7 @@ func _apply_step_side_effects(creature: Creature, current_tile: Vector3i, next_t
 	handle_tile_conditions(next_tile, creature)
 	selection_highlight.update_selection_highlight()
 
-	SignalBus.sight_check.emit(next_tile)
+	SignalBus.sight_check.emit(next_tile, Global.map_manager.get_map_of_creature(creature))
 	SignalBus.event.emit(ReactionEvent.movement(Context.movement(creature, current_tile, next_tile)))
 
 	flash_path([current_tile])
@@ -994,12 +995,12 @@ func move_char_along_path(creature: Creature, path: Array[Vector3i], step_speed:
 
 	creature.interrupted = false
 
-	Global.begin_async_operation()
+	Global.game_session.begin_async_operation()
 	for i in range(path.size() - 1):
 		if creature.interrupted:
 			path_preview.get_char_data()
 			path_preview.make_active()
-			Global.end_async_operation()
+			Global.game_session.end_async_operation()
 			return false
 		
 		var current_tile = path[i]
@@ -1015,7 +1016,7 @@ func move_char_along_path(creature: Creature, path: Array[Vector3i], step_speed:
 
 	path_preview.get_char_data()
 	path_preview.make_active()
-	Global.end_async_operation()
+	Global.game_session.end_async_operation()
 	return true
 
 func move_char_to_tile(creature: Creature, origin: Vector3i, target: Vector3i):
@@ -1285,7 +1286,7 @@ func interact_move(character: Creature, target: Vector3i):
 		SignalBus.update_ui_for_char.emit()
 	selection_highlight.update_selection_highlight()
 
-func handle_tile_conditions(tile: Vector3i, entity: Entity):
+func handle_tile_conditions(tile: Vector3i, entity):
 	var layer_tile: Vector2i = Vector2i(tile.x, tile.y)
 	if layers[tile.z]["contents"].has(layer_tile):
 		for element in layers[tile.z]["contents"][layer_tile]:
@@ -1382,7 +1383,6 @@ func _ready() -> void:
 	map_state = MapState.new()
 	spawner = Spawner.new()
 	spawner.wm = self
-	selection_highlight.update_selection_highlight()
 	SignalBus.simple_interact.connect(_simple_interact_disambiguation)
 	SignalBus.complex_interact.connect(_complex_interact)
 	SignalBus.world_ready.connect(_on_world_ready)

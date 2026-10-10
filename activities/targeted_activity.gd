@@ -19,7 +19,7 @@ func fire_projectile(batch_ctx: ActivityContext) -> void:
 	if hit_effect_scene:
 		proj_instance.hit_effect_scene = hit_effect_scene
 
-	var parent = user.get_parent()
+	var parent = user.node
 	parent.add_child(proj_instance)
 	
 	batch_ctx.projectile_instance = proj_instance
@@ -124,7 +124,7 @@ func select_target():
 
 func compute_hit_delay(final_target, batch_ctx: ActivityContext) -> float:
 	var target_pos: Vector3i
-	if final_target is Entity:
+	if final_target.has_method("get_coords"):
 		target_pos = final_target.get_coords()
 	else:
 		target_pos = final_target
@@ -255,7 +255,7 @@ func resolve_with_targets(targets: Array[Vector3i]) -> void:
 					else:
 						# firing the projectile at that target
 						fire_projectile(frozen_ctx)
-						await user.get_tree().create_timer(0.05).timeout
+						await Global.game_session.get_tree().create_timer(0.15).timeout
 				elif shape == Enums.Shape.LINE:
 					var call_delay = compute_hit_delay(frozen_ctx.target, batch_ctx)
 

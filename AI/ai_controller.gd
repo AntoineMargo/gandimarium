@@ -2,7 +2,12 @@ extends Node
 class_name AIController
 
 var wm = null
-var creature: Creature = null
+var creature: Creature:
+	get:
+		var parent = get_parent()
+		if parent and "creature" in parent:
+			return parent.creature
+		return null
 
 var current_state = null
 
@@ -29,7 +34,6 @@ func switch_state(new_state):
 
 func _ready() -> void:
 	wm = Global.world_manager
-	creature = $".."
 	overmapai = $OvermapAI
 	localai = $LocalAI
 	crisisai = $CrisisAI

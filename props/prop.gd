@@ -27,6 +27,7 @@ var sm = null
 var parent_layer = null
 
 var initialized: bool = false
+var linked_condition: Condition = null
 
 
 func get_coords() -> Vector3i:
@@ -115,6 +116,9 @@ func get_resistance(type: Enums.Resistance) -> int:
 	return 0
 
 func destroy_self():
+	if linked_condition:
+		linked_condition.linked_props.erase(self)
+	
 	var layer_coords = Vector2i(pos.x, pos.y)
 	wm.layers[pos.z]["cover"][layer_coords] = 0
 	if blocks_movement:

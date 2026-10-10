@@ -64,7 +64,7 @@ func launch_with_payload(ctx: ActivityContext):
 	payload = ctx.delayed_calls
 	if ctx.already_hit != null:
 		activity_already_hit = ctx.already_hit
-	if target is Entity:
+	if target is Object and target.has_method("get_coords"):
 		launch(ctx.user.get_coords(), ctx.target.get_coords(), ctx)
 	elif target is Barrier:
 		launch(ctx.user.get_coords(), ctx.target.parent_creature.get_coords(), ctx)

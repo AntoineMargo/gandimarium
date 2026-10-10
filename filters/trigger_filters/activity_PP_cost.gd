@@ -15,7 +15,7 @@ enum Sign {
 @export var value: int = 1
 
 
-func is_satisfied(ctx: Context, _source: Entity = null) -> bool:
+func is_satisfied(ctx: Context, _source = null) -> bool:
 	if ctx is not ActivityContext:
 		return false
 	

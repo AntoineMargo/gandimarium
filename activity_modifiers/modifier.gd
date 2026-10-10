@@ -8,7 +8,7 @@ class_name Modifier
 @export var tags: Array[Enums.ActivityTag] = []
 @export var filters: Array[Filter] = []
 
-var owner: Entity = null
+var owner = null
 
 func applies(ctx: Context) -> bool:
 	if ctx is ActivityContext:

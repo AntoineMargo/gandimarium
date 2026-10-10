@@ -2,7 +2,12 @@ extends Node
 class_name LocalAI
 
 var wm = null
-var creature: Creature = null
+var creature: Creature:
+	get:
+		var node = get_node_or_null("../..")
+		if node and "creature" in node:
+			return node.creature
+		return null
 
 var routine: LocalRoutine = null
 var current_entry: RoutineEntry
@@ -81,7 +86,6 @@ func setup() -> void:
 
 
 func _ready() -> void:
-	creature = $"../.."
 	wm = Global.world_manager
 	call_deferred("setup")
 	#SignalBus.time_changed.connect(perform_routine)

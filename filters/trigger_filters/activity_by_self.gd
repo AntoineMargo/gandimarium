@@ -1,7 +1,7 @@
 extends TriggerFilter
 class_name ActivityBySelfFilter
 
-func is_satisfied(ctx: Context, source: Entity = null) -> bool:
+func is_satisfied(ctx: Context, source = null) -> bool:
 	if ctx is not ActivityContext:
 		return false
 	

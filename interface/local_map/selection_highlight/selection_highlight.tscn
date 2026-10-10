@@ -3,4 +3,5 @@
 [ext_resource type="Script" uid="uid://cg8wb6cwhtslx" path="res://interface/local_map/selection_highlight/selection_highlight.gd" id="1_nxjjv"]
 
 [node name="Node2D" type="Node2D" unique_id=1968897151]
+visible = false
 script = ExtResource("1_nxjjv")

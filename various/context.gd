@@ -2,7 +2,7 @@ extends RefCounted
 class_name Context
 
 var id: String = ""
-var user: Entity = null
+var user = null
 var origin = null
 
 var target = null
@@ -10,7 +10,7 @@ var target = null
 var degree: int = 0
 
 var condition: Condition = null
-var condition_recipient: Entity = null
+var condition_recipient = null
 
 var created_items: Array[Item] = []
 var created_props: Array[Prop] = []

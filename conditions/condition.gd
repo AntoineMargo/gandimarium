@@ -66,10 +66,11 @@ func apply_vfx() -> void:
 		var vfx = vfx_scene.instantiate()
 		#vfx.modulate = Color(0.5, 0.5, 0.5, 0.5)
 
-		target.vfx_container.add_child(vfx)
-		vfx_instances.append(vfx)
-		if vfx.has_method("setup"):
-			vfx.setup(target)
+		if target and target.vfx_container:
+			target.vfx_container.add_child(vfx)
+			vfx_instances.append(vfx)
+			if vfx.has_method("setup"):
+				vfx.setup(target)
 
 
 func clear_vfx() -> void:
@@ -155,7 +156,7 @@ func apply_effects(ctx: Context = null) -> void:
 func handle_time(_days, _hours, _minutes, _seconds) -> void:
 	if apply_effects_at_intervals and not Global.crisis_manager.crisis_mode:
 		apply_effects()
-		if target is Entity and target == Global.selected_char:
+		if target == Global.selected_char:
 			SignalBus.update_ui_for_char.emit()
 	
 	if frozen:
@@ -192,7 +193,7 @@ func unfreeze():
 	frozen = false
 
 
-func make_semi_unique_id(base_id: String, entity: Entity) -> String:
+func make_semi_unique_id(base_id: String, entity) -> String:
 	var i: int = 1
 	var candidate: String = base_id
 

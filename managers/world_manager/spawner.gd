@@ -29,11 +29,12 @@ func spawn_character(data_file: String, coords: Vector3i, routine: String = "", 
 	char_data = char_data.duplicate(true)
 
 	var char_scene = load("res://entities/creature.tscn")
-	var character = char_scene.instantiate()
+	var character_node: CreatureNode = char_scene.instantiate()
 	
 	add_default_activities(char_data)
 	
-	character.data = char_data
+	var character: Creature = Creature.new(char_data)
+	character.attach_node(character_node)
 
 	var layer_coords = Vector2i(coords.x, coords.y)
 	character.data.tile_x = coords.x
@@ -41,9 +42,9 @@ func spawn_character(data_file: String, coords: Vector3i, routine: String = "", 
 	character.data.tile_z = coords.z
 	character.data.map_id = Global.world_manager.get_current_map_id()
 
-	character.position = wm.layers[coords.z]["tile_map"].map_to_local(layer_coords)
+	character_node.position = wm.layers[coords.z]["tile_map"].map_to_local(layer_coords)
 
-	Global.game_session.add_child(character)
+	Global.game_session.add_child(character_node)
 
 	wm.layers[wm.current_layer]["occupied"][layer_coords] = true
 	wm.add_to_tile(character, coords)
@@ -66,7 +67,8 @@ func spawn_character(data_file: String, coords: Vector3i, routine: String = "", 
 	if routine:
 		var char_routine: LocalRoutine = load(routine)
 		#char_routine = char_routine.duplicate(true) # Not needed for now
-		character.ai_controller.localai.routine = char_routine
+		if character.ai_controller and character.ai_controller.localai:
+			character.ai_controller.localai.routine = char_routine
 
 
 

@@ -3,7 +3,7 @@ class_name ActivityHasTagsFilter
 
 @export var tags: Array[Enums.ActivityTag]
 
-func is_satisfied(ctx: Context, _source: Entity = null) -> bool:
+func is_satisfied(ctx: Context, _source = null) -> bool:
 	if ctx is not ActivityContext:
 		return false
 	

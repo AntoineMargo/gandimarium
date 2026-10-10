@@ -3,7 +3,7 @@ class_name AvailableSpell
 
 @onready var check_button: CheckButton = $HBoxContainer/CheckButton
 
-@export var character: Creature
+var character: Creature
 @export var spell: SpellContainer
 
 func _on_toggled(pressed: bool) -> void:

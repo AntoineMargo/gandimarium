@@ -21,5 +21,5 @@ var door_manager: Node = null
 var reaction_manager: Node = null
 var map_manager: Node = null
 
-var selected_char: Node = null
-var focus_char: Node = null
+var selected_char: Creature = null
+var focus_char: Creature = null
