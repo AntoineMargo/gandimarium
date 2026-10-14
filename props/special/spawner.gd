@@ -4,8 +4,10 @@ class_name SpawnerProp
 @export var creature_data: String = "res://resources/creatures/data_bandit.tres"
 @export var routine: String = "res://resources/routines/bandit_routine.tres"
 
+
 func spawn_creature():
 	Global.world_manager.spawner.spawn_character(creature_data, pos, routine, false)
+
 
 func initialize() -> void:
 	if initialized:
@@ -20,21 +22,14 @@ func initialize() -> void:
 	destroy_self()
 	initialized = true
 
+
 func _on_ready():
-	sm = Global.state_manager
-	wm = Global.world_manager
-	parent_layer = get_parent().get_parent()
+	base_ready()
 	prop_name = "spawner"
 	id = "creature_spawner"
 	visible = false
 	blocks_movement = false
-	current_hp = max_hp
-	if is_runtime == false:
-		pos = wm.pixels_to_tile(global_position, parent_layer.id)
-		if wm.world_ready == true:
-			initialize()
-	SignalBus.world_ready.connect(initialize)
-	SignalBus.world_quit.connect(unregister)
+
 
 func _ready() -> void:
 	_on_ready()

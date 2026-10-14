@@ -30,7 +30,7 @@ func fire_projectile(batch_ctx: ActivityContext) -> void:
 func _visual_pounce(targets: Array, ctx: Context):
 	if targets.size() == 1:
 		for tag in tags:
-			if Enums.Tag.MELEE:
+			if Enums.ActivityTag.MELEE:
 				var origin_tile: Vector2 = Vector2(ctx.origin.x, ctx.origin.y)
 				var target_tile: Vector2 = Vector2(targets[0].x, targets[0].y)
 				var target_dir: Vector2 = (target_tile - origin_tile).normalized()

@@ -10,6 +10,8 @@ class_name Prop
 @export var cover: Enums.Cover
 @export var is_runtime: bool = false
 
+@export var map: Map
+@export var map_id: String
 @export var pos: Vector3i
 @export var current_hp: int = 0
 @export var is_active: bool = false
@@ -50,13 +52,20 @@ func initialize() -> void:
 	apply_mat_resistances()
 	register()
 	initialized = true
-	
+
 
 func register() -> void:
 	sm.add_prop_to_delta(self)
+	#var map: Map = get_parent().get_parent().get_parent()
+	#var map = Global.map_manager.get_map_by_id()
+	map.props_by_pos[pos] = self
+
 
 func unregister() -> void:
 	sm.remove_prop_from_delta(self)
+	#var map: Map = get_parent().get_parent().get_parent()
+	map.props_by_pos.erase(pos)
+
 
 func make_delta() -> PropDelta:
 	var prop_delta = PropDelta.new()
@@ -64,6 +73,7 @@ func make_delta() -> PropDelta:
 	prop_delta.pos = pos
 	prop_delta.hp = current_hp
 	return prop_delta
+
 
 func apply_mat_resistances():
 	match mat:
@@ -78,6 +88,7 @@ func apply_mat_resistances():
 			poison = 20
 			psychic = 100
 
+
 func take_damage(damage: int, resistance: Enums.Resistance):
 	var value = get_resistance(resistance)
 	var resistance_value: int = value if value is int else 0
@@ -87,6 +98,7 @@ func take_damage(damage: int, resistance: Enums.Resistance):
 	current_hp -= final_damage
 	health_status_change()
 
+
 func health_status_change():
 	if current_hp >= max_hp:
 		current_hp = max_hp
@@ -94,6 +106,7 @@ func health_status_change():
 		current_hp = 0
 	if current_hp == 0:
 		destroy_self()
+
 
 func get_resistance(type: Enums.Resistance) -> int:
 	match type:
@@ -115,10 +128,8 @@ func get_resistance(type: Enums.Resistance) -> int:
 			return psychic
 	return 0
 
+
 func destroy_self():
-	if linked_condition:
-		linked_condition.linked_props.erase(self)
-	
 	var layer_coords = Vector2i(pos.x, pos.y)
 	wm.layers[pos.z]["cover"][layer_coords] = 0
 	if blocks_movement:
@@ -133,16 +144,21 @@ func destroy_self():
 	else:
 		tilemap.erase_cell(layer_coords)
 
+
 func operate(_creature: Creature):
 	pass
+
 
 func print_info():
 	print("id: %s, pos: (%d, %d, %d)" % [id, pos.x, pos.y, pos.z])
 
-func _on_ready():
+
+func base_ready():
 	sm = Global.state_manager
 	wm = Global.world_manager
 	parent_layer = get_parent().get_parent()
+	map = parent_layer.get_parent()
+	map_id = map.id
 	current_hp = max_hp
 	if is_runtime == false:
 		pos = wm.pixels_to_tile(global_position, parent_layer.id)
@@ -150,6 +166,10 @@ func _on_ready():
 			initialize()
 	SignalBus.world_ready.connect(initialize)
 	SignalBus.world_quit.connect(unregister)
+
+
+func _on_ready():
+	base_ready()
 
 func _ready() -> void:
 	_on_ready()

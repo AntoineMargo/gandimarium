@@ -8,6 +8,7 @@ class_name Map
 
 var creatures: Array[Creature] = []
 var creatures_by_id: Dictionary[int, Creature] = {}
+var props_by_pos: Dictionary[Vector3i, Prop] = {}
 
 
 func register_creature(creature: Creature):

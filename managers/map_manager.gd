@@ -40,6 +40,14 @@ func get_map_of_creature(creature: Creature) -> Map:
 func get_map_data_from_index(index: int) -> MapData:
 	return maps[index]
 
+func get_map_by_id(map_id: String) -> Map:
+	var all_maps: Array[Map] = get_all_maps()
+	for map in all_maps:
+		if map.id == map_id:
+			return map
+	return null
+
+
 ## Takes the index (usually 0 1 2 or 3) and returns the corresponding map.
 func get_map_from_index(index: int) -> Map:
 	return maps[index].root

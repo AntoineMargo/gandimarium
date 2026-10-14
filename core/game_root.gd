@@ -31,4 +31,3 @@ func start_session() -> void:
 func _ready() -> void:
 	call_deferred("show_main_menu")
 	Global.game_root = self
-	print("game_root: hello")

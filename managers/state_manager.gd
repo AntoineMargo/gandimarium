@@ -6,6 +6,7 @@ var wm = null
 var game_state = null
 var current_map_id = ""
 
+
 func next_uid(type: Enums.UIDType) -> int:
 	if type == Enums.UIDType.CREATURE:
 		return game_state.uid_state.get_creature_next()
@@ -18,17 +19,25 @@ func next_uid(type: Enums.UIDType) -> int:
 	push_error("Error: ID could not be successfully produced.")
 	return -1
 
+
 func get_map_state(map_id: String) -> MapState:
 	if not game_state.map_states.has(map_id):
 		game_state.map_states[map_id] = MapState.new()
 	return game_state.map_states[map_id]
 
+
 func get_map_delta(map_id: String) -> MapDelta:
 	var map_state = get_map_state(map_id)
 	return map_state.map_delta
 
+
+func get_propdelta_from_propref(prop_ref: PropRef) -> PropDelta:
+	var map_delta: MapDelta = get_map_delta(prop_ref.map_id)
+	return map_delta.added_props.get(prop_ref.pos)
+
+
 func add_prop_to_delta(prop: Prop) -> void:
-	var map_delta = get_map_delta(current_map_id)
+	var map_delta = get_map_delta(prop.map_id)
 	var prop_delta = prop.make_delta()
 	var key = prop.pos
 
@@ -39,6 +48,8 @@ func add_prop_to_delta(prop: Prop) -> void:
 		return
 	else:
 		map_delta.added_props[key] = prop_delta
+		print("Prop added to delta (in game state).")
+
 
 func remove_prop_from_delta(prop: Prop) -> void:
 	var map_delta = get_map_delta(current_map_id)
@@ -54,6 +65,7 @@ func remove_prop_from_delta(prop: Prop) -> void:
 
 	map_delta.removed_props[key] = true
 
+
 func on_prop_modified(prop: Prop) -> void:
 	var map_delta = get_map_delta(current_map_id)
 	var key = prop.pos
@@ -62,6 +74,7 @@ func on_prop_modified(prop: Prop) -> void:
 		map_delta.added_props[key] = prop.make_delta()
 	else:
 		map_delta.modified_props[key] = prop.make_delta()
+
 
 func save_game_state():
 	
@@ -78,6 +91,7 @@ func save_game_state():
 		push_error("Failed to save game state: %s" % err)
 	else:
 		print("GAME STATE SAVED!")
+
 
 func load_game_state() -> bool:
 	var path = "res://saved/game_state/game_state.tres"
@@ -100,6 +114,7 @@ func load_game_state() -> bool:
 	print("GAME STATE LOADED!")
 	return true
 
+
 const DIRS = [
 	Vector3i(-1,0,0),
 	Vector3i(1,0,0),
@@ -116,11 +131,13 @@ const DIRS_3D = [
 	Vector3i(0,0,1)
 ]
 
+
 func get_layer_by_id(id: int) -> TileMapLayer:
 	for layer in wm.current_map.get_children():
 		if layer.id == id:
 			return layer
 	return null
+
 
 func build_buildings(map_id: String) -> void:
 	var map_state: MapState = get_map_state(map_id)
@@ -131,6 +148,7 @@ func build_buildings(map_id: String) -> void:
 			continue
 
 		_create_building_from_room(map_state, room_uid)
+
 
 func _create_building_from_room(map_state: MapState, original_room_uid: int) -> void:
 	var building_uid = next_uid(Enums.UIDType.BUILDING)
@@ -164,6 +182,7 @@ func _create_building_from_room(map_state: MapState, original_room_uid: int) -> 
 
 	map_state.buildings[building_uid] = building
 	add_all_rooms_to_building(map_state, building)
+
 
 func add_all_rooms_to_building(map_state: MapState, building: Building):
 
@@ -199,6 +218,7 @@ func add_all_rooms_to_building(map_state: MapState, building: Building):
 		map_state.rooms[perimeter_uid] = perimeter
 		building.rooms.append(perimeter_uid)
 
+
 func build_rooms(map_id: String, start_layer_id: int) -> void:
 	var map_state: MapState = get_map_state(map_id)
 	var current_layer_id: int = start_layer_id
@@ -218,6 +238,7 @@ func build_rooms(map_id: String, start_layer_id: int) -> void:
 			current_layer = get_layer_by_id(current_layer_id)
 			if not current_layer or not _add_rooms_to_state_in_layer(map_state, current_layer):
 				break
+
 
 func _add_rooms_to_state_in_layer(map_state: MapState, layer: TileMapLayer) -> bool:
 	var layer_has_rooms: bool = false
@@ -239,6 +260,7 @@ func _add_rooms_to_state_in_layer(map_state: MapState, layer: TileMapLayer) -> b
 					layer_has_rooms = true
 
 	return layer_has_rooms
+
 
 func _add_room_to_state(map_state: MapState, layer: TileMapLayer, start_tile: Vector3i) -> void:
 	var room_tiles: Array[Vector3i] = _flood_room(layer, start_tile)
@@ -275,6 +297,7 @@ func _add_room_to_state(map_state: MapState, layer: TileMapLayer, start_tile: Ve
 			if not map_state.tile_to_rooms.has(tile):
 				map_state.tile_to_rooms[tile] = []
 			map_state.tile_to_rooms[tile].append(room_uid)
+
 
 func _flood_room(chosen_layer, start_tile: Vector3i) -> Array[Vector3i]:
 	var start_data = chosen_layer.get_cell_tile_data(Vector2i(start_tile.x, start_tile.y))
@@ -317,6 +340,7 @@ func _flood_room(chosen_layer, start_tile: Vector3i) -> Array[Vector3i]:
 
 	return result
 
+
 func _setup_map_state():
 	if Global.world_manager.current_map:
 		current_map_id = Global.world_manager.current_map.id
@@ -326,6 +350,7 @@ func _setup_map_state():
 		build_rooms(current_map_id, default_layer)
 		build_buildings(current_map_id)
 		print("Rooms and buildings added to state!")
+
 
 func _ready():
 	wm = Global.world_manager
