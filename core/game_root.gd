@@ -18,11 +18,19 @@ func show_main_menu() -> void:
 
 func start_session() -> void:
 	if main_menu:
-		main_menu.queue_free()
+		var old_menu = main_menu
 		main_menu = null
+		old_menu.queue_free()
+		if old_menu.is_inside_tree():
+			await old_menu.tree_exited
+
 	if game_session:
-		game_session.queue_free()
+		var old_session = game_session
 		game_session = null
+		old_session.queue_free()
+		if old_session.is_inside_tree():
+			await old_session.tree_exited
+
 	var scene = load_scene("res://core/game_session.tscn")
 	game_session = scene
 	add_child(scene)

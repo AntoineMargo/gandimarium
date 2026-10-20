@@ -7,19 +7,18 @@ class_name Map
 @onready var map_delta = Global.state_manager.get_map_delta(id)
 
 var creatures: Array[Creature] = []
-var creatures_by_id: Dictionary[int, Creature] = {}
+#var creatures_by_uid: Dictionary[int, Creature] = {}
 var props_by_pos: Dictionary[Vector3i, Prop] = {}
-
 
 func register_creature(creature: Creature):
 	creatures.append(creature)
-	creatures_by_id[creature.data.uid] = creature
+	#creatures_by_uid[creature.data.uid] = creature
 	print("creature registered: ", creature.data.name)
 
 
 func unregister_creature(creature: Creature):
 	creatures.erase(creature)
-	creatures_by_id.erase(creature.data.uid)
+	#creatures_by_uid.erase(creature.data.uid)
 
 func clear_data() -> void:
 	if not creatures.is_empty():

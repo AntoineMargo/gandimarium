@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0pwp7k2rnr3n"
-path="res://.godot/imported/etherealsoldier.png-aac2c8fef8f30472d9dd9b90f6371250.ctex"
+uid="uid://cqbh4kb5wjw5r"
+path="res://.godot/imported/swordwraith1.png-24056b5d5a4da1ee0a6d102e5459d638.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/characters/etherealsoldier.png"
-dest_files=["res://.godot/imported/etherealsoldier.png-aac2c8fef8f30472d9dd9b90f6371250.ctex"]
+source_file="res://art/characters/downloaded2/swordwraith1.png"
+dest_files=["res://.godot/imported/swordwraith1.png-24056b5d5a4da1ee0a6d102e5459d638.ctex"]
 
 [params]
 

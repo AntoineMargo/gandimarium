@@ -32,6 +32,7 @@ signal ended
 # === Runtime ===
 
 var vfx_instances: Array[Node] = []
+
 var linked_items: Array[Item] = []
 var linked_props: Array[PropRef] = []
 var linked_creatures: Array[Creature] = []

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://klmw6q5csfug"
-path="res://.godot/imported/_token-editor_token-uploads_humanoid_elveninfantry1_2024-06-30T13_09_29.873Z.png-5703bbfdb80255d3349c56ecf7bf080a.ctex"
+uid="uid://1dsuv832a8g8"
+path="res://.godot/imported/waterelemental.png-cddfd8d5e650a69c35605de3e377fbb3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/characters/_token-editor_token-uploads_humanoid_elveninfantry1_2024-06-30T13_09_29.873Z.png"
-dest_files=["res://.godot/imported/_token-editor_token-uploads_humanoid_elveninfantry1_2024-06-30T13_09_29.873Z.png-5703bbfdb80255d3349c56ecf7bf080a.ctex"]
+source_file="res://art/characters/downloaded2/waterelemental.png"
+dest_files=["res://.godot/imported/waterelemental.png-cddfd8d5e650a69c35605de3e377fbb3.ctex"]
 
 [params]
 

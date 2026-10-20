@@ -3,7 +3,7 @@ class_name StateManager
 
 var wm = null
 
-var game_state = null
+var game_state: GameState = null
 var current_map_id = ""
 
 
@@ -20,7 +20,32 @@ func next_uid(type: Enums.UIDType) -> int:
 	return -1
 
 
+func register_creature(creature: Creature) -> void:
+	if not game_state:
+		return
+	var uid: int = creature.get_uid()
+	var existing: Creature = game_state.creatures_by_uid.get(uid)
+	if existing:
+		return
+	game_state.creatures_by_uid[uid] = creature
+
+
+func register_map(map: Map) -> void:
+	var map_state: MapState = get_map_state(map.id)
+	map_state.creature_uids.clear()
+	for creature in map.creatures:
+		var uid: int = creature.get_uid()
+		map_state.creature_uids.append(uid)
+
+
+func get_game_state() -> GameState:
+	return game_state
+
+
 func get_map_state(map_id: String) -> MapState:
+	if not game_state:
+		push_error("No game state!")
+		return
 	if not game_state.map_states.has(map_id):
 		game_state.map_states[map_id] = MapState.new()
 	return game_state.map_states[map_id]
@@ -76,43 +101,133 @@ func on_prop_modified(prop: Prop) -> void:
 		map_delta.modified_props[key] = prop.make_delta()
 
 
-func save_game_state():
-	
-	var dir_path = "res://saved/game_state/"
-	var path = "%s/%s.tres" % [dir_path, "game_state"]
+const SAVE_DIR: String = "user://saved/game_state"
+const SAVE_PREFIX: String = "game_state_"
+const MAX_SAVES: int = 10
 
-	var dir = DirAccess.open("res://saved/")
-	if not dir.dir_exists("game_state"):
-		dir.make_dir("game_state")
 
-	var err = ResourceSaver.save(game_state, path)
+func save_game_state() -> void:
+	for map in Global.map_manager.get_all_maps():
+		register_map(map)
 
+	var err = DirAccess.make_dir_recursive_absolute(SAVE_DIR)
+	if err != OK:
+		push_error("Failed to create save directory: %s" % err)
+		return
+
+	var path = "%s/%s%d.tres" % [SAVE_DIR, SAVE_PREFIX, int(Time.get_unix_time_from_system())]
+	err = ResourceSaver.save(game_state, path)
 	if err != OK:
 		push_error("Failed to save game state: %s" % err)
-	else:
-		print("GAME STATE SAVED!")
+		return
+
+	print("GAME STATE SAVED: ", ProjectSettings.globalize_path(path))
+	_prune_old_saves()
+
+
+func _list_saves() -> Array[String]:
+	var saves: Array[String] = []
+	for file in DirAccess.get_files_at(SAVE_DIR):
+		if file.begins_with(SAVE_PREFIX) and file.ends_with(".tres"):
+			saves.append(file)
+	saves.sort()  # oldest first
+	return saves
+
+
+func _prune_old_saves() -> void:
+	var saves = _list_saves()
+	while saves.size() > MAX_SAVES:
+		DirAccess.remove_absolute(SAVE_DIR + "/" + saves.pop_front())
 
 
 func load_game_state() -> bool:
-	var path = "res://saved/game_state/game_state.tres"
-	
-	if not ResourceLoader.exists(path):
+	var saves := _list_saves()
+	if saves.is_empty():
 		print("No save file found.")
 		return false
-	
-	var loaded_resource = ResourceLoader.load(path)
-	
-	if loaded_resource == null:
-		push_error("Failed to load game state.")
+
+	var path = SAVE_DIR + "/" + saves.back()
+	var loaded = ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
+	if loaded is not GameState:
+		push_error("Failed to load a GameState from %s" % path)
 		return false
-	
-	if loaded_resource is not GameState:
-		push_error("Loaded resource is not a GameState.")
-		return false
-		
-	game_state = loaded_resource
-	print("GAME STATE LOADED!")
+
+	game_state = loaded
+	print("GAME STATE LOADED: ", path)
 	return true
+
+
+#func save_game_state() -> void:
+	#var maps: Array[Map] = Global.map_manager.get_all_maps()
+	#for map in maps:
+		#register_map(map)
+#
+	#var dir_path: String = "user://saved/game_state"
+	#var path: String = dir_path + "/game_state.tres"
+#
+	#var err: Error = DirAccess.make_dir_recursive_absolute(
+		#ProjectSettings.globalize_path(dir_path)
+	#)
+#
+	#if err != OK:
+		#push_error("Failed to create save directory: %s" % err)
+		#return
+#
+	#var error: Error = ResourceSaver.save(game_state, path)
+#
+	#if error != OK:
+		#push_error("Failed to save game state: %s" % error)
+	#else:
+		#print("GAME STATE SAVED!")
+
+
+#func save_game_state() -> void:
+	#var maps: Array[Map] = Global.map_manager.get_all_maps()
+	#for map in maps:
+		#register_map(map)
+#
+	#var dir_path: String = "user://saved/game_state"
+	#var path: String = dir_path + "/game_state.tres"
+	#var absolute_path: String = ProjectSettings.globalize_path(path)
+#
+	#var err: Error = DirAccess.make_dir_recursive_absolute(
+		#ProjectSettings.globalize_path(dir_path)
+	#)
+#
+	#if err != OK:
+		#push_error("Failed to create save directory: %s" % err)
+		#return
+#
+	#print("Save path: ", absolute_path)
+#
+	#var error: Error = ResourceSaver.save(game_state, path)
+#
+	#if error != OK:
+		#push_error("Failed to save game state: %s" % error)
+	#else:
+		#print("GAME STATE SAVED!")
+#
+#
+#func load_game_state() -> bool:
+	#var path = "user://saved/game_state/game_state.tres"
+	#
+	#if not ResourceLoader.exists(path):
+		#print("No save file found.")
+		#return false
+	#
+	#var loaded_resource = ResourceLoader.load(path)
+	#
+	#if loaded_resource == null:
+		#push_error("Failed to load game state.")
+		#return false
+	#
+	#if loaded_resource is not GameState:
+		#push_error("Loaded resource is not a GameState.")
+		#return false
+		#
+	#game_state = loaded_resource
+	#print("GAME STATE LOADED!")
+	#return true
 
 
 const DIRS = [

@@ -116,6 +116,7 @@ func create_map_data(map: Map) -> MapData:
 	offset_layers(map, new_map_data.base_z)
 
 	new_map_data.root = map
+	new_map_data.name = map.id
 
 	for child in map.get_children():
 		if child is TileMapLayer and child.get("id"):
@@ -135,17 +136,19 @@ func transfer_creature(creature: Creature, origin_map: Map, destination_map: Map
 func remove_map(map_id: int) -> void:
 	var current_map_id = Global.world_manager.current_map.id
 	
-	var map: MapData = maps.get(map_id)
-	if map == null:
+	var map_data: MapData = maps.get(map_id)
+	if map_data == null:
 		return
 
-	var removed_map_id = map.root.id
+	Global.state_manager.register_map(map_data.root)
+
+	var removed_map_id = map_data.root.id
 	if removed_map_id == current_map_id:
 		change_map()
 	
-	Global.world_manager.remove_map_data(map.layer_ids)
+	Global.world_manager.remove_map_data(map_data.layer_ids)
 
-	map.root.free()
+	map_data.root.free()
 
 	maps.erase(map_id)
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqbh4kb5wjw5r"
-path="res://.godot/imported/swordwraith1.png-121077b04bf9c52eaaffe2666c6d0777.ctex"
+uid="uid://i8c6pel2f1uo"
+path="res://.godot/imported/_token-editor_token-uploads_undead_swordwraith1_2024-06-30T13_35_05.839Z.png-11636bbdfca379b5588bffe8ad667e50.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/characters/swordwraith1.png"
-dest_files=["res://.godot/imported/swordwraith1.png-121077b04bf9c52eaaffe2666c6d0777.ctex"]
+source_file="res://art/characters/downloaded2/_token-editor_token-uploads_undead_swordwraith1_2024-06-30T13_35_05.839Z.png"
+dest_files=["res://.godot/imported/_token-editor_token-uploads_undead_swordwraith1_2024-06-30T13_35_05.839Z.png-11636bbdfca379b5588bffe8ad667e50.ctex"]
 
 [params]
 

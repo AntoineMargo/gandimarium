@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bj3njhvxguwji"
-path="res://.godot/imported/crusader.png-c41adfb5d0b06eec8d3329a82e610dae.ctex"
+uid="uid://klmw6q5csfug"
+path="res://.godot/imported/_token-editor_token-uploads_humanoid_elveninfantry1_2024-06-30T13_09_29.873Z.png-54114edf3ddbeff7d7010db34845e582.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/characters/crusader.png"
-dest_files=["res://.godot/imported/crusader.png-c41adfb5d0b06eec8d3329a82e610dae.ctex"]
+source_file="res://art/characters/downloaded2/_token-editor_token-uploads_humanoid_elveninfantry1_2024-06-30T13_09_29.873Z.png"
+dest_files=["res://.godot/imported/_token-editor_token-uploads_humanoid_elveninfantry1_2024-06-30T13_09_29.873Z.png-54114edf3ddbeff7d7010db34845e582.ctex"]
 
 [params]
 

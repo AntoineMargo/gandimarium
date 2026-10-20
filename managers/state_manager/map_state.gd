@@ -7,13 +7,11 @@ class_name MapState
 @export var rooms: Dictionary[int, Room] = {}
 @export var tile_to_rooms: Dictionary[Vector3i, Array] = {}
 
-@export var creatures_by_uid: Dictionary = {}   # uid -> CreatureData
+@export var creature_uids: Array[int] = []
 
-@export var creature_locations: Dictionary = {} # uid -> MapID or OvermapPosition
+@export var party_uids: Array[int] = []
 
-@export var parties_by_uid: Dictionary = {}     # uid -> PartyData
-
-@export var area_conditions: Dictionary = {}    # uid -> Condition
+@export var area_conditions: Dictionary = {} # uid -> Condition
 
 @export var data_dirty: bool = true
 

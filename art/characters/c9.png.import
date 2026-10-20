@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c46x5qu27sdfv"
-path="res://.godot/imported/etherealmage.png-3de8606d00f4ebbe99dae7b0620e8e6f.ctex"
+uid="uid://dhacbemy3htla"
+path="res://.godot/imported/c9.png-d7674d09cd8cd01168a1e83afd0f9806.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/characters/etherealmage.png"
-dest_files=["res://.godot/imported/etherealmage.png-3de8606d00f4ebbe99dae7b0620e8e6f.ctex"]
+source_file="res://art/characters/c9.png"
+dest_files=["res://.godot/imported/c9.png-d7674d09cd8cd01168a1e83afd0f9806.ctex"]
 
 [params]
 

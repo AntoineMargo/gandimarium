@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dpp2dpedfs6ih"
-path="res://.godot/imported/knight_char.png-31122a7bda52228c93a735790ca0259e.ctex"
+uid="uid://bj3njhvxguwji"
+path="res://.godot/imported/crusader.png-cf87fd7c82744652959dff52693334af.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/characters/knight_char.png"
-dest_files=["res://.godot/imported/knight_char.png-31122a7bda52228c93a735790ca0259e.ctex"]
+source_file="res://art/characters/downloaded2/crusader.png"
+dest_files=["res://.godot/imported/crusader.png-cf87fd7c82744652959dff52693334af.ctex"]
 
 [params]
 

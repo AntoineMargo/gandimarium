@@ -148,10 +148,34 @@ func BasicControls():
 	
 	#DEBUG
 	if Input.is_action_just_pressed("H"):
-		var character = Global.selected_char
-		if not character:
+		var path: String = "user://saved/game_state/game_state.tres"
+
+		var state: GameState = ResourceLoader.load(
+			path,
+			"GameState",
+			ResourceLoader.CACHE_MODE_IGNORE
+		)
+
+		if state == null:
+			print("Failed to load saved GameState.")
 			return
-		print_layers(wm.current_map)
+
+		print("Creatures on disk: ", state.creatures_by_uid.size())
+		#var path: String = "user://saved/game_state/game_state.tres"
+		#var absolute_path: String = ProjectSettings.globalize_path(path)
+#
+		#if not FileAccess.file_exists(path):
+			#print("Game state file does not exist.")
+			#return
+#
+		#var err: Error = DirAccess.remove_absolute(absolute_path)
+#
+		#if err != OK:
+			#push_error("Failed to delete game state. Error code: %s" % err)
+		#elif FileAccess.file_exists(path):
+			#push_error("Deletion reported success, but file still exists!")
+		#else:
+			#print("GAME STATE DELETED!")
 
 	if Input.is_action_just_pressed("L"):
 		var map_delta = wm.get_map_delta(wm.current_map.id)

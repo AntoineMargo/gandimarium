@@ -1,7 +1,7 @@
 extends Resource
 class_name Creature
 
-var data: CreatureData
+@export var data: CreatureData
 var node = null
 
 var stats_dirty: bool = true

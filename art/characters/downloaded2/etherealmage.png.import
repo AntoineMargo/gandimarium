@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drjo2kf4wl6ei"
-path="res://.godot/imported/_token-editor_token-uploads_humanoid_bountyhunter_2024-06-30T13_09_27.970Z.png-37a1e4dfd9315efd5d85847bd43ac3f8.ctex"
+uid="uid://c46x5qu27sdfv"
+path="res://.godot/imported/etherealmage.png-24195e1155ba97249aca0dd26d63dae0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/characters/_token-editor_token-uploads_humanoid_bountyhunter_2024-06-30T13_09_27.970Z.png"
-dest_files=["res://.godot/imported/_token-editor_token-uploads_humanoid_bountyhunter_2024-06-30T13_09_27.970Z.png-37a1e4dfd9315efd5d85847bd43ac3f8.ctex"]
+source_file="res://art/characters/downloaded2/etherealmage.png"
+dest_files=["res://.godot/imported/etherealmage.png-24195e1155ba97249aca0dd26d63dae0.ctex"]
 
 [params]
 

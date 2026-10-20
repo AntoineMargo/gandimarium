@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwwfmewonv2w5"
-path="res://.godot/imported/_token-editor_token-uploads_humanoid_knight3_2024-06-30T13_13_58.192Z.png-bc48e4470bb5ec26eb4c46e641598fb6.ctex"
+uid="uid://dopra376ajheh"
+path="res://.godot/imported/c2.png-c9e3180f2752589a030f0d1ea134cab4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/characters/_token-editor_token-uploads_humanoid_knight3_2024-06-30T13_13_58.192Z.png"
-dest_files=["res://.godot/imported/_token-editor_token-uploads_humanoid_knight3_2024-06-30T13_13_58.192Z.png-bc48e4470bb5ec26eb4c46e641598fb6.ctex"]
+source_file="res://art/characters/c2.png"
+dest_files=["res://.godot/imported/c2.png-c9e3180f2752589a030f0d1ea134cab4.ctex"]
 
 [params]
 

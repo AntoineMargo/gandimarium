@@ -52,6 +52,7 @@ func spawn_character(data_file: String, coords: Vector3i, routine: String = "", 
 
 	character.initialize_character()
 	wm.current_map.register_creature(character)
+	Global.state_manager.register_creature(character)
 	
 	var weapons = character.get_weapons()
 	for weapon in weapons:

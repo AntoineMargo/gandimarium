@@ -179,6 +179,7 @@ func setup() -> void:
 
 
 func load_test_map() -> void:
+	#map_manager.load_map("empty_region")
 	map_manager.load_map("region3")
 
 
@@ -201,6 +202,7 @@ func setup_global() -> void:
 
 
 func _ready() -> void:
+	print("Game session initializing...")
 	randomize()
 	
 	setup_global()
@@ -224,37 +226,3 @@ func _ready() -> void:
 	call_deferred("load_test_map")
 
 	camera.position = Vector2(0, 300)
-
-
-
-
-
-#func _ready():
-	#Global.game_root = self
-	#load_map("res://locations/test_location_2/region.scn")
-	##load_map("res://locations/test_location_3/region.scn")
-	#Global.camera = $Camera2D
-	#if not is_instance_valid(Global.world_manager.selection_highlight):
-		#Global.world_manager.selection_highlight = preload("res://interface/local_map/selection_highlight/selection_highlight.tscn").instantiate()
-	#self.add_child(Global.world_manager.selection_highlight)
-	#var time = Global.time_manager
-	#$CanvasModulate.update_light(time.days, time.hours, time.minutes, time.seconds)
-	#Global.world_info.change_time(time.days, time.hours, time.minutes, time.seconds)
-	#Global.world_info.visible = true
-
-#func load_map(path: String):
-	#Global.clear_data()
-	#var world_container = $WorldContainer
-#
-	#for child in world_container.get_children():
-		#child.free()
-#
-	#var new_map_scene = load(path)
-	#var new_map = new_map_scene.instantiate()
-	#world_container.add_child(new_map)
-	#
-	#$Camera2D.position = Vector2(0, 300)
-#
-	#Global.world_manager.current_map = new_map
-	#await get_tree().process_frame
-	#Global.world_manager.selection_highlight.update_selection_highlight()

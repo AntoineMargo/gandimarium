@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dftvgpd8x3on8"
-path="res://.godot/imported/ashenwarrior1.png-27d65cbe4510652579d432a177149791.ctex"
+uid="uid://blibi07wpghaa"
+path="res://.godot/imported/c7.png-55b80de5925f806af004d5d1697f7f2b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/characters/ashenwarrior1.png"
-dest_files=["res://.godot/imported/ashenwarrior1.png-27d65cbe4510652579d432a177149791.ctex"]
+source_file="res://art/characters/c7.png"
+dest_files=["res://.godot/imported/c7.png-55b80de5925f806af004d5d1697f7f2b.ctex"]
 
 [params]
 

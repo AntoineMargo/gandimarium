@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1dsuv832a8g8"
-path="res://.godot/imported/waterelemental.png-36a5e070aad617d09d880698b72f72c5.ctex"
+uid="uid://cmib0o2teingr"
+path="res://.godot/imported/c10.png-af653f17c7965d819856a28c8084f634.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/characters/waterelemental.png"
-dest_files=["res://.godot/imported/waterelemental.png-36a5e070aad617d09d880698b72f72c5.ctex"]
+source_file="res://art/characters/c10.png"
+dest_files=["res://.godot/imported/c10.png-af653f17c7965d819856a28c8084f634.ctex"]
 
 [params]
 

@@ -237,6 +237,14 @@ func setup_layers(map: Map):
 			for x in range(rect.position.x, rect.position.x + rect.size.x):
 				for y in range(rect.position.y, rect.position.y + rect.size.y):
 					var coords = Vector2i(x, y)
+					var source_id: int = layer.get_cell_source_id(coords)
+
+					if source_id != -1 and not layer.tile_set.has_source(source_id):
+						print("Invalid tile reference: layer=", layer.name,
+							" coords=", coords,
+							" source_id=", source_id)
+						continue
+
 					var tile_data = layer.get_cell_tile_data(coords)
 					if tile_data:
 						var tile_cover = tile_data.get_custom_data("cover")
@@ -249,32 +257,44 @@ func setup_layers(map: Map):
 		current_layer = 500
 		current_tile_map_layer = layers[current_layer]["tile_map"]
 
-
-func setup_ramps(layer_ids: Array[int]):
+func setup_ramps(layer_ids: Array[int]) -> void:
 	for z in layer_ids:
-		var layer = layers[z]["tile_map"]
-		var width = layer.get_used_rect().size.x
-		var height = layer.get_used_rect().size.y
+		var layer: TileMapLayer = layers[z]["tile_map"]
+		var used_rect: Rect2i = layer.get_used_rect()
 		layer_links[z] = {}
 
-		for x in range(width):
-			for y in range(height):
-				var pos = Vector2i(x, y)
-				var tile_data = layer.get_cell_tile_data(pos)
-				if tile_data:
-					if tile_data.get_custom_data("ramp_up"):
-						var up_z = z + 1
-						if layers.has(up_z):
-							if not layer_links[z].has(pos):
-								layer_links[z][pos] = []
-							layer_links[z][pos].append([up_z, pos])
-					if tile_data.get_custom_data("ramp_down"):
-						var down_z = z - 1
-						if layers.has(down_z):
-							if not layer_links[z].has(pos):
-								layer_links[z][pos] = []
-							layer_links[z][pos].append([down_z, pos])
+		for x in range(used_rect.position.x, used_rect.end.x):
+			for y in range(used_rect.position.y, used_rect.end.y):
+				var pos := Vector2i(x, y)
+				var source_id: int = layer.get_cell_source_id(pos)
 
+				if source_id == -1:
+					continue
+
+				if not layer.tile_set.has_source(source_id):
+					print("Invalid tile source in ramp setup: layer=", layer.name,
+						" z=", z,
+						" pos=", pos,
+						" source_id=", source_id)
+					continue
+
+				var tile_data = layer.get_cell_tile_data(pos)
+				if tile_data == null:
+					continue
+
+				if tile_data.get_custom_data("ramp_up"):
+					var up_z: int = z + 1
+					if layers.has(up_z):
+						if not layer_links[z].has(pos):
+							layer_links[z][pos] = []
+						layer_links[z][pos].append([up_z, pos])
+
+				if tile_data.get_custom_data("ramp_down"):
+					var down_z: int = z - 1
+					if layers.has(down_z):
+						if not layer_links[z].has(pos):
+							layer_links[z][pos] = []
+						layer_links[z][pos].append([down_z, pos])
 func setup_ai_zones():
 	for layer in current_map.get_children():
 		if layer is TileMapLayer:
