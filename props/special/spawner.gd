@@ -18,7 +18,8 @@ func initialize() -> void:
 		wm.layers[pos.z]["path_map"].set_point_solid(layer_coords, true)
 		wm.layers[pos.z]["occupied"][layer_coords] = true
 	register()
-	spawn_creature()
+	if not Global.state_manager.get_map_state(map_id).initialized:
+		spawn_creature()
 	destroy_self()
 	initialized = true
 

@@ -1227,7 +1227,7 @@ func initialize_character() -> void:
 			data.max_spells_ready = 99999
 
 		data.has_been_initialized = true
-		print("character file ready.")
+		#print("character file ready.")
 		build_stats()
 
 

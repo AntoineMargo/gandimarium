@@ -45,6 +45,13 @@ func BasicControls():
 	if Input.is_action_just_pressed("G"):
 		Global.state_manager.save_game_state()
 
+	if Input.is_action_just_pressed("F5"):
+		if Global.state_manager.save_game_state():
+			SignalBus.message.emit("Game saved.")
+
+	if Input.is_action_just_pressed("F9"):
+		Global.game_root.start_session()
+
 	if Input.is_action_just_pressed("R"):
 		var coords = wm.get_tile_coords()
 		if wm.layers[wm.current_layer]["contents"].has(coords.vec2):

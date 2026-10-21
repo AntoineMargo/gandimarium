@@ -4,7 +4,7 @@ class_name StateManager
 var wm = null
 
 var game_state: GameState = null
-var current_map_id = ""
+#var current_map_id = ""
 
 
 func next_uid(type: Enums.UIDType) -> int:
@@ -14,6 +14,8 @@ func next_uid(type: Enums.UIDType) -> int:
 		return game_state.uid_state.get_room_next()
 	elif type == Enums.UIDType.BUILDING:
 		return game_state.uid_state.get_building_next()
+	elif type == Enums.UIDType.PARTY:
+		return game_state.uid_state.get_party_next()
 	elif type == Enums.UIDType.CONDITION:
 		return game_state.uid_state.get_condition_next()
 	push_error("Error: ID could not be successfully produced.")
@@ -24,10 +26,28 @@ func register_creature(creature: Creature) -> void:
 	if not game_state:
 		return
 	var uid: int = creature.get_uid()
-	var existing: Creature = game_state.creatures_by_uid.get(uid)
+	var existing: Creature = game_state.get_creature(uid)
 	if existing:
 		return
 	game_state.creatures_by_uid[uid] = creature
+
+
+func register_party(party: Party) -> void:
+	if not game_state:
+		return
+	var uid: int = party.get_uid()
+	var existing: Party = game_state.get_party(uid)
+	if existing:
+		return
+	game_state.parties_by_uid[uid] = party
+
+
+func get_creature_by_uid(uid: int) -> Creature:
+	return game_state.get_creature(uid)
+
+
+func get_party_by_uid(uid: int) -> Party:
+	return game_state.get_party(uid)
 
 
 func register_map(map: Map) -> void:
@@ -73,11 +93,11 @@ func add_prop_to_delta(prop: Prop) -> void:
 		return
 	else:
 		map_delta.added_props[key] = prop_delta
-		print("Prop added to delta (in game state).")
+		#print("Prop added to delta.")
 
 
 func remove_prop_from_delta(prop: Prop) -> void:
-	var map_delta = get_map_delta(current_map_id)
+	var map_delta = get_map_delta(prop.map.id)
 	var key = prop.pos
 
 	if map_delta.added_props.has(key):
@@ -92,7 +112,7 @@ func remove_prop_from_delta(prop: Prop) -> void:
 
 
 func on_prop_modified(prop: Prop) -> void:
-	var map_delta = get_map_delta(current_map_id)
+	var map_delta = get_map_delta(prop.map.id)
 	var key = prop.pos
 
 	if map_delta.added_props.has(key):
@@ -101,28 +121,30 @@ func on_prop_modified(prop: Prop) -> void:
 		map_delta.modified_props[key] = prop.make_delta()
 
 
-const SAVE_DIR: String = "user://saved/game_state"
+#const SAVE_DIR: String = "user://saved/game_state"
+const SAVE_DIR: String = "res://saved/game_state"
 const SAVE_PREFIX: String = "game_state_"
 const MAX_SAVES: int = 10
 
 
-func save_game_state() -> void:
+func save_game_state() -> bool:
 	for map in Global.map_manager.get_all_maps():
 		register_map(map)
 
 	var err = DirAccess.make_dir_recursive_absolute(SAVE_DIR)
 	if err != OK:
 		push_error("Failed to create save directory: %s" % err)
-		return
+		return false
 
 	var path = "%s/%s%d.tres" % [SAVE_DIR, SAVE_PREFIX, int(Time.get_unix_time_from_system())]
 	err = ResourceSaver.save(game_state, path)
 	if err != OK:
 		push_error("Failed to save game state: %s" % err)
-		return
+		return false
 
 	print("GAME STATE SAVED: ", ProjectSettings.globalize_path(path))
 	_prune_old_saves()
+	return true
 
 
 func _list_saves() -> Array[String]:
@@ -141,7 +163,7 @@ func _prune_old_saves() -> void:
 
 
 func load_game_state() -> bool:
-	var saves := _list_saves()
+	var saves = _list_saves()
 	if saves.is_empty():
 		print("No save file found.")
 		return false
@@ -456,21 +478,21 @@ func _flood_room(chosen_layer, start_tile: Vector3i) -> Array[Vector3i]:
 	return result
 
 
-func _setup_map_state():
-	if Global.world_manager.current_map:
-		current_map_id = Global.world_manager.current_map.id
-	var map_state = get_map_state(current_map_id)
+func setup_map_state(map: Map):
+	var map_id: String = map.id
+	var map_state: MapState = get_map_state(map_id)
 	if map_state.data_dirty:
 		var default_layer: int = 500
-		build_rooms(current_map_id, default_layer)
-		build_buildings(current_map_id)
-		print("Rooms and buildings added to state!")
+		build_rooms(map_id, default_layer)
+		build_buildings(map_id)
+		print("Rooms and buildings added to state.")
+		map_state.data_dirty = false
 
 
 func _ready():
 	wm = Global.world_manager
 	if not load_game_state():
-		push_warning("USING NEW GAME STATE!")
+		print("USING NEW GAME STATE!")
 		game_state = GameState.new()
 		if not game_state.uid_state:
 			game_state.uid_state = UIDState.new()

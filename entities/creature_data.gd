@@ -67,6 +67,8 @@ class_name CreatureData
 @export var tile_y: int = 0
 @export var tile_z: int = 0
 
+## Creature is not deleted from game_state when it dies.
+@export var permanent: bool = true
 @export var has_been_initialized: bool = false
 @export var player_controlled: bool = false
 @export var crisis_ai_active: bool = false

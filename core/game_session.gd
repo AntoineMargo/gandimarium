@@ -40,7 +40,8 @@ var pause_menu_active: bool = false
 
 var simulation_lock: bool = false
 var player_lock: bool = false
-var active_party: PartyData
+var active_party: Party = null
+var player_party: Party = null
 
 var activity_handler: Activity = null
 var last_hovered_tile: Vector3i
@@ -124,7 +125,7 @@ func unpause_game():
 
 
 func create_player_party():
-	var new_party = PartyData.new()
+	var new_party = Party.new()
 	for creature in world_manager.current_map.creatures:
 		if creature.data.player_controlled:
 			new_party.members_by_uid.append(creature.data.uid)

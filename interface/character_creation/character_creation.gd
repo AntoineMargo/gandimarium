@@ -1,4 +1,5 @@
 extends Control
+class_name CharacterCreation
 
 var data: CreatureData = null
 
@@ -68,6 +69,7 @@ func _ready() -> void:
 	data = CreatureData.new()
 	#data = data.duplicate(true)
 
+	data.uid = 1
 	data.level = 12
 	
 	data.relationships = Relationships.new()

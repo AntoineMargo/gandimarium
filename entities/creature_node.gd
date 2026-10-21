@@ -143,7 +143,7 @@ func set_coords(new_coords: Vector3i) -> void:
 
 
 func _ready() -> void:
-	print("CreatureNode getting ready!")
+	#print("CreatureNode getting ready!")
 	if not health_bar_scene:
 		print("Health bar scene not set!")
 	else:

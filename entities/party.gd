@@ -1,16 +1,24 @@
 extends Resource
-class_name PartyData
+class_name Party
 
-@export var uid: int
+@export var uid: int = 0
 @export var members_by_uid: Array[int] = []
 @export var player_controlled: bool = false
 
 var members_runtime: Array = []
 
-func resolve_members(registry):
+
+func setup():
+	if uid == 0:
+		Global.state_manager.next_uid(Enums.UIDType.PARTY)
+
+func get_uid():
+	return uid
+
+
+func resolve_members():
 	members_runtime.clear()
-	@warning_ignore("shadowed_variable")
-	for uid in members_by_uid:
-		var c = registry.get(uid)
-		if c:
-			members_runtime.append(c)
+	for member_uid in members_by_uid:
+		var creature = Global.state_manager.get_creature_by_uid(member_uid)
+		if creature:
+			members_runtime.append(creature)

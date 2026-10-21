@@ -1,22 +1,34 @@
 extends Resource
 class_name UIDState
 
-@export var creature_uid: int = 0
+## uid 1 is assumed to belong to the player character.
+@export var creature_uid: int = 1
+## uid 1 is assumed to belong to the player party.
+@export var party_uid: int = 1
 @export var room_uid: int = 0
 @export var building_uid: int = 0
 #@export var condition_uid: int = 0
+
 
 func get_creature_next() -> int:
 	creature_uid += 1
 	return creature_uid
 
+
 func get_room_next() -> int:
 	room_uid += 1
 	return room_uid
 
+
 func get_building_next() -> int:
 	building_uid += 1
 	return building_uid
+
+
+func get_party_next() -> int:
+	party_uid += 1
+	return party_uid
+
 
 #func get_condition_next() -> int:
 	#condition_uid += 1

@@ -61,6 +61,10 @@ func get_current_map() -> Map:
 	return maps[current_map_index].root
 
 
+func get_current_map_data() -> MapData:
+	return maps[current_map_index]
+
+
 func get_next_map() -> Map:
 	var map_keys: Array[int] = maps.keys()
 
@@ -78,12 +82,15 @@ func get_next_map() -> Map:
 
 
 func load_map(map_id: String) -> MapData:
-	var new_map = Library.get_map(map_id)
+	var new_map: Map = Library.get_map(map_id)
 	Global.game_session.world_container.add_child(new_map)
 	var map_data: MapData = setup_map(new_map)
+	
 	if not Global.world_manager.current_map:
 		Global.world_manager.current_map = new_map
 		Global.world_manager.layer_track = get_current_map_layer_ids()
+	
+	Global.state_manager.setup_map_state(new_map)
 	return map_data
 
 

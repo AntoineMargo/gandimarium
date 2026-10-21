@@ -13,7 +13,7 @@ var current_map: Map = null
 var map_width: int
 var map_height: int
 
-var map_state = null
+#var map_state = null
 var world_ready: bool = false
 
 var spawner: Spawner
@@ -1400,7 +1400,7 @@ func time_effects_on_creatures(n):
 			creature.ai_controller.localai.change_routine()
 
 func _ready() -> void:
-	map_state = MapState.new()
+	#map_state = MapState.new()
 	spawner = Spawner.new()
 	spawner.wm = self
 	SignalBus.simple_interact.connect(_simple_interact_disambiguation)

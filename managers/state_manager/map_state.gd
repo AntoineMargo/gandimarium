@@ -13,7 +13,9 @@ class_name MapState
 
 @export var area_conditions: Dictionary = {} # uid -> Condition
 
+@export var initialized: bool = false
 @export var data_dirty: bool = true
+
 
 func assign_room_to_building(room_uid, building_uid):
 	var room = rooms[room_uid]
@@ -24,6 +26,12 @@ func assign_room_to_building(room_uid, building_uid):
 	if room_uid not in building.rooms:
 		building.rooms.append(room_uid)
 
+
+func complete_init() -> void:
+	initialized = true
+
+
 func _init():
 	if not map_delta:
 		map_delta = MapDelta.new()
+	call_deferred("complete_init")

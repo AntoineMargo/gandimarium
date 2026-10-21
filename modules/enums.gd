@@ -70,6 +70,7 @@ enum UIDType {
 	CREATURE,
 	ROOM,
 	BUILDING,
+	PARTY,
 	CONDITION
 	}
 
