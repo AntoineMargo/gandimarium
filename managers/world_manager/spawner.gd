@@ -20,8 +20,28 @@ func add_default_activities(char_data) -> void:
 	char_data.activities.append(move_activity)
 
 
+func level_up_creature(creature: Creature) -> void:
+	if not creature.data.player_controlled:
+		creature.start_mutation()
+		for i in range(creature.data.applied_level, creature.data.level):
+			creature.level_up()
+		creature.end_mutation()
+
+
+func apply_routine(creature: Creature, routine) -> void:
+	var char_routine: LocalRoutine = load(routine)
+	#char_routine = char_routine.duplicate(true) # Not needed for now
+	if creature.ai_controller and creature.ai_controller.localai:
+		creature.ai_controller.localai.routine = char_routine
+
+
+func register_creature(creature: Creature) -> void:
+	wm.current_map.register_creature(creature)
+	Global.state_manager.register_creature(creature)
+
+
 ## Don't use guardian for scene tile spawners
-func spawn_character(data_file: String, coords: Vector3i, routine: String = "", guardian: bool = true) -> Creature:
+func spawn_creature_at_coords(data_file: String, coords: Vector3i, map_id: String, routine: String = "", guardian: bool = true) -> Creature:
 	if guardian and not _guardian():
 		return null
 
@@ -49,31 +69,58 @@ func spawn_character(data_file: String, coords: Vector3i, routine: String = "", 
 	wm.layers[wm.current_layer]["occupied"][layer_coords] = true
 	wm.add_to_tile(character, coords)
 	wm.layers[wm.current_layer]["path_map"].set_point_solid(layer_coords, true)
-
-	character.initialize_character()
-	wm.current_map.register_creature(character)
-	Global.state_manager.register_creature(character)
 	
 	var weapons = character.get_weapons()
 	for weapon in weapons:
 		if weapon:
 			weapon.initialize_attack_modes()
 
-	if not char_data.player_controlled:
-		character.start_mutation()
-		for i in range(char_data.applied_level, char_data.level):
-			character.level_up()
-		character.end_mutation()
+	call_deferred("register_creature", character)
+
+	call_deferred("level_up_creature", character)
 
 	if routine:
-		var char_routine: LocalRoutine = load(routine)
-		#char_routine = char_routine.duplicate(true) # Not needed for now
-		if character.ai_controller and character.ai_controller.localai:
-			character.ai_controller.localai.routine = char_routine
-
-
+		call_deferred("apply_routine", character, routine)
 
 	return character
+
+
+func spawn_creature(creature: Creature) -> void:
+	var tile_coords = creature.get_coords()
+	var layer_coords = Vector2i(tile_coords.x, tile_coords.y)
+	#var map_data = Global.map_manager.get_map_data_from_map_id(creature.get_map_id())
+	var tile_data = wm.current_tile_map_layer.get_cell_tile_data(layer_coords)
+	if not tile_data.get_custom_data("walkable") or wm.layers[tile_coords.z]["occupied"].get(layer_coords, false):
+		print("Cannot spawn creature on this tile!")
+
+	var creature_scene = load("res://entities/creature.tscn")
+	var creature_node: CreatureNode = creature_scene.instantiate()
+	creature.attach_node(creature_node)
+
+
+	creature_node.position = wm.layers[tile_coords.z]["tile_map"].map_to_local(layer_coords)
+
+	Global.game_session.add_child(creature_node)
+
+	wm.layers[wm.current_layer]["occupied"][layer_coords] = true
+	wm.add_to_tile(creature, tile_coords)
+	wm.layers[wm.current_layer]["path_map"].set_point_solid(layer_coords, true)
+
+	#creature.initialize_character()
+	#wm.current_map.register_creature(creature)
+	call_deferred("register_creature", creature)
+	
+	var weapons = creature.get_weapons()
+	for weapon in weapons:
+		if weapon:
+			weapon.initialize_attack_modes()
+
+	#if not char_data.player_controlled:
+		#character.start_mutation()
+		#for i in range(char_data.applied_level, char_data.level):
+			#character.level_up()
+		#character.end_mutation()
+
 
 #func _ready():
 	#pass

@@ -22,6 +22,8 @@ func get_random_tile_in_zone(zone_rect: Rect2i) -> Vector2i:
 
 
 func perform_routine(override: Enums.Routine = Enums.Routine.NONE, tile: Vector3i = Vector3i(0, 0, 0)):
+	if !routine:
+		return
 	if Global.crisis_manager.crisis_mode:
 		return
 	if not current_entry:
@@ -36,6 +38,8 @@ func perform_routine(override: Enums.Routine = Enums.Routine.NONE, tile: Vector3
 
 
 func change_routine():
+	if !routine:
+		return
 	var time: Vector4i = Global.time_manager.get_time()
 	current_entry = routine.get_current_entry(time[1])
 	var ai_zones =  Global.world_manager.ai_zones

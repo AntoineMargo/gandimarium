@@ -264,7 +264,7 @@ func get_vertical_cost(tile: Vector3i, dir: Vector3i) -> int:
 	return 2
 
 func _ready() -> void:
-	SignalBus.world_ready.connect(setup_noise_manager)
+	SignalBus.session_ready.connect(setup_noise_manager)
 	wm = Global.world_manager
 
 #const DIRS = [

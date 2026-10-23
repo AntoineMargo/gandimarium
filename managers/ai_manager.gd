@@ -108,7 +108,7 @@ func ai_became_inactive(creature):
 	#SignalBus.message.emit("1 less active creature: %d" % active_number)
 
 func _ready() -> void:
-		SignalBus.world_ready.connect(delayed_check_setup)
+		SignalBus.session_ready.connect(delayed_check_setup)
 		SignalBus.sight_check.connect(sight_check)
 		SignalBus.ai_became_active.connect(ai_became_active)
 		SignalBus.ai_became_inactive.connect(ai_became_inactive)

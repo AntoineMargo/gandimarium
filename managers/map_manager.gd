@@ -35,10 +35,19 @@ func get_map_of_creature(creature: Creature) -> Map:
 		if map_data.root.id == creature_map_id:
 			return map_data.root
 	return null
-	
+
 
 func get_map_data_from_index(index: int) -> MapData:
 	return maps[index]
+
+
+func get_map_data_from_map_id(id: String) -> MapData:
+	var map_data_array: Array[MapData] = get_all_map_data()
+	for map_data in map_data_array:
+		if map_data.name == id:
+			return map_data
+	return null
+
 
 func get_map_by_id(map_id: String) -> Map:
 	var all_maps: Array[Map] = get_all_maps()
@@ -50,11 +59,30 @@ func get_map_by_id(map_id: String) -> Map:
 
 ## Takes the index (usually 0 1 2 or 3) and returns the corresponding map.
 func get_map_from_index(index: int) -> Map:
-	return maps[index].root
+	var map_data: MapData = maps.get(index)
+	if not map_data:
+		return null
+	return map_data.root
 
 
 func get_current_map_layer_ids() -> Array[int]:
 	return maps[current_map_index].layer_ids
+
+
+
+func get_map_index(coords: Vector3i) -> int:
+	@warning_ignore("integer_division")
+	return coords.z / 1000
+
+
+func get_map_data_from_coords(coords: Vector3i) -> MapData:
+	var map_index: int = get_map_index(coords)
+	return get_map_data_from_index(map_index)
+
+
+func get_map_from_coords(coords: Vector3i) -> Map:
+	var map_index: int = get_map_index(coords)
+	return get_map_from_index(map_index)
 
 
 func get_current_map() -> Map:
@@ -86,6 +114,7 @@ func load_map(map_id: String) -> MapData:
 	Global.game_session.world_container.add_child(new_map)
 	var map_data: MapData = setup_map(new_map)
 	
+	# We set this map as the current map IF there isn't one yet.
 	if not Global.world_manager.current_map:
 		Global.world_manager.current_map = new_map
 		Global.world_manager.layer_track = get_current_map_layer_ids()
@@ -101,7 +130,8 @@ func setup_map(map: Map) -> MapData:
 	Global.world_manager.add_map_data(map_data.root, map_data.layer_ids)
 	#Global.world_manager.setup_ai_zones()
 	Global.world_manager.determine_size(map)
-	SignalBus.world_ready.emit()
+	map.map_ready = true
+	SignalBus.map_ready.emit(map)
 	return map_data
 
 

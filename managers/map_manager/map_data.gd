@@ -1,4 +1,5 @@
 extends Resource
+## Runtime object exclusively.
 class_name MapData
 
 var id: int = 0

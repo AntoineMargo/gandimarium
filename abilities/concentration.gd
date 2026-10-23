@@ -3,10 +3,11 @@ class_name Concentration
 
 @export var linked_conditions: Array[Condition] = []
 
-var area_follows_target: bool = false
-var source = null
-var start_time: int
-var PP_consumed: int = 0
+@export_storage var area_follows_target: bool = false
+@export_storage var source = null
+@export_storage var start_time: int
+@export_storage var PP_consumed: int = 0
+
 
 func setup(src, drain: bool = false):
 	source = src
@@ -16,6 +17,7 @@ func setup(src, drain: bool = false):
 		if not SignalBus.time_changed.is_connected(tick_tock):
 			SignalBus.time_changed.connect(tick_tock)
 
+
 func finalize_setup():
 	for condition in linked_conditions:
 		if not condition.ended.is_connected(cancel):
@@ -23,8 +25,10 @@ func finalize_setup():
 		#if not condition.update_info.is_connected(update_info):
 			#condition.update_info.connect(update_info)
 
+
 func update_info(_info):
 	pass
+
 
 func tick_tock(_days, _hours, _minutes, _seconds):
 	var current_time: int = Global.time_manager.get_total_seconds()
@@ -42,9 +46,11 @@ func tick_tock(_days, _hours, _minutes, _seconds):
 		PP_consumed += 1
 		SignalBus.update_ui_for_char.emit()
 
+
 func register_condition(condition: Condition):
 	if not linked_conditions.has(condition):
 		linked_conditions.append(condition)
+
 
 func cancel():
 	if SignalBus.time_changed.is_connected(tick_tock):
@@ -58,6 +64,7 @@ func cancel():
 	if source and source.user and source.user.data.concentrations.has(self):
 		source.user.remove_concentration(self)
 	SignalBus.update_ui_for_char.emit()
+
 
 func move_area(reaction_event: ReactionEvent) -> void:
 	for condition in linked_conditions:

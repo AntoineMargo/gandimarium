@@ -64,8 +64,8 @@ func get_game_state() -> GameState:
 
 func get_map_state(map_id: String) -> MapState:
 	if not game_state:
-		push_error("No game state!")
-		return
+		push_warning("No game state!")
+		return null
 	if not game_state.map_states.has(map_id):
 		game_state.map_states[map_id] = MapState.new()
 	return game_state.map_states[map_id]
@@ -73,7 +73,13 @@ func get_map_state(map_id: String) -> MapState:
 
 func get_map_delta(map_id: String) -> MapDelta:
 	var map_state = get_map_state(map_id)
-	return map_state.map_delta
+	if !map_state:
+		return null
+	var map_delta: MapDelta = map_state.map_delta
+	if map_delta:
+		return map_delta
+	else:
+		return null
 
 
 func get_propdelta_from_propref(prop_ref: PropRef) -> PropDelta:
@@ -478,6 +484,7 @@ func _flood_room(chosen_layer, start_tile: Vector3i) -> Array[Vector3i]:
 	return result
 
 
+## Called by the map_manager on loading a map.
 func setup_map_state(map: Map):
 	var map_id: String = map.id
 	var map_state: MapState = get_map_state(map_id)
@@ -487,13 +494,24 @@ func setup_map_state(map: Map):
 		build_buildings(map_id)
 		print("Rooms and buildings added to state.")
 		map_state.data_dirty = false
+	
+	if map_state.initialized:
+		for creature_uid in map_state.creature_uids:
+			var creature: Creature = get_creature_by_uid(creature_uid)
+			if creature:
+				Global.world_manager.spawner.spawn_creature(creature)
+
+
+func create_new_game_state() -> void:
+	game_state = GameState.new()
+	if not game_state.uid_state:
+		game_state.uid_state = UIDState.new()
 
 
 func _ready():
 	wm = Global.world_manager
-	if not load_game_state():
-		print("USING NEW GAME STATE!")
-		game_state = GameState.new()
-		if not game_state.uid_state:
-			game_state.uid_state = UIDState.new()
-	#SignalBus.world_ready.connect(_setup_map_state)
+	if load_game_state():
+		print("Loaded previous game.")
+	else:
+		create_new_game_state()
+		print("Starting new game.")

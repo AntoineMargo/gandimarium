@@ -35,8 +35,10 @@ func operate(creature: Creature):
 		wm.layers[pos.z]["cover"][layer_coords] = Enums.Cover.NONE
 		sprite.texture = load("res://art/props/door_open.png")
 
-func initialize() -> void:
+func initialize(m: Map = null) -> void:
 	if initialized:
+		return
+	if m != map:
 		return
 	var layer_coords = Vector2i(pos.x, pos.y)
 	wm.add_to_tile(self, pos)
@@ -60,9 +62,9 @@ func _on_ready():
 	current_hp = max_hp
 	if is_runtime == false:
 		pos = wm.pixels_to_tile(global_position, parent_layer.id)
-		if wm.world_ready == true:
+		if map.map_ready == true:
 			initialize()
-	SignalBus.world_ready.connect(initialize)
+	SignalBus.map_ready.connect(initialize)
 	SignalBus.world_quit.connect(unregister)
 
 func _ready() -> void:

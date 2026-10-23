@@ -33,28 +33,27 @@ signal ended
 
 var vfx_instances: Array[Node] = []
 
-var linked_items: Array[Item] = []
-var linked_props: Array[PropRef] = []
-var linked_creatures: Array[Creature] = []
-var linked_maps: Array[MapData] = []
-var linked_modifiers: Array[Modifier] = []
-var linked_activities: Array[ActivityContainer] = []
-
-
 var user = null
 var target = null
-var user_uid = null
-var target_uid = null
-var tile_spawned_on: Vector3i = Vector3i(0, 0, 0)
-var spell_rank: int = 0
-var sources = {}
 
-var info = {}
+@export_storage var linked_items: Array[Item] = []
+@export_storage var linked_props: Array[PropRef] = []
+@export_storage var linked_creatures: Array[Creature] = []
+@export_storage var linked_maps: Array[MapData] = []
+@export_storage var linked_modifiers: Array[Modifier] = []
+@export_storage var linked_activities: Array[ActivityContainer] = []
 
-var frozen: bool = false
-var start_time: int
-var end_time: int
-var remaining_time: int
+@export_storage var user_uid: int = 0
+@export_storage var target_uid: int = 0
+@export_storage var tile_spawned_on: Vector3i = Vector3i(0, 0, 0)
+@export_storage var spell_rank: int = 0
+@export_storage var sources: Dictionary[String, int] = {}
+@export_storage var info = {}
+
+@export_storage var frozen: bool = false
+@export_storage var start_time: int
+@export_storage var end_time: int
+@export_storage var remaining_time: int
 
 
 func apply_vfx() -> void:
@@ -128,11 +127,17 @@ func initialize(ctx: Context) -> void:
 
 
 func apply_effects(ctx: Context = null) -> void:
+	if not user and user_uid:
+		user = Global.state_manager.get_creature_by_uid(user_uid)
+	if not target and target_uid:
+		target = Global.state_manager.get_creature_by_uid(target_uid)
+		
 	if not ctx:
 		ctx = Context.new()
 		ctx.user = user
-		ctx.origin = user.get_coords()
 		ctx.target = target
+		ctx.origin = user.get_coords()
+
 		ctx.condition = self
 	for filter in filters:
 		if filter is Filter:

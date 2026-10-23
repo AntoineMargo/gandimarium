@@ -73,8 +73,10 @@ signal complex_interact()
 #signal refresh_reachable_tiles()
 #signal local_turn_passed()
 signal clear_path_preview()
-signal world_ready()
-signal world_quit()
+signal session_half_ready()
+signal session_ready()
+signal map_ready(map: Map)
+#signal world_quit()
 signal update_visibility(map_id: String, layer: int)
 
 #Cursors

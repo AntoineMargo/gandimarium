@@ -1071,6 +1071,10 @@ func set_cooperative(target_id: int, value: int) -> void:
 	data.relationships.set_cooperative(target_id, value)
 
 
+func get_map_id() -> String:
+	return data.map_id
+
+
 func get_coords() -> Vector3i:
 	var pos_3d = Vector3i(
 		data.tile_x,
@@ -1202,33 +1206,59 @@ func level_up() -> void:
 	build_stats()
 
 
+### This initialises the base stats, meant to be used on spawn
+#func initialize_character() -> void:
+	#if not data.has_been_initialized:
+		#if data.uid == 0:
+			#data.uid = Global.state_manager.next_uid(Enums.UIDType.CREATURE)
+#
+		#data.derived_stats = DerivedStats.new()
+#
+		#data.attributes     = _ensure_resource(data.attributes, func(): return Attributes.new())
+		#data.base_stats     = _ensure_resource(data.base_stats, func(): return BaseStats.new())
+		#data.inventory      = _ensure_resource(data.inventory, func(): return Inventory.new())
+		#data.equipment      = _ensure_resource(data.equipment, func(): return Equipment.new())
+		#data.resistances    = _ensure_resource(data.resistances, func(): return Resistances.new())
+		#data.relationships  = _ensure_resource(data.relationships, func(): return Relationships.new())
+		#data.personality    = _ensure_resource(data.personality, func(): return Personality.new())
+#
+		#data.talent_pool.assign(Library.general_talents)
+#
+		## Should be folded into Archetype's init function
+		#if data.major_archetype and data.major_archetype.type == Enums.Archetype.SCHOLASTIC_MAGE:
+			#data.max_spells_ready = data.attributes.get_attribute(Enums.Attribute.ACUITY)
+		#else:
+			#data.max_spells_ready = 99999
+#
+		#data.has_been_initialized = true
+		##print("character file ready.")
+		#build_stats()
+
+
 ## This initialises the base stats, meant to be used on spawn
 func initialize_character() -> void:
-	if not data.has_been_initialized:
-		if data.uid == 0:
-			data.uid = Global.state_manager.next_uid(Enums.UIDType.CREATURE)
+	if data.uid == 0:
+		data.uid = Global.state_manager.next_uid(Enums.UIDType.CREATURE)
 
-		data.derived_stats = DerivedStats.new()
+	data.derived_stats = DerivedStats.new()
 
-		data.attributes     = _ensure_resource(data.attributes, func(): return Attributes.new())
-		data.base_stats     = _ensure_resource(data.base_stats, func(): return BaseStats.new())
-		data.inventory      = _ensure_resource(data.inventory, func(): return Inventory.new())
-		data.equipment      = _ensure_resource(data.equipment, func(): return Equipment.new())
-		data.resistances    = _ensure_resource(data.resistances, func(): return Resistances.new())
-		data.relationships  = _ensure_resource(data.relationships, func(): return Relationships.new())
-		data.personality    = _ensure_resource(data.personality, func(): return Personality.new())
+	data.attributes     = _ensure_resource(data.attributes, func(): return Attributes.new())
+	data.base_stats     = _ensure_resource(data.base_stats, func(): return BaseStats.new())
+	data.inventory      = _ensure_resource(data.inventory, func(): return Inventory.new())
+	data.equipment      = _ensure_resource(data.equipment, func(): return Equipment.new())
+	data.resistances    = _ensure_resource(data.resistances, func(): return Resistances.new())
+	data.relationships  = _ensure_resource(data.relationships, func(): return Relationships.new())
+	data.personality    = _ensure_resource(data.personality, func(): return Personality.new())
 
-		data.talent_pool.assign(Library.general_talents)
+	data.talent_pool.assign(Library.general_talents)
 
-		# Should be folded into Archetype's init function
-		if data.major_archetype and data.major_archetype.type == Enums.Archetype.SCHOLASTIC_MAGE:
-			data.max_spells_ready = data.attributes.get_attribute(Enums.Attribute.ACUITY)
-		else:
-			data.max_spells_ready = 99999
+	# Should be folded into Archetype's init function
+	if data.major_archetype and data.major_archetype.type == Enums.Archetype.SCHOLASTIC_MAGE:
+		data.max_spells_ready = data.attributes.get_attribute(Enums.Attribute.ACUITY)
+	else:
+		data.max_spells_ready = 99999
 
-		data.has_been_initialized = true
-		#print("character file ready.")
-		build_stats()
+	build_stats()
 
 
 ## This builds the stats based on applied level
@@ -1274,7 +1304,8 @@ func build_stats() -> void:
 		set_current_spell_rank(spell_rank)
 
 	if mutation_depth == 0:
-		update_stats()
+		call_deferred("update_stats")
+		#update_stats()
 
 
 ## This builds the final usable stats; to be used directly for activities and from outside the class
@@ -1500,8 +1531,9 @@ func destroy_self() -> void:
 		wm.layers[data.tile_z]["cover"][layer_coords] = Enums.Cover.NONE
 		wm.layers[data.tile_z]["occupied"][layer_coords] = false
 		wm.remove_from_tile(self, get_coords())
-	if wm and wm.current_map:
-		wm.current_map.unregister_creature(self)
+	var map = Global.map_manager.get_map_by_id(data.map_id)
+	if map:
+		map.unregister_creature(self)
 	if Global.crisis_manager:
 		Global.crisis_manager.remove_from_initiative_order(self)
 	if node:

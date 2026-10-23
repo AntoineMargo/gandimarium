@@ -6,11 +6,13 @@ class_name SpawnerProp
 
 
 func spawn_creature():
-	Global.world_manager.spawner.spawn_character(creature_data, pos, routine, false)
+	Global.world_manager.spawner.spawn_creature_at_coords(creature_data, pos, map_id, routine, false)
 
 
-func initialize() -> void:
-	if initialized:
+func initialize(m: Map = null) -> void:
+	#if initialized:
+		#return
+	if m != map:
 		return
 	var layer_coords = Vector2i(pos.x, pos.y)
 	wm.add_to_tile(self, pos)

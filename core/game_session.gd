@@ -47,6 +47,9 @@ var activity_handler: Activity = null
 var last_hovered_tile: Vector3i
 var pending_crisis_operation_count: int = 0
 
+var session_half_ready: bool = false
+var session_ready: bool = false
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if world_manager.current_map:
@@ -202,6 +205,15 @@ func setup_global() -> void:
 	Global.map_manager = map_manager
 
 
+func send_session_half_ready_signal() -> void:
+	session_half_ready = true
+	SignalBus.session_half_ready.emit()
+
+func send_session_ready_signal() -> void:
+	session_ready = true
+	SignalBus.session_ready.emit()
+
+
 func _ready() -> void:
 	print("Game session initializing...")
 	randomize()
@@ -222,8 +234,12 @@ func _ready() -> void:
 	add_child(door_manager)
 	add_child(reaction_manager)
 	add_child(map_manager)
+	
+	call_deferred("send_session_half_ready_signal")
 
 	call_deferred("setup")
 	call_deferred("load_test_map")
 
 	camera.position = Vector2(0, 300)
+	
+	call_deferred("send_session_ready_signal")

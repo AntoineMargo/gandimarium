@@ -14,7 +14,7 @@ var map_width: int
 var map_height: int
 
 #var map_state = null
-var world_ready: bool = false
+#var map_ready: bool = false
 
 var spawner: Spawner
 
@@ -166,7 +166,7 @@ func change_tile_move_cost(tile: Vector3i, new_cost: float) -> void:
 
 
 func clear_data() -> void:
-	world_ready = false
+	current_map.map_ready = false
 	layers.clear()
 	layer_links.clear()
 	ai_zones.clear()
@@ -892,8 +892,8 @@ func flash_tile_overlay(tile_pos: Vector2i, colour: Color = Color(0.0, 1.0, 0.0,
 		#for creature in current_map.creatures:
 			#creature.visible = (creature.data.tile_z == current_layer)
 
-func spawn_character(data_file: String, coords: Vector3i, routine: String = "") -> Creature:
-	return spawner.spawn_character(data_file, coords, routine)
+func spawn_creature_at_coords(data_file: String, coords: Vector3i, map_id: String, routine: String = "") -> Creature:
+	return spawner.spawn_creature_at_coords(data_file, coords, map_id, routine)
 
 ## takes a tile's coords in either Vector3i or Vector2i format and returns them in pixel format
 func tile_to_pixels(coords) -> Vector2:
@@ -1378,11 +1378,11 @@ func clear_visualization(visualized_rects: Array, visualized_lines: Array) -> vo
 		line.queue_free()
 	visualized_lines.clear()
 
-func _on_world_ready():
-	world_ready = true
+func _on_map_ready():
+	current_map.map_ready = true
 
 func _on_world_quit():
-	world_ready = true
+	current_map.map_ready = true
 
 #func _on_local_timeout():
 	#SignalBus.local_turn_passed.emit()
@@ -1399,16 +1399,21 @@ func time_effects_on_creatures(n):
 		if not creature.data.player_controlled:
 			creature.ai_controller.localai.change_routine()
 
+
+func establish_initial_creature_visibility() -> void:
+	SignalBus.update_visibility.emit(current_map.id, current_layer)
+
+
 func _ready() -> void:
-	#map_state = MapState.new()
 	spawner = Spawner.new()
 	spawner.wm = self
 	SignalBus.simple_interact.connect(_simple_interact_disambiguation)
 	SignalBus.complex_interact.connect(_complex_interact)
-	SignalBus.world_ready.connect(_on_world_ready)
-	SignalBus.world_quit.connect(_on_world_quit)
+	#SignalBus.map_ready.connect(_on_map_ready)
+	#SignalBus.world_quit.connect(_on_world_quit)
 	SignalBus.hour_change.connect(time_effects_on_creatures)
 	path_preview = PathPreviewScene.instantiate()
 	add_child(path_preview)
 	add_child(hover_tile)
 	add_child(selection_highlight)
+	SignalBus.session_ready.connect(establish_initial_creature_visibility)

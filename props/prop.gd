@@ -40,8 +40,10 @@ func setup(_ctx: Context) -> void:
 	pass
 
 
-func initialize() -> void:
+func initialize(m: Map = null) -> void:
 	if initialized:
+		return
+	if m != map:
 		return
 	var layer_coords = Vector2i(pos.x, pos.y)
 	wm.add_to_tile(self, pos)
@@ -162,10 +164,10 @@ func base_ready():
 	current_hp = max_hp
 	if is_runtime == false:
 		pos = wm.pixels_to_tile(global_position, parent_layer.id)
-		if wm.world_ready == true:
-			initialize()
-	SignalBus.world_ready.connect(initialize)
-	SignalBus.world_quit.connect(unregister)
+		if map.map_ready == true:
+			initialize(map)
+	SignalBus.map_ready.connect(initialize)
+	#SignalBus.world_quit.connect(unregister)
 
 
 func _on_ready():

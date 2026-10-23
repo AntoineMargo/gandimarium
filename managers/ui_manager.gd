@@ -108,7 +108,7 @@ func on_attack1_button_toggled(button_pressed: bool, attack_type: int) -> void:
 		left_weapon.selected_attacks[Enums.AttackCategory.SHOOT] = attack_type
 	elif category == 2:
 		left_weapon.selected_attacks[Enums.AttackCategory.THROW] = attack_type
-	print("Active attack type changed.")
+	#print("Active attack type changed.")
 
 func on_attack2_button_toggled(button_pressed: bool, attack_type: int) -> void:
 	if not button_pressed:
@@ -126,7 +126,7 @@ func on_attack2_button_toggled(button_pressed: bool, attack_type: int) -> void:
 		right_weapon.selected_attacks[Enums.AttackCategory.SHOOT] = attack_type
 	elif category == 2:
 		right_weapon.selected_attacks[Enums.AttackCategory.THROW] = attack_type
-	print("Active attack type changed.")
+	#print("Active attack type changed.")
 
 func on_category_button_toggled(button_pressed: bool, category) -> void:
 	if not button_pressed:
@@ -136,7 +136,7 @@ func on_category_button_toggled(button_pressed: bool, category) -> void:
 		return
 
 	character.data.equipment.active_category = category
-	print("Active category changed.")
+	#print("Active category changed.")
 	update_active_attack_buttons()
 
 func on_weapon_button_toggled(button_pressed: bool, hand: int) -> void:

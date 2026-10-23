@@ -8,7 +8,8 @@ func apply(_source, _target, _degree: int = 2) -> void:
 
 func apply_context(ctx: Context) -> bool:
 	var sm = Global.state_manager
-	var current_map_state = sm.get_map_state(sm.current_map_id)
+	var wm = Global.world_manager
+	var current_map_state = sm.get_map_state(wm.current_map.id)
 	var new_condition_uid = sm.next_uid(Enums.UIDType.CONDITION)
 	var instance = condition.duplicate(true)
 	instance.uid = new_condition_uid

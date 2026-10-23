@@ -43,7 +43,8 @@ func BasicControls():
 		print("Item just added to tile.")
 
 	if Input.is_action_just_pressed("G"):
-		Global.state_manager.save_game_state()
+		var _session = Global.game_session
+		print("check me!")
 
 	if Input.is_action_just_pressed("F5"):
 		if Global.state_manager.save_game_state():
@@ -61,18 +62,20 @@ func BasicControls():
 					wm.remove_from_tile(element, coords.vec3)
 
 	if Input.is_action_just_pressed("T"):
-		if not wm.current_map:
+		var map = wm.current_map
+		if not map:
 			return
 		var coords = wm.get_tile_coords_under_cursor()
-		wm.spawn_character("res://saved/characters/Debug.tres", coords)
+		wm.spawn_creature_at_coords("res://saved/characters/Debug.tres", coords, map.id)
 		
 	if Input.is_action_just_pressed("Y"):
-		if not wm.current_map:
+		var map = wm.current_map
+		if not map:
 			return
 		var coords: Vector3i = wm.get_tile_coords_under_cursor()
 		var data: String = "res://resources/creatures/data_bandit.tres"
 		var routine: String = "res://resources/routines/bandit_routine.tres"
-		wm.spawn_character(data, coords, routine)
+		wm.spawn_creature_at_coords(data, coords, map.id, routine)
 
 	if Input.is_action_just_pressed("U"):
 		var hovered_tile = Global.world_manager.get_hovered_tile()

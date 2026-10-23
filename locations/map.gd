@@ -5,9 +5,10 @@ class_name Map
 
 @onready var current_tile_map_layer = $level0
 @onready var layers: Array[TileMapLayer] = [$level0]
-@onready var map_delta = Global.state_manager.get_map_delta(id)
+@onready var map_delta: MapDelta = Global.state_manager.get_map_delta(id)
 
 
+var map_ready: bool = false
 var creatures: Array[Creature] = []
 #var creatures_by_uid: Dictionary[int, Creature] = {}
 var props_by_pos: Dictionary[Vector3i, Prop] = {}
