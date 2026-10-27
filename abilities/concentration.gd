@@ -5,15 +5,21 @@ class_name Concentration
 
 @export_storage var area_follows_target: bool = false
 @export_storage var source = null
+@export_storage var source_user_uid = null
 @export_storage var start_time: int
 @export_storage var PP_consumed: int = 0
+
+@export_storage var drains_pp: bool = false
 
 
 func setup(src, drain: bool = false):
 	source = src
+	if source.user:
+		source_user_uid = source.user.get_uid()
 	start_time = Global.time_manager.get_total_seconds()
 	
 	if drain:
+		drains_pp = true
 		if not SignalBus.time_changed.is_connected(tick_tock):
 			SignalBus.time_changed.connect(tick_tock)
 
@@ -61,8 +67,9 @@ func cancel():
 				condition.ended.disconnect(cancel)
 			condition.remove_source(source.id)
 	linked_conditions.clear()
-	if source and source.user and source.user.data.concentrations.has(self):
-		source.user.remove_concentration(self)
+	if source: 
+		var target: Creature = Global.state_manager.get_creature_by_uid(source_user_uid)
+		target.remove_concentration(self)
 	SignalBus.update_ui_for_char.emit()
 
 

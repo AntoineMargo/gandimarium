@@ -7,7 +7,7 @@ class_name CreatePropEffect
 func apply_context(ctx: Context) -> bool:
 	var prop_instance: Prop = null
 	if ctx.target is Vector3i:
-		prop_instance = Global.world_manager.spawn_prop(prop, ctx.target)
+		prop_instance = Global.world_manager.spawn_prop_scene(prop, ctx.target)
 		if prop_instance.has_method("setup"):
 			prop_instance.setup(ctx)
 		ctx.created_props.append(prop_instance)
@@ -29,7 +29,7 @@ func apply_context(ctx: Context) -> bool:
 #func apply_context(ctx: Context) -> bool:
 	#var prop_instance: Prop = null
 	#if ctx.target is Vector3i:
-		#prop_instance = Global.world_manager.spawn_prop(prop, ctx.target)
+		#prop_instance = Global.world_manager.spawn_prop_scene(prop, ctx.target)
 		#if prop_instance.has_method("setup"):
 			#prop_instance.setup(ctx)
 		#ctx.created_props.append(prop_instance)

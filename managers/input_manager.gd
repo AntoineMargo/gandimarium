@@ -154,7 +154,8 @@ func BasicControls():
 		var coords = wm.get_tile_coords_under_cursor()
 		print("Tile: (%d, %d, %d)" % [coords.x, coords.y, coords.z])
 		#var coords = wm.get_hovered_tile()
-		wm.spawn_prop(Library.get_prop("wooden_crate"), coords)
+		wm.spawn_prop_at_pos(Library.get_prop("wooden_crate"), coords)
+		#wm.spawn_prop_scene(Library.get_prop("wooden_crate"), coords)
 	
 	#DEBUG
 	if Input.is_action_just_pressed("H"):
@@ -252,6 +253,7 @@ func BasicControls():
 			if Global.selected_char.data.level < 24:
 				Global.selected_char.data.level += 1
 		Global.selected_char.level_up()
+		#Global.selected_char.restore_to_full()
 
 	if Input.is_action_just_pressed("Backspace"):
 		SignalBus.request_toggle_crisis.emit(Global.focus_char)

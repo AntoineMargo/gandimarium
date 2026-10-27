@@ -10,11 +10,11 @@ func _on_update_container(container_prop: ContainerProp = current_container) -> 
 		current_container = container_prop
 	if not current_container:
 		return
-	if Global.container_list == null:
+	if Global.game_session.container_list == null:
 		print("ItemsList node not found!")
 		return
 
-	for child in Global.container_list.get_children():
+	for child in Global.game_session.container_list.get_children():
 		child.queue_free()
 
 	var items = container_prop.inventory.list
@@ -24,7 +24,7 @@ func _on_update_container(container_prop: ContainerProp = current_container) -> 
 		element.index = i
 		element.item = items[i]
 		element.initialize()
-		Global.container_list.add_child(element)
+		Global.game_session.container_list.add_child(element)
 
 func _on_exit_pressed() -> void:
 	control.visible = false

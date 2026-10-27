@@ -26,7 +26,7 @@ func remove_n_of_item(amount) -> Item:
 			retrieved_item = Global.selected_char.data.inventory.remove_item_at_index(index, amount)
 			SignalBus.update_inventory.emit()
 		elif items_interface == Enums.ItemsList.CONTAINER:
-			retrieved_item = Global.container_window.current_container.inventory.remove_item_at_index(index, amount)
+			retrieved_item = Global.game_session.container_window.current_container.inventory.remove_item_at_index(index, amount)
 			SignalBus.update_container.emit()
 	return retrieved_item
 

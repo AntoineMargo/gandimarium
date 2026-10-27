@@ -9,9 +9,14 @@
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="7_8mlcn"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="8_nyy3a"]
 [ext_resource type="Texture2D" uid="uid://cfsy6w2aq44cl" path="res://art/interface/items/feather-necklace.png" id="9_o2bg1"]
+[ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="10_d66sg"]
 [ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="10_y3p5w"]
+[ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creature.gd" id="11_8mlcn"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="11_8qw7n"]
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="12_r6wkb"]
+[ext_resource type="Script" uid="uid://b0qu1tp0r0tqr" path="res://managers/map_manager/map_data.gd" id="13_nyy3a"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="14_o2bg1"]
+[ext_resource type="Script" uid="uid://dmfrpbo3aqtup" path="res://locations/prop_ref.gd" id="15_y3p5w"]
 
 [sub_resource type="Resource" id="Resource_3rnam"]
 script = ExtResource("4_p8dox")
@@ -47,7 +52,13 @@ description = "This ring grants you +2 Agility."
 icon = ExtResource("9_o2bg1")
 weight = 0.1
 value = 200
+activities = null
 conditions = Array[ExtResource("1_08p62")]([SubResource("Resource_3qqry")])
 slot_type = 9
+can_be_removed = null
+conjured = null
+brawn_req_1h = null
+brawn_req_2h = null
+count = null
 owner = null
 metadata/_custom_type_script = "uid://c22428ggciyyj"

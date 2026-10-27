@@ -1,6 +1,5 @@
 [gd_resource type="Resource" script_class="Item" format=3 uid="uid://beq3bethhk8v0"]
 
-[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_ds71q"]
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_2sx36"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="3_2bld6"]
 [ext_resource type="Resource" uid="uid://b6lwaevovr35s" path="res://resources/damage_patterns/pierce.tres" id="4_mky4j"]
@@ -87,12 +86,19 @@ metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 script = ExtResource("2_2sx36")
 name = "Bow"
 id = "item_bow"
+description = null
 weight = 3.0
 value = 30
+activities = null
+conditions = null
+slot_type = null
+can_be_removed = null
+conjured = null
 brawn_req_1h = 999
 brawn_req_2h = 4
 strike = SubResource("Resource_pq21x")
 shoot = SubResource("Resource_7diy7")
 throw = SubResource("Resource_dmukc")
+count = null
 owner = null
 metadata/_custom_type_script = "uid://c22428ggciyyj"

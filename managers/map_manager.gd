@@ -119,7 +119,7 @@ func load_map(map_id: String) -> MapData:
 		Global.world_manager.current_map = new_map
 		Global.world_manager.layer_track = get_current_map_layer_ids()
 	
-	Global.state_manager.setup_map_state(new_map)
+	Global.state_manager.load_map_state(new_map)
 	return map_data
 
 

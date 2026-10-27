@@ -1,0 +1,75 @@
+[gd_resource type="Resource" script_class="CreatureData" format=3 uid="uid://crsn08l717qps"]
+
+[ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="1_krldd"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="2_o3y2r"]
+[ext_resource type="Script" uid="uid://cubgbyndvs8t3" path="res://aspects/aspect.gd" id="3_cu0l5"]
+[ext_resource type="Script" uid="uid://boxs05dhsll81" path="res://entities/attributes.gd" id="4_luva3"]
+[ext_resource type="Script" uid="uid://ct2uh3hw8ywmu" path="res://entities/barrier.gd" id="5_inifn"]
+[ext_resource type="Script" uid="uid://bqbvgbqafpkej" path="res://entities/base_stats.gd" id="6_63pov"]
+[ext_resource type="Script" uid="uid://bajjyg2du7mri" path="res://abilities/concentration.gd" id="7_qrndx"]
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="8_yfnbx"]
+[ext_resource type="Resource" uid="uid://tb0qrirf41um" path="res://resources/creatures/equipment/basic_loadout.tres" id="9_ceymq"]
+[ext_resource type="Script" uid="uid://ckh556ahfopjg" path="res://conditions/area_condition.gd" id="10_10vna"]
+[ext_resource type="Resource" uid="uid://b1s146xyl580x" path="res://resources/creatures/inventory/basic_inventory.tres" id="11_1mkw2"]
+[ext_resource type="Resource" uid="uid://f5aunvvegt16" path="res://resources/archetypes/battle_mage.tres" id="12_10io8"]
+[ext_resource type="Script" uid="uid://bwpyc87wtxb7o" path="res://entities/personality.gd" id="13_qm2ee"]
+[ext_resource type="Script" uid="uid://c5qobce0uj7dq" path="res://activities/reaction.gd" id="14_22g7s"]
+[ext_resource type="Script" uid="uid://cwy5ao2mmfqfh" path="res://various/affiliation_entry.gd" id="15_f6m6x"]
+[ext_resource type="Script" uid="uid://ci8skyvllvl30" path="res://various/reputation_entry.gd" id="16_t1rxi"]
+[ext_resource type="Script" uid="uid://bucqf63xvppow" path="res://entities/relationships.gd" id="17_11gdk"]
+[ext_resource type="Script" uid="uid://dlk8wy6dlqksm" path="res://various/tactical_relation_entry.gd" id="18_qco24"]
+[ext_resource type="Script" uid="uid://2esemn7osq1o" path="res://entities/resistances.gd" id="19_80w0h"]
+[ext_resource type="Script" uid="uid://dyp8klyosnw2y" path="res://entities/creature_data.gd" id="20_wgo41"]
+[ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="21_7mxin"]
+[ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="22_d1qq6"]
+
+[sub_resource type="Resource" id="Resource_saxhq"]
+script = ExtResource("4_luva3")
+attributes = {
+0: 7,
+1: 7,
+2: 6,
+3: 8
+}
+
+[sub_resource type="Resource" id="Resource_hr011"]
+script = ExtResource("6_63pov")
+skills = {
+0: 7,
+1: 0,
+2: 0,
+3: 0,
+4: 6,
+5: 0,
+6: 1,
+7: 2,
+8: 0,
+9: 0,
+10: 5,
+11: 3,
+12: 4
+}
+
+[sub_resource type="Resource" id="Resource_u1bge"]
+script = ExtResource("13_qm2ee")
+
+[sub_resource type="Resource" id="Resource_hlqpd"]
+script = ExtResource("17_11gdk")
+
+[sub_resource type="Resource" id="Resource_ryvh2"]
+script = ExtResource("19_80w0h")
+
+[resource]
+script = ExtResource("20_wgo41")
+name = "Summon"
+level = 12
+major_archetype = ExtResource("12_10io8")
+discipline = null
+attributes = SubResource("Resource_saxhq")
+base_stats = SubResource("Resource_hr011")
+inventory = ExtResource("11_1mkw2")
+equipment = ExtResource("9_ceymq")
+resistances = SubResource("Resource_ryvh2")
+relationships = SubResource("Resource_hlqpd")
+personality = SubResource("Resource_u1bge")
+player_controlled = true

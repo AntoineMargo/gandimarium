@@ -5,8 +5,9 @@ class_name CreateItemEffect
 @export var count: int = 1
 
 func apply_context(ctx: Context) -> bool:
-	var new_item = item.duplicate(true)
+	var new_item: Item = item.duplicate(true)
 	new_item.count = count
+	new_item.uid = Global.state_manager.next_uid(Enums.UIDType.ITEM)
 	if count == -1:
 		new_item.count = count * ctx.current_spell_rank
 	ctx.created_items.append(new_item)

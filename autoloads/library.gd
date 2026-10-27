@@ -97,6 +97,15 @@ func get_map(id: String) -> Map:
 	var new_map = new_map_scene.instantiate()
 	return new_map
 
+func get_prop(id: String) -> Prop:
+	if _props.has(id):
+		var ref = _props[id]
+		if ref is String:
+			_props[id] = load(ref)
+		var new_prop = _props[id].instantiate()
+		return new_prop
+	return null
+
 func get_item(id: String) -> Resource:
 	return _get_from(_items, id)
 
@@ -120,9 +129,6 @@ func get_char_sprite(id: String) -> Resource:
 	
 func get_proj_sprite(id: String) -> Resource:
 	return _get_from(_proj_sprites, id)
-
-func get_prop(id: String) -> Resource:
-	return _get_from(_props, id)
 
 func get_condition(id: String) -> Resource:
 	return _get_from(_conditions, id)

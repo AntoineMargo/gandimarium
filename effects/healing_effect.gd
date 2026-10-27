@@ -1,5 +1,4 @@
 extends Effect
-
 class_name HealingEffect
 
 @export var dice_number: int = 2
@@ -10,5 +9,5 @@ func apply(source, target, degree: int = 2) -> void:
 	var user = source.user
 	var result = degree
 	var total_healing = Global.combat_manager.determine_damage(dice_number, healing_die, healing_bonus, result)
-	if target and target.has_method("take_healing"):
-		target.take_healing(total_healing)
+	if target and target.has_method("heal"):
+		target.heal(total_healing)

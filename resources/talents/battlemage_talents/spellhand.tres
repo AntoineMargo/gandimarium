@@ -7,10 +7,16 @@
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="5_a58fd"]
 [ext_resource type="Texture2D" uid="uid://cpvwrexkdhqmh" path="res://art/interface/activities/fist.png" id="6_agdau"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="7_5xkx1"]
+[ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="7_lkpef"]
 [ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="8_lkpef"]
+[ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creature.gd" id="8_w2get"]
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="9_00107"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="9_w2get"]
+[ext_resource type="Script" uid="uid://b0qu1tp0r0tqr" path="res://managers/map_manager/map_data.gd" id="10_4y0ou"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="10_00107"]
 [ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="11_4y0ou"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="11_rvs5r"]
+[ext_resource type="Script" uid="uid://dmfrpbo3aqtup" path="res://locations/prop_ref.gd" id="12_fgs50"]
 
 [sub_resource type="Resource" id="Resource_2lmc4"]
 script = ExtResource("3_oruj7")

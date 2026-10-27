@@ -71,7 +71,8 @@ enum UIDType {
 	ROOM,
 	BUILDING,
 	PARTY,
-	CONDITION
+	CONDITION,
+	ITEM
 	}
 
 enum Routine {

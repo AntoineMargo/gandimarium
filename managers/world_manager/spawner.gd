@@ -17,7 +17,10 @@ func _guardian():
 
 func add_default_activities(char_data) -> void:
 	var move_activity = load("res://resources/activity_containers/move.tres")
+	var recuperate_activity = load("res://resources/activity_containers/recuperate.tres")
+	
 	char_data.activities.append(move_activity)
+	char_data.activities.append(recuperate_activity)
 
 
 func level_up_creature(creature: Creature) -> void:
@@ -82,6 +85,10 @@ func spawn_creature_at_coords(data_file: String, coords: Vector3i, map_id: Strin
 	if routine:
 		call_deferred("apply_routine", character, routine)
 
+	var current_map_id: String = Global.world_manager.get_current_map_id()
+	var current_layer: int = Global.world_manager.get_current_layer()
+	character.update_visibility(current_map_id, current_layer)
+
 	return character
 
 
@@ -114,6 +121,10 @@ func spawn_creature(creature: Creature) -> void:
 	for weapon in weapons:
 		if weapon:
 			weapon.initialize_attack_modes()
+
+	var current_map_id: String = Global.world_manager.get_current_map_id()
+	var current_layer: int = Global.world_manager.get_current_layer()
+	creature.update_visibility(current_map_id, current_layer)
 
 	#if not char_data.player_controlled:
 		#character.start_mutation()

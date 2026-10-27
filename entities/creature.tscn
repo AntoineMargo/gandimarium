@@ -42,6 +42,7 @@ shader_parameter/outline_thickness = 1.0
 shader_parameter/outline_color = Color(9.62615e-07, 0.9396129, 0.96898717, 1)
 
 [node name="Creature" type="Node2D" unique_id=1369579493]
+visible = false
 z_index = 2
 script = ExtResource("1_ss4pg")
 health_bar_scene = ExtResource("2_w4hkv")

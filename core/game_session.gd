@@ -183,8 +183,8 @@ func setup() -> void:
 
 
 func load_test_map() -> void:
-	#map_manager.load_map("empty_region")
-	map_manager.load_map("region3")
+	map_manager.load_map("empty_region")
+	#map_manager.load_map("region3")
 
 
 func setup_global() -> void:
@@ -203,6 +203,9 @@ func setup_global() -> void:
 	Global.door_manager = door_manager
 	Global.reaction_manager = reaction_manager
 	Global.map_manager = map_manager
+	
+	Global.selected_char = null
+	Global.focus_char = null
 
 
 func send_session_half_ready_signal() -> void:

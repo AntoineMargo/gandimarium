@@ -25,11 +25,21 @@ func _on_world_timeout():
 #func _on_crisis_mode_ended(_creature):
 	#world_timer.start(world_timer.wait_time)
 
+
 func _on_crisis_mode_started(_creature):
 	world_timer.paused = true
 
+
 func _on_crisis_mode_ended(_creature):
 	world_timer.paused = false
+
+
+func set_time(d: int, h: int, m: int, s: int):
+	days = d
+	hours = h
+	minutes = m
+	seconds = s
+
 
 func advance_time():
 	seconds += 6
@@ -48,6 +58,7 @@ func advance_time():
 		days += 1
 
 	SignalBus.time_changed.emit(days, hours, minutes, seconds)
+
 
 func skip_time(skipped_days: int, skipped_hours: int = 0, skipped_minutes: int = 0, skipped_seconds: int = 0):
 	var old_total_hours = days * 24 + hours

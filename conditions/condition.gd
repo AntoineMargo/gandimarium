@@ -36,7 +36,7 @@ var vfx_instances: Array[Node] = []
 var user = null
 var target = null
 
-@export_storage var linked_items: Array[Item] = []
+@export var linked_items: Array[Item] = []
 @export_storage var linked_props: Array[PropRef] = []
 @export_storage var linked_creatures: Array[Creature] = []
 @export_storage var linked_maps: Array[MapData] = []
@@ -217,6 +217,8 @@ func dispose():
 	if plan_disrupting:
 		target.interrupted = true
 
+	if target_uid:
+		target = Global.state_manager.get_creature_by_uid(target_uid)
 	target.remove_condition(self)
 	destroy_children()
 	clear_vfx()

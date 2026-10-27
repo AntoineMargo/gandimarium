@@ -1,6 +1,5 @@
 [gd_resource type="Resource" script_class="Item" format=3 uid="uid://bn24ohvtsmnpq"]
 
-[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_4j6vh"]
 [ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="2_qy41i"]
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="3_m1ake"]
 [ext_resource type="Resource" uid="uid://lowvjn23gb1u" path="res://resources/damage_patterns/slash.tres" id="4_fmvwo"]
@@ -61,13 +60,18 @@ metadata/_custom_type_script = "uid://buw2ftcnsdqla"
 script = ExtResource("2_qy41i")
 name = "Brilliant Sword"
 id = "wpn_brilliant_sword"
+description = null
 weight = 0.0
 value = 0
+activities = null
+conditions = null
+slot_type = null
 can_be_removed = false
 conjured = true
 brawn_req_1h = 0
 brawn_req_2h = 0
 strike = SubResource("Resource_jdaye")
 shoot = SubResource("Resource_ea7rm")
+count = null
 owner = null
 metadata/_custom_type_script = "uid://c22428ggciyyj"

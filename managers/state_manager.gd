@@ -18,6 +18,8 @@ func next_uid(type: Enums.UIDType) -> int:
 		return game_state.uid_state.get_party_next()
 	elif type == Enums.UIDType.CONDITION:
 		return game_state.uid_state.get_condition_next()
+	elif type == Enums.UIDType.ITEM:
+		return game_state.uid_state.get_item_next()
 	push_error("Error: ID could not be successfully produced.")
 	return -1
 
@@ -133,7 +135,19 @@ const SAVE_PREFIX: String = "game_state_"
 const MAX_SAVES: int = 10
 
 
+func save_time() -> void:
+	var time: Vector4i = Global.time_manager.get_time()
+	var time_state: TimeState = game_state.time_state
+	
+	time_state.days = time[0]
+	time_state.hours = time[1]
+	time_state.minutes = time[2]
+	time_state.seconds = time[3]
+
+
 func save_game_state() -> bool:
+	save_time()
+	
 	for map in Global.map_manager.get_all_maps():
 		register_map(map)
 
@@ -168,6 +182,11 @@ func _prune_old_saves() -> void:
 		DirAccess.remove_absolute(SAVE_DIR + "/" + saves.pop_front())
 
 
+func load_time() -> void:
+	var time: TimeState = game_state.time_state
+	Global.time_manager.set_time(time.days, time.hours, time.minutes, time.seconds)
+
+
 func load_game_state() -> bool:
 	var saves = _list_saves()
 	if saves.is_empty():
@@ -182,80 +201,9 @@ func load_game_state() -> bool:
 
 	game_state = loaded
 	print("GAME STATE LOADED: ", path)
+	
+	load_time()
 	return true
-
-
-#func save_game_state() -> void:
-	#var maps: Array[Map] = Global.map_manager.get_all_maps()
-	#for map in maps:
-		#register_map(map)
-#
-	#var dir_path: String = "user://saved/game_state"
-	#var path: String = dir_path + "/game_state.tres"
-#
-	#var err: Error = DirAccess.make_dir_recursive_absolute(
-		#ProjectSettings.globalize_path(dir_path)
-	#)
-#
-	#if err != OK:
-		#push_error("Failed to create save directory: %s" % err)
-		#return
-#
-	#var error: Error = ResourceSaver.save(game_state, path)
-#
-	#if error != OK:
-		#push_error("Failed to save game state: %s" % error)
-	#else:
-		#print("GAME STATE SAVED!")
-
-
-#func save_game_state() -> void:
-	#var maps: Array[Map] = Global.map_manager.get_all_maps()
-	#for map in maps:
-		#register_map(map)
-#
-	#var dir_path: String = "user://saved/game_state"
-	#var path: String = dir_path + "/game_state.tres"
-	#var absolute_path: String = ProjectSettings.globalize_path(path)
-#
-	#var err: Error = DirAccess.make_dir_recursive_absolute(
-		#ProjectSettings.globalize_path(dir_path)
-	#)
-#
-	#if err != OK:
-		#push_error("Failed to create save directory: %s" % err)
-		#return
-#
-	#print("Save path: ", absolute_path)
-#
-	#var error: Error = ResourceSaver.save(game_state, path)
-#
-	#if error != OK:
-		#push_error("Failed to save game state: %s" % error)
-	#else:
-		#print("GAME STATE SAVED!")
-#
-#
-#func load_game_state() -> bool:
-	#var path = "user://saved/game_state/game_state.tres"
-	#
-	#if not ResourceLoader.exists(path):
-		#print("No save file found.")
-		#return false
-	#
-	#var loaded_resource = ResourceLoader.load(path)
-	#
-	#if loaded_resource == null:
-		#push_error("Failed to load game state.")
-		#return false
-	#
-	#if loaded_resource is not GameState:
-		#push_error("Loaded resource is not a GameState.")
-		#return false
-		#
-	#game_state = loaded_resource
-	#print("GAME STATE LOADED!")
-	#return true
 
 
 const DIRS = [
@@ -484,8 +432,25 @@ func _flood_room(chosen_layer, start_tile: Vector3i) -> Array[Vector3i]:
 	return result
 
 
+func apply_delta(map: Map , map_state: MapState) -> void:
+	if !map_state.map_delta:
+		return
+
+	var added_props = map_state.map_delta.added_props.values()
+	for prop_delta in added_props:
+		var prop: Prop = Library.get_prop(prop_delta.id)
+		if !prop:
+			continue
+		prop.pos = prop_delta.pos
+		prop.map = map
+		prop.map_id = map.id
+		prop.current_hp = prop_delta.hp
+		prop.is_runtime = true
+		Global.world_manager.spawn_prop(prop)
+
+
 ## Called by the map_manager on loading a map.
-func setup_map_state(map: Map):
+func load_map_state(map: Map):
 	var map_id: String = map.id
 	var map_state: MapState = get_map_state(map_id)
 	if map_state.data_dirty:
@@ -500,12 +465,16 @@ func setup_map_state(map: Map):
 			var creature: Creature = get_creature_by_uid(creature_uid)
 			if creature:
 				Global.world_manager.spawner.spawn_creature(creature)
+		
+		apply_delta(map, map_state)
 
 
 func create_new_game_state() -> void:
 	game_state = GameState.new()
 	if not game_state.uid_state:
 		game_state.uid_state = UIDState.new()
+	if not game_state.time_state:
+		game_state.time_state = TimeState.new()
 
 
 func _ready():

@@ -26,7 +26,7 @@ class_name Prop
 
 var wm = null
 var sm = null
-var parent_layer = null
+var parent_layer: TileMapLayer = null
 
 var initialized: bool = false
 var linked_condition: Condition = null
@@ -52,7 +52,8 @@ func initialize(m: Map = null) -> void:
 		wm.layers[pos.z]["path_map"].set_point_solid(layer_coords, true)
 		wm.layers[pos.z]["occupied"][layer_coords] = true
 	apply_mat_resistances()
-	register()
+	if is_runtime:
+		register()
 	initialized = true
 
 
@@ -140,10 +141,10 @@ func destroy_self():
 	wm.remove_from_tile(self, pos)
 	if is_runtime:
 		unregister()
-	var tilemap: TileMapLayer = get_parent()
 	if is_runtime:
 		queue_free()
 	else:
+		var tilemap: TileMapLayer = get_parent()
 		tilemap.erase_cell(layer_coords)
 
 

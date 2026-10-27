@@ -9,9 +9,15 @@
 [ext_resource type="Script" uid="uid://cpuyout31r1c5" path="res://effects/change_stat_effect.gd" id="5_acca8"]
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="6_5il7i"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="8_otba3"]
+[ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="8_paxiu"]
+[ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creature.gd" id="9_4kmjh"]
 [ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="9_tu1on"]
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="10_con0g"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="10_fe3a8"]
+[ext_resource type="Script" uid="uid://b0qu1tp0r0tqr" path="res://managers/map_manager/map_data.gd" id="11_jxth5"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="11_sc1kn"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="12_m7l7v"]
+[ext_resource type="Script" uid="uid://dmfrpbo3aqtup" path="res://locations/prop_ref.gd" id="13_ust0w"]
 
 [sub_resource type="Resource" id="Resource_r4k7u"]
 script = ExtResource("3_3q11p")

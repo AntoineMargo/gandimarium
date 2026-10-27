@@ -67,7 +67,40 @@ func get_current_map_id() -> String:
 	return current_map.id
 
 
-func spawn_prop(scene: PackedScene, pos: Vector3i) -> Prop:
+func get_current_layer() -> int:
+	return current_layer
+
+
+
+func spawn_prop(prop: Prop) -> Prop:
+	for layer in current_map.get_children():
+		print("layer id: %d" % layer.id)
+		if layer.id == prop.pos.z:
+			layer.props.add_child(prop)
+			prop.global_position = tile_to_pixels(prop.pos)
+			prop.initialize()
+			break
+
+	return prop
+
+
+func spawn_prop_at_pos(prop: Prop, pos: Vector3i) -> Prop:
+	prop.is_runtime = true
+	prop.pos = pos
+
+	for layer in current_map.get_children():
+		print("layer id: %d" % layer.id)
+		if layer.id == pos.z:
+			layer.props.add_child(prop)
+			prop.global_position = tile_to_pixels(pos)
+			prop.initialize()
+			break
+
+	Global.state_manager.add_prop_to_delta(prop)
+	return prop
+
+
+func spawn_prop_scene(scene: PackedScene, pos: Vector3i) -> Prop:
 	var prop: Prop = scene.instantiate()
 	prop.scene = scene
 	prop.is_runtime = true
@@ -126,7 +159,7 @@ func get_creature_at_pos(pos: Vector3i) -> Creature:
 
 func move_prop(old_pos: Vector3i, new_pos: Vector3i):
 	var old_prop = get_prop_at_pos(old_pos)
-	var new_prop = spawn_prop(old_prop.scene, new_pos)
+	var new_prop = spawn_prop_scene(old_prop.scene, new_pos)
 	new_prop.current_hp = old_prop.current_hp
 	new_prop.is_active = old_prop.is_active
 	old_prop.destroy_self()

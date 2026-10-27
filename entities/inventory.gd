@@ -13,7 +13,8 @@ func add_item(item: Item):
 	var inventory = list
 	item = item.duplicate(true)
 	item.owner = self
-
+	if !item.uid:
+		item.uid = Global.state_manager.next_uid(Enums.UIDType.ITEM)
 	for element in inventory:
 		if element.id == item.id:
 			element.count += item.count

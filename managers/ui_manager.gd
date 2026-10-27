@@ -398,7 +398,7 @@ func drag_fail_restore():
 					Global.selected_char.data.inventory.add_item(last_dragged_item)
 					SignalBus.update_inventory.emit()
 				elif window_dragged_from == ItemsList.CONTAINER:
-					Global.container_window.current_container.inventory.add_item(last_dragged_item)
+					Global.game_session.container_window.current_container.inventory.add_item(last_dragged_item)
 					SignalBus.update_container.emit()
 
 		drag_in_progress = false

@@ -14,10 +14,10 @@ func make_delta() -> PropDelta:
 
 func operate(_creature: Creature):
 	SignalBus.update_container.emit(self)
-	if Global.container_window.visible == false:
-		Global.container_window.visible = true
+	if Global.game_session.container_window.visible == false:
+		Global.game_session.container_window.visible = true
 	else:
-		Global.container_window.visible = false
+		Global.game_session.container_window.visible = false
 
 func _initalize_container():
 	inventory = Inventory.new()

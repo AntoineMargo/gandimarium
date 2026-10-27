@@ -415,7 +415,7 @@ func initialize_item(item: Item) -> void:
 
 func equip_item(item: Item) -> bool:
 	initialize_item(item)
-	item.owner = self
+	item.owner_uid = get_uid()
 	if data.equipment.equip_item(item):
 		add_item_conditions(item)
 	if Global.selected_char == self:
@@ -435,7 +435,7 @@ func equip_item_in_slot(item: Item, slot: Enums.EquipmentSlot, force: bool = fal
 			end_mutation()
 			return false
 	data.equipment.equip_item_in_slot(item, slot)
-	item.owner = self
+	item.owner_uid = get_uid()
 	end_mutation()
 	if Global.selected_char == self:
 		SignalBus.update_inventory.emit()
@@ -491,13 +491,65 @@ func take_damage(damage: int, resistance: Enums.Resistance) -> void:
 	SignalBus.dialog_damage_taken.emit(data.name, final_damage)
 
 
-## Used when something (usually an activity) restores health to a creature
-func take_healing(healing: int) -> void:
-	change_stat("current_hp", healing)
+func rest(hours: int):
+	var max_ep: int = data.derived_stats.max_ep
+	for hour in hours:
+		data.current_ep += data.attributes.get_attribute(Enums.Attribute.BRAWN)
+		if data.current_ep >= max_ep:
+			data.current_ep = max_ep
+			break
+
+
+func restore_to_full() -> void:
+	data.current_hp = data.derived_stats.get_points(Enums.Point.MAX_HP)
+	data.current_pp = data.derived_stats.get_points(Enums.Point.MAX_PP)
+	data.current_ep = data.derived_stats.get_points(Enums.Point.MAX_EP)
+
+
+func restore_hp(amount: int) -> void:
+	var ep: int = data.current_ep
+	var hp: int = data.current_hp
+	var max_hp: int = data.derived_stats.max_hp
+	var missing_hp: int = max_hp - hp
+	
+	if ep < amount:
+		amount = ep
+	
+	if missing_hp < amount:
+		amount = missing_hp
+	
+	data.current_ep -= amount
+	data.current_hp += amount
+	
 	health_status_change()
 	if node:
 		node.update_hp_bar()
-	SignalBus.dialog_healing_taken.emit(data.name, healing)
+	SignalBus.dialog_healing_taken.emit(data.name, amount)
+	SignalBus.update_ui_for_char.emit()
+
+
+func restore_pp(amount: int) -> void:
+	var ep: int = data.current_ep
+	var pp: int = data.current_pp
+	var max_pp: int = data.derived_stats.max_pp
+	var missing_pp: int = max_pp - pp
+	
+	if ep < amount:
+		amount = ep
+	
+	if missing_pp < amount:
+		amount = missing_pp
+	
+	data.current_ep -= amount
+	data.current_pp += amount
+	SignalBus.update_ui_for_char.emit()
+
+#func take_healing(healing: int) -> void:
+	#change_stat("current_hp", healing)
+	#health_status_change()
+	#if node:
+		#node.update_hp_bar()
+	#SignalBus.dialog_healing_taken.emit(data.name, healing)
 
 
 func health_status_change() -> void:
@@ -1204,6 +1256,8 @@ func level_up() -> void:
 		SignalBus.message.emit("You have leveled up to %d!" % [data.applied_level])
 
 	build_stats()
+	restore_to_full()
+	SignalBus.update_ui_for_char.emit()
 
 
 ### This initialises the base stats, meant to be used on spawn
@@ -1240,26 +1294,21 @@ func initialize_character() -> void:
 	if data.uid == 0:
 		data.uid = Global.state_manager.next_uid(Enums.UIDType.CREATURE)
 
-	data.derived_stats = DerivedStats.new()
+		data.attributes     = _ensure_resource(data.attributes, func(): return Attributes.new())
+		data.base_stats     = _ensure_resource(data.base_stats, func(): return BaseStats.new())
+		data.inventory      = _ensure_resource(data.inventory, func(): return Inventory.new())
+		data.equipment      = _ensure_resource(data.equipment, func(): return Equipment.new())
+		data.resistances    = _ensure_resource(data.resistances, func(): return Resistances.new())
+		data.relationships  = _ensure_resource(data.relationships, func(): return Relationships.new())
+		data.personality    = _ensure_resource(data.personality, func(): return Personality.new())
 
-	data.attributes     = _ensure_resource(data.attributes, func(): return Attributes.new())
-	data.base_stats     = _ensure_resource(data.base_stats, func(): return BaseStats.new())
-	data.inventory      = _ensure_resource(data.inventory, func(): return Inventory.new())
-	data.equipment      = _ensure_resource(data.equipment, func(): return Equipment.new())
-	data.resistances    = _ensure_resource(data.resistances, func(): return Resistances.new())
-	data.relationships  = _ensure_resource(data.relationships, func(): return Relationships.new())
-	data.personality    = _ensure_resource(data.personality, func(): return Personality.new())
+		if data.major_archetype and data.major_archetype.type == Enums.Archetype.SCHOLASTIC_MAGE:
+			data.max_spells_ready = data.attributes.get_attribute(Enums.Attribute.ACUITY)
+		else:
+			data.max_spells_ready = 99999
 
 	data.talent_pool.assign(Library.general_talents)
-
-	# Should be folded into Archetype's init function
-	if data.major_archetype and data.major_archetype.type == Enums.Archetype.SCHOLASTIC_MAGE:
-		data.max_spells_ready = data.attributes.get_attribute(Enums.Attribute.ACUITY)
-	else:
-		data.max_spells_ready = 99999
-
 	build_stats()
-
 
 ## This builds the stats based on applied level
 func build_stats() -> void:
@@ -1277,17 +1326,19 @@ func build_stats() -> void:
 	data.base_stats.concentration_slots = data.attributes.get_attribute(Enums.Attribute.RESOLVE)
 
 	data.base_stats.max_hp = (data.attributes.get_attribute(Enums.Attribute.BRAWN) * 12) + (data.attributes.get_attribute(Enums.Attribute.BRAWN) * data.base_stats.level_mod)
-	data.current_hp = data.base_stats.max_hp
 
 	@warning_ignore("integer_division")
 	data.base_stats.max_pp = (data.attributes.get_attribute(Enums.Attribute.BRAWN) * 2) + (data.attributes.get_attribute(Enums.Attribute.BRAWN) * data.base_stats.level_mod)/2
-	data.current_pp = data.base_stats.max_pp
+
 	data.base_stats.max_ep = (data.attributes.get_attribute(Enums.Attribute.BRAWN) * 12) + (data.attributes.get_attribute(Enums.Attribute.BRAWN) * data.base_stats.level_mod)
-	data.current_ep = data.base_stats.max_ep
 
 	data.base_stats.max_mp = data.attributes.get_attribute(Enums.Attribute.DEXTERITY)
 	
-	data.current_ap = data.base_stats.max_mp
+	if data.uid == 0:
+		data.current_hp = data.base_stats.max_hp
+		data.current_pp = data.base_stats.max_pp
+		data.current_ep = data.base_stats.max_ep
+		data.current_ap = data.base_stats.max_mp
 
 	data.spells_ready.clear()
 	if data.major_archetype and data.major_archetype.type == Enums.Archetype.ASPECTED_MAGE:
@@ -1303,9 +1354,12 @@ func build_stats() -> void:
 	else:
 		set_current_spell_rank(spell_rank)
 
+	if !data.derived_stats:
+		data.derived_stats = DerivedStats.new()
+
 	if mutation_depth == 0:
-		call_deferred("update_stats")
-		#update_stats()
+		update_stats()
+		#call_deferred("update_stats")
 
 
 ## This builds the final usable stats; to be used directly for activities and from outside the class

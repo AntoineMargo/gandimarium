@@ -11,7 +11,7 @@ func _input(event):
 			if event.pressed:
 				if parent.visible:
 					if get_global_rect().has_point(get_viewport().get_mouse_position()):
-						Global.set_active_window(parent)
+						Global.game_session.set_active_window(parent)
 					
 					if $ColorRect/VBoxContainer/TopBar.get_global_rect().has_point(get_viewport().get_mouse_position()):
 						dragging = true

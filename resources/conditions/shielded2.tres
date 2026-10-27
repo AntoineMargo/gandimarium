@@ -11,8 +11,14 @@
 [ext_resource type="Resource" uid="uid://c2b3pnf7kl01v" path="res://resources/conditions/shielded1.tres" id="6_lb7tj"]
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="6_r74eq"]
 [ext_resource type="Texture2D" uid="uid://fxew7c3sdnk4" path="res://art/interface/items/medium_shield.png" id="8_opr6i"]
+[ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="9_1emct"]
+[ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creature.gd" id="10_8e0m1"]
 [ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="10_v22i6"]
+[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="11_6gejr"]
+[ext_resource type="Script" uid="uid://b0qu1tp0r0tqr" path="res://managers/map_manager/map_data.gd" id="12_wnkcl"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="13_1emct"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="13_h5ujj"]
+[ext_resource type="Script" uid="uid://dmfrpbo3aqtup" path="res://locations/prop_ref.gd" id="14_ydw01"]
 
 [sub_resource type="Resource" id="Resource_6w0pg"]
 script = ExtResource("3_k8jcg")

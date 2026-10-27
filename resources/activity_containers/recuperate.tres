@@ -1,0 +1,53 @@
+[gd_resource type="Resource" script_class="ActivityContainer" format=3 uid="uid://dpp5062noghvy"]
+
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="1_hu14e"]
+[ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_n2gi6"]
+[ext_resource type="Texture2D" uid="uid://0746gc0wqlb6" path="res://art/interface/activities/healing.png" id="3_toaj7"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="4_haex8"]
+[ext_resource type="Script" uid="uid://beq2nm7ovc2lf" path="res://activities/immediate_activity.gd" id="5_o18l6"]
+[ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="6_snt0b"]
+[ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="7_sbt8y"]
+[ext_resource type="Script" uid="uid://c26ciwfru77bx" path="res://effects/restore_points_effect.gd" id="8_hu14e"]
+[ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="9_0m7uy"]
+
+[sub_resource type="Resource" id="Resource_r54y8"]
+script = ExtResource("8_hu14e")
+dice_number = 0
+dice_size = 0
+bonus = 9999
+metadata/_custom_type_script = "uid://c26ciwfru77bx"
+
+[sub_resource type="Resource" id="Resource_n2gi6"]
+script = ExtResource("8_hu14e")
+type = 1
+bonus = 9999
+metadata/_custom_type_script = "uid://c26ciwfru77bx"
+
+[sub_resource type="Resource" id="Resource_mmse1"]
+script = ExtResource("5_o18l6")
+name = "Recuperate"
+id = "act_recuperate"
+description = "You delve into your energy reserves to restore health and power points."
+icon = ExtResource("3_toaj7")
+AP_cost = 6
+PP_cost = 0
+requires_concentration = true
+reach_requires_LOS = false
+spread_requires_LOS = false
+reach = 0
+self_final_effects = Array[ExtResource("7_sbt8y")]([SubResource("Resource_r54y8"), SubResource("Resource_n2gi6")])
+requires_roll = false
+triggers_reaction = false
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_sh15x"]
+script = ExtResource("1_hu14e")
+activity = SubResource("Resource_mmse1")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("9_0m7uy")
+name = "Recuperate"
+icon = ExtResource("3_toaj7")
+activities = Array[ExtResource("1_hu14e")]([SubResource("Resource_sh15x")])
+metadata/_custom_type_script = "uid://covfnqv811mqd"
