@@ -19,10 +19,10 @@ func _drop_data(_position, data):
 				break
 
 		# Clamp target index to valid range
-		target_index = clamp(target_index, 0, Global.container_window.current_container.inventory.list.size())
+		target_index = clamp(target_index, 0, Global.game_session.container_window.current_container.inventory.list.size())
 
 		# Insert it
-		Global.container_window.current_container.inventory.add_item_at_index(data, target_index)
+		Global.game_session.container_window.current_container.inventory.add_item_at_index(data, target_index)
 		
 		print("drag considered successful.")
 		um.drag_in_progress = false

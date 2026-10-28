@@ -75,7 +75,9 @@ var _dmg_patterns = {
 }
 
 var _props = {
-	"wooden_crate": "res://props/containers/crate.tscn"
+	"wooden_crate": "res://props/containers/crate.tscn",
+	"spell_wall": "res://props/magic/spell_wall.tscn"
+	
 }
 
 var _conditions = {

@@ -782,7 +782,7 @@ func add_item_to_inventory(item: Item) -> void:
 
 func grab_item_from_coords(item: Item, coords: Vector3i) -> void:
 	initialize_item(item)
-	Global.world_manager.remove_from_tile(item, coords)
+	Global.world_manager.remove_from_tile_contents(item, coords)
 	data.inventory.add_item(item)
 	SignalBus.update_inventory.emit()
 	SignalBus.message.emit("Picked up %s." % item.name)
@@ -1584,7 +1584,7 @@ func destroy_self() -> void:
 		wm.layers[data.tile_z]["path_map"].set_point_solid(layer_coords, false)
 		wm.layers[data.tile_z]["cover"][layer_coords] = Enums.Cover.NONE
 		wm.layers[data.tile_z]["occupied"][layer_coords] = false
-		wm.remove_from_tile(self, get_coords())
+		wm.remove_from_tile_contents(self, get_coords())
 	var map = Global.map_manager.get_map_by_id(data.map_id)
 	if map:
 		map.unregister_creature(self)

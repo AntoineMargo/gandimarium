@@ -38,7 +38,7 @@ func BasicControls():
 		var coords = wm.get_tile_coords_under_cursor()
 		var item = Library.get_item("wpn_bow")
 		var item_instance = item.duplicate()
-		wm.add_to_tile(item_instance, coords)
+		wm.add_to_tile_contents(item_instance, coords)
 		wm.add_item_visual(coords)
 		print("Item just added to tile.")
 
@@ -59,7 +59,7 @@ func BasicControls():
 			var contents_copy = wm.layers[wm.current_layer]["contents"][coords.vec2].duplicate()
 			for element in contents_copy:
 				if element is Item:
-					wm.remove_from_tile(element, coords.vec3)
+					wm.remove_from_tile_contents(element, coords.vec3)
 
 	if Input.is_action_just_pressed("T"):
 		var map = wm.current_map
@@ -144,7 +144,7 @@ func BasicControls():
 			var contents_copy = wm.layers[coords.z]["contents"][layer_coords].duplicate()
 			for element in contents_copy:
 				if element is Item:
-					wm.remove_from_tile(element, coords)
+					wm.remove_from_tile_contents(element, coords)
 					Global.selected_char.data.inventory.add_item(element)
 					SignalBus.update_inventory.emit()
 					SignalBus.message.emit("Picked up %s." % element.name)
@@ -153,9 +153,7 @@ func BasicControls():
 	if Input.is_action_just_pressed("K"):
 		var coords = wm.get_tile_coords_under_cursor()
 		print("Tile: (%d, %d, %d)" % [coords.x, coords.y, coords.z])
-		#var coords = wm.get_hovered_tile()
 		wm.spawn_prop_at_pos(Library.get_prop("wooden_crate"), coords)
-		#wm.spawn_prop_scene(Library.get_prop("wooden_crate"), coords)
 	
 	#DEBUG
 	if Input.is_action_just_pressed("H"):

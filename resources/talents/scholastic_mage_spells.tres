@@ -66,7 +66,6 @@
 [ext_resource type="Texture2D" uid="uid://bhd3mp57mbhk3" path="res://art/interface/activities/spell-book.png" id="58_3k8ai"]
 [ext_resource type="Texture2D" uid="uid://bhcp6waue3riu" path="res://art/interface/activities/world.png" id="58_s8bqb"]
 [ext_resource type="Script" uid="uid://ctoi0qqlyxwmk" path="res://effects/create_dimension_effect.gd" id="60_2mcys"]
-[ext_resource type="PackedScene" uid="uid://dcvg6wrpdsucf" path="res://props/magic/portal.tscn" id="60_hh0ht"]
 [ext_resource type="Script" uid="uid://dk2ibknskb7og" path="res://effects/create_prop_effect.gd" id="61_2mcys"]
 [ext_resource type="Script" uid="uid://cbya6mmgqnklb" path="res://effects/finish_dimension_effect.gd" id="62_2mcys"]
 
@@ -284,7 +283,6 @@ metadata/_custom_type_script = "uid://ctoi0qqlyxwmk"
 
 [sub_resource type="Resource" id="Resource_csjpf"]
 script = ExtResource("61_2mcys")
-prop = ExtResource("60_hh0ht")
 metadata/_custom_type_script = "uid://dk2ibknskb7og"
 
 [sub_resource type="Resource" id="Resource_6avov"]

@@ -879,7 +879,7 @@ func get_char_coords(character) -> Dictionary:
 		"vec2": Vector2i(pos_3d.x, pos_3d.y)
 	}
 
-func add_to_tile(element, coords: Vector3i):
+func add_to_tile_contents(element, coords: Vector3i):
 	var layer_coords = Vector2i(coords.x, coords.y)
 	if not layers[coords.z]["contents"].has(layer_coords):
 		layers[coords.z]["contents"][layer_coords] = []
@@ -887,7 +887,7 @@ func add_to_tile(element, coords: Vector3i):
 		element = element.duplicate(true)
 	layers[coords.z]["contents"][layer_coords].append(element)
 
-func remove_from_tile(element, coords: Vector3i):
+func remove_from_tile_contents(element, coords: Vector3i):
 	var layer_coords = Vector2i(coords.x, coords.y)
 	if layers[coords.z]["contents"].has(layer_coords):
 		var contents = layers[coords.z]["contents"][layer_coords]
@@ -1012,7 +1012,7 @@ func _apply_step_state(creature: Creature, current_tile: Vector3i, next_tile: Ve
 	layers[current_tile.z]["cover"][layer_current_tile] = Enums.Cover.NONE
 	layers[current_tile.z]["occupied"][layer_current_tile] = false
 	layers[current_tile.z]["path_map"].set_point_solid(layer_current_tile, false)
-	remove_from_tile(creature, current_tile)
+	remove_from_tile_contents(creature, current_tile)
 
 	creature.data.tile_x = next_tile.x
 	creature.data.tile_y = next_tile.y
@@ -1021,7 +1021,7 @@ func _apply_step_state(creature: Creature, current_tile: Vector3i, next_tile: Ve
 	layers[next_tile.z]["cover"][layer_next_tile] = Enums.Cover.QUARTER
 	layers[next_tile.z]["occupied"][layer_next_tile] = true
 	layers[next_tile.z]["path_map"].set_point_solid(layer_next_tile, true)
-	add_to_tile(creature, next_tile)
+	add_to_tile_contents(creature, next_tile)
 
 	creature.visible = (creature.data.tile_z == current_layer)
 	creature.global_position = layers[next_tile.z]["tile_map"].map_to_local(layer_next_tile)
@@ -1080,7 +1080,7 @@ func move_char_to_tile(creature: Creature, origin: Vector3i, target: Vector3i):
 	layers[origin.z]["cover"][layer_origin] = Enums.Cover.NONE
 	layers[origin.z]["occupied"][layer_origin] = false
 	layers[origin.z]["path_map"].set_point_solid(layer_origin, false)
-	remove_from_tile(creature, origin)
+	remove_from_tile_contents(creature, origin)
 	
 	creature.data.tile_x = target.x
 	creature.data.tile_y = target.y
@@ -1089,7 +1089,7 @@ func move_char_to_tile(creature: Creature, origin: Vector3i, target: Vector3i):
 	layers[target.z]["cover"][layer_target] = Enums.Cover.QUARTER
 	layers[target.z]["occupied"][layer_target] = true
 	layers[target.z]["path_map"].set_point_solid(layer_target, true)
-	add_to_tile(creature, target)
+	add_to_tile_contents(creature, target)
 
 func try_move_char_abs(creature: Creature, origin: Vector3i, target: Vector3i):
 	move_char_to_tile(creature, origin, target)

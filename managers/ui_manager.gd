@@ -375,7 +375,7 @@ func _on_update_character_info() -> void:
 func _on_drop_item_on_tile(selected_char):
 	var wm = Global.world_manager
 	var coords = selected_char.get_coords()
-	wm.add_to_tile(last_dragged_item, coords)
+	wm.add_to_tile_contents(last_dragged_item, coords)
 	wm.add_item_visual(coords)
 	print("Item just added to tile.")
 

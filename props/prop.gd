@@ -40,13 +40,13 @@ func setup(_ctx: Context) -> void:
 	pass
 
 
-func initialize(m: Map = null) -> void:
+func initialize() -> void:
 	if initialized:
 		return
-	if m != map:
-		return
+	#if m != map:
+		#return
 	var layer_coords = Vector2i(pos.x, pos.y)
-	wm.add_to_tile(self, pos)
+	wm.add_to_tile_contents(self, pos)
 	wm.layers[pos.z]["cover"][layer_coords] = cover
 	if blocks_movement:
 		wm.layers[pos.z]["path_map"].set_point_solid(layer_coords, true)
@@ -138,7 +138,7 @@ func destroy_self():
 	if blocks_movement:
 		wm.layers[pos.z]["path_map"].set_point_solid(layer_coords, false)
 		wm.layers[pos.z]["occupied"][layer_coords] = false
-	wm.remove_from_tile(self, pos)
+	wm.remove_from_tile_contents(self, pos)
 	if is_runtime:
 		unregister()
 	if is_runtime:
@@ -166,7 +166,7 @@ func base_ready():
 	if is_runtime == false:
 		pos = wm.pixels_to_tile(global_position, parent_layer.id)
 		if map.map_ready == true:
-			initialize(map)
+			initialize()
 	SignalBus.map_ready.connect(initialize)
 	#SignalBus.world_quit.connect(unregister)
 

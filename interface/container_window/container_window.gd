@@ -5,6 +5,7 @@ var current_container: ContainerProp = null
 
 @onready var control = get_node_or_null("Control")
 
+
 func _on_update_container(container_prop: ContainerProp = current_container) -> void:
 	if container_prop:
 		current_container = container_prop
@@ -26,8 +27,10 @@ func _on_update_container(container_prop: ContainerProp = current_container) -> 
 		element.initialize()
 		Global.game_session.container_list.add_child(element)
 
+
 func _on_exit_pressed() -> void:
-	control.visible = false
+	Global.game_session.container_window.visible = false
+
 
 func _ready() -> void:
 	SignalBus.update_container.connect(_on_update_container)

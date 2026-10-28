@@ -15,7 +15,7 @@ func initialize(m: Map = null) -> void:
 	if m != map:
 		return
 	var layer_coords = Vector2i(pos.x, pos.y)
-	wm.add_to_tile(self, pos)
+	wm.add_to_tile_contents(self, pos)
 	if blocks_movement:
 		wm.layers[pos.z]["path_map"].set_point_solid(layer_coords, true)
 		wm.layers[pos.z]["occupied"][layer_coords] = true

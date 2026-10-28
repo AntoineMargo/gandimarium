@@ -70,7 +70,7 @@ func spawn_creature_at_coords(data_file: String, coords: Vector3i, map_id: Strin
 	Global.game_session.add_child(character_node)
 
 	wm.layers[wm.current_layer]["occupied"][layer_coords] = true
-	wm.add_to_tile(character, coords)
+	wm.add_to_tile_contents(character, coords)
 	wm.layers[wm.current_layer]["path_map"].set_point_solid(layer_coords, true)
 	
 	var weapons = character.get_weapons()
@@ -110,7 +110,7 @@ func spawn_creature(creature: Creature) -> void:
 	Global.game_session.add_child(creature_node)
 
 	wm.layers[wm.current_layer]["occupied"][layer_coords] = true
-	wm.add_to_tile(creature, tile_coords)
+	wm.add_to_tile_contents(creature, tile_coords)
 	wm.layers[wm.current_layer]["path_map"].set_point_solid(layer_coords, true)
 
 	#creature.initialize_character()

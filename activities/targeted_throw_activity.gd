@@ -37,7 +37,7 @@ func drop_item_on_target(target):
 	if not item_in_inventory:
 		user.data.equipment.remove_item(weapon)
 	#var coords = target.get_coords()
-	wm.add_to_tile(weapon, target)
+	wm.add_to_tile_contents(weapon, target)
 	wm.add_item_visual(target)
 
 func resolve_with_targets(targets: Array[Vector3i]) -> void:
