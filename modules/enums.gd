@@ -72,7 +72,8 @@ enum UIDType {
 	BUILDING,
 	PARTY,
 	CONDITION,
-	ITEM
+	ITEM,
+	PROP
 	}
 
 enum Routine {

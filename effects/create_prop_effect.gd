@@ -6,21 +6,20 @@ class_name CreatePropEffect
 
 
 func apply_context(ctx: Context) -> bool:
-	var prop_inst: Prop = null
 	if ctx.target is Vector3i:
-		prop_inst = Global.world_manager.spawn_prop_at_pos(Library.get_prop(prop_id), ctx.target)
-		ctx.created_props.append(prop_inst)
-		
-		var prop_ref = PropRef.new(prop_inst.map_id, prop_inst.pos)
-		
+		var prop_data = Library.get_prop(prop_id)
+		var prop: Prop = Global.world_manager.spawn_prop_at_pos_from_data(prop_data, ctx.target)
+		#prop_inst = Global.world_manager.spawn_prop_at_pos(Library.get_prop(prop_id), ctx.target)
+		ctx.created_props.append(prop)
+
 		if ctx is ActivityContext and ctx.condition:
-			prop_inst.linked_condition = ctx.condition
-			ctx.condition.linked_props.append(prop_ref)
+			prop.linked_condition = ctx.condition
+			ctx.condition.linked_props.append(prop)
 		if ctx.shared_context and not ctx.shared_context.created_conditions.is_empty():
 			for condition in ctx.shared_context.created_conditions:
-				prop_inst.linked_condition = condition
-				if prop_ref not in condition.linked_props:
-					condition.linked_props.append(prop_ref)
+				prop_data.linked_condition = condition
+				if prop not in condition.linked_props:
+					condition.linked_props.append(prop)
 		return true
 	return false
 

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PropDataPortal" format=3 uid="uid://csibgstucaiao"]
+
+[ext_resource type="Script" uid="uid://d020gx3m7awdu" path="res://entities/props/prop_data/portal.gd" id="1_16i1a"]
+[ext_resource type="Texture2D" uid="uid://c2cljwj25xv5u" path="res://art/props/portal.png" id="1_64uii"]
+
+[resource]
+script = ExtResource("1_16i1a")
+name = "Portal"
+id = "prop_portal"
+icon = ExtResource("1_64uii")
+texture = ExtResource("1_64uii")
+max_hp = 99999999999
+metadata/_custom_type_script = "uid://d020gx3m7awdu"

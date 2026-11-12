@@ -14,7 +14,7 @@ var _items = {
 	"wpn_fist": "res://resources/items/weapons/fist/wpn_fist.tres",
 	"wpn_pollaxe": "res://resources/items/weapons/pollaxe/pollaxe.tres",
 	"wpn_longsword": "res://resources/items/weapons/longsword/longsword.tres",
-	"wpn_bow": "res://resources/items/weapons/bow/bow.tres",
+	"wpn_bow": "res://resources/items/weapons/wpn_bow.tres",
 	"food_bread": "res://resources/items/food/bread.tres",
 	#"wpn_battle_axe": "res://resources/items/weapons/wpn_battle_axe.tres",
 	#"wpn_bow": "res://resources/items/weapons/wpn_bow.tres",
@@ -75,10 +75,17 @@ var _dmg_patterns = {
 }
 
 var _props = {
-	"wooden_crate": "res://props/containers/crate.tscn",
-	"spell_wall": "res://props/magic/spell_wall.tscn"
-	
+	"wooden_crate": "res://resources/props/crate.tres",
+	"spell_wall": "res://resources/props/spell_wall.tres",
+	"bed": "res://resources/props/bed.tres",
+	"portal": "res://resources/props/portal.tres"
 }
+
+#var _props = {
+	#"wooden_crate": "res://props/containers/crate.tscn",
+	#"spell_wall": "res://props/magic/spell_wall.tscn"
+	#
+#}
 
 var _conditions = {
 	"bed_sleep" = "res://resources/conditions/bed_sleep.tres"
@@ -99,14 +106,17 @@ func get_map(id: String) -> Map:
 	var new_map = new_map_scene.instantiate()
 	return new_map
 
-func get_prop(id: String) -> Prop:
-	if _props.has(id):
-		var ref = _props[id]
-		if ref is String:
-			_props[id] = load(ref)
-		var new_prop = _props[id].instantiate()
-		return new_prop
-	return null
+#func get_prop(id: String) -> Prop:
+	#if _props.has(id):
+		#var ref = _props[id]
+		#if ref is String:
+			#_props[id] = load(ref)
+		#var new_prop = _props[id].instantiate()
+		#return new_prop
+	#return null
+	
+func get_prop(id: String) -> Resource:
+	return _get_from(_props, id)
 
 func get_item(id: String) -> Resource:
 	return _get_from(_items, id)

@@ -177,7 +177,7 @@ func remove_map(map_id: int) -> void:
 	if map_data == null:
 		return
 
-	Global.state_manager.register_map(map_data.root)
+	Global.state_manager.save_map(map_data.root)
 
 	var removed_map_id = map_data.root.id
 	if removed_map_id == current_map_id:

@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="Personality" load_steps=2 format=3 uid="uid://dcv5d2emo4p2b"]
+[gd_resource type="Resource" script_class="Personality" format=3 uid="uid://dcv5d2emo4p2b"]
 
-[ext_resource type="Script" uid="uid://bwpyc87wtxb7o" path="res://entities/personality.gd" id="1_cpgfl"]
+[ext_resource type="Script" uid="uid://bwpyc87wtxb7o" path="res://entities/creatures/personality.gd" id="1_cpgfl"]
 
 [resource]
 script = ExtResource("1_cpgfl")

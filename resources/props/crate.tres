@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PropDataContainer" format=3 uid="uid://6t67mgm6kgpj"]
+
+[ext_resource type="Texture2D" uid="uid://cnrn8i46w8hx4" path="res://art/props/crate.png" id="1_pfoor"]
+[ext_resource type="Script" uid="uid://0e3c3obhme7v" path="res://entities/props/prop_data/container.gd" id="2_sjflb"]
+
+[resource]
+script = ExtResource("2_sjflb")
+name = "Container"
+id = "prop_container"
+icon = ExtResource("1_pfoor")
+texture = ExtResource("1_pfoor")
+cover = 2
+metadata/_custom_type_script = "uid://0e3c3obhme7v"

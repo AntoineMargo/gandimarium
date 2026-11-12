@@ -1,10 +1,10 @@
 [gd_resource type="TileSet" format=3 uid="uid://ctj7opq37dw46"]
 
-[ext_resource type="PackedScene" uid="uid://c071vi42b0xxf" path="res://props/containers/crate.tscn" id="1_ef5ns"]
-[ext_resource type="PackedScene" uid="uid://bkx2puqv0suly" path="res://props/beds/bed.tscn" id="2_0akgm"]
-[ext_resource type="PackedScene" uid="uid://cefhlfa4s5gnf" path="res://props/trees/tree.tscn" id="3_6d3hc"]
-[ext_resource type="PackedScene" uid="uid://dqu8pym5ac83l" path="res://props/special/spawner.tscn" id="3_p8k48"]
-[ext_resource type="PackedScene" uid="uid://cfnylo4mey3hn" path="res://props/doors/wooden_door.tscn" id="4_4i4lf"]
+[ext_resource type="PackedScene" uid="uid://c071vi42b0xxf" path="res://entities/props/containers/crate.tscn" id="1_ef5ns"]
+[ext_resource type="PackedScene" uid="uid://bkx2puqv0suly" path="res://entities/props/beds/bed.tscn" id="2_0akgm"]
+[ext_resource type="PackedScene" uid="uid://cefhlfa4s5gnf" path="res://entities/props/trees/tree.tscn" id="3_6d3hc"]
+[ext_resource type="PackedScene" uid="uid://dqu8pym5ac83l" path="res://entities/props/special/spawner.tscn" id="3_p8k48"]
+[ext_resource type="PackedScene" uid="uid://cfnylo4mey3hn" path="res://entities/props/doors/wooden_door.tscn" id="4_4i4lf"]
 [ext_resource type="Texture2D" uid="uid://cexhdafqfd4n0" path="res://art/tiles/16x16_tiles.png" id="6_ex8c5"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_mwy2k"]

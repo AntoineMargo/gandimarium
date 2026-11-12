@@ -72,50 +72,118 @@ func get_current_layer() -> int:
 
 
 
-func spawn_prop(prop: Prop) -> Prop:
-	for layer in current_map.get_children():
-		print("layer id: %d" % layer.id)
-		if layer.id == prop.pos.z:
-			layer.props.add_child(prop)
-			prop.global_position = tile_to_pixels(prop.pos)
-			prop.initialize()
-			break
+#func spawn_prop(prop: Prop) -> Prop:
+	#for layer in current_map.get_children():
+		#print("layer id: %d" % layer.id)
+		#if layer.id == prop.pos.z:
+			#layer.props.add_child(prop)
+			#prop.global_position = tile_to_pixels(prop.pos)
+			#prop.initialize()
+			#break
+#
+	#return prop
+#
+#
+#func spawn_prop_at_pos(prop: Prop, pos: Vector3i) -> Prop:
+	#prop.is_runtime = true
+	#prop.pos = pos
+#
+	#for layer in current_map.get_children():
+		#print("layer id: %d" % layer.id)
+		#if layer.id == pos.z:
+			#layer.props.add_child(prop)
+			#prop.global_position = tile_to_pixels(pos)
+			#prop.initialize()
+			#break
+#
+	#Global.state_manager.add_prop_to_delta(prop)
+	#return prop
 
-	return prop
+
+func register_prop(prop: Prop) -> void:
+	current_map.register_prop(prop)
+	Global.state_manager.register_prop(prop)
 
 
-func spawn_prop_at_pos(prop: Prop, pos: Vector3i) -> Prop:
-	prop.is_runtime = true
-	prop.pos = pos
+func spawn_prop_from_handle(prop: Prop) -> Prop:
+	if !prop.data:
+		push_error("Missing data inside prop.")
+	var prop_scene = preload("res://entities/props/prop.tscn")
+	var prop_node: PropNode = prop_scene.instantiate()
+	prop.node = prop_node
+	prop_node.prop = prop
+	prop_node.data = prop.data
+	
+	var pos = prop.data.pos
 
 	for layer in current_map.get_children():
 		print("layer id: %d" % layer.id)
 		if layer.id == pos.z:
-			layer.props.add_child(prop)
-			prop.global_position = tile_to_pixels(pos)
-			prop.initialize()
+			layer.add_child(prop_node)
+			prop_node.global_position = tile_to_pixels(pos)
 			break
 
-	Global.state_manager.add_prop_to_delta(prop)
+	prop.runtime_setup()
+	register_prop(prop)
+
 	return prop
 
 
-func spawn_prop_scene(scene: PackedScene, pos: Vector3i) -> Prop:
-	var prop: Prop = scene.instantiate()
-	prop.scene = scene
-	prop.is_runtime = true
-	prop.pos = pos
+func spawn_prop_at_pos_from_data(prop_data: PropData, pos: Vector3i) -> Prop:
+	var prop: Prop = Prop.new()
+	var prop_scene = preload("res://entities/props/prop.tscn")
+	var prop_node: PropNode = prop_scene.instantiate()
+	var prop_data_inst: PropData = prop_data.duplicate(true)
+	
+	prop.data = prop_data_inst
+	prop.node = prop_node
+	prop_data_inst.is_runtime = true
+	prop_data_inst.pos = pos
+	prop_node.prop = prop
+	prop_node.data = prop_data_inst
 
 	for layer in current_map.get_children():
 		print("layer id: %d" % layer.id)
 		if layer.id == pos.z:
-			layer.props.add_child(prop)
-			prop.global_position = tile_to_pixels(pos)
-			prop.initialize()
+			layer.add_child(prop_node)
+			prop_node.global_position = tile_to_pixels(pos)
 			break
+	
+	prop.general_setup()
+	prop.runtime_setup()
+	register_prop(prop)
 
-	Global.state_manager.add_prop_to_delta(prop)
 	return prop
+
+
+#func handle_prop_node(prop_node: PropNode) -> Prop:
+	#var map_state: MapState = Global.state_manager.get_map_state(prop_node.map.id)
+	#var normalized_z: int = prop_node.parent_layer.id % 1000
+	#var pos: Vector3i = Global.world_manager.pixels_to_tile(prop_node.global_position, normalized_z)
+	#var registered_prop: Prop = map_state.original_prop_registry.get(pos) 
+	#if !registered_prop:
+		#registered_prop = Prop.new()
+		#registered_prop.data = Library.get_prop(prop_node.prop_id)
+		#map_state.original_prop_registry[pos] = registered_prop
+	#return registered_prop
+
+
+#func spawn_prop_scene(scene: PackedScene, pos: Vector3i) -> Prop:
+	#var prop: Prop = scene.instantiate()
+	#prop.scene = scene
+	#prop.is_runtime = true
+	#prop.pos = pos
+#
+	#for layer in current_map.get_children():
+		#print("layer id: %d" % layer.id)
+		#if layer.id == pos.z:
+			#layer.props.add_child(prop)
+			#prop.global_position = tile_to_pixels(pos)
+			#prop.initialize()
+			#break
+#
+	#Global.state_manager.add_prop_to_delta(prop)
+	#return prop
 
 
 func get_entity_at_pos(pos: Vector3i):
@@ -157,12 +225,13 @@ func get_creature_at_pos(pos: Vector3i) -> Creature:
 				return element
 	return null
 
-func move_prop(old_pos: Vector3i, new_pos: Vector3i):
-	var old_prop = get_prop_at_pos(old_pos)
-	var new_prop = spawn_prop_scene(old_prop.scene, new_pos)
-	new_prop.current_hp = old_prop.current_hp
-	new_prop.is_active = old_prop.is_active
-	old_prop.destroy_self()
+
+#func move_prop(old_pos: Vector3i, new_pos: Vector3i):
+	#var old_prop = get_prop_at_pos(old_pos)
+	#var new_prop = spaw(old_prop.scene, new_pos)
+	#new_prop.current_hp = old_prop.current_hp
+	#new_prop.is_active = old_prop.is_active
+	#old_prop.destroy_self()
 
 func determine_size(map: Map):
 	for child in map.get_children():
@@ -820,8 +889,6 @@ func get_multi_level_path(start: Vector3i, goal: Vector3i, allow_occupied_goal: 
 
 	return full_path
 
-func get_creature_by_id(target_id) -> Creature:
-	return current_map.creatures_by_id.get(target_id, null)
 
 ## Returns if a tile is occupied or not
 func get_tile_occupied(tile: Vector3i) -> bool:
@@ -919,11 +986,7 @@ func flash_tile_overlay(tile_pos: Vector2i, colour: Color = Color(0.0, 1.0, 0.0,
 	tilemap.add_child(flash_instance)
 	flash_instance.colour_rect.color = colour
 	flash_instance.get_node("AnimationPlayer").play("flash")
-	
-#func creatures_visible_if_on_layer():
-	#if current_map:
-		#for creature in current_map.creatures:
-			#creature.visible = (creature.data.tile_z == current_layer)
+
 
 func spawn_creature_at_coords(data_file: String, coords: Vector3i, map_id: String, routine: String = "") -> Creature:
 	return spawner.spawn_creature_at_coords(data_file, coords, map_id, routine)

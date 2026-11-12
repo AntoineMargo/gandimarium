@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="PropDataBed" format=3 uid="uid://b42xcihayifpt"]
+
+[ext_resource type="Resource" uid="uid://drp51dn28rmft" path="res://resources/conditions/bed_sleep.tres" id="1_vwtcn"]
+[ext_resource type="Script" uid="uid://ds0q6kfvhtlh0" path="res://entities/props/prop_data/bed.gd" id="1_vxsqm"]
+[ext_resource type="Texture2D" uid="uid://bg4yjm2fp47vf" path="res://art/props/bed.png" id="2_rk4fx"]
+
+[resource]
+script = ExtResource("1_vxsqm")
+condition = ExtResource("1_vwtcn")
+name = "Bed"
+id = "prop_bed"
+icon = ExtResource("2_rk4fx")
+texture = ExtResource("2_rk4fx")
+max_hp = 80
+cover = 2
+metadata/_custom_type_script = "uid://ds0q6kfvhtlh0"

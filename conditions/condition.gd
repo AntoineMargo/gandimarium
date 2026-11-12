@@ -37,7 +37,7 @@ var user = null
 var target = null
 
 @export var linked_items: Array[Item] = []
-@export_storage var linked_props: Array[PropRef] = []
+@export_storage var linked_props: Array[Prop] = []
 @export_storage var linked_creatures: Array[Creature] = []
 @export_storage var linked_maps: Array[MapData] = []
 @export_storage var linked_modifiers: Array[Modifier] = []
@@ -232,9 +232,7 @@ func destroy_children():
 	for i in range(linked_items.size() - 1, -1, -1):
 		linked_items[i].destroy()
 	for i in range(linked_props.size() - 1, -1, -1):
-		var prop: Prop = linked_props[i].get_prop()
-		if prop:
-			prop.destroy_self()
+		linked_props[i].destroy_self()
 	for i in range(linked_creatures.size() - 1, -1, -1):
 		linked_creatures[i].destroy_self()
 	for i in range(linked_modifiers.size() - 1, -1, -1):

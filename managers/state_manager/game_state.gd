@@ -4,6 +4,7 @@ class_name GameState
 @export var uid_state: UIDState = null
 @export var creatures_by_uid: Dictionary[int, Creature] = {} # uid -> Creature
 @export var parties_by_uid: Dictionary[int, Party] = {} # uid -> Party
+@export var props_by_uid: Dictionary[int, Prop] = {} # uid -> Creature
 @export var conditions_by_uid: Dictionary[int, Condition] = {} # uid -> Condition
 @export var map_states: Dictionary[String, MapState] = {}
 @export var time_state: TimeState = null
@@ -19,6 +20,11 @@ func get_creature(uid: int) -> Creature:
 
 func get_party(uid: int) -> Party:
 	return parties_by_uid.get(uid)
+
+
+func get_prop(uid: int) -> Prop:
+	return props_by_uid.get(uid)
+
 
 func _init():
 	if not uid_state:

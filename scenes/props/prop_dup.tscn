@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://codag8481orof"]
+
+[ext_resource type="Script" uid="uid://6fr3rwyrma1o" path="res://entities/props/prop_node.gd" id="1_rbn3i"]
+[ext_resource type="Shader" uid="uid://cxw8dhhjld7uv" path="res://shaders/creature_general.gdshader" id="2_nrb82"]
+[ext_resource type="Texture2D" uid="uid://b6bu3wq3yd2wl" path="res://art/props/tile_placeholder.png" id="3_xsaed"]
+[ext_resource type="Shader" uid="uid://d3bhdpwfbbg1x" path="res://shaders/outline.gdshader" id="4_3dp11"]
+[ext_resource type="Texture2D" uid="uid://bcjmxhgemswtr" path="res://art/characters/hooded_char.png" id="5_mtmlb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v3x1g"]
+resource_local_to_scene = true
+shader = ExtResource("2_nrb82")
+shader_parameter/melt_amount = 0.0
+shader_parameter/grayscale_amount = 0.0
+shader_parameter/wounded_amount = 0.0
+shader_parameter/wounded_color = Vector3(1, 0.1, 0.1)
+shader_parameter/wounded_strength = 1.5
+shader_parameter/hit_intensity = 0.0
+shader_parameter/hit_color = Vector3(1, 0.1, 0.1)
+shader_parameter/aura_amount = 0.0
+shader_parameter/aura_color = Vector3(0.7, 0.85, 1)
+shader_parameter/fade_amount = 0.0
+shader_parameter/pulse_speed = 2.0
+shader_parameter/pulse_offset = 0.0
+shader_parameter/pulse_sharpness = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d0e1c"]
+resource_local_to_scene = true
+shader = ExtResource("4_3dp11")
+shader_parameter/allow_out_of_bounds = true
+shader_parameter/outline_thickness = 1.0
+shader_parameter/outline_color = Color(9.62615e-07, 0.9396129, 0.96898717, 1)
+
+[node name="Prop" type="Node2D" unique_id=720708868]
+script = ExtResource("1_rbn3i")
+prop_id = "spell_wall"
+
+[node name="Mover" type="Node2D" parent="." unique_id=633667545]
+
+[node name="Sprite2D" type="Sprite2D" parent="Mover" unique_id=1899283006]
+z_index = 2
+material = SubResource("ShaderMaterial_v3x1g")
+texture = ExtResource("3_xsaed")
+
+[node name="VFXContainer" type="Node2D" parent="Mover" unique_id=369511154]
+
+[node name="ShaderOrchestration" type="Node" parent="Mover" unique_id=1274108251]
+
+[node name="Outline" type="Sprite2D" parent="Mover" unique_id=797547027]
+visible = false
+modulate = Color(1, 1, 0, 1)
+self_modulate = Color(1, 1, 0, 1)
+z_index = 1
+material = SubResource("ShaderMaterial_d0e1c")
+texture = ExtResource("5_mtmlb")

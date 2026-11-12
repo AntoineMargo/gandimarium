@@ -9,7 +9,7 @@ func apply_context(ctx: Context) -> bool:
 	var pocket_dimension: Map = ctx.created_maps[0].root
 	var portal: Prop = ctx.created_props[0]
 	
-	if portal is not PortalProp:
+	if portal.data is not PropDataPortal:
 		return false
 	
 	pocket_dimension.portal_location = portal.get_coords()

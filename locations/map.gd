@@ -10,8 +10,10 @@ class_name Map
 
 var map_ready: bool = false
 var creatures: Array[Creature] = []
+var props: Array[Prop] = []
+
 #var creatures_by_uid: Dictionary[int, Creature] = {}
-var props_by_pos: Dictionary[Vector3i, Prop] = {}
+#var props_by_pos: Dictionary[Vector3i, Prop] = {}
 
 
 func register_creature(creature: Creature):
@@ -22,8 +24,20 @@ func register_creature(creature: Creature):
 		print("creature ALREADY registered: ", creature.data.name)
 
 
+func register_prop(prop: Prop):
+	if prop not in props:
+		props.append(prop)
+		#print("creature registered: ", creature.data.name)
+	else:
+		print("prop ALREADY registered: ", prop.data.name)
+
+
 func unregister_creature(creature: Creature):
 	creatures.erase(creature)
+
+
+func unregister_prop(prop: Prop):
+	props.erase(prop)
 
 
 func clear_data() -> void:

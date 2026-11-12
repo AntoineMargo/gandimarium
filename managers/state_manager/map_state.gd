@@ -8,12 +8,16 @@ class_name MapState
 @export var tile_to_rooms: Dictionary[Vector3i, Array] = {}
 
 @export var creature_uids: Array[int] = []
-
 @export var party_uids: Array[int] = []
+@export var prop_uids: Array[int] = []
+
+## Tracks props that come directly with the map.
+@export var original_prop_registry: Dictionary[Vector3i, Prop] = {}
 
 @export var area_conditions: Dictionary = {} # uid -> Condition
 
 @export var initialized: bool = false
+## Turned to true when tiles are damaged or otherwise modified; prompts a new room assessment.
 @export var data_dirty: bool = true
 
 

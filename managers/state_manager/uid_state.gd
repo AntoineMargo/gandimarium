@@ -9,6 +9,8 @@ class_name UIDState
 @export var building_uid: int = 0
 @export var condition_uid: int = 0 # For Area Conditions!
 @export var item_uid: int = 0
+@export var prop_uid: int = 0
+
 
 
 func get_creature_next() -> int:
@@ -39,3 +41,8 @@ func get_condition_next() -> int:
 func get_item_next() -> int:
 	item_uid += 1
 	return item_uid
+
+
+func get_prop_next() -> int:
+	prop_uid += 1
+	return prop_uid

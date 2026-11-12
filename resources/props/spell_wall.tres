@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PropData" format=3 uid="uid://cwkvspamejbx7"]
+
+[ext_resource type="Texture2D" uid="uid://ossw83egde8f" path="res://art/props/spell_wall.png" id="1_2j6w4"]
+[ext_resource type="Script" uid="uid://bjka2p2a25d1a" path="res://entities/props/prop_data.gd" id="1_rajlq"]
+
+[resource]
+script = ExtResource("1_rajlq")
+name = "Spell Wall"
+id = "prop_spell_wall"
+icon = ExtResource("1_2j6w4")
+texture = ExtResource("1_2j6w4")
+max_hp = 120
+cover = 4
+metadata/_custom_type_script = "uid://bjka2p2a25d1a"

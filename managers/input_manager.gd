@@ -153,7 +153,8 @@ func BasicControls():
 	if Input.is_action_just_pressed("K"):
 		var coords = wm.get_tile_coords_under_cursor()
 		print("Tile: (%d, %d, %d)" % [coords.x, coords.y, coords.z])
-		wm.spawn_prop_at_pos(Library.get_prop("wooden_crate"), coords)
+		#wm.spawn_prop_at_pos(Library.get_prop("wooden_crate"), coords)
+		wm.spawn_prop_at_pos_from_data(Library.get_prop("spell_wall"), coords)
 	
 	#DEBUG
 	if Input.is_action_just_pressed("H"):

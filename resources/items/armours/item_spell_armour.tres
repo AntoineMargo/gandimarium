@@ -13,10 +13,10 @@
 [ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="9_jdpfn"]
 [ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="9_q2i6h"]
 [ext_resource type="Script" uid="uid://l76qcdu2mdkb" path="res://VFX/pulse_profile.gd" id="10_a4vmi"]
-[ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creature.gd" id="10_na870"]
+[ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creatures/creature.gd" id="10_na870"]
 [ext_resource type="Script" uid="uid://b0qu1tp0r0tqr" path="res://managers/map_manager/map_data.gd" id="12_qtbmm"]
 [ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="13_t81f8"]
-[ext_resource type="Script" uid="uid://dmfrpbo3aqtup" path="res://locations/prop_ref.gd" id="14_i5e1x"]
+[ext_resource type="Script" uid="uid://bfmc58snh20aw" path="res://entities/props/prop.gd" id="14_q2i6h"]
 
 [sub_resource type="Resource" id="Resource_0t3kt"]
 script = ExtResource("4_egja4")

@@ -51,7 +51,7 @@ func spawn_creature_at_coords(data_file: String, coords: Vector3i, map_id: Strin
 	var char_data: CreatureData = load(data_file)
 	char_data = char_data.duplicate(true)
 
-	var char_scene = load("res://entities/creature.tscn")
+	var char_scene = preload("res://entities/creatures/creature.tscn")
 	var character_node: CreatureNode = char_scene.instantiate()
 	
 	add_default_activities(char_data)
@@ -100,7 +100,7 @@ func spawn_creature(creature: Creature) -> void:
 	if not tile_data.get_custom_data("walkable") or wm.layers[tile_coords.z]["occupied"].get(layer_coords, false):
 		print("Cannot spawn creature on this tile!")
 
-	var creature_scene = load("res://entities/creature.tscn")
+	var creature_scene = preload("res://entities/creatures/creature.tscn")
 	var creature_node: CreatureNode = creature_scene.instantiate()
 	creature.attach_node(creature_node)
 
@@ -132,6 +132,9 @@ func spawn_creature(creature: Creature) -> void:
 			#character.level_up()
 		#character.end_mutation()
 
+
+func spawn_prop(prop: Prop) -> void:
+	pass
 
 #func _ready():
 	#pass
