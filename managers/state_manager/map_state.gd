@@ -1,7 +1,7 @@
 extends Resource
 class_name MapState
 
-@export var map_delta: MapDelta
+@export var modified_tiles = {}
 
 @export var buildings: Dictionary[int, Building] = {}
 @export var rooms: Dictionary[int, Room] = {}
@@ -36,6 +36,4 @@ func complete_init() -> void:
 
 
 func _init():
-	if not map_delta:
-		map_delta = MapDelta.new()
 	call_deferred("complete_init")

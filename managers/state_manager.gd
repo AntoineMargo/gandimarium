@@ -26,7 +26,17 @@ func next_uid(type: Enums.UIDType) -> int:
 	return -1
 
 
-func register_creature(creature: Creature) -> void:
+func register_party_to_state(party: Party) -> void:
+	if not game_state:
+		return
+	var uid: int = party.get_uid()
+	var existing: Party = game_state.get_party(uid)
+	if existing:
+		return
+	game_state.parties_by_uid[uid] = party
+
+
+func register_creature_to_state(creature: Creature) -> void:
 	if not game_state:
 		return
 	var uid: int = creature.get_uid()
@@ -36,7 +46,7 @@ func register_creature(creature: Creature) -> void:
 	game_state.creatures_by_uid[uid] = creature
 
 
-func register_prop(prop: Prop) -> void:
+func register_prop_to_state(prop: Prop) -> void:
 	if not game_state:
 		return
 	var uid: int = prop.get_uid()
@@ -46,14 +56,25 @@ func register_prop(prop: Prop) -> void:
 	game_state.props_by_uid[uid] = prop
 
 
-func register_party(party: Party) -> void:
+func unregister_party_from_state(party: Party) -> void:
 	if not game_state:
 		return
 	var uid: int = party.get_uid()
-	var existing: Party = game_state.get_party(uid)
-	if existing:
+	game_state.parties_by_uid.erase(uid)
+
+
+func unregister_creature_from_state(creature: Creature) -> void:
+	if not game_state:
 		return
-	game_state.parties_by_uid[uid] = party
+	var uid: int = creature.get_uid()
+	game_state.creatures_by_uid.erase(uid)
+
+
+func unregister_prop_from_state(prop: Prop) -> void:
+	if not game_state:
+		return
+	var uid: int = prop.get_uid()
+	game_state.props_by_uid.erase(uid)
 
 
 func get_creature_by_uid(uid: int) -> Creature:
@@ -70,10 +91,13 @@ func get_prop_by_uid(uid: int) -> Prop:
 
 func save_map(map: Map) -> void:
 	var map_state: MapState = get_map_state(map.id)
+	#map_state.creature_uids.append_array(map.creatures)
+	#map_state.prop_uids.append_array(map.props)
 	map_state.creature_uids.clear()
 	for creature in map.creatures:
 		var uid: int = creature.get_uid()
 		map_state.creature_uids.append(uid)
+	map_state.prop_uids.clear()
 	for prop in map.props:
 		var uid: int = prop.get_uid()
 		map_state.prop_uids.append(uid)
@@ -92,90 +116,69 @@ func get_map_state(map_id: String) -> MapState:
 	return game_state.map_states[map_id]
 
 
-func get_map_delta(map_id: String) -> MapDelta:
-	var map_state = get_map_state(map_id)
-	if !map_state:
-		return null
-	var map_delta: MapDelta = map_state.map_delta
-	if map_delta:
-		return map_delta
-	else:
-		return null
+#func get_map_delta(map_id: String) -> MapDelta:
+	#var map_state = get_map_state(map_id)
+	#if !map_state:
+		#return null
+	#var map_delta: MapDelta = map_state.map_delta
+	#if map_delta:
+		#return map_delta
+	#else:
+		#return null
 
 
-#func get_propdelta_from_propref(prop_ref: PropRef) -> PropDelta:
-	#var map_delta: MapDelta = get_map_delta(prop_ref.map_id)
-	#return map_delta.added_props.get(prop_ref.pos)
+## Registers the creature to both map and state.
+func register_creature(creature: Creature) -> void:
+	#wm.current_map.register_creature(creature)
+	var map: Map = Global.map_manager.get_map_by_id(creature.data.map_id)
+	map.register_creature(creature)
+	register_creature_to_state(creature)
+
+
+## Registers the prop to both map and state.
+func register_prop(prop: Prop) -> void:
+	var map: Map = Global.map_manager.get_map_by_id(prop.data.map_id)
+	map.register_prop(prop)
+	register_prop_to_state(prop)
+
+
+func unregister_creature(creature: Creature) -> void:
+	var map: Map = Global.map_manager.get_map_by_id(creature.data.map_id)
+	map.unregister_creature(creature)
+	unregister_creature_from_state(creature)
+
+
+func unregister_prop(prop: Prop) -> void:
+	var map: Map = Global.map_manager.get_map_by_id(prop.data.map_id)
+	map.unregister_prop(prop)
+	unregister_prop_from_state(prop)
 
 
 func handle_prop_node(prop_node: PropNode) -> Prop:
 	var map_state: MapState = get_map_state(prop_node.map.id)
 	var normalized_z: int = prop_node.tilemap.id % 1000
 	var pos: Vector3i = Global.world_manager.pixels_to_tile(prop_node.global_position, normalized_z)
-	var registered_prop: Prop = map_state.original_prop_registry.get(pos) 
-	if !registered_prop:
-		registered_prop = Prop.new()
-		registered_prop.node = prop_node
-		registered_prop.data = Library.get_prop(prop_node.prop_id)
-		
-		prop_node.data = registered_prop.data
-		prop_node.prop = registered_prop
-		
-		map_state.original_prop_registry[pos] = registered_prop
-		registered_prop.general_setup()
-	registered_prop.runtime_setup()
-	return registered_prop
+	var prop: Prop = map_state.original_prop_registry.get(pos) 
 	
+	if !prop:
+		prop = Prop.new()
+	prop.node = prop_node
 
-#func handle_prop_node(prop_node: PropNode) -> void:
-	#var map_state: MapState = get_map_state(prop_node.map.id)
-	#var prop_pos: Vector3i = Global.world_manager.pixels_to_tile(prop_node.global_position, prop_node.parent_layer.id)
-	#var prop: Prop = map_state.original_prop_registry.get(prop_pos)
-	#if !prop:
-		#prop = Prop.new()
-	#prop_node.prop = prop
-	## Apply changes based on default to state delta
-	#prop.node = prop_node
-
-
-#func add_prop_to_delta(prop: Prop) -> void:
-	#var map_delta = get_map_delta(prop.map_id)
-	#var prop_delta = prop.make_delta()
-	#var key = prop.pos
-#
-	#if map_delta.removed_props.has(key):
-		#map_delta.removed_props.erase(key)
-#
-	#if map_delta.added_props.has(key):
-		#return
-	#else:
-		#map_delta.added_props[key] = prop_delta
-		##print("Prop added to delta.")
-#
-#
-#func remove_prop_from_delta(prop: Prop) -> void:
-	#var map_delta = get_map_delta(prop.map.id)
-	#var key = prop.pos
-#
-	#if map_delta.added_props.has(key):
-		#map_delta.added_props.erase(key)
-		#return
-#
-	## Cancel modification
-	#if map_delta.modified_props.has(key):
-		#map_delta.modified_props.erase(key)
-#
-	#map_delta.removed_props[key] = true
-
-
-func on_prop_modified(prop: Prop) -> void:
-	var map_delta = get_map_delta(prop.map.id)
-	var key = prop.pos
-
-	if map_delta.added_props.has(key):
-		map_delta.added_props[key] = prop.make_delta()
+	if !prop.data:
+		prop.data = Library.get_prop(prop_node.prop_id).duplicate(true)
+		prop.data.map_id = prop.node.map.id
 	else:
-		map_delta.modified_props[key] = prop.make_delta()
+		if prop.data.current_hp <= 0:
+			prop.destroy_self()
+	
+	prop_node.data = prop.data
+	prop_node.prop = prop
+	
+	map_state.original_prop_registry[pos] = prop
+	prop.general_setup()
+	prop.runtime_setup()
+	register_prop(prop)
+	return prop
 
 
 #const SAVE_DIR: String = "user://saved/game_state"
@@ -481,23 +484,6 @@ func _flood_room(chosen_layer, start_tile: Vector3i) -> Array[Vector3i]:
 	return result
 
 
-func apply_delta(map: Map , map_state: MapState) -> void:
-	if !map_state.map_delta:
-		return
-
-	var added_props = map_state.map_delta.added_props.values()
-	for prop_delta in added_props:
-		var prop: Prop = Library.get_prop(prop_delta.id)
-		if !prop:
-			continue
-		prop.pos = prop_delta.pos
-		prop.map = map
-		prop.map_id = map.id
-		prop.current_hp = prop_delta.hp
-		prop.is_runtime = true
-		Global.world_manager.spawn_prop(prop)
-
-
 ## Called by the map_manager on loading a map.
 func load_map_state(map: Map):
 	var map_id: String = map.id
@@ -518,8 +504,6 @@ func load_map_state(map: Map):
 			var prop: Prop = get_prop_by_uid(prop_uid)
 			if prop:
 				Global.world_manager.spawn_prop_from_handle(prop)
-		
-		apply_delta(map, map_state)
 
 
 func create_new_game_state() -> void:

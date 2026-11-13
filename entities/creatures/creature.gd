@@ -1585,9 +1585,10 @@ func destroy_self() -> void:
 		wm.layers[data.tile_z]["cover"][layer_coords] = Enums.Cover.NONE
 		wm.layers[data.tile_z]["occupied"][layer_coords] = false
 		wm.remove_from_tile_contents(self, get_coords())
-	var map = Global.map_manager.get_map_by_id(data.map_id)
-	if map:
-		map.unregister_creature(self)
+	Global.state_manager.unregister_creature(self)
+	#var map = Global.map_manager.get_map_by_id(data.map_id)
+	#if map:
+		#map.unregister_creature(self)
 	if Global.crisis_manager:
 		Global.crisis_manager.remove_from_initiative_order(self)
 	if node:

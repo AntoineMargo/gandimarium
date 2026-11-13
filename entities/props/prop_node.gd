@@ -31,4 +31,6 @@ func handle_prop() -> void:
 func _ready() -> void:
 	tilemap = get_parent()
 	map = tilemap.get_parent()
+	if data and !data.map_id:
+		data.map_id = map.id
 	call_deferred("handle_prop")

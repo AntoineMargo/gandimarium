@@ -24,7 +24,7 @@ func general_setup() -> void:
 		data.pos = Global.world_manager.pixels_to_tile(node.global_position, node.tilemap.id)
 	if data.uid == 0:
 		data.uid = Global.state_manager.next_uid(Enums.UIDType.PROP)
-	data.current_hp = data.max_hp
+		data.current_hp = data.max_hp
 
 
 ## To be used when the node has been loaded into the world.
@@ -38,37 +38,37 @@ func runtime_setup() -> void:
 		Global.world_manager.layers[pos.z]["occupied"][layer_coords] = true
 
 
-func register() -> void:
-	node.map.props.append(self)
+#func register() -> void:
+	#node.map.props.append(self)
 
 
-func unregister() -> void:
-	var prop_array: Array[Prop] = node.map.props
-	for prop in prop_array:
-		if prop.data.uid == data.uid:
-			prop_array.erase(prop)
+#func unregister() -> void:
+	#var prop_array: Array[Prop] = node.map.props
+	#for prop in prop_array:
+		#if prop.data.uid == data.uid:
+			#prop_array.erase(prop)
 
 
-func make_delta() -> PropDelta:
-	var prop_delta = PropDelta.new()
-	prop_delta.id = data.id
-	prop_delta.pos = data.pos
-	prop_delta.hp = data.current_hp
-	return prop_delta
+#func make_delta() -> PropDelta:
+	#var prop_delta = PropDelta.new()
+	#prop_delta.id = data.id
+	#prop_delta.pos = data.pos
+	#prop_delta.hp = data.current_hp
+	#return prop_delta
 
 
-func apply_mat_resistances():
-	match data.mat:
-		Enums.Mat.SOFT_WOOD:
-			data.heat = -10
-		Enums.Mat.HARD_WOOD:
-			data.physical = 10
-			data.heat = 0
-			data.cold = 10
-			data.electricity = 20
-			data.corrosion = 10
-			data.poison = 20
-			data.psychic = 100
+#func apply_mat_resistances():
+	#match data.mat:
+		#Enums.Mat.SOFT_WOOD:
+			#data.heat = -10
+		#Enums.Mat.HARD_WOOD:
+			#data.physical = 10
+			#data.heat = 0
+			#data.cold = 10
+			#data.electricity = 20
+			#data.corrosion = 10
+			#data.poison = 20
+			#data.psychic = 100
 
 
 func take_damage(damage: int, resistance: Enums.Resistance):
@@ -119,10 +119,10 @@ func destroy_self():
 		Global.world_manager.layers[data.pos.z]["occupied"][layer_coords] = false
 	Global.world_manager.remove_from_tile_contents(self, get_coords())
 	if data.is_runtime:
-		unregister()
+		Global.state_manager.unregister_prop(self)
 	if node:
-		#node.tilemap.erase_cell(layer_coords)
 		node.queue_free()
+		node = null
 
 
 func operate(_creature: Creature):

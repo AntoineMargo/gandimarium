@@ -26,7 +26,11 @@ func _on_exit_button_pressed() -> void:
 func _on_resume_button_pressed():
 	Global.game_session.unpause_game()
 
+
 func _process(_delta: float) -> void:
+	if Input.is_action_just_pressed("Escape"):
+		Global.game_session.toggle_pause()
+		#get_tree().quit()
 	if Input.is_action_just_pressed("F12"):
 		Global.game_session.unpause_game()
 

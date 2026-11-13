@@ -100,14 +100,17 @@ func get_current_layer() -> int:
 	#return prop
 
 
-func register_prop(prop: Prop) -> void:
-	current_map.register_prop(prop)
-	Global.state_manager.register_prop(prop)
+#func register_prop(prop: Prop) -> void:
+	#current_map.register_prop(prop)
+	#Global.state_manager.register_prop(prop)
 
 
 func spawn_prop_from_handle(prop: Prop) -> Prop:
 	if !prop.data:
 		push_error("Missing data inside prop.")
+		return
+	if !prop.data.is_runtime:
+		return
 	var prop_scene = preload("res://entities/props/prop.tscn")
 	var prop_node: PropNode = prop_scene.instantiate()
 	prop.node = prop_node
@@ -124,7 +127,7 @@ func spawn_prop_from_handle(prop: Prop) -> Prop:
 			break
 
 	prop.runtime_setup()
-	register_prop(prop)
+	Global.state_manager.register_prop(prop)
 
 	return prop
 
@@ -151,7 +154,7 @@ func spawn_prop_at_pos_from_data(prop_data: PropData, pos: Vector3i) -> Prop:
 	
 	prop.general_setup()
 	prop.runtime_setup()
-	register_prop(prop)
+	Global.state_manager.register_prop(prop)
 
 	return prop
 

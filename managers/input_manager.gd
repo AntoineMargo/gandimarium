@@ -16,7 +16,8 @@ func print_layers(element) -> void:
 
 func BasicControls():
 	if Input.is_action_just_pressed("Escape"):
-		get_tree().quit()
+		Global.game_session.toggle_pause()
+		#get_tree().quit()
 
 	if Input.is_action_just_pressed("F12"):
 		Global.game_session.toggle_pause()
@@ -188,9 +189,7 @@ func BasicControls():
 			#print("GAME STATE DELETED!")
 
 	if Input.is_action_just_pressed("L"):
-		var map_delta = wm.get_map_delta(wm.current_map.id)
-		for prop in map_delta.added_props:
-			print("prop: %s (pos: %d, %d, %d)" % [prop.id, prop.pos.x, prop.pos.y, prop.pos.z])
+		pass
 
 	if Input.is_action_just_pressed("J"):
 		var coords = wm.get_tile_coords_under_cursor()

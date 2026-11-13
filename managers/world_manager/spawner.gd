@@ -38,9 +38,9 @@ func apply_routine(creature: Creature, routine) -> void:
 		creature.ai_controller.localai.routine = char_routine
 
 
-func register_creature(creature: Creature) -> void:
-	wm.current_map.register_creature(creature)
-	Global.state_manager.register_creature(creature)
+#func register_creature(creature: Creature) -> void:
+	#wm.current_map.register_creature(creature)
+	#Global.state_manager.register_creature_to_state(creature)
 
 
 ## Don't use guardian for scene tile spawners
@@ -78,7 +78,7 @@ func spawn_creature_at_coords(data_file: String, coords: Vector3i, map_id: Strin
 		if weapon:
 			weapon.initialize_attack_modes()
 
-	call_deferred("register_creature", character)
+	Global.state_manager.call_deferred("register_creature", character)
 
 	call_deferred("level_up_creature", character)
 
@@ -113,9 +113,7 @@ func spawn_creature(creature: Creature) -> void:
 	wm.add_to_tile_contents(creature, tile_coords)
 	wm.layers[wm.current_layer]["path_map"].set_point_solid(layer_coords, true)
 
-	#creature.initialize_character()
-	#wm.current_map.register_creature(creature)
-	call_deferred("register_creature", creature)
+	Global.state_manager.call_deferred("register_creature", creature)
 	
 	var weapons = creature.get_weapons()
 	for weapon in weapons:

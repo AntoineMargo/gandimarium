@@ -12,11 +12,11 @@ class_name PropData
 @export var max_hp: int = 40
 
 @export var cover: Enums.Cover
-@export_storage var is_runtime: bool = false
+@export var is_runtime: bool = false
 
-@export_storage var map_id: String
-@export_storage var pos: Vector3i = Vector3i(-1, -1, -1)
-@export_storage var current_hp: int = 0
+@export var map_id: String
+@export var pos: Vector3i = Vector3i(-1, -1, -1)
+@export var current_hp: int = 0
 @export_storage var is_active: bool = false
 
 # Resistances
