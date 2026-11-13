@@ -3,14 +3,6 @@ class_name PropDataContainer
 
 @export var inventory: Inventory = null
 
-func make_delta() -> PropDelta:
-	var prop_delta = PropDelta.new()
-	prop_delta.id = id
-	prop_delta.pos = pos
-	prop_delta.hp = current_hp
-	if inventory:
-		prop_delta.inventory = inventory.list
-	return prop_delta
 
 func operate(_creature: Creature):
 	SignalBus.update_container.emit(self)

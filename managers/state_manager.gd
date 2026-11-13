@@ -170,6 +170,9 @@ func handle_prop_node(prop_node: PropNode) -> Prop:
 	else:
 		if prop.data.current_hp <= 0:
 			prop.destroy_self()
+		else:
+			if prop.data.pos != pos:
+				prop_node.global_position = Global.world_manager.tile_to_pixels(pos)
 	
 	prop_node.data = prop.data
 	prop_node.prop = prop

@@ -131,7 +131,7 @@ func spawn_creature(creature: Creature) -> void:
 		#character.end_mutation()
 
 
-func spawn_prop(prop: Prop) -> void:
+func spawn_prop(_prop: Prop) -> void:
 	pass
 
 #func _ready():

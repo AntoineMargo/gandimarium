@@ -37,8 +37,8 @@ func BasicControls():
 
 	if Input.is_action_just_pressed("F"):
 		var coords = wm.get_tile_coords_under_cursor()
-		var item = Library.get_item("wpn_bow")
-		var item_instance = item.duplicate()
+		var item: Item = Library.get_item("wpn_bow")
+		var item_instance = item.duplicate(true)
 		wm.add_to_tile_contents(item_instance, coords)
 		wm.add_item_visual(coords)
 		print("Item just added to tile.")
