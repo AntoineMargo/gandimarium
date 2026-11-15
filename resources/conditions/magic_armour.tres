@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Condition" format=3 uid="uid://6nqtak4qoo1p"]
 
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="1_ovfuq"]
-[ext_resource type="Resource" uid="uid://eyjsms47n3eg" path="res://resources/items/armours/ar_magic.tres" id="2_cj5f0"]
+[ext_resource type="Resource" uid="uid://eyjsms47n3eg" path="res://resources/items/armours/magic_armour.tres" id="2_cj5f0"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="2_dh2nj"]
 [ext_resource type="Script" uid="uid://d3y8y4l4xgjbd" path="res://effects/create_item.gd" id="3_b41ce"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="3_cj5f0"]

@@ -2,17 +2,32 @@
 
 [ext_resource type="Script" uid="uid://cna3smanlwqkg" path="res://entities/creatures/equipment.gd" id="1_13mkk"]
 [ext_resource type="Script" uid="uid://dxofkj1ggocqb" path="res://various/hand_set.gd" id="1_pj7j4"]
-[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="3_bc6dv"]
-[ext_resource type="Resource" uid="uid://dwt64w3wubcci" path="res://resources/items/armours/ar_medium.tres" id="4_rrf6b"]
+[ext_resource type="Script" uid="uid://3dqccyt3kjma" path="res://items/item_container.gd" id="3_g8imr"]
+[ext_resource type="Resource" uid="uid://dwt64w3wubcci" path="res://resources/items/armours/medium_armour.tres" id="4_iwucf"]
 [ext_resource type="Resource" uid="uid://bcqbs3c34d6lr" path="res://resources/items/weapons/wpn_pole_axe.tres" id="5_rrf6b"]
 [ext_resource type="Resource" uid="uid://dso2ca1rnk6p0" path="res://resources/items/weapons/wpn_fist.tres" id="6_jwymd"]
 
+[sub_resource type="Resource" id="Resource_bc6dv"]
+script = ExtResource("3_g8imr")
+item = ExtResource("4_iwucf")
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
+[sub_resource type="Resource" id="Resource_g8imr"]
+script = ExtResource("3_g8imr")
+item = ExtResource("5_rrf6b")
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
+[sub_resource type="Resource" id="Resource_jt51q"]
+script = ExtResource("3_g8imr")
+item = ExtResource("6_jwymd")
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
 [resource]
 script = ExtResource("1_13mkk")
-slots = Dictionary[int, ExtResource("3_bc6dv")]({
+slots = Dictionary[int, ExtResource("3_g8imr")]({
 0: null,
 1: null,
-2: ExtResource("4_rrf6b"),
+2: SubResource("Resource_bc6dv"),
 3: null,
 4: null,
 5: null,
@@ -27,8 +42,8 @@ slots = Dictionary[int, ExtResource("3_bc6dv")]({
 14: null,
 15: null,
 16: null,
-17: ExtResource("5_rrf6b"),
+17: SubResource("Resource_g8imr"),
 18: null,
-19: ExtResource("6_jwymd")
+19: SubResource("Resource_jt51q")
 })
 metadata/_custom_type_script = "uid://cna3smanlwqkg"

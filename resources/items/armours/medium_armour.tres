@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="Armour" format=3 uid="uid://dwt64w3wubcci"]
+
+[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="1_gj5wa"]
+[ext_resource type="Resource" uid="uid://3xw0lplsohmg" path="res://resources/conditions/medium_armour.tres" id="2_ugn0k"]
+[ext_resource type="Script" uid="uid://d3sdrg6ues8pm" path="res://items/armour.gd" id="3_u56du"]
+[ext_resource type="Resource" uid="uid://bpoe3wixrsni4" path="res://resources/activities/weapons/melee_misc_weak_crush.tres" id="4_0ix04"]
+[ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="5_wyf4s"]
+[ext_resource type="Script" uid="uid://buw2ftcnsdqla" path="res://abilities/activity_variant.gd" id="6_o8xae"]
+[ext_resource type="Resource" uid="uid://dqokkkpm4yfmi" path="res://resources/activities/weapons/throw_misc_weak_crush.tres" id="7_utehw"]
+
+[sub_resource type="Resource" id="Resource_bn82r"]
+script = ExtResource("6_o8xae")
+activity = ExtResource("4_0ix04")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_d6hui"]
+script = ExtResource("6_o8xae")
+activity = ExtResource("7_utehw")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[resource]
+script = ExtResource("3_u56du")
+name = "Medium Armour"
+id = "medium_armour"
+description = "A complete set of mostly flexible armour."
+weight = 5.0
+value = 500
+conditions = Array[ExtResource("1_gj5wa")]([ExtResource("2_ugn0k")])
+slot_type = 4
+strike = SubResource("Resource_bn82r")
+throw = SubResource("Resource_d6hui")
+owner = null
+metadata/_custom_type_script = "uid://d3sdrg6ues8pm"

@@ -131,6 +131,5 @@ brawn_req_1h = null
 brawn_req_2h = null
 strike = SubResource("Resource_4rg3v")
 throw = SubResource("Resource_6i7wf")
-count = null
 owner = null
 metadata/_custom_type_script = "uid://c22428ggciyyj"

@@ -99,6 +99,5 @@ brawn_req_2h = 4
 strike = SubResource("Resource_pq21x")
 shoot = SubResource("Resource_7diy7")
 throw = SubResource("Resource_dmukc")
-count = null
 owner = null
 metadata/_custom_type_script = "uid://c22428ggciyyj"

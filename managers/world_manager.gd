@@ -644,6 +644,7 @@ func calculate_path_cost_3D_simple(path) -> float:
 	
 	return total_cost
 
+
 ## Returns an array of floats: movement cost per segment
 func turn_path_array_into_cost_array(path: Array) -> Array:
 	
@@ -694,6 +695,7 @@ func find_path_index_by_cost(path, move_budget):
 	
 	return path.size() - 1
 
+
 func path_to_adjacency(origin: Vector3i, goal: Vector3i, distance: int):
 	var layer_origin = Vector2i(origin.x, origin.y)
 	var layer_goal = Vector2i(goal.x, goal.y)
@@ -724,6 +726,7 @@ func path_to_adjacency(origin: Vector3i, goal: Vector3i, distance: int):
 		path.pop_back()
 
 	return path
+
 
 ## finds best path from creature to a tile/entity at X distance of target.
 ## o(rigin) and t(arget) can both be either Vector3 or Entity.
@@ -841,6 +844,7 @@ func path_to_target_adjacency(o, t, distance):
 #
 	#return path
 
+
 func get_multi_level_path_for_creature(creature: Creature, goal: Vector3i, allow_occupied_goal: bool = false, easy_doors: bool = false) -> Array[Vector3i]:
 	if easy_doors:
 		Global.door_manager.prepare_doors_for_pathfinding()
@@ -852,6 +856,7 @@ func get_multi_level_path_for_creature(creature: Creature, goal: Vector3i, allow
 	if easy_doors:
 		Global.door_manager.reset_doors_to_previous_state()
 	return path
+
 
 ## returns path array of steps to goal tile by tile in Vector3i format.
 func get_multi_level_path(start: Vector3i, goal: Vector3i, allow_occupied_goal: bool = false) -> Array[Vector3i]:
@@ -908,6 +913,7 @@ func get_tile_occupied(tile: Vector3i) -> bool:
 	
 	return occupied.get(tile_coords, false)
 
+
 func get_hovered_tile() -> Vector3i:
 	if not current_tile_map_layer:
 		return Vector3i(0, 0, 0)
@@ -917,6 +923,7 @@ func get_hovered_tile() -> Vector3i:
 	var coords_2d = Vector2i(current_tile_map_layer.local_to_map(world_mouse_pos))
 	return Vector3i(coords_2d.x, coords_2d.y, current_layer)
 
+
 func get_tile_coords_under_cursor() -> Vector3i:
 	if not current_tile_map_layer:
 		return Vector3i(0, 0, 0)
@@ -925,6 +932,7 @@ func get_tile_coords_under_cursor() -> Vector3i:
 	var world_mouse_pos = canvas_transform.affine_inverse() * screen_mouse_pos
 	var coords_2d = Vector2i(current_tile_map_layer.local_to_map(world_mouse_pos))
 	return Vector3i(coords_2d[0], coords_2d[1], current_layer)
+
 
 ## @deprecated: use "get_hovered_tile"
 func get_tile_coords() -> Dictionary:
@@ -949,13 +957,14 @@ func get_char_coords(character) -> Dictionary:
 		"vec2": Vector2i(pos_3d.x, pos_3d.y)
 	}
 
+
 func add_to_tile_contents(element, coords: Vector3i):
 	var layer_coords = Vector2i(coords.x, coords.y)
 	if not layers[coords.z]["contents"].has(layer_coords):
 		layers[coords.z]["contents"][layer_coords] = []
-	if element is Item:
-		element = element.duplicate(true)
 	layers[coords.z]["contents"][layer_coords].append(element)
+	print("Element added to tile.")
+
 
 func remove_from_tile_contents(element, coords: Vector3i):
 	var layer_coords = Vector2i(coords.x, coords.y)
@@ -966,10 +975,11 @@ func remove_from_tile_contents(element, coords: Vector3i):
 			
 			var still_has_items = false
 			for other in contents:
-				if other is Item:
+				if other is ItemContainer:
 					still_has_items = true
 			if not still_has_items and layers[coords.z]["item_visual"].has(layer_coords):
 				remove_item_visual(coords)
+
 
 func remove_item_visual(coords: Vector3i):
 	var layer_coords = Vector2i(coords.x, coords.y)
@@ -977,6 +987,7 @@ func remove_item_visual(coords: Vector3i):
 	if visual:
 		visual.queue_free()
 		layers[coords.z]["item_visual"].erase(layer_coords)
+
 
 func flash_tile_overlay(tile_pos: Vector2i, colour: Color = Color(0.0, 1.0, 0.0, 1.0)) -> void:
 	var flash_scene = preload("res://interface/local_map/flash_tile_effect.tscn")
@@ -994,6 +1005,7 @@ func flash_tile_overlay(tile_pos: Vector2i, colour: Color = Color(0.0, 1.0, 0.0,
 func spawn_creature_at_coords(data_file: String, coords: Vector3i, map_id: String, routine: String = "") -> Creature:
 	return spawner.spawn_creature_at_coords(data_file, coords, map_id, routine)
 
+
 ## takes a tile's coords in either Vector3i or Vector2i format and returns them in pixel format
 func tile_to_pixels(coords) -> Vector2:
 	if coords is Vector3i:
@@ -1005,11 +1017,13 @@ func tile_to_pixels(coords) -> Vector2:
 		return Vector2(-1.0, -1.0)
 	return Vector2((coords.x * Global.TILE_SIZE + Global.TILE_SIZE * 0.5), (coords.y * Global.TILE_SIZE + Global.TILE_SIZE * 0.5))
 
+
 ## takes a tile's coords in pixel format and returns it in Vector2i format
 ## second parameter is optional: the z-level of the location, current_layer by default
 func pixels_to_tile(coords: Vector2, level: int = current_layer) -> Vector3i:
 	@warning_ignore("narrowing_conversion")
 	return Vector3i(coords.x / Global.TILE_SIZE, coords.y / Global.TILE_SIZE, level)
+
 
 func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, visited: Dictionary) -> bool:
 	var key = str(start)
@@ -1062,6 +1076,7 @@ func _find_recursive_path(start: Vector3i, goal: Vector3i, path_array: Array, vi
 		path_array.pop_back()
 	return false
 
+
 func _apply_step_side_effects(creature: Creature, current_tile: Vector3i, next_tile: Vector3i):
 	handle_tile_conditions(next_tile, creature)
 	selection_highlight.update_selection_highlight()
@@ -1070,6 +1085,7 @@ func _apply_step_side_effects(creature: Creature, current_tile: Vector3i, next_t
 	SignalBus.event.emit(ReactionEvent.movement(Context.movement(creature, current_tile, next_tile)))
 
 	flash_path([current_tile])
+
 
 func _apply_step_state(creature: Creature, current_tile: Vector3i, next_tile: Vector3i):
 	var layer_current_tile = Vector2i(current_tile.x, current_tile.y)
@@ -1249,7 +1265,7 @@ func _simple_interact_disambiguation(force_interact: bool = false):
 					return
 				else:
 					Global.selected_char.perform_attack(coords)
-		elif element is Item:
+		elif element is ItemContainer:
 			if force_interact:
 				Global.selected_char.perform_attack(coords)
 			else:
@@ -1276,9 +1292,9 @@ func interact_operate(creature: Creature, element: Prop, coords: Vector3i):
 	if get_close_to_target(creature, coords, 1):
 		creature.perform_operate(element)
 
-func interact_grab(creature: Creature, element: Item, coords: Vector3i):
+func interact_grab(creature: Creature, element: ItemContainer, coords: Vector3i):
 	if get_close_to_target(creature, coords, 1):
-		creature.grab_item_from_coords(element, coords)
+		creature.grab_item_container_from_coords(element, coords)
 
 func _complex_interact():
 	pass

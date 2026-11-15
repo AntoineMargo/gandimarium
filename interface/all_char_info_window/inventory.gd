@@ -12,12 +12,12 @@ func _on_update_inventory_window() -> void:
 	if Global.selected_char == null:
 		print("No character selected.")
 		return
-	var items = character.get_inventory()
+	var items: Array[ItemContainer] = character.get_inventory()
 	for i in range(items.size()):
 		var element = preload("res://interface/inventory_element/inventory_element.tscn").instantiate()
 		element.items_interface = Enums.ItemsList.INVENTORY
 		element.index = i
-		element.item = items[i]
+		element.item_container = items[i]
 		element.initialize()
 		Global.game_session.items_list.add_child(element)
 
@@ -26,9 +26,9 @@ func _on_update_inventory_window() -> void:
 		if not is_instance_valid(label_node):
 			continue
 
-		var item = character.data.equipment.get_item_in_slot(slot)
+		var container: ItemContainer = character.data.equipment.get_item_in_slot(slot)
 
-		label_node.text = item.name if item else "Empty"
+		label_node.text = container.item.name if container and container.item else "Empty"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

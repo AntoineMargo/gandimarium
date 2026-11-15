@@ -1,3 +1,3 @@
 extends Node2D
 
-@export var item: Item
+#@export var item_container: ItemContainer

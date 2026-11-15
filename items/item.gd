@@ -20,8 +20,6 @@ class_name Item
 @export var shoot: ActivityVariant = null
 @export var throw: ActivityVariant = null
 
-@export var count: int = 1
-
 var selected_attacks: Dictionary[Enums.AttackCategory, Enums.AttackType] = {}
 
 @export_storage var uid: int = 0

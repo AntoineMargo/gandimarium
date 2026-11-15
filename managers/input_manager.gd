@@ -38,10 +38,9 @@ func BasicControls():
 	if Input.is_action_just_pressed("F"):
 		var coords = wm.get_tile_coords_under_cursor()
 		var item: Item = Library.get_item("wpn_bow")
-		var item_instance = item.duplicate(true)
-		wm.add_to_tile_contents(item_instance, coords)
+		var item_container: ItemContainer = ItemContainer.new(item, 1)
+		wm.add_to_tile_contents(item_container, coords)
 		wm.add_item_visual(coords)
-		print("Item just added to tile.")
 
 	if Input.is_action_just_pressed("G"):
 		var _session = Global.game_session
@@ -89,8 +88,8 @@ func BasicControls():
 		if wm.layers[hovered_tile.z]["contents"].has(layer_tile):
 			print("Contents: ")
 			for element in wm.layers[hovered_tile.z]["contents"][layer_tile]:
-				if element is Item:
-					print("	%s (item)" % element.name)
+				if element is ItemContainer:
+					print("	%s (item)" % element.item.name)
 				elif element is Creature:
 					print("	%s (creature)" % element.data.name)
 				elif element is Prop:
@@ -159,34 +158,21 @@ func BasicControls():
 	
 	#DEBUG
 	if Input.is_action_just_pressed("H"):
-		var path: String = "user://saved/game_state/game_state.tres"
-
-		var state: GameState = ResourceLoader.load(
-			path,
-			"GameState",
-			ResourceLoader.CACHE_MODE_IGNORE
-		)
-
-		if state == null:
-			print("Failed to load saved GameState.")
-			return
-
-		print("Creatures on disk: ", state.creatures_by_uid.size())
+		pass
 		#var path: String = "user://saved/game_state/game_state.tres"
-		#var absolute_path: String = ProjectSettings.globalize_path(path)
 #
-		#if not FileAccess.file_exists(path):
-			#print("Game state file does not exist.")
+		#var state: GameState = ResourceLoader.load(
+			#path,
+			#"GameState",
+			#ResourceLoader.CACHE_MODE_IGNORE
+		#)
+#
+		#if state == null:
+			#print("Failed to load saved GameState.")
 			#return
 #
-		#var err: Error = DirAccess.remove_absolute(absolute_path)
-#
-		#if err != OK:
-			#push_error("Failed to delete game state. Error code: %s" % err)
-		#elif FileAccess.file_exists(path):
-			#push_error("Deletion reported success, but file still exists!")
-		#else:
-			#print("GAME STATE DELETED!")
+		#print("Creatures on disk: ", state.creatures_by_uid.size())
+
 
 	if Input.is_action_just_pressed("L"):
 		pass

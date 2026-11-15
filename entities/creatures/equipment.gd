@@ -87,7 +87,7 @@ const SLOT_TO_TYPE = {
 	Enums.EquipmentSlot.HAND_DEFAULT: Enums.SlotType.NONE,
 }
 
-@export var slots: Dictionary[Enums.EquipmentSlot, Item] = {
+@export var slots: Dictionary[Enums.EquipmentSlot, ItemContainer] = {
 	Enums.EquipmentSlot.HELM: null,
 	Enums.EquipmentSlot.CAPE: null,
 	Enums.EquipmentSlot.ARMOUR: null,
@@ -116,36 +116,40 @@ const SLOT_TO_TYPE = {
 @export var active_hand: int = 0
 @export var active_category: Enums.AttackCategory = Enums.AttackCategory.STRIKE
 
-func get_all_equipped_items() -> Array[Item]:
-	var collection: Array[Item] = []
+
+func get_all_equipped_items() -> Array[ItemContainer]:
+	var collection: Array[ItemContainer] = []
 	for slot in slots:
-		var item: Item = slots[slot]
-		if item != null:
-			collection.append(item)
+		var container: ItemContainer = slots[slot]
+		if container != null:
+			collection.append(container)
 	return collection
 
-func get_active_weapon() -> Item:
-	var weapons = get_items_of_slot_type(Enums.SlotType.NONE)
-	var selected_weapon = weapons[active_hand]
+
+func get_active_weapon() -> ItemContainer:
+	var weapons: Array[ItemContainer] = get_items_of_slot_type(Enums.SlotType.NONE)
+	var selected_weapon: ItemContainer = weapons[active_hand]
 	return selected_weapon
 
-func equip_item(item: Item) -> bool:
-	if item == null:
+
+func equip_item(item_container: ItemContainer) -> bool:
+	if item_container == null or item_container.item == null:
 		return false
 
-	var slot_array = _get_slot_array(item.slot_type)
+	var slot_array: Array = _get_slot_array(item_container.item.slot_type)
 	if slot_array.is_empty():
 		return false
 
 	for slot in slot_array:
 		if slots[slot] == null:
-			slots[slot] = item
+			slots[slot] = item_container
 			return true
 
 	return false
 
-func equip_item_in_slot(item: Item, slot: Enums.EquipmentSlot) -> bool:
-	if item == null:
+
+func equip_item_in_slot(item_container: ItemContainer, slot: Enums.EquipmentSlot) -> bool:
+	if item_container == null or item_container.item == null:
 		return false
 
 	if not slots.has(slot):
@@ -154,86 +158,92 @@ func equip_item_in_slot(item: Item, slot: Enums.EquipmentSlot) -> bool:
 	if slots[slot] != null:
 		return false
 
-	var slot_type = SLOT_TO_TYPE[slot]
+	var slot_type: Enums.SlotType = SLOT_TO_TYPE[slot]
 
-	if slot_type != Enums.SlotType.NONE and slot_type != item.slot_type:
+	if slot_type != Enums.SlotType.NONE and slot_type != item_container.item.slot_type:
 		return false
 
-	slots[slot] = item
+	slots[slot] = item_container
 	return true
 
 
-func remove_item(item: Item) -> Item:
-	var item_id = item.id
-	#var item_uid = item.uid
+func remove_item(item_or_container) -> ItemContainer:
+	var target_item: Item = item_or_container.item if item_or_container is ItemContainer else (item_or_container as Item)
+	if target_item == null:
+		return null
+	var item_id: String = target_item.id
 	for slot in slots:
-		if slots[slot] and slots[slot].id == item_id:
+		var container: ItemContainer = slots[slot]
+		if container and container.item and container.item.id == item_id:
 			slots[slot] = null
-			return item
+			return container
 	return null
 
 
-#func remove_item(item: Item) -> Item:
-	#for slot in slots:
-		#if slots[slot] == item:
-			#slots[slot] = null
-			#return item
-	#return null
-
-func free_slot(slot: Enums.EquipmentSlot) -> Item:
+func free_slot(slot: Enums.EquipmentSlot) -> ItemContainer:
 	if not slots.has(slot):
 		return null
 
-	var item: Item = slots[slot]
+	var container: ItemContainer = slots[slot]
 	slots[slot] = null
-	return item
+	return container
 
-func free_slot_type(slot_type: Enums.SlotType) -> Array[Item]:
-	var items: Array[Item] = []
-	var slot_array = _get_slot_array(slot_type)
+
+func free_slot_type(slot_type: Enums.SlotType) -> Array[ItemContainer]:
+	var items: Array[ItemContainer] = []
+	var slot_array: Array = _get_slot_array(slot_type)
 
 	for slot in slot_array:
-		var item: Item = slots[slot]
-		if item != null:
-			items.append(item)
+		var container: ItemContainer = slots[slot]
+		if container != null:
+			items.append(container)
 			slots[slot] = null
 
 	return items
 
-func get_item(item: Item) -> Item:
+
+func get_item(item_or_container) -> ItemContainer:
+	var target_item: Item = item_or_container.item if item_or_container is ItemContainer else (item_or_container as Item)
 	for slot in slots:
-		if slots[slot] == item:
-			return item
+		var container: ItemContainer = slots[slot]
+		if container and (container == item_or_container or container.item == target_item):
+			return container
 	return null
 
-func get_item_in_slot(slot: Enums.EquipmentSlot) -> Item:
+
+func get_item_in_slot(slot: Enums.EquipmentSlot) -> ItemContainer:
 	return slots.get(slot)
 
-func get_items_of_slot_type(slot_type: Enums.SlotType) -> Array[Item]:
-	var result: Array[Item] = []
-	var slot_array = _get_slot_array(slot_type)
+
+func get_items_of_slot_type(slot_type: Enums.SlotType) -> Array[ItemContainer]:
+	var result: Array[ItemContainer] = []
+	var slot_array: Array = _get_slot_array(slot_type)
 
 	for slot in slot_array:
-		var item: Item = slots[slot]
-		if item != null:
-			result.append(item)
-		elif item == null: 
+		var container: ItemContainer = slots[slot]
+		if container != null:
+			result.append(container)
+		elif container == null: 
 			if slot == Enums.EquipmentSlot.HAND_LEFT or slot == Enums.EquipmentSlot.HAND_RIGHT:
 				result.append(slots[Enums.EquipmentSlot.HAND_DEFAULT])
 
 	return result
 
+
 func _get_slot_array(slot_type: Enums.SlotType) -> Array:
 	return SLOT_TYPE_TO_SLOTS.get(slot_type, [])
 
-## -> Enums.EquipmentSlot
-func find_slot_of_item(item: Item):
+
+func find_slot_of_item(item_or_container):
+	var target_item: Item = item_or_container.item if item_or_container is ItemContainer else (item_or_container as Item)
 	for slot in slots:
-		if slots[slot] == item:
+		var container: ItemContainer = slots[slot]
+		if container and (container == item_or_container or container.item == target_item):
 			return slot
 	return null
 
-func activate_hand_set(index: int):
+
+func activate_hand_set(index: int) -> void:
 	if index < 0 or index >= hand_sets.size():
 		return
 
@@ -246,17 +256,19 @@ func activate_hand_set(index: int):
 	if hand_set.right_hand != null:
 		_equip_hand(Enums.EquipmentSlot.HAND_RIGHT, hand_set.right_hand)
 
+
 func has_slot(slot: Enums.EquipmentSlot) -> bool:
 	if not slots.has(slot):
 		return false
 	return true
 
-func _equip_hand(slot: Enums.EquipmentSlot, item: Item):
-	if item == null:
+
+func _equip_hand(slot: Enums.EquipmentSlot, item_or_container) -> void:
+	if item_or_container == null:
 		slots[slot] = slots[Enums.EquipmentSlot.HAND_DEFAULT]
 		return
 
-	#if item.slot_type != Enums.SlotType.NONE:
-		#return
-
-	slots[slot] = item
+	if item_or_container is ItemContainer:
+		slots[slot] = item_or_container
+	elif item_or_container is Item:
+		slots[slot] = ItemContainer.new(item_or_container, 1)

@@ -1,29 +1,46 @@
 [gd_resource type="Resource" script_class="Inventory" format=3 uid="uid://b1s146xyl580x"]
 
-[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="1_lvnn5"]
-[ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="2_8as4m"]
+[ext_resource type="Script" uid="uid://3dqccyt3kjma" path="res://items/item_container.gd" id="1_2fxoy"]
 [ext_resource type="Script" uid="uid://0hy8gde00nbx" path="res://entities/inventory.gd" id="2_43dtw"]
-[ext_resource type="Script" uid="uid://5p63q28tlgwq" path="res://items/food.gd" id="3_hvu0r"]
-[ext_resource type="Resource" uid="uid://b7qdugdif1mto" path="res://resources/items/armours/ar_heavy.tres" id="4_7t1eq"]
-[ext_resource type="Resource" uid="uid://ctoqd68h35lfw" path="res://resources/items/weapons/long_sword.tres" id="5_8as4m"]
-[ext_resource type="Resource" uid="uid://beq3bethhk8v0" path="res://resources/items/weapons/wpn_bow.tres" id="6_hvu0r"]
-[ext_resource type="Resource" uid="uid://dp84ok66j1f1q" path="res://resources/items/weapons/wpn_light_shield.tres" id="7_pu1i0"]
-[ext_resource type="Resource" uid="uid://cmfvlbuem2afq" path="res://resources/items/weapons/wpn_medium_shield.tres" id="8_g1mlq"]
-[ext_resource type="Resource" uid="uid://bee2fuw1xccsr" path="res://resources/items/weapons/wpn_heavy_shield.tres" id="9_l163h"]
-[ext_resource type="Resource" uid="uid://bupyxim44pypq" path="res://resources/items/rings/item_necklace_of_agility.tres" id="10_g1mlq"]
+[ext_resource type="Resource" uid="uid://b7qdugdif1mto" path="res://resources/items/armours/heavy_armour.tres" id="2_e6lcr"]
+[ext_resource type="Resource" uid="uid://ctoqd68h35lfw" path="res://resources/items/weapons/wpn_long_sword.tres" id="3_pu1i0"]
+[ext_resource type="Resource" uid="uid://cmfvlbuem2afq" path="res://resources/items/weapons/wpn_medium_shield.tres" id="4_g1mlq"]
+[ext_resource type="Resource" uid="uid://beq3bethhk8v0" path="res://resources/items/weapons/wpn_bow.tres" id="5_l163h"]
+[ext_resource type="Resource" uid="uid://cwe2vnqpdkkug" path="res://resources/items/food/bread.tres" id="6_h71ae"]
+[ext_resource type="Resource" uid="uid://bupyxim44pypq" path="res://resources/items/rings/item_necklace_of_agility.tres" id="7_fk4o7"]
 
-[sub_resource type="Resource" id="Resource_pu1i0"]
-script = ExtResource("3_hvu0r")
-food_value = 2500
-name = "Bread"
-id = "food_bread"
-description = "Oh, delicious fluffy white bread!"
-value = 2
-count = 10
-owner = null
-metadata/_custom_type_script = "uid://5p63q28tlgwq"
+[sub_resource type="Resource" id="Resource_l0i6r"]
+script = ExtResource("1_2fxoy")
+item = ExtResource("2_e6lcr")
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
+[sub_resource type="Resource" id="Resource_qh052"]
+script = ExtResource("1_2fxoy")
+item = ExtResource("3_pu1i0")
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
+[sub_resource type="Resource" id="Resource_7oav3"]
+script = ExtResource("1_2fxoy")
+item = ExtResource("4_g1mlq")
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
+[sub_resource type="Resource" id="Resource_k2qy6"]
+script = ExtResource("1_2fxoy")
+item = ExtResource("5_l163h")
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
+[sub_resource type="Resource" id="Resource_px4e3"]
+script = ExtResource("1_2fxoy")
+item = ExtResource("6_h71ae")
+amount = 20
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
+[sub_resource type="Resource" id="Resource_jxxy5"]
+script = ExtResource("1_2fxoy")
+item = ExtResource("7_fk4o7")
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
 
 [resource]
 script = ExtResource("2_43dtw")
-list = Array[ExtResource("1_lvnn5")]([SubResource("Resource_pu1i0"), ExtResource("4_7t1eq"), ExtResource("5_8as4m"), ExtResource("5_8as4m"), ExtResource("6_hvu0r"), ExtResource("7_pu1i0"), ExtResource("8_g1mlq"), ExtResource("9_l163h"), ExtResource("10_g1mlq")])
+list = Array[ExtResource("1_2fxoy")]([SubResource("Resource_l0i6r"), SubResource("Resource_qh052"), SubResource("Resource_7oav3"), SubResource("Resource_k2qy6"), SubResource("Resource_px4e3"), SubResource("Resource_jxxy5")])
 metadata/_custom_type_script = "uid://0hy8gde00nbx"

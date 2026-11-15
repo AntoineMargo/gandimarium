@@ -18,12 +18,12 @@ func _on_update_container(container_prop: ContainerProp = current_container) -> 
 	for child in Global.game_session.container_list.get_children():
 		child.queue_free()
 
-	var items = container_prop.inventory.list
+	var items: Array[ItemContainer] = container_prop.inventory.list
 	for i in range(items.size()):
 		var element = preload("res://interface/inventory_element/inventory_element.tscn").instantiate()
 		element.items_interface = Enums.ItemsList.CONTAINER
 		element.index = i
-		element.item = items[i]
+		element.item_container = items[i]
 		element.initialize()
 		Global.game_session.container_list.add_child(element)
 

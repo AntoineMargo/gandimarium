@@ -75,8 +75,8 @@ func spawn_creature_at_coords(data_file: String, coords: Vector3i, map_id: Strin
 	
 	var weapons = character.get_weapons()
 	for weapon in weapons:
-		if weapon:
-			weapon.initialize_attack_modes()
+		if weapon and weapon.item:
+			weapon.item.initialize_attack_modes()
 
 	Global.state_manager.call_deferred("register_creature", character)
 
@@ -118,7 +118,7 @@ func spawn_creature(creature: Creature) -> void:
 	var weapons = creature.get_weapons()
 	for weapon in weapons:
 		if weapon:
-			weapon.initialize_attack_modes()
+			weapon.item.initialize_attack_modes()
 
 	var current_map_id: String = Global.world_manager.get_current_map_id()
 	var current_layer: int = Global.world_manager.get_current_layer()

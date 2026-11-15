@@ -13,7 +13,7 @@ var ui_node: Node = null
 
 var drag_in_progress: bool = false
 var drag_was_dropped: bool = true
-var last_dragged_item: Item = null
+var last_dragged_item: ItemContainer = null
 var window_dragged_from: ItemsList = ItemsList.INVENTORY
 
 var full_pip = preload("res://art/interface/base/pip.png")
@@ -100,13 +100,22 @@ func on_attack1_button_toggled(button_pressed: bool, attack_type: int) -> void:
 	var character = Global.selected_char
 	var category = character.data.equipment.active_category
 	var weapons = character.get_weapons()
-	var left_weapon = weapons[0]
+	var left_weapon_container: ItemContainer = weapons[0]
+	var left_weapon: Item = null
+
+	if left_weapon:
+		left_weapon = left_weapon_container.item
+	else:
+		return
 	
 	if category == 0:
+		@warning_ignore("int_as_enum_without_cast")
 		left_weapon.selected_attacks[Enums.AttackCategory.STRIKE] = attack_type
 	elif category == 1:
+		@warning_ignore("int_as_enum_without_cast")
 		left_weapon.selected_attacks[Enums.AttackCategory.SHOOT] = attack_type
 	elif category == 2:
+		@warning_ignore("int_as_enum_without_cast")
 		left_weapon.selected_attacks[Enums.AttackCategory.THROW] = attack_type
 	#print("Active attack type changed.")
 
@@ -118,13 +127,22 @@ func on_attack2_button_toggled(button_pressed: bool, attack_type: int) -> void:
 	var character = Global.selected_char
 	var category = character.data.equipment.active_category
 	var weapons = character.get_weapons()
-	var right_weapon = weapons[1]
+	var right_weapon_container: ItemContainer = weapons[1]
+	var right_weapon: Item = null
+
+	if right_weapon:
+		right_weapon = right_weapon_container.item
+	else:
+		return
 	
 	if category == 0:
+		@warning_ignore("int_as_enum_without_cast")
 		right_weapon.selected_attacks[Enums.AttackCategory.STRIKE] = attack_type
 	elif category == 1:
+		@warning_ignore("int_as_enum_without_cast")
 		right_weapon.selected_attacks[Enums.AttackCategory.SHOOT] = attack_type
 	elif category == 2:
+		@warning_ignore("int_as_enum_without_cast")
 		right_weapon.selected_attacks[Enums.AttackCategory.THROW] = attack_type
 	#print("Active attack type changed.")
 
@@ -163,8 +181,16 @@ func update_active_attack_buttons():
 	if weapons.size() < 2:
 		return
 
-	var left_weapon: Item = weapons[0]
-	var right_weapon: Item = weapons[1]
+	var left_weapon_container: ItemContainer = weapons[0]
+	var right_weapon_container: ItemContainer = weapons[1]
+	
+	var left_weapon: Item = null
+	var right_weapon: Item = null
+	
+	if left_weapon_container:
+		left_weapon = left_weapon_container.item
+	if right_weapon_container:
+		right_weapon = right_weapon_container.item
 
 	var category: Enums.AttackCategory = character.data.equipment.active_category
 
@@ -276,6 +302,7 @@ func update_active_category_buttons():
 		c2.button_pressed = active_category == 1
 		c3.button_pressed = active_category == 2
 
+
 func update_weapon_buttons():
 	if ui_node == null or Global.selected_char == null:
 		return
@@ -291,12 +318,13 @@ func update_weapon_buttons():
 		w1.button_pressed = character.data.equipment.active_hand == 0
 		w2.button_pressed = character.data.equipment.active_hand == 1
 
+
 func update_weapon_buttons_text():
 	if ui_node == null:
 		print("UI node not set!")
 		return
 	
-	var item = null
+	var item_container = null
 
 	var character = Global.selected_char
 	if !character:
@@ -304,73 +332,24 @@ func update_weapon_buttons_text():
 		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = "None"
 		return
 
-	var default_item = character.data.equipment.get_item_in_slot(Enums.EquipmentSlot.HAND_DEFAULT)
+	var default_item_container = character.data.equipment.get_item_in_slot(Enums.EquipmentSlot.HAND_DEFAULT)
 
-	item = character.data.equipment.get_item_in_slot(Enums.EquipmentSlot.HAND_LEFT)
-	if item:
-		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = item.name
+	item_container = character.data.equipment.get_item_in_slot(Enums.EquipmentSlot.HAND_LEFT)
+	if item_container and item_container.item:
+		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = item_container.item.name
 	else:
-		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = default_item.name
-	item = character.data.equipment.get_item_in_slot(Enums.EquipmentSlot.HAND_RIGHT)
-	if item:
-		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = item.name
+		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon1Container/Weapon1").text = default_item_container.item.name
+	item_container = character.data.equipment.get_item_in_slot(Enums.EquipmentSlot.HAND_RIGHT)
+	if item_container and item_container.item:
+		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = item_container.item.name
 	else:
-		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = default_item.name
+		ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/Weapon2Container/Weapon2").text = default_item_container.item.name
+
 
 func _on_update_character_info() -> void:
 	#Global.character_window.character = Global.selected_char
 	Global.character_window.update(Global.selected_char)
 
-#func _on_update_inventory_window() -> void:
-	#var character = Global.selected_char
-	#for child in Global.items_list.get_children():
-		#child.queue_free()
-	#if Global.items_list == null:
-		#print("ItemsList node not found!")
-		#return
-	#if Global.selected_char == null:
-		#print("No character selected.")
-		#return
-	#var items = character.get_inventory()
-	#for i in range(items.size()):
-		#var element = preload("res://interface/inventory_window/inventory_element.tscn").instantiate()
-		#element.items_interface = Enums.ItemsList.INVENTORY
-		#element.index = i
-		#element.item = items[i]
-		#element.initialize()
-		#Global.items_list.add_child(element)
-#
-	#var equipment_label_paths := {
-		#Enums.EquipmentSlot.HELM: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/HelmItem",
-		#Enums.EquipmentSlot.CAPE: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/CapeItem",
-		#Enums.EquipmentSlot.ARMOUR: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/ArmourItem",
-		#Enums.EquipmentSlot.TOP: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/TopItem",
-		#Enums.EquipmentSlot.BELT: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/BeltItem",
-		#Enums.EquipmentSlot.BOTTOM: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/BottomItem",
-		#Enums.EquipmentSlot.GAUNTLETS: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/GauntletsItem",
-		#Enums.EquipmentSlot.SHOES: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/ShoesItem",
-		#Enums.EquipmentSlot.NECKLACE: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/NecklaceItem",
-		#Enums.EquipmentSlot.BRACER_LEFT: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/LeftBracerItem",
-		#Enums.EquipmentSlot.BRACER_RIGHT: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/RightBracerItem",
-		##Enums.EquipmentSlot.RING1: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/Ring1SpaceItem",
-		##Enums.EquipmentSlot.RING2: "Inventory/MainVBox/SeparHBox/VBoxContainer/GridContainer/Ring2SpaceItem",
-		#Enums.EquipmentSlot.HAND_LEFT: "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet/WeaponSetSpace/LeftWeaponItem",
-		#Enums.EquipmentSlot.HAND_RIGHT: "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet/WeaponSetSpace/RightWeaponItem",
-		##Enums.EquipmentSlot.HAND_LEFT: "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2/WeaponSet2Space/WeaponSet2SpaceItemLeft",
-		##Enums.EquipmentSlot.HAND_RIGHT: "Inventory/MainVBox/SeparHBox/VBoxContainer/WeaponSet2/WeaponSet2Space/WeaponSet2SpaceItemRight"
-	#}
-	#for slot in equipment_label_paths.keys():
-		#var path = equipment_label_paths[slot]
-		#var label_node = Global.inventory_window.get_node(path)
-		#if label_node and label_node is Label:
-			#var item = null
-			#item = character.data.equipment.get_item_in_slot(slot)
-			#if item:
-				#label_node.text = item.name
-			#else:
-				#label_node.text = "Empty"
-		#else:
-			#print("Label node not found at:", path)
 
 func _on_drop_item_on_tile(selected_char):
 	var wm = Global.world_manager
@@ -378,6 +357,7 @@ func _on_drop_item_on_tile(selected_char):
 	wm.add_to_tile_contents(last_dragged_item, coords)
 	wm.add_item_visual(coords)
 	print("Item just added to tile.")
+
 
 func drag_fail_restore():
 	if drag_in_progress and Input.is_action_just_released("mouse_left"):
@@ -395,7 +375,7 @@ func drag_fail_restore():
 			else:
 				print("Drag failed — restoring item.")
 				if window_dragged_from == ItemsList.INVENTORY:
-					Global.selected_char.data.inventory.add_item(last_dragged_item)
+					Global.selected_char.data.inventory.add_container(last_dragged_item)
 					SignalBus.update_inventory.emit()
 				elif window_dragged_from == ItemsList.CONTAINER:
 					Global.game_session.container_window.current_container.inventory.add_item(last_dragged_item)
@@ -534,22 +514,6 @@ func update_concentration_slots():
 		else:
 			slot.setup(null) # Empty slot
 		container.add_child(slot)
-
-
-#func update_concentration_slots():
-	#var character = Global.selected_char
-	#var container = ui_node.get_node_or_null("PanelContainer/VBoxContainer/HBoxContainer/ConcentrationScroll/Concentrations")
-	#for child in container.get_children():
-		#child.queue_free()
-#
-	#for i in range(character.get_stat_enum(Enums.StatType.ATTRIBUTE, Enums.Attribute.RESOLVE)):
-		#var slot = concentration_slot.instantiate()
-		#if i < character.data.concentrations.size():
-			#var concentration = character.data.concentrations[i]
-			#slot.setup(concentration)
-		#else:
-			#slot.setup(null) # Empty slot
-		#container.add_child(slot)
 
 
 func update_char_info():

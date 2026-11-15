@@ -341,20 +341,22 @@ func remove_item_conditions(item) -> void:
 
 func remove_conditions_from_equipment() -> void:
 	start_mutation()
-	var collection = data.equipment.get_all_equipped_items()
+	var collection: Array[ItemContainer] = data.equipment.get_all_equipped_items()
 	if collection:
-		for item in collection:
-			remove_item_conditions(item)
+		for container in collection:
+			if container and container.item:
+				remove_item_conditions(container.item)
 	end_mutation()
 
 
 func apply_conditions_from_equipment() -> void:
-	var items = data.equipment.get_all_equipped_items()
+	var items: Array[ItemContainer] = data.equipment.get_all_equipped_items()
 	var cond_contexts: Array[Context] = []
 
 	if items:
-		for item in items:
-			cond_contexts.append_array(get_item_condition_ctxs(item))
+		for container in items:
+			if container and container.item:
+				cond_contexts.append_array(get_item_condition_ctxs(container.item))
 
 	var supplanted_ids: Dictionary = {}
 
@@ -374,7 +376,7 @@ func remove_from_inventory(item) -> void:
 	data.inventory.remove_from_inventory(item)
 
 
-func get_inventory():
+func get_inventory() -> Array[ItemContainer]:
 	return data.inventory.get_inventory()
 
 
@@ -387,18 +389,18 @@ func set_active_hand(number: int) -> void:
 		data.equipment.active_hand = number
 
 
-func get_weapons() -> Array[Item]:
-	var weapons = data.equipment.get_items_of_slot_type(Enums.SlotType.NONE)
+func get_weapons() -> Array[ItemContainer]:
+	var weapons: Array[ItemContainer] = data.equipment.get_items_of_slot_type(Enums.SlotType.NONE)
 	return weapons
 
 
-func get_active_weapon() -> Item:
-	var weapons = data.equipment.get_items_of_slot_type(Enums.SlotType.NONE)
-	var selected_weapon = weapons[data.equipment.active_hand]
+func get_active_weapon() -> ItemContainer:
+	var weapons: Array[ItemContainer] = data.equipment.get_items_of_slot_type(Enums.SlotType.NONE)
+	var selected_weapon: ItemContainer = weapons[data.equipment.active_hand]
 	return selected_weapon
 
 
-func get_item_in_slot(slot):
+func get_item_in_slot(slot) -> ItemContainer:
 	return data.equipment.get_item_in_slot(slot)
 
 
@@ -409,33 +411,39 @@ func reload_equipment() -> void:
 	end_mutation()
 
 
-func initialize_item(item: Item) -> void:
-	item.initialize_attack_modes()
+func initialize_item_container(item_container: ItemContainer) -> void:
+	item_container.item.initialize_attack_modes()
 
 
-func equip_item(item: Item) -> bool:
-	initialize_item(item)
-	item.owner_uid = get_uid()
-	if data.equipment.equip_item(item):
-		add_item_conditions(item)
+func equip_item(item_or_container) -> bool:
+	var container: ItemContainer = item_or_container if item_or_container is ItemContainer else ItemContainer.new(item_or_container, 1)
+	if container == null or container.item == null:
+		return false
+	initialize_item_container(container)
+	container.item.owner_uid = get_uid()
+	if data.equipment.equip_item(container):
+		add_item_conditions(container.item)
 	if Global.selected_char == self:
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()
 	return true
 
 
-func equip_item_in_slot(item: Item, slot: Enums.EquipmentSlot, force: bool = false) -> bool:
+func equip_item_in_slot(item_or_container, slot: Enums.EquipmentSlot, force: bool = false) -> bool:
+	var container: ItemContainer = item_or_container if item_or_container is ItemContainer else ItemContainer.new(item_or_container, 1)
+	if container == null or container.item == null:
+		return false
 	start_mutation()
-	initialize_item(item)
+	initialize_item_container(container)
 	if data.equipment.get_item_in_slot(slot):
 		if force:
-			var old_item: Item = data.equipment.free_slot(slot)
-			data.inventory.add_item(old_item)
+			var old_container: ItemContainer = data.equipment.free_slot(slot)
+			data.inventory.add_container(old_container)
 		else:
 			end_mutation()
 			return false
-	data.equipment.equip_item_in_slot(item, slot)
-	item.owner_uid = get_uid()
+	data.equipment.equip_item_in_slot(container, slot)
+	container.item.owner_uid = get_uid()
 	end_mutation()
 	if Global.selected_char == self:
 		SignalBus.update_inventory.emit()
@@ -443,20 +451,22 @@ func equip_item_in_slot(item: Item, slot: Enums.EquipmentSlot, force: bool = fal
 	return true
 
 
-func unequip_slot(slot) -> Item:
+func unequip_slot(slot: Enums.EquipmentSlot) -> ItemContainer:
 	start_mutation()
-	var item: Item = data.equipment.free_slot(slot)
+	var container: ItemContainer = data.equipment.free_slot(slot)
 	end_mutation()
 	if Global.selected_char == self:
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()
-	return item
+	return container
 
 
 func remove_item(item: Item) -> Item:
-	var inventory = get_inventory()
-	if item in inventory:
-		inventory.remove_from_inventory(item)
+	if data.inventory.has_item(item):
+		data.inventory.remove_item(item)
+		if Global.selected_char == self:
+			SignalBus.update_inventory.emit()
+			SignalBus.update_character_info.emit()
 	else:
 		start_mutation()
 		data.equipment.remove_item(item)
@@ -467,11 +477,11 @@ func remove_item(item: Item) -> Item:
 	return item
 
 
-func remove_item_from_slot(slot) -> Item:
+func remove_item_from_slot(slot: Enums.EquipmentSlot) -> ItemContainer:
 	start_mutation()
-	var item = data.equipment.remove_item_from_slot(slot)
+	var container: ItemContainer = data.equipment.free_slot(slot)
 	end_mutation()
-	return item
+	return container
 
 
 ## Used when something (usually an activity) deals damage to a creature
@@ -589,7 +599,8 @@ func perceive_level():
 
 
 func perceive_armour():
-	return data.equipment.slots[Enums.EquipmentSlot.ARMOUR]
+	var container: ItemContainer = data.equipment.slots[Enums.EquipmentSlot.ARMOUR]
+	return container.item if container else null
 
 
 func perceive_health():
@@ -699,11 +710,14 @@ func convert_ap_into_mp(number: int) -> void:
 
 
 func meets_brawn_requirements() -> bool:
-	var weapons = data.equipment.get_items_of_slot_type(Enums.SlotType.NONE)
-	var selected_weapon = weapons[data.equipment.active_hand]
+	var weapons: Array[ItemContainer] = data.equipment.get_items_of_slot_type(Enums.SlotType.NONE)
+	var selected_weapon: ItemContainer = weapons[data.equipment.active_hand]
 	
+	if selected_weapon == null or selected_weapon.item == null:
+		return true
+
 	var brawn = get_stat("brawn")
-	if brawn >= selected_weapon.brawn_req_1h:
+	if brawn >= selected_weapon.item.brawn_req_1h:
 		return true
 	
 	var can_dual_wield: bool = false
@@ -712,7 +726,7 @@ func meets_brawn_requirements() -> bool:
 			can_dual_wield = true
 	
 	if can_dual_wield:
-		if brawn >= selected_weapon.brawn_req_2h:
+		if brawn >= selected_weapon.item.brawn_req_2h:
 			return true
 
 	return false
@@ -739,21 +753,22 @@ func perform_activity(activity: Activity, target = null) -> void:
 
 
 func get_selected_weapon_activity() -> Activity:
-	var weapons = get_weapons()
-	var hand = data.equipment.active_hand
-	var category = data.equipment.active_category
-	var selected_weapon = weapons[hand]
+	var weapons: Array[ItemContainer] = get_weapons()
+	var hand: int = data.equipment.active_hand
+	var category: Enums.AttackCategory = data.equipment.active_category
+	var selected_weapon: ItemContainer = weapons[hand]
 	var attack_activity: Activity = null
-	if selected_weapon:
-		if category == Enums.AttackCategory.STRIKE and selected_weapon.strike:
-			attack_activity = get_modified_activity(selected_weapon.strike)
-			attack_activity.weapon = selected_weapon
-		elif category == Enums.AttackCategory.SHOOT and selected_weapon.shoot:
-			attack_activity = get_modified_activity(selected_weapon.shoot)
-			attack_activity.weapon = selected_weapon
-		elif category == Enums.AttackCategory.THROW and selected_weapon.throw:
-			attack_activity = get_modified_activity(selected_weapon.throw)
-			attack_activity.weapon = selected_weapon
+	if selected_weapon and selected_weapon.item:
+		var item: Item = selected_weapon.item
+		if category == Enums.AttackCategory.STRIKE and item.strike:
+			attack_activity = get_modified_activity(item.strike)
+			attack_activity.weapon = item
+		elif category == Enums.AttackCategory.SHOOT and item.shoot:
+			attack_activity = get_modified_activity(item.shoot)
+			attack_activity.weapon = item
+		elif category == Enums.AttackCategory.THROW and item.throw:
+			attack_activity = get_modified_activity(item.throw)
+			attack_activity.weapon = item
 	return attack_activity
 
 
@@ -769,23 +784,31 @@ func perform_operate(prop: Prop) -> void:
 		SignalBus.update_ui_for_char.emit()
 
 
-func get_all_equipped_items() -> Array:
+func get_all_equipped_items() -> Array[ItemContainer]:
 	return data.equipment.get_all_equipped_items()
 
 
-func add_item_to_inventory(item: Item) -> void:
-	initialize_item(item)
-	data.inventory.add_item(item)
-	SignalBus.update_inventory.emit()
-	SignalBus.message.emit("Picked up %s." % item.name)
+#func add_item_to_inventory(item: Item, amount: int = 1) -> void:
+	#initialize_item_container(item)
+	#data.inventory.add_item(item, amount)
+	#SignalBus.update_inventory.emit()
+	#SignalBus.message.emit("Picked up %s." % item.name)
 
 
-func grab_item_from_coords(item: Item, coords: Vector3i) -> void:
-	initialize_item(item)
-	Global.world_manager.remove_from_tile_contents(item, coords)
-	data.inventory.add_item(item)
+func add_container_to_inventory(container: ItemContainer) -> void:
+	if container and container.item:
+		initialize_item_container(container)
+		data.inventory.add_container(container)
+		SignalBus.update_inventory.emit()
+		SignalBus.message.emit("Picked up %s." % container.item.name)
+
+
+func grab_item_container_from_coords(item_container: ItemContainer, coords: Vector3i) -> void:
+	initialize_item_container(item_container)
+	Global.world_manager.remove_from_tile_contents(item_container, coords)
+	data.inventory.add_container(item_container)
 	SignalBus.update_inventory.emit()
-	SignalBus.message.emit("Picked up %s." % item.name)
+	SignalBus.message.emit("Picked up %s." % item_container.item.name)
 
 
 func get_base_stat(stat):
