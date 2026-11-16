@@ -1,13 +1,13 @@
 extends Resource
 class_name GameState
 
+@export var time_state: TimeState = null
 @export var uid_state: UIDState = null
 @export var creatures_by_uid: Dictionary[int, Creature] = {} # uid -> Creature
 @export var parties_by_uid: Dictionary[int, Party] = {} # uid -> Party
 @export var props_by_uid: Dictionary[int, Prop] = {} # uid -> Creature
 @export var conditions_by_uid: Dictionary[int, Condition] = {} # uid -> Condition
-@export var map_states: Dictionary[String, MapState] = {}
-@export var time_state: TimeState = null
+@export var map_states: Dictionary[String, MapState] = {} # id -> MapState
 
 
 func get_condition(uid: int) -> Condition:

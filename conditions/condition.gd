@@ -33,8 +33,8 @@ signal ended
 
 var vfx_instances: Array[Node] = []
 
-var user = null
-var target = null
+@export_storage var user = null
+@export_storage var target = null
 
 @export var linked_items: Array[Item] = []
 @export_storage var linked_props: Array[Prop] = []

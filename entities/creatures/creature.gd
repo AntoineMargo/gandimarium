@@ -1662,3 +1662,8 @@ func handle_event(reaction_event: ReactionEvent) -> void:
 func update_visibility(map_id: String, current_layer: int) -> void:
 	if node:
 		node.update_visibility(map_id, current_layer)
+
+
+func reconnect_signals() -> void:
+	for concentration: Concentration in data.concentrations:
+		concentration.setup_signals()

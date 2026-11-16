@@ -5,16 +5,16 @@ class_name AreaCondition
 @export var trigger: Enums.AreaConditionTrigger
 @export var area_follows_target: bool = false
 
-var uid: int
-var linked_conditions: Array = []
-var affected_tiles: Array[Vector3i] = []
-var affected_entities: Dictionary = {} # Entity/Creature -> Condition
+@export_storage var uid: int
+@export_storage var linked_conditions: Array = []
+@export_storage var affected_tiles: Array[Vector3i] = []
+@export_storage var affected_entities: Dictionary = {} # Entity/Creature -> Condition
 #var affected_entities: Dictionary[int, bool] = {} # UID, bool
 
-var is_finalized: bool = false
+@export_storage var is_finalized: bool = false
 
-var area_spread: int = 0
-var area_LOS: bool = false
+@export_storage var area_spread: int = 0
+@export_storage var area_LOS: bool = false
 
 
 func initialize(ctx: Context) -> void:
@@ -135,7 +135,7 @@ func clear_tiles():
 		var tile = affected_tiles[i]
 		var layer_tile = Vector2i(tile.x, tile.y)
 		for element in wm.layers[tile.z]["contents"][layer_tile]:
-			if element == self:
+			if element is AreaCondition and element.id == self.id:
 				wm.layers[tile.z]["contents"][layer_tile].erase(element)
 				break
 		affected_tiles.remove_at(i)

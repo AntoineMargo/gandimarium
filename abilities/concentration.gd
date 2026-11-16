@@ -5,23 +5,55 @@ class_name Concentration
 
 @export_storage var area_follows_target: bool = false
 @export_storage var source = null
-@export_storage var source_user_uid = null
+@export_storage var source_uid = null
+#@export_storage var source_user_uid = null
 @export_storage var start_time: int
 @export_storage var PP_consumed: int = 0
 
+@export_storage var name: String = ""
+@export_storage var id: String = ""
 @export_storage var drains_pp: bool = false
 
 
-func setup(src, drain: bool = false):
-	source = src
-	if source.user:
-		source_user_uid = source.user.get_uid()
-	start_time = Global.time_manager.get_total_seconds()
+#func setup(src, drain: bool = false):
+	#source = src
+	#if source.user:
+		#source_user_uid = source.user.get_uid()
+	#start_time = Global.time_manager.get_total_seconds()
+#
+	#if drain:
+		#drains_pp = true
+#
+	#setup_signals()
 	
+
+func setup(src, drain: bool = false):
+	if src:
+		name = src.name
+		id = src.id
+		if src.user:
+			source = src.user
+	if source:
+		source_uid = source.get_uid()
+	start_time = Global.time_manager.get_total_seconds()
+
 	if drain:
 		drains_pp = true
+
+	setup_signals()
+
+
+func setup_signals():
+	if !source:
+		source = Global.state_manager.get_creature_by_uid(source_uid)
+	
+	if drains_pp:
 		if not SignalBus.time_changed.is_connected(tick_tock):
 			SignalBus.time_changed.connect(tick_tock)
+
+	for condition in linked_conditions:
+		if not condition.ended.is_connected(cancel):
+			condition.ended.connect(cancel)
 
 
 func finalize_setup():
@@ -46,7 +78,7 @@ func tick_tock(_days, _hours, _minutes, _seconds):
 		return
 
 	for i in range(rounds_to_charge):
-		if not source.user.consume_pp(1):
+		if not source.consume_pp(1):
 			cancel()
 			return
 		PP_consumed += 1
@@ -65,11 +97,9 @@ func cancel():
 		if is_instance_valid(condition):
 			if condition.ended.is_connected(cancel):
 				condition.ended.disconnect(cancel)
-			condition.remove_source(source.id)
+			condition.remove_source(id)
 	linked_conditions.clear()
-	if source: 
-		var target: Creature = Global.state_manager.get_creature_by_uid(source_user_uid)
-		target.remove_concentration(self)
+	source.remove_concentration(self)
 	SignalBus.update_ui_for_char.emit()
 
 

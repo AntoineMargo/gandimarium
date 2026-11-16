@@ -194,23 +194,12 @@ func get_entity_at_pos(pos: Vector3i):
 	var pos_contents = layers[pos.z]["contents"].get(layer_pos)
 	if pos_contents:
 		for element in pos_contents:
-			if element is SpawnerProp:
-				continue
 			if element is Creature:
 				return element
 			if element is Prop:
 				return element
 	return null
 
-#func get_entity_at_pos(pos: Vector3i) -> Entity:
-	#var layer_pos = Vector2i(pos.x, pos.y)
-	#if layers[pos.z]["contents"].has(layer_pos):
-		#for element in layers[pos.z]["contents"][layer_pos]:
-			#if element is SpawnerProp:
-				#continue
-			#if element is Entity:
-				#return element
-	#return null
 
 func get_prop_at_pos(pos: Vector3i) -> Prop:
 	var layer_pos = Vector2i(pos.x, pos.y)
@@ -542,16 +531,15 @@ func is_tile_occupied(coords):
 	##char.data.reachable_tiles = get_reachable_tiles_with_diagonals(layers[coords.vec3.z]["path_map"], coords.vec2, size)
 	#char.reachable_tiles = get_reachable_tiles_3D_with_diagonals(coords.vec3, size)
 
+
 func add_item_visual(coords: Vector3i):
 	var layer_coords = Vector2i(coords.x, coords.y)
-	if not layers[coords.z]["item_visual"].has(layer_coords):
-		var visual_scene = preload("res://items/item_on_tile.tscn")
+	if not layers[coords.z]["item_visual"].has(layer_coords): # Meaning there's no visual (it's not an array!)
+		var visual_scene = preload("res://items/item_scene.tscn")
 		var visual_instance = visual_scene.instantiate()
-		#visual_instance.item = item
 		visual_instance.position = current_tile_map_layer.map_to_local(layer_coords)
 		current_tile_map_layer.add_child(visual_instance)
 		layers[coords.z]["item_visual"][layer_coords] = visual_instance
-		print("Item VISUAL just added to tile.")
 
 
 func update_layer_visibility():
@@ -963,7 +951,6 @@ func add_to_tile_contents(element, coords: Vector3i):
 	if not layers[coords.z]["contents"].has(layer_coords):
 		layers[coords.z]["contents"][layer_coords] = []
 	layers[coords.z]["contents"][layer_coords].append(element)
-	print("Element added to tile.")
 
 
 func remove_from_tile_contents(element, coords: Vector3i):

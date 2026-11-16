@@ -89,20 +89,6 @@ func get_prop_by_uid(uid: int) -> Prop:
 	return game_state.get_prop(uid)
 
 
-func save_map(map: Map) -> void:
-	var map_state: MapState = get_map_state(map.id)
-	#map_state.creature_uids.append_array(map.creatures)
-	#map_state.prop_uids.append_array(map.props)
-	map_state.creature_uids.clear()
-	for creature in map.creatures:
-		var uid: int = creature.get_uid()
-		map_state.creature_uids.append(uid)
-	map_state.prop_uids.clear()
-	for prop in map.props:
-		var uid: int = prop.get_uid()
-		map_state.prop_uids.append(uid)
-
-
 func get_game_state() -> GameState:
 	return game_state
 
@@ -200,11 +186,62 @@ func save_time() -> void:
 	time_state.seconds = time[3]
 
 
+func save_map_layers(map_data: MapData, map_state: MapState) -> void:
+	var runtime_layers: Dictionary = Global.world_manager.layers
+	var saved_layers: Array[SavedLayer] = map_state.layers
+
+	saved_layers.clear()
+
+	for layer_id in map_data.layer_ids:
+		var runtime_layer: Dictionary = runtime_layers.get(layer_id, {})
+		var contents: Dictionary = runtime_layer.get("contents", {})
+
+		var saved_layer: SavedLayer = null
+
+		for tile_pos in contents:
+			var tile_contents: Array = contents[tile_pos]
+			if !tile_contents.is_empty():
+				var entry: SavedTileContents = SavedTileContents.new()
+				entry.pos = tile_pos
+
+				for element in tile_contents:
+					if element is Entity:
+						continue
+					
+					if element is Resource:
+						entry.contents.append(element.duplicate())
+
+				if !entry.contents.is_empty():
+					if !saved_layer:
+						saved_layer = SavedLayer.new(layer_id % 1000)
+
+					saved_layer.tiles.append(entry)
+
+		if saved_layer:
+			saved_layers.append(saved_layer)
+
+
+func save_map(map: Map) -> MapState:
+	var map_state: MapState = get_map_state(map.id)
+	map_state.creature_uids.clear()
+	for creature in map.creatures:
+		var uid: int = creature.get_uid()
+		map_state.creature_uids.append(uid)
+	map_state.prop_uids.clear()
+	for prop in map.props:
+		var uid: int = prop.get_uid()
+		map_state.prop_uids.append(uid)
+	return map_state
+
+
 func save_game_state() -> bool:
 	save_time()
 	
-	for map in Global.map_manager.get_all_maps():
-		save_map(map)
+	for map_data: MapData in Global.map_manager.get_all_map_data():
+		var map: Map = map_data.root
+		var map_state: MapState = save_map(map)
+		save_map_layers(map_data, map_state)
+
 
 	var err = DirAccess.make_dir_recursive_absolute(SAVE_DIR)
 	if err != OK:
@@ -487,8 +524,24 @@ func _flood_room(chosen_layer, start_tile: Vector3i) -> Array[Vector3i]:
 	return result
 
 
+func load_map_layers(map_data: MapData, map_state: MapState) -> void:
+	var runtime_layers: Dictionary = Global.world_manager.layers
+	for saved_layer: SavedLayer in map_state.layers:
+		var runtime_layer_id: int = saved_layer.layer_id + map_data.base_z
+		var runtime_layer: Dictionary = runtime_layers.get(runtime_layer_id, {})
+		if runtime_layer.is_empty():
+			continue
+		for entry: SavedTileContents in saved_layer.tiles:
+			runtime_layer["contents"][entry.pos] = entry.contents
+			for element in entry.contents:
+				if element is ItemContainer:
+					var pos: Vector3i = Vector3i(entry.pos.x, entry.pos.y, runtime_layer_id)
+					Global.world_manager.add_item_visual(pos)
+
+
 ## Called by the map_manager on loading a map.
-func load_map_state(map: Map):
+func load_map_state(map_data: MapData) -> void:
+	var map: Map = map_data.root
 	var map_id: String = map.id
 	var map_state: MapState = get_map_state(map_id)
 	if map_state.data_dirty:
@@ -507,6 +560,8 @@ func load_map_state(map: Map):
 			var prop: Prop = get_prop_by_uid(prop_uid)
 			if prop:
 				Global.world_manager.spawn_prop_from_handle(prop)
+
+		load_map_layers(map_data, map_state)
 
 
 func create_new_game_state() -> void:

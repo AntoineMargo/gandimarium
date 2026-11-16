@@ -10,7 +10,8 @@ func setup(data):
 		self.concentration = data
 		#icon.texture = concentration.icon
 		#button_label.text = concentration.get_ui_label()
-		self.text = concentration.source.name
+		#self.text = concentration.source.name
+		self.text = concentration.name
 	else:
 		self.text = ""
 

@@ -1,7 +1,8 @@
 extends Resource
 class_name MapState
 
-@export var modified_tiles = {}
+@export var layers: Array[SavedLayer] = []
+@export var modified_tiles: Array = []
 
 @export var buildings: Dictionary[int, Building] = {}
 @export var rooms: Dictionary[int, Room] = {}

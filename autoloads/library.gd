@@ -101,20 +101,20 @@ var _proj_sprites = {
 	"magic_bolt" = "res://art/objects/mbolt.png"
 }
 
-func get_map(id: String) -> Map:
-	var new_map_scene = load(_maps[id])
-	var new_map = new_map_scene.instantiate()
-	return new_map
+#func get_map(id: String) -> Map:
+	#var new_map_scene = load(_maps[id])
+	#var new_map = new_map_scene.instantiate()
+	#return new_map
 
-#func get_prop(id: String) -> Prop:
-	#if _props.has(id):
-		#var ref = _props[id]
-		#if ref is String:
-			#_props[id] = load(ref)
-		#var new_prop = _props[id].instantiate()
-		#return new_prop
-	#return null
-	
+func get_map(id: String) -> Map:
+	if _maps.has(id):
+		var ref = _maps[id]
+		if ref is String:
+			_maps[id] = load(ref)
+		var new_map = _maps[id].instantiate()
+		return new_map
+	return null
+
 func get_prop(id: String) -> Resource:
 	return _get_from(_props, id)
 
