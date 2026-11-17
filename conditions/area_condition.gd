@@ -56,7 +56,7 @@ func finalize():
 		var vfx = vfx_scene.instantiate()
 		vfx.setup(self)
 
-		Global.add_child(vfx)
+		Global.game_session.add_child(vfx)
 		#Global.world_manager.VFX_scenes.append(vfx)
 		vfx_instances.append(vfx)
 

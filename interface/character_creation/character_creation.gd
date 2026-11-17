@@ -75,12 +75,18 @@ func _ready() -> void:
 	data.relationships = Relationships.new()
 	data.attributes = Attributes.new()
 	data.base_stats = BaseStats.new()
-	data.inventory = load("res://resources/creatures/inventory/basic_inventory.tres")
-	data.equipment = load("res://resources/creatures/equipment/basic_loadout.tres")
+	data.inventory = load("res://resources/creatures/inventory/basic_inventory.tres").duplicate()
+	data.equipment = load("res://resources/creatures/equipment/basic_loadout.tres").duplicate()
 	data.resistances = Resistances.new()
 	data.personality = Personality.new()
 	
 	data.derived_stats = DerivedStats.new()
+	
+	for container in data.inventory.list:
+		container = container.duplicate()
+	var equipment_containers = data.equipment.get_all_equipped_items()
+	for container in equipment_containers:
+		container = container.duplicate()
 	
 	data.player_controlled = true
 

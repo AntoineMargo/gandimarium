@@ -28,5 +28,4 @@ brawn_req_1h = 2
 brawn_req_2h = 1
 strike = SubResource("Resource_8rvod")
 throw = SubResource("Resource_6e8q0")
-owner = null
 metadata/_custom_type_script = "uid://5p63q28tlgwq"

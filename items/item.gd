@@ -22,9 +22,9 @@ class_name Item
 
 var selected_attacks: Dictionary[Enums.AttackCategory, Enums.AttackType] = {}
 
-@export_storage var uid: int = 0
-@export_storage var owner = null # Resource? Vector3i for Props?
-@export_storage var owner_uid: int = 0
+#@export_storage var uid: int = 0
+#@export_storage var owner = null # Resource? Vector3i for Props?
+#@export_storage var owner_uid: int = 0
 
 func initialize_attack_modes():
 	if strike:
@@ -37,8 +37,8 @@ func initialize_attack_modes():
 		@warning_ignore("int_as_enum_without_cast")
 		selected_attacks[Enums.AttackCategory.THROW] = throw.activity.attack_types[0].id
 
-func destroy():
-	if owner_uid:
-		owner = Global.state_manager.get_creature_by_uid(owner_uid)
-	if owner and owner.has_method("remove_item"):
-		owner.remove_item(self)
+#func destroy():
+	#if owner_uid:
+		#owner = Global.state_manager.get_creature_by_uid(owner_uid)
+	#if owner and owner.has_method("remove_item"):
+		#owner.remove_item(self)

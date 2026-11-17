@@ -17,7 +17,7 @@
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="11_ymkgo"]
 [ext_resource type="PackedScene" uid="uid://cmtrlumwbt1av" path="res://VFX/static/placeholder.tscn" id="12_8ytd4"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="12_51233"]
-[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="12_bl814"]
+[ext_resource type="Script" uid="uid://3dqccyt3kjma" path="res://items/item_container.gd" id="12_ghew2"]
 [ext_resource type="Script" uid="uid://b0qu1tp0r0tqr" path="res://managers/map_manager/map_data.gd" id="13_dlqtm"]
 [ext_resource type="Script" uid="uid://bfmc58snh20aw" path="res://entities/props/prop.gd" id="14_ghew2"]
 

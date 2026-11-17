@@ -6,7 +6,8 @@ class_name ModifyItemEffect
 @export var entries: Array[StatEntry] = []
 
 func apply_context(ctx: Context) -> bool:
-	for item in ctx.created_items:
+	for item_container in ctx.created_items:
+		var item: Item = item_container.item
 		for condition in item.conditions:
 			if condition.id != condition_id:
 				continue

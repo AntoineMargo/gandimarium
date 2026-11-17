@@ -13,7 +13,7 @@
 [ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="9_45ykd"]
 [ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="10_8j1pa"]
 [ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creatures/creature.gd" id="10_34djg"]
-[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="11_hq1u2"]
+[ext_resource type="Script" uid="uid://3dqccyt3kjma" path="res://items/item_container.gd" id="11_45ykd"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="12_45ykd"]
 [ext_resource type="Script" uid="uid://b0qu1tp0r0tqr" path="res://managers/map_manager/map_data.gd" id="12_ym8yk"]
 [ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="13_ok5nc"]

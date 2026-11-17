@@ -12,7 +12,7 @@ var degree: int = 0
 var condition: Condition = null
 var condition_recipient = null
 
-var created_items: Array[Item] = []
+var created_items: Array[ItemContainer] = []
 var created_props: Array[Prop] = []
 var created_creatures: Array[Creature] = []
 var created_maps: Array[MapData] = []

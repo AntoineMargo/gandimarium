@@ -18,8 +18,8 @@
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="13_jo2ef"]
 [ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creatures/creature.gd" id="14_b510e"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="14_rgd5h"]
+[ext_resource type="Script" uid="uid://3dqccyt3kjma" path="res://items/item_container.gd" id="15_beyds"]
 [ext_resource type="Texture2D" uid="uid://duyb0f63yptjt" path="res://art/interface/activities/nested-hexagons.png" id="15_f5raw"]
-[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="15_k4btk"]
 [ext_resource type="Script" uid="uid://b0qu1tp0r0tqr" path="res://managers/map_manager/map_data.gd" id="16_xh8u2"]
 [ext_resource type="Script" uid="uid://bfmc58snh20aw" path="res://entities/props/prop.gd" id="17_beyds"]
 

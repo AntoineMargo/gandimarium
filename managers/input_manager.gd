@@ -41,6 +41,15 @@ func BasicControls():
 		var item_container: ItemContainer = ItemContainer.new(item, 1)
 		wm.add_to_tile_contents(item_container, coords)
 		wm.add_item_visual(coords)
+		print("ItemContainer ID: ", item_container.get_instance_id())
+		print("Resource path: ", item_container.resource_path)
+		print("Local to scene: ", item_container.resource_local_to_scene)
+		print("Is built-in: ", item_container.resource_path.is_empty())
+		print("==============")
+		print("Item ID: ", item.get_instance_id())
+		print("Resource path: ", item.resource_path)
+		print("Local to scene: ", item.resource_local_to_scene)
+		print("Is built-in: ", item.resource_path.is_empty())
 
 	if Input.is_action_just_pressed("G"):
 		var _session = Global.game_session
@@ -158,20 +167,20 @@ func BasicControls():
 	
 	#DEBUG
 	if Input.is_action_just_pressed("H"):
-		pass
-		#var path: String = "user://saved/game_state/game_state.tres"
-#
-		#var state: GameState = ResourceLoader.load(
-			#path,
-			#"GameState",
-			#ResourceLoader.CACHE_MODE_IGNORE
-		#)
-#
-		#if state == null:
-			#print("Failed to load saved GameState.")
-			#return
-#
-		#print("Creatures on disk: ", state.creatures_by_uid.size())
+		var creature = Global.selected_char
+		if !creature:
+			return
+		for item_container in creature.data.inventory.list:
+			print("ItemContainer ID: ", item_container.get_instance_id())
+			print("Resource path: ", item_container.resource_path)
+			print("Local to scene: ", item_container.resource_local_to_scene)
+			print("Is built-in: ", item_container.resource_path.is_empty())
+			print("==============")
+			print("Item ID: ", item_container.item.get_instance_id())
+			print("Resource path: ", item_container.item.resource_path)
+			print("Local to scene: ", item_container.item.resource_local_to_scene)
+			print("Is built-in: ", item_container.item.resource_path.is_empty())
+			return
 
 
 	if Input.is_action_just_pressed("L"):

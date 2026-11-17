@@ -1,13 +1,13 @@
 extends Resource
 class_name Resistances
 
-var physical: int = 0
-var heat: int = 0
-var cold: int = 0
-var electricity: int = 0
-var corrosion: int = 0
-var poison: int = 0
-var psychic: int = 0
+@export var physical: int = 0
+@export var heat: int = 0
+@export var cold: int = 0
+@export var electricity: int = 0
+@export var corrosion: int = 0
+@export var poison: int = 0
+@export var psychic: int = 0
 
 func get_resistance(type: Enums.Resistance) -> int:
 	match type:

@@ -33,10 +33,10 @@ signal ended
 
 var vfx_instances: Array[Node] = []
 
-@export_storage var user = null
-@export_storage var target = null
+var user = null
+var target = null
 
-@export var linked_items: Array[Item] = []
+@export var linked_items: Array[ItemContainer] = []
 @export_storage var linked_props: Array[Prop] = []
 @export_storage var linked_creatures: Array[Creature] = []
 @export_storage var linked_maps: Array[MapData] = []
@@ -54,6 +54,22 @@ var vfx_instances: Array[Node] = []
 @export_storage var start_time: int
 @export_storage var end_time: int
 @export_storage var remaining_time: int
+
+
+func re_setup() -> void:
+	if !user:
+		user = Global.state_manager.get_creature_by_uid(user_uid)
+	if !target:
+		target = Global.state_manager.get_creature_by_uid(target_uid)
+	
+	setup_signals()
+
+
+func setup_signals() -> void:
+	if duration > 0 or apply_effects_at_intervals:
+		if duration > 0:
+			end_time = start_time + duration
+		SignalBus.time_changed.connect(handle_time)
 
 
 func apply_vfx() -> void:
@@ -115,10 +131,12 @@ func initialize(ctx: Context) -> void:
 		end_requirements[i] = requirement
 		requirement.setup(self)
 	start_time = Global.time_manager.get_total_seconds()
-	if duration > 0 or apply_effects_at_intervals:
-		if duration > 0:
-			end_time = start_time + duration
-		SignalBus.time_changed.connect(handle_time)
+	#if duration > 0 or apply_effects_at_intervals:
+		#if duration > 0:
+			#end_time = start_time + duration
+		#SignalBus.time_changed.connect(handle_time)
+	
+	setup_signals()
 	
 	if plan_disrupting:
 		target.interrupted = true

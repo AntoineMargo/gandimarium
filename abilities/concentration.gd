@@ -4,7 +4,6 @@ class_name Concentration
 @export var linked_conditions: Array[Condition] = []
 
 @export_storage var area_follows_target: bool = false
-@export_storage var source = null
 @export_storage var source_uid = null
 #@export_storage var source_user_uid = null
 @export_storage var start_time: int
@@ -13,6 +12,8 @@ class_name Concentration
 @export_storage var name: String = ""
 @export_storage var id: String = ""
 @export_storage var drains_pp: bool = false
+
+var source = null
 
 
 #func setup(src, drain: bool = false):
@@ -43,10 +44,13 @@ func setup(src, drain: bool = false):
 	setup_signals()
 
 
-func setup_signals():
+func re_setup() -> void:
 	if !source:
 		source = Global.state_manager.get_creature_by_uid(source_uid)
-	
+	setup_signals()
+
+
+func setup_signals():
 	if drains_pp:
 		if not SignalBus.time_changed.is_connected(tick_tock):
 			SignalBus.time_changed.connect(tick_tock)

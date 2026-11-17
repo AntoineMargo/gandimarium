@@ -73,5 +73,4 @@ conjured = true
 brawn_req_1h = 0
 brawn_req_2h = 0
 throw = SubResource("Resource_h628p")
-owner = null
 metadata/_custom_type_script = "uid://c22428ggciyyj"

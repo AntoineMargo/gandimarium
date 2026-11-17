@@ -124,7 +124,7 @@ func spawn_creature(creature: Creature) -> void:
 	var current_layer: int = Global.world_manager.get_current_layer()
 	creature.update_visibility(current_map_id, current_layer)
 
-	creature.reconnect_signals()
+	creature.loading_helper()
 
 	#if not char_data.player_controlled:
 		#character.start_mutation()

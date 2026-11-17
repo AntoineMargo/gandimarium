@@ -61,5 +61,4 @@ conjured = null
 brawn_req_1h = 0
 brawn_req_2h = 0
 strike = SubResource("Resource_fcbnu")
-owner = null
 metadata/_custom_type_script = "uid://c22428ggciyyj"

@@ -47,7 +47,7 @@ func add_item(item: Item, amount: int = 1) -> ItemContainer:
 func add_container(container: ItemContainer) -> ItemContainer:
 	if container == null or container.item == null or container.amount <= 0:
 		return null
-	container.item.owner = self
+	container.owner = self
 	for existing: ItemContainer in list:
 		if existing.can_stack_with_container(container):
 			existing.amount += container.amount
@@ -77,7 +77,7 @@ func add_item_at_index(item: Item, index: int, amount: int = 1) -> ItemContainer
 func add_container_at_index(container: ItemContainer, index: int) -> ItemContainer:
 	if container == null or container.item == null or container.amount <= 0:
 		return null
-	container.item.owner = self
+	container.owner = self
 	for existing: ItemContainer in list:
 		if existing.can_stack_with_container(container):
 			existing.amount += container.amount

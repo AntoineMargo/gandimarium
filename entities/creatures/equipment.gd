@@ -167,6 +167,18 @@ func equip_item_in_slot(item_container: ItemContainer, slot: Enums.EquipmentSlot
 	return true
 
 
+func remove_container(item_container: ItemContainer) -> ItemContainer:
+	if item_container == null:
+		return null
+	var item_id: String = item_container.item.id
+	for slot in slots:
+		var container: ItemContainer = slots[slot]
+		if container and container.item and container.item.id == item_id:
+			slots[slot] = null
+			return container
+	return null
+
+
 func remove_item(item_or_container) -> ItemContainer:
 	var target_item: Item = item_or_container.item if item_or_container is ItemContainer else (item_or_container as Item)
 	if target_item == null:

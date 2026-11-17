@@ -21,7 +21,7 @@
 [ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="13_dsm25"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="13_rybuj"]
 [ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creatures/creature.gd" id="14_gj4j1"]
-[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="15_eaosl"]
+[ext_resource type="Script" uid="uid://3dqccyt3kjma" path="res://items/item_container.gd" id="15_7hlpg"]
 [ext_resource type="Script" uid="uid://b0qu1tp0r0tqr" path="res://managers/map_manager/map_data.gd" id="16_b6gra"]
 [ext_resource type="Script" uid="uid://c7cvd1ql5dxas" path="res://AI/act_tag.gd" id="16_d5cvt"]
 [ext_resource type="Script" uid="uid://bfmc58snh20aw" path="res://entities/props/prop.gd" id="17_7hlpg"]

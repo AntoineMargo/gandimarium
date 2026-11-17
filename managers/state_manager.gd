@@ -113,6 +113,17 @@ func get_map_state(map_id: String) -> MapState:
 		#return null
 
 
+## Registers the item batch to state.
+func register_item_container(item_container: ItemContainer) -> void:
+	if not game_state:
+		return
+	var uid: int = item_container.uid
+	var state_ref_array = game_state.get_item_container(uid)
+	if !state_ref_array:
+		game_state.item_containers_by_uid[uid] = []
+	game_state.item_containers_by_uid[uid].append(item_container)
+
+
 ## Registers the creature to both map and state.
 func register_creature(creature: Creature) -> void:
 	#wm.current_map.register_creature(creature)
@@ -235,6 +246,9 @@ func save_map(map: Map) -> MapState:
 
 
 func save_game_state() -> bool:
+	print("BEFORE SAVE")
+	print(Global.selected_char.data.resistances.physical)
+	print(Global.selected_char.data.equipment)
 	save_time()
 	
 	for map_data: MapData in Global.map_manager.get_all_map_data():
@@ -286,7 +300,7 @@ func load_game_state() -> bool:
 		return false
 
 	var path = SAVE_DIR + "/" + saves.back()
-	var loaded = ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
+	var loaded = ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE_DEEP)
 	if loaded is not GameState:
 		push_error("Failed to load a GameState from %s" % path)
 		return false

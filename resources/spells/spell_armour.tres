@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="7_wcrj1"]
 [ext_resource type="Resource" uid="uid://b3ew6mq242tql" path="res://resources/items/armours/item_spell_armour.tres" id="8_fiub3"]
 [ext_resource type="Script" uid="uid://d3y8y4l4xgjbd" path="res://effects/create_item.gd" id="9_mt5s0"]
+[ext_resource type="Script" uid="uid://3dqccyt3kjma" path="res://items/item_container.gd" id="9_rgqte"]
 [ext_resource type="Script" uid="uid://dxmd4au5mv1y0" path="res://effects/equip_item.gd" id="10_yy57a"]
 [ext_resource type="Script" uid="uid://dvi4ohsador2o" path="res://conditions/condition.gd" id="11_jhqkl"]
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="11_ub7f8"]
@@ -18,7 +19,6 @@
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="13_4k35v"]
 [ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creatures/creature.gd" id="13_rgqte"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="13_sh6hg"]
-[ext_resource type="Script" uid="uid://c22428ggciyyj" path="res://items/item.gd" id="14_dx2vy"]
 [ext_resource type="Script" uid="uid://b0qu1tp0r0tqr" path="res://managers/map_manager/map_data.gd" id="15_1pblo"]
 [ext_resource type="Script" uid="uid://bfmc58snh20aw" path="res://entities/props/prop.gd" id="16_m6ys3"]
 
@@ -27,9 +27,14 @@ script = ExtResource("6_cp1ca")
 slot = 2
 metadata/_custom_type_script = "uid://bedukehjeunck"
 
+[sub_resource type="Resource" id="Resource_boupf"]
+script = ExtResource("9_rgqte")
+item = ExtResource("8_fiub3")
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
 [sub_resource type="Resource" id="Resource_a3m6j"]
 script = ExtResource("9_mt5s0")
-item = ExtResource("8_fiub3")
+item = SubResource("Resource_boupf")
 metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
 
 [sub_resource type="Resource" id="Resource_5dmfs"]

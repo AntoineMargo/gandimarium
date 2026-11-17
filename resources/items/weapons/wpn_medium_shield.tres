@@ -21,6 +21,7 @@
 [ext_resource type="Script" uid="uid://bb28n7hu0qel2" path="res://conditions/end_requirement.gd" id="15_xkuiw"]
 [ext_resource type="Script" uid="uid://cphr788gebsk2" path="res://VFX/shader_effect.gd" id="16_l1yct"]
 [ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creatures/creature.gd" id="16_lfneu"]
+[ext_resource type="Script" uid="uid://3dqccyt3kjma" path="res://items/item_container.gd" id="17_ij0si"]
 [ext_resource type="Script" uid="uid://ckotia3crvrnt" path="res://conditions/trigger.gd" id="17_qkaw7"]
 [ext_resource type="Script" uid="uid://b0qu1tp0r0tqr" path="res://managers/map_manager/map_data.gd" id="18_ij0si"]
 [ext_resource type="Script" uid="uid://cfewvgpf7mgvs" path="res://effects/add_condition_effect.gd" id="18_u6h82"]
@@ -131,5 +132,4 @@ brawn_req_1h = null
 brawn_req_2h = null
 strike = SubResource("Resource_4rg3v")
 throw = SubResource("Resource_6i7wf")
-owner = null
 metadata/_custom_type_script = "uid://c22428ggciyyj"

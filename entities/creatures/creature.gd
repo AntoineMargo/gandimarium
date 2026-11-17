@@ -420,7 +420,7 @@ func equip_item(item_or_container) -> bool:
 	if container == null or container.item == null:
 		return false
 	initialize_item_container(container)
-	container.item.owner_uid = get_uid()
+	container.owner_uid = get_uid()
 	if data.equipment.equip_item(container):
 		add_item_conditions(container.item)
 	if Global.selected_char == self:
@@ -443,7 +443,7 @@ func equip_item_in_slot(item_or_container, slot: Enums.EquipmentSlot, force: boo
 			end_mutation()
 			return false
 	data.equipment.equip_item_in_slot(container, slot)
-	container.item.owner_uid = get_uid()
+	container.owner_uid = get_uid()
 	end_mutation()
 	if Global.selected_char == self:
 		SignalBus.update_inventory.emit()
@@ -459,6 +459,22 @@ func unequip_slot(slot: Enums.EquipmentSlot) -> ItemContainer:
 		SignalBus.update_inventory.emit()
 		SignalBus.update_character_info.emit()
 	return container
+
+
+func remove_item_container(item_container: ItemContainer) -> ItemContainer:
+	if data.inventory.has_container(item_container):
+		data.inventory.remove_container(item_container)
+		if Global.selected_char == self:
+			SignalBus.update_inventory.emit()
+			SignalBus.update_character_info.emit()
+	else:
+		start_mutation()
+		data.equipment.remove_container(item_container)
+		end_mutation()
+		if Global.selected_char == self:
+			SignalBus.update_inventory.emit()
+			SignalBus.update_character_info.emit()
+	return item_container
 
 
 func remove_item(item: Item) -> Item:
@@ -1664,6 +1680,8 @@ func update_visibility(map_id: String, current_layer: int) -> void:
 		node.update_visibility(map_id, current_layer)
 
 
-func reconnect_signals() -> void:
+func loading_helper() -> void:
 	for concentration: Concentration in data.concentrations:
-		concentration.setup_signals()
+		concentration.re_setup()
+	for condition in data.conditions:
+		condition.re_setup()

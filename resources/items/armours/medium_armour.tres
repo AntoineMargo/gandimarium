@@ -29,5 +29,4 @@ conditions = Array[ExtResource("1_gj5wa")]([ExtResource("2_ugn0k")])
 slot_type = 4
 strike = SubResource("Resource_bn82r")
 throw = SubResource("Resource_d6hui")
-owner = null
 metadata/_custom_type_script = "uid://d3sdrg6ues8pm"

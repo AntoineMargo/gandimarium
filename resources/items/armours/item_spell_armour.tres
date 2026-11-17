@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://covfnqv811mqd" path="res://abilities/activity_container.gd" id="9_q2i6h"]
 [ext_resource type="Script" uid="uid://l76qcdu2mdkb" path="res://VFX/pulse_profile.gd" id="10_a4vmi"]
 [ext_resource type="Script" uid="uid://kxlcr30xnqsn" path="res://entities/creatures/creature.gd" id="10_na870"]
+[ext_resource type="Script" uid="uid://3dqccyt3kjma" path="res://items/item_container.gd" id="11_na870"]
 [ext_resource type="Script" uid="uid://b0qu1tp0r0tqr" path="res://managers/map_manager/map_data.gd" id="12_qtbmm"]
 [ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="13_t81f8"]
 [ext_resource type="Script" uid="uid://bfmc58snh20aw" path="res://entities/props/prop.gd" id="14_q2i6h"]
@@ -77,5 +78,4 @@ can_be_removed = false
 conjured = null
 brawn_req_1h = 0
 brawn_req_2h = 0
-owner = null
 metadata/_custom_type_script = "uid://c22428ggciyyj"
