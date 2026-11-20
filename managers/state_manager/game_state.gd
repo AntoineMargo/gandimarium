@@ -7,14 +7,14 @@ class_name GameState
 @export var creatures_by_uid: Dictionary[int, Creature] = {} # uid -> Creature
 @export var parties_by_uid: Dictionary[int, Party] = {} # uid -> Party
 @export var props_by_uid: Dictionary[int, Prop] = {} # uid -> Prop
-@export var conditions_by_uid: Dictionary[int, Condition] = {} # uid -> Condition
+#@export var conditions_by_uid: Dictionary[int, Condition] = {} # uid -> Condition
 @export var item_containers_by_uid: Dictionary[int, Array] = {} # uid -> Array[ItemContainer]
 
 @export var map_states: Dictionary[String, MapState] = {} # id -> MapState
 
 
-func get_condition(uid: int) -> Condition:
-	return conditions_by_uid.get(uid)
+#func get_condition(uid: int) -> Condition:
+	#return conditions_by_uid.get(uid)
 
 
 func get_creature(uid: int) -> Creature:

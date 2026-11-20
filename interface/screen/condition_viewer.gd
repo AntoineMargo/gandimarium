@@ -20,7 +20,7 @@ func build_condition_squares() -> void:
 			if condition.icon:
 				new_square.texture = condition.icon
 			else:
-				print("Using paceholder for condition square.")
+				#print("Using placeholder for condition square.")
 				new_square.texture = load("res://art/interface/activities/placeholder1.png")
 			container.add_child(new_square)
 

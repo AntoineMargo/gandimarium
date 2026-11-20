@@ -48,6 +48,12 @@ func re_setup() -> void:
 	if !source:
 		source = Global.state_manager.get_creature_by_uid(source_uid)
 	setup_signals()
+	for condition in linked_conditions:
+		if condition is AreaCondition:
+			print("LINKED CONDITION")
+			print(condition.get_instance_id())
+			print(condition.uid)
+			print(condition.resource_path)
 
 
 func setup_signals():

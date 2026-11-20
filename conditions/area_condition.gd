@@ -6,18 +6,35 @@ class_name AreaCondition
 @export var area_follows_target: bool = false
 
 @export_storage var uid: int
-@export_storage var linked_conditions: Array = []
 @export_storage var affected_tiles: Array[Vector3i] = []
-@export_storage var affected_entities: Dictionary = {} # Entity/Creature -> Condition
-#var affected_entities: Dictionary[int, bool] = {} # UID, bool
+@export_storage var linked_conditions: Array = []
+@export_storage var affected_entities_uids_to_conditions: Dictionary[int, Condition] = {}
+#@export_storage var affected_entities: Dictionary = {} # Entity/Creature -> Condition
+#@export_storage var affected_entities_uids: Dictionary[int, bool] = {} # UID, bool
 
 @export_storage var is_finalized: bool = false
 
 @export_storage var area_spread: int = 0
 @export_storage var area_LOS: bool = false
 
+var affected_entities: Array[Entity] = []
+
+
+func get_references_from_uids() -> void:
+	if affected_entities.is_empty():
+		for entity_uid in affected_entities_uids_to_conditions.keys():
+			affected_entities.append(Global.state_manager.get_creature_by_uid(entity_uid))
+
+
+func re_setup() -> void:
+	get_references_from_uids()
+	apply_vfx()
+	setup_signals()
+	SignalBus.event.connect(handle_area_exit)
+
 
 func initialize(ctx: Context) -> void:
+	print("INITIALIZE: ", get_instance_id(), " UID: ", uid)
 	self.user = ctx.user
 	if user is Creature:
 		self.user_uid = user.data.uid
@@ -39,6 +56,24 @@ func initialize(ctx: Context) -> void:
 		SignalBus.time_changed.connect(handle_time)
 	SignalBus.event.connect(handle_area_exit)
 
+	get_references_from_uids()
+
+
+func apply_vfx() -> void:
+	clear_vfx()
+	
+	if vfx_scenes.is_empty():
+		return
+
+	for vfx_scene in vfx_scenes:
+		var vfx = vfx_scene.instantiate()
+		vfx.setup(self)
+
+		Global.game_session.add_child(vfx)
+		#Global.world_manager.VFX_scenes.append(vfx)
+		vfx_instances.append(vfx)
+
+
 
 func finalize():
 	if is_finalized:
@@ -49,16 +84,7 @@ func finalize():
 	if affected_tiles.is_empty():
 		return
 
-	if vfx_scenes.is_empty():
-		return
-		
-	for vfx_scene in vfx_scenes:
-		var vfx = vfx_scene.instantiate()
-		vfx.setup(self)
-
-		Global.game_session.add_child(vfx)
-		#Global.world_manager.VFX_scenes.append(vfx)
-		vfx_instances.append(vfx)
+	apply_vfx()
 
 
 func register_linked_condition(condition: Condition):
@@ -66,15 +92,20 @@ func register_linked_condition(condition: Condition):
 		linked_conditions.append(condition)
 
 
-func cancel_linked_conditions():
-	for condition in linked_conditions:
-		if is_instance_valid(condition):
-			#condition.dispose()
-			condition.remove_source(self.id)
-	linked_conditions.clear()
+#func cancel_linked_conditions():
+	#for condition in linked_conditions:
+		#if is_instance_valid(condition):
+			##condition.dispose()
+			#condition.remove_source(self.id)
+	#linked_conditions.clear()
 
 
-func apply_to_entity(entity):
+func apply_to_entity(entity: Entity):
+	#var entity_uid: int = entity.get_uid()
+	#var saved_uid: int = affected_entities_uids.get(entity_uid)
+	#if saved_uid:
+		#return
+
 	if affected_entities.has(entity):
 		return
 
@@ -87,36 +118,44 @@ func apply_to_entity(entity):
 		var instance: Condition
 		if not ctx.target.has_condition(applied_condition.id):
 			instance = ctx.target.toggle_condition(ctx)
-			affected_entities[entity] = instance
-			#affected_entities[entity.data.uid] = true
+			linked_conditions.append(instance)
 			instance.freeze()
+			
+			affected_entities.append(entity)
+			var entity_uid: int = entity.get_uid()
+			affected_entities_uids_to_conditions[entity_uid] = instance
+			print("APPLY")
+			print("AreaCondition instance: ", get_instance_id())
+			print("AreaCondition UID: ", uid)
+			print("Dictionary: ", affected_entities_uids_to_conditions)
 
 
 func remove_from_entity(entity):
 	if not affected_entities.has(entity):
 		return
-
-	var condition = affected_entities[entity]
 	
 	var ctx = Context.new()
 	ctx.user = self.user
 	ctx.target = entity
 	ctx.condition = applied_condition
-	if ctx.target.has_condition(condition.id):
+	if ctx.target.has_condition(applied_condition.id):
 		ctx.target.toggle_condition(ctx)
 	
 	affected_entities.erase(entity)
+	var entity_uid: int = entity.get_uid()
+	affected_entities_uids_to_conditions.erase(entity_uid)
 
 
 func handle_area_exit(reaction_event: ReactionEvent):
-	var event_entity = reaction_event.context.user
+	var event_entity: Entity = reaction_event.context.user
 	if affected_entities.has(event_entity):
 		var pos = event_entity.get_coords()
 		if pos not in affected_tiles:
 			if applied_condition.duration == -1:
 				remove_from_entity(event_entity)
 			else:
-				affected_entities[event_entity].unfreeze()
+				var entity_uid: int = event_entity.get_uid()
+				affected_entities_uids_to_conditions[entity_uid].unfreeze()
 	
 	# The event entity is in control of this area condition
 	if area_follows_target and target == event_entity: 
@@ -126,7 +165,8 @@ func handle_area_exit(reaction_event: ReactionEvent):
 				if applied_condition.duration == -1:
 					remove_from_entity(entity)
 				else:
-					affected_entities[entity].unfreeze()
+					var entity_uid: int = entity.get_uid()
+					affected_entities_uids_to_conditions[entity_uid].unfreeze()
 
 
 func clear_tiles():
@@ -151,6 +191,7 @@ func move_area(reaction_event: ReactionEvent) -> void:
 
 
 func add_tile(pos: Vector3i) -> void:
+	print("ADD TILE: ", get_instance_id(), " UID: ", uid)
 	var wm = Global.world_manager
 	var layer_pos = Vector2i(pos.x, pos.y)
 	if not wm.layers[pos.z]["contents"].has(layer_pos):
@@ -172,11 +213,15 @@ func add_tile(pos: Vector3i) -> void:
 
 
 func dispose():
+	print("DISPOSE")
+	print("AreaCondition instance: ", get_instance_id())
+	print("AreaCondition UID: ", uid)
+	print("Dictionary: ", affected_entities_uids_to_conditions)
 	destroy_children()
 	clear_vfx()
-	cancel_linked_conditions()
+	#cancel_linked_conditions()
 	clear_tiles()
-	for entity in affected_entities.keys():
+	for entity in affected_entities:
 		remove_from_entity(entity)
 	affected_entities.clear()
 	if area_follows_target:

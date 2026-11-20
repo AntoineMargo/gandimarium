@@ -1370,6 +1370,7 @@ func teleport(character: Creature, target: Vector3i):
 	selection_highlight.update_selection_highlight()
 	#SignalBus.sight_check.emit(target, map)
 
+
 func interact_move(character: Creature, target: Vector3i):
 	var origin = character.get_coords()
 	var layer_origin = Vector2i(origin.x, origin.y)
@@ -1408,6 +1409,7 @@ func interact_move(character: Creature, target: Vector3i):
 		SignalBus.update_ui_for_char.emit()
 	selection_highlight.update_selection_highlight()
 
+
 func handle_tile_conditions(tile: Vector3i, entity):
 	var layer_tile: Vector2i = Vector2i(tile.x, tile.y)
 	if layers[tile.z]["contents"].has(layer_tile):
@@ -1415,12 +1417,14 @@ func handle_tile_conditions(tile: Vector3i, entity):
 			if element is AreaCondition and element.trigger == Enums.AreaConditionTrigger.ENTER:
 				element.apply_to_entity(entity)
 
+
 func flash_path(path: Array) -> void:
 	for point in path:
 		#print("Tile (%d:%d:%d)" % [point[0], point[1], point[2]])
 		if point[2] == current_layer:
 			var point_coords = Vector2i(point[0], point[1])
 			flash_tile_overlay(point_coords)
+
 
 func visualize_area(tiles: Array[Vector3i], rect_container: Array, line_container: Array, colour: Color = Color8(0, 255, 0, 255)) -> void:
 	# Convert tiles array to a set for fast lookup

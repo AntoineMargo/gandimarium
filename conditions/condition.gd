@@ -154,7 +154,8 @@ func apply_effects(ctx: Context = null) -> void:
 		ctx = Context.new()
 		ctx.user = user
 		ctx.target = target
-		ctx.origin = user.get_coords()
+		if user:
+			ctx.origin = user.get_coords()
 
 		ctx.condition = self
 	for filter in filters:

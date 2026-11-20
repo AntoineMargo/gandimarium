@@ -220,7 +220,8 @@ func save_map_layers(map_data: MapData, map_state: MapState) -> void:
 						continue
 					
 					if element is Resource:
-						entry.contents.append(element.duplicate())
+						entry.contents.append(element)
+						#entry.contents.append(element.duplicate())
 
 				if !entry.contents.is_empty():
 					if !saved_layer:
@@ -300,7 +301,7 @@ func load_game_state() -> bool:
 		return false
 
 	var path = SAVE_DIR + "/" + saves.back()
-	var loaded = ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE_DEEP)
+	var loaded = ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
 	if loaded is not GameState:
 		push_error("Failed to load a GameState from %s" % path)
 		return false
@@ -576,6 +577,13 @@ func load_map_state(map_data: MapData) -> void:
 				Global.world_manager.spawn_prop_from_handle(prop)
 
 		load_map_layers(map_data, map_state)
+
+		for area_condition in map_state.area_conditions.values():
+			area_condition.re_setup()
+			print("STATE AREA CONDITION")
+			print(area_condition.get_instance_id())
+			print(area_condition.uid)
+			print(area_condition.resource_path)
 
 
 func create_new_game_state() -> void:
