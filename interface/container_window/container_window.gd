@@ -1,12 +1,12 @@
 extends CanvasLayer
 class_name ContainerWindow
 
-var current_container: ContainerProp = null
+var current_container: PropDataStorage = null
 
 @onready var control = get_node_or_null("Control")
 
 
-func _on_update_container(container_prop: ContainerProp = current_container) -> void:
+func _on_update_container(container_prop: PropDataStorage = current_container) -> void:
 	if container_prop:
 		current_container = container_prop
 	if not current_container:

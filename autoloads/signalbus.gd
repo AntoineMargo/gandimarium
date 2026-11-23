@@ -59,7 +59,7 @@ signal stop_all_movement()
 #UI
 signal open_inventory()
 signal update_inventory()
-signal update_container()
+signal update_container(container: Resource)
 signal update_character_info()
 signal drop_item_on_tile(character)
 signal update_ui_for_char()
@@ -76,7 +76,6 @@ signal clear_path_preview()
 signal session_half_ready()
 signal session_ready()
 signal map_ready(map: Map)
-#signal world_quit()
 signal update_visibility(map_id: String, layer: int)
 
 #Cursors

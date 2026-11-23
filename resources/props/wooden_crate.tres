@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PropDataStorage" format=3 uid="uid://b66lfwf3rmrue"]
+
+[ext_resource type="Texture2D" uid="uid://cnrn8i46w8hx4" path="res://art/props/crate.png" id="1_pfoor"]
+[ext_resource type="Script" uid="uid://0e3c3obhme7v" path="res://entities/props/prop_data/storage.gd" id="2_pfoor"]
+
+[resource]
+script = ExtResource("2_pfoor")
+name = "Wooden Crate"
+id = "prop_wooden_crate"
+icon = ExtResource("1_pfoor")
+texture = ExtResource("1_pfoor")
+cover = 2
+metadata/_custom_type_script = "uid://0e3c3obhme7v"

@@ -65,7 +65,6 @@ var sprite = null
 		#if map.map_ready == true:
 			#initialize()
 	#SignalBus.map_ready.connect(initialize)
-	#SignalBus.world_quit.connect(unregister)
 #
 #func _ready() -> void:
 	#is_active = false

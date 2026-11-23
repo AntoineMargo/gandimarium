@@ -7,5 +7,6 @@ var created_creatures: Array[Creature] = []
 var created_props: Array[Prop] = []
 var created_items: Array[Item] = []
 var created_activites: Array[Activity] = []
+var created_maps: Array[MapData] = []
 
 var metadata: Dictionary = {}

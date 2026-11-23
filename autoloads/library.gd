@@ -2,8 +2,8 @@ extends Node
 
 var _maps = {
 	"empty_region": "res://locations/empty_location/region.scn",
-	"region2": "res://locations/test_location_2/region.scn",
-	"region3": "res://locations/test_location_3/region.scn",
+	#"region2": "res://locations/test_location_2/region.scn",
+	#"region3": "res://locations/test_location_3/region.scn",
 	"pocket_dimension": "res://locations/pocket_dimension/pocket_dimension.scn"
 }
 
@@ -75,7 +75,7 @@ var _dmg_patterns = {
 }
 
 var _props = {
-	"wooden_crate": "res://resources/props/crate.tres",
+	"wooden_crate": "res://resources/props/wooden_crate.tres",
 	"spell_wall": "res://resources/props/spell_wall.tres",
 	"bed": "res://resources/props/bed.tres",
 	"portal": "res://resources/props/portal.tres"

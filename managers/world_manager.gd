@@ -132,11 +132,11 @@ func spawn_prop_from_handle(prop: Prop) -> Prop:
 	return prop
 
 
-func spawn_prop_at_pos_from_data(prop_data: PropData, pos: Vector3i) -> Prop:
+func spawn_prop_at_pos_from_data(prop_data: PropData, pos: Vector3i, ctx: Context = null) -> Prop:
 	var prop: Prop = Prop.new()
 	var prop_scene = preload("res://entities/props/prop.tscn")
 	var prop_node: PropNode = prop_scene.instantiate()
-	var prop_data_inst: PropData = prop_data.duplicate(true)
+	var prop_data_inst: PropData = prop_data.duplicate()
 	
 	prop.data = prop_data_inst
 	prop.node = prop_node
@@ -152,7 +152,7 @@ func spawn_prop_at_pos_from_data(prop_data: PropData, pos: Vector3i) -> Prop:
 			prop_node.global_position = tile_to_pixels(pos)
 			break
 	
-	prop.general_setup()
+	prop.general_setup(ctx)
 	prop.runtime_setup()
 	Global.state_manager.register_prop(prop)
 
@@ -1487,9 +1487,6 @@ func clear_visualization(visualized_rects: Array, visualized_lines: Array) -> vo
 func _on_map_ready():
 	current_map.map_ready = true
 
-func _on_world_quit():
-	current_map.map_ready = true
-
 #func _on_local_timeout():
 	#SignalBus.local_turn_passed.emit()
 #
@@ -1516,7 +1513,6 @@ func _ready() -> void:
 	SignalBus.simple_interact.connect(_simple_interact_disambiguation)
 	SignalBus.complex_interact.connect(_complex_interact)
 	#SignalBus.map_ready.connect(_on_map_ready)
-	#SignalBus.world_quit.connect(_on_world_quit)
 	SignalBus.hour_change.connect(time_effects_on_creatures)
 	path_preview = PathPreviewScene.instantiate()
 	add_child(path_preview)

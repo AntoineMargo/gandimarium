@@ -5,8 +5,6 @@ class_name Prop
 
 var node: PropNode = null
 
-#var initialized: bool = false
-
 
 func get_uid() -> int:
 	return data.uid
@@ -16,7 +14,7 @@ func get_coords() -> Vector3i:
 	return data.pos
 
 
-func general_setup() -> void:
+func general_setup(ctx: Context = null) -> void:
 	if !data:
 		var data_res: PropData = Library.get_prop(node.prop_id)
 		data = data_res.duplicate(true)
@@ -25,6 +23,11 @@ func general_setup() -> void:
 	if data.uid == 0:
 		data.uid = Global.state_manager.next_uid(Enums.UIDType.PROP)
 		data.current_hp = data.max_hp
+	if data and data.has_method("setup"):
+		if ctx:
+			data.setup(ctx)
+		else:
+			data.setup()
 
 
 ## To be used when the node has been loaded into the world.
@@ -36,39 +39,6 @@ func runtime_setup() -> void:
 	if data.blocks_movement:
 		Global.world_manager.layers[pos.z]["path_map"].set_point_solid(layer_coords, true)
 		Global.world_manager.layers[pos.z]["occupied"][layer_coords] = true
-
-
-#func register() -> void:
-	#node.map.props.append(self)
-
-
-#func unregister() -> void:
-	#var prop_array: Array[Prop] = node.map.props
-	#for prop in prop_array:
-		#if prop.data.uid == data.uid:
-			#prop_array.erase(prop)
-
-
-#func make_delta() -> PropDelta:
-	#var prop_delta = PropDelta.new()
-	#prop_delta.id = data.id
-	#prop_delta.pos = data.pos
-	#prop_delta.hp = data.current_hp
-	#return prop_delta
-
-
-#func apply_mat_resistances():
-	#match data.mat:
-		#Enums.Mat.SOFT_WOOD:
-			#data.heat = -10
-		#Enums.Mat.HARD_WOOD:
-			#data.physical = 10
-			#data.heat = 0
-			#data.cold = 10
-			#data.electricity = 20
-			#data.corrosion = 10
-			#data.poison = 20
-			#data.psychic = 100
 
 
 func take_damage(damage: int, resistance: Enums.Resistance):
@@ -126,12 +96,16 @@ func destroy_self():
 
 
 func operate(_creature: Creature):
-	pass
+	if data.has_method("operate"):
+		data.operate(_creature)
 
 
 func print_info():
 	var pos: Vector3i = get_coords()
 	print("id: %s, pos: (%d, %d, %d)" % [data.id, pos.x, pos.y, pos.z])
+
+
+#var initialized: bool = false
 
 
 #func base_ready():
@@ -150,6 +124,40 @@ func print_info():
 #func _on_ready():
 	#base_ready()
 
-func _ready() -> void:
-	pass
-	#_on_ready()
+
+#func _ready() -> void:
+	#pass
+	##_on_ready()
+
+
+#func register() -> void:
+	#node.map.props.append(self)
+
+
+#func unregister() -> void:
+	#var prop_array: Array[Prop] = node.map.props
+	#for prop in prop_array:
+		#if prop.data.uid == data.uid:
+			#prop_array.erase(prop)
+
+
+#func make_delta() -> PropDelta:
+	#var prop_delta = PropDelta.new()
+	#prop_delta.id = data.id
+	#prop_delta.pos = data.pos
+	#prop_delta.hp = data.current_hp
+	#return prop_delta
+
+
+#func apply_mat_resistances():
+	#match data.mat:
+		#Enums.Mat.SOFT_WOOD:
+			#data.heat = -10
+		#Enums.Mat.HARD_WOOD:
+			#data.physical = 10
+			#data.heat = 0
+			#data.cold = 10
+			#data.electricity = 20
+			#data.corrosion = 10
+			#data.poison = 20
+			#data.psychic = 100

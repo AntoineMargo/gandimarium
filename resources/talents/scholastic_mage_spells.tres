@@ -65,6 +65,9 @@
 [ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damage_effect.gd" id="58_2mcys"]
 [ext_resource type="Texture2D" uid="uid://bhd3mp57mbhk3" path="res://art/interface/activities/spell-book.png" id="58_3k8ai"]
 [ext_resource type="Texture2D" uid="uid://bhcp6waue3riu" path="res://art/interface/activities/world.png" id="58_s8bqb"]
+[ext_resource type="Script" uid="uid://cbya6mmgqnklb" path="res://effects/finish_dimension_effect.gd" id="64_6tpmh"]
+[ext_resource type="Script" uid="uid://ctoi0qqlyxwmk" path="res://effects/create_dimension_effect.gd" id="64_h3362"]
+[ext_resource type="Script" uid="uid://dk2ibknskb7og" path="res://effects/create_prop_effect.gd" id="66_sqphr"]
 
 [sub_resource type="Resource" id="Resource_sf1yt"]
 script = ExtResource("36_hwbcj")
@@ -289,6 +292,20 @@ recipient = 1
 condition = SubResource("Resource_qwxp5")
 metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
 
+[sub_resource type="Resource" id="Resource_eobol"]
+script = ExtResource("64_h3362")
+map = "pocket_dimension"
+metadata/_custom_type_script = "uid://ctoi0qqlyxwmk"
+
+[sub_resource type="Resource" id="Resource_h3362"]
+script = ExtResource("66_sqphr")
+prop_id = "portal"
+metadata/_custom_type_script = "uid://dk2ibknskb7og"
+
+[sub_resource type="Resource" id="Resource_gyib4"]
+script = ExtResource("64_6tpmh")
+metadata/_custom_type_script = "uid://cbya6mmgqnklb"
+
 [sub_resource type="Resource" id="Resource_hh0ht"]
 script = ExtResource("34_2mmfy")
 name = "Pocket Dimension"
@@ -299,7 +316,7 @@ tags = Array[int]([18, 17])
 AP_cost = 3
 requires_concentration = true
 reach = 5
-target_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_rpcen")])
+target_effects = Array[ExtResource("1_3uv03")]([SubResource("Resource_rpcen"), SubResource("Resource_eobol"), SubResource("Resource_h3362"), SubResource("Resource_gyib4")])
 targeting_type = 0
 affected_type = 1
 requires_roll = false
