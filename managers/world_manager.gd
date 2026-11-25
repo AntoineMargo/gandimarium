@@ -290,24 +290,58 @@ func remove_layer_links(layer_ids: Array[int]) -> void:
 			layers.erase(key)
 
 
+func can_fit_at(anchor: Vector2i, entity_size: Vector2i, map_rect: Rect2i, base_astar: AStarGrid2D) -> bool:
+	for x in range(entity_size.x):
+		for y in range(entity_size.y):
+			var tile: Vector2i = anchor + Vector2i(x, y)
+
+			if not map_rect.has_point(tile):
+				return false
+
+			if base_astar.is_point_solid(tile):
+				return false
+
+	return true
+
+
+func build_astar_array(layer: TileMapLayer) -> Array[AStarGrid2D]:
+	var path_maps: Array[AStarGrid2D] = []
+
+	for size in range(6):
+		var astar: AStarGrid2D = AStarGrid2D.new()
+
+		astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
+		astar.region = layer.get_used_rect()
+		astar.cell_size = Vector2(Global.TILE_SIZE, Global.TILE_SIZE)
+		astar.update()
+
+		path_maps.append(astar)
+		
+	return path_maps
+
+
 func setup_layers(map: Map):
 	for child in map.get_children():
 		if child is TileMapLayer:
 			var layer = child
 			var id = layer.id
-			var astar = AStarGrid2D.new()
-			var noise_astar = AStarGrid2D.new()
 			var contents = {};
 			var occupied = {};
 			var cover = {};
 			var move_cost = {};
 			var hit_points = {};
 			var item_visual = {};
+			var path_maps: Array[AStarGrid2D] = build_astar_array(layer)
 
 			layers[id] = {
 				"tile_map": layer,
-				"path_map": astar,
-				"noise_map": noise_astar,
+				"noise_map": path_maps[0],
+				"path_map": path_maps[1],
+				"path_map_2": path_maps[2],
+				"path_map_3": path_maps[3],
+				"path_map_4": path_maps[4],
+				"path_map_5": path_maps[5],
+
 				"contents": contents,
 				"occupied": occupied,
 				"cover": cover,
@@ -315,18 +349,8 @@ func setup_layers(map: Map):
 				"hit_points": hit_points,
 				"item_visual": item_visual
 			}
-			
-			astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
-			astar.region = layer.get_used_rect()
-			astar.cell_size = Vector2(Global.TILE_SIZE, Global.TILE_SIZE)
-			astar.update()
-			
-			noise_astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
-			noise_astar.region = layer.get_used_rect()
-			noise_astar.cell_size = Vector2(Global.TILE_SIZE, Global.TILE_SIZE)
-			noise_astar.update()
-			
-			var rect = layer.get_used_rect()
+
+			var rect: Rect2i = layer.get_used_rect()
 
 			for x in range(rect.position.x, rect.position.x + rect.size.x):
 				for y in range(rect.position.y, rect.position.y + rect.size.y):
@@ -334,9 +358,7 @@ func setup_layers(map: Map):
 					var source_id: int = layer.get_cell_source_id(coords)
 
 					if source_id != -1 and not layer.tile_set.has_source(source_id):
-						print("Invalid tile reference: layer=", layer.name,
-							" coords=", coords,
-							" source_id=", source_id)
+						print("Invalid tile reference: layer=", layer.name, " coords=", coords, " source_id=", source_id)
 						continue
 
 					var tile_data = layer.get_cell_tile_data(coords)
@@ -344,12 +366,23 @@ func setup_layers(map: Map):
 						var tile_cover = tile_data.get_custom_data("cover")
 						if tile_cover == 4:
 							layers[id]["cover"][coords] = Enums.Cover.FULL
-							astar.set_point_solid(coords, true)
-							noise_astar.set_point_weight_scale(coords, 10.0)
+							path_maps[0].set_point_weight_scale(coords, 10.0) # noise map
+							path_maps[1].set_point_solid(coords, true) # 1x1 path map
+
+			for size in range(2, 5): # writing the path maps for larger entity sizes
+				var size_astar: AStarGrid2D = path_maps[size]
+
+				for x in range(rect.position.x, rect.position.x + rect.size.x):
+					for y in range(rect.position.y, rect.position.y + rect.size.y):
+						var anchor: Vector2i = Vector2i(x, y)
+
+						if not can_fit_at(anchor, Vector2i(size, size), rect, path_maps[1]):
+							size_astar.set_point_solid(anchor, true)
 
 	if not layers.is_empty() and not current_tile_map_layer:
 		current_layer = 500
 		current_tile_map_layer = layers[current_layer]["tile_map"]
+
 
 func setup_ramps(layer_ids: Array[int]) -> void:
 	for z in layer_ids:
@@ -359,7 +392,7 @@ func setup_ramps(layer_ids: Array[int]) -> void:
 
 		for x in range(used_rect.position.x, used_rect.end.x):
 			for y in range(used_rect.position.y, used_rect.end.y):
-				var pos := Vector2i(x, y)
+				var pos: Vector2i = Vector2i(x, y)
 				var source_id: int = layer.get_cell_source_id(pos)
 
 				if source_id == -1:
@@ -389,6 +422,8 @@ func setup_ramps(layer_ids: Array[int]) -> void:
 						if not layer_links[z].has(pos):
 							layer_links[z][pos] = []
 						layer_links[z][pos].append([down_z, pos])
+
+
 func setup_ai_zones():
 	for layer in current_map.get_children():
 		if layer is TileMapLayer:
@@ -396,6 +431,7 @@ func setup_ai_zones():
 			for child in layer.get_children():
 				if child is ZonePainter:
 					ai_zones[id] = child.zones
+
 
 func get_reachable_tiles_3D_with_diagonals(start: Vector3i, max_cost: float) -> Array[Vector3i]:
 	var visited: Dictionary = {}
@@ -495,10 +531,12 @@ func get_reachable_tiles_3D_with_diagonals(start: Vector3i, max_cost: float) -> 
 	reachable.erase(start)
 	return reachable
 
+
 ## @deprecated: use get_tile_occupied(tile: Vector3i) instead
 func is_tile_occupied(coords):
 	if layers[current_layer]["occupied"][coords.vec2]:
 		return true
+
 
 #func show_reachable_tiles():
 	#if not Global.selected_char:
@@ -517,11 +555,13 @@ func is_tile_occupied(coords):
 		#painted_instance.position = world_pos
 		#
 		#tilemap.add_child(painted_instance)
-#
+
+
 #func clear_reachable_tiles():
 	#for node in get_tree().get_nodes_in_group("reachable_overlay"):
 		#node.queue_free()
-#
+
+
 #func build_reachable_tiles():
 	#if not Global.focus_char:
 		#return

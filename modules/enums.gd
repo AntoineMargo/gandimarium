@@ -322,6 +322,19 @@ enum Size {
 	LARGE
 }
 
+enum EntitySize {
+	MINUSCULE, # 0x0
+	TINY, # 0x0
+	SMALL, # 1x1
+	MEDIUM, # 1x1
+	LARGE, # 2x2
+	HUGE,  # 3x3
+	ENORMOUS, # 4x4
+	MASSIVE # 5x5
+	# SPECIAL_1X2
+	# SPECIAL_2X6
+}
+
 enum Point {
 	MAX_HP,
 	MAX_PP,

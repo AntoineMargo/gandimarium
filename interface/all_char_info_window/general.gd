@@ -29,7 +29,7 @@ func update(character):
 	%MajorArchetype.text = get_archetype_name(character.data.major_archetype) 
 	%MinorArchetype.text = get_archetype_name(character.data.minor_archetype) 
 	%Vigour.text = "%d" % character.get_final_stat("vigour")
-	%Size.text = character.get_final_stat("size")
+	#%Size.text = character.get_final_stat("size")
 	%StrengthBonus.text = "%d" % character.get_final_stat("strength_bonus")
 	%Reactions.text = "%d" % character.get_final_stat("max_reactions")
 	%Speed.text = "%d" % character.get_final_stat("max_mp")

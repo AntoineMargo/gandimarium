@@ -8,6 +8,7 @@ class_name CreatureData
 @export_range(0, 24) var applied_level: int = 0
 @export_range(0, 1000) var experience: int = 0
 @export var species: String = ""
+@export var size: Enums.EntitySize = Enums.EntitySize.MEDIUM
 @export var major_archetype: Archetype = null
 @export var minor_archetype: Archetype = null
 @export var discipline = null

@@ -51,6 +51,7 @@ func _init(creature_data: CreatureData = null) -> void:
 	data = creature_data
 
 
+
 func finish_node_attachment() -> void:
 	node.mover.creature = self
 	initialize_character()
@@ -1173,6 +1174,32 @@ func get_coords() -> Vector3i:
 		data.tile_z
 	)
 	return pos_3d
+
+
+func get_size_in_tiles() -> Vector2i:
+	match data.size:
+		Enums.EntitySize.SMALL:
+			return Vector2i(1, 1)
+		Enums.EntitySize.MEDIUM:
+			return Vector2i(2, 2)
+		Enums.EntitySize.LARGE:
+			return Vector2i(3, 3)
+		Enums.EntitySize.HUGE:
+			return Vector2i(4, 4)
+
+	return Vector2i(1, 1)
+
+
+func get_footprint() -> Array[Vector3i]:
+	var coords = get_coords()
+	var tiles: Array[Vector3i] = []
+	var dimensions: Vector2i = get_size_in_tiles()
+
+	for x in range(dimensions.x):
+		for y in range(dimensions.y):
+			tiles.append(coords + Vector3i(x, y, 0))
+
+	return tiles
 
 
 func set_coords(new_coords: Vector3i) -> void:
