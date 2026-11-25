@@ -18,11 +18,11 @@ static func produce_report(report: TacticalReport, creature: Creature):
 
 static func list_allies(report: TacticalReport) -> void:
 	for id in report.creature.data.relationships._cooperative_ids.keys():
-		report.crisis.allies.append(Global.world_manager.get_creature_by_id(id))
+		report.crisis.allies.append(Global.state_manager.get_creature_by_uid(id))
 
 static func list_enemies(report: TacticalReport) -> void:
 	for id in report.creature.data.relationships._hostile_ids.keys():
-		report.crisis.enemies.append(Global.world_manager.get_creature_by_id(id))
+		report.crisis.enemies.append(Global.state_manager.get_creature_by_uid(id))
 
 static func identify_specific_enemies(report: TacticalReport) -> void:
 	report.crisis.closest_enemy = find_closest_enemy(report)
@@ -49,26 +49,26 @@ static func add_weapon_entries(report: TacticalReport):
 	var weapons = report.creature.get_weapons()
 	var copy: ActivityVariant
 	if weapons[0]:
-		if weapons[0].throw and weapons[0].throw.activity.reach > 1:
-			copy = weapons[0].throw.duplicate(true)
-		if weapons[0].shoot:
-			copy = weapons[0].shoot.duplicate(true)
+		if weapons[0].item.throw and weapons[0].item.throw.activity.reach > 1:
+			copy = weapons[0].item.throw.duplicate(true)
+		if weapons[0].item.shoot:
+			copy = weapons[0].item.shoot.duplicate(true)
 		else:
-			copy = weapons[0].strike.duplicate(true)
+			copy = weapons[0].item.strike.duplicate(true)
 		if copy:
 			report.available_activities.append(copy)
-		copy.activity.weapon = weapons[0]
+		copy.activity.weapon = weapons[0].item
 
 	if weapons[1]:
-		if weapons[1].throw and weapons[1].throw.activity.reach > 1:
-			copy = weapons[1].throw.duplicate(true)
-		if weapons[0].shoot:
-			copy = weapons[1].shoot.duplicate(true)
+		if weapons[1].item.throw and weapons[1].item.throw.activity.reach > 1:
+			copy = weapons[1].item.throw.duplicate(true)
+		if weapons[0].item.shoot:
+			copy = weapons[1].item.shoot.duplicate(true)
 		else:
-			copy = weapons[1].strike.duplicate(true)
+			copy = weapons[1].item.strike.duplicate(true)
 		if copy:
 			report.available_activities.append(copy)
-		copy.activity.weapon = weapons[1]
+		copy.activity.weapon = weapons[1].item
 
 
 static func add_activity_entries(report: TacticalReport):
@@ -90,7 +90,7 @@ static func find_closest_enemy(report: TacticalReport) -> Creature:
 	var best_cost: float = INF
 
 	for id in report.creature.data.relationships._hostile_ids.keys():
-		var enemy = Global.world_manager.get_creature_by_id(id)
+		var enemy = Global.state_manager.get_creature_by_uid(id)
 		if enemy == null or not enemy.data.state == Enums.State.CONSCIOUS:
 			continue
 
@@ -109,7 +109,7 @@ static func find_strongest_enemy(report: TacticalReport) -> Creature:
 	var lowest_level: int = 100
 
 	for id in report.creature.data.relationships._hostile_ids.keys():
-		var enemy = Global.world_manager.get_creature_by_id(id)
+		var enemy = Global.state_manager.get_creature_by_uid(id)
 		if enemy == null or not enemy.data.state == Enums.State.CONSCIOUS:
 			continue
 
@@ -125,7 +125,7 @@ static func find_frailest_enemy(report: TacticalReport) -> Creature:
 	var frailest_enemy: Creature = null
 
 	for id in report.creature.data.relationships._hostile_ids.keys():
-		var enemy = Global.world_manager.get_creature_by_id(id)
+		var enemy = Global.state_manager.get_creature_by_uid(id)
 		if enemy == null or not enemy.data.state == Enums.State.CONSCIOUS:
 			continue
 
@@ -167,7 +167,7 @@ static func update_report_on_activity(planned_act: PlannedAct, report: TacticalR
 #static func get_enemy_positions(report: TacticalReport) -> void:
 	#report.crisis.enemy_positions = {}
 	#for id in report.creature.data.relationships._hostile_ids.keys():
-		#var enemy = Global.world_manager.get_creature_by_id(id)
+		#var enemy = Global.state_manager.get_creature_by_uid(id)
 		#if enemy == null:
 			#continue
 #

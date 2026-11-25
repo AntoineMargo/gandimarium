@@ -307,7 +307,8 @@ func can_fit_at(anchor: Vector2i, entity_size: Vector2i, map_rect: Rect2i, base_
 func build_astar_array(layer: TileMapLayer) -> Array[AStarGrid2D]:
 	var path_maps: Array[AStarGrid2D] = []
 
-	for size in range(6):
+	#for size in range(6):
+	for size in range(2):
 		var astar: AStarGrid2D = AStarGrid2D.new()
 
 		astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
@@ -337,10 +338,10 @@ func setup_layers(map: Map):
 				"tile_map": layer,
 				"noise_map": path_maps[0],
 				"path_map": path_maps[1],
-				"path_map_2": path_maps[2],
-				"path_map_3": path_maps[3],
-				"path_map_4": path_maps[4],
-				"path_map_5": path_maps[5],
+				#"path_map_2": path_maps[2],
+				#"path_map_3": path_maps[3],
+				#"path_map_4": path_maps[4],
+				#"path_map_5": path_maps[5],
 
 				"contents": contents,
 				"occupied": occupied,
@@ -369,15 +370,15 @@ func setup_layers(map: Map):
 							path_maps[0].set_point_weight_scale(coords, 10.0) # noise map
 							path_maps[1].set_point_solid(coords, true) # 1x1 path map
 
-			for size in range(2, 5): # writing the path maps for larger entity sizes
-				var size_astar: AStarGrid2D = path_maps[size]
-
-				for x in range(rect.position.x, rect.position.x + rect.size.x):
-					for y in range(rect.position.y, rect.position.y + rect.size.y):
-						var anchor: Vector2i = Vector2i(x, y)
-
-						if not can_fit_at(anchor, Vector2i(size, size), rect, path_maps[1]):
-							size_astar.set_point_solid(anchor, true)
+			#for size in range(2, 5): # writing the path maps for larger entity sizes
+				#var size_astar: AStarGrid2D = path_maps[size]
+#
+				#for x in range(rect.position.x, rect.position.x + rect.size.x):
+					#for y in range(rect.position.y, rect.position.y + rect.size.y):
+						#var anchor: Vector2i = Vector2i(x, y)
+#
+						#if not can_fit_at(anchor, Vector2i(size, size), rect, path_maps[1]):
+							#size_astar.set_point_solid(anchor, true)
 
 	if not layers.is_empty() and not current_tile_map_layer:
 		current_layer = 500

@@ -215,10 +215,13 @@ func send_session_half_ready_signal() -> void:
 func send_session_ready_signal() -> void:
 	session_ready = true
 	SignalBus.session_ready.emit()
-
+	var elapsed: int = Time.get_ticks_msec() - Global.timer
+	print("Game loaded in ", elapsed, " ms.")
+	#SignalBus.message.emit("Game loaded in %d ms." % [elapsed])
 
 func _ready() -> void:
 	print("Game session initializing...")
+	Global.timer = Time.get_ticks_msec()
 	randomize()
 	
 	setup_global()

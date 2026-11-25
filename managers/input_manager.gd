@@ -76,20 +76,21 @@ func BasicControls():
 			return
 		var coords = wm.get_tile_coords_under_cursor()
 		wm.spawn_creature_at_coords("res://saved/characters/Debug.tres", coords, map.id)
-		
+
 	if Input.is_action_just_pressed("Y"):
 		var map = wm.current_map
 		if not map:
 			return
 		var coords: Vector3i = wm.get_tile_coords_under_cursor()
-		var data: String = "res://resources/creatures/data_bandit.tres"
-		var routine: String = "res://resources/routines/bandit_routine.tres"
-		wm.spawn_creature_at_coords(data, coords, map.id, routine)
+		#var routine: String = "res://resources/routines/bandit_routine.tres"
+		wm.spawn_creature_at_coords("res://resources/creatures/data_bandit.tres", coords, map.id)
 
 	if Input.is_action_just_pressed("U"):
 		var hovered_tile = Global.world_manager.get_hovered_tile()
 		var layer_tile = Vector2i(hovered_tile.x, hovered_tile.y)
 		var creature = wm.get_creature_at_pos(hovered_tile)
+		if creature:
+			print("check me!")
 		SignalBus.message.emit("Tile: (%d, %d, %d)" % [hovered_tile.x, hovered_tile.y, hovered_tile.z])
 		SignalBus.message.emit("Creature: %s" % [creature.data.name if creature else "None"])
 

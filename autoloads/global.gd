@@ -23,3 +23,5 @@ var map_manager: Node = null
 
 var selected_char: Creature = null
 var focus_char: Creature = null
+
+var timer: int

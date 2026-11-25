@@ -1,0 +1,2548 @@
+[gd_resource type="Resource" script_class="GameState" format=3]
+
+[ext_resource type="Script" path="res://entities/creatures/creature.gd" id="1_ojcua"]
+[ext_resource type="Script" path="res://abilities/activity_container.gd" id="2_qnd50"]
+[ext_resource type="Resource" path="res://resources/activity_containers/move.tres" id="3_85pkk"]
+[ext_resource type="Resource" path="res://resources/activity_containers/recuperate.tres" id="4_7v858"]
+[ext_resource type="Script" path="res://abilities/activity_variant.gd" id="5_lwxrd"]
+[ext_resource type="Script" path="res://various/damage_pattern.gd" id="6_m6xic"]
+[ext_resource type="Texture2D" path="res://art/interface/activities/sonic-shout.png" id="7_t6b7u"]
+[ext_resource type="Script" path="res://activity_modifiers/modifier.gd" id="8_jec3k"]
+[ext_resource type="Script" path="res://activities/immediate_activity.gd" id="9_11gr4"]
+[ext_resource type="Script" path="res://filters/filter.gd" id="10_h1pjg"]
+[ext_resource type="Script" path="res://effects/effect.gd" id="11_2ue5e"]
+[ext_resource type="Script" path="res://activity_modifiers/addition_num_modifier.gd" id="12_af5xw"]
+[ext_resource type="Script" path="res://effects/activity_modifier_effect.gd" id="13_pokk0"]
+[ext_resource type="Script" path="res://conditions/end_requirement.gd" id="14_djsvw"]
+[ext_resource type="Script" path="res://items/item_container.gd" id="15_bfasw"]
+[ext_resource type="Script" path="res://managers/map_manager/map_data.gd" id="16_21hgo"]
+[ext_resource type="Script" path="res://entities/props/prop.gd" id="17_p84hj"]
+[ext_resource type="Script" path="res://conditions/condition.gd" id="18_8qm62"]
+[ext_resource type="Script" path="res://VFX/shader_effect.gd" id="19_vlix0"]
+[ext_resource type="Script" path="res://conditions/trigger.gd" id="20_8moxp"]
+[ext_resource type="Script" path="res://effects/add_condition_effect.gd" id="21_ey5cn"]
+[ext_resource type="Texture2D" path="res://art/interface/activities/surrounded-shield.png" id="22_ik853"]
+[ext_resource type="Script" path="res://various/abstract_stat_entry_container.gd" id="23_guxvy"]
+[ext_resource type="Script" path="res://various/stat_aptitude_entry.gd" id="24_oab00"]
+[ext_resource type="Script" path="res://various/stat_entry_container.gd" id="25_rxds7"]
+[ext_resource type="Script" path="res://effects/change_stat_effect.gd" id="26_eg2wh"]
+[ext_resource type="Script" path="res://aspects/aspect.gd" id="27_knxaq"]
+[ext_resource type="Script" path="res://entities/creatures/attributes.gd" id="28_ly8lv"]
+[ext_resource type="Script" path="res://entities/barrier.gd" id="29_7oi8h"]
+[ext_resource type="Script" path="res://entities/creatures/base_stats.gd" id="30_3vsh3"]
+[ext_resource type="Script" path="res://abilities/spell_costs.gd" id="31_rvt3e"]
+[ext_resource type="Resource" path="res://resources/casting_tables/mage/level1.tres" id="32_gfs61"]
+[ext_resource type="Resource" path="res://resources/casting_tables/mage/level3.tres" id="33_gcqy5"]
+[ext_resource type="Resource" path="res://resources/casting_tables/mage/level5.tres" id="34_7r5vr"]
+[ext_resource type="Resource" path="res://resources/casting_tables/mage/level7.tres" id="35_avim8"]
+[ext_resource type="Resource" path="res://resources/casting_tables/mage/level9.tres" id="36_4536y"]
+[ext_resource type="Resource" path="res://resources/casting_tables/mage/level11.tres" id="37_fvfl2"]
+[ext_resource type="Resource" path="res://resources/casting_tables/mage/level13.tres" id="38_f146n"]
+[ext_resource type="Resource" path="res://resources/casting_tables/mage/level15.tres" id="39_t71d0"]
+[ext_resource type="Resource" path="res://resources/casting_tables/mage/level17.tres" id="40_n5hqs"]
+[ext_resource type="Resource" path="res://resources/casting_tables/mage/level19.tres" id="41_urr2p"]
+[ext_resource type="Resource" path="res://resources/casting_tables/mage/level21.tres" id="42_6lsuu"]
+[ext_resource type="Resource" path="res://resources/casting_tables/mage/level23.tres" id="43_gr14j"]
+[ext_resource type="Script" path="res://abilities/casting_table.gd" id="44_bsw0h"]
+[ext_resource type="Script" path="res://abilities/concentration.gd" id="45_f3ra2"]
+[ext_resource type="Script" path="res://various/stat_resistance_entry.gd" id="46_mrv4a"]
+[ext_resource type="Script" path="res://various/stat_points_entry.gd" id="47_0ei4j"]
+[ext_resource type="Texture2D" path="res://art/interface/items/leather-vest.png" id="48_batfp"]
+[ext_resource type="Texture2D" path="res://art/interface/items/medium_shield.png" id="49_cxxhh"]
+[ext_resource type="Resource" path="res://resources/conditions/crossguard.tres" id="50_cx6ev"]
+[ext_resource type="Resource" path="res://resources/conditions/shielded1.tres" id="51_alxep"]
+[ext_resource type="Script" path="res://effects/add_activity_effect.gd" id="52_pux1i"]
+[ext_resource type="Script" path="res://various/hand_set.gd" id="53_oa7l0"]
+[ext_resource type="Script" path="res://entities/creatures/equipment.gd" id="54_hg6bv"]
+[ext_resource type="Resource" path="res://resources/items/armours/medium_armour.tres" id="55_jstkg"]
+[ext_resource type="Resource" path="res://resources/items/weapons/wpn_long_sword.tres" id="56_whsws"]
+[ext_resource type="Resource" path="res://resources/items/weapons/wpn_medium_shield.tres" id="57_akyf7"]
+[ext_resource type="Resource" path="res://resources/items/weapons/wpn_fist.tres" id="58_8u5jm"]
+[ext_resource type="Script" path="res://conditions/area_condition.gd" id="59_tu6xq"]
+[ext_resource type="Resource" path="res://resources/items/armours/heavy_armour.tres" id="60_3txe1"]
+[ext_resource type="Resource" path="res://resources/items/weapons/wpn_bow.tres" id="61_evlck"]
+[ext_resource type="Resource" path="res://resources/items/food/bread.tres" id="62_a5y8f"]
+[ext_resource type="Resource" path="res://resources/items/rings/item_necklace_of_agility.tres" id="63_u4ikk"]
+[ext_resource type="Resource" path="res://resources/items/weapons/wpn_pole_axe.tres" id="64_oqiw4"]
+[ext_resource type="Script" path="res://entities/inventory.gd" id="65_n5hgw"]
+[ext_resource type="Resource" path="res://resources/archetypes/mage.tres" id="66_hk0x2"]
+[ext_resource type="Script" path="res://entities/creatures/personality.gd" id="67_t6rdv"]
+[ext_resource type="Script" path="res://activities/reaction.gd" id="68_exlk7"]
+[ext_resource type="Script" path="res://various/affiliation_entry.gd" id="69_d4hgi"]
+[ext_resource type="Script" path="res://various/reputation_entry.gd" id="70_66xd2"]
+[ext_resource type="Script" path="res://entities/creatures/relationships.gd" id="71_86o1e"]
+[ext_resource type="Script" path="res://various/tactical_relation_entry.gd" id="72_ef6ms"]
+[ext_resource type="Script" path="res://entities/resistances.gd" id="73_jpx61"]
+[ext_resource type="Script" path="res://entities/creatures/creature_data.gd" id="74_auq1e"]
+[ext_resource type="Script" path="res://abilities/spell_container.gd" id="75_y68db"]
+[ext_resource type="Script" path="res://activities/targeted_activity.gd" id="76_ldhh4"]
+[ext_resource type="Script" path="res://effects/spell_damage_effect.gd" id="77_620dx"]
+[ext_resource type="Script" path="res://AI/act_tag.gd" id="78_owa60"]
+[ext_resource type="Script" path="res://AI/Preconditions/HTN_precondition.gd" id="79_dysns"]
+[ext_resource type="Script" path="res://AI/AIHints/AI_hint.gd" id="80_tslg2"]
+[ext_resource type="PackedScene" path="res://VFX/projectile.tscn" id="81_ksne5"]
+[ext_resource type="Texture2D" path="res://art/objects/mbolt2.png" id="82_1x6yc"]
+[ext_resource type="Script" path="res://effects/finalize_are_condition_effect.gd" id="83_g60et"]
+[ext_resource type="Script" path="res://various/status_entry.gd" id="84_8rtfu"]
+[ext_resource type="Script" path="res://effects/change_status_effect.gd" id="85_b3uf0"]
+[ext_resource type="PackedScene" path="res://VFX/area/area_condition_VFX.tscn" id="86_73h24"]
+[ext_resource type="Script" path="res://effects/area_condition_general_effect.gd" id="87_ii5pe"]
+[ext_resource type="Script" path="res://effects/area_condition_tile_effect.gd" id="88_gvl43"]
+[ext_resource type="Script" path="res://filters/slot_empty.gd" id="89_mgp1s"]
+[ext_resource type="Resource" path="res://resources/items/armours/item_spell_armour.tres" id="90_3h6ms"]
+[ext_resource type="Script" path="res://effects/create_item.gd" id="91_xi6oi"]
+[ext_resource type="Script" path="res://effects/equip_item.gd" id="92_cjbim"]
+[ext_resource type="Script" path="res://activity_modifiers/spell_rank_num_modifier.gd" id="93_j235q"]
+[ext_resource type="Script" path="res://effects/teleport_effect.gd" id="94_a2cim"]
+[ext_resource type="Script" path="res://filters/is_weapon_attack.gd" id="95_8piu8"]
+[ext_resource type="Script" path="res://filters/WeaponIsNotConjured.gd" id="96_co8u3"]
+[ext_resource type="Script" path="res://effects/add_barrier_effect.gd" id="97_02010"]
+[ext_resource type="PackedScene" path="res://VFX/static/placeholder.tscn" id="98_mjb62"]
+[ext_resource type="PackedScene" path="res://VFX/hit_effect.tscn" id="99_bm4a6"]
+[ext_resource type="Script" path="res://activities/variable_area_activity.gd" id="100_aytal"]
+[ext_resource type="Script" path="res://effects/create_prop_effect.gd" id="101_k8rxr"]
+[ext_resource type="Texture2D" path="res://art/interface/activities/sprint.png" id="102_uvshq"]
+[ext_resource type="Script" path="res://effects/create_creature_effect.gd" id="103_7j18p"]
+[ext_resource type="Script" path="res://filters/not_self.gd" id="104_tmb8t"]
+[ext_resource type="Texture2D" path="res://art/interface/activities/nested-hexagons.png" id="105_5gmk1"]
+[ext_resource type="PackedScene" path="res://interface/prompt_window/spell_prompt_window/spell_prompt_window.tscn" id="106_cb7f4"]
+[ext_resource type="Script" path="res://effects/spell_matrix.gd" id="107_25rlr"]
+[ext_resource type="Script" path="res://conditions/end_requirements/specific_activity_req.gd" id="108_2k555"]
+[ext_resource type="Script" path="res://activities/snake_area_activity.gd" id="109_e6gye"]
+[ext_resource type="Script" path="res://effects/damage_effect.gd" id="110_fxk3r"]
+[ext_resource type="Texture2D" path="res://art/interface/activities/bright-explosion.png" id="111_x33x5"]
+[ext_resource type="Texture2D" path="res://art/objects/mbolt.png" id="112_fjh1o"]
+[ext_resource type="Texture2D" path="res://art/interface/activities/world.png" id="113_88poj"]
+[ext_resource type="Script" path="res://effects/create_dimension_effect.gd" id="114_afcov"]
+[ext_resource type="Script" path="res://effects/finish_dimension_effect.gd" id="115_1ib4n"]
+[ext_resource type="Script" path="res://talents/talent.gd" id="116_0wnva"]
+[ext_resource type="Resource" path="res://resources/talents/general_talents/swift.tres" id="117_idlk4"]
+[ext_resource type="Resource" path="res://resources/talents/mage_talents/phonic_tradition.tres" id="118_qh67d"]
+[ext_resource type="Resource" path="res://resources/talents/mage_casting.tres" id="119_ktv0x"]
+[ext_resource type="Resource" path="res://resources/talents/scholastic_mage_spells.tres" id="120_gdmmi"]
+[ext_resource type="Script" path="res://managers/state_manager/map_state.gd" id="121_ptivs"]
+[ext_resource type="Script" path="res://managers/state_manager/building.gd" id="122_sdman"]
+[ext_resource type="Script" path="res://managers/state_manager/saved_layer.gd" id="123_j7o03"]
+[ext_resource type="Texture2D" path="res://art/props/spell_wall.png" id="124_j0b3t"]
+[ext_resource type="Script" path="res://entities/props/prop_data.gd" id="125_p76b2"]
+[ext_resource type="Resource" path="res://resources/conditions/bed_sleep.tres" id="126_kxk4s"]
+[ext_resource type="Texture2D" path="res://art/props/bed.png" id="127_ar0od"]
+[ext_resource type="Script" path="res://entities/props/prop_data/bed.gd" id="128_u877k"]
+[ext_resource type="Script" path="res://managers/state_manager/room.gd" id="129_vovsn"]
+[ext_resource type="Script" path="res://entities/party.gd" id="130_2u6d1"]
+[ext_resource type="Texture2D" path="res://art/props/crate.png" id="131_vqqrh"]
+[ext_resource type="Script" path="res://entities/props/prop_data/storage.gd" id="132_sguub"]
+[ext_resource type="Script" path="res://managers/state_manager/game_state.gd" id="133_q4vd1"]
+[ext_resource type="Script" path="res://managers/state_manager/time_state.gd" id="134_ej7c8"]
+[ext_resource type="Script" path="res://managers/state_manager/uid_state.gd" id="135_qqwvo"]
+
+[sub_resource type="Resource" id="Resource_pbjd6"]
+script = ExtResource("12_af5xw")
+to_add = 1
+value_type = 5
+name = "Shout (Phonic Tradition)"
+id = "mod_shout_phonic_tradition"
+tags = Array[int]([0])
+metadata/_custom_type_script = "uid://kalwpa2j0ckf"
+
+[sub_resource type="Resource" id="Resource_mbn2x"]
+script = ExtResource("13_pokk0")
+modifier = SubResource("Resource_pbjd6")
+metadata/_custom_type_script = "uid://dywclcl7k47vv"
+
+[sub_resource type="Resource" id="Resource_rgs8n"]
+script = ExtResource("18_8qm62")
+name = "Shout (Phonic Tradition)"
+id = "cond_shout_phonic_tradition"
+icon = ExtResource("7_t6b7u")
+re_apply_effects = false
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_mbn2x")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_d7dk5"]
+script = ExtResource("21_ey5cn")
+recipient = 1
+condition = SubResource("Resource_rgs8n")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_5snif"]
+script = ExtResource("9_11gr4")
+name = "Shout (Phonic Tradition)"
+id = "act_shout_phonic_tradition"
+icon = ExtResource("7_t6b7u")
+AP_cost = 0
+reach_requires_LOS = false
+spread_requires_LOS = false
+reach = 0
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_d7dk5")])
+requires_roll = false
+triggers_reaction = false
+builds_condition = true
+condition_toggle = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_rirp8"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_5snif")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_53k0l"]
+script = ExtResource("2_qnd50")
+name = "Shout (Phonic Tradition)"
+description = "You shout your incantations, increasing the potency of your spells by 1."
+icon = ExtResource("7_t6b7u")
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_rirp8")])
+metadata/_custom_type_script = "uid://covfnqv811mqd"
+
+[sub_resource type="Resource" id="Resource_lsap3"]
+script = ExtResource("24_oab00")
+stat = 6
+amount = 2.0
+metadata/_custom_type_script = "uid://w8o4jtjlvkjh"
+
+[sub_resource type="Resource" id="Resource_m7ari"]
+script = ExtResource("25_rxds7")
+entry = SubResource("Resource_lsap3")
+metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
+
+[sub_resource type="Resource" id="Resource_xgovj"]
+script = ExtResource("26_eg2wh")
+entry_containers = Array[ExtResource("23_guxvy")]([SubResource("Resource_m7ari")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_fi7o7"]
+script = ExtResource("18_8qm62")
+name = "Raised Shield"
+id = "cond_raised_shield"
+description = "Your shield is raised; you gain a +2 bonus to Ranged Defence."
+icon = ExtResource("22_ik853")
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_xgovj")])
+duration = 6
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_fb6di"]
+script = ExtResource("21_ey5cn")
+recipient = 1
+condition = SubResource("Resource_fi7o7")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_hseks"]
+script = ExtResource("9_11gr4")
+name = "Raise Shield"
+id = "cond_raise_shield"
+description = "You raise your shield, helping defend against projectiles. You gain +2 Ranged Defence."
+icon = ExtResource("22_ik853")
+tags = Array[int]([6, 3])
+reach_requires_LOS = false
+spread_requires_LOS = false
+reach = 0
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_fb6di")])
+can_only_hit_once = false
+requires_roll = false
+triggers_reaction = false
+builds_condition = true
+condition_toggle = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_kjmwn"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_hseks")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_udive"]
+script = ExtResource("2_qnd50")
+name = "Raise Shield"
+description = "You raise your shield, helping defend against projectiles. You gain +2 Ranged Defence."
+icon = ExtResource("22_ik853")
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_kjmwn")])
+metadata/_custom_type_script = "uid://covfnqv811mqd"
+
+[sub_resource type="Resource" id="Resource_cp2j3"]
+script = ExtResource("28_ly8lv")
+attributes = {
+0: 6,
+1: 6,
+2: 6,
+3: 10
+}
+
+[sub_resource type="Resource" id="Resource_kyvkw"]
+script = ExtResource("30_3vsh3")
+aptitudes = {
+0: 18,
+1: 18,
+2: 18,
+3: 22,
+4: 18,
+5: 18,
+6: 18
+}
+strength_bonus = 6
+concentration_slots = 10
+max_hp = 144
+max_pp = 48
+max_ep = 144
+max_mp = 6
+
+[sub_resource type="Resource" id="Resource_eue0l"]
+script = ExtResource("44_bsw0h")
+cost_table = Array[ExtResource("31_rvt3e")]([ExtResource("32_gfs61"), ExtResource("33_gcqy5"), ExtResource("34_7r5vr"), ExtResource("35_avim8"), ExtResource("36_4536y"), ExtResource("37_fvfl2"), ExtResource("38_f146n"), ExtResource("39_t71d0"), ExtResource("40_n5hqs"), ExtResource("41_urr2p"), ExtResource("42_6lsuu"), ExtResource("43_gr14j")])
+metadata/_custom_type_script = "uid://cc7dunoqpwbh6"
+
+[sub_resource type="Resource" id="Resource_t1cy2"]
+script = ExtResource("46_mrv4a")
+stat = 1
+amount = 8.0
+metadata/_custom_type_script = "uid://va2witn0s23o"
+
+[sub_resource type="Resource" id="Resource_75ong"]
+script = ExtResource("25_rxds7")
+entry = SubResource("Resource_t1cy2")
+metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
+
+[sub_resource type="Resource" id="Resource_5lisp"]
+script = ExtResource("47_0ei4j")
+stat = 6
+amount = -1.0
+metadata/_custom_type_script = "uid://cp1x0k5fsy1j5"
+
+[sub_resource type="Resource" id="Resource_lq8rq"]
+script = ExtResource("25_rxds7")
+entry = SubResource("Resource_5lisp")
+metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
+
+[sub_resource type="Resource" id="Resource_7npv2"]
+script = ExtResource("26_eg2wh")
+entry_containers = Array[ExtResource("23_guxvy")]([SubResource("Resource_75ong"), SubResource("Resource_lq8rq")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_qw5ra"]
+script = ExtResource("18_8qm62")
+name = "Medium Armour"
+id = "cond_medium_armour"
+description = "This creature takes less damage from physical attacks at the cost of slightly lowered vigour."
+icon = ExtResource("48_batfp")
+persistent = false
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_7npv2")])
+user_uid = 1
+target_uid = 1
+sources = Dictionary[String, int]({
+"medium_armour": 1
+})
+start_time = 28896
+
+[sub_resource type="Resource" id="Resource_hjsj0"]
+script = ExtResource("24_oab00")
+stat = 5
+amount = 2.0
+metadata/_custom_type_script = "uid://w8o4jtjlvkjh"
+
+[sub_resource type="Resource" id="Resource_p6h2d"]
+script = ExtResource("25_rxds7")
+entry = SubResource("Resource_hjsj0")
+metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
+
+[sub_resource type="Resource" id="Resource_882tr"]
+script = ExtResource("24_oab00")
+stat = 6
+amount = 2.0
+metadata/_custom_type_script = "uid://w8o4jtjlvkjh"
+
+[sub_resource type="Resource" id="Resource_6c0hm"]
+script = ExtResource("25_rxds7")
+entry = SubResource("Resource_882tr")
+metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
+
+[sub_resource type="Resource" id="Resource_tvwle"]
+script = ExtResource("26_eg2wh")
+entry_containers = Array[ExtResource("23_guxvy")]([SubResource("Resource_p6h2d"), SubResource("Resource_6c0hm")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_jqps7"]
+script = ExtResource("18_8qm62")
+name = "Shield 2"
+id = "cond_shielded_2"
+description = "This creature is decently shielded."
+icon = ExtResource("49_cxxhh")
+persistent = false
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_tvwle")])
+supplanted = Array[ExtResource("18_8qm62")]([ExtResource("50_cx6ev"), ExtResource("51_alxep")])
+user_uid = 1
+target_uid = 1
+sources = Dictionary[String, int]({
+"wpn_medium_shield": 1
+})
+start_time = 28896
+
+[sub_resource type="Resource" id="Resource_2fp56"]
+script = ExtResource("2_qnd50")
+name = "Raise Shield"
+description = "You raise your shield, helping defend against projectiles. You gain +2 Ranged Defence."
+icon = ExtResource("22_ik853")
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_kjmwn")])
+metadata/_custom_type_script = "uid://covfnqv811mqd"
+
+[sub_resource type="Resource" id="Resource_yc437"]
+script = ExtResource("52_pux1i")
+activities = Array[ExtResource("2_qnd50")]([SubResource("Resource_2fp56")])
+metadata/_custom_type_script = "uid://g1muvdggkxqa"
+
+[sub_resource type="Resource" id="Resource_6pji3"]
+script = ExtResource("18_8qm62")
+name = "Raise shield"
+id = "cond_raise_shield_controller"
+re_apply_effects = false
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_yc437")])
+is_visible = false
+user_uid = 1
+target_uid = 1
+sources = Dictionary[String, int]({
+"wpn_medium_shield": 1
+})
+start_time = 28896
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_v6whw"]
+script = ExtResource("15_bfasw")
+item = ExtResource("55_jstkg")
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
+[sub_resource type="Resource" id="Resource_ba70u"]
+script = ExtResource("15_bfasw")
+item = ExtResource("56_whsws")
+owner_uid = 1
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
+[sub_resource type="Resource" id="Resource_dhm8x"]
+script = ExtResource("15_bfasw")
+item = ExtResource("57_akyf7")
+owner_uid = 1
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
+[sub_resource type="Resource" id="Resource_yhd1l"]
+script = ExtResource("15_bfasw")
+item = ExtResource("58_8u5jm")
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
+[sub_resource type="Resource" id="Resource_5h4pj"]
+script = ExtResource("54_hg6bv")
+slots = Dictionary[int, ExtResource("15_bfasw")]({
+0: null,
+1: null,
+2: SubResource("Resource_v6whw"),
+3: null,
+4: null,
+5: null,
+6: null,
+7: null,
+8: null,
+9: null,
+10: null,
+11: null,
+12: null,
+13: null,
+14: null,
+15: null,
+16: null,
+17: SubResource("Resource_ba70u"),
+18: SubResource("Resource_dhm8x"),
+19: SubResource("Resource_yhd1l")
+})
+metadata/_custom_type_script = "uid://cna3smanlwqkg"
+
+[sub_resource type="Resource" id="Resource_tuq8h"]
+script = ExtResource("15_bfasw")
+item = ExtResource("60_3txe1")
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
+[sub_resource type="Resource" id="Resource_srgg7"]
+script = ExtResource("15_bfasw")
+item = ExtResource("61_evlck")
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
+[sub_resource type="Resource" id="Resource_k8gaf"]
+script = ExtResource("15_bfasw")
+item = ExtResource("62_a5y8f")
+amount = 25
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
+[sub_resource type="Resource" id="Resource_3ly72"]
+script = ExtResource("15_bfasw")
+item = ExtResource("63_u4ikk")
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
+[sub_resource type="Resource" id="Resource_p2lag"]
+script = ExtResource("15_bfasw")
+item = ExtResource("64_oqiw4")
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
+[sub_resource type="Resource" id="Resource_gh4o1"]
+script = ExtResource("65_n5hgw")
+list = Array[ExtResource("15_bfasw")]([SubResource("Resource_tuq8h"), SubResource("Resource_srgg7"), SubResource("Resource_k8gaf"), SubResource("Resource_3ly72"), SubResource("Resource_p2lag")])
+metadata/_custom_type_script = "uid://0hy8gde00nbx"
+
+[sub_resource type="Resource" id="Resource_1im5d"]
+script = ExtResource("67_t6rdv")
+
+[sub_resource type="Resource" id="Resource_4367q"]
+script = ExtResource("71_86o1e")
+
+[sub_resource type="Resource" id="Resource_cgpu4"]
+script = ExtResource("73_jpx61")
+physical = 8
+
+[sub_resource type="Resource" id="Resource_pbdor"]
+script = ExtResource("6_m6xic")
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_sjvhk"]
+script = ExtResource("77_620dx")
+resistance = 2
+damage_pattern = SubResource("Resource_pbdor")
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_bvycv"]
+script = ExtResource("76_ldhh4")
+name = "Energy Bolt (Fire)"
+id = "act_energy_bolt_fire"
+AP_cost = 2
+defending_aptitude = 6
+reach = 20
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_sjvhk")])
+barrier_interaction = 1
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_l4b1g"]
+script = ExtResource("78_owa60")
+tag = 1
+value = 50
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_7srhi"]
+script = ExtResource("78_owa60")
+tag = 2
+value = 70
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_w4hkv"]
+script = ExtResource("80_tslg2")
+act_tags = Array[ExtResource("78_owa60")]([SubResource("Resource_l4b1g"), SubResource("Resource_7srhi")])
+creature_target_tags = Array[int]([3])
+spell_variable_rank = true
+damage_type = Array[int]([1])
+metadata/_custom_type_script = "uid://lrec85jjq4ih"
+
+[sub_resource type="Resource" id="Resource_xkpbq"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_bvycv")
+ai_hint = SubResource("Resource_w4hkv")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_u35dh"]
+script = ExtResource("6_m6xic")
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_uxxip"]
+script = ExtResource("77_620dx")
+resistance = 3
+damage_pattern = SubResource("Resource_u35dh")
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_jxc23"]
+script = ExtResource("76_ldhh4")
+name = "Energy Bolt (Frost)"
+id = "act_energy_bolt_frost"
+AP_cost = 2
+defending_aptitude = 6
+reach = 20
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_uxxip")])
+barrier_interaction = 1
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_g4xxj"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_jxc23")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_3y0jf"]
+script = ExtResource("6_m6xic")
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_5kgx8"]
+script = ExtResource("77_620dx")
+resistance = 4
+damage_pattern = SubResource("Resource_3y0jf")
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_nq2fg"]
+script = ExtResource("76_ldhh4")
+name = "Energy Bolt (Electricity)"
+id = "act_energy_bolt_electricity"
+AP_cost = 2
+defending_aptitude = 6
+reach = 20
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_5kgx8")])
+barrier_interaction = 1
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_gwod5"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_nq2fg")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_5ba0j"]
+script = ExtResource("75_y68db")
+name = "Energy Bolt"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_xkpbq"), SubResource("Resource_g4xxj"), SubResource("Resource_gwod5")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_e6eo3"]
+script = ExtResource("6_m6xic")
+pattern = [0, 1, 1, 1]
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_w0uwh"]
+script = ExtResource("77_620dx")
+damage_pattern = SubResource("Resource_e6eo3")
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_errbm"]
+script = ExtResource("76_ldhh4")
+projectile = ExtResource("81_ksne5")
+projectile_config = {
+"speed": 1000,
+"sprite": ExtResource("82_1x6yc")
+}
+projectile_batch_mode = false
+name = "Magic Darts"
+id = "magic_darts"
+tags = Array[int]([18])
+defending_aptitude = 6
+reach = 20
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_w0uwh")])
+barrier_interaction = 1
+can_only_hit_once = false
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_2cuu3"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_errbm")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_q8cho"]
+script = ExtResource("12_af5xw")
+to_add = 1
+metadata/_custom_type_script = "uid://kalwpa2j0ckf"
+
+[sub_resource type="Resource" id="Resource_ty6kg"]
+script = ExtResource("12_af5xw")
+to_add = 1
+value_type = 26
+metadata/_custom_type_script = "uid://kalwpa2j0ckf"
+
+[sub_resource type="Resource" id="Resource_tmley"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_errbm")
+modifiers = Array[ExtResource("8_jec3k")]([SubResource("Resource_q8cho"), SubResource("Resource_ty6kg")])
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_0ay6q"]
+script = ExtResource("12_af5xw")
+to_add = 2
+metadata/_custom_type_script = "uid://kalwpa2j0ckf"
+
+[sub_resource type="Resource" id="Resource_1s1xs"]
+script = ExtResource("12_af5xw")
+to_add = 2
+value_type = 26
+metadata/_custom_type_script = "uid://kalwpa2j0ckf"
+
+[sub_resource type="Resource" id="Resource_sl7wx"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_errbm")
+modifiers = Array[ExtResource("8_jec3k")]([SubResource("Resource_0ay6q"), SubResource("Resource_1s1xs")])
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_5vg07"]
+script = ExtResource("75_y68db")
+name = "Magic Darts"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_2cuu3"), SubResource("Resource_tmley"), SubResource("Resource_sl7wx")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_2x3kp"]
+script = ExtResource("83_g60et")
+metadata/_custom_type_script = "uid://cfpj1qbuyeinb"
+
+[sub_resource type="Resource" id="Resource_gjpf7"]
+script = ExtResource("47_0ei4j")
+stat = 3
+amount = 0.5
+metadata/_custom_type_script = "uid://cp1x0k5fsy1j5"
+
+[sub_resource type="Resource" id="Resource_8vfux"]
+script = ExtResource("25_rxds7")
+entry = SubResource("Resource_gjpf7")
+metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
+
+[sub_resource type="Resource" id="Resource_vuhvc"]
+script = ExtResource("26_eg2wh")
+type = 2
+entry_containers = Array[ExtResource("23_guxvy")]([SubResource("Resource_8vfux")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_6rj0j"]
+script = ExtResource("84_8rtfu")
+type = 1
+metadata/_custom_type_script = "uid://bexiblxwp7bqt"
+
+[sub_resource type="Resource" id="Resource_0qi3v"]
+script = ExtResource("84_8rtfu")
+type = 3
+metadata/_custom_type_script = "uid://bexiblxwp7bqt"
+
+[sub_resource type="Resource" id="Resource_mm3b5"]
+script = ExtResource("85_b3uf0")
+modifiers = Array[ExtResource("84_8rtfu")]([SubResource("Resource_6rj0j"), SubResource("Resource_0qi3v")])
+metadata/_custom_type_script = "uid://417qkf3j2ise"
+
+[sub_resource type="Resource" id="Resource_b3iya"]
+script = ExtResource("18_8qm62")
+name = "Solid Fog"
+id = "cond_solid_fog"
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_vuhvc"), SubResource("Resource_mm3b5")])
+plan_disrupting = true
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_fm8u5"]
+script = ExtResource("59_tu6xq")
+applied_condition = SubResource("Resource_b3iya")
+name = "Solid Fog"
+id = "area_cond_solid_fog"
+vfx_scenes = Array[PackedScene]([ExtResource("86_73h24")])
+metadata/_custom_type_script = "uid://ckh556ahfopjg"
+
+[sub_resource type="Resource" id="Resource_j8ccw"]
+script = ExtResource("87_ii5pe")
+condition = SubResource("Resource_fm8u5")
+metadata/_custom_type_script = "uid://dwlhkak5s0ikl"
+
+[sub_resource type="Resource" id="Resource_n5vkd"]
+script = ExtResource("88_gvl43")
+metadata/_custom_type_script = "uid://62ayu2esarc8"
+
+[sub_resource type="Resource" id="Resource_k724e"]
+script = ExtResource("76_ldhh4")
+name = "Solid Fog"
+id = "spell_solid_fog"
+AP_cost = 2
+requires_concentration = true
+reach = 20
+spread = 8
+self_prior_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_j8ccw")])
+self_final_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_2x3kp")])
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_n5vkd")])
+targeting_type = 0
+affected_type = 1
+is_spell = true
+per_round_drain = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_2uh2x"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_k724e")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_paorr"]
+script = ExtResource("75_y68db")
+name = "Solid Fog"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_2uh2x")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_yve2c"]
+script = ExtResource("89_mgp1s")
+slot = 2
+metadata/_custom_type_script = "uid://bedukehjeunck"
+
+[sub_resource type="Resource" id="Resource_boupf"]
+script = ExtResource("15_bfasw")
+item = ExtResource("90_3h6ms")
+metadata/_custom_type_script = "uid://3dqccyt3kjma"
+
+[sub_resource type="Resource" id="Resource_a3m6j"]
+script = ExtResource("91_xi6oi")
+item = SubResource("Resource_boupf")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_5dmfs"]
+script = ExtResource("92_cjbim")
+metadata/_custom_type_script = "uid://dxmd4au5mv1y0"
+
+[sub_resource type="Resource" id="Resource_gobpa"]
+script = ExtResource("18_8qm62")
+name = "Spell Armour"
+id = "act_spell_armour"
+description = "You conjure a complete suit of shimmering armour out of the aether."
+re_apply_effects = false
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_a3m6j"), SubResource("Resource_5dmfs")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_adgnr"]
+script = ExtResource("21_ey5cn")
+condition = SubResource("Resource_gobpa")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_v5jdu"]
+script = ExtResource("9_11gr4")
+name = "Spell Armour"
+id = "act_spell_armour"
+description = "You conjure a complete suit of shimmering armour out of the aether."
+AP_cost = 3
+requires_concentration = true
+reach_requires_LOS = false
+spread_requires_LOS = false
+reach = 0
+self_filters = Array[ExtResource("10_h1pjg")]([SubResource("Resource_yve2c")])
+self_final_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_adgnr")])
+requires_roll = false
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_j0ybq"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_v5jdu")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_w687d"]
+script = ExtResource("75_y68db")
+name = "Spell Armour"
+description = "You conjure a complete suit of shimmering armour out of the aether."
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_j0ybq")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_404nw"]
+script = ExtResource("93_j235q")
+choice = 1
+value_type = 7
+metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
+
+[sub_resource type="Resource" id="Resource_l3860"]
+script = ExtResource("94_a2cim")
+metadata/_custom_type_script = "uid://d4jeevooo13o3"
+
+[sub_resource type="Resource" id="Resource_lmc4l"]
+script = ExtResource("76_ldhh4")
+name = "Shift"
+id = "act_shift"
+description = "You very quickly shift to a nearby space in sight."
+modifiers = Array[ExtResource("8_jec3k")]([SubResource("Resource_404nw")])
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_l3860")])
+targeting_type = 0
+affected_type = 1
+requires_roll = false
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_85yjm"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_lmc4l")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_mflm8"]
+script = ExtResource("75_y68db")
+minimum_rank = 2
+name = "Shift"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_85yjm")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_wbg44"]
+script = ExtResource("93_j235q")
+choice = 1
+multiplied_amount = 5.0
+value_type = 7
+metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
+
+[sub_resource type="Resource" id="Resource_h0xqc"]
+script = ExtResource("94_a2cim")
+metadata/_custom_type_script = "uid://d4jeevooo13o3"
+
+[sub_resource type="Resource" id="Resource_rmyf3"]
+script = ExtResource("76_ldhh4")
+name = "Far Shift"
+id = "act_far_shift"
+description = "You shift from one space to another of your choice in sight."
+AP_cost = 2
+reach = 5
+modifiers = Array[ExtResource("8_jec3k")]([SubResource("Resource_wbg44")])
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_h0xqc")])
+targeting_type = 0
+affected_type = 1
+requires_roll = false
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_g2eii"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_rmyf3")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_5eko3"]
+script = ExtResource("75_y68db")
+minimum_rank = 4
+name = "Far Shift"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_g2eii")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_awtsj"]
+script = ExtResource("94_a2cim")
+metadata/_custom_type_script = "uid://d4jeevooo13o3"
+
+[sub_resource type="Resource" id="Resource_1dwxc"]
+script = ExtResource("76_ldhh4")
+name = "Short Teleport"
+id = "act_short_teleport"
+description = "You teleport to another space in the same local area, regardless of line of sight."
+AP_cost = 3
+reach_requires_LOS = false
+spread_requires_LOS = false
+reach = 500
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_awtsj")])
+targeting_type = 0
+affected_type = 1
+requires_roll = false
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_aiuvs"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_1dwxc")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_gbly5"]
+script = ExtResource("75_y68db")
+minimum_rank = 6
+name = "Short Teleport"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_aiuvs")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_j8iod"]
+script = ExtResource("26_eg2wh")
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_q3j8x"]
+script = ExtResource("18_8qm62")
+name = "True Strike"
+id = "cond_true_strike"
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_j8iod")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_4ay3v"]
+script = ExtResource("21_ey5cn")
+condition = SubResource("Resource_q3j8x")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_ylomr"]
+script = ExtResource("76_ldhh4")
+name = "True Strike"
+id = "act_true_strike"
+AP_cost = 2
+requires_concentration = true
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_4ay3v")])
+requires_roll = false
+is_spell = true
+per_round_drain = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_e3bds"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_ylomr")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_nvi4q"]
+script = ExtResource("75_y68db")
+name = "True Strike"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_e3bds")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_xjtne"]
+script = ExtResource("95_8piu8")
+metadata/_custom_type_script = "uid://bqah6paftlsng"
+
+[sub_resource type="Resource" id="Resource_lpclw"]
+script = ExtResource("96_co8u3")
+metadata/_custom_type_script = "uid://c470qs635n2hd"
+
+[sub_resource type="Resource" id="Resource_7pfyd"]
+script = ExtResource("93_j235q")
+choice = 1
+multiplied_amount = 0.25
+value_type = 19
+stage = 4
+filters = Array[ExtResource("10_h1pjg")]([SubResource("Resource_xjtne"), SubResource("Resource_lpclw")])
+metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
+
+[sub_resource type="Resource" id="Resource_0xhwc"]
+script = ExtResource("13_pokk0")
+modifier = SubResource("Resource_7pfyd")
+metadata/_custom_type_script = "uid://dywclcl7k47vv"
+
+[sub_resource type="Resource" id="Resource_tem51"]
+script = ExtResource("18_8qm62")
+name = "Weapon Infusion"
+id = "cond_weapon_infusion"
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_0xhwc")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_jqx2d"]
+script = ExtResource("21_ey5cn")
+condition = SubResource("Resource_tem51")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_86res"]
+script = ExtResource("76_ldhh4")
+name = "Weapon Infusion"
+id = "act_power_infusion"
+description = "You infuse the weapons of a creature with arcane power."
+AP_cost = 2
+requires_concentration = true
+reach = 20
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_jqx2d")])
+requires_roll = false
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_vsy8l"]
+script = ExtResource("78_owa60")
+tag = 17
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_wpwdu"]
+script = ExtResource("78_owa60")
+tag = 18
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_j7505"]
+script = ExtResource("78_owa60")
+tag = 6
+value = 80
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_3gsmf"]
+script = ExtResource("78_owa60")
+tag = 1
+value = 25
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_bddu2"]
+script = ExtResource("80_tslg2")
+category = 1
+act_tags = Array[ExtResource("78_owa60")]([SubResource("Resource_vsy8l"), SubResource("Resource_wpwdu"), SubResource("Resource_j7505"), SubResource("Resource_3gsmf")])
+creature_target_tags = Array[int]([2, 1])
+metadata/_custom_type_script = "uid://lrec85jjq4ih"
+
+[sub_resource type="Resource" id="Resource_pugon"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_86res")
+ai_hint = SubResource("Resource_bddu2")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_b3g35"]
+script = ExtResource("75_y68db")
+minimum_rank = 4
+name = "Weapon Infusion"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_pugon")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_c62sf"]
+script = ExtResource("93_j235q")
+starting_amount = -3
+value_type = 26
+metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
+
+[sub_resource type="Resource" id="Resource_acit5"]
+script = ExtResource("84_8rtfu")
+type = 3
+metadata/_custom_type_script = "uid://bexiblxwp7bqt"
+
+[sub_resource type="Resource" id="Resource_8t5bb"]
+script = ExtResource("85_b3uf0")
+modifiers = Array[ExtResource("84_8rtfu")]([SubResource("Resource_acit5")])
+metadata/_custom_type_script = "uid://417qkf3j2ise"
+
+[sub_resource type="Resource" id="Resource_smut8"]
+script = ExtResource("18_8qm62")
+name = "Minor Invisibility"
+id = "cond_minor_invisibility"
+description = "You are inivisible."
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_8t5bb")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_dva2d"]
+script = ExtResource("21_ey5cn")
+condition = SubResource("Resource_smut8")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_dp5xj"]
+script = ExtResource("76_ldhh4")
+name = "Minor Invisibility"
+id = "act_minor_invisibility"
+description = "The targeted creature becomes invisible."
+AP_cost = 2
+requires_concentration = true
+reach = 10
+modifiers = Array[ExtResource("8_jec3k")]([SubResource("Resource_c62sf")])
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_dva2d")])
+requires_roll = false
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_vjvo6"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_dp5xj")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_1ihup"]
+script = ExtResource("75_y68db")
+minimum_rank = 4
+name = "Minor Invisibility"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_vjvo6")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_oeyph"]
+script = ExtResource("91_xi6oi")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_j7kpr"]
+script = ExtResource("92_cjbim")
+metadata/_custom_type_script = "uid://dxmd4au5mv1y0"
+
+[sub_resource type="Resource" id="Resource_6gobo"]
+script = ExtResource("18_8qm62")
+name = "Shooting Stars"
+id = "cond_shooting_stars"
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_oeyph"), SubResource("Resource_j7kpr")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_wpgg4"]
+script = ExtResource("21_ey5cn")
+condition = SubResource("Resource_6gobo")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_fypht"]
+script = ExtResource("9_11gr4")
+name = "Shooting Stars"
+id = "act_shooting_stars"
+AP_cost = 2
+requires_concentration = true
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_wpgg4")])
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_5gotq"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_fypht")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_ck5iy"]
+script = ExtResource("75_y68db")
+minimum_rank = 3
+name = "Shooting Stars"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_5gotq")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_y6c77"]
+script = ExtResource("29_7oi8h")
+direction = 2
+durability = 3
+durability_type = 2
+metadata/_custom_type_script = "uid://ct2uh3hw8ywmu"
+
+[sub_resource type="Resource" id="Resource_lrmlq"]
+script = ExtResource("97_02010")
+barrier = SubResource("Resource_y6c77")
+metadata/_custom_type_script = "uid://brpdn7slfwqca"
+
+[sub_resource type="Resource" id="Resource_p6jta"]
+script = ExtResource("18_8qm62")
+name = "Protective Sphere"
+id = "cond_protective_sphere"
+description = "A protective sphere surrounds you."
+re_apply_effects = false
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_lrmlq")])
+vfx_scenes = Array[PackedScene]([ExtResource("98_mjb62")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_vdggo"]
+script = ExtResource("21_ey5cn")
+condition = SubResource("Resource_p6jta")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_08twi"]
+script = ExtResource("76_ldhh4")
+name = "Protective Sphere"
+id = "act_protective_sphere"
+description = "You wrap a protective sphere around the target."
+AP_cost = 2
+requires_concentration = true
+reach = 20
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_vdggo")])
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_0o4wi"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_08twi")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_rqtjd"]
+script = ExtResource("75_y68db")
+minimum_rank = 5
+name = "Protective Sphere"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_0o4wi")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_w21a7"]
+script = ExtResource("6_m6xic")
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_y74vt"]
+script = ExtResource("77_620dx")
+die_size = 6
+resistance = 4
+damage_pattern = SubResource("Resource_w21a7")
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_a5q4l"]
+script = ExtResource("76_ldhh4")
+name = "Lightning Arc"
+id = "act_lightning_arc"
+description = "A lightning arc shoots from your extended hand."
+AP_cost = 2
+defending_aptitude = 1
+reach = 2
+spread = 90
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_y74vt")])
+targeting_type = 0
+shape = 1
+barrier_interaction = 1
+hit_effect_scene = ExtResource("99_bm4a6")
+hit_effect_config = {
+"colour": Color(0.0049299365, 0.22879615, 1, 1)
+}
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_13sed"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_a5q4l")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_obwcx"]
+script = ExtResource("75_y68db")
+name = "Lightning Arc"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_13sed")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_ghy3k"]
+script = ExtResource("77_620dx")
+die_size = 6
+resistance = 2
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_exmd1"]
+script = ExtResource("76_ldhh4")
+name = "Energy Blast (Fire)"
+id = "act_energy_blast_fire"
+description = "You produce a blast of energy in the designated area."
+AP_cost = 2
+defending_aptitude = 2
+reach = 30
+spread = 5
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_ghy3k")])
+targeting_type = 0
+barrier_interaction = 1
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_13adr"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_exmd1")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_pwenr"]
+script = ExtResource("77_620dx")
+die_size = 6
+resistance = 4
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_vicc0"]
+script = ExtResource("76_ldhh4")
+name = "Energy Blast (Electricity)"
+id = "act_energy_blast_electricity"
+description = "You produce a blast of energy in the designated area."
+AP_cost = 2
+defending_aptitude = 2
+reach = 30
+spread = 5
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_pwenr")])
+targeting_type = 0
+barrier_interaction = 1
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_wxp76"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_vicc0")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_2mmfy"]
+script = ExtResource("77_620dx")
+die_size = 6
+resistance = 3
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_13mnf"]
+script = ExtResource("76_ldhh4")
+name = "Energy Blast (Cold)"
+id = "act_energy_blast_cold"
+description = "You produce a blast of energy in the designated area."
+AP_cost = 2
+defending_aptitude = 2
+reach = 30
+spread = 5
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_2mmfy")])
+targeting_type = 0
+barrier_interaction = 1
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_uu5mt"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_13mnf")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_kdpjg"]
+script = ExtResource("75_y68db")
+minimum_rank = 3
+name = "Energy Blast"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_13adr"), SubResource("Resource_wxp76"), SubResource("Resource_uu5mt")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_t3bet"]
+script = ExtResource("77_620dx")
+die_size = 6
+resistance = 2
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_4vhx4"]
+script = ExtResource("76_ldhh4")
+number_of_targets = 3
+name = "Energy Bursts (Fire)"
+id = "act_energy_bursts_fire"
+AP_cost = 3
+defending_aptitude = 2
+reach = 20
+spread = 3
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_t3bet")])
+targeting_type = 0
+barrier_interaction = 1
+hit_effect_scene = ExtResource("99_bm4a6")
+hit_effect_config = {
+"colour": Color(1, 0.33289325, 0.29197374, 1)
+}
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_8fdl1"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_4vhx4")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_so0br"]
+script = ExtResource("77_620dx")
+die_size = 6
+resistance = 4
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_b8p4m"]
+script = ExtResource("76_ldhh4")
+number_of_targets = 3
+name = "Energy Bursts (Electricity)"
+id = "act_energy_bursts_electricity"
+AP_cost = 3
+defending_aptitude = 2
+reach = 20
+spread = 3
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_so0br")])
+targeting_type = 0
+barrier_interaction = 1
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_plfsp"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_b8p4m")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_o6cqi"]
+script = ExtResource("77_620dx")
+die_size = 6
+resistance = 3
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_v3vy8"]
+script = ExtResource("76_ldhh4")
+number_of_targets = 3
+name = "Energy Bursts (Cold)"
+id = "act_energy_bursts_cold"
+AP_cost = 3
+defending_aptitude = 2
+reach = 20
+spread = 3
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_o6cqi")])
+targeting_type = 0
+barrier_interaction = 1
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_k7lab"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_v3vy8")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_kfxfj"]
+script = ExtResource("75_y68db")
+name = "Energy Bursts"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_8fdl1"), SubResource("Resource_plfsp"), SubResource("Resource_k7lab")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_05ov3"]
+script = ExtResource("89_mgp1s")
+slot = 2
+metadata/_custom_type_script = "uid://bedukehjeunck"
+
+[sub_resource type="Resource" id="Resource_31eeq"]
+script = ExtResource("89_mgp1s")
+slot = 17
+metadata/_custom_type_script = "uid://bedukehjeunck"
+
+[sub_resource type="Resource" id="Resource_sltj7"]
+script = ExtResource("89_mgp1s")
+slot = 18
+metadata/_custom_type_script = "uid://bedukehjeunck"
+
+[sub_resource type="Resource" id="Resource_quljx"]
+script = ExtResource("91_xi6oi")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_fwn82"]
+script = ExtResource("91_xi6oi")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_2m7wq"]
+script = ExtResource("91_xi6oi")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_evao5"]
+script = ExtResource("92_cjbim")
+metadata/_custom_type_script = "uid://dxmd4au5mv1y0"
+
+[sub_resource type="Resource" id="Resource_ynu1s"]
+script = ExtResource("18_8qm62")
+name = "Brilliant Armoury (Sword)"
+id = "cond_brilliant_armoury_sword"
+re_apply_effects = false
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_quljx"), SubResource("Resource_fwn82"), SubResource("Resource_2m7wq"), SubResource("Resource_evao5")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_wcg80"]
+script = ExtResource("21_ey5cn")
+condition = SubResource("Resource_ynu1s")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_0eqni"]
+script = ExtResource("9_11gr4")
+name = "Brilliant Armoury (Sword)"
+id = "act_brilliant_armoury_sword"
+description = "You conjure an entire set of powerful armour and weapons from the aether."
+AP_cost = 3
+requires_concentration = true
+reach = 20
+self_filters = Array[ExtResource("10_h1pjg")]([SubResource("Resource_05ov3"), SubResource("Resource_31eeq"), SubResource("Resource_sltj7")])
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_wcg80")])
+requires_roll = false
+is_spell = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_hblds"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_0eqni")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_nd6ys"]
+script = ExtResource("89_mgp1s")
+slot = 2
+metadata/_custom_type_script = "uid://bedukehjeunck"
+
+[sub_resource type="Resource" id="Resource_jj7h7"]
+script = ExtResource("89_mgp1s")
+slot = 17
+metadata/_custom_type_script = "uid://bedukehjeunck"
+
+[sub_resource type="Resource" id="Resource_wsi06"]
+script = ExtResource("89_mgp1s")
+slot = 18
+metadata/_custom_type_script = "uid://bedukehjeunck"
+
+[sub_resource type="Resource" id="Resource_mc5au"]
+script = ExtResource("91_xi6oi")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_apscq"]
+script = ExtResource("91_xi6oi")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_sqphr"]
+script = ExtResource("91_xi6oi")
+metadata/_custom_type_script = "uid://d3y8y4l4xgjbd"
+
+[sub_resource type="Resource" id="Resource_ncuwk"]
+script = ExtResource("92_cjbim")
+metadata/_custom_type_script = "uid://dxmd4au5mv1y0"
+
+[sub_resource type="Resource" id="Resource_40qv7"]
+script = ExtResource("18_8qm62")
+name = "Brilliant Armoury (Javelin)"
+id = "cond_brilliant_armoury_javelin"
+re_apply_effects = false
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_mc5au"), SubResource("Resource_apscq"), SubResource("Resource_sqphr"), SubResource("Resource_ncuwk")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_0p4o7"]
+script = ExtResource("21_ey5cn")
+condition = SubResource("Resource_40qv7")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_mhg82"]
+script = ExtResource("9_11gr4")
+name = "Brilliant Armoury (Javelin)"
+id = "act_brilliant_armoury_javelin"
+description = "You conjure an entire set of powerful armour and weapons from the aether."
+AP_cost = 3
+requires_concentration = true
+reach = 20
+self_filters = Array[ExtResource("10_h1pjg")]([SubResource("Resource_nd6ys"), SubResource("Resource_jj7h7"), SubResource("Resource_wsi06")])
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_0p4o7")])
+requires_roll = false
+is_spell = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_c17f0"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_mhg82")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_2x3w5"]
+script = ExtResource("75_y68db")
+name = "Brilliant Armoury"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_hblds"), SubResource("Resource_c17f0")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_g1o3r"]
+script = ExtResource("18_8qm62")
+name = "Spell Wall"
+id = "cond_spell_wall"
+description = "Holds spell wall tile instance references."
+is_visible = false
+generate_semi_unique_id = true
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_128me"]
+script = ExtResource("21_ey5cn")
+condition = SubResource("Resource_g1o3r")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_hwulf"]
+script = ExtResource("101_k8rxr")
+prop_id = "spell_wall"
+metadata/_custom_type_script = "uid://dk2ibknskb7og"
+
+[sub_resource type="Resource" id="Resource_0sdd4"]
+script = ExtResource("100_aytal")
+name = "Spell Wall"
+id = "act_spell_wall"
+AP_cost = 2
+requires_concentration = true
+reach_requires_LOS = false
+spread_requires_LOS = false
+reach = 20
+spread = 12
+self_prior_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_128me")])
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_hwulf")])
+targeting_type = 0
+affected_type = 1
+shape = 2
+requires_roll = false
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bgx24o78uf4n3"
+
+[sub_resource type="Resource" id="Resource_74v87"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_0sdd4")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_5oq8c"]
+script = ExtResource("75_y68db")
+name = "Spell Wall"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_74v87")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_jv2u0"]
+script = ExtResource("93_j235q")
+starting_amount = -2
+value_type = 26
+metadata/_custom_type_script = "uid://c20e6vg8wsl4e"
+
+[sub_resource type="Resource" id="Resource_e4id7"]
+script = ExtResource("26_eg2wh")
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_0h2uh"]
+script = ExtResource("18_8qm62")
+name = "Slow"
+id = "cond_slow"
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_e4id7")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_wqvxd"]
+script = ExtResource("21_ey5cn")
+condition = SubResource("Resource_0h2uh")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_h5ed5"]
+script = ExtResource("76_ldhh4")
+name = "Slow"
+id = "act_slow"
+AP_cost = 2
+requires_concentration = true
+reach = 20
+modifiers = Array[ExtResource("8_jec3k")]([SubResource("Resource_jv2u0")])
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_wqvxd")])
+is_spell = true
+per_round_drain = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_nb35j"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_h5ed5")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_fili3"]
+script = ExtResource("75_y68db")
+minimum_rank = 4
+name = "Slow"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_nb35j")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_ng0pm"]
+script = ExtResource("47_0ei4j")
+stat = 4
+amount = 1.0
+metadata/_custom_type_script = "uid://cp1x0k5fsy1j5"
+
+[sub_resource type="Resource" id="Resource_sx11o"]
+script = ExtResource("25_rxds7")
+entry = SubResource("Resource_ng0pm")
+metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
+
+[sub_resource type="Resource" id="Resource_l65ly"]
+script = ExtResource("26_eg2wh")
+entry_containers = Array[ExtResource("23_guxvy")]([SubResource("Resource_sx11o")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_rmdib"]
+script = ExtResource("18_8qm62")
+name = "Haste"
+id = "cond_haste"
+description = "You act faster than normal, gaining extra AP."
+icon = ExtResource("102_uvshq")
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_l65ly")])
+plan_disrupting = true
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_ony64"]
+script = ExtResource("21_ey5cn")
+condition = SubResource("Resource_rmdib")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_kfd5f"]
+script = ExtResource("76_ldhh4")
+name = "Haste"
+id = "act_haste"
+icon = ExtResource("102_uvshq")
+AP_cost = 2
+requires_concentration = true
+reach = 20
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_ony64")])
+requires_roll = false
+is_spell = true
+per_round_drain = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_jdaye"]
+script = ExtResource("78_owa60")
+tag = 1
+value = 26
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_k1exx"]
+script = ExtResource("78_owa60")
+tag = 6
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_bnsk5"]
+script = ExtResource("78_owa60")
+tag = 10
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_834uy"]
+script = ExtResource("80_tslg2")
+category = 1
+act_tags = Array[ExtResource("78_owa60")]([SubResource("Resource_jdaye"), SubResource("Resource_k1exx"), SubResource("Resource_bnsk5")])
+creature_target_tags = Array[int]([12, 1, 2, 0])
+spell_variable_rank = true
+friendy_fire = false
+variance = 0
+certainty = 10
+metadata/_custom_type_script = "uid://lrec85jjq4ih"
+
+[sub_resource type="Resource" id="Resource_pjx05"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_kfd5f")
+ai_hint = SubResource("Resource_834uy")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_713f6"]
+script = ExtResource("75_y68db")
+minimum_rank = 6
+name = "Haste"
+icon = ExtResource("102_uvshq")
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_pjx05")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_6stjf"]
+script = ExtResource("84_8rtfu")
+value = 1
+metadata/_custom_type_script = "uid://bexiblxwp7bqt"
+
+[sub_resource type="Resource" id="Resource_7w48o"]
+script = ExtResource("85_b3uf0")
+modifiers = Array[ExtResource("84_8rtfu")]([SubResource("Resource_6stjf")])
+metadata/_custom_type_script = "uid://417qkf3j2ise"
+
+[sub_resource type="Resource" id="Resource_qkoyh"]
+script = ExtResource("18_8qm62")
+name = "Sleep"
+id = "cond_sleep"
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_7w48o")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_wiifw"]
+script = ExtResource("21_ey5cn")
+condition = SubResource("Resource_qkoyh")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_1mxg8"]
+script = ExtResource("76_ldhh4")
+name = "Sleep"
+id = "act_sleep"
+AP_cost = 2
+requires_concentration = true
+reach = 20
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_wiifw")])
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_eftum"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_1mxg8")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_xo4ua"]
+script = ExtResource("75_y68db")
+minimum_rank = 2
+name = "Sleep"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_eftum")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_utcnt"]
+script = ExtResource("84_8rtfu")
+value = 2
+metadata/_custom_type_script = "uid://bexiblxwp7bqt"
+
+[sub_resource type="Resource" id="Resource_64til"]
+script = ExtResource("85_b3uf0")
+modifiers = Array[ExtResource("84_8rtfu")]([SubResource("Resource_utcnt")])
+metadata/_custom_type_script = "uid://417qkf3j2ise"
+
+[sub_resource type="Resource" id="Resource_o6t8j"]
+script = ExtResource("18_8qm62")
+name = "Slumber"
+id = "cond_slumber"
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_64til")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_h33oj"]
+script = ExtResource("21_ey5cn")
+condition = SubResource("Resource_o6t8j")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_3eduh"]
+script = ExtResource("76_ldhh4")
+name = "Slumber"
+id = "act_slumber"
+AP_cost = 2
+requires_concentration = true
+reach = 20
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_h33oj")])
+is_spell = true
+per_round_drain = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_5n0cy"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_3eduh")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_yau54"]
+script = ExtResource("75_y68db")
+minimum_rank = 4
+name = "Slumber"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_5n0cy")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_btaeh"]
+script = ExtResource("103_7j18p")
+creature_data_path = "res://saved/characters/Summon.tres"
+metadata/_custom_type_script = "uid://ch87mhboh4iu6"
+
+[sub_resource type="Resource" id="Resource_5fu76"]
+script = ExtResource("18_8qm62")
+name = "Full Image"
+id = "cond_full_image"
+re_apply_effects = false
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_btaeh")])
+is_visible = false
+generate_semi_unique_id = true
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_2fn2u"]
+script = ExtResource("21_ey5cn")
+recipient = 1
+condition = SubResource("Resource_5fu76")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_y0xrv"]
+script = ExtResource("76_ldhh4")
+name = "full Image"
+id = "act_full_image"
+AP_cost = 2
+requires_concentration = true
+reach = 5
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_2fn2u")])
+targeting_type = 0
+affected_type = 1
+requires_roll = false
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_fnnw1"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_y0xrv")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_k52sf"]
+script = ExtResource("75_y68db")
+minimum_rank = 6
+name = "Full Image"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_fnnw1")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_rcof0"]
+script = ExtResource("6_m6xic")
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_gtq1g"]
+script = ExtResource("77_620dx")
+die_size = 4
+resistance = 2
+damage_pattern = SubResource("Resource_rcof0")
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_kuvlp"]
+script = ExtResource("104_tmb8t")
+metadata/_custom_type_script = "uid://3t3dwtov2mvp"
+
+[sub_resource type="Resource" id="Resource_hsign"]
+script = ExtResource("9_11gr4")
+name = "Energy Eruption (Fire)"
+id = "act_energy_eruption_fire"
+AP_cost = 2
+defending_aptitude = 2
+reach = 0
+spread = 6
+target_filters = Array[ExtResource("10_h1pjg")]([SubResource("Resource_kuvlp")])
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_gtq1g")])
+hit_effect_scene = ExtResource("99_bm4a6")
+is_spell = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_050te"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_hsign")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_n2gl7"]
+script = ExtResource("75_y68db")
+minimum_rank = 3
+name = "Energy Eruption"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_050te")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_2qp4u"]
+script = ExtResource("12_af5xw")
+to_add = -1
+metadata/_custom_type_script = "uid://kalwpa2j0ckf"
+
+[sub_resource type="Resource" id="Resource_ut16u"]
+script = ExtResource("107_25rlr")
+modifiers = Array[ExtResource("8_jec3k")]([SubResource("Resource_2qp4u")])
+metadata/_custom_type_script = "uid://dujvsvmkxajfb"
+
+[sub_resource type="Resource" id="Resource_gb42e"]
+script = ExtResource("108_2k555")
+event_types = Array[int]([2])
+counter = 1
+metadata/_custom_type_script = "uid://cmrlgyud8dicw"
+
+[sub_resource type="Resource" id="Resource_n4kkg"]
+script = ExtResource("18_8qm62")
+name = "Spell Matrix"
+id = "cond_spell_matrix"
+description = "This spell matrix contains a spell you can release at any time."
+icon = ExtResource("105_5gmk1")
+re_apply_effects = false
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_ut16u")])
+end_requirements = Array[ExtResource("14_djsvw")]([SubResource("Resource_gb42e")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_om74m"]
+script = ExtResource("21_ey5cn")
+recipient = 1
+condition = SubResource("Resource_n4kkg")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_whd0w"]
+script = ExtResource("9_11gr4")
+prompt_scene = ExtResource("106_cb7f4")
+name = "Spell Matrix"
+id = "act_spell_matrix"
+icon = ExtResource("105_5gmk1")
+AP_cost = 3
+requires_concentration = true
+reach = 0
+self_final_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_om74m")])
+requires_roll = false
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_eyjs7"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_whd0w")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_ymhk2"]
+script = ExtResource("75_y68db")
+name = "Spell Matrix (2)"
+icon = ExtResource("105_5gmk1")
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_eyjs7")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_ue48i"]
+script = ExtResource("6_m6xic")
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_ooubk"]
+script = ExtResource("77_620dx")
+die_size = 6
+resistance = 2
+damage_pattern = SubResource("Resource_ue48i")
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_abwwn"]
+script = ExtResource("76_ldhh4")
+name = "Energy Beam (fire)"
+id = "act_energy_beam_fire"
+AP_cost = 2
+defending_aptitude = 2
+reach = 4
+spread = 1
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_ooubk")])
+targeting_type = 0
+shape = 2
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_gpeno"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_abwwn")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_c8wgr"]
+script = ExtResource("75_y68db")
+minimum_rank = 4
+name = "Energy Beam"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_gpeno")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_ql6cw"]
+script = ExtResource("6_m6xic")
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_hwbcj"]
+script = ExtResource("77_620dx")
+die_size = 4
+resistance = 2
+damage_pattern = SubResource("Resource_ql6cw")
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_h28ha"]
+script = ExtResource("109_e6gye")
+name = "Fire Snake"
+id = "act_fire_snake"
+AP_cost = 3
+spread_requires_LOS = false
+defending_aptitude = 2
+reach = 3
+spread = 12
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_hwbcj")])
+targeting_type = 0
+is_spell = true
+metadata/_custom_type_script = "uid://cg24svaiy2tg3"
+
+[sub_resource type="Resource" id="Resource_ir4o4"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_h28ha")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_hdl0n"]
+script = ExtResource("75_y68db")
+minimum_rank = 5
+name = "Fire Snake"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_ir4o4")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_sf1yt"]
+script = ExtResource("47_0ei4j")
+stat = 3
+spell_rank_multiplier = 1.0
+metadata/_custom_type_script = "uid://cp1x0k5fsy1j5"
+
+[sub_resource type="Resource" id="Resource_a4fg0"]
+script = ExtResource("25_rxds7")
+entry = SubResource("Resource_sf1yt")
+metadata/_custom_type_script = "uid://5c3jlvd4s3cf"
+
+[sub_resource type="Resource" id="Resource_ubxtm"]
+script = ExtResource("26_eg2wh")
+entry_containers = Array[ExtResource("23_guxvy")]([SubResource("Resource_a4fg0")])
+metadata/_custom_type_script = "uid://cpuyout31r1c5"
+
+[sub_resource type="Resource" id="Resource_h7peg"]
+script = ExtResource("18_8qm62")
+name = "Swiftness"
+id = "cond_swiftness"
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_ubxtm")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_0141p"]
+script = ExtResource("21_ey5cn")
+condition = SubResource("Resource_h7peg")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_7qett"]
+script = ExtResource("76_ldhh4")
+name = "Swiftness"
+id = "act_swiftness"
+requires_concentration = true
+reach = 3
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_0141p")])
+requires_roll = false
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_4m7g3"]
+script = ExtResource("78_owa60")
+tag = 1
+value = 20
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_4eqj7"]
+script = ExtResource("78_owa60")
+tag = 6
+value = 30
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_7g3vd"]
+script = ExtResource("78_owa60")
+tag = 10
+value = 30
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_smms5"]
+script = ExtResource("78_owa60")
+tag = 17
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_kpcy5"]
+script = ExtResource("78_owa60")
+tag = 18
+metadata/_custom_type_script = "uid://c7cvd1ql5dxas"
+
+[sub_resource type="Resource" id="Resource_78bim"]
+script = ExtResource("80_tslg2")
+category = 1
+act_tags = Array[ExtResource("78_owa60")]([SubResource("Resource_4m7g3"), SubResource("Resource_4eqj7"), SubResource("Resource_7g3vd"), SubResource("Resource_smms5"), SubResource("Resource_kpcy5")])
+creature_target_tags = Array[int]([2])
+friendy_fire = false
+metadata/_custom_type_script = "uid://lrec85jjq4ih"
+
+[sub_resource type="Resource" id="Resource_bqsy5"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_7qett")
+ai_hint = SubResource("Resource_78bim")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_ycprt"]
+script = ExtResource("75_y68db")
+name = "Swiftness"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_bqsy5")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_jucon"]
+script = ExtResource("83_g60et")
+metadata/_custom_type_script = "uid://cfpj1qbuyeinb"
+
+[sub_resource type="Resource" id="Resource_puink"]
+script = ExtResource("6_m6xic")
+pattern = [1, 1, 1, 1]
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_ppgvq"]
+script = ExtResource("110_fxk3r")
+dice_number = 1
+damage_die = 6
+resistance = 4
+damage_pattern = SubResource("Resource_puink")
+metadata/_custom_type_script = "uid://bwfaipulxr7tq"
+
+[sub_resource type="Resource" id="Resource_v3r87"]
+script = ExtResource("18_8qm62")
+name = "Energy Field"
+id = "cond_energy_field"
+description = "The creature is affected by an energy field, taking damage every turn."
+re_apply_effects = false
+apply_effects_at_intervals = true
+effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_ppgvq")])
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_iu0oq"]
+script = ExtResource("59_tu6xq")
+applied_condition = SubResource("Resource_v3r87")
+area_follows_target = true
+name = "Energy Field"
+id = "area_cond_energy_field"
+metadata/_custom_type_script = "uid://ckh556ahfopjg"
+
+[sub_resource type="Resource" id="Resource_2xclu"]
+script = ExtResource("87_ii5pe")
+condition = SubResource("Resource_iu0oq")
+metadata/_custom_type_script = "uid://dwlhkak5s0ikl"
+
+[sub_resource type="Resource" id="Resource_un60w"]
+script = ExtResource("88_gvl43")
+metadata/_custom_type_script = "uid://62ayu2esarc8"
+
+[sub_resource type="Resource" id="Resource_mt3lk"]
+script = ExtResource("9_11gr4")
+name = "Energy Field"
+id = "act_energy_field"
+tags = Array[int]([0, 5, 0])
+AP_cost = 2
+requires_concentration = true
+reach = 0
+spread = 4
+self_prior_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_2xclu")])
+self_final_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_jucon")])
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_un60w")])
+targeting_type = 0
+affected_type = 1
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://beq2nm7ovc2lf"
+
+[sub_resource type="Resource" id="Resource_dlfef"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_mt3lk")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_uua07"]
+script = ExtResource("75_y68db")
+minimum_rank = 2
+name = "Energy Field"
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_dlfef")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_mhmpc"]
+script = ExtResource("6_m6xic")
+metadata/_custom_type_script = "uid://rltw2jbxjfsu"
+
+[sub_resource type="Resource" id="Resource_wv1fw"]
+script = ExtResource("77_620dx")
+die_size = 4
+resistance = 2
+damage_pattern = SubResource("Resource_mhmpc")
+metadata/_custom_type_script = "uid://otrxaros8gk8"
+
+[sub_resource type="Resource" id="Resource_fvefn"]
+script = ExtResource("76_ldhh4")
+projectile = ExtResource("81_ksne5")
+projectile_config = {
+"speed": 1000,
+"sprite": ExtResource("112_fjh1o")
+}
+name = "Fireball"
+id = "act_fireball"
+description = "You hurl a fiery bead that explodes at the targeted location, engulfing the entire surrounding area in flames."
+icon = ExtResource("111_x33x5")
+tags = Array[int]([18])
+AP_cost = 2
+defending_aptitude = 2
+reach = 5
+spread = 4
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_wv1fw")])
+targeting_type = 0
+hit_effect_scene = ExtResource("99_bm4a6")
+is_spell = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_kfk7w"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_fvefn")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_axseu"]
+script = ExtResource("75_y68db")
+name = "Fireball"
+icon = ExtResource("111_x33x5")
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_kfk7w")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_qwxp5"]
+script = ExtResource("18_8qm62")
+name = " Pocket Dimension"
+id = "cond_pocket_dimension"
+description = "You have produced a pocket dimension and a portal to reach it."
+icon = ExtResource("113_88poj")
+re_apply_effects = false
+generate_semi_unique_id = true
+metadata/_custom_type_script = "uid://dvi4ohsador2o"
+
+[sub_resource type="Resource" id="Resource_rpcen"]
+script = ExtResource("21_ey5cn")
+recipient = 1
+condition = SubResource("Resource_qwxp5")
+metadata/_custom_type_script = "uid://cfewvgpf7mgvs"
+
+[sub_resource type="Resource" id="Resource_eobol"]
+script = ExtResource("114_afcov")
+map = "pocket_dimension"
+metadata/_custom_type_script = "uid://ctoi0qqlyxwmk"
+
+[sub_resource type="Resource" id="Resource_h3362"]
+script = ExtResource("101_k8rxr")
+prop_id = "portal"
+metadata/_custom_type_script = "uid://dk2ibknskb7og"
+
+[sub_resource type="Resource" id="Resource_gyib4"]
+script = ExtResource("115_1ib4n")
+metadata/_custom_type_script = "uid://cbya6mmgqnklb"
+
+[sub_resource type="Resource" id="Resource_hh0ht"]
+script = ExtResource("76_ldhh4")
+name = "Pocket Dimension"
+id = "act_pocket_dimension"
+description = "You create a pocket dimension."
+icon = ExtResource("113_88poj")
+tags = Array[int]([18, 17])
+AP_cost = 3
+requires_concentration = true
+reach = 5
+target_effects = Array[ExtResource("11_2ue5e")]([SubResource("Resource_rpcen"), SubResource("Resource_eobol"), SubResource("Resource_h3362"), SubResource("Resource_gyib4")])
+targeting_type = 0
+affected_type = 1
+requires_roll = false
+is_spell = true
+builds_condition = true
+metadata/_custom_type_script = "uid://bxau8hir6ormb"
+
+[sub_resource type="Resource" id="Resource_2mcys"]
+script = ExtResource("5_lwxrd")
+activity = SubResource("Resource_hh0ht")
+metadata/_custom_type_script = "uid://buw2ftcnsdqla"
+
+[sub_resource type="Resource" id="Resource_1vqar"]
+script = ExtResource("75_y68db")
+name = "Pocket Dimension"
+description = "You create a pocket dimension."
+icon = ExtResource("113_88poj")
+activities = Array[ExtResource("5_lwxrd")]([SubResource("Resource_2mcys")])
+metadata/_custom_type_script = "uid://sg6vjj4j36i4"
+
+[sub_resource type="Resource" id="Resource_26pfx"]
+script = ExtResource("74_auq1e")
+uid = 1
+name = "Debug"
+level = 24
+applied_level = 24
+major_archetype = ExtResource("66_hk0x2")
+discipline = null
+attributes = SubResource("Resource_cp2j3")
+base_stats = SubResource("Resource_kyvkw")
+inventory = SubResource("Resource_gh4o1")
+equipment = SubResource("Resource_5h4pj")
+resistances = SubResource("Resource_cgpu4")
+relationships = SubResource("Resource_4367q")
+personality = SubResource("Resource_1im5d")
+talents = Array[ExtResource("116_0wnva")]([ExtResource("118_qh67d"), ExtResource("119_ktv0x"), ExtResource("120_gdmmi")])
+activities = Array[ExtResource("2_qnd50")]([ExtResource("3_85pkk"), ExtResource("4_7v858"), SubResource("Resource_53k0l"), SubResource("Resource_udive")])
+spells_ready = Array[ExtResource("75_y68db")]([SubResource("Resource_5ba0j"), SubResource("Resource_5vg07"), SubResource("Resource_paorr"), SubResource("Resource_w687d"), SubResource("Resource_mflm8"), SubResource("Resource_5eko3"), SubResource("Resource_gbly5"), SubResource("Resource_nvi4q"), SubResource("Resource_b3g35"), SubResource("Resource_1ihup"), SubResource("Resource_ck5iy"), SubResource("Resource_rqtjd"), SubResource("Resource_obwcx"), SubResource("Resource_kdpjg"), SubResource("Resource_kfxfj"), SubResource("Resource_2x3w5"), SubResource("Resource_5oq8c"), SubResource("Resource_fili3"), SubResource("Resource_713f6"), SubResource("Resource_xo4ua"), SubResource("Resource_yau54"), SubResource("Resource_k52sf"), SubResource("Resource_n2gl7"), SubResource("Resource_ymhk2"), SubResource("Resource_c8wgr"), SubResource("Resource_hdl0n"), SubResource("Resource_ycprt"), SubResource("Resource_uua07"), SubResource("Resource_axseu"), SubResource("Resource_1vqar")])
+spells_available = Array[ExtResource("75_y68db")]([SubResource("Resource_5ba0j"), SubResource("Resource_5vg07"), SubResource("Resource_paorr"), SubResource("Resource_w687d"), SubResource("Resource_mflm8"), SubResource("Resource_5eko3"), SubResource("Resource_gbly5"), SubResource("Resource_nvi4q"), SubResource("Resource_b3g35"), SubResource("Resource_1ihup"), SubResource("Resource_ck5iy"), SubResource("Resource_rqtjd"), SubResource("Resource_obwcx"), SubResource("Resource_kdpjg"), SubResource("Resource_kfxfj"), SubResource("Resource_2x3w5"), SubResource("Resource_5oq8c"), SubResource("Resource_fili3"), SubResource("Resource_713f6"), SubResource("Resource_xo4ua"), SubResource("Resource_yau54"), SubResource("Resource_k52sf"), SubResource("Resource_n2gl7"), SubResource("Resource_ymhk2"), SubResource("Resource_c8wgr"), SubResource("Resource_hdl0n"), SubResource("Resource_ycprt"), SubResource("Resource_uua07"), SubResource("Resource_axseu"), SubResource("Resource_1vqar")])
+conditions = Array[ExtResource("18_8qm62")]([SubResource("Resource_qw5ra"), SubResource("Resource_jqps7"), SubResource("Resource_6pji3")])
+talent_pool = Array[ExtResource("116_0wnva")]([ExtResource("117_idlk4")])
+casting_table = SubResource("Resource_eue0l")
+current_hp = 144
+current_pp = 48
+current_ep = 144
+current_spell_rank = 12
+max_spell_rank = 12
+map_id = "placeholder"
+tile_x = 33
+tile_y = 23
+tile_z = 500
+player_controlled = true
+
+[sub_resource type="Resource" id="Resource_qftq1"]
+script = ExtResource("1_ojcua")
+data = SubResource("Resource_26pfx")
+
+[sub_resource type="Resource" id="Resource_xygv1"]
+script = ExtResource("125_p76b2")
+uid = 1
+name = "Spell Wall"
+id = "prop_spell_wall"
+icon = ExtResource("124_j0b3t")
+texture = ExtResource("124_j0b3t")
+max_hp = 120
+cover = 4
+map_id = "placeholder"
+pos = Vector3i(24, 25, 500)
+current_hp = 120
+metadata/_custom_type_script = "uid://bjka2p2a25d1a"
+
+[sub_resource type="Resource" id="Resource_ck76p"]
+script = ExtResource("17_p84hj")
+data = SubResource("Resource_xygv1")
+
+[sub_resource type="Resource" id="Resource_0mrq8"]
+script = ExtResource("125_p76b2")
+uid = 2
+name = "Spell Wall"
+id = "prop_spell_wall"
+icon = ExtResource("124_j0b3t")
+texture = ExtResource("124_j0b3t")
+max_hp = 120
+cover = 4
+map_id = "placeholder"
+pos = Vector3i(19, 21, 500)
+current_hp = 120
+metadata/_custom_type_script = "uid://bjka2p2a25d1a"
+
+[sub_resource type="Resource" id="Resource_7ufhc"]
+script = ExtResource("17_p84hj")
+data = SubResource("Resource_0mrq8")
+
+[sub_resource type="Resource" id="Resource_vbubq"]
+script = ExtResource("125_p76b2")
+uid = 3
+name = "Spell Wall"
+id = "prop_spell_wall"
+icon = ExtResource("124_j0b3t")
+texture = ExtResource("124_j0b3t")
+max_hp = 120
+cover = 4
+map_id = "placeholder"
+pos = Vector3i(16, 23, 500)
+current_hp = 120
+metadata/_custom_type_script = "uid://bjka2p2a25d1a"
+
+[sub_resource type="Resource" id="Resource_fjnhd"]
+script = ExtResource("17_p84hj")
+data = SubResource("Resource_vbubq")
+
+[sub_resource type="Resource" id="Resource_1nru0"]
+script = ExtResource("128_u877k")
+condition = ExtResource("126_kxk4s")
+uid = 4
+name = "Bed"
+id = "prop_bed"
+icon = ExtResource("127_ar0od")
+texture = ExtResource("127_ar0od")
+max_hp = 80
+cover = 2
+map_id = "placeholder"
+pos = Vector3i(23, 15, 500)
+current_hp = 80
+metadata/_custom_type_script = "uid://ds0q6kfvhtlh0"
+
+[sub_resource type="Resource" id="Resource_0a0ij"]
+script = ExtResource("17_p84hj")
+data = SubResource("Resource_1nru0")
+
+[sub_resource type="Resource" id="Resource_hq1vu"]
+script = ExtResource("128_u877k")
+condition = ExtResource("126_kxk4s")
+uid = 5
+name = "Bed"
+id = "prop_bed"
+icon = ExtResource("127_ar0od")
+texture = ExtResource("127_ar0od")
+max_hp = 80
+cover = 2
+map_id = "placeholder"
+pos = Vector3i(12, 19, 500)
+current_hp = 80
+metadata/_custom_type_script = "uid://ds0q6kfvhtlh0"
+
+[sub_resource type="Resource" id="Resource_wmjc6"]
+script = ExtResource("17_p84hj")
+data = SubResource("Resource_hq1vu")
+
+[sub_resource type="Resource" id="Resource_yq7l5"]
+script = ExtResource("128_u877k")
+condition = ExtResource("126_kxk4s")
+uid = 6
+name = "Bed"
+id = "prop_bed"
+icon = ExtResource("127_ar0od")
+texture = ExtResource("127_ar0od")
+max_hp = 80
+cover = 2
+map_id = "placeholder"
+pos = Vector3i(12, 23, 500)
+current_hp = 80
+metadata/_custom_type_script = "uid://ds0q6kfvhtlh0"
+
+[sub_resource type="Resource" id="Resource_8kcmt"]
+script = ExtResource("17_p84hj")
+data = SubResource("Resource_yq7l5")
+
+[sub_resource type="Resource" id="Resource_d8fms"]
+script = ExtResource("121_ptivs")
+creature_uids = Array[int]([1])
+prop_uids = Array[int]([1, 2, 3, 4, 5, 6, 7])
+original_prop_registry = Dictionary[Vector3i, ExtResource("17_p84hj")]({
+Vector3i(12, 19, 500): SubResource("Resource_wmjc6"),
+Vector3i(12, 23, 500): SubResource("Resource_8kcmt"),
+Vector3i(16, 23, 500): SubResource("Resource_fjnhd"),
+Vector3i(19, 21, 500): SubResource("Resource_7ufhc"),
+Vector3i(23, 15, 500): SubResource("Resource_0a0ij"),
+Vector3i(24, 25, 500): SubResource("Resource_ck76p")
+})
+initialized = true
+data_dirty = false
+
+[sub_resource type="Resource" id="Resource_geidx"]
+script = ExtResource("15_bfasw")
+item = ExtResource("62_a5y8f")
+amount = 5
+
+[sub_resource type="Resource" id="Resource_25kxc"]
+script = ExtResource("65_n5hgw")
+list = Array[ExtResource("15_bfasw")]([SubResource("Resource_geidx")])
+
+[sub_resource type="Resource" id="Resource_2k7yv"]
+script = ExtResource("132_sguub")
+inventory = SubResource("Resource_25kxc")
+uid = 7
+name = "Wooden Crate"
+id = "prop_wooden_crate"
+icon = ExtResource("131_vqqrh")
+texture = ExtResource("131_vqqrh")
+cover = 2
+is_runtime = true
+map_id = "placeholder"
+pos = Vector3i(37, 21, 500)
+current_hp = 40
+metadata/_custom_type_script = "uid://0e3c3obhme7v"
+
+[sub_resource type="Resource" id="Resource_a131h"]
+script = ExtResource("17_p84hj")
+data = SubResource("Resource_2k7yv")
+
+[sub_resource type="Resource" id="Resource_bb2qi"]
+script = ExtResource("134_ej7c8")
+seconds = 48
+minutes = 3
+
+[sub_resource type="Resource" id="Resource_qi5ua"]
+script = ExtResource("135_qqwvo")
+prop_uid = 7
+
+[resource]
+script = ExtResource("133_q4vd1")
+time_state = SubResource("Resource_bb2qi")
+uid_state = SubResource("Resource_qi5ua")
+creatures_by_uid = Dictionary[int, ExtResource("1_ojcua")]({
+1: SubResource("Resource_qftq1")
+})
+props_by_uid = Dictionary[int, ExtResource("17_p84hj")]({
+1: SubResource("Resource_ck76p"),
+2: SubResource("Resource_7ufhc"),
+3: SubResource("Resource_fjnhd"),
+4: SubResource("Resource_0a0ij"),
+5: SubResource("Resource_wmjc6"),
+6: SubResource("Resource_8kcmt"),
+7: SubResource("Resource_a131h")
+})
+map_states = Dictionary[String, ExtResource("121_ptivs")]({
+"placeholder": SubResource("Resource_d8fms")
+})

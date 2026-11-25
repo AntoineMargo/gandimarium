@@ -82,11 +82,11 @@ func _ready() -> void:
 	
 	data.derived_stats = DerivedStats.new()
 	
-	for container in data.inventory.list:
-		container = container.duplicate()
-	var equipment_containers = data.equipment.get_all_equipped_items()
-	for container in equipment_containers:
-		container = container.duplicate()
+	#for container in data.inventory.list:
+		#container = container.duplicate()
+	#var equipment_containers = data.equipment.get_all_equipped_items()
+	#for container in equipment_containers:
+		#container = container.duplicate()
 	
 	data.player_controlled = true
 

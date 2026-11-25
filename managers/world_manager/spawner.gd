@@ -73,6 +73,14 @@ func spawn_creature_at_coords(data_file: String, coords: Vector3i, map_id: Strin
 	wm.add_to_tile_contents(character, coords)
 	wm.layers[wm.current_layer]["path_map"].set_point_solid(layer_coords, true)
 	
+	if char_data.inventory:
+		for container in char_data.inventory.list:
+			container = container.duplicate()
+	if char_data.equipment:
+		var equipment_containers = char_data.equipment.get_all_equipped_items()
+		for container in equipment_containers:
+			container = container.duplicate()
+	
 	var weapons = character.get_weapons()
 	for weapon in weapons:
 		if weapon and weapon.item:
