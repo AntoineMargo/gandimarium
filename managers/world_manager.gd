@@ -1229,7 +1229,7 @@ func preview_path(to_tile: Vector3i) -> void:
 	var path_map = layers[to_tile.z]["path_map"]
 	if not path_map.region.has_point(to_tile_vec2) or path_map.is_point_solid(to_tile_vec2) or layers[to_tile.z]["occupied"].get(to_tile_vec2):
 		path_preview.clear_all()
-		print("Preview: Invalid target location.")
+		#print("Preview: Invalid target location.")
 		return
 
 	path_map.set_point_solid(o_coords.vec2, false)

@@ -83,7 +83,8 @@ func BasicControls():
 			return
 		var coords: Vector3i = wm.get_tile_coords_under_cursor()
 		#var routine: String = "res://resources/routines/bandit_routine.tres"
-		wm.spawn_creature_at_coords("res://resources/creatures/data_bandit.tres", coords, map.id)
+		#wm.spawn_creature_at_coords(Library.get_creature("paragon_bandit"), coords, map.id)
+		wm.spawn_creature_at_coords("res://resources/creatures/data_paragon_bandit.tres", coords, map.id)
 
 	if Input.is_action_just_pressed("U"):
 		var hovered_tile = Global.world_manager.get_hovered_tile()
@@ -122,7 +123,6 @@ func BasicControls():
 		SignalBus.update_inventory.emit()
 		Global.game_session.all_info_window.tabs.set_current_tab(1)
 		Global.game_session.all_info_window.visible = not Global.game_session.all_info_window.visible
-		#Global.inventory_window.visible = not Global.inventory_window.visible
 		print("Toggling inventory.")
 
 	if Input.is_action_just_pressed("C"):

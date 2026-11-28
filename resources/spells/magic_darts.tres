@@ -4,13 +4,36 @@
 [ext_resource type="Script" uid="uid://rltw2jbxjfsu" path="res://various/damage_pattern.gd" id="2_jiqyk"]
 [ext_resource type="Script" uid="uid://ba7oelan1wwjv" path="res://activity_modifiers/modifier.gd" id="3_0hifr"]
 [ext_resource type="PackedScene" uid="uid://bm40yjohcu4wn" path="res://VFX/projectile.tscn" id="4_r3c7v"]
-[ext_resource type="Texture2D" uid="uid://dut3pnkt23f7h" path="res://art/objects/mbolt2.png" id="5_r3c7v"]
+[ext_resource type="Script" uid="uid://bhnkg8gkt5lg3" path="res://VFX/proj_config.gd" id="5_c2c0a"]
+[ext_resource type="Script" uid="uid://bpcwimj6g726h" path="res://VFX/Particle_Config.gd" id="5_qkju1"]
+[ext_resource type="Texture2D" uid="uid://bl0e5w6ym6n2b" path="res://art/particles/flare_13.png" id="6_c2c0a"]
 [ext_resource type="Script" uid="uid://bxau8hir6ormb" path="res://activities/targeted_activity.gd" id="8_mfknl"]
 [ext_resource type="Script" uid="uid://bdnlnlska34ps" path="res://filters/filter.gd" id="9_e6eo3"]
 [ext_resource type="Script" uid="uid://ckdmms8hloauu" path="res://effects/effect.gd" id="10_y8cri"]
 [ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damage_effect.gd" id="11_4je1x"]
 [ext_resource type="Script" uid="uid://sg6vjj4j36i4" path="res://abilities/spell_container.gd" id="12_274on"]
 [ext_resource type="Script" uid="uid://kalwpa2j0ckf" path="res://activity_modifiers/addition_num_modifier.gd" id="13_0ay6q"]
+
+[sub_resource type="Resource" id="Resource_l4g64"]
+script = ExtResource("5_qkju1")
+texture = ExtResource("6_c2c0a")
+scale_min = 0.02
+scale_max = 0.02
+colour = Color(0, 1, 1, 1)
+metadata/_custom_type_script = "uid://bpcwimj6g726h"
+
+[sub_resource type="Resource" id="Resource_r34ii"]
+script = ExtResource("5_c2c0a")
+sprite = ExtResource("6_c2c0a")
+sprite_scale = 0.05
+colour = Color(0, 1, 1, 1)
+speed = 700.0
+trajectory_arc = 35.0
+trajectory_randomness = 1.0
+trajectory_direction_randomness = 0.5
+wobble_amplitude = 5.0
+particles = Array[ExtResource("5_qkju1")]([SubResource("Resource_l4g64")])
+metadata/_custom_type_script = "uid://bhnkg8gkt5lg3"
 
 [sub_resource type="Resource" id="Resource_e6eo3"]
 script = ExtResource("2_jiqyk")
@@ -24,11 +47,7 @@ metadata/_custom_type_script = "uid://otrxaros8gk8"
 
 [sub_resource type="Resource" id="Resource_errbm"]
 script = ExtResource("8_mfknl")
-projectile = ExtResource("4_r3c7v")
-projectile_config = {
-"speed": 1000,
-"sprite": ExtResource("5_r3c7v")
-}
+projectile_config = SubResource("Resource_r34ii")
 projectile_batch_mode = false
 name = "Magic Darts"
 id = "magic_darts"

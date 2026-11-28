@@ -508,13 +508,17 @@ func take_damage(damage: int, resistance: Enums.Resistance) -> void:
 	var final_damage = (damage - resistance_value)
 	if final_damage < 0:
 		final_damage = 0
-	else:
 		if node:
+			node.dodge(90, 1)
+			node.play_miss_flash()
+		return
+	else:
+		change_stat("current_hp", -final_damage)
+		health_status_change()
+		if node:
+			node.hit_shake(2)
 			node.play_hit_flash(final_damage)
-	change_stat("current_hp", -final_damage)
-	health_status_change()
-	if node:
-		node.update_hp_bar()
+			node.update_hp_bar()
 	SignalBus.dialog_damage_taken.emit(data.name, final_damage)
 
 
@@ -1260,6 +1264,7 @@ func level_up() -> void:
 		for entry in data.major_archetype.talents_by_level:
 			if entry.level == data.applied_level:
 				level_entry = entry
+				break
 
 	if level_entry:
 		for talent in level_entry.talents_to_add_to_pool:
@@ -1326,35 +1331,6 @@ func level_up() -> void:
 	SignalBus.update_ui_for_char.emit()
 
 
-### This initialises the base stats, meant to be used on spawn
-#func initialize_character() -> void:
-	#if not data.has_been_initialized:
-		#if data.uid == 0:
-			#data.uid = Global.state_manager.next_uid(Enums.UIDType.CREATURE)
-#
-		#data.derived_stats = DerivedStats.new()
-#
-		#data.attributes     = _ensure_resource(data.attributes, func(): return Attributes.new())
-		#data.base_stats     = _ensure_resource(data.base_stats, func(): return BaseStats.new())
-		#data.inventory      = _ensure_resource(data.inventory, func(): return Inventory.new())
-		#data.equipment      = _ensure_resource(data.equipment, func(): return Equipment.new())
-		#data.resistances    = _ensure_resource(data.resistances, func(): return Resistances.new())
-		#data.relationships  = _ensure_resource(data.relationships, func(): return Relationships.new())
-		#data.personality    = _ensure_resource(data.personality, func(): return Personality.new())
-#
-		#data.talent_pool.assign(Library.general_talents)
-#
-		## Should be folded into Archetype's init function
-		#if data.major_archetype and data.major_archetype.type == Enums.Archetype.SCHOLASTIC_MAGE:
-			#data.max_spells_ready = data.attributes.get_attribute(Enums.Attribute.ACUITY)
-		#else:
-			#data.max_spells_ready = 99999
-#
-		#data.has_been_initialized = true
-		##print("character file ready.")
-		#build_stats()
-
-
 ## This initialises the base stats, meant to be used on spawn
 func initialize_character() -> void:
 	if data.uid == 0:
@@ -1375,6 +1351,7 @@ func initialize_character() -> void:
 
 	data.talent_pool.assign(Library.general_talents)
 	build_stats()
+
 
 ## This builds the stats based on applied level
 func build_stats() -> void:

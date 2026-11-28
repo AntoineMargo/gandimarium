@@ -28,6 +28,11 @@ func play_hit_flash(damage: float) -> void:
 		$Mover/ShaderOrchestration.play_hit_flash(damage)
 
 
+func play_miss_flash() -> void:
+	if has_node("Mover/ShaderOrchestration"):
+		$Mover/ShaderOrchestration.play_miss_flash()
+
+
 func set_healthy_tint() -> void:
 	if has_node("Mover/ShaderOrchestration"):
 		$Mover/ShaderOrchestration.set_healthy_tint()
@@ -107,6 +112,37 @@ func pounce_attack(target_dir: Vector2) -> void:
 
 	# snap back
 	tween.tween_property(sprite_node, "position", Vector2.ZERO, 0.08)
+
+
+func hit_shake(intensity: float = 1.0) -> void:
+	var shake_amount: float = 1.5 * intensity
+	var steps: int = 5
+	var step_time: float = 0.02
+
+	var tween = get_tree().create_tween()
+
+	for i in steps:
+		var falloff: float = 1.0 - float(i) / steps
+		var offset := Vector2(
+			randf_range(-1.0, 1.0),
+			randf_range(-1.0, 1.0)
+		).normalized() * shake_amount * falloff
+		tween.tween_property(sprite_node, "position", offset.round(), step_time)
+
+	tween.tween_property(sprite_node, "position", Vector2.ZERO, step_time)
+
+
+func dodge(attack_angle: float, distance: float = 3.0) -> void:
+	var away := (Vector2.from_angle(deg_to_rad(attack_angle)) * distance).round()
+
+	var tween = get_tree().create_tween()
+	tween.set_trans(Tween.TRANS_QUAD)
+
+	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property(sprite_node, "position", away, 0.06)
+
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(sprite_node, "position", Vector2.ZERO, 0.10)
 
 
 func update_visibility(map_id: String, current_layer: int) -> void:

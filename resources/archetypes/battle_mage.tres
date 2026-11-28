@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://br3qyd4n7fm2f" path="res://archetypes/archetype.gd" id="1_k1hes"]
 [ext_resource type="Script" uid="uid://dnii5080nqn0s" path="res://archetypes/archetype_entry.gd" id="2_1lfls"]
-[ext_resource type="Resource" uid="uid://q85qmpahkbjn" path="res://resources/archetype_entries/war_mage_0.tres" id="3_4vw47"]
+[ext_resource type="Resource" uid="uid://q85qmpahkbjn" path="res://resources/archetype_entries/war_mage_1.tres" id="3_4vw47"]
 
 [resource]
 script = ExtResource("1_k1hes")

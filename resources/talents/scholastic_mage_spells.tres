@@ -59,7 +59,6 @@
 [ext_resource type="Script" uid="uid://dwlhkak5s0ikl" path="res://effects/area_condition_general_effect.gd" id="51_apscq"]
 [ext_resource type="Script" uid="uid://62ayu2esarc8" path="res://effects/area_condition_tile_effect.gd" id="52_j5kdn"]
 [ext_resource type="PackedScene" uid="uid://c4rhj2g0r2lc1" path="res://VFX/hit_effect.tscn" id="53_3k8ai"]
-[ext_resource type="Texture2D" uid="uid://wd28jvjuhp1y" path="res://art/objects/mbolt.png" id="55_apscq"]
 [ext_resource type="PackedScene" uid="uid://bm40yjohcu4wn" path="res://VFX/projectile.tscn" id="56_s8bqb"]
 [ext_resource type="Texture2D" uid="uid://tc7lpf4etv0w" path="res://art/interface/activities/bright-explosion.png" id="57_j5kdn"]
 [ext_resource type="Script" uid="uid://otrxaros8gk8" path="res://effects/spell_damage_effect.gd" id="58_2mcys"]
@@ -244,11 +243,6 @@ metadata/_custom_type_script = "uid://otrxaros8gk8"
 
 [sub_resource type="Resource" id="Resource_fvefn"]
 script = ExtResource("34_2mmfy")
-projectile = ExtResource("56_s8bqb")
-projectile_config = {
-"speed": 1000,
-"sprite": ExtResource("55_apscq")
-}
 name = "Fireball"
 id = "act_fireball"
 description = "You hurl a fiery bead that explodes at the targeted location, engulfing the entire surrounding area in flames."

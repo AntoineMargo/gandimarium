@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://br3qyd4n7fm2f" path="res://archetypes/archetype.gd" id="1_r5j56"]
 [ext_resource type="Script" uid="uid://dnii5080nqn0s" path="res://archetypes/archetype_entry.gd" id="2_swb77"]
-[ext_resource type="Resource" uid="uid://ku1etcyxgyiw" path="res://resources/archetype_entries/paragon_0.tres" id="3_tyhxu"]
+[ext_resource type="Resource" uid="uid://ku1etcyxgyiw" path="res://resources/archetype_entries/paragon_1.tres" id="3_tyhxu"]
 
 [resource]
 script = ExtResource("1_r5j56")

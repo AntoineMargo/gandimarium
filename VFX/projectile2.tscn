@@ -1,0 +1,276 @@
+[gd_scene format=3 uid="uid://dv3oqehdscgk4"]
+
+[sub_resource type="GDScript" id="GDScript_pu6k5"]
+script/source = "extends Projectile
+class_name Projectile2
+
+#@export var trajectory_arc: float = 0.0
+#@export var trajectory_randomness: float = 0.0
+#@export var wobble_amplitude: float = 0.0
+#@export var wobble_frequency: float = 3.0
+#@export var homing_strength: float = 0.0
+#@export var trail_length: int = 12
+#
+#@export var particle_amount: int = 20
+#@export var particle_lifetime: float = 0.5
+#@export var particle_speed: float = 100.0
+#@export var particle_spread: float = 180.0
+#@export var particle_scale: float = 0.15
+#
+#var launch_position: Vector2
+#var destination_position: Vector2
+#var trajectory_offset: Vector2
+#var trajectory_progress: float = 0.0
+#var wobble_phase: float = 0.0
+#
+#var trail_points: Array[Vector2] = []
+
+func configure(config: Dictionary) -> void:
+	if config.has(\"sprite\"):
+		sprite = config[\"sprite\"]
+
+	if config.has(\"colour\"):
+		colour = config[\"colour\"]
+
+	if config.has(\"speed\"):
+		speed = config[\"speed\"]
+
+	if config.has(\"trajectory_arc\"):
+		trajectory_arc = config[\"trajectory_arc\"]
+
+	if config.has(\"trajectory_randomness\"):
+		trajectory_randomness = config[\"trajectory_randomness\"]
+
+	if config.has(\"wobble_amplitude\"):
+		wobble_amplitude = config[\"wobble_amplitude\"]
+
+	if config.has(\"wobble_frequency\"):
+		wobble_frequency = config[\"wobble_frequency\"]
+
+	if config.has(\"trail_length\"):
+		trail_length = config[\"trail_length\"]
+
+	if config.has(\"particle_amount\"):
+		particle_amount = config[\"particle_amount\"]
+
+	if config.has(\"particle_lifetime\"):
+		particle_lifetime = config[\"particle_lifetime\"]
+
+	if config.has(\"particle_speed\"):
+		particle_speed = config[\"particle_speed\"]
+
+	if config.has(\"particle_spread\"):
+		particle_spread = config[\"particle_spread\"]
+
+	if config.has(\"particle_scale\"):
+		particle_scale = config[\"particle_scale\"]
+
+	$Sprite2D.texture = sprite
+	$Sprite2D.modulate = colour
+
+	if has_node(\"Line2D\"):
+		$Line2D.clear_points()
+		$Line2D.points = PackedVector2Array()
+		$Line2D.default_color = colour
+
+	if has_node(\"GPUParticles2D\"):
+		var particles: GPUParticles2D = $GPUParticles2D
+
+		particles.amount = particle_amount
+		particles.lifetime = particle_lifetime
+		particles.modulate = colour
+
+		var particle_material = ParticleProcessMaterial.new()
+		particle_material.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_POINT
+		particle_material.direction = Vector3(-1.0, 0.0, 0.0)
+		particle_material.spread = particle_spread
+		particle_material.initial_velocity_min = particle_speed * 0.5
+		particle_material.initial_velocity_max = particle_speed
+		particle_material.scale_min = particle_scale * 0.5
+		particle_material.scale_max = particle_scale
+		particle_material.gravity = Vector3.ZERO
+
+		particles.process_material = particle_material
+		particles.emitting = true
+
+
+func make_particles(
+	pos: Vector2,
+	direction: Vector2 = Vector2.UP,
+	amount: int = 20,
+	lifetime: float = 0.5,
+	velocity: float = 100.0,
+	spread: float = 180.0,
+	scale: float = 0.15,
+	burst_colour: Color = Color.WHITE
+) -> void:
+
+	var particles = GPUParticles2D.new()
+	var material = ParticleProcessMaterial.new()
+
+	particles.texture = sprite
+	particles.amount = amount
+	particles.lifetime = lifetime
+	particles.one_shot = true
+	particles.explosiveness = 1.0
+	particles.emitting = false
+	particles.modulate = burst_colour
+
+	material.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_POINT
+	material.direction = Vector3(direction.x, direction.y, 0.0)
+	material.spread = spread
+	material.initial_velocity_min = velocity * 0.5
+	material.initial_velocity_max = velocity
+	material.gravity = Vector3.ZERO
+	material.scale_min = scale * 0.5
+	material.scale_max = scale
+
+	particles.process_material = material
+
+	particles.global_position = pos
+	particles.finished.connect(particles.queue_free)
+
+	get_parent().add_child(particles)
+	particles.emitting = true
+
+
+func spawn_hit_effect(pos, ctx: ActivityContext):
+	if hit_effect_scene:
+		var fx = hit_effect_scene.instantiate()
+		fx.context = ctx
+		fx.global_position = pos
+		get_parent().add_child(fx)
+
+
+func _on_hit(target_pos, ctx: ActivityContext):
+	var wm = Global.world_manager
+	var pixel_pos: Vector2 = wm.tile_to_pixels(target_pos)
+	spawn_hit_effect(pixel_pos, ctx)
+
+	if has_node(\"GPUParticles2D\"):
+		$GPUParticles2D.emitting = false
+
+	if activity_already_hit != null and activity_already_hit.has(target):
+		finished.emit()
+		queue_free()
+		return
+
+	if activity_already_hit:
+		activity_already_hit[target] = true
+
+	if payload:
+		for effect_call in payload:
+			effect_call.call()
+
+	hit.emit(target)
+	finished.emit()
+	queue_free()
+
+
+func launch_with_payload(ctx: ActivityContext):
+	target = ctx.target
+	payload = ctx.delayed_calls
+	if ctx.already_hit != null:
+		activity_already_hit = ctx.already_hit
+	if target is Object and target.has_method(\"get_coords\"):
+		launch(ctx.user.get_coords(), ctx.target.get_coords(), ctx)
+	elif target is Barrier:
+		launch(ctx.user.get_coords(), ctx.target.parent_creature.get_coords(), ctx)
+	else:
+		launch(ctx.user.get_coords(), ctx.target, ctx)
+
+
+func launch(from_tile: Vector3i, to_tile: Vector3i, ctx: ActivityContext):
+	var wm = Global.world_manager
+	var from_pos: Vector2 = wm.tile_to_pixels(from_tile)
+	var to_pos: Vector2 = wm.tile_to_pixels(to_tile)
+
+	launch_position = from_pos
+	destination_position = to_pos
+	global_position = from_pos
+
+	var direction = (to_pos - from_pos).normalized()
+	var perpendicular = Vector2(-direction.y, direction.x)
+
+	trajectory_offset = perpendicular * randf_range(
+		-trajectory_randomness,
+		trajectory_randomness
+	)
+
+	trajectory_offset += Vector2(0, -trajectory_arc)
+
+	wobble_phase = randf() * TAU
+
+	look_at(to_pos)
+
+	var distance = from_pos.distance_to(to_pos)
+	var duration = distance / speed
+
+	var tween = create_tween()
+	tween.tween_method(
+		_update_trajectory,
+		0.0,
+		1.0,
+		duration
+	).set_trans(Tween.TRANS_LINEAR)
+
+	tween.finished.connect(_on_hit.bind(to_tile, ctx))
+
+
+func _update_trajectory(progress: float):
+	trajectory_progress = progress
+
+	var control_point = (
+		launch_position
+		+ (destination_position - launch_position) * 0.5
+		+ trajectory_offset
+	)
+
+	# Quadratic Bézier interpolation
+	var p = (
+		(1.0 - progress) * (1.0 - progress) * launch_position
+		+ 2.0 * (1.0 - progress) * progress * control_point
+		+ progress * progress * destination_position
+	)
+
+	# Optional wobble
+	if wobble_amplitude > 0.0:
+		var direction = (destination_position - launch_position).normalized()
+		var perpendicular = Vector2(-direction.y, direction.x)
+
+		var wobble = sin(
+			progress * wobble_frequency * TAU + wobble_phase
+		) * sin(progress * PI) * wobble_amplitude
+
+		p += perpendicular * wobble
+
+	global_position = p
+
+func _process(_delta: float):
+	if not has_node(\"Line2D\"):
+		return
+
+	var line: Line2D = $Line2D
+
+	trail_points.push_front(position)
+
+	if trail_points.size() > trail_length:
+		trail_points.pop_back()
+
+	line.clear_points()
+
+	for point in trail_points:
+		line.add_point(point)
+
+func _ready() -> void:
+	pass
+"
+
+[node name="Projectile" type="Node2D" unique_id=745868710]
+script = SubResource("GDScript_pu6k5")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1414165549]
+z_index = 200
+
+[node name="Line2D" type="Line2D" parent="." unique_id=326785909]
+width = 1.0

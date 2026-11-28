@@ -25,10 +25,10 @@ func add_default_activities(char_data) -> void:
 
 func level_up_creature(creature: Creature) -> void:
 	if not creature.data.player_controlled:
-		creature.start_mutation()
+		#creature.start_mutation()
 		for i in range(creature.data.applied_level, creature.data.level):
 			creature.level_up()
-		creature.end_mutation()
+		#creature.end_mutation()
 
 
 func apply_routine(creature: Creature, routine) -> void:
@@ -36,11 +36,6 @@ func apply_routine(creature: Creature, routine) -> void:
 	#char_routine = char_routine.duplicate(true) # Not needed for now
 	if creature.ai_controller and creature.ai_controller.localai:
 		creature.ai_controller.localai.routine = char_routine
-
-
-#func register_creature(creature: Creature) -> void:
-	#wm.current_map.register_creature(creature)
-	#Global.state_manager.register_creature_to_state(creature)
 
 
 ## Don't use guardian for scene tile spawners
@@ -133,12 +128,6 @@ func spawn_creature(creature: Creature) -> void:
 	creature.update_visibility(current_map_id, current_layer)
 
 	creature.loading_helper()
-
-	#if not char_data.player_controlled:
-		#character.start_mutation()
-		#for i in range(char_data.applied_level, char_data.level):
-			#character.level_up()
-		#character.end_mutation()
 
 
 func spawn_prop(_prop: Prop) -> void:

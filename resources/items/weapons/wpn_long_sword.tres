@@ -21,6 +21,9 @@ metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
 
 [sub_resource type="Resource" id="Resource_dg0wo"]
 script = ExtResource("8_ggj1r")
+name = "Long Sword Strike"
+id = "act_long_sword_strike"
+tags = Array[int]([0, 19, 20])
 attacking_aptitude = 4
 defending_aptitude = 5
 reach = 2
@@ -41,6 +44,8 @@ metadata/_custom_type_script = "uid://jtk6vp2fcxdf"
 
 [sub_resource type="Resource" id="Resource_eqjg3"]
 script = ExtResource("13_qf6kn")
+name = "Long Sword Throw"
+id = "act_long_sword_throw"
 attacking_aptitude = 5
 defending_aptitude = 6
 target_effects = Array[ExtResource("10_hhswm")]([SubResource("Resource_pow3j")])

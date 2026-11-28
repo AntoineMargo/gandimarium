@@ -68,6 +68,11 @@ func _update_for_char(creature: Creature):
 
 					for talent in choice.talents:
 						add_choice_talent_button(talent, choice_talent_button_group, i)
+				
+					var choice_buttons: Array[BaseButton] = choice_talent_button_group.get_buttons()
+					if !choice_buttons.is_empty():
+						choice_buttons[0].pressed.emit()
+						choice_buttons[0].set_pressed_no_signal(true)
 
 				var talent_button_group = ButtonGroup.new()
 				var regular_talent_label = Label.new()
@@ -77,8 +82,14 @@ func _update_for_char(creature: Creature):
 				
 				for talent in creature.data.talent_pool:
 					add_regular_talent_button(talent, talent_button_group)
+					
+				var talent_buttons: Array[BaseButton] = talent_button_group.get_buttons()
+				if !talent_buttons.is_empty():
+					talent_buttons[0].pressed.emit()
+					talent_buttons[0].set_pressed_no_signal(true)
 
-	#if creature.data.applied_level % 2 == 0:
+					
+
 	var hbox = HBoxContainer.new()
 	list.add_child(hbox)
 	var new_skill_label = Label.new()

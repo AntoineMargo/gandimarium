@@ -1,8 +1,9 @@
 extends Activity
 class_name TargetedActivity
 
-@export var projectile: PackedScene = null
-@export var projectile_config: Dictionary = {}
+#@export var projectile: PackedScene = null
+@export var projectile: PackedScene = preload("res://VFX/projectile.tscn")
+@export var projectile_config: ProjConfig
 @export var projectile_batch_mode: bool = true
 @export var number_of_targets: int = 1
 var number_of_targets_left = 0
@@ -30,15 +31,18 @@ func fire_projectile(batch_ctx: ActivityContext) -> void:
 func _visual_pounce(targets: Array, ctx: Context):
 	if targets.size() == 1:
 		for tag in tags:
-			if Enums.ActivityTag.MELEE:
+			if tag == Enums.ActivityTag.MELEE:
 				var origin_tile: Vector2 = Vector2(ctx.origin.x, ctx.origin.y)
 				var target_tile: Vector2 = Vector2(targets[0].x, targets[0].y)
 				var target_dir: Vector2 = (target_tile - origin_tile).normalized()
 				user.pounce_attack(target_dir)
+				return
+
 
 func pre_execution_bundle_modify(ctx: Context):
 	super.pre_execution_bundle_modify(ctx)
 	number_of_targets = modify_value(number_of_targets, Enums.ValueType.NUMBER_OF_TARGETS, ctx, Enums.ActivityStage.PRE_EXECUTION)
+
 
 func handle_hover(tile: Vector3i) -> void:
 	var tiles = compute_affected_area(tile)
@@ -50,6 +54,7 @@ func handle_hover(tile: Vector3i) -> void:
 			return
 	wm.visualize_area(tiles, wm.preview_visualized_rects, wm.preview_visualized_lines)
 
+
 func handle_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		match event.button_index:
@@ -57,6 +62,7 @@ func handle_input(event: InputEvent) -> void:
 				select_target()
 			MOUSE_BUTTON_RIGHT:
 				cancel_activity()
+
 
 func _cleanup() -> void:
 	SignalBus.change_cursor.emit("default")
@@ -73,6 +79,7 @@ func _cleanup() -> void:
 	target_points.clear()
 	SignalBus.update_ui_for_char.emit()
 
+
 func execute() -> void:
 	cm = Global.crisis_manager
 	wm = Global.world_manager
@@ -86,6 +93,7 @@ func execute() -> void:
 	else:
 		Global.game_session.last_hovered_tile = Vector3i(-1,-1,-1)
 		resolve_ui()
+
 
 func resolve_ui() -> void:
 	SignalBus.message.emit("Waiting for target(s) of activity...")

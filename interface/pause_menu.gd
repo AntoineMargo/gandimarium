@@ -19,8 +19,8 @@ func _on_restart_button_pressed() -> void:
 
 
 func _on_exit_button_pressed() -> void:
-	print("exit button pressed")
 	get_tree().quit()
+	#print("exit button pressed")
 
 
 func _on_resume_button_pressed():
@@ -40,4 +40,4 @@ func _ready():
 	restart_button.pressed.connect(_on_restart_button_pressed)
 	resume_button.pressed.connect(_on_resume_button_pressed)
 	save_button.pressed.connect(_on_save_button_pressed)
-	print("main menu script loaded")
+	#print("main menu script loaded")

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ArchetypeEntry" format=3 uid="uid://ku1etcyxgyiw"]
+
+[ext_resource type="Script" uid="uid://c5ijx7qo7jak" path="res://talents/talent.gd" id="1_ta2by"]
+[ext_resource type="Resource" uid="uid://e8j7xmpe3hr8" path="res://resources/talents/forceful_strike.tres" id="2_ll0vx"]
+[ext_resource type="Resource" uid="uid://baywu0uay66gw" path="res://resources/talents/paragon_vigour.tres" id="3_5ml4s"]
+[ext_resource type="Script" uid="uid://cun11myug5141" path="res://archetypes/talent_choice.gd" id="4_1y70o"]
+[ext_resource type="Script" uid="uid://dnii5080nqn0s" path="res://archetypes/archetype_entry.gd" id="5_6qjgc"]
+
+[resource]
+script = ExtResource("5_6qjgc")
+level = 1
+auto_talents = Array[ExtResource("1_ta2by")]([ExtResource("2_ll0vx"), ExtResource("3_5ml4s")])
+metadata/_custom_type_script = "uid://dnii5080nqn0s"

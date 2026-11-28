@@ -74,6 +74,12 @@ var _dmg_patterns = {
 	"throw": "res://resources/damage_patterns/throw.tres"
 }
 
+var _creatures = {
+	"base_bandit": "res://resources/creatures/data_base_bandit.tres",
+	"mage_bandit": "res://resources/creatures/data_mage_bandit.tres",
+	"paragon_bandit": "res://resources/creatures/data_paragon_bandit.tres"
+}
+
 var _props = {
 	"wooden_crate": "res://resources/props/wooden_crate.tres",
 	"spell_wall": "res://resources/props/spell_wall.tres",
@@ -114,6 +120,9 @@ func get_map(id: String) -> Map:
 		var new_map = _maps[id].instantiate()
 		return new_map
 	return null
+
+func get_creature(id: String) -> Resource:
+	return _get_from(_creatures, id)
 
 func get_prop(id: String) -> Resource:
 	return _get_from(_props, id)
